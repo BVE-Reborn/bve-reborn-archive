@@ -1,0 +1,3 @@
+[submodule "dependencies/cmake-utils"]
+	path = dependencies/cmake-utils
+	url = https://github.com/Sirflankalot/cmake-utils.git

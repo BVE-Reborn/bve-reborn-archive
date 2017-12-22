@@ -1,0 +1,2 @@
+add_library(datatypes INTERFACE)
+target_include_directories(datatypes INTERFACE include)

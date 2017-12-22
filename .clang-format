@@ -1,0 +1,31 @@
+---
+Language: Cpp
+UseTab: ForIndentation
+TabWidth: 4
+IndentWidth: 4
+BreakBeforeBraces: Custom
+BraceWrapping:  
+ BeforeCatch: true
+ BeforeElse: true
+ AfterFunction: false
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AlignConsecutiveAssignments: false
+AlignOperands: true
+AlignTrailingComments: true
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakTemplateDeclarations: true
+AlwaysBreakBeforeMultilineStrings: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+IndentCaseLabels: true
+NamespaceIndentation: Inner
+Standard: Cpp11
+SpaceBeforeParens: ControlStatements
+PointerAlignment: Left
+ColumnLimit: 120
+SpaceAfterCStyleCast: true
+AlwaysBreakAfterReturnType: None
+AccessModifierOffset: -2
+...
