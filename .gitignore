@@ -4,3 +4,5 @@ build*/
 libparsers/tests/*.csv
 libparsers/tests/*.b3d
 libparsers/tests/*.x
+
+CMakeSettings.json
