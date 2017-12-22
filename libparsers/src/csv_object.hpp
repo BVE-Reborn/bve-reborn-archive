@@ -2,6 +2,7 @@
 
 #include <boost/variant.hpp>
 #include <cinttypes>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
@@ -138,6 +139,22 @@ namespace csv_object {
 			float X;
 			float Y;
 		};
+
+		std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs);
+		std::ostream& operator<<(std::ostream& os, const AddVertex& rhs);
+		std::ostream& operator<<(std::ostream& os, const AddFace& rhs);
+		std::ostream& operator<<(std::ostream& os, const Cube& rhs);
+		std::ostream& operator<<(std::ostream& os, const Cylinder& rhs);
+		std::ostream& operator<<(std::ostream& os, const Translate& rhs);
+		std::ostream& operator<<(std::ostream& os, const Scale& rhs);
+		std::ostream& operator<<(std::ostream& os, const Rotate& rhs);
+		std::ostream& operator<<(std::ostream& os, const Shear& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetColor& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs);
+		std::ostream& operator<<(std::ostream& os, const LoadTexture& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs);
 
 	} // namespace instructions
 	using instruction =

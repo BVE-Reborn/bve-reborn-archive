@@ -24,16 +24,22 @@ namespace csv_object {
 				default:
 				case 7:
 					av.nZ = util::parse_loose_float(arguments[6].text, 0);
+					// fall through
 				case 6:
 					av.nY = util::parse_loose_float(arguments[5].text, 0);
+					// fall through
 				case 5:
 					av.nX = util::parse_loose_float(arguments[4].text, 0);
+					// fall through
 				case 4:
 					av.vZ = util::parse_loose_float(arguments[3].text, 0);
+					// fall through
 				case 3:
 					av.vY = util::parse_loose_float(arguments[2].text, 0);
+					// fall through
 				case 2:
 					av.vX = util::parse_loose_float(arguments[1].text, 0);
+					// fall through
 				case 1:
 					break;
 			}
@@ -90,10 +96,13 @@ namespace csv_object {
 				default:
 				case 4:
 					tl.Z = util::parse_loose_float(arguments[3].text, 0);
+					// fall through
 				case 3:
 					tl.Y = util::parse_loose_float(arguments[2].text, 0);
+					// fall through
 				case 2:
 					tl.X = util::parse_loose_float(arguments[1].text, 0);
+					// fall through
 				case 1:
 					break;
 			}
@@ -114,10 +123,13 @@ namespace csv_object {
 				default:
 				case 4:
 					sc.Z = util::parse_loose_float(arguments[3].text, 1);
+					// fall through
 				case 3:
 					sc.Y = util::parse_loose_float(arguments[2].text, 1);
+					// fall through
 				case 2:
 					sc.X = util::parse_loose_float(arguments[1].text, 1);
+					// fall through
 				case 1:
 					break;
 			}
@@ -138,12 +150,16 @@ namespace csv_object {
 				default:
 				case 5:
 					ro.Angle = util::parse_loose_float(arguments[4].text, 0);
+					// fall through
 				case 4:
 					ro.Z = util::parse_loose_float(arguments[3].text, 0);
+					// fall through
 				case 3:
 					ro.Y = util::parse_loose_float(arguments[2].text, 0);
+					// fall through
 				case 2:
 					ro.X = util::parse_loose_float(arguments[1].text, 0);
+					// fall through
 				case 1:
 					break;
 			}
@@ -164,18 +180,25 @@ namespace csv_object {
 				default:
 				case 8:
 					sh.r = util::parse_loose_float(arguments[7].text, 0);
+					// fall through
 				case 7:
 					sh.sZ = util::parse_loose_float(arguments[6].text, 0);
+					// fall through
 				case 6:
 					sh.sY = util::parse_loose_float(arguments[5].text, 0);
+					// fall through
 				case 5:
 					sh.sX = util::parse_loose_float(arguments[4].text, 0);
+					// fall through
 				case 4:
 					sh.dZ = util::parse_loose_float(arguments[3].text, 0);
+					// fall through
 				case 3:
 					sh.dY = util::parse_loose_float(arguments[2].text, 0);
+					// fall through
 				case 2:
 					sh.dX = util::parse_loose_float(arguments[1].text, 0);
+					// fall through
 				case 1:
 					break;
 			}
@@ -197,13 +220,17 @@ namespace csv_object {
 				case 5:
 					sc.Alpha =
 					    uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[4].text, 255), 0, 255));
+					// fall through
 				case 4:
 					sc.Blue = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[3].text, 255), 0, 255));
+					// fall through
 				case 3:
 					sc.Green =
 					    uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 255), 0, 255));
+					// fall through
 				case 2:
 					sc.Red = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[1].text, 255), 0, 255));
+					// fall through
 				case 1:
 					break;
 			}
@@ -216,10 +243,13 @@ namespace csv_object {
 				default:
 				case 4:
 					sec.Blue = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0, 255));
+					// fall through
 				case 3:
 					sec.Green = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 255));
+					// fall through
 				case 2:
 					sec.Red = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0, 255));
+					// fall through
 				case 1:
 					break;
 			}
@@ -237,9 +267,11 @@ namespace csv_object {
 					else if (util::match_text(arguments[3].text, "divideexponent2")) {
 						sbm.GlowAttenuationMode = instructions::SetBlendMode::DivideExponent2;
 					}
+					// fall through
 				case 3:
 					sbm.GlowHalfDistance =
 					    uint16_t(openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 4095));
+					// fall through
 				case 2:
 					if (util::match_text(arguments[1].text, "normal")) {
 						sbm.BlendMode = instructions::SetBlendMode::Normal;
@@ -247,6 +279,7 @@ namespace csv_object {
 					else if (util::match_text(arguments[1].text, "additive")) {
 						sbm.BlendMode = instructions::SetBlendMode::Additive;
 					}
+					// fall through
 				case 1:
 					break;
 			}
@@ -258,9 +291,11 @@ namespace csv_object {
 			switch (arguments.size()) {
 				default:
 				case 3:
-					lt.DaytimeTexture = arguments[2].text;
+					lt.NighttimeTexture = arguments[2].text;
+					// fall through
 				case 2:
-					lt.NighttimeTexture = arguments[1].text;
+					lt.DaytimeTexture = arguments[1].text;
+					// fall through
 				case 1:
 					break;
 			}
@@ -273,11 +308,14 @@ namespace csv_object {
 				default:
 				case 4:
 					sdtc.Blue = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0, 255));
+					// fall through
 				case 3:
 					sdtc.Green =
 					    uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 255));
+					// fall through
 				case 2:
 					sdtc.Red = uint8_t(openbve2::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0, 255));
+					// fall through
 				case 1:
 					break;
 			}
@@ -351,7 +389,7 @@ namespace csv_object {
 				continue;
 			}
 
-			auto found_func = function_mapping.find(row[0].text);
+			auto found_func = function_mapping.find(util::lower(row[0].text));
 			if (found_func == function_mapping.end()) {
 				// TODO (sirflankalot): Error
 			}

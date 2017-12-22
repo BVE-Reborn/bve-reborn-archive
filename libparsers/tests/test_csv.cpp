@@ -1,7 +1,7 @@
 #include "csv_parser.hpp"
 #include <iostream>
 
-int main() {
+void test_csv() {
 	const char* test_csv_ptr =
 	    "CreateMeshBuilder,,,,, \n"
 	    "AddVertex, vX, vY, vZ, nX, nY, nZ\n"
@@ -28,11 +28,5 @@ int main() {
 
 	auto result = parsers::csv::parse(test_csv);
 
-	for (auto& row : result) {
-		for (auto& elem : row) {
-			std::cout << "(\"" << elem.text << "\", " << elem.line_begin << ", " << elem.line_end << ", "
-			          << elem.char_begin << ", " << elem.char_end << "),";
-		}
-		std::cout << '\n';
-	}
+	std::cout << result;
 }

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstring>
 #include <iterator>
+#include <cctype>
 
 namespace parsers {
 
@@ -18,7 +19,7 @@ namespace util {
 		try {
 			return parse_loose_integer(std::move(text));
 		}
-		catch (const std::invalid_argument& e) {
+		catch (const std::invalid_argument&) {
 			return default_value;
 		}
 	}
@@ -34,7 +35,7 @@ namespace util {
 		try {
 			return parse_loose_float(std::move(text));
 		}
-		catch (const std::invalid_argument& e) {
+		catch (const std::invalid_argument&) {
 			return default_value;
 		}
 	}
@@ -72,7 +73,7 @@ namespace util {
 		try {
 			return parse_time(std::move(text));
 		}
-		catch (const std::invalid_argument& e) {
+		catch (const std::invalid_argument&) {
 			return default_value;
 		}
 	}
@@ -101,9 +102,16 @@ namespace util {
 		try {
 			return parse_color(std::move(text));
 		}
-		catch (const std::invalid_argument& e) {
+		catch (const std::invalid_argument&) {
 			return default_value;
 		}
+	}
+
+	std::string lower(std::string text) {
+		for (auto& c : text) {
+			c = char(std::tolower(c));
+		}
+		return text;
 	}
 
 	bool match_text(const std::string& text, const char* match) {

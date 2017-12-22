@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
@@ -17,5 +17,8 @@ namespace csv {
 	using parsed_csv = std::vector<std::vector<csv_token>>;
 
 	parsed_csv parse(const std::string& file);
+
+	std::ostream& operator<<(std::ostream& os, const csv_token& rhs);
+	std::ostream& operator<<(std::ostream& os, const parsed_csv& rhs);
 } // namespace csv
 } // namespace parsers
