@@ -32,6 +32,8 @@ namespace csv_object {
 		SetTextureCoordinates, VertexIndex, X, Y
 		*/
 
+		struct CreateMeshBuilder {};
+
 		struct AddVertex {
 			float vX = 0;
 			float vY = 0;
@@ -44,6 +46,7 @@ namespace csv_object {
 		// AddFace and AddFace2
 		struct AddFace {
 			std::vector<std::size_t> vertices;
+			bool two;
 		};
 
 		struct Cube {
@@ -61,41 +64,52 @@ namespace csv_object {
 
 		// Translate and TranslateAll
 		struct Translate {
-			float X;
-			float Y;
-			float Z;
+			float X = 0;
+			float Y = 0;
+			float Z = 0;
+			bool all;
 		};
 
 		// Scale and ScaleAll
+		struct Scale {
+			float X = 1;
+			float Y = 1;
+			float Z = 1;
+			bool all;
+		};
+
+		// Rotate and RotateAll
 		struct Rotate {
-			float X;
-			float Y;
-			float Z;
-			float Angle;
+			float X = 0;
+			float Y = 0;
+			float Z = 0;
+			float Angle = 0;
+			bool all;
 		};
 
 		// Shear and ShearAll
 		struct Shear {
-			float dX;
-			float dY;
-			float dZ;
-			float sX;
-			float sY;
-			float sZ;
-			float r;
+			float dX = 0;
+			float dY = 0;
+			float dZ = 0;
+			float sX = 0;
+			float sY = 0;
+			float sZ = 0;
+			float r = 0;
+			bool all;
 		};
 
 		struct SetColor {
-			uint8_t Red;
-			uint8_t Green;
-			uint8_t Blue;
-			uint8_t Alpha;
+			uint8_t Red = 255;
+			uint8_t Green = 255;
+			uint8_t Blue = 255;
+			uint8_t Alpha = 255;
 		};
 
 		struct SetEmissiveColor {
-			uint8_t Red;
-			uint8_t Green;
-			uint8_t Blue;
+			uint8_t Red = 0;
+			uint8_t Green = 0;
+			uint8_t Blue = 0;
 		};
 
 		struct SetBlendMode {
@@ -103,9 +117,9 @@ namespace csv_object {
 				Normal,
 				Additive
 
-			} BlendMode;
-			uint16_t GlowHalfDistance;
-			enum { DivideExponent2, DivideExponent4 } GlowAttenuationMode;
+			} BlendMode = Normal;
+			uint16_t GlowHalfDistance = 0;
+			enum { DivideExponent2, DivideExponent4 } GlowAttenuationMode = DivideExponent4;
 		};
 
 		struct LoadTexture {
@@ -125,11 +139,16 @@ namespace csv_object {
 			float Y;
 		};
 
-		using csv_instruction =
-		    boost::variant<AddVertex, AddFace, Cube, Cylinder, Translate, Rotate, Shear, SetColor, SetEmissiveColor,
-		                   SetBlendMode, LoadTexture, SetDecalTransparentColor, SetTextureCoordinates>;
-
-		using csv_instruction_list = std::vector<csv_instruction>;
 	} // namespace instructions
+	using instruction =
+	    boost::variant<instructions::CreateMeshBuilder, instructions::AddVertex, instructions::AddFace,
+	                   instructions::Cube, instructions::Cylinder, instructions::Translate, instructions::Scale,
+	                   instructions::Rotate, instructions::Shear, instructions::SetColor,
+	                   instructions::SetEmissiveColor, instructions::SetBlendMode, instructions::LoadTexture,
+	                   instructions::SetDecalTransparentColor, instructions::SetTextureCoordinates>;
+
+	using instruction_list = std::vector<instruction>;
+
+	instruction_list create_instructions(const std::string& text);
 } // namespace csv_object
 } // namespace parsers

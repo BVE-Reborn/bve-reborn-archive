@@ -16,6 +16,6 @@ namespace csv {
 
 	using parsed_csv = std::vector<std::vector<csv_token>>;
 
-	parsed_csv parse_csv(const std::string& file);
+	parsed_csv parse(const std::string& file);
 } // namespace csv
 } // namespace parsers

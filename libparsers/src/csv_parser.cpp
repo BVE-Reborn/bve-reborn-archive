@@ -5,7 +5,7 @@
 
 namespace parsers {
 namespace csv {
-	parsed_csv parse_csv(const std::string& file) {
+	parsed_csv parse(const std::string& file) {
 		// start with at least one row
 		std::vector<std::vector<csv_token>> token_list{1, std::vector<csv_token>{}};
 
@@ -23,10 +23,10 @@ namespace csv {
 
 			util::strip_text(s);
 
-			if (!s.empty()) {
+			if (next_delim != end) {
 				csv_token token{std::move(s), current_line, current_line,
 				                std::size_t(std::distance(last_newline_iterator, begin)),
-				                std::size_t(std::distance(last_newline_iterator, next_delim - 1))};
+				                std::size_t(std::distance(last_newline_iterator, next_delim))};
 
 				token_list.back().emplace_back(std::move(token));
 

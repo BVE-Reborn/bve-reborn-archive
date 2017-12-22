@@ -11,7 +11,7 @@ include("dependencies/cmake-utils/include/warnings.cmake")
 
 add_warnings()
 
-add_linted_subdirectory(libdatatypes)
+add_linted_subdirectory(libcore)
 add_linted_subdirectory(libparsers)
 
 configure_linter()

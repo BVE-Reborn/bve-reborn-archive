@@ -3,7 +3,7 @@
 
 int main() {
 	const char* test_csv_ptr =
-	    "CreateMeshBuilder \n"
+	    "CreateMeshBuilder,,,,, \n"
 	    "AddVertex, vX, vY, vZ, nX, nY, nZ\n"
 	    "AddFace, v1, v2, v3, ..., vn\n"
 	    "AddFace2, v1, v2, v3, ..., vn\n"
@@ -26,7 +26,7 @@ int main() {
 
 	std::string test_csv(test_csv_ptr);
 
-	auto result = parsers::csv::parse_csv(test_csv);
+	auto result = parsers::csv::parse(test_csv);
 
 	for (auto& row : result) {
 		for (auto& elem : row) {
