@@ -2,6 +2,7 @@
 
 #include "datatypes/datatypes.hpp"
 #include <string>
+#include <utility>
 
 namespace parsers {
 namespace util {
@@ -9,5 +10,7 @@ namespace util {
 	float parse_loose_float(std::string text);
 	long long parse_time(std::string text);
 	openbve2::datatypes::color8_rgba parse_color(std::string text);
+
+	void strip_text(std::string& text, const char* characters = "\t\n\v\f\r ");
 } // namespace util
 } // namespace parsers

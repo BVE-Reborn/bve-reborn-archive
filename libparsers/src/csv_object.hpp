@@ -1,12 +1,37 @@
 #pragma once
 
+#include <boost/variant.hpp>
 #include <cinttypes>
 #include <string>
 #include <vector>
 
 namespace parsers {
-namespace csv_obj {
+namespace csv_object {
 	namespace instructions {
+		/*
+		http://openbve-project.net/documentation/HTML/object_csv_quick.html
+		CreateMeshBuilder
+		AddVertex, vX, vY, vZ, nX, nY, nZ
+		AddFace, v1, v2, v3, ..., vn
+		AddFace2, v1, v2, v3, ..., vn
+		Cube, HalfWidth, HalfHeight, HalfDepth
+		Cylinder, n, UpperRadius, LowerRadius, Height
+		Translate, X, Y, Z
+		TranslateAll, X, Y, Z
+		Scale, X, Y, Z
+		ScaleAll, X, Y, Z
+		Rotate, X, Y, Z, Angle
+		RotateAll, X, Y, Z, Angle
+		Shear, dX, dY, dZ, sX, sY, sZ, Ratio
+		ShearAll, dX, dY, dZ, sX, sY, sZ, Ratio
+		SetColor, Red, Green, Blue, Alpha
+		SetEmissiveColor, Red, Green, Blue
+		SetBlendMode, { Normal | Additive }, GlowHalfDistance, { DivideExponent2 | DivideExponent4 }
+		LoadTexture, DaytimeTexture, NighttimeTexture
+		SetDecalTransparentColor, Red, Green, Blue
+		SetTextureCoordinates, VertexIndex, X, Y
+		*/
+
 		struct AddVertex {
 			float vX = 0;
 			float vY = 0;
@@ -99,6 +124,12 @@ namespace csv_obj {
 			float X;
 			float Y;
 		};
+
+		using csv_instruction =
+		    boost::variant<AddVertex, AddFace, Cube, Cylinder, Translate, Rotate, Shear, SetColor, SetEmissiveColor,
+		                   SetBlendMode, LoadTexture, SetDecalTransparentColor, SetTextureCoordinates>;
+
+		using csv_instruction_list = std::vector<csv_instruction>;
 	} // namespace instructions
-} // namespace csv_obj
+} // namespace csv_object
 } // namespace parsers
