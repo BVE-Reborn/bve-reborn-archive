@@ -1,7 +1,8 @@
 #include "core/math.hpp"
 #include "csv_object.hpp"
+#include "csv_parser.hpp"
 #include "utils.hpp"
-#include <csv_parser.hpp>
+#include <iostream>
 #include <map>
 #include <stdexcept>
 
@@ -11,9 +12,6 @@ namespace parsers {
 namespace csv_object {
 	namespace {
 		instruction create_instruction_createmeshbuilder(const std::vector<csv::csv_token>& arguments) {
-			if (arguments.size() != 1) {
-				throw std::invalid_argument("createmeshbuilder");
-			}
 			(void) arguments;
 			return instructions::CreateMeshBuilder{};
 		}
@@ -49,11 +47,18 @@ namespace csv_object {
 
 		instruction _create_instruction_addface_impl(const std::vector<csv::csv_token>& arguments, bool two) {
 			if (arguments.size() < 4) {
-				throw std::invalid_argument("addface");
+				throw std::invalid_argument("Creation of instruction addface");
 			}
 			instructions::AddFace af{};
 			for (std::size_t i = 1; i < arguments.size(); ++i) {
-				af.vertices.emplace_back(util::parse_loose_integer(arguments[i].text));
+				try {
+					af.vertices.emplace_back(util::parse_loose_integer(arguments[i].text));
+				}
+				catch (std::invalid_argument& e) {
+					if (af.vertices.size() < 3) {
+						throw e;
+					}
+				}
 			}
 			af.two = two;
 			return af;
@@ -68,8 +73,8 @@ namespace csv_object {
 		}
 
 		instruction create_instruction_cube(const std::vector<csv::csv_token>& arguments) {
-			if (arguments.size() != 4) {
-				throw std::invalid_argument("cube");
+			if (arguments.size() < 4) {
+				throw std::invalid_argument("Creation of instruction cube");
 			}
 			instructions::Cube cu{};
 			cu.HalfWidth = util::parse_loose_float(arguments[1].text);
@@ -79,8 +84,8 @@ namespace csv_object {
 		}
 
 		instruction create_instruction_cylinder(const std::vector<csv::csv_token>& arguments) {
-			if (arguments.size() != 5) {
-				throw std::invalid_argument("cylinder");
+			if (arguments.size() < 5) {
+				throw std::invalid_argument("Creation of instruction cylinder");
 			}
 			instructions::Cylinder cy{};
 			cy.sides = util::parse_loose_integer(arguments[1].text);
@@ -322,8 +327,8 @@ namespace csv_object {
 			return sdtc;
 		}
 		instruction create_instruction_settexturecoordinates(const std::vector<csv::csv_token>& arguments) {
-			if (arguments.size() != 4) {
-				throw std::invalid_argument("settexturecoordinates");
+			if (arguments.size() < 4) {
+				throw std::invalid_argument("Creation of instruction settexturecoordinates");
 			}
 			instructions::SetTextureCoordinates stc{};
 			stc.VertexIndex = util::parse_loose_integer(arguments[1].text);
@@ -379,26 +384,39 @@ namespace csv_object {
 		};
 	} // namespace
 
-	instruction_list create_instructions(const std::string& text) {
+	instruction_list create_instructions(std::string text) {
 		instruction_list il;
+
+		util::remove_comments(text, ';');
 
 		csv::parsed_csv csv = csv::parse(text);
 
 		for (auto& row : csv) {
-			if (row.empty()) {
+			if (row.empty() || row[0].text.empty()) {
 				continue;
 			}
 
+			instruction ins;
 			auto found_func = function_mapping.find(util::lower(row[0].text));
 			if (found_func == function_mapping.end()) {
-				// TODO (sirflankalot): Error
+				ins = instructions::Error{"Function \""s + row[0].text + "\" not found"s};
 			}
 			else {
-				il.emplace_back((found_func->second)(row));
+				try {
+					ins = (found_func->second)(row);
+				}
+				catch (const std::invalid_argument& e) {
+					ins = instructions::Error{e.what()};
+				}
 			}
+
+			// Set line number for appropriate debugging help
+			boost::apply_visitor([&row](auto& x) { x.line = row[0].line_begin; }, ins);
+
+			il.emplace_back(std::move(ins));
 		}
 
 		return il;
-	}
+	} // namespace csv_object
 } // namespace csv_object
 } // namespace parsers

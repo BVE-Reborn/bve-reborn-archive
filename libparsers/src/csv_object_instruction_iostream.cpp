@@ -1,17 +1,21 @@
 #include "csv_object.hpp"
+#include <iostream>
 
 namespace parsers {
 namespace csv_object {
 	namespace instructions {
+		std::ostream& operator<<(std::ostream& os, const Error& rhs) {
+			os << "(ERROR, line = " << rhs.line << ", cause = " << rhs.cause << ")";
+			return os;
+		}
 
 		std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs) {
-			(void) rhs;
-			os << "(CreateMeshBuilder)";
+			os << "(CreateMeshBuilder, line = " << rhs.line << ")";
 			return os;
 		}
 
 		std::ostream& operator<<(std::ostream& os, const AddVertex& rhs) {
-			os << "(AddVertex, "
+			os << "(AddVertex, line = " << rhs.line << ", "
 			   << "vX = " << rhs.vX << ", "
 			   << "vY = " << rhs.vY << ", "
 			   << "vZ = " << rhs.vZ << ", "
@@ -48,7 +52,7 @@ namespace csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const Translate& rhs) {
-			os << (rhs.all ? "(TranslateAll" : "(Translate") //
+			os << (rhs.all ? "(TranslateAll, " : "(Translate, ") //
 			   << "X = " << rhs.X << ", "
 			   << "Y = " << rhs.Y << ", "
 			   << "Z = " << rhs.Z << ")";
@@ -56,7 +60,7 @@ namespace csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const Scale& rhs) {
-			os << (rhs.all ? "(ScaleAll" : "(Scale") //
+			os << (rhs.all ? "(ScaleAll, " : "(Scale, ") //
 			   << "X = " << rhs.X << ", "
 			   << "Y = " << rhs.Y << ", "
 			   << "Z = " << rhs.Z << ")";
@@ -64,7 +68,7 @@ namespace csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const Rotate& rhs) {
-			os << (rhs.all ? "(RotateAll" : "(Rotate") //
+			os << (rhs.all ? "(RotateAll, " : "(Rotate, ") //
 			   << "X = " << rhs.X << ", "
 			   << "Y = " << rhs.Y << ", "
 			   << "Z = " << rhs.Z << ", "
@@ -73,7 +77,7 @@ namespace csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const Shear& rhs) {
-			os << (rhs.all ? "(ShearAll" : "(Shear") //
+			os << (rhs.all ? "(ShearAll, " : "(Shear, ") //
 			   << "dX = " << rhs.dX << ", "
 			   << "dY = " << rhs.dY << ", "
 			   << "dZ = " << rhs.dZ << ", "
@@ -85,24 +89,24 @@ namespace csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const SetColor& rhs) {
-			os << "(SetColor" //
-			   << "Red = " << rhs.Red << ", "
-			   << "Green = " << rhs.Green << ", "
-			   << "Blue = " << rhs.Blue << ", "
-			   << "Alpha = " << rhs.Alpha << ")";
+			os << "(SetColor, line = " << rhs.line << ", " //
+			   << "Red = " << int(rhs.Red) << ", "
+			   << "Green = " << int(rhs.Green) << ", "
+			   << "Blue = " << int(rhs.Blue) << ", "
+			   << "Alpha = " << int(rhs.Alpha) << ")";
 			return os;
 		}
 
 		std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs) {
-			os << "(SetEmissiveColor" //
-			   << "Red = " << rhs.Red << ", "
-			   << "Green = " << rhs.Green << ", "
-			   << "Blue = " << rhs.Blue << ")";
+			os << "(SetEmissiveColor, line = " << rhs.line << ", " //
+			   << "Red = " << int(rhs.Red) << ", "
+			   << "Green = " << int(rhs.Green) << ", "
+			   << "Blue = " << int(rhs.Blue) << ")";
 			return os;
 		}
 
 		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs) {
-			os << "(SetBlendMode" //
+			os << "(SetBlendMode, line = " << rhs.line << ", " //
 			   << "BlendMode = " << (rhs.BlendMode == SetBlendMode::Normal ? "Normal" : "Additive") << ", "
 			   << "GlowHalfDistance = " << rhs.GlowHalfDistance << ", "
 			   << "GlowAttenuationMode = "
@@ -112,22 +116,22 @@ namespace csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const LoadTexture& rhs) {
-			os << "(LoadTexture, "
+			os << "(LoadTexture, line = " << rhs.line << ", "
 			   << "DaytimeTexture = \"" << rhs.DaytimeTexture << "\", "
 			   << "NighttimeTexture = \"" << rhs.NighttimeTexture << "\")";
 			return os;
 		}
 
 		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs) {
-			os << "(SetDecalTransparentColor" //
-			   << "Red = " << rhs.Red << ", "
-			   << "Green = " << rhs.Green << ", "
-			   << "Blue = " << rhs.Blue << ")";
+			os << "(SetDecalTransparentColor, line = " << rhs.line << ", " //
+			   << "Red = " << int(rhs.Red) << ", "
+			   << "Green = " << int(rhs.Green) << ", "
+			   << "Blue = " << int(rhs.Blue) << ")";
 			return os;
 		}
 
 		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs) {
-			os << "(SetTextureCoordinates" //
+			os << "(SetTextureCoordinates, line = " << rhs.line << ", " //
 			   << "VertexIndex = " << rhs.VertexIndex << ", "
 			   << "X = " << rhs.X << ", "
 			   << "Y = " << rhs.Y << ")";

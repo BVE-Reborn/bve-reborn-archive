@@ -149,5 +149,20 @@ namespace util {
 
 		text = text.substr(first_char, last_char - first_char + 1);
 	}
+
+	void remove_comments(std::string & text, char comment) {
+		bool removing; 
+		auto remove_func = [&removing, &comment](const char & c) {
+			if (c == comment) {
+				removing = true;
+			}
+			if (c == '\n') {
+				removing = false;
+			}
+			return removing;
+		};
+
+		text.erase(std::remove_if(text.begin(), text.end(), remove_func), text.end());
+	}
 } // namespace util
 } // namespace parsers

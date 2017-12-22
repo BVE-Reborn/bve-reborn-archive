@@ -33,9 +33,19 @@ namespace csv_object {
 		SetTextureCoordinates, VertexIndex, X, Y
 		*/
 
-		struct CreateMeshBuilder {};
+		struct base_instruction {
+			std::size_t line;
+		};
 
-		struct AddVertex {
+		struct Error : public base_instruction {
+			std::string cause;
+			Error() = default;
+			Error(const std::string& desc) : cause(desc) {};
+		};
+
+		struct CreateMeshBuilder : public base_instruction {};
+
+		struct AddVertex : public base_instruction {
 			float vX = 0;
 			float vY = 0;
 			float vZ = 0;
@@ -45,18 +55,18 @@ namespace csv_object {
 		};
 
 		// AddFace and AddFace2
-		struct AddFace {
+		struct AddFace : public base_instruction {
 			std::vector<std::size_t> vertices;
 			bool two;
 		};
 
-		struct Cube {
+		struct Cube : public base_instruction {
 			float HalfWidth;
 			float HalfHeight;
 			float HalfDepth;
 		};
 
-		struct Cylinder {
+		struct Cylinder : public base_instruction {
 			std::size_t sides;
 			float UpperRadius;
 			float LowerRadius;
@@ -64,7 +74,7 @@ namespace csv_object {
 		};
 
 		// Translate and TranslateAll
-		struct Translate {
+		struct Translate : public base_instruction {
 			float X = 0;
 			float Y = 0;
 			float Z = 0;
@@ -72,7 +82,7 @@ namespace csv_object {
 		};
 
 		// Scale and ScaleAll
-		struct Scale {
+		struct Scale : public base_instruction {
 			float X = 1;
 			float Y = 1;
 			float Z = 1;
@@ -80,7 +90,7 @@ namespace csv_object {
 		};
 
 		// Rotate and RotateAll
-		struct Rotate {
+		struct Rotate : public base_instruction {
 			float X = 0;
 			float Y = 0;
 			float Z = 0;
@@ -89,7 +99,7 @@ namespace csv_object {
 		};
 
 		// Shear and ShearAll
-		struct Shear {
+		struct Shear : public base_instruction {
 			float dX = 0;
 			float dY = 0;
 			float dZ = 0;
@@ -100,20 +110,20 @@ namespace csv_object {
 			bool all;
 		};
 
-		struct SetColor {
+		struct SetColor : public base_instruction {
 			uint8_t Red = 255;
 			uint8_t Green = 255;
 			uint8_t Blue = 255;
 			uint8_t Alpha = 255;
 		};
 
-		struct SetEmissiveColor {
+		struct SetEmissiveColor : public base_instruction {
 			uint8_t Red = 0;
 			uint8_t Green = 0;
 			uint8_t Blue = 0;
 		};
 
-		struct SetBlendMode {
+		struct SetBlendMode : public base_instruction {
 			enum {
 				Normal,
 				Additive
@@ -123,23 +133,25 @@ namespace csv_object {
 			enum { DivideExponent2, DivideExponent4 } GlowAttenuationMode = DivideExponent4;
 		};
 
-		struct LoadTexture {
+		struct LoadTexture : public base_instruction {
 			std::string DaytimeTexture;
 			std::string NighttimeTexture;
 		};
 
-		struct SetDecalTransparentColor {
+		struct SetDecalTransparentColor : public base_instruction {
 			uint8_t Red;
 			uint8_t Green;
 			uint8_t Blue;
 		};
 
-		struct SetTextureCoordinates {
+		struct SetTextureCoordinates : public base_instruction {
 			std::size_t VertexIndex;
 			float X;
 			float Y;
 		};
 
+		// Defined in csv_object_instruction_iostream.cpp
+		std::ostream& operator<<(std::ostream& os, const Error& rhs);
 		std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs);
 		std::ostream& operator<<(std::ostream& os, const AddVertex& rhs);
 		std::ostream& operator<<(std::ostream& os, const AddFace& rhs);
@@ -158,14 +170,15 @@ namespace csv_object {
 
 	} // namespace instructions
 	using instruction =
-	    boost::variant<instructions::CreateMeshBuilder, instructions::AddVertex, instructions::AddFace,
-	                   instructions::Cube, instructions::Cylinder, instructions::Translate, instructions::Scale,
-	                   instructions::Rotate, instructions::Shear, instructions::SetColor,
+	    boost::variant<instructions::Error, instructions::CreateMeshBuilder, instructions::AddVertex,
+	                   instructions::AddFace, instructions::Cube, instructions::Cylinder, instructions::Translate,
+	                   instructions::Scale, instructions::Rotate, instructions::Shear, instructions::SetColor,
 	                   instructions::SetEmissiveColor, instructions::SetBlendMode, instructions::LoadTexture,
 	                   instructions::SetDecalTransparentColor, instructions::SetTextureCoordinates>;
 
 	using instruction_list = std::vector<instruction>;
 
-	instruction_list create_instructions(const std::string& text);
+	// Defined in csv_object_instruction_generator.cpp
+	instruction_list create_instructions(std::string text);
 } // namespace csv_object
 } // namespace parsers

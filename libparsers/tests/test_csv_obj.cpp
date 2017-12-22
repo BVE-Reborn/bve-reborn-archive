@@ -3,7 +3,7 @@
 #include <iostream>
 
 void test_csv_obj() {
-	std::fstream f("libparsers/tests/pole_2.csv");
+	std::fstream f("tests/ind4.csv");
 
 	if (f)
 		std::cout << "yay!\n";

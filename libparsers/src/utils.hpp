@@ -22,6 +22,7 @@ namespace util {
 	std::string lower(std::string text);
 	bool match_text(const std::string& text, const char* match);
 	void strip_text(std::string& text, const char* characters = "\t\n\v\f\r ");
+	void remove_comments(std::string& text, char comment = ';');
 
 } // namespace util
 } // namespace parsers
