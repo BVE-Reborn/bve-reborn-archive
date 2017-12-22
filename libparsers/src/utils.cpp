@@ -1,9 +1,8 @@
 #include "utils.hpp"
-#include "datatypes/datatypes.hpp"
 #include <algorithm>
 #include <iterator>
 
-long long parse_loose_integer(std::string text) {
+long long parsers::util::parse_loose_integer(std::string text) {
 	// strip whitespace
 	text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -11,14 +10,14 @@ long long parse_loose_integer(std::string text) {
 	return std::stoll(text);
 }
 
-float parse_loose_float(std::string text) {
+float parsers::util::parse_loose_float(std::string text) {
 	// strip whitespace
 	text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 	return std::stof(text);
 }
 
-long long parse_time(std::string text) {
+long long parsers::util::parse_time(std::string text) {
 	// strip whitespace
 	text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -45,4 +44,24 @@ long long parse_time(std::string text) {
 
 	// TODO: Error
 	return 0;
+}
+
+openbve2::datatypes::color8_rgba parsers::util::parse_color(std::string text) {
+	// strip whitespace
+	text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
+
+	if (text.size() == 7) {
+		auto value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
+
+		openbve2::datatypes::color8_rgba color;
+		color.r = uint8_t((value & 0xFF0000) >> 16);
+		color.g = uint8_t((value & 0xFF00) >> 8);
+		color.b = uint8_t((value & 0xFF) >> 0);
+		color.a = uint8_t(255);
+
+		return color;
+	}
+
+	// TODO: Error
+	return openbve2::datatypes::color8_rgba{};
 }
