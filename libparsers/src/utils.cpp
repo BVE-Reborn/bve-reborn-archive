@@ -1,8 +1,13 @@
 #include "utils.hpp"
 #include <algorithm>
-#include <cstring>
-#include <iterator>
+#include <array>
 #include <cctype>
+#include <cstring>
+#include <fstream>
+#include <iterator>
+#include <string>
+
+using namespace std::string_literals;
 
 namespace parsers {
 
@@ -150,9 +155,9 @@ namespace util {
 		text = text.substr(first_char, last_char - first_char + 1);
 	}
 
-	void remove_comments(std::string & text, char comment) {
-		bool removing; 
-		auto remove_func = [&removing, &comment](const char & c) {
+	void remove_comments(std::string& text, char comment) {
+		bool removing;
+		auto remove_func = [&removing, &comment](const char& c) {
 			if (c == comment) {
 				removing = true;
 			}
@@ -163,6 +168,54 @@ namespace util {
 		};
 
 		text.erase(std::remove_if(text.begin(), text.end(), remove_func), text.end());
+	}
+
+	std::string load_from_file_utf8_bom(const std::string& filename) {
+		// open file
+		std::ifstream file(filename, std::ifstream::binary);
+
+		if (!file) {
+			throw std::invalid_argument("file "s + filename + " not found"s);
+		}
+
+		// check for bom
+		std::array<unsigned char, 3> bom = {};
+		std::size_t i = 0;
+		for (; i < 3 && file >> bom[i]; ++i)
+			;
+
+		bool has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB && std::get<2>(bom) == 0xBF;
+		std::size_t start_of_file = has_bom ? 3 : 0;
+
+		// get file length
+		file.seekg(0, std::ifstream::end);
+		auto length = std::size_t(file.tellg()) - start_of_file;
+		file.seekg(start_of_file, std::ifstream::beg);
+
+		std::string contents;
+		contents.reserve(length);
+
+		// extract file combining \r\n into \n
+		std::array<char, 4096> buf;
+		bool last_char_r = false;
+		while (true) {
+			file.read(buf.data(), buf.size());
+			auto chars_read = file.gcount();
+			for (std::intmax_t j = 0; j < chars_read; ++j) {
+				if (last_char_r && buf[j] == '\n') {
+					contents.back() = '\n';
+				}
+				else {
+					contents.push_back(buf[j]);
+				}
+				last_char_r = buf[j] == '\r';
+			}
+			if (chars_read != buf.size()) {
+				break;
+			}
+		}
+
+		return contents;
 	}
 } // namespace util
 } // namespace parsers

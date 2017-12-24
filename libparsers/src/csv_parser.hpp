@@ -16,7 +16,12 @@ namespace csv {
 
 	using parsed_csv = std::vector<std::vector<csv_token>>;
 
-	parsed_csv parse(const std::string& file);
+	enum class split_first_column : bool {
+		yes = true,
+		no = false
+	};
+
+	parsed_csv parse(const std::string& file, split_first_column sfc = split_first_column::no, char delim = ',', char split_char = ' ');
 
 	std::ostream& operator<<(std::ostream& os, const csv_token& rhs);
 	std::ostream& operator<<(std::ostream& os, const parsed_csv& rhs);

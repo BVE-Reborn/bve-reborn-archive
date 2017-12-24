@@ -1,5 +1,6 @@
 #pragma once
 
+#include "parsers/parsers.hpp"
 #include <boost/variant.hpp>
 #include <cinttypes>
 #include <iosfwd>
@@ -178,7 +179,15 @@ namespace csv_object {
 
 	using instruction_list = std::vector<instruction>;
 
+	enum class file_type {
+		b3d,
+		csv
+	};
+
 	// Defined in csv_object_instruction_generator.cpp
-	instruction_list create_instructions(std::string text);
+	instruction_list create_instructions(std::string text, file_type ft);
+
+	// Defined in csv_object_generator.cpp
+	parsed_csv_object run_csv_instructions(const instruction_list&);
 } // namespace csv_object
 } // namespace parsers

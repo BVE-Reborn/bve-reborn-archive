@@ -1,16 +1,12 @@
 #include "csv_object.hpp"
+#include "utils.hpp"
 #include <fstream>
 #include <iostream>
 
 void test_csv_obj() {
-	std::fstream f("tests/ind4.csv");
+	auto content = parsers::util::load_from_file_utf8_bom("tests/westonmill_2.b3d");
 
-	if (f)
-		std::cout << "yay!\n";
-
-	std::string content((std::istreambuf_iterator<char>(f)), (std::istreambuf_iterator<char>()));
-
-	auto instr = parsers::csv_object::create_instructions(content);
+	auto instr = parsers::csv_object::create_instructions(content, parsers::csv_object::file_type::b3d);
 
 	for (auto& i : instr) {
 		std::cout << i << '\n';

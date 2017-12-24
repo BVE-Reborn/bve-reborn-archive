@@ -1,6 +1,7 @@
 set(SOURCES 
             src/csv_object_instruction_generator.cpp
             src/csv_object_instruction_iostream.cpp
+			src/csv_object_generator.cpp
             src/csv_parser.cpp
             src/csv_parser_iostream.cpp
             src/utils.cpp
@@ -14,7 +15,9 @@ format(FILES ${SOURCES})
 add_library(parsers SHARED ${SOURCES})
 target_include_directories(parsers PUBLIC include)
 target_include_directories(parsers PRIVATE src)
-target_link_libraries(parsers core Boost::boost)
+target_link_libraries(parsers PRIVATE Boost::boost)
+target_link_libraries(parsers PUBLIC core)
+target_link_libraries(parsers PUBLIC glm)
 
 set(TEST_SOURCES 
                  tests/main.cpp
@@ -31,4 +34,4 @@ configure_file(tests/westonmill_2.b3d tests/westonmill_2.b3d COPYONLY)
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test parsers)
+target_link_libraries(parsers_test parsers Boost::boost)

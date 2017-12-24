@@ -9,6 +9,8 @@ include("dependencies/cmake-utils/include/linter.cmake")
 include("dependencies/cmake-utils/include/make_target_includes_system.cmake")
 include("dependencies/cmake-utils/include/warnings.cmake")
 
+add_subdirectory("dependencies/glm")
+
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
