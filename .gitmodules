@@ -1,3 +1,6 @@
 [submodule "dependencies/cmake-utils"]
 	path = dependencies/cmake-utils
 	url = https://github.com/Sirflankalot/cmake-utils.git
+[submodule "dependencies/glm"]
+	path = dependencies/glm
+	url = https://github.com/g-truc/glm.git
