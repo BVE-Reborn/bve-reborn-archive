@@ -107,10 +107,10 @@ namespace csv_object {
 
 		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs) {
 			os << "(SetBlendMode, line = " << rhs.line << ", " //
-			   << "BlendMode = " << (rhs.BlendMode == SetBlendMode::Normal ? "Normal" : "Additive") << ", "
+			   << "BlendMode = " << (rhs.BlendMode == mesh_t::BlendMode_t::Normal ? "Normal" : "Additive") << ", "
 			   << "GlowHalfDistance = " << rhs.GlowHalfDistance << ", "
 			   << "GlowAttenuationMode = "
-			   << (rhs.GlowAttenuationMode == SetBlendMode::DivideExponent2 ? "DivideExponent2" : "DivideExponent4")
+			   << (rhs.GlowAttenuationMode == mesh_t::GlowAttenuationMode_t::DivideExponent2 ? "DivideExponent2" : "DivideExponent4")
 			   << ")";
 			return os;
 		}

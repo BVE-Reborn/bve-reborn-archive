@@ -1,48 +1,24 @@
 #pragma once
 
 #include <cinttypes>
+#include "glm/integer.hpp"
+#include "glm/vec3.hpp"
 
 namespace openbve2 {
 namespace datatypes {
-	template <class ColorType>
-	struct color_r {
-		ColorType r;
-	};
+	using color8_r = glm::u8vec1;
+	using color8_rg = glm::u8vec2;
+	using color8_rgb = glm::u8vec3;
+	using color8_rgba = glm::u8vec4;
 
-	template <class ColorType>
-	struct color_rg {
-		ColorType r;
-		ColorType g;
-	};
+	using color16_r = glm::u16vec1;
+	using color16_rg = glm::u16vec2;
+	using color16_rgb = glm::u16vec3;
+	using color16_rgba = glm::u16vec4;
 
-	template <class ColorType>
-	struct color_rgb {
-		ColorType r;
-		ColorType g;
-		ColorType b;
-	};
-
-	template <class ColorType>
-	struct color_rgba {
-		ColorType r;
-		ColorType g;
-		ColorType b;
-		ColorType a;
-	};
-
-	using color8_r = color_r<std::uint8_t>;
-	using color8_rg = color_rg<std::uint8_t>;
-	using color8_rgb = color_rgb<std::uint8_t>;
-	using color8_rgba = color_rgba<std::uint8_t>;
-
-	using color16_r = color_r<std::uint16_t>;
-	using color16_rg = color_rg<std::uint16_t>;
-	using color16_rgb = color_rgb<std::uint16_t>;
-	using color16_rgba = color_rgba<std::uint16_t>;
-
-	using colorF_r = color_r<float>;
-	using colorF_rg = color_rg<float>;
-	using colorF_rgb = color_rgb<float>;
-	using colorF_rgba = color_rgba<float>;
+	using colorF_r = glm::highp_vec1;
+	using colorF_rg = glm::vec2;
+	using colorF_rgb = glm::vec3;
+	using colorF_rgba = glm::vec4;
 } // namespace datatypes
 } // namespace openbve2

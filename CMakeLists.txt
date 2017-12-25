@@ -4,12 +4,17 @@ project(OpenBVE2 CXX)
 set (CMAKE_CXX_STANDARD 14)
 set (CXX_STANDARD_REQUIRED True)
 
+add_subdirectory("dependencies/glm")
+
 include("dependencies/cmake-utils/include/clang_format.cmake")
 include("dependencies/cmake-utils/include/linter.cmake")
 include("dependencies/cmake-utils/include/make_target_includes_system.cmake")
 include("dependencies/cmake-utils/include/warnings.cmake")
 
-add_subdirectory("dependencies/glm")
+if (NOT MSVC)
+	make_target_includes_system(glm)
+endif()
+add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

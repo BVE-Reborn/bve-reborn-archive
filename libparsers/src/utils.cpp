@@ -200,8 +200,8 @@ namespace util {
 		bool last_char_r = false;
 		while (true) {
 			file.read(buf.data(), buf.size());
-			auto chars_read = file.gcount();
-			for (std::intmax_t j = 0; j < chars_read; ++j) {
+			std::size_t chars_read = std::size_t(file.gcount());
+			for (std::size_t j = 0; j < chars_read; ++j) {
 				if (last_char_r && buf[j] == '\n') {
 					contents.back() = '\n';
 				}

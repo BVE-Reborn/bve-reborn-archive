@@ -88,7 +88,7 @@ namespace csv_object {
 				throw std::invalid_argument("Creation of instruction cylinder");
 			}
 			instructions::Cylinder cy{};
-			cy.sides = util::parse_loose_integer(arguments[1].text);
+			cy.sides = std::size_t(util::parse_loose_integer(arguments[1].text));
 			cy.UpperRadius = util::parse_loose_float(arguments[2].text);
 			cy.LowerRadius = util::parse_loose_float(arguments[3].text);
 			cy.Height = util::parse_loose_float(arguments[4].text);
@@ -267,10 +267,10 @@ namespace csv_object {
 				default:
 				case 4:
 					if (util::match_text(arguments[3].text, "divideexponent4")) {
-						sbm.GlowAttenuationMode = instructions::SetBlendMode::DivideExponent4;
+						sbm.GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent4;
 					}
 					else if (util::match_text(arguments[3].text, "divideexponent2")) {
-						sbm.GlowAttenuationMode = instructions::SetBlendMode::DivideExponent2;
+						sbm.GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent2;
 					}
 					// fall through
 				case 3:
@@ -279,10 +279,10 @@ namespace csv_object {
 					// fall through
 				case 2:
 					if (util::match_text(arguments[1].text, "normal")) {
-						sbm.BlendMode = instructions::SetBlendMode::Normal;
+						sbm.BlendMode = mesh_t::BlendMode_t::Normal;
 					}
 					else if (util::match_text(arguments[1].text, "additive")) {
-						sbm.BlendMode = instructions::SetBlendMode::Additive;
+						sbm.BlendMode = mesh_t::BlendMode_t::Additive;
 					}
 					// fall through
 				case 1:
@@ -331,7 +331,7 @@ namespace csv_object {
 				throw std::invalid_argument("Creation of instruction settexturecoordinates");
 			}
 			instructions::SetTextureCoordinates stc{};
-			stc.VertexIndex = util::parse_loose_integer(arguments[1].text);
+			stc.VertexIndex = std::size_t(util::parse_loose_integer(arguments[1].text));
 			stc.X = util::parse_loose_float(arguments[2].text);
 			stc.Y = util::parse_loose_float(arguments[3].text);
 			return stc;

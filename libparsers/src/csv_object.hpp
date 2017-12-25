@@ -41,7 +41,7 @@ namespace csv_object {
 		struct Error : public base_instruction {
 			std::string cause;
 			Error() = default;
-			Error(const std::string& desc) : cause(desc) {};
+			Error(const std::string& desc) : cause(desc){};
 		};
 
 		struct CreateMeshBuilder : public base_instruction {};
@@ -125,13 +125,9 @@ namespace csv_object {
 		};
 
 		struct SetBlendMode : public base_instruction {
-			enum {
-				Normal,
-				Additive
-
-			} BlendMode = Normal;
+			mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;
 			uint16_t GlowHalfDistance = 0;
-			enum { DivideExponent2, DivideExponent4 } GlowAttenuationMode = DivideExponent4;
+			mesh_t::GlowAttenuationMode_t GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent4;
 		};
 
 		struct LoadTexture : public base_instruction {
@@ -169,6 +165,52 @@ namespace csv_object {
 		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs);
 		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs);
 
+		struct parsed_csv_object_builder : public boost::static_visitor<void> {
+			parsed_csv_object_t pso;
+
+			// More data is needed for the faces before we convert them to internal format
+			// all of this data has to be consistant within an internal mesh, so part of the 
+			// parsing process is to split up based on this data.
+			struct extended_face_data_t : face_data_t {
+				std::string texture;
+				openbve2::datatypes::color8_rgb decal_transparent_color = { 0, 0, 0 };
+				bool has_decal_transparent_color = false;
+
+				mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;
+				mesh_t::GlowAttenuationMode_t GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent4;
+				uint16_t GlowHalfDistance = 0;
+
+				bool back_visible = false;
+			};
+
+			struct untriangulated_face_t {
+				std::vector<std::size_t> indices;
+				extended_face_data_t data;
+			};
+
+			std::vector<vertex_t> vertices;
+			std::vector<untriangulated_face_t> untriangulated_faces;
+
+			void add_mesh_builder();
+
+			void operator()(const Error& arg);
+			void operator()(const CreateMeshBuilder& arg);
+			void operator()(const AddVertex& arg);
+			void operator()(const AddFace& arg);
+			void operator()(const Cube& arg);
+			void operator()(const Cylinder& arg);
+			void operator()(const Translate& arg);
+			void operator()(const Scale& arg);
+			void operator()(const Rotate& arg);
+			void operator()(const Shear& arg);
+			void operator()(const SetColor& arg);
+			void operator()(const SetEmissiveColor& arg);
+			void operator()(const SetBlendMode& arg);
+			void operator()(const LoadTexture& arg);
+			void operator()(const SetDecalTransparentColor& arg);
+			void operator()(const SetTextureCoordinates& arg);
+		};
+
 	} // namespace instructions
 	using instruction =
 	    boost::variant<instructions::Error, instructions::CreateMeshBuilder, instructions::AddVertex,
@@ -179,15 +221,12 @@ namespace csv_object {
 
 	using instruction_list = std::vector<instruction>;
 
-	enum class file_type {
-		b3d,
-		csv
-	};
+	enum class file_type { b3d, csv };
 
 	// Defined in csv_object_instruction_generator.cpp
 	instruction_list create_instructions(std::string text, file_type ft);
 
 	// Defined in csv_object_generator.cpp
-	parsed_csv_object run_csv_instructions(const instruction_list&);
+	parsed_csv_object_t run_csv_instructions(const instruction_list&);
 } // namespace csv_object
 } // namespace parsers
