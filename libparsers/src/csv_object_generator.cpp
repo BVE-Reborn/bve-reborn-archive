@@ -184,7 +184,6 @@ namespace csv_object {
 			mesh.GlowHalfDistance = begin->data.GlowHalfDistance;
 			mesh.texture = tex;
 
-
 			// Add faces and apply properties that can change per face
 			std::for_each(begin, next_face, [&mesh](untriangulated_face_t& face) {
 				auto count = triangulate_faces(mesh.indices, face.indices, face.data.back_visible);

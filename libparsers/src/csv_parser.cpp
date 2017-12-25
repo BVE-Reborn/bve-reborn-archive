@@ -21,7 +21,8 @@ namespace csv {
 		while (!last_loop) {
 			// find next comma/newline
 			auto next_delim = std::find_if(begin, end, [&](char c) {
-				return ((sfc == split_first_column::yes && newline) ? c == split_char : false) || c == delim || c == '\n';
+				return ((sfc == split_first_column::yes && newline) ? c == split_char : false) || c == delim ||
+				       c == '\n';
 			});
 
 			newline = false;

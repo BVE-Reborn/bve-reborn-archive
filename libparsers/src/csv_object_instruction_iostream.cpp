@@ -110,7 +110,8 @@ namespace csv_object {
 			   << "BlendMode = " << (rhs.BlendMode == mesh_t::BlendMode_t::Normal ? "Normal" : "Additive") << ", "
 			   << "GlowHalfDistance = " << rhs.GlowHalfDistance << ", "
 			   << "GlowAttenuationMode = "
-			   << (rhs.GlowAttenuationMode == mesh_t::GlowAttenuationMode_t::DivideExponent2 ? "DivideExponent2" : "DivideExponent4")
+			   << (rhs.GlowAttenuationMode == mesh_t::GlowAttenuationMode_t::DivideExponent2 ? "DivideExponent2"
+			                                                                                 : "DivideExponent4")
 			   << ")";
 			return os;
 		}

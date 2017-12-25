@@ -389,14 +389,13 @@ namespace csv_object {
 
 		util::remove_comments(text, ';');
 
-		csv::parsed_csv csv = csv::parse(text, ft == file_type::b3d ? csv::split_first_column::yes : csv::split_first_column::no);
+		csv::parsed_csv csv =
+		    csv::parse(text, ft == file_type::b3d ? csv::split_first_column::yes : csv::split_first_column::no);
 
 		for (auto& row : csv) {
 			if (row.empty() || row[0].text.empty()) {
 				continue;
 			}
-
-			std::cout << uint16_t(uint8_t(row[0].text[0])) << '\n';
 
 			instruction ins;
 			auto found_func = function_mapping.find(util::lower(row[0].text));
