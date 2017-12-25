@@ -4,13 +4,17 @@
 #include <iostream>
 
 void test_csv_obj() {
-	auto content = parsers::util::load_from_file_utf8_bom("libparsers/tests/westonmill_2.b3d");
+	auto content = parsers::util::load_from_file_utf8_bom("libparsers/tests/pole_2.csv");
 
-	auto instr = parsers::b3d_csv_object::create_instructions(content, parsers::b3d_csv_object::file_type::b3d);
+	auto instr = parsers::b3d_csv_object::create_instructions(content, parsers::b3d_csv_object::file_type::csv);
 
 	for (auto& i : instr) {
 		std::cout << i << '\n';
 	}
 
-	parsers::b3d_csv_object::run_csv_instructions(instr);
+	auto obj = parsers::b3d_csv_object::run_csv_instructions(instr);
+
+	for (auto& error : obj.errors) {
+		std::cout << "Line: " << error.line << ", Reason: " << error.error << '\n';
+	}
 }

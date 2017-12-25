@@ -42,6 +42,7 @@ format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 configure_file(tests/pole_2.csv tests/pole_2.csv COPYONLY)
 configure_file(tests/ind4.csv tests/ind4.csv COPYONLY)
 configure_file(tests/westonmill_2.b3d tests/westonmill_2.b3d COPYONLY)
+configure_file(tests/81xx_2.b3d tests/81xx_2.b3d COPYONLY)
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)

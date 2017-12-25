@@ -8,6 +8,15 @@
 #include <vector>
 
 namespace parsers {
+namespace errors {
+	struct error_t {
+		std::size_t line;
+		std::string error;
+	};
+
+	using errors_t = std::vector<error_t>;
+} // namespace errors
+
 namespace b3d_csv_object {
 	struct vertex_t {
 		glm::vec3 position = glm::vec3(0);
@@ -51,14 +60,10 @@ namespace b3d_csv_object {
 		std::set<texture_t> textures;
 	};
 
-	struct errors_t {
-		// TODO(sirflankalot): Error
-	};
-
 	struct parsed_b3d_csv_object_t {
 		std::vector<mesh_t> meshes;
 		dependencies_t dependencies;
-		errors_t errors;
+		errors::errors_t errors;
 	};
 
 	// defined in b3d_csv_object/parse.cpp

@@ -1,6 +1,7 @@
 #include "b3d_csv_object.hpp"
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+#include <sstream>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -213,8 +214,7 @@ namespace b3d_csv_object {
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const Error& arg) {
-		// Todo(sirflankalot): Error handling
-		(void) arg;
+		pso.errors.emplace_back(errors::error_t{arg.line, arg.cause});
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const CreateMeshBuilder& arg) {
@@ -231,7 +231,10 @@ namespace b3d_csv_object {
 		untriangulated_faces.emplace_back();
 		for (auto& vert : arg.vertices) {
 			if (vert >= vertices.size()) {
-				// Todo(sirflankalot): Error handling
+				std::ostringstream error_msg;
+				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, " << vertices.size() - 1
+				          << "]";
+				pso.errors.emplace_back(errors::error_t{arg.line, error_msg.str()});
 			}
 			else {
 				untriangulated_faces.back().indices.emplace_back(vert);
@@ -412,7 +415,10 @@ namespace b3d_csv_object {
 	}
 	void instructions::parsed_csv_object_builder::operator()(const SetTextureCoordinates& arg) {
 		if (arg.VertexIndex >= vertices.size()) {
-			// TODO(sirflankalot): Error
+			std::ostringstream error_msg;
+			error_msg << "SetTextureCoordinates index " << arg.VertexIndex << " is larger than the valid range: [0, "
+			          << vertices.size() - 1 << "]";
+			pso.errors.emplace_back(errors::error_t{arg.line, error_msg.str()});
 		}
 		else {
 			vertices[arg.VertexIndex].texture_coord = glm::vec2{arg.X, arg.Y};

@@ -396,6 +396,12 @@ namespace b3d_csv_object {
 			if (row.empty() || row[0].text.empty()) {
 				continue;
 			}
+			if (ft == file_type::b3d && util::match_text(row[0].text, "[texture]")) {
+				continue;
+			}
+			if (ft == file_type::csv && util::match_text(row[0].text, "generatenormals")) {
+				continue;
+			}
 
 			instruction ins;
 			auto found_func = function_mapping.find(util::lower(row[0].text));

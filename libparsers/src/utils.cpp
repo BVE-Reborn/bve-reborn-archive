@@ -5,14 +5,23 @@
 #include <cstring>
 #include <fstream>
 #include <iterator>
+#include <sstream>
 #include <string>
 
 using namespace std::string_literals;
 
 namespace parsers {
-
 namespace util {
-	std::intmax_t parse_loose_integer(std::string text) {
+	static std::intmax_t _parse_loose_integer_impl(std::string text);
+	static float _parse_loose_float_impl(std::string text);
+	static std::intmax_t _parse_time_impl(std::string text);
+	static openbve2::datatypes::color8_rgba _parse_color_impl(std::string text);
+
+	/////////////////
+	// Int Parsing //
+	/////////////////
+
+	static std::intmax_t _parse_loose_integer_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -20,32 +29,62 @@ namespace util {
 		return std::stoll(text);
 	}
 
+	std::intmax_t parse_loose_integer(std::string text) {
+		try {
+			return _parse_loose_integer_impl(text);
+		}
+		catch (const std::invalid_argument&) {
+			std::ostringstream error_msg;
+			error_msg << "\"" << text << "\" is not a valid integer";
+			throw std::invalid_argument(error_msg.str());
+		}
+	}
+
 	std::intmax_t parse_loose_integer(std::string text, std::intmax_t default_value) {
 		try {
-			return parse_loose_integer(std::move(text));
+			return _parse_loose_integer_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
 		}
 	}
 
-	float parse_loose_float(std::string text) {
+	///////////////////
+	// Float Parsing //
+	///////////////////
+
+	static float _parse_loose_float_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		return std::stof(text);
 	}
 
+	float parse_loose_float(std::string text) {
+		try {
+			return _parse_loose_float_impl(text);
+		}
+		catch (const std::invalid_argument&) {
+			std::ostringstream error_msg;
+			error_msg << "\"" << text << "\" is not a valid float";
+			throw std::invalid_argument(error_msg.str());
+		}
+	}
+
 	float parse_loose_float(std::string text, float default_value) {
 		try {
-			return parse_loose_float(std::move(text));
+			return _parse_loose_float_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
 		}
 	}
 
-	std::intmax_t parse_time(std::string text) {
+	//////////////////
+	// Time Parsing //
+	//////////////////
+
+	static std::intmax_t _parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -70,20 +109,34 @@ namespace util {
 			       std::stoll(std::string(dot + 3, dot + 1 + right_hand_size));
 		}
 
-		// TODO (sirflankalot): Error
-		return 0;
+		throw std::invalid_argument("");
+	}
+
+	std::intmax_t parse_time(std::string text) {
+		try {
+			return _parse_time_impl(text);
+		}
+		catch (const std::invalid_argument&) {
+			std::ostringstream error_msg;
+			error_msg << "\"" << text << "\" is not a valid time";
+			throw std::invalid_argument(error_msg.str());
+		}
 	}
 
 	std::intmax_t parse_time(std::string text, std::intmax_t default_value) {
 		try {
-			return parse_time(std::move(text));
+			return _parse_time_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
 		}
 	}
 
-	openbve2::datatypes::color8_rgba parse_color(std::string text) {
+	///////////////////
+	// Color Parsing //
+	///////////////////
+
+	static openbve2::datatypes::color8_rgba _parse_color_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -99,13 +152,23 @@ namespace util {
 			return color;
 		}
 
-		// TODO (sirflankalot): Error
-		return openbve2::datatypes::color8_rgba{};
+		throw std::invalid_argument("");
+	}
+
+	openbve2::datatypes::color8_rgba parse_color(std::string text) {
+		try {
+			return _parse_color_impl(text);
+		}
+		catch (const std::invalid_argument&) {
+			std::ostringstream error_msg;
+			error_msg << "\"" << text << "\" is not a valid color";
+			throw std::invalid_argument(error_msg.str());
+		}
 	}
 
 	openbve2::datatypes::color8_rgba parse_color(std::string text, openbve2::datatypes::color8_rgba default_value) {
 		try {
-			return parse_color(std::move(text));
+			return _parse_color_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
