@@ -6,7 +6,7 @@
 #include <math.h>
 
 namespace parsers {
-namespace csv_object {
+namespace b3d_csv_object {
 	namespace {
 		// Following https://stackoverflow.com/questions/3574680/sort-based-on-multiple-things-in-c
 		// Sort based on properties to get all faces with same properties next to each other
@@ -419,7 +419,7 @@ namespace csv_object {
 		}
 	}
 
-	parsed_csv_object_t run_csv_instructions(const instruction_list& ilist) {
+	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& ilist) {
 		instructions::parsed_csv_object_builder pcsvob;
 		for (auto& instruction : ilist) {
 			boost::apply_visitor(pcsvob, instruction);
@@ -428,5 +428,5 @@ namespace csv_object {
 		pcsvob.add_mesh_builder();
 		return pcsvob.pso;
 	}
-} // namespace csv_object
+} // namespace b3d_csv_object
 } // namespace parsers

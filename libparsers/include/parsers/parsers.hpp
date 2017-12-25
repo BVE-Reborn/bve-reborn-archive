@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace parsers {
-namespace csv_object {
+namespace b3d_csv_object {
 	struct vertex_t {
 		glm::vec3 position = glm::vec3(0);
 		glm::vec3 normal = glm::vec3(0);
@@ -55,10 +55,14 @@ namespace csv_object {
 		// TODO(sirflankalot): Error
 	};
 
-	struct parsed_csv_object_t {
+	struct parsed_b3d_csv_object_t {
 		std::vector<mesh_t> meshes;
 		dependencies_t dependencies;
 		errors_t errors;
 	};
-} // namespace csv_object
+
+	// defined in b3d_csv_object/parse.cpp
+	parsed_b3d_csv_object_t parse_b3d(std::string& filename);
+	parsed_b3d_csv_object_t parse_csv(std::string& filename);
+} // namespace b3d_csv_object
 } // namespace parsers

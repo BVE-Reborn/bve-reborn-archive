@@ -9,7 +9,7 @@
 using namespace std::string_literals;
 
 namespace parsers {
-namespace csv_object {
+namespace b3d_csv_object {
 	namespace {
 		instruction create_instruction_createmeshbuilder(const std::vector<csv::csv_token>& arguments) {
 			(void) arguments;
@@ -418,6 +418,6 @@ namespace csv_object {
 		}
 
 		return il;
-	} // namespace csv_object
-} // namespace csv_object
+	} // namespace b3d_csv_object
+} // namespace b3d_csv_object
 } // namespace parsers

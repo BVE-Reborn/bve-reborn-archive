@@ -2,6 +2,7 @@ set(SOURCES
             src/b3d_csv_object/executor.cpp
             src/b3d_csv_object/instruction_generator.cpp
             src/b3d_csv_object/instruction_iostream.cpp
+            src/b3d_csv_object/parse.cpp
             src/core_csv/iostream.cpp
             src/core_csv/parser.cpp
             src/utils.cpp

@@ -2,7 +2,7 @@
 #include <iostream>
 
 namespace parsers {
-namespace csv_object {
+namespace b3d_csv_object {
 	namespace instructions {
 		std::ostream& operator<<(std::ostream& os, const Error& rhs) {
 			os << "(ERROR, line = " << rhs.line << ", cause = " << rhs.cause << ")";
@@ -139,5 +139,5 @@ namespace csv_object {
 			return os;
 		}
 	} // namespace instructions
-} // namespace csv_object
+} // namespace b3d_csv_object
 } // namespace parsers

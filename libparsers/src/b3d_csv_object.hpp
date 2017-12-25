@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace parsers {
-namespace csv_object {
+namespace b3d_csv_object {
 	namespace instructions {
 		/*
 		http://openbve-project.net/documentation/HTML/object_csv_quick.html
@@ -166,7 +166,7 @@ namespace csv_object {
 		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs);
 
 		struct parsed_csv_object_builder : public boost::static_visitor<void> {
-			parsed_csv_object_t pso;
+			parsed_b3d_csv_object_t pso;
 
 			// More data is needed for the faces before we convert them to internal format
 			// all of this data has to be consistant within an internal mesh, so part of the
@@ -227,6 +227,6 @@ namespace csv_object {
 	instruction_list create_instructions(std::string text, file_type ft);
 
 	// Defined in csv_object_generator.cpp
-	parsed_csv_object_t run_csv_instructions(const instruction_list&);
-} // namespace csv_object
+	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list&);
+} // namespace b3d_csv_object
 } // namespace parsers
