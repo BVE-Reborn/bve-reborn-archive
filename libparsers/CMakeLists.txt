@@ -1,16 +1,22 @@
 set(SOURCES 
-            src/csv_object_instruction_generator.cpp
-            src/csv_object_instruction_iostream.cpp
-			src/csv_object_generator.cpp
-            src/csv_parser.cpp
-            src/csv_parser_iostream.cpp
+            src/b3d_csv_object/executor.cpp
+            src/b3d_csv_object/instruction_generator.cpp
+            src/b3d_csv_object/instruction_iostream.cpp
+			src/core_csv/iostream.cpp
+			src/core_csv/parser.cpp
             src/utils.cpp
     )
+
+set(HEADERS
+            src/b3d_csv_object.hpp
+			src/csv.hpp
+			include/parsers/parsers.hpp
+)
 
 find_package(Boost 1.44 REQUIRED)
 
 lint(FILES ${SOURCES})
-format(FILES ${SOURCES})
+format(FILES ${SOURCES} ${HEADERS})
 
 add_library(parsers SHARED ${SOURCES})
 target_include_directories(parsers PUBLIC include)
