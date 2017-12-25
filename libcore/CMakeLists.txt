@@ -1,4 +1,10 @@
-set (SOURCES src/math.cpp)
+set (SOURCES 
+             src/math.cpp
+             )
+set (HEADERS 
+             include/core/datatypes.hpp
+             include/core/math.hpp
+    )
 
 lint(FILES ${SOURCES})
 format(FILES ${SOURCES})

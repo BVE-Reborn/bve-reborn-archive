@@ -1,5 +1,5 @@
-#include "core/math.hpp"
 #include "b3d_csv_object.hpp"
+#include "core/math.hpp"
 #include "csv.hpp"
 #include "utils.hpp"
 #include <iostream>

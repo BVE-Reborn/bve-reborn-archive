@@ -3,8 +3,8 @@
 #include "core/datatypes.hpp"
 #include "glm/vec3.hpp"
 #include <array>
-#include <string>
 #include <set>
+#include <string>
 #include <vector>
 
 namespace parsers {
@@ -27,10 +27,13 @@ namespace csv_object {
 
 		// less than operator for use in std::set
 		friend bool operator<(const texture_t& lhs, const texture_t& rhs) {
-			auto lhs_dtc_val = uint32_t(lhs.decal_transparent_color.r) << 16 & uint32_t(lhs.decal_transparent_color.g) << 8 & lhs.decal_transparent_color.r;
-			auto rhs_dtc_val = uint32_t(rhs.decal_transparent_color.r) << 16 & uint32_t(rhs.decal_transparent_color.g) << 8 & rhs.decal_transparent_color.r;
+			auto lhs_dtc_val = uint32_t(lhs.decal_transparent_color.r) << 16 &
+			                   uint32_t(lhs.decal_transparent_color.g) << 8 & lhs.decal_transparent_color.r;
+			auto rhs_dtc_val = uint32_t(rhs.decal_transparent_color.r) << 16 &
+			                   uint32_t(rhs.decal_transparent_color.g) << 8 & rhs.decal_transparent_color.r;
 
-			return lhs.file < rhs.file && lhs_dtc_val < rhs_dtc_val && lhs.has_transparent_color < rhs.has_transparent_color;
+			return lhs.file < rhs.file && lhs_dtc_val < rhs_dtc_val &&
+			       lhs.has_transparent_color < rhs.has_transparent_color;
 		}
 	};
 

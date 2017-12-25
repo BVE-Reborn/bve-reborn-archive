@@ -169,11 +169,11 @@ namespace csv_object {
 			parsed_csv_object_t pso;
 
 			// More data is needed for the faces before we convert them to internal format
-			// all of this data has to be consistant within an internal mesh, so part of the 
+			// all of this data has to be consistant within an internal mesh, so part of the
 			// parsing process is to split up based on this data.
 			struct extended_face_data_t : face_data_t {
 				std::string texture;
-				openbve2::datatypes::color8_rgb decal_transparent_color = { 0, 0, 0 };
+				openbve2::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
 				mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;

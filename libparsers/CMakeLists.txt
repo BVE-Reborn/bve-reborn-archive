@@ -2,15 +2,15 @@ set(SOURCES
             src/b3d_csv_object/executor.cpp
             src/b3d_csv_object/instruction_generator.cpp
             src/b3d_csv_object/instruction_iostream.cpp
-			src/core_csv/iostream.cpp
-			src/core_csv/parser.cpp
+            src/core_csv/iostream.cpp
+            src/core_csv/parser.cpp
             src/utils.cpp
     )
 
 set(HEADERS
+            include/parsers/parsers.hpp
             src/b3d_csv_object.hpp
-			src/csv.hpp
-			include/parsers/parsers.hpp
+            src/csv.hpp
 )
 
 find_package(Boost 1.44 REQUIRED)
@@ -31,8 +31,12 @@ set(TEST_SOURCES
                  tests/test_csv_obj.cpp
     )
 
+set(TEST_HEADERS
+                 tests/tests.hpp
+    )
+
 lint(FILES ${TEST_SOURCES})
-format(FILES ${TEST_SOURCES})
+format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 
 configure_file(tests/pole_2.csv tests/pole_2.csv COPYONLY)
 configure_file(tests/ind4.csv tests/ind4.csv COPYONLY)
