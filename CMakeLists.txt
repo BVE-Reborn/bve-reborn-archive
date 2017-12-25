@@ -15,6 +15,8 @@ if (NOT MSVC)
 	make_target_includes_system(glm)
 endif()
 add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
+# Suppress annoying boost message
+add_definitions(-DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
 
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
