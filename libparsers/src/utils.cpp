@@ -182,6 +182,23 @@ namespace util {
 		return text;
 	}
 
+	std::vector<std::string> split_text(const std::string& text, char delim) {
+		std::vector<std::string> vec;
+
+		auto begin = text.begin();
+		auto end = text.end();
+
+		while (begin != end) {
+			auto next_delim = std::find(begin, end, delim);
+
+			vec.emplace_back(begin, next_delim);
+
+			begin = next_delim == end ? end : next_delim + 1;
+		}
+
+		return vec;
+	}
+
 	bool match_text(const std::string& text, const char* match) {
 		auto text_len = text.size();
 		auto match_len = std::strlen(match);

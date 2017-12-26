@@ -1,17 +1,22 @@
 set(SOURCES 
+            src/animated_object/parser.cpp
             src/b3d_csv_object/executor.cpp
             src/b3d_csv_object/instruction_generator.cpp
             src/b3d_csv_object/instruction_iostream.cpp
             src/b3d_csv_object/parse.cpp
             src/core_csv/iostream.cpp
             src/core_csv/parser.cpp
+            src/core_ini/iostream.cpp
+            src/core_ini/parser.cpp
             src/utils.cpp
     )
 
 set(HEADERS
             include/parsers/parsers.hpp
+            src/animated_object.hpp
             src/b3d_csv_object.hpp
             src/csv.hpp
+            src/ini.hpp
 )
 
 find_package(Boost 1.44 REQUIRED)
@@ -30,6 +35,7 @@ set(TEST_SOURCES
                  tests/main.cpp
                  tests/test_csv.cpp
                  tests/test_csv_obj.cpp
+                 tests/test_animated.cpp
     )
 
 set(TEST_HEADERS
@@ -43,6 +49,7 @@ configure_file(tests/pole_2.csv tests/pole_2.csv COPYONLY)
 configure_file(tests/ind4.csv tests/ind4.csv COPYONLY)
 configure_file(tests/westonmill_2.b3d tests/westonmill_2.b3d COPYONLY)
 configure_file(tests/81xx_2.b3d tests/81xx_2.b3d COPYONLY)
+configure_file(tests/r160.animated tests/r160.animated COPYONLY)
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)

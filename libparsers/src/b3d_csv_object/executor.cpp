@@ -170,7 +170,7 @@ namespace b3d_csv_object {
 			auto next_face = std::find_if(begin, end, cmp_func);
 
 			mesh_t mesh;
-			texture_t tex;
+			dependencies::texture_t tex;
 
 			// apply properties to the texture
 			tex.file = begin->data.texture;
@@ -178,8 +178,7 @@ namespace b3d_csv_object {
 			tex.has_transparent_color = begin->data.has_decal_transparent_color;
 
 			// properties that must be the same for all faces in an internal mesh
-			mesh.texture = texture_t{begin->data.texture, begin->data.decal_transparent_color,
-			                         begin->data.has_decal_transparent_color};
+			mesh.texture = tex;
 			mesh.BlendMode = begin->data.BlendMode;
 			mesh.GlowAttenuationMode = begin->data.GlowAttenuationMode;
 			mesh.GlowHalfDistance = begin->data.GlowHalfDistance;

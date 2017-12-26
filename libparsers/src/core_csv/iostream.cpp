@@ -1,5 +1,5 @@
 #include "csv.hpp"
-#include <iostream>
+#include <ostream>
 
 namespace parsers {
 namespace csv {

@@ -3,4 +3,5 @@
 int main() {
 	test_csv();
 	test_csv_obj();
+	test_animated();
 }

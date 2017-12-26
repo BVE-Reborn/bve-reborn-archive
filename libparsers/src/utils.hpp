@@ -20,8 +20,10 @@ namespace util {
 	openbve2::datatypes::color8_rgba parse_color(std::string text);
 	openbve2::datatypes::color8_rgba parse_color(std::string text, openbve2::datatypes::color8_rgba default_value);
 
+
 	std::string lower(std::string text);
 	bool match_text(const std::string& text, const char* match);
+	std::vector<std::string> split_text(const std::string& text, char delim = ',');
 	void strip_text(std::string& text, const char* characters = "\t\n\v\f\r ");
 	void remove_comments(std::string& text, char comment = ';');
 

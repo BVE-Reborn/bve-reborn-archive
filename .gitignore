@@ -1,6 +1,7 @@
 build*/
 .vs/*
 
+libparsers/tests/*.animated
 libparsers/tests/*.csv
 libparsers/tests/*.b3d
 libparsers/tests/*.x

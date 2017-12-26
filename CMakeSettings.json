@@ -8,7 +8,7 @@
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\windep32",
+      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\..\\windep32",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
     },
@@ -19,7 +19,7 @@
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\windep32",
+      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\..\\windep32",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
     },
@@ -30,7 +30,7 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\windep64",
+      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\..\\windep64",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
     },
@@ -41,7 +41,7 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\windep64",
+      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=${projectDir}\\..\\windep64",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
     }
