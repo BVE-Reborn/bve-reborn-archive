@@ -83,7 +83,7 @@ namespace animated_object {
 
 	struct animated_subobject {
 		glm::vec3 position;
-		std::string states;
+		std::vector<std::string> states;
 		function_script state_function;
 
 		glm::vec3 translate_x_direction = {1, 0, 0};

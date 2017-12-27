@@ -236,7 +236,7 @@ namespace util {
 	}
 
 	void remove_comments(std::string& text, char comment) {
-		bool removing;
+		bool removing = false;
 		auto remove_func = [&removing, &comment](const char& c) {
 			if (c == comment) {
 				removing = true;
