@@ -5,35 +5,67 @@ namespace function_scripts {
 	namespace {
 		// See function_script_grammar.bnf for the grammar this parser is following
 		static tree_node parse_expression(lexer_token_container& list);
+		static tree_node parse_xor_expression(lexer_token_container& list);
+		static tree_node parse_or_expression(lexer_token_container& list);
+		static tree_node parse_not_expression(lexer_token_container& list);
 		static tree_node parse_equal_expression(lexer_token_container& list);
 		static tree_node parse_plus_expression(lexer_token_container& list);
 		static tree_node parse_times_expression(lexer_token_container& list);
-		static tree_node parse_not_expression(lexer_token_container& list);
+		static tree_node parse_divide_expression(lexer_token_container& list);
+		static tree_node parse_minus_expression(lexer_token_container& list);
 		static tree_node parse_function_call_expression(lexer_token_container& list);
 		static tree_node parse_term(lexer_token_container& list);
 
 		static tree_node parse_expression(lexer_token_container& list) {
-			auto left = parse_equal_expression(list);
+			auto left = parse_xor_expression(list);
 
 			if (list.skip_next_token<lexer_types::ampersand>()) {
 				auto right = parse_expression(list);
 
 				return tree_types::binary_and{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::carret>()) {
-				auto right = parse_expression(list);
-
-				return tree_types::binary_xor{left, right};
+			else {
+				return left;
 			}
-			else if (list.skip_next_token<lexer_types::bar>()) {
-				auto right = parse_expression(list);
+		}
 
-				return tree_types::binary_or{left, right};
+		static tree_node parse_xor_expression(lexer_token_container& list) {
+			auto left = parse_or_expression(list);
+
+			if (list.skip_next_token<lexer_types::carret>()) {
+				auto right = parse_xor_expression(list);
+
+				return tree_types::binary_xor{ left, right };
 			}
 			else {
 				return left;
 			}
 		}
+
+		static tree_node parse_or_expression(lexer_token_container& list) {
+			auto left = parse_not_expression(list);
+
+			if (list.skip_next_token<lexer_types::bar>()) {
+				auto right = parse_or_expression(list);
+
+				return tree_types::binary_or{ left, right };
+			}
+			else {
+				return left;
+			}
+		}
+
+		static tree_node parse_not_expression(lexer_token_container& list) {
+			if (list.skip_next_token<lexer_types::bang>()) {
+				auto right = parse_equal_expression(list);
+
+				return tree_types::unary_not{ right };
+			}
+			else {
+				return parse_equal_expression(list);
+			}
+		}
+
 		static tree_node parse_equal_expression(lexer_token_container& list) {
 			auto left = parse_plus_expression(list);
 
@@ -91,30 +123,33 @@ namespace function_scripts {
 		}
 
 		static tree_node parse_times_expression(lexer_token_container& list) {
-			auto left = parse_not_expression(list);
+			auto left = parse_divide_expression(list);
 
 			if (list.skip_next_token<lexer_types::star>()) {
 				auto right = parse_times_expression(list);
 
-				return tree_types::binary_multiply{left, right};
-			}
-			else if (list.skip_next_token<lexer_types::slash>()) {
-				auto right = parse_times_expression(list);
-
-				return tree_types::binary_divide{left, right};
+				return tree_types::binary_multiply{ left, right };
 			}
 			else {
 				return left;
 			}
 		}
 
-		static tree_node parse_not_expression(lexer_token_container& list) {
-			if (list.skip_next_token<lexer_types::bang>()) {
-				auto right = parse_function_call_expression(list);
+		static tree_node parse_divide_expression(lexer_token_container& list) {
+			auto left = parse_minus_expression(list);
 
-				return tree_types::unary_not{right};
+			if (list.skip_next_token<lexer_types::slash>()) {
+				auto right = parse_divide_expression(list);
+
+				return tree_types::binary_divide{ left, right };
 			}
-			else if (list.skip_next_token<lexer_types::minus>()) {
+			else {
+				return left;
+			}
+		}
+
+		static tree_node parse_minus_expression(lexer_token_container& list) {
+			if (list.skip_next_token<lexer_types::minus>()) {
 				auto right = parse_function_call_expression(list);
 
 				return tree_types::unary_minus{right};

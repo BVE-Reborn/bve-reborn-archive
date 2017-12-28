@@ -51,8 +51,8 @@ namespace function_scripts {
 			bool has_another_character = i + 1 < text.size();
 
 			// parsing number
-			if (has_another_character && is_start_of_number(text[i]) &&
-			    (text[i] == '-' ? is_number(text[i + 1]) : true)) {
+			if (is_start_of_number(text[i]) &&
+			    (has_another_character && text[i] == '-' ? is_number(text[i + 1]) : true)) {
 				bool has_dash = text[i] == '-';
 				bool has_dot = false;
 
@@ -62,7 +62,7 @@ namespace function_scripts {
 						has_dot = true;
 						return true;
 					}
-					return is_number(c);
+					return !is_number(c);
 				});
 
 				// parsing float

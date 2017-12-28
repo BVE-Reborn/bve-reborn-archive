@@ -1,18 +1,32 @@
 ; operator precedence
 ; a[...]
-; - !
-; * /
-; + -
+; - (minus)
+; /
+; *
+; + - (subtract)
 ; == != < > <= >=
-; & ^ |
+; !
+; &
+; ^
+; |
 
-<expression>       ::= <equal_expression> "&"  <expression>       | <equal_expression> "^"  <expression>       | <equal_expression> "|"  <expression>       | <equal_expression>
-<equal_expression> ::= <plus_expression>  "==" <equal_expression> | <plus_expression>  "!=" <equal_expression> | <plus_expression>  ">"  <equal_expression> |
-                       <plus_expression>  "<"  <equal_expression> | <plus_expression>  "<=" <equal_expression> | <plus_expression>  "<=" <equal_expression> | <plus_expression>
-<plus_expression>  ::= <times_expression> "+"  <plus_expression>  | <times_expression> "-"  <plus_expression>  | <times_expression>
-<times_expression> ::= <not_expression>   "*"  <times_expression> | <not_expression>   "/"  <times_expression> | <not_expression>
-<not_expression>   ::= "!" <function_call> | "-" <function_call> | <function_call>
-<function_call>    ::= <name> "[" <expression> ("," <expression>)* "]" | <term>
+<expression>        ::= <xor_expression> "&" <expression>     | <xor_expression>
+<xor_expression>    ::= <or_expression>  "^" <xor_expression> | <or_expression>
+<or_expression>     ::= <not_expression> "|" <or_expression>  | <not_expression>
+
+<not_expression>    ::= "!" <equal_expression> | <equal_expression>
+
+<equal_expression>  ::= <plus_expression> "==" <equal_expression> | <plus_expression> "!=" <equal_expression> |
+                        <plus_expression> ">"  <equal_expression> | <plus_expression> "<"  <equal_expression> | 
+                        <plus_expression> "<=" <equal_expression> | <plus_expression> "<=" <equal_expression> | <plus_expression>
+
+<plus_expression>   ::= <times_expression> "+" <plus_expression>  | <times_expression> "-" <plus_expression> | <times_expression>
+
+<times_expression>  ::= <divide_expression> "*" <times_expression>  | <divide_expression>
+<divide_expression> ::= <minus_expression>  "/" <divide_expression> | <minus_expression>
+
+<minus_expression>  ::= "-" <function_call> | <function_call>
+<function_call>     ::= <name> "[" <expression> ("," <expression>)* "]" | <term>
 
 <term>   ::= "(" <expression> ")" | <name> | <number>
 <number> ::= <digit>*

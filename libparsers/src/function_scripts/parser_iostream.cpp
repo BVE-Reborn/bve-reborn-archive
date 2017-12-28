@@ -10,7 +10,7 @@ namespace function_scripts {
 
 		void start_print() {
 			for (std::size_t i = 0; i < depth; ++i) {
-				_os << "--";
+				_os << "| ";
 			}
 		}
 
