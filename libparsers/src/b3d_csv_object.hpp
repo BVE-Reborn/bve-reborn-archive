@@ -1,7 +1,7 @@
 #pragma once
 
 #include "parsers/parsers.hpp"
-#include <boost/variant.hpp>
+#include <boost/variant/variant.hpp>
 #include <cinttypes>
 #include <iosfwd>
 #include <string>

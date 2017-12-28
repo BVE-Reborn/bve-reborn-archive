@@ -2,6 +2,7 @@
 
 #include "core/datatypes.hpp"
 #include "glm/vec3.hpp"
+#include "parsers/function_scripts.hpp"
 #include <array>
 #include <set>
 #include <string>
