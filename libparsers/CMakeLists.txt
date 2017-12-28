@@ -8,21 +8,21 @@ set(SOURCES
             src/core_csv/parser.cpp
             src/core_ini/iostream.cpp
             src/core_ini/parser.cpp
-			src/function_scripts/lexer.cpp
-			src/function_scripts/lexer_iostream.cpp
-			src/function_scripts/parse.cpp
-			src/function_scripts/parser.cpp
-			src/function_scripts/parser_iostream.cpp
+            src/function_scripts/lexer.cpp
+            src/function_scripts/lexer_iostream.cpp
+            src/function_scripts/parsefunc.cpp
+            src/function_scripts/parser.cpp
+            src/function_scripts/parser_iostream.cpp
             src/utils.cpp
     )
 
 set(HEADERS
-			include/parsers/function_scripts.hpp
+            include/parsers/function_scripts.hpp
             include/parsers/parsers.hpp
             src/animated_object.hpp
             src/b3d_csv_object.hpp
             src/csv.hpp
-			src/function_scripts.hpp
+            src/function_scripts.hpp
             src/ini.hpp
 )
 
@@ -40,9 +40,9 @@ target_link_libraries(parsers PUBLIC glm)
 
 set(TEST_SOURCES 
                  tests/main.cpp
+                 tests/test_animated.cpp
                  tests/test_csv.cpp
                  tests/test_csv_obj.cpp
-                 tests/test_animated.cpp
                  tests/test_fs_lexer.cpp
     )
 

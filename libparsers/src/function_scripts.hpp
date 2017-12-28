@@ -220,3 +220,4 @@ namespace function_scripts {
 
 std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token& lt);
 std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token_list& list);
+std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::tree_node& node);
