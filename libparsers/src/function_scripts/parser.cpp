@@ -1,4 +1,5 @@
 #include "function_scripts.hpp"
+#include <sstream>
 
 namespace parsers {
 namespace function_scripts {
@@ -172,7 +173,7 @@ namespace function_scripts {
 						}
 					}
 					if (!list.skip_next_token<lexer_types::r_bracket>()) {
-						// Todo(sirflankalot): Error
+						list.add_error({0, "Missing right bracket"});
 					}
 					return func_node;
 				}
@@ -194,7 +195,7 @@ namespace function_scripts {
 				auto inside = parse_expression(list);
 
 				if (!list.skip_next_token<lexer_types::r_paren>()) {
-					// Todo(sirflankalot): error
+					list.add_error({0, "Missing right parethesis"});
 				}
 
 				return inside;
@@ -209,14 +210,23 @@ namespace function_scripts {
 				return tree_types::name{v->name};
 			}
 			else {
-				// Todo(sirflankalot): error
+				auto next_token = list.peak_next_token();
+
+				std::ostringstream err;
+				if (next_token) {
+					::operator<<(err << "Unexpected ", *next_token);
+				}
+				else {
+					err << "Unexpected end of function script";
+				}
+				list.add_error({0, err.str()});
 				return tree_types::none{};
 			}
 		}
 	} // namespace
 
-	tree_node create_tree(const lexer_token_list& list) {
-		auto container = lexer_token_container(list);
+	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors) {
+		auto container = lexer_token_container(list, errors);
 
 		return parse_expression(container);
 	}

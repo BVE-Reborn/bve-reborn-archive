@@ -437,11 +437,14 @@ namespace function_scripts {
 		if (!list.used_variables.empty()) {
 			os << "Variables Used: ";
 		}
-		for (std::size_t i = 0; i < list.used_variables.size(); ++i) {
-			os << get_name(list.used_variables[i]);
+
+		std::size_t i = 0;
+		for (auto& var : list.used_variables) {
+			os << get_name(var);
 			if (i != list.used_variables.size() - 1) {
 				os << ", ";
 			}
+			++i;
 		}
 		if (!list.used_variables.empty()) {
 			os << '\n';
@@ -450,11 +453,13 @@ namespace function_scripts {
 		if (!list.used_indexed_variables.empty()) {
 			os << "Index Variables Used: ";
 		}
-		for (std::size_t i = 0; i < list.used_indexed_variables.size(); ++i) {
-			os << get_name(list.used_indexed_variables[i]);
+		i = 0;
+		for (auto& var : list.used_indexed_variables) {
+			os << get_name(var);
 			if (i != list.used_indexed_variables.size() - 1) {
 				os << ", ";
 			}
+			++i;
 		}
 		if (!list.used_indexed_variables.empty()) {
 			os << '\n';

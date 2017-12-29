@@ -1,7 +1,10 @@
 #include "function_scripts.hpp"
 #include "utils.hpp"
+#include <algorithm>
+#include <iterator>
 #include <map>
 #include <set>
+#include <sstream>
 
 using namespace std::string_literals;
 
@@ -196,7 +199,7 @@ namespace function_scripts {
 		}
 		void operator()(const tree_types::none& node) {
 			(void) node;
-			// noop
+			list.instructions.emplace_back<instructions::stack_push>({0});
 		}
 
 		void operator()(const tree_types::name& node) {
@@ -205,10 +208,12 @@ namespace function_scripts {
 			auto iter = naked_variables.find(lower_name);
 			if (iter != naked_variables.end()) {
 				list.instructions.emplace_back<instructions::op_variable_lookup>({iter->second});
-				list.used_variables.emplace_back(iter->second);
+				list.used_variables.insert(iter->second);
 			}
 			else {
-				// Todo(sirflankalot): Error
+				std::ostringstream error;
+				error << "Variable \"" << node.val << "\" not found";
+				list.errors.emplace_back<errors::error_t>({0, error.str()});
 				list.instructions.emplace_back<instructions::stack_push>({0});
 			}
 		}
@@ -220,7 +225,9 @@ namespace function_scripts {
 			auto unary_iter = unary_functions.find(lower_name);
 			if (unary_iter != unary_functions.end()) {
 				if (arg_count < 1) {
-					// TODO(sirflankalot): Error
+					std::ostringstream error;
+					error << "Function \"" << node.name.val << "\" requires 1 argument.";
+					list.errors.emplace_back<errors::error_t>({0, error.str()});
 					list.instructions.emplace_back<instructions::stack_push>({0});
 				}
 				else {
@@ -232,14 +239,18 @@ namespace function_scripts {
 			// unary indexing
 			auto index_iter = indexable_variables.find(lower_name);
 			if (index_iter != indexable_variables.end()) {
-				if (arg_count < 1) {
-					// TODO(sirflankalot): Error
-					list.instructions.emplace_back<instructions::stack_push>({0});
-				}
-				else {
+				if (arg_count >= 1) {
 					call_next_node(node.args[0]);
 					list.instructions.emplace_back<instructions::op_variable_indexed>({index_iter->second});
-					list.used_indexed_variables.emplace_back(index_iter->second);
+					list.used_indexed_variables.insert(index_iter->second);
+				}
+				else {
+					list.instructions.emplace_back<instructions::stack_push>({0});
+				}
+				if (arg_count != 1) {
+					std::ostringstream error;
+					error << "Variable \"" << node.name.val << "\" must be indexed with one argument.";
+					list.errors.emplace_back<errors::error_t>({0, error.str()});
 				}
 				return;
 			}
@@ -247,40 +258,46 @@ namespace function_scripts {
 			// binary
 			auto binary_iter = binary_functions.find(lower_name);
 			if (binary_iter != binary_functions.end()) {
-				if (arg_count < 2) {
-					// TODO(sirflankalot): Error
-					list.instructions.emplace_back<instructions::stack_push>({0});
-				}
-				else {
+				if (arg_count >= 2) {
 					call_next_node(node.args[0]);
 					call_next_node(node.args[1]);
 					list.instructions.emplace_back(binary_iter->second);
+				}
+				else {
+					list.instructions.emplace_back<instructions::stack_push>({0});
+				}
+				if (arg_count != 2) {
+					std::ostringstream error;
+					error << "Function \"" << node.name.val << "\" requires 2 arguments.";
+					list.errors.emplace_back<errors::error_t>({0, error.str()});
 				}
 				return;
 			}
 
 			// ternary
 			if (lower_name == "if"s) {
-				if (arg_count < 3) {
-					// TODO(sirflankalot): Error
-					if (arg_count == 2) {
-						call_next_node(node.args[0]);
-						call_next_node(node.args[1]);
-						list.instructions.emplace_back<instructions::stack_push>({0});
-						list.instructions.emplace_back<instructions::func_if>({});
-					}
-					else if (arg_count == 1) {
-						call_next_node(node.args[0]);
-					}
-					else {
-						list.instructions.emplace_back<instructions::stack_push>({0});
-					}
-				}
-				else {
+				if (arg_count >= 3) {
 					call_next_node(node.args[0]);
 					call_next_node(node.args[1]);
 					call_next_node(node.args[2]);
 					list.instructions.emplace_back<instructions::func_if>({});
+				}
+				else if (arg_count == 2) {
+					call_next_node(node.args[0]);
+					call_next_node(node.args[1]);
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::func_if>({});
+				}
+				else if (arg_count == 1) {
+					call_next_node(node.args[0]);
+				}
+				else if (arg_count == 0) {
+					list.instructions.emplace_back<instructions::stack_push>({0});
+				}
+				if (arg_count != 3) {
+					std::ostringstream error;
+					error << "Function \"" << node.name.val << "\" requires 3 arguments.";
+					list.errors.emplace_back<errors::error_t>({0, error.str()});
 				}
 				return;
 			}
@@ -315,15 +332,19 @@ namespace function_scripts {
 				return;
 			}
 			else {
-				// TODO(sirflankalot): Error
+				std::ostringstream error;
+				error << "Function \"" << node.name.val << "\" not recognized.";
+				list.errors.emplace_back<errors::error_t>({0, error.str()});
+
 				list.instructions.emplace_back<instructions::stack_push>({0});
 				return;
 			}
 		}
 	};
 
-	instruction_list build_instructions(const tree_node& head_node) {
+	instruction_list build_instructions(const tree_node& head_node, const errors::errors_t& errors) {
 		intruction_builder_helper ibh;
+		std::copy(errors.begin(), errors.end(), std::back_inserter(ibh.list.errors));
 		boost::apply_visitor(ibh, head_node);
 		return ibh.list;
 	}

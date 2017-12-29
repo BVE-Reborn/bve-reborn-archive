@@ -2,6 +2,8 @@
 #include "ini.hpp"
 #include "parsers/animated.hpp"
 #include "utils.hpp"
+#include <algorithm>
+#include <iterator>
 #include <map>
 #include <sstream>
 
@@ -65,9 +67,14 @@ namespace animated_object {
 			return value;
 		}
 
-		static function_script parse_function_script(parsed_animated_object& pso, const std::string& function) {
+		static function_script parse_function_script(parsed_animated_object& pso, const std::string& function,
+		                                             std::size_t line) {
 			(void) pso;
-			return function_scripts::parse(function);
+			auto instructions = function_scripts::parse(function);
+			std::for_each(instructions.errors.begin(), instructions.errors.end(),
+			              [&line](errors::error_t& e) { e.line = line; });
+			std::copy(instructions.errors.begin(), instructions.errors.end(), std::back_inserter(pso.errors));
+			return instructions;
 		}
 
 		/////////////////////////////
@@ -89,7 +96,7 @@ namespace animated_object {
 		}
 
 		static void parse_state_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().state_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().state_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_translate_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -106,15 +113,15 @@ namespace animated_object {
 		}
 
 		static void parse_translate_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().translate_x_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().translate_x_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_translate_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().translate_y_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().translate_y_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_translate_z_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().translate_z_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().translate_z_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_rotate_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -131,15 +138,15 @@ namespace animated_object {
 		}
 
 		static void parse_rotate_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().rotate_x_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().rotate_x_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_rotate_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().rotate_y_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().rotate_y_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_rotate_z_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().rotate_z_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().rotate_z_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_rotate_x_damping(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -177,14 +184,14 @@ namespace animated_object {
 		}
 
 		static void parse_texture_shift_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().texture_shift_x_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().texture_shift_x_function = parse_function_script(pso, section.value, section.line);
 		}
 		static void parse_texture_shift_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().texture_shift_y_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().texture_shift_y_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_track_follower_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().track_follower_function = parse_function_script(pso, section.value);
+			pso.subobjects.back().track_follower_function = parse_function_script(pso, section.value, section.line);
 		}
 
 		static void parse_texture_override(parsed_animated_object& pso, const ini::kvp_t& section) {

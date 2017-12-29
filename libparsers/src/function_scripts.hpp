@@ -1,5 +1,6 @@
 #pragma once
 
+#include "parsers/errors.hpp"
 #include "parsers/function_scripts.hpp"
 #include <boost/optional/optional.hpp>
 #include <boost/variant/get.hpp>
@@ -62,10 +63,12 @@ namespace function_scripts {
 	class lexer_token_container {
 	  private:
 		const lexer_token_list& list;
+		errors::errors_t& err;
 		std::size_t index = 0;
 
 	  public:
-		lexer_token_container(const lexer_token_list& contains) : list(contains){};
+		lexer_token_container(const lexer_token_list& contains, errors::errors_t& errors)
+		    : list(contains), err(errors){};
 
 		template <class T>
 		boost::optional<T> get_next_token() {
@@ -87,6 +90,14 @@ namespace function_scripts {
 		template <class T>
 		bool is_next_token() {
 			return index < list.size() && list[index].type() == typeid(T);
+		}
+
+		boost::optional<lexer_token> peak_next_token() {
+			return index < list.size() ? boost::make_optional(list[index]) : boost::none;
+		}
+
+		void add_error(const errors::error_t& error) {
+			err.emplace_back(error);
 		}
 	};
 
@@ -212,9 +223,9 @@ namespace function_scripts {
 		};
 	} // namespace tree_types
 
-	lexer_token_list lex(const std::string& text);
-	tree_node create_tree(const lexer_token_list& list);
-	instruction_list build_instructions(const tree_node& head_node);
+	lexer_token_list lex(const std::string& text, errors::errors_t& errors);
+	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors);
+	instruction_list build_instructions(const tree_node& head_node, const errors::errors_t& errors = {});
 	instruction_list parse(const std::string& text);
 } // namespace function_scripts
 } // namespace parsers

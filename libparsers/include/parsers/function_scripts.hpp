@@ -8,13 +8,14 @@
 #include <cinttypes>
 #include <cstdlib>
 #include <iosfwd>
+#include <set>
 #include <string>
 #include <vector>
 
 namespace parsers {
 namespace function_scripts {
 	namespace instructions {
-		enum class variable {
+		enum class variable : uint8_t {
 			none = 0,
 			value,
 			delta,
@@ -164,8 +165,8 @@ namespace function_scripts {
 	    instructions::func_cos, instructions::func_tan, instructions::func_arctan, instructions::func_if>;
 
 	struct instruction_list {
-		std::vector<instructions::variable> used_variables;
-		std::vector<instructions::indexed_variable> used_indexed_variables;
+		std::set<instructions::variable> used_variables;
+		std::set<instructions::indexed_variable> used_indexed_variables;
 		std::vector<instruction> instructions;
 		errors::errors_t errors;
 	};
