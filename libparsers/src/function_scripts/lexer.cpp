@@ -34,7 +34,7 @@ namespace function_scripts {
 		}
 
 		static bool is_start_of_number(char c) {
-			return (is_number(c) || c == '-');
+			return (is_number(c) || c == '-' || c == '.');
 		}
 
 		static bool is_part_of_variable(char c) {

@@ -1,4 +1,5 @@
 #include "function_scripts.hpp"
+#include "utils.hpp"
 #include <map>
 #include <set>
 
@@ -10,47 +11,47 @@ namespace function_scripts {
 		static std::map<std::string, instructions::variable> naked_variables = {
 		    {"value"s, instructions::variable::value},                           //
 		    {"delta"s, instructions::variable::delta},                           //
-		    {"currentState"s, instructions::variable::currentState},             //
+		    {"currentstate"s, instructions::variable::currentState},             //
 		    {"time"s, instructions::variable::time},                             //
-		    {"cameraDistance"s, instructions::variable::cameraDistance},         //
-		    {"cameraMode"s, instructions::variable::cameraMode},                 //
+		    {"cameradistance"s, instructions::variable::cameraDistance},         //
+		    {"cameramode"s, instructions::variable::cameraMode},                 //
 		    {"cars"s, instructions::variable::cars},                             //
 		    {"speed"s, instructions::variable::speed},                           //
 		    {"speedometer"s, instructions::variable::speedometer},               //
 		    {"acceleration"s, instructions::variable::acceleration},             //
-		    {"accelerationMotor"s, instructions::variable::accelerationMotor},   //
+		    {"accelerationmotor"s, instructions::variable::accelerationMotor},   //
 		    {"distance"s, instructions::variable::distance},                     //
-		    {"trackDistance"s, instructions::variable::trackDistance},           //
-		    {"mainReservoir"s, instructions::variable::mainReservoir},           //
-		    {"emergencyReservoir"s, instructions::variable::emergencyReservoir}, //
-		    {"brakePipe"s, instructions::variable::brakePipe},                   //
-		    {"brakeCylinder"s, instructions::variable::brakeCylinder},           //
-		    {"straightAirPipe"s, instructions::variable::straightAirPipe},       //
+		    {"trackdistance"s, instructions::variable::trackDistance},           //
+		    {"mainreservoir"s, instructions::variable::mainReservoir},           //
+		    {"emergencyreservoir"s, instructions::variable::emergencyReservoir}, //
+		    {"brakepipe"s, instructions::variable::brakePipe},                   //
+		    {"brakecylinder"s, instructions::variable::brakeCylinder},           //
+		    {"straightairpipe"s, instructions::variable::straightAirPipe},       //
 		    {"doors"s, instructions::variable::doors},                           //
-		    {"leftDoors"s, instructions::variable::leftDoors},                   //
-		    {"rightDoors"s, instructions::variable::rightDoors},                 //
-		    {"leftDoorsTarget"s, instructions::variable::leftDoorsTarget},       //
-		    {"rightDoorsTarget"s, instructions::variable::rightDoorsTarget},     //
-		    {"leftDoorsButton"s, instructions::variable::leftDoorsButton},       //
-		    {"rightDoorsButton"s, instructions::variable::rightDoorsButton},     //
-		    {"reverserNotch"s, instructions::variable::reverserNotch},           //
-		    {"powerNotch"s, instructions::variable::powerNotch},                 //
-		    {"powerNotches"s, instructions::variable::powerNotches},             //
-		    {"brakeNotch"s, instructions::variable::brakeNotch},                 //
-		    {"brakeNotches"s, instructions::variable::brakeNotches},             //
-		    {"brakeNotchLinear"s, instructions::variable::brakeNotchLinear},     //
-		    {"brakeNotchesLinear"s, instructions::variable::brakeNotchesLinear}, //
-		    {"emergencyBrake"s, instructions::variable::emergencyBrake},         //
-		    {"hasAirBrake"s, instructions::variable::hasAirBrake},               //
-		    {"holdBrake"s, instructions::variable::holdBrake},                   //
-		    {"hasHoldBrake"s, instructions::variable::hasHoldBrake},             //
-		    {"constSpeed"s, instructions::variable::constSpeed},                 //
-		    {"hasConstSpeed"s, instructions::variable::hasConstSpeed},           //
-		    {"hasPlugin"s, instructions::variable::hasPlugin},                   //
-		    {"Odometer"s, instructions::variable::Odometer},                     //
-		    {"Klaxon"s, instructions::variable::Klaxon},                         //
-		    {"PrimaryKlaxon"s, instructions::variable::PrimaryKlaxon},           //
-		    {"MusicKlaxon"s, instructions::variable::MusicKlaxon},               //
+		    {"leftdoors"s, instructions::variable::leftDoors},                   //
+		    {"rightdoors"s, instructions::variable::rightDoors},                 //
+		    {"leftdoorstarget"s, instructions::variable::leftDoorsTarget},       //
+		    {"rightdoorstarget"s, instructions::variable::rightDoorsTarget},     //
+		    {"leftdoorsbutton"s, instructions::variable::leftDoorsButton},       //
+		    {"rightdoorsbutton"s, instructions::variable::rightDoorsButton},     //
+		    {"reversernotch"s, instructions::variable::reverserNotch},           //
+		    {"powernotch"s, instructions::variable::powerNotch},                 //
+		    {"powernotches"s, instructions::variable::powerNotches},             //
+		    {"brakenotch"s, instructions::variable::brakeNotch},                 //
+		    {"brakenotches"s, instructions::variable::brakeNotches},             //
+		    {"brakenotchlinear"s, instructions::variable::brakeNotchLinear},     //
+		    {"brakenotcheslinear"s, instructions::variable::brakeNotchesLinear}, //
+		    {"emergencybrake"s, instructions::variable::emergencyBrake},         //
+		    {"hasairbrake"s, instructions::variable::hasAirBrake},               //
+		    {"holdbrake"s, instructions::variable::holdBrake},                   //
+		    {"hasholdbrake"s, instructions::variable::hasHoldBrake},             //
+		    {"constspeed"s, instructions::variable::constSpeed},                 //
+		    {"hasconstspeed"s, instructions::variable::hasConstSpeed},           //
+		    {"hasplugin"s, instructions::variable::hasPlugin},                   //
+		    {"odometer"s, instructions::variable::Odometer},                     //
+		    {"klaxon"s, instructions::variable::Klaxon},                         //
+		    {"primaryklaxon"s, instructions::variable::PrimaryKlaxon},           //
+		    {"musicklaxon"s, instructions::variable::MusicKlaxon},               //
 		    {"section"s, instructions::variable::section},                       //
 		};
 
@@ -58,67 +59,67 @@ namespace function_scripts {
 		    {"speed"s, instructions::indexed_variable::speed},                               //
 		    {"speedometer"s, instructions::indexed_variable::speedometer},                   //
 		    {"acceleration"s, instructions::indexed_variable::acceleration},                 //
-		    {"accelerationMotor"s, instructions::indexed_variable::accelerationMotor},       //
+		    {"accelerationmotor"s, instructions::indexed_variable::accelerationMotor},       //
 		    {"distance"s, instructions::indexed_variable::distance},                         //
-		    {"trackDistance"s, instructions::indexed_variable::trackDistance},               //
-		    {"mainReservoir"s, instructions::indexed_variable::mainReservoir},               //
-		    {"emergencyReservoir"s, instructions::indexed_variable::emergencyReservoir},     //
-		    {"brakePipe"s, instructions::indexed_variable::brakePipe},                       //
-		    {"brakeCylinder"s, instructions::indexed_variable::brakeCylinder},               //
-		    {"straightAirPipe"s, instructions::indexed_variable::straightAirPipe},           //
+		    {"trackdistance"s, instructions::indexed_variable::trackDistance},               //
+		    {"mainreservoir"s, instructions::indexed_variable::mainReservoir},               //
+		    {"emergencyreservoir"s, instructions::indexed_variable::emergencyReservoir},     //
+		    {"brakepipe"s, instructions::indexed_variable::brakePipe},                       //
+		    {"brakecylinder"s, instructions::indexed_variable::brakeCylinder},               //
+		    {"straightairpipe"s, instructions::indexed_variable::straightAirPipe},           //
 		    {"doors"s, instructions::indexed_variable::doors},                               //
-		    {"leftDoors"s, instructions::indexed_variable::leftDoors},                       //
-		    {"rightDoors"s, instructions::indexed_variable::rightDoors},                     //
-		    {"leftDoorsTarget"s, instructions::indexed_variable::leftDoorsTarget},           //
-		    {"rightDoorsTarget"s, instructions::indexed_variable::rightDoorsTarget},         //
-		    {"pluginState"s, instructions::indexed_variable::pluginState},                   //
-		    {"FrontAxleCurveRadius"s, instructions::indexed_variable::FrontAxleCurveRadius}, //
-		    {"RearAxleCurveRadius"s, instructions::indexed_variable::RearAxleCurveRadius},   //
-		    {"CurveCant"s, instructions::indexed_variable::CurveCant},                       //
+		    {"leftdoors"s, instructions::indexed_variable::leftDoors},                       //
+		    {"rightdoors"s, instructions::indexed_variable::rightDoors},                     //
+		    {"leftdoorstarget"s, instructions::indexed_variable::leftDoorsTarget},           //
+		    {"rightdoorstarget"s, instructions::indexed_variable::rightDoorsTarget},         //
+		    {"pluginstate"s, instructions::indexed_variable::pluginState},                   //
+		    {"frontaxlecurveradius"s, instructions::indexed_variable::FrontAxleCurveRadius}, //
+		    {"rearaxlecurveradius"s, instructions::indexed_variable::RearAxleCurveRadius},   //
+		    {"curvecant"s, instructions::indexed_variable::CurveCant},                       //
 		};
 
 		static std::map<std::string, instruction> unary_functions = {
-		    {"Minus"s, instructions::op_unary_minus{}},       //
-		    {"Not"s, instructions::op_unary_not{}},           //
-		    {"Reciprocal"s, instructions::func_reciprocal{}}, //
-		    {"Abs"s, instructions::func_abs{}},               //
-		    {"Sign"s, instructions::func_sign{}},             //
-		    {"Floor"s, instructions::func_floor{}},           //
-		    {"Ceiling"s, instructions::func_ceiling{}},       //
-		    {"Round"s, instructions::func_round{}},           //
-		    {"Exp"s, instructions::func_exp{}},               //
-		    {"Log"s, instructions::func_log{}},               //
-		    {"Sqrt"s, instructions::func_sqrt{}},             //
-		    {"Sin"s, instructions::func_sin{}},               //
-		    {"Cos"s, instructions::func_cos{}},               //
-		    {"Tan"s, instructions::func_tan{}},               //
-		    {"ArcTan"s, instructions::func_arctan{}},         //
+		    {"minus"s, instructions::op_unary_minus{}},       //
+		    {"not"s, instructions::op_unary_not{}},           //
+		    {"reciprocal"s, instructions::func_reciprocal{}}, //
+		    {"abs"s, instructions::func_abs{}},               //
+		    {"sign"s, instructions::func_sign{}},             //
+		    {"floor"s, instructions::func_floor{}},           //
+		    {"ceiling"s, instructions::func_ceiling{}},       //
+		    {"round"s, instructions::func_round{}},           //
+		    {"exp"s, instructions::func_exp{}},               //
+		    {"log"s, instructions::func_log{}},               //
+		    {"sqrt"s, instructions::func_sqrt{}},             //
+		    {"sin"s, instructions::func_sin{}},               //
+		    {"cos"s, instructions::func_cos{}},               //
+		    {"tan"s, instructions::func_tan{}},               //
+		    {"arctan"s, instructions::func_arctan{}},         //
 		};
 
 		static std::map<std::string, instruction> binary_functions = {
-		    {"Subtract"s, instructions::op_subtract{}},          //
-		    {"Divide"s, instructions::op_divide{}},              //
-		    {"Equal"s, instructions::op_equal{}},                //
-		    {"Unequal"s, instructions::op_unequal{}},            //
-		    {"Less"s, instructions::op_less{}},                  //
-		    {"Greater"s, instructions::op_greater{}},            //
-		    {"LessEqual"s, instructions::op_less_equal{}},       //
-		    {"GreaterEqual"s, instructions::op_greater_equal{}}, //
-		    {"And"s, instructions::op_and{}},                    //
-		    {"Or"s, instructions::op_or{}},                      //
-		    {"Xor"s, instructions::op_xor{}},                    //
-		    {"Quotient"s, instructions::func_quotient{}},        //
-		    {"Mod"s, instructions::func_mod{}},                  //
+		    {"subtract"s, instructions::op_subtract{}},          //
+		    {"divide"s, instructions::op_divide{}},              //
+		    {"equal"s, instructions::op_equal{}},                //
+		    {"unequal"s, instructions::op_unequal{}},            //
+		    {"less"s, instructions::op_less{}},                  //
+		    {"greater"s, instructions::op_greater{}},            //
+		    {"lessequal"s, instructions::op_less_equal{}},       //
+		    {"greaterequal"s, instructions::op_greater_equal{}}, //
+		    {"and"s, instructions::op_and{}},                    //
+		    {"or"s, instructions::op_or{}},                      //
+		    {"xor"s, instructions::op_xor{}},                    //
+		    {"quotient"s, instructions::func_quotient{}},        //
+		    {"mod"s, instructions::func_mod{}},                  //
 		    {"random"s, instructions::func_random{}},            //
-		    {"randomInt"s, instructions::func_randomInt{}},      //
+		    {"randomint"s, instructions::func_randomInt{}},      //
 		};
 
 		static std::set<std::string> variatic_functions{
-		    {"Plus"s},  //
-		    {"Times"s}, //
-		    {"Power"s}, //
-		    {"Min"s},   //
-		    {"Max"s},   //
+		    {"plus"s},  //
+		    {"times"s}, //
+		    {"power"s}, //
+		    {"min"s},   //
+		    {"max"s},   //
 		};
 	} // namespace
 
@@ -199,7 +200,9 @@ namespace function_scripts {
 		}
 
 		void operator()(const tree_types::name& node) {
-			auto iter = naked_variables.find(node.val);
+			auto lower_name = util::lower(node.val);
+
+			auto iter = naked_variables.find(lower_name);
 			if (iter != naked_variables.end()) {
 				list.instructions.emplace_back<instructions::op_variable_lookup>({iter->second});
 				list.used_variables.emplace_back(iter->second);
@@ -210,9 +213,10 @@ namespace function_scripts {
 		}
 		void operator()(const tree_types::function_call& node) {
 			auto arg_count = node.args.size();
+			auto lower_name = util::lower(node.name.val);
 
 			// unary
-			auto unary_iter = unary_functions.find(node.name.val);
+			auto unary_iter = unary_functions.find(lower_name);
 			if (unary_iter != unary_functions.end()) {
 				if (arg_count < 1) {
 					// TODO(sirflankalot): Error
@@ -224,7 +228,7 @@ namespace function_scripts {
 				return;
 			}
 			// unary indexing
-			auto index_iter = indexable_variables.find(node.name.val);
+			auto index_iter = indexable_variables.find(lower_name);
 			if (index_iter != indexable_variables.end()) {
 				if (arg_count < 1) {
 					// TODO(sirflankalot): Error
@@ -238,7 +242,7 @@ namespace function_scripts {
 			}
 
 			// binary
-			auto binary_iter = binary_functions.find(node.name.val);
+			auto binary_iter = binary_functions.find(lower_name);
 			if (binary_iter != binary_functions.end()) {
 				if (arg_count < 2) {
 					// TODO(sirflankalot): Error
@@ -252,7 +256,7 @@ namespace function_scripts {
 			}
 
 			// ternary
-			if (node.name.val == "If"s) {
+			if (lower_name == "if"s) {
 				if (arg_count < 3) {
 					// TODO(sirflankalot): Error
 				}
@@ -266,7 +270,7 @@ namespace function_scripts {
 			}
 
 			// variatic
-			auto variatic_iter = variatic_functions.find(node.name.val);
+			auto variatic_iter = variatic_functions.find(lower_name);
 			if (variatic_iter != variatic_functions.end()) {
 				for (auto& arg : node.args) {
 					call_next_node(arg);
@@ -277,19 +281,19 @@ namespace function_scripts {
 					list.instructions.emplace_back(s);
 				};
 
-				if (node.name.val == "Plus"s) {
+				if (lower_name == "plus"s) {
 					creator(instructions::op_add{}, arg_count);
 				}
-				else if (node.name.val == "Times"s) {
+				else if (lower_name == "times"s) {
 					creator(instructions::op_multiply{}, arg_count);
 				}
-				else if (node.name.val == "Power"s) {
+				else if (lower_name == "power"s) {
 					creator(instructions::func_power{}, arg_count);
 				}
-				else if (node.name.val == "Min"s) {
+				else if (lower_name == "min"s) {
 					creator(instructions::func_min{}, arg_count);
 				}
-				else if (node.name.val == "Max"s) {
+				else if (lower_name == "max"s) {
 					creator(instructions::func_max{}, arg_count);
 				}
 				return;

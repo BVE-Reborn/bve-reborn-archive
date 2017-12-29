@@ -1,3 +1,4 @@
+#include "function_scripts.hpp"
 #include "ini.hpp"
 #include "parsers/parsers.hpp"
 #include "utils.hpp"
@@ -66,7 +67,7 @@ namespace animated_object {
 
 		static function_script parse_function_script(parsed_animated_object& pso, const std::string& function) {
 			(void) pso;
-			return function;
+			return function_scripts::parse(function);
 		}
 
 		/////////////////////////////

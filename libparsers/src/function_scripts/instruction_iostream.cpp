@@ -164,6 +164,9 @@ namespace function_scripts {
 		function_script_instruction_io_class(std::ostream& os) : _os(os){};
 
 		void print() {
+			if (outputs.size() == 0) {
+				return;
+			}
 			auto size_name_iter =
 			    std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
 				    return std::get<0>(lhs).size() < std::get<0>(rhs).size();
@@ -220,8 +223,8 @@ namespace function_scripts {
 		void print_binary_expr(const std::string& name, const char* separator) {
 			std::ostringstream inputs, output;
 			inputs << "(" << stack_size - 2 << " " << separator << " " << stack_size - 1 << ")";
-			output << stack_size - 1;
 			stack_size -= 1;
+			output << stack_size - 1;
 			add_outputs(name, inputs.str(), output.str());
 		}
 
@@ -234,8 +237,8 @@ namespace function_scripts {
 					inputs << " " << separator << " ";
 				}
 			}
-			stack_size -= count - 1;
 			inputs << ")";
+			stack_size -= count - 1;
 			output << stack_size - 1;
 			add_outputs(name, inputs.str(), output.str());
 		}
@@ -249,8 +252,8 @@ namespace function_scripts {
 					inputs << ", ";
 				}
 			}
-			stack_size -= count - 1;
 			inputs << "]";
+			stack_size -= count - 1;
 			output << stack_size - 1;
 			add_outputs(name, inputs.str(), output.str());
 		}

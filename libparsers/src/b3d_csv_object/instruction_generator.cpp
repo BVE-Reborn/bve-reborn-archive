@@ -52,7 +52,7 @@ namespace b3d_csv_object {
 			instructions::AddFace af{};
 			for (std::size_t i = 1; i < arguments.size(); ++i) {
 				try {
-					af.vertices.emplace_back(util::parse_loose_integer(arguments[i].text));
+					af.vertices.emplace_back(std::size_t(util::parse_loose_integer(arguments[i].text)));
 				}
 				catch (std::invalid_argument& e) {
 					if (af.vertices.size() < 3) {

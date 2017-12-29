@@ -75,7 +75,7 @@ namespace b3d_csv_object {
 } // namespace b3d_csv_object
 
 namespace animated_object {
-	using function_script = std::string;
+	using function_script = function_scripts::instruction_list;
 
 	struct animated_include {
 		std::string file;
