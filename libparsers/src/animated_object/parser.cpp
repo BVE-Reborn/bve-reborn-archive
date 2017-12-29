@@ -1,6 +1,6 @@
 #include "function_scripts.hpp"
 #include "ini.hpp"
-#include "parsers/parsers.hpp"
+#include "parsers/animated.hpp"
 #include "utils.hpp"
 #include <map>
 #include <sstream>

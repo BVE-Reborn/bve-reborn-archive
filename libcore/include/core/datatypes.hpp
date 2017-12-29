@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cinttypes>
-#include "glm/integer.hpp"
-#include "glm/vec3.hpp"
+#include <glm/integer.hpp>
+#include <glm/vec3.hpp>
 
 namespace openbve2 {
 namespace datatypes {

@@ -209,6 +209,7 @@ namespace function_scripts {
 			}
 			else {
 				// Todo(sirflankalot): Error
+				list.instructions.emplace_back<instructions::stack_push>({0});
 			}
 		}
 		void operator()(const tree_types::function_call& node) {
@@ -220,6 +221,7 @@ namespace function_scripts {
 			if (unary_iter != unary_functions.end()) {
 				if (arg_count < 1) {
 					// TODO(sirflankalot): Error
+					list.instructions.emplace_back<instructions::stack_push>({0});
 				}
 				else {
 					call_next_node(node.args[0]);
@@ -232,6 +234,7 @@ namespace function_scripts {
 			if (index_iter != indexable_variables.end()) {
 				if (arg_count < 1) {
 					// TODO(sirflankalot): Error
+					list.instructions.emplace_back<instructions::stack_push>({0});
 				}
 				else {
 					call_next_node(node.args[0]);
@@ -246,6 +249,7 @@ namespace function_scripts {
 			if (binary_iter != binary_functions.end()) {
 				if (arg_count < 2) {
 					// TODO(sirflankalot): Error
+					list.instructions.emplace_back<instructions::stack_push>({0});
 				}
 				else {
 					call_next_node(node.args[0]);
@@ -259,6 +263,18 @@ namespace function_scripts {
 			if (lower_name == "if"s) {
 				if (arg_count < 3) {
 					// TODO(sirflankalot): Error
+					if (arg_count == 2) {
+						call_next_node(node.args[0]);
+						call_next_node(node.args[1]);
+						list.instructions.emplace_back<instructions::stack_push>({0});
+						list.instructions.emplace_back<instructions::func_if>({});
+					}
+					else if (arg_count == 1) {
+						call_next_node(node.args[0]);
+					}
+					else {
+						list.instructions.emplace_back<instructions::stack_push>({0});
+					}
 				}
 				else {
 					call_next_node(node.args[0]);
@@ -300,6 +316,7 @@ namespace function_scripts {
 			}
 			else {
 				// TODO(sirflankalot): Error
+				list.instructions.emplace_back<instructions::stack_push>({0});
 				return;
 			}
 		}

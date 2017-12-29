@@ -434,6 +434,32 @@ namespace function_scripts {
 	std::ostream& operator<<(std::ostream& os, const instruction_list& list) {
 		function_script_instruction_io_class fsiic(os);
 
+		if (!list.used_variables.empty()) {
+			os << "Variables Used: ";
+		}
+		for (std::size_t i = 0; i < list.used_variables.size(); ++i) {
+			os << get_name(list.used_variables[i]);
+			if (i != list.used_variables.size() - 1) {
+				os << ", ";
+			}
+		}
+		if (!list.used_variables.empty()) {
+			os << '\n';
+		}
+
+		if (!list.used_indexed_variables.empty()) {
+			os << "Index Variables Used: ";
+		}
+		for (std::size_t i = 0; i < list.used_indexed_variables.size(); ++i) {
+			os << get_name(list.used_indexed_variables[i]);
+			if (i != list.used_indexed_variables.size() - 1) {
+				os << ", ";
+			}
+		}
+		if (!list.used_indexed_variables.empty()) {
+			os << '\n';
+		}
+
 		for (auto& instr : list.instructions) {
 			boost::apply_visitor(fsiic, instr);
 		}

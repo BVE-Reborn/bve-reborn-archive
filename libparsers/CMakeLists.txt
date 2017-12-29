@@ -19,7 +19,11 @@ set(SOURCES
     )
 
 set(HEADERS
+            include/parsers/b3d_csv.hpp
+            include/parsers/dependencies.hpp
+            include/parsers/errors.hpp
             include/parsers/function_scripts.hpp
+            include/parsers/animated.hpp
             include/parsers/parsers.hpp
             src/animated_object.hpp
             src/b3d_csv_object.hpp

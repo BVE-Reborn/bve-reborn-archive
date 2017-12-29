@@ -1,5 +1,5 @@
-#include "animated_object.hpp"
 #include "ini.hpp"
+#include "parsers/animated.hpp"
 #include "tests.hpp"
 #include "utils.hpp"
 #include <iostream>

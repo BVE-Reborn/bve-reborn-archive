@@ -3,6 +3,7 @@
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_LIST_SIZE 40
 
+#include "parsers/errors.hpp"
 #include <boost/variant/variant.hpp>
 #include <cinttypes>
 #include <cstdlib>
@@ -166,6 +167,7 @@ namespace function_scripts {
 		std::vector<instructions::variable> used_variables;
 		std::vector<instructions::indexed_variable> used_indexed_variables;
 		std::vector<instruction> instructions;
+		errors::errors_t errors;
 	};
 
 	std::ostream& operator<<(std::ostream& os, const instruction_list& list);
