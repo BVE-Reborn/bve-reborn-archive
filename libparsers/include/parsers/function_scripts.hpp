@@ -6,6 +6,7 @@
 #include <boost/variant/variant.hpp>
 #include <cinttypes>
 #include <cstdlib>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
@@ -85,17 +86,17 @@ namespace function_scripts {
 		};
 
 		struct has_count {
-			std::size_t count;
+			std::size_t count = 2;
 		};
 
 		struct stack_push {
 			float value;
 		};
 
-		struct op_plus : public has_count {};
-		struct op_minus {};
+		struct op_add : public has_count {};
+		struct op_subtract {};
 		struct op_unary_minus {};
-		struct op_times : public has_count {};
+		struct op_multiply : public has_count {};
 		struct op_divide {};
 
 		struct op_equal {};
@@ -105,7 +106,7 @@ namespace function_scripts {
 		struct op_less_equal {};
 		struct op_greater_equal {};
 
-		struct op_not {};
+		struct op_unary_not {};
 		struct op_and {};
 		struct op_or {};
 		struct op_xor {};
@@ -121,7 +122,6 @@ namespace function_scripts {
 
 		struct op_variable_indexed {
 			indexed_variable name;
-			std::size_t index;
 		};
 
 		struct func_reciprocal {};
@@ -151,10 +151,10 @@ namespace function_scripts {
 	} // namespace instructions
 
 	using instruction = boost::variant<
-	    instructions::stack_push, instructions::op_plus, instructions::op_minus, instructions::op_unary_minus,
-	    instructions::op_times, instructions::op_divide, instructions::op_equal, instructions::op_unequal,
+	    instructions::stack_push, instructions::op_add, instructions::op_subtract, instructions::op_unary_minus,
+	    instructions::op_multiply, instructions::op_divide, instructions::op_equal, instructions::op_unequal,
 	    instructions::op_less, instructions::op_greater, instructions::op_less_equal, instructions::op_greater_equal,
-	    instructions::op_not, instructions::op_and, instructions::op_or, instructions::op_xor,
+	    instructions::op_unary_not, instructions::op_and, instructions::op_or, instructions::op_xor,
 	    instructions::op_variable_lookup, instructions::op_variable_indexed, instructions::func_reciprocal,
 	    instructions::func_power, instructions::func_quotient, instructions::func_mod, instructions::func_min,
 	    instructions::func_max, instructions::func_abs, instructions::func_sign, instructions::func_floor,
@@ -164,8 +164,10 @@ namespace function_scripts {
 
 	struct instruction_list {
 		std::vector<instructions::variable> used_variables;
-		std::vector<instructions::op_variable_indexed> used_indexed_variables;
-		std::vector<instruction> instruction;
+		std::vector<instructions::indexed_variable> used_indexed_variables;
+		std::vector<instruction> instructions;
 	};
+
+	std::ostream& operator<<(std::ostream& os, const instruction_list& list);
 } // namespace function_scripts
 } // namespace parsers

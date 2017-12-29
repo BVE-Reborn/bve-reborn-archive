@@ -90,9 +90,9 @@ namespace function_scripts {
 		}
 	};
 
-	lexer_token_list lex(const std::string& text);
-
 	namespace tree_types {
+		// forward declare all structures that have nodes in them
+		// recursive_wrapper transparently allocates
 		struct binary_and;
 		struct binary_xor;
 		struct binary_or;
@@ -212,8 +212,9 @@ namespace function_scripts {
 		};
 	} // namespace tree_types
 
+	lexer_token_list lex(const std::string& text);
 	tree_node create_tree(const lexer_token_list& list);
-
+	instruction_list build_instructions(const tree_node& head_node);
 	instruction_list parse(const std::string& text);
 } // namespace function_scripts
 } // namespace parsers

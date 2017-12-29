@@ -35,7 +35,7 @@ namespace function_scripts {
 			if (list.skip_next_token<lexer_types::carret>()) {
 				auto right = parse_xor_expression(list);
 
-				return tree_types::binary_xor{ left, right };
+				return tree_types::binary_xor{left, right};
 			}
 			else {
 				return left;
@@ -48,7 +48,7 @@ namespace function_scripts {
 			if (list.skip_next_token<lexer_types::bar>()) {
 				auto right = parse_or_expression(list);
 
-				return tree_types::binary_or{ left, right };
+				return tree_types::binary_or{left, right};
 			}
 			else {
 				return left;
@@ -59,7 +59,7 @@ namespace function_scripts {
 			if (list.skip_next_token<lexer_types::bang>()) {
 				auto right = parse_equal_expression(list);
 
-				return tree_types::unary_not{ right };
+				return tree_types::unary_not{right};
 			}
 			else {
 				return parse_equal_expression(list);
@@ -128,7 +128,7 @@ namespace function_scripts {
 			if (list.skip_next_token<lexer_types::star>()) {
 				auto right = parse_times_expression(list);
 
-				return tree_types::binary_multiply{ left, right };
+				return tree_types::binary_multiply{left, right};
 			}
 			else {
 				return left;
@@ -141,7 +141,7 @@ namespace function_scripts {
 			if (list.skip_next_token<lexer_types::slash>()) {
 				auto right = parse_divide_expression(list);
 
-				return tree_types::binary_divide{ left, right };
+				return tree_types::binary_divide{left, right};
 			}
 			else {
 				return left;

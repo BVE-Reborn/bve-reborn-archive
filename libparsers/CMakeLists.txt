@@ -8,6 +8,8 @@ set(SOURCES
             src/core_csv/parser.cpp
             src/core_ini/iostream.cpp
             src/core_ini/parser.cpp
+            src/function_scripts/instruction_builder.cpp
+            src/function_scripts/instruction_iostream.cpp
             src/function_scripts/lexer.cpp
             src/function_scripts/lexer_iostream.cpp
             src/function_scripts/parsefunc.cpp
