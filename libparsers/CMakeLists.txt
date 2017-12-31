@@ -8,6 +8,8 @@ set(SOURCES
             src/core_csv/parser.cpp
             src/core_ini/iostream.cpp
             src/core_ini/parser.cpp
+            src/csv_rw_route/preprocessor.cpp
+            src/csv_rw_route/process_includes.cpp
             src/function_scripts/instruction_builder.cpp
             src/function_scripts/instruction_iostream.cpp
             src/function_scripts/lexer.cpp
@@ -27,6 +29,7 @@ set(HEADERS
             include/parsers/parsers.hpp
             src/b3d_csv_object.hpp
             src/csv.hpp
+            src/csv_rw_route.hpp
             src/function_scripts.hpp
             src/ini.hpp
 )
@@ -48,7 +51,8 @@ set(TEST_SOURCES
                  tests/test_animated.cpp
                  tests/test_csv.cpp
                  tests/test_csv_obj.cpp
-                 tests/test_fs_lexer.cpp
+                 tests/test_csv_route.cpp
+                 tests/test_fs.cpp
     )
 
 set(TEST_HEADERS
@@ -58,12 +62,17 @@ set(TEST_HEADERS
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 
-configure_file(tests/pole_2.csv tests/pole_2.csv COPYONLY)
-configure_file(tests/ind4.csv tests/ind4.csv COPYONLY)
-configure_file(tests/westonmill_2.b3d tests/westonmill_2.b3d COPYONLY)
-configure_file(tests/81xx_2.b3d tests/81xx_2.b3d COPYONLY)
-configure_file(tests/r160.animated tests/r160.animated COPYONLY)
+file(COPY tests/pole_2.csv
+          tests/ind4.csv
+          tests/westonmill_2.b3d
+          tests/81xx_2.b3d
+          tests/r160.animated
+          tests/plymouth
+     DESTINATION tests/)
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
 target_link_libraries(parsers_test parsers Boost::boost)
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    target_link_libraries(parsers_test -lstdc++fs)
+endif()

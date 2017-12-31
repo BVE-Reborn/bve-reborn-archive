@@ -4,7 +4,7 @@
 #include <iostream>
 
 void test_csv_obj() {
-	auto content = parsers::util::load_from_file_utf8_bom("tests/pole_2.csv");
+	auto content = parsers::util::load_from_file_utf8_bom("libparsers/tests/pole_2.csv");
 
 	auto instr = parsers::b3d_csv_object::create_instructions(content, parsers::b3d_csv_object::file_type::csv);
 

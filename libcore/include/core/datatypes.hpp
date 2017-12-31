@@ -3,6 +3,7 @@
 #include <cinttypes>
 #include <glm/integer.hpp>
 #include <glm/vec3.hpp>
+#include <random>
 
 namespace openbve2 {
 namespace datatypes {
@@ -20,5 +21,7 @@ namespace datatypes {
 	using colorF_rg = glm::vec2;
 	using colorF_rgb = glm::vec3;
 	using colorF_rgba = glm::vec4;
+
+	using rng = std::mt19937;
 } // namespace datatypes
 } // namespace openbve2

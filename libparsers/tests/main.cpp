@@ -23,5 +23,8 @@ int main(int argc, char** argv) {
 		case 4:
 			test_fs();
 			break;
+		case 5:
+			test_csv_route();
+			break;
 	}
 }

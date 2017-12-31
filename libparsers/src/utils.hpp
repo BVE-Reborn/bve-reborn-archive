@@ -21,9 +21,9 @@ namespace util {
 
 	std::string lower(std::string text);
 	bool match_text(const std::string& text, const char* match);
-	std::vector<std::string> split_text(const std::string& text, char delim = ',');
+	std::vector<std::string> split_text(const std::string& text, char delim = ',', bool remove_blanks = false);
 	void strip_text(std::string& text, const char* characters = "\t\n\v\f\r ");
-	void remove_comments(std::string& text, char comment = ';');
+	void remove_comments(std::string& text, char comment = ';', bool first_in_line = false);
 
 	std::string load_from_file_utf8_bom(const std::string& filename);
 } // namespace util

@@ -182,7 +182,7 @@ namespace util {
 		return text;
 	}
 
-	std::vector<std::string> split_text(const std::string& text, char delim) {
+	std::vector<std::string> split_text(const std::string& text, char delim, bool remove_blanks) {
 		std::vector<std::string> vec;
 
 		auto begin = text.begin();
@@ -190,8 +190,14 @@ namespace util {
 
 		while (begin != end) {
 			auto next_delim = std::find(begin, end, delim);
-
-			vec.emplace_back(begin, next_delim);
+			if (remove_blanks) {
+				if (std::distance(begin, next_delim) > 0) {
+					vec.emplace_back(begin, next_delim);
+				}
+			}
+			else {
+				vec.emplace_back(begin, next_delim);
+			}
 
 			begin = next_delim == end ? end : next_delim + 1;
 		}
@@ -235,14 +241,19 @@ namespace util {
 		text = text.substr(first_char, last_char - first_char + 1);
 	}
 
-	void remove_comments(std::string& text, char comment) {
+	void remove_comments(std::string& text, char comment, bool first_in_line) {
 		bool removing = false;
-		auto remove_func = [&removing, &comment](const char& c) {
-			if (c == comment) {
+		bool newline = false;
+		auto remove_func = [&](const char& c) {
+			if (c == comment && (first_in_line ? newline : true)) {
 				removing = true;
 			}
 			if (c == '\n') {
 				removing = false;
+				newline = true;
+			}
+			else {
+				newline = false;
 			}
 			return removing;
 		};
