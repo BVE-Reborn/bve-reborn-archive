@@ -61,7 +61,7 @@ namespace csv_rw_route {
 	static std::string parse_char(const std::string& arg) {
 		auto val = util::parse_loose_integer(arg);
 
-		if (val == 10 || val == 13 || val <= 20 && val <= 127) {
+		if (val == 10 || val == 13 || (val <= 20 && val <= 127)) {
 			return std::string(1, char(val));
 		}
 		else {
@@ -76,16 +76,16 @@ namespace csv_rw_route {
 	}
 
 	struct if_status {
-		enum type_t { IF_TRUE, IF_FALSE, ELSE, ENDIF } type;
-		std::size_t line;
+		enum type_t { IF_TRUE, IF_FALSE, ELSE, ENDIF, NONE } type = NONE;
 		std::size_t char_start;
 	};
 
 	static std::string preprocess_pass_dispatch(std::unordered_map<std::size_t, std::string>& variable_set,
+	                                            if_status& if_conditions, openbve2::datatypes::rng& rng,
+	                                            std::string::const_iterator& last_used,
 	                                            std::string::const_iterator arg_begin,
 	                                            std::string::const_iterator arg_end,
-	                                            std::string::const_iterator line_end,
-	                                            std::vector<if_status>& if_conditions, openbve2::datatypes::rng& rng) {
+	                                            std::string::const_iterator line_end) {
 		auto begin = arg_begin;
 		auto end = arg_end;
 
@@ -101,8 +101,8 @@ namespace csv_rw_route {
 			// find the matching parenthesis
 			auto matched_rparens = find_matching_parens(next_parens, end);
 
-			auto inside_value = preprocess_pass_dispatch(variable_set, next_parens + 1, matched_rparens,
-			                                             matched_rparens, if_conditions, rng);
+			auto inside_value = preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used, next_parens + 1,
+			                                             matched_rparens, matched_rparens);
 			util::strip_text(inside_value);
 
 			auto command_text = std::string(next_money + 1, next_parens);
@@ -114,37 +114,44 @@ namespace csv_rw_route {
 				// check for an assignment
 				auto equals = std::find(matched_rparens, line_end, '=');
 				if (end != line_end && equals != line_end) {
-					auto after_equals =
-					    preprocess_pass_dispatch(variable_set, equals + 1, line_end, line_end, if_conditions, rng);
+					auto after_equals = preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
+					                                             equals + 1, line_end, line_end);
 					parse_sub_equality(variable_set, inside_value, after_equals);
+
+					inside_value.clear();
+					last_used = line_end;
 				}
 
 				// no assignment
 				else {
 					parse_sub(variable_set, inside_value);
+					last_used = matched_rparens;
 				}
 			}
 			else if (command_text == "rnd") {
 				inside_value = parse_rnd(inside_value, rng);
+				last_used = matched_rparens;
 			}
 			else if (command_text == "chr") {
 				inside_value = parse_char(inside_value);
+				last_used = matched_rparens;
 			}
 			else if (command_text == "if") {
 				auto enabled = parse_if(inside_value);
 				inside_value = "";
-				if_conditions.emplace_back<if_status>({enabled ? if_status::IF_TRUE : if_status::IF_FALSE, 0,
-				                                       std::size_t(std::distance(arg_begin, next_money))});
+				if_conditions = {enabled ? if_status::IF_TRUE : if_status::IF_FALSE,
+				                 std::size_t(std::distance(arg_begin, next_money))};
+				last_used = matched_rparens;
 			}
 			else if (command_text == "else") {
 				inside_value = "";
-				if_conditions.emplace_back<if_status>(
-				    {if_status::ELSE, 0, std::size_t(std::distance(arg_begin, next_money))});
+				if_conditions = {if_status::ELSE, std::size_t(std::distance(arg_begin, next_money))};
+				last_used = matched_rparens;
 			}
 			else if (command_text == "endif") {
 				inside_value = "";
-				if_conditions.emplace_back<if_status>(
-				    {if_status::ENDIF, 0, std::size_t(std::distance(arg_begin, next_money))});
+				if_conditions = {if_status::ENDIF, std::size_t(std::distance(arg_begin, next_money))};
+				last_used = matched_rparens;
 			}
 
 			return_value += std::string(begin, next_money);
@@ -159,11 +166,13 @@ namespace csv_rw_route {
 	static void preprocess_pass(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
+		std::vector<bool> if_condition_stack(1, true);
+
 		for (auto& line : lines.lines) {
+			std::string processed_line;
+
 			auto begin = line.contents.cbegin();
 			auto end = line.contents.cend();
-
-			std::vector<std::tuple<std::string::const_iterator, std::string::const_iterator, std::string>> insertions;
 
 			while (begin != end) {
 				auto next_money = std::find(begin, end, '$');
@@ -171,21 +180,93 @@ namespace csv_rw_route {
 
 				auto matched_rparens = find_matching_parens(next_parens, end);
 
+				// pre-directive characters
+				if (if_condition_stack.back()) {
+					std::copy(begin, next_money, std::back_inserter(processed_line));
+				}
+
 				if (next_money == end || next_parens == end || matched_rparens == end) {
 					break;
 				}
 
-				std::vector<if_status> if_conditions;
-				auto val = preprocess_pass_dispatch(variable_storage, next_money, matched_rparens + 1, end,
-				                                    if_conditions, rng);
+				if_status if_condition;
+				std::string::const_iterator last_used;
+				std::string directive_value;
+				try {
+					directive_value = preprocess_pass_dispatch(variable_storage, if_condition, rng, last_used,
+					                                           next_money, matched_rparens + 1, end);
+				}
+				catch (const std::invalid_argument& e) {
+					errors[lines.filenames[line.filename_index]].emplace_back<errors::error_t>({line.line, e.what()});
+					continue;
+				}
 
-				begin = matched_rparens + 1;
+				if (if_condition.type == if_status::IF_TRUE) {
+					if_condition_stack.emplace_back(true);
+				}
+				else if (if_condition.type == if_status::IF_FALSE) {
+					if_condition_stack.emplace_back(true);
+				}
+				else if (if_condition.type == if_status::ELSE) {
+					if_condition_stack.back() = !if_condition_stack.back();
+				}
+				else if (if_condition.type == if_status::ENDIF) {
+					if (if_condition_stack.size() == 1) {
+						// error
+						throw std::invalid_argument("preprocessing wtf");
+					}
+					if_condition_stack.pop_back();
+				}
+
+				// copy the result of the directive, and concatinate \r\n into \n
+				// if condition will be true if this is not the \n of the \r\n sequence
+				if (!(directive_value == "\n" && !processed_line.empty() && processed_line.back() == '\r')) {
+					processed_line += directive_value;
+				}
+				else {
+					processed_line.back() = '\n';
+				}
+
+				begin = last_used != end ? last_used + 1 : end;
+			}
+
+			line.contents = processed_line;
+		}
+	}
+
+	void split_on_commas(preprocessed_lines& lines) { 
+		preprocessed_lines fixed;
+
+		for (auto& line : lines.lines) {
+			auto vec = util::split_text(line.contents, ',', true);
+			for (auto& elem : vec) {
+				util::strip_text(elem);
+				if (!elem.empty()) {
+					fixed.lines.emplace_back<preprocessed_line>({ std::move(elem), line.filename_index, line.line, line.offset });
+				}
 			}
 		}
+
+		fixed.filenames = std::move(lines.filenames);
+
+		lines = fixed;
 	}
 
 	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors) {
 		preprocess_pass(lines, rng, errors);
+
+		// remove comments that have been added by preprocessing
+		for (auto& line : lines.lines) {
+			util::remove_comments(line.contents, ';', true);
+		}
+
+		// remove empty lines
+		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
+		                                 [](preprocessed_line& l) { return l.contents.empty(); }),
+		                  lines.lines.end());
+
+		// split lines on commas
+		split_on_commas(lines);
 	}
 } // namespace csv_rw_route
 } // namespace parsers
