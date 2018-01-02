@@ -1,4 +1,5 @@
 #include "parsers/function_scripts.hpp"
+#include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <ostream>
@@ -155,7 +156,7 @@ namespace function_scripts {
 		}
 	} // namespace
 
-	struct function_script_instruction_io_class : public boost::static_visitor<void> {
+	struct function_script_instruction_io_class {
 		std::ostream& _os;
 		std::vector<std::tuple<std::string, std::string, std::string>> outputs;
 
@@ -466,7 +467,7 @@ namespace function_scripts {
 		}
 
 		for (auto& instr : list.instructions) {
-			boost::apply_visitor(fsiic, instr);
+			mapbox::util::apply_visitor(fsiic, instr);
 		}
 
 		fsiic.print();

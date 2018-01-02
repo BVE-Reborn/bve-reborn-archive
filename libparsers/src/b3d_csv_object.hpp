@@ -1,7 +1,12 @@
 #pragma once
 
+#ifdef _MSC_VER
+#include "../../dependencies/mapbox-variant/include/mapbox/variant.hpp"
+#else
+#include <mapbox/variant.hpp>
+#endif
+
 #include "parsers/b3d_csv.hpp"
-#include <boost/variant/variant.hpp>
 #include <cinttypes>
 #include <iosfwd>
 #include <string>
@@ -165,7 +170,7 @@ namespace b3d_csv_object {
 		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs);
 		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs);
 
-		struct parsed_csv_object_builder : public boost::static_visitor<void> {
+		struct parsed_csv_object_builder {
 			parsed_b3d_csv_object_t pso;
 
 			// More data is needed for the faces before we convert them to internal format
@@ -212,12 +217,11 @@ namespace b3d_csv_object {
 		};
 
 	} // namespace instructions
-	using instruction =
-	    boost::variant<instructions::Error, instructions::CreateMeshBuilder, instructions::AddVertex,
-	                   instructions::AddFace, instructions::Cube, instructions::Cylinder, instructions::Translate,
-	                   instructions::Scale, instructions::Rotate, instructions::Shear, instructions::SetColor,
-	                   instructions::SetEmissiveColor, instructions::SetBlendMode, instructions::LoadTexture,
-	                   instructions::SetDecalTransparentColor, instructions::SetTextureCoordinates>;
+	using instruction = mapbox::util::variant<
+	    instructions::Error, instructions::CreateMeshBuilder, instructions::AddVertex, instructions::AddFace,
+	    instructions::Cube, instructions::Cylinder, instructions::Translate, instructions::Scale, instructions::Rotate,
+	    instructions::Shear, instructions::SetColor, instructions::SetEmissiveColor, instructions::SetBlendMode,
+	    instructions::LoadTexture, instructions::SetDecalTransparentColor, instructions::SetTextureCoordinates>;
 
 	using instruction_list = std::vector<instruction>;
 

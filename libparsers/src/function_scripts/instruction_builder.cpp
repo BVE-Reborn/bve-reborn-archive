@@ -126,11 +126,11 @@ namespace function_scripts {
 		};
 	} // namespace
 
-	struct intruction_builder_helper : public boost::static_visitor<void> {
+	struct intruction_builder_helper {
 		instruction_list list;
 
 		void call_next_node(const tree_node& next) {
-			boost::apply_visitor(*this, next);
+			mapbox::util::apply_visitor(*this, next);
 		}
 
 		template <class R, class T>
@@ -345,7 +345,7 @@ namespace function_scripts {
 	instruction_list build_instructions(const tree_node& head_node, const errors::errors_t& errors) {
 		intruction_builder_helper ibh;
 		std::copy(errors.begin(), errors.end(), std::back_inserter(ibh.list.errors));
-		boost::apply_visitor(ibh, head_node);
+		mapbox::util::apply_visitor(ibh, head_node);
 		return ibh.list;
 	}
 } // namespace function_scripts

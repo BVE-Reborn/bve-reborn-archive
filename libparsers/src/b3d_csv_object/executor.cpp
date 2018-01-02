@@ -1,4 +1,5 @@
 #include "b3d_csv_object.hpp"
+#include <algorithm>
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <sstream>
@@ -427,7 +428,7 @@ namespace b3d_csv_object {
 	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& ilist) {
 		instructions::parsed_csv_object_builder pcsvob;
 		for (auto& instruction : ilist) {
-			boost::apply_visitor(pcsvob, instruction);
+			mapbox::util::apply_visitor(pcsvob, instruction);
 		}
 		// Add final mesh builder
 		pcsvob.add_mesh_builder();

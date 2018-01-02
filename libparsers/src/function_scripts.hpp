@@ -3,9 +3,13 @@
 #include "parsers/errors.hpp"
 #include "parsers/function_scripts.hpp"
 #include <boost/optional/optional.hpp>
-#include <boost/variant/get.hpp>
-#include <boost/variant/recursive_wrapper.hpp>
-#include <boost/variant/variant.hpp>
+#ifdef _MSC_VER
+#include "../../dependencies/mapbox-variant/include/mapbox/recursive_wrapper.hpp"
+#include "../../dependencies/mapbox-variant/include/mapbox/variant.hpp"
+#else
+#include <mapbox/recursive_wrapper.hpp>
+#include <mapbox/variant.hpp>
+#endif
 #include <iosfwd>
 #include <string>
 #include <vector>
@@ -52,12 +56,12 @@ namespace function_scripts {
 	} // namespace lexer_types
 
 	using lexer_token =
-	    boost::variant<lexer_types::plus, lexer_types::minus, lexer_types::star, lexer_types::slash,
-	                   lexer_types::double_eq, lexer_types::un_eq, lexer_types::less, lexer_types::greater,
-	                   lexer_types::less_eq, lexer_types::greater_eq, lexer_types::bang, lexer_types::ampersand,
-	                   lexer_types::bar, lexer_types::carret, lexer_types::l_paren, lexer_types::r_paren,
-	                   lexer_types::l_bracket, lexer_types::r_bracket, lexer_types::comma, lexer_types::variable,
-	                   lexer_types::integer, lexer_types::floating>;
+	    mapbox::util::variant<lexer_types::plus, lexer_types::minus, lexer_types::star, lexer_types::slash,
+	                          lexer_types::double_eq, lexer_types::un_eq, lexer_types::less, lexer_types::greater,
+	                          lexer_types::less_eq, lexer_types::greater_eq, lexer_types::bang, lexer_types::ampersand,
+	                          lexer_types::bar, lexer_types::carret, lexer_types::l_paren, lexer_types::r_paren,
+	                          lexer_types::l_bracket, lexer_types::r_bracket, lexer_types::comma, lexer_types::variable,
+	                          lexer_types::integer, lexer_types::floating>;
 	using lexer_token_list = std::vector<lexer_token>;
 
 	class lexer_token_container {
@@ -72,8 +76,8 @@ namespace function_scripts {
 
 		template <class T>
 		boost::optional<T> get_next_token() {
-			if (index < list.size() && list[index].type() == typeid(T)) {
-				auto ret = boost::get<T>(list[index]);
+			if (index < list.size() && list[index].is<T>()) {
+				auto ret = list[index].get<T>();
 				index += 1;
 				return ret;
 			}
@@ -81,7 +85,7 @@ namespace function_scripts {
 		};
 		template <class T>
 		bool skip_next_token() {
-			if (index < list.size() && list[index].type() == typeid(T)) {
+			if (index < list.size() && list[index].is<T>()) {
 				index += 1;
 				return true;
 			}
@@ -89,7 +93,7 @@ namespace function_scripts {
 		}
 		template <class T>
 		bool is_next_token() {
-			return index < list.size() && list[index].type() == typeid(T);
+			return index < list.size() && list[index].is<T>();
 		}
 
 		boost::optional<lexer_token> peak_next_token() {
@@ -133,16 +137,24 @@ namespace function_scripts {
 		struct none {};
 	} // namespace tree_types
 
-	using tree_node = boost::variant<
-	    boost::recursive_wrapper<tree_types::binary_and>, boost::recursive_wrapper<tree_types::binary_xor>,
-	    boost::recursive_wrapper<tree_types::binary_or>, boost::recursive_wrapper<tree_types::binary_eq>,
-	    boost::recursive_wrapper<tree_types::binary_not_eq>, boost::recursive_wrapper<tree_types::binary_less>,
-	    boost::recursive_wrapper<tree_types::binary_greater>, boost::recursive_wrapper<tree_types::binary_less_eq>,
-	    boost::recursive_wrapper<tree_types::binary_greater_eq>, boost::recursive_wrapper<tree_types::binary_add>,
-	    boost::recursive_wrapper<tree_types::binary_subtract>, boost::recursive_wrapper<tree_types::binary_multiply>,
-	    boost::recursive_wrapper<tree_types::binary_divide>, boost::recursive_wrapper<tree_types::unary_not>,
-	    boost::recursive_wrapper<tree_types::unary_minus>, boost::recursive_wrapper<tree_types::function_call>,
-	    tree_types::integer, tree_types::floating, tree_types::name, tree_types::none>;
+	using tree_node =
+	    mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::binary_and>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_xor>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_or>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_not_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_less>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_greater>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_less_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_greater_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_add>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_subtract>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_multiply>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_divide>,
+	                          mapbox::util::recursive_wrapper<tree_types::unary_not>,
+	                          mapbox::util::recursive_wrapper<tree_types::unary_minus>,
+	                          mapbox::util::recursive_wrapper<tree_types::function_call>, tree_types::integer,
+	                          tree_types::floating, tree_types::name, tree_types::none>;
 
 	namespace tree_types {
 		struct binary_and {

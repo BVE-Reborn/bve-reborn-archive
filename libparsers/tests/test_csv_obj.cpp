@@ -9,7 +9,7 @@ void test_csv_obj() {
 	auto instr = parsers::b3d_csv_object::create_instructions(content, parsers::b3d_csv_object::file_type::csv);
 
 	for (auto& i : instr) {
-		std::cout << i << '\n';
+		mapbox::util::apply_visitor([](auto& val) { std::cout << val << 'n'; }, i);
 	}
 
 	auto obj = parsers::b3d_csv_object::run_csv_instructions(instr);

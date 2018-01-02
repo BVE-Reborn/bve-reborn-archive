@@ -259,7 +259,7 @@ namespace csv_rw_route {
 
 			// Add all lines before the current include and after the last one
 			for (std::size_t j = last_line; j < include.line; ++j) {
-				output.lines.emplace_back<preprocessed_line>({std::move(file_line_array[j]), 0, j, 0});
+				output.lines.emplace_back<preprocessed_line>({std::move(file_line_array[j]), 0, j + 1, 0});
 			}
 
 			// Copy contents of the include

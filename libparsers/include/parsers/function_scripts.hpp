@@ -3,8 +3,13 @@
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_LIST_SIZE 40
 
+#ifdef _MSC_VER
+#include "../../dependencies/mapbox-variant/include/mapbox/variant.hpp"
+#else
+#include <mapbox/variant.hpp>
+#endif
+
 #include "parsers/errors.hpp"
-#include <boost/variant/variant.hpp>
 #include <cinttypes>
 #include <cstdlib>
 #include <iosfwd>
@@ -152,7 +157,7 @@ namespace function_scripts {
 		struct func_if {};
 	} // namespace instructions
 
-	using instruction = boost::variant<
+	using instruction = mapbox::util::variant<
 	    instructions::stack_push, instructions::op_add, instructions::op_subtract, instructions::op_unary_minus,
 	    instructions::op_multiply, instructions::op_divide, instructions::op_equal, instructions::op_unequal,
 	    instructions::op_less, instructions::op_greater, instructions::op_less_equal, instructions::op_greater_equal,

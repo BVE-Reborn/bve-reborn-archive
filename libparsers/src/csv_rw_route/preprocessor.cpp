@@ -124,7 +124,7 @@ namespace csv_rw_route {
 
 				// no assignment
 				else {
-					parse_sub(variable_set, inside_value);
+					inside_value = parse_sub(variable_set, inside_value);
 					last_used = matched_rparens;
 				}
 			}
@@ -218,13 +218,15 @@ namespace csv_rw_route {
 					if_condition_stack.pop_back();
 				}
 
-				// copy the result of the directive, and concatinate \r\n into \n
-				// if condition will be true if this is not the \n of the \r\n sequence
-				if (!(directive_value == "\n" && !processed_line.empty() && processed_line.back() == '\r')) {
-					processed_line += directive_value;
-				}
-				else {
-					processed_line.back() = '\n';
+				if (if_condition_stack.back()) {
+					// copy the result of the directive, and concatinate \r\n into \n
+					// if condition will be true if this is not the \n of the \r\n sequence
+					if (!(directive_value == "\n" && !processed_line.empty() && processed_line.back() == '\r')) {
+						processed_line += directive_value;
+					}
+					else {
+						processed_line.back() = '\n';
+					}
 				}
 
 				begin = last_used != end ? last_used + 1 : end;
@@ -234,7 +236,7 @@ namespace csv_rw_route {
 		}
 	}
 
-	void split_on_commas(preprocessed_lines& lines) { 
+	static void split_on_commas(preprocessed_lines& lines) {
 		preprocessed_lines fixed;
 
 		for (auto& line : lines.lines) {
@@ -242,7 +244,8 @@ namespace csv_rw_route {
 			for (auto& elem : vec) {
 				util::strip_text(elem);
 				if (!elem.empty()) {
-					fixed.lines.emplace_back<preprocessed_line>({ std::move(elem), line.filename_index, line.line, line.offset });
+					fixed.lines.emplace_back<preprocessed_line>(
+					    {std::move(elem), line.filename_index, line.line, line.offset});
 				}
 			}
 		}

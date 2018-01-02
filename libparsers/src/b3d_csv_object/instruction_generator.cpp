@@ -418,7 +418,7 @@ namespace b3d_csv_object {
 			}
 
 			// Set line number for appropriate debugging help
-			boost::apply_visitor([&row](auto& x) { x.line = row[0].line_begin; }, ins);
+			mapbox::util::apply_visitor([&row](auto& x) { x.line = row[0].line_begin; }, ins);
 
 			il.emplace_back(std::move(ins));
 		}

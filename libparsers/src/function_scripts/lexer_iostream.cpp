@@ -3,7 +3,7 @@
 
 namespace parsers {
 namespace function_scripts {
-	struct function_script_lexer_token_io_class : public boost::static_visitor<void> {
+	struct function_script_lexer_token_io_class {
 		std::ostream& _os;
 		function_script_lexer_token_io_class(std::ostream& os) : _os(os){};
 
@@ -119,7 +119,7 @@ namespace function_scripts {
 
 std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token& lt) {
 	parsers::function_scripts::function_script_lexer_token_io_class fsic{os};
-	boost::apply_visitor(fsic, lt);
+	mapbox::util::apply_visitor(fsic, lt);
 	return os;
 }
 

@@ -3,7 +3,7 @@
 
 namespace parsers {
 namespace function_scripts {
-	class function_script_parse_tree_printer : boost::static_visitor<void> {
+	class function_script_parse_tree_printer {
 	  private:
 		std::ostream& _os;
 		std::size_t depth = 0;
@@ -16,7 +16,7 @@ namespace function_scripts {
 
 		void print_next_node(const tree_node& next) {
 			depth += 1;
-			boost::apply_visitor(*this, next);
+			mapbox::util::apply_visitor(*this, next);
 			depth -= 1;
 		}
 
@@ -132,7 +132,7 @@ namespace function_scripts {
 std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::tree_node& node) {
 	parsers::function_scripts::function_script_parse_tree_printer fsptp{os};
 
-	boost::apply_visitor(fsptp, node);
+	mapbox::util::apply_visitor(fsptp, node);
 
 	return os;
 }
