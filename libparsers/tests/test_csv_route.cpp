@@ -8,14 +8,6 @@
 
 using namespace std::string_literals;
 
-template <std::size_t num, class... Args>
-void print_sizes(const std::tuple<Args...>& val) {
-	std::cout << typeid(std::get<num>(val)).name() << " " << sizeof(std::get<num>(val)) << '\n';
-	if constexpr (num != 0) {
-		print_sizes<num - 1>(val);
-	}
-}
-
 void test_csv_route() {
 	std::array<int, std::mt19937::state_size> seed_data;
 	std::random_device r;
