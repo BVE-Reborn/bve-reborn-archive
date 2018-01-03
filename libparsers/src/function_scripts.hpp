@@ -3,14 +3,9 @@
 #include "parsers/errors.hpp"
 #include "parsers/function_scripts.hpp"
 #include <boost/optional/optional.hpp>
-#ifdef _MSC_VER
-#include "../../dependencies/mapbox-variant/include/mapbox/recursive_wrapper.hpp"
-#include "../../dependencies/mapbox-variant/include/mapbox/variant.hpp"
-#else
+#include <iosfwd>
 #include <mapbox/recursive_wrapper.hpp>
 #include <mapbox/variant.hpp>
-#endif
-#include <iosfwd>
 #include <string>
 #include <vector>
 

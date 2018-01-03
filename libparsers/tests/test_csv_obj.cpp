@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include <fstream>
 #include <iostream>
+#include <mapbox/variant_io.hpp>
 
 void test_csv_obj() {
 	auto content = parsers::util::load_from_file_utf8_bom("libparsers/tests/pole_2.csv");
@@ -9,7 +10,7 @@ void test_csv_obj() {
 	auto instr = parsers::b3d_csv_object::create_instructions(content, parsers::b3d_csv_object::file_type::csv);
 
 	for (auto& i : instr) {
-		mapbox::util::apply_visitor([](auto& val) { std::cout << val << 'n'; }, i);
+		std::cout << i << 'n';
 	}
 
 	auto obj = parsers::b3d_csv_object::run_csv_instructions(instr);

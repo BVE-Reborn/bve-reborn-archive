@@ -1,18 +1,10 @@
 #pragma once
 
-#define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
-#define BOOST_MPL_LIMIT_LIST_SIZE 40
-
-#ifdef _MSC_VER
-#include "../../dependencies/mapbox-variant/include/mapbox/variant.hpp"
-#else
-#include <mapbox/variant.hpp>
-#endif
-
 #include "parsers/errors.hpp"
 #include <cinttypes>
 #include <cstdlib>
 #include <iosfwd>
+#include <mapbox/variant.hpp>
 #include <set>
 #include <string>
 #include <vector>

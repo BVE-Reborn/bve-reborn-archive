@@ -1,14 +1,9 @@
 #pragma once
 
-#ifdef _MSC_VER
-#include "../../dependencies/mapbox-variant/include/mapbox/variant.hpp"
-#else
-#include <mapbox/variant.hpp>
-#endif
-
 #include "parsers/b3d_csv.hpp"
 #include <cinttypes>
 #include <iosfwd>
+#include <mapbox/variant.hpp>
 #include <string>
 #include <vector>
 

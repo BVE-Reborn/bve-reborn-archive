@@ -13,8 +13,8 @@ namespace util {
 	float parse_loose_float(std::string text);
 	float parse_loose_float(std::string text, float default_value);
 
-	std::intmax_t parse_time(std::string text);
-	std::intmax_t parse_time(std::string text, std::intmax_t default_value);
+	openbve2::datatypes::time parse_time(std::string text);
+	openbve2::datatypes::time parse_time(std::string text, std::intmax_t default_value);
 
 	openbve2::datatypes::color8_rgba parse_color(std::string text);
 	openbve2::datatypes::color8_rgba parse_color(std::string text, openbve2::datatypes::color8_rgba default_value);

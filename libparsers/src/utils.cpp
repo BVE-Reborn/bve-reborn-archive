@@ -84,7 +84,7 @@ namespace util {
 	// Time Parsing //
 	//////////////////
 
-	static std::intmax_t _parse_time_impl(std::string text) {
+	static openbve2::datatypes::time _parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -112,7 +112,7 @@ namespace util {
 		throw std::invalid_argument("");
 	}
 
-	std::intmax_t parse_time(std::string text) {
+	openbve2::datatypes::time parse_time(std::string text) {
 		try {
 			return _parse_time_impl(text);
 		}
@@ -123,7 +123,7 @@ namespace util {
 		}
 	}
 
-	std::intmax_t parse_time(std::string text, std::intmax_t default_value) {
+	openbve2::datatypes::time parse_time(std::string text, std::intmax_t default_value) {
 		try {
 			return _parse_time_impl(text);
 		}

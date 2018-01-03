@@ -23,5 +23,7 @@ namespace datatypes {
 	using colorF_rgba = glm::vec4;
 
 	using rng = std::mt19937;
+
+	using time = std::intmax_t;
 } // namespace datatypes
 } // namespace openbve2

@@ -30,6 +30,7 @@ set(HEADERS
             src/b3d_csv_object.hpp
             src/csv.hpp
             src/csv_rw_route.hpp
+            src/csv_rw_route/instructions.hpp
             src/function_scripts.hpp
             src/ini.hpp
 )
