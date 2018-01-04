@@ -11,7 +11,7 @@ using namespace std::string_literals;
 namespace parsers {
 namespace function_scripts {
 	namespace {
-		static std::map<std::string, instructions::variable> naked_variables = {
+		static const std::map<std::string, instructions::variable> naked_variables = {
 		    {"value"s, instructions::variable::value},                           //
 		    {"delta"s, instructions::variable::delta},                           //
 		    {"currentstate"s, instructions::variable::currentState},             //
@@ -58,7 +58,7 @@ namespace function_scripts {
 		    {"section"s, instructions::variable::section},                       //
 		};
 
-		static std::map<std::string, instructions::indexed_variable> indexable_variables = {
+		static const std::map<std::string, instructions::indexed_variable> indexable_variables = {
 		    {"speed"s, instructions::indexed_variable::speed},                               //
 		    {"speedometer"s, instructions::indexed_variable::speedometer},                   //
 		    {"acceleration"s, instructions::indexed_variable::acceleration},                 //
@@ -81,7 +81,7 @@ namespace function_scripts {
 		    {"curvecant"s, instructions::indexed_variable::CurveCant},                       //
 		};
 
-		static std::map<std::string, instruction> unary_functions = {
+		static const std::map<std::string, instruction> unary_functions = {
 		    {"minus"s, instructions::op_unary_minus{}},       //
 		    {"not"s, instructions::op_unary_not{}},           //
 		    {"reciprocal"s, instructions::func_reciprocal{}}, //
@@ -99,7 +99,7 @@ namespace function_scripts {
 		    {"arctan"s, instructions::func_arctan{}},         //
 		};
 
-		static std::map<std::string, instruction> binary_functions = {
+		static const std::map<std::string, instruction> binary_functions = {
 		    {"subtract"s, instructions::op_subtract{}},          //
 		    {"divide"s, instructions::op_divide{}},              //
 		    {"equal"s, instructions::op_equal{}},                //
@@ -117,7 +117,7 @@ namespace function_scripts {
 		    {"randomint"s, instructions::func_randomInt{}},      //
 		};
 
-		static std::set<std::string> variatic_functions{
+		static const std::set<std::string> variatic_functions{
 		    {"plus"s},  //
 		    {"times"s}, //
 		    {"power"s}, //
@@ -203,7 +203,7 @@ namespace function_scripts {
 		}
 
 		void operator()(const tree_types::name& node) {
-			auto lower_name = util::lower(node.val);
+			auto lower_name = util::lower_copy(node.val);
 
 			auto iter = naked_variables.find(lower_name);
 			if (iter != naked_variables.end()) {
@@ -219,7 +219,7 @@ namespace function_scripts {
 		}
 		void operator()(const tree_types::function_call& node) {
 			auto arg_count = node.args.size();
-			auto lower_name = util::lower(node.name.val);
+			auto lower_name = util::lower_copy(node.name.val);
 
 			// unary
 			auto unary_iter = unary_functions.find(lower_name);

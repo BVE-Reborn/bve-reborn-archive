@@ -11,6 +11,7 @@ int main(int argc, char** argv) {
 	auto val = std::stoll(argv[1]);
 
 	switch (val) {
+		default:
 		case 1:
 			test_csv();
 			break;

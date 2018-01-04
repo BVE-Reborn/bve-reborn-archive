@@ -8,6 +8,8 @@ set(SOURCES
             src/core_csv/parser.cpp
             src/core_ini/iostream.cpp
             src/core_ini/parser.cpp
+            src/csv_rw_route/instruction_generator.cpp
+            src/csv_rw_route/command_spliter.cpp
             src/csv_rw_route/preprocessor.cpp
             src/csv_rw_route/process_includes.cpp
             src/function_scripts/instruction_builder.cpp

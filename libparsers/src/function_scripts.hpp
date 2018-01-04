@@ -77,7 +77,8 @@ namespace function_scripts {
 				return ret;
 			}
 			return boost::none;
-		};
+		}
+
 		template <class T>
 		bool skip_next_token() {
 			if (index < list.size() && list[index].is<T>()) {
@@ -86,6 +87,7 @@ namespace function_scripts {
 			}
 			return false;
 		}
+
 		template <class T>
 		bool is_next_token() {
 			return index < list.size() && list[index].is<T>();

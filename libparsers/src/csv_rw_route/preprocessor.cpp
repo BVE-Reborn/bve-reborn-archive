@@ -108,7 +108,7 @@ namespace csv_rw_route {
 			auto command_text = std::string(next_money + 1, next_parens);
 
 			util::strip_text(command_text);
-			command_text = util::lower(command_text);
+			util::lower(command_text);
 
 			if (command_text == "sub") {
 				// check for an assignment

@@ -18,7 +18,7 @@ void test_csv_route() {
 
 	parsers::errors::multi_error me;
 
-	auto file_location = "libparsers/tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
+	auto file_location = "tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
 	auto used_file = std::experimental::filesystem::path(file_location);
 
 	auto vals = parsers::csv_rw_route::process_include_files(
@@ -38,7 +38,5 @@ void test_csv_route() {
 
 	parsers::csv_rw_route::preprocess_file(vals, eng, me);
 
-	parsers::csv_rw_route::instruction val;
-
-	openbve2::variant_util::print_sizes(std::cout, val);
+	parsers::csv_rw_route::generate_instructions(vals);
 }

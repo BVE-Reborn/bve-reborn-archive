@@ -100,6 +100,7 @@ namespace function_scripts {
 						break;
 					case '/':
 						lt = lexer_types::slash{};
+						break;
 					case '=':
 						if (has_another_character && text[i + 1] == '=') {
 							i += 1;
@@ -159,6 +160,8 @@ namespace function_scripts {
 						break;
 					case ',':
 						lt = lexer_types::comma{};
+						break;
+					default:
 						break;
 				}
 			}

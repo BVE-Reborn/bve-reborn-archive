@@ -8,8 +8,9 @@
 
 namespace instructions {
 namespace naked {
-	struct with {
-		enum { Options, Route, Train, Structure, Texture, Cycle, Track } ns;
+	struct position {
+		// UnitOfLength
+		std::vector<float> distances;
 	};
 } // namespace naked
 
@@ -39,7 +40,7 @@ namespace options {
 		enum { Unsigned, Signed } mode = Unsigned;
 	};
 
-	struct Fog {
+	struct FogBehavior {
 		enum { BlockBased, Interpolated } mode = BlockBased;
 	};
 

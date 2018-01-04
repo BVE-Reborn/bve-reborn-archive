@@ -337,7 +337,7 @@ namespace b3d_csv_object {
 			return stc;
 		}
 
-		std::map<std::string, instruction (*)(const std::vector<csv::csv_token>&)> function_mapping{
+		static const std::map<std::string, instruction (*)(const std::vector<csv::csv_token>&)> function_mapping{
 		    // .csv
 		    {"createmeshbuilder"s, &create_instruction_createmeshbuilder},
 		    {"addvertex"s, &create_instruction_addvertex},
@@ -404,7 +404,8 @@ namespace b3d_csv_object {
 			}
 
 			instruction ins;
-			auto found_func = function_mapping.find(util::lower(row[0].text));
+			util::lower(row[0].text);
+			auto found_func = function_mapping.find(row[0].text);
 			if (found_func == function_mapping.end()) {
 				ins = instructions::Error{"Function \""s + row[0].text + "\" not found"s};
 			}

@@ -175,10 +175,14 @@ namespace util {
 		}
 	}
 
-	std::string lower(std::string text) {
+	void lower(std::string& text) {
 		for (auto& c : text) {
 			c = char(std::tolower(c));
 		}
+	}
+
+	std::string lower_copy(std::string text) {
+		lower(text);
 		return text;
 	}
 
@@ -238,7 +242,14 @@ namespace util {
 			last_char = text.size() - 1;
 		}
 
-		text = text.substr(first_char, last_char - first_char + 1);
+		std::size_t i = 0;
+		text.erase(std::remove_if(text.begin(), text.end(),
+		                          [&i, &first_char, &last_char](char) {
+			                          bool in_range = first_char <= i && i <= last_char;
+			                          ++i;
+			                          return !in_range;
+		                          }),
+		           text.end());
 	}
 
 	void remove_comments(std::string& text, char comment, bool first_in_line) {

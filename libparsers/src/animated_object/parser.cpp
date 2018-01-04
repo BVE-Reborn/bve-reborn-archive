@@ -31,8 +31,10 @@ namespace animated_object {
 				default:
 				case 2:
 					value.y = util::parse_loose_float(split_list[1]);
+					// fall through
 				case 1:
 					value.x = util::parse_loose_float(split_list[0]);
+					// fall through
 				case 0:
 					break;
 			}
@@ -56,10 +58,13 @@ namespace animated_object {
 				default:
 				case 3:
 					value.z = util::parse_loose_float(split_list[2]);
+					// fall through
 				case 2:
 					value.y = util::parse_loose_float(split_list[1]);
+					// fall through
 				case 1:
 					value.x = util::parse_loose_float(split_list[0]);
+					// fall through
 				case 0:
 					break;
 			}
@@ -245,7 +250,7 @@ namespace animated_object {
 		pso.subobjects.emplace_back();
 
 		for (auto& assignment : section.key_value_pairs) {
-			auto found_func = function_mapping.find(util::lower(assignment.key));
+			auto found_func = function_mapping.find(util::lower_copy(assignment.key));
 			if (found_func == function_mapping.end()) {
 				pso.errors.emplace_back(errors::error_t{assignment.line, "Member " + assignment.key + " not found"});
 			}

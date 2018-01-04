@@ -30,12 +30,11 @@ namespace csv_rw_route {
 #include "csv_rw_route/instructions.hpp"
 
 	using instruction = mapbox::util::variant<
-	    // with statement
-	    instructions::naked::with,
+	    instructions::naked::position,
 	    // options commands
 	    instructions::options::UnitOfLength, instructions::options::UnitOfSpeed, instructions::options::BlockLength,
 	    instructions::options::ObjectVisibility, instructions::options::SectionBehavior,
-	    instructions::options::CantBehavior, instructions::options::Fog,
+	    instructions::options::CantBehavior, instructions::options::FogBehavior,
 	    instructions::options::CompatibleTransparencyMode, instructions::options::EnableBveTsHacks,
 	    // route commands
 	    instructions::route::Comment, instructions::route::Image, instructions::route::Timetable,
@@ -69,5 +68,21 @@ namespace csv_rw_route {
 	    instructions::track::Brightness, instructions::track::Marker, instructions::track::TextMarker,
 	    instructions::track::PointOfInterest, instructions::track::PreTrain, instructions::track::Announce,
 	    instructions::track::Doppler, instructions::track::Buffer>;
+
+	using instruction_list = std::vector<instruction>;
+
+	namespace line_splitting {
+		struct instruction_info {
+			std::string name;
+			std::vector<std::string> indices;
+			std::vector<std::string> args;
+			std::string suffix;
+			bool track_position = true;
+		};
+
+		instruction_info csv(const preprocessed_line& l);
+	} // namespace line_splitting
+
+	instruction_list generate_instructions(preprocessed_lines& lines);
 } // namespace csv_rw_route
 } // namespace parsers
