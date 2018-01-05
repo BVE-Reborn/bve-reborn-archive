@@ -12,6 +12,9 @@ namespace naked {
 		// UnitOfLength
 		std::vector<float> distances;
 	};
+
+	// for ignored instructions
+	struct None {};
 } // namespace naked
 
 namespace options {
@@ -200,7 +203,9 @@ namespace structure {
 			CrackR,
 			FreeObj,
 			Beacon
-		} index;
+		} command;
+
+		std::size_t structure_index;
 
 		std::string filename;
 	};
@@ -215,12 +220,15 @@ namespace structure {
 namespace texture {
 	struct Background_Load {
 		std::size_t background_texture_index;
+		std::string filename;
 	};
 	struct Background_X {
+		std::size_t background_texture_index;
 		std::size_t repetition_count;
 	};
 
 	struct Background_Aspect {
+		std::size_t background_texture_index;
 		enum : uint8_t { Fixed, Aspect } mode = Fixed;
 	};
 } // namespace texture
@@ -238,12 +246,12 @@ namespace cycle {
 } // namespace cycle
 
 namespace naked {
-	struct signal_animated {
+	struct SignalAnimated {
 		std::size_t signal_index;
 		std::string filename;
 	};
 
-	struct signal {
+	struct Signal {
 		std::size_t signal_index;
 		// Without file extant
 		std::string signal_filename;
@@ -256,18 +264,18 @@ namespace track {
 	struct RailStart {
 		std::size_t rail_index;
 		// UnitOfLength
-		float horz_offset;
+		float x_offset;
 		// UnitOfLength
-		float vert_offset;
+		float y_offset;
 		std::size_t rail_type;
 	};
 
 	struct Rail {
 		std::size_t rail_index;
 		// UnitOfLength
-		float horz_offset;
+		float x_offset;
 		// UnitOfLength
-		float vert_offset;
+		float y_offset;
 		std::size_t rail_type;
 	};
 
@@ -279,9 +287,9 @@ namespace track {
 	struct RailEnd {
 		std::size_t rail_index;
 		// UnitOfLength
-		float horz_offset;
+		float x_offset;
 		// UnitOfLength
-		float vert_offset;
+		float y_offset;
 	};
 
 	struct Adhesion {
@@ -347,7 +355,7 @@ namespace track {
 	struct Pole {
 		std::size_t rail_index = 0;
 		std::size_t additional_rails = 0;
-		float location = 0;
+		std::intmax_t location = 0;
 		// UnitOfLength
 		std::intmax_t interval;
 		std::size_t pole_structure_index;
@@ -369,6 +377,7 @@ namespace track {
 
 	struct Sta {
 		std::string name;
+		std::string arrival_sound;
 		std::string departure_sound;
 		std::size_t timetable_index;
 		openbve2::datatypes::time arrival;
@@ -377,6 +386,7 @@ namespace track {
 		float passenger_ratio;
 		bool pass_alarm = false;
 		bool force_red = false;
+		bool system = false;
 		enum class ArrivalTime_t : uint8_t {
 			Time,
 			AnyTime,
@@ -430,9 +440,9 @@ namespace track {
 		std::size_t signal_index;
 		std::size_t section;
 		// UnitOfLength
-		float x = 0;
+		float x_offset = 0;
 		// UnitOfLength
-		float y = 0;
+		float y_offset = 0;
 		// Degrees
 		float yaw = 0;
 		// Degrees
@@ -446,9 +456,39 @@ namespace track {
 	struct Signal {
 		enum : uint8_t { R_Y, R_G, R_Y_G, R_YY_Y_G, R_Y_YG_G, R_YY_Y_YG_G, R_Y_YG_G_GG, R_YY_Y_YG_G_GG } type = R_G;
 		// UnitOfLength
-		float x = 0;
+		float x_offset = 0;
 		// UnitOfLength
-		float y = 0;
+		float y_offset = 0;
+		// Degrees
+		float yaw = 0;
+		// Degrees
+		float pitch = 0;
+		// Degrees
+		float roll = 0;
+	};
+
+	struct Relay {
+		// UnitOfLength
+		float x_offset = 0;
+		// UnitOfLength
+		float y_offset = 0;
+		// Degrees
+		float yaw = 0;
+		// Degrees
+		float pitch = 0;
+		// Degrees
+		float roll = 0;
+	};
+
+	struct Beacon {
+		std::size_t type;
+		std::size_t beacon_structure_index;
+		std::intmax_t section;
+		std::intmax_t data;
+		// UnitOfLength
+		float x_offset = 0;
+		// UnitOfLength
+		float y_offset = 0;
 		// Degrees
 		float yaw = 0;
 		// Degrees
@@ -466,9 +506,9 @@ namespace track {
 		std::size_t signal;
 		bool switch_system;
 		// UnitOfLength
-		float x = 0;
+		float x_offset = 0;
 		// UnitOfLength
-		float y = 0;
+		float y_offset = 0;
 		// Degrees
 		float yaw = 0;
 		// Degrees
@@ -505,6 +545,10 @@ namespace track {
 		float distance;
 	};
 
+	struct MarkerXML {
+		std::string filename;
+	};
+
 	struct TextMarker {
 		std::string text;
 		// UnitOfLength
@@ -515,9 +559,9 @@ namespace track {
 	struct PointOfInterest {
 		std::size_t rail_index;
 		// UnitOfLength
-		float x = 0;
+		float x_offset = 0;
 		// UnitOfLength
-		float y = 0;
+		float y_offset = 0;
 		// Degrees
 		float yaw = 0;
 		// Degrees
@@ -540,9 +584,9 @@ namespace track {
 	struct Doppler {
 		std::string filename;
 		// UnitOfLength
-		float x = 0;
+		float x_offset = 0;
 		// UnitOfLength
-		float y = 0;
+		float y_offset = 0;
 	};
 
 	struct Buffer {};

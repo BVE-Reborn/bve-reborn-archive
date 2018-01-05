@@ -30,7 +30,7 @@ namespace csv_rw_route {
 #include "csv_rw_route/instructions.hpp"
 
 	using instruction = mapbox::util::variant<
-	    instructions::naked::position,
+	    instructions::naked::position, instructions::naked::None,
 	    // options commands
 	    instructions::options::UnitOfLength, instructions::options::UnitOfSpeed, instructions::options::BlockLength,
 	    instructions::options::ObjectVisibility, instructions::options::SectionBehavior,
@@ -51,10 +51,10 @@ namespace csv_rw_route {
 	    // texture commands
 	    instructions::texture::Background_Load, instructions::texture::Background_X,
 	    instructions::texture::Background_Aspect,
-	    // cycle commands,
+	    // cycle commands
 	    instructions::cycle::Ground, instructions::cycle::Rail,
-	    // signal commands,
-	    instructions::naked::signal_animated, instructions::naked::signal,
+	    // signal commands
+	    instructions::naked::SignalAnimated, instructions::naked::Signal,
 	    // track,
 	    instructions::track::RailStart, instructions::track::Rail, instructions::track::RailType,
 	    instructions::track::RailEnd, instructions::track::Adhesion, instructions::track::Pitch,
@@ -63,11 +63,12 @@ namespace csv_rw_route {
 	    instructions::track::Dike, instructions::track::DikeEnd, instructions::track::Pole,
 	    instructions::track::PoleEnd, instructions::track::Crack, instructions::track::Ground, instructions::track::Sta,
 	    instructions::track::Stop, instructions::track::Form, instructions::track::Limit, instructions::track::Section,
-	    instructions::track::SigF, instructions::track::Signal, instructions::track::Transponder,
-	    instructions::track::Pattern, instructions::track::Back, instructions::track::Fog,
-	    instructions::track::Brightness, instructions::track::Marker, instructions::track::TextMarker,
-	    instructions::track::PointOfInterest, instructions::track::PreTrain, instructions::track::Announce,
-	    instructions::track::Doppler, instructions::track::Buffer>;
+	    instructions::track::SigF, instructions::track::Signal, instructions::track::Relay, instructions::track::Beacon,
+	    instructions::track::Transponder, instructions::track::Pattern, instructions::track::Back,
+	    instructions::track::Fog, instructions::track::Brightness, instructions::track::Marker,
+	    instructions::track::MarkerXML, instructions::track::TextMarker, instructions::track::PointOfInterest,
+	    instructions::track::PreTrain, instructions::track::Announce, instructions::track::Doppler,
+	    instructions::track::Buffer>;
 
 	using instruction_list = std::vector<instruction>;
 
