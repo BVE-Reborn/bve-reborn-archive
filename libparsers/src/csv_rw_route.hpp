@@ -78,12 +78,15 @@ namespace csv_rw_route {
 			std::vector<std::string> indices;
 			std::vector<std::string> args;
 			std::string suffix;
-			bool track_position = true;
+			bool track_position = false;
 		};
 
 		instruction_info csv(const preprocessed_line& l);
 	} // namespace line_splitting
 
-	instruction_list generate_instructions(preprocessed_lines& lines);
+	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors);
 } // namespace csv_rw_route
 } // namespace parsers
+
+std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction& i);
+std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction_list& list);

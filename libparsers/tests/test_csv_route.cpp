@@ -38,5 +38,7 @@ void test_csv_route() {
 
 	parsers::csv_rw_route::preprocess_file(vals, eng, me);
 
-	parsers::csv_rw_route::generate_instructions(vals);
+	auto instructions = parsers::csv_rw_route::generate_instructions(vals, me);
+
+	std::cout << instructions << '\n';
 }

@@ -23,7 +23,7 @@ namespace csv_rw_route {
 			if (has_colon || !has_letters) {
 				auto list = util::split_text(command_name, ':');
 
-				return instruction_info{"", {}, std::move(list), {}, false};
+				return instruction_info{"", {}, std::move(list), {}, true};
 			}
 
 			// all text is stripped by the preprocessor, so if there is a break we need to parse a parenthesized

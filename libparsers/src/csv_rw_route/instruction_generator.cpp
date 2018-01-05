@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include <algorithm>
 #include <map>
+#include <sstream>
 
 using namespace std::string_literals;
 
@@ -1338,28 +1339,63 @@ namespace csv_rw_route {
 		};
 	} // namespace
 
-	instruction_list generate_instructions(preprocessed_lines& lines) {
-		instruction_list i;
+	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors) {
+		instruction_list i_list;
+		i_list.reserve(lines.lines.size());
 
 		std::string with_value = "";
 		for (auto& line : lines.lines) {
+			instruction i;
+
 			auto parsed = line_splitting::csv(line);
+
+			if (parsed.track_position) {
+				i = create_instruction_location_statement(parsed);
+				continue;
+			}
+
 			util::lower(parsed.name);
 
 			auto dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
 			bool has_dot = dot_iter != parsed.name.end();
 
 			// get fully qualified name
-			std::string qualified_name;
 			if (has_dot && dot_iter == parsed.name.begin()) {
-				qualified_name = with_value + parsed.name;
+				parsed.name = with_value + parsed.name;
 			}
-			else {
-				qualified_name = parsed.name;
+
+			// lookup function
+			auto func_iter = function_mapping.find(parsed.name);
+			if (func_iter == function_mapping.end()) {
+				if (parsed.name == "with") {
+					with_value = util::lower_copy(parsed.args[0]);
+				}
+				else {
+					std::ostringstream oss;
+					oss << "\"" << parsed.name << "\" is not a known function in a csv file";
+					errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
+				}
+				continue;
 			}
+
+			try {
+				i = func_iter->second(parsed);
+			}
+			catch (const std::invalid_argument& e) {
+				errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, e.what()});
+			}
+
+			mapbox::util::apply_visitor(
+			    [&line](auto& i) {
+				    i.file_index = line.filename_index;
+				    i.line = line.line;
+			    },
+			    i);
+
+			i_list.emplace_back(std::move(i));
 		}
 
-		return i;
+		return i_list;
 	}
 } // namespace csv_rw_route
 } // namespace parsers
