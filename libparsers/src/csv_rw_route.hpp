@@ -2,6 +2,7 @@
 
 #include "core/datatypes.hpp"
 #include "parsers/errors.hpp"
+#include <boost/optional/optional.hpp>
 #include <functional>
 #include <mapbox/variant.hpp>
 #include <string>
@@ -27,6 +28,7 @@ namespace csv_rw_route {
 
 	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors);
 
+#define INSTRUCTIONS_NO_INCLUDE
 #include "csv_rw_route/instructions.hpp"
 
 	using instruction = mapbox::util::variant<

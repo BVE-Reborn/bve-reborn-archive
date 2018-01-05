@@ -1,4 +1,5 @@
 #include "csv_rw_route.hpp"
+#include <boost/optional/optional_io.hpp>
 #include <ostream>
 
 // MSVC doesn't expand __VA_ARGS__ right, this is a workaround

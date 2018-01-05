@@ -243,10 +243,14 @@ namespace csv_rw_route {
 		// Compute filename indices
 		for (auto& include : include_list) {
 			auto insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(), include.filename);
-			auto insert_index = std::distance(output.filenames.begin(), insert_iter);
-			if (insert_iter != output.filenames.end() && *insert_iter != include.filename) {
+			if (insert_iter == output.filenames.end() || *insert_iter != include.filename) {
 				output.filenames.insert(insert_iter, include.filename);
 			}
+		}
+
+		for (auto& include : include_list) {
+			auto insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(), include.filename);
+			auto insert_index = std::distance(output.filenames.begin(), insert_iter);
 			include_file_index_mapping.emplace_back(insert_index);
 		}
 

@@ -2,10 +2,6 @@
 
 // Header is to only be included in csv_rw_route.hpp
 
-#include "core/datatypes.hpp"
-#include <string>
-#include <vector>
-
 namespace instructions {
 
 struct instruction_base {
@@ -300,19 +296,19 @@ namespace track {
 	struct RailStart : public instruction_base {
 		std::size_t rail_index;
 		// UnitOfLength
-		float x_offset;
+		boost::optional<float> x_offset;
 		// UnitOfLength
-		float y_offset;
-		std::size_t rail_type;
+		boost::optional<float> y_offset;
+		boost::optional<std::size_t> rail_type;
 	};
 
 	struct Rail : public instruction_base {
 		std::size_t rail_index;
 		// UnitOfLength
-		float x_offset;
+		boost::optional<float> x_offset;
 		// UnitOfLength
-		float y_offset;
-		std::size_t rail_type;
+		boost::optional<float> y_offset;
+		boost::optional<std::size_t> rail_type;
 	};
 
 	struct RailType : public instruction_base {
@@ -323,9 +319,9 @@ namespace track {
 	struct RailEnd : public instruction_base {
 		std::size_t rail_index;
 		// UnitOfLength
-		float x_offset;
+		boost::optional<float> x_offset;
 		// UnitOfLength
-		float y_offset;
+		boost::optional<float> y_offset;
 	};
 
 	struct Adhesion {
@@ -379,7 +375,7 @@ namespace track {
 	struct Wall : public instruction_base {
 		std::size_t rail_index;
 		enum : uint8_t { Left, Both, Right } direction = Both;
-		std::size_t wall_structure_index;
+		std::size_t wall_structure_index = 0;
 	};
 
 	struct WallEnd {
@@ -405,8 +401,8 @@ namespace track {
 		std::size_t additional_rails = 0;
 		std::intmax_t location = 0;
 		// UnitOfLength
-		std::intmax_t interval;
-		std::size_t pole_structure_index;
+		std::intmax_t interval = 1;
+		std::size_t pole_structure_index = 0;
 	};
 
 	struct PoleEnd {
@@ -431,11 +427,11 @@ namespace track {
 		std::string name;
 		std::string arrival_sound;
 		std::string departure_sound;
-		std::size_t timetable_index;
+		std::size_t timetable_index = 0;
 		openbve2::datatypes::time arrival;
 		openbve2::datatypes::time departure;
-		float stop_duration;
-		float passenger_ratio;
+		float stop_duration = 15;
+		float passenger_ratio = 100;
 		bool pass_alarm = false;
 		bool force_red = false;
 		bool system = false;
@@ -446,7 +442,7 @@ namespace track {
 			PlayerPass,
 			PlayerStop,
 			AllStop
-		} arrival_tag = ArrivalTime_t::Time;
+		} arrival_tag = ArrivalTime_t::AnyTime;
 		enum class DepartureTime_t : uint8_t {
 			Time,
 			AnyTime,
@@ -454,7 +450,7 @@ namespace track {
 			TerminalTime,
 			ChangeEnds,
 			ChangeEndsTime
-		} departure_tag = DepartureTime_t::Time;
+		} departure_tag = DepartureTime_t::AnyTime;
 		enum class Doors_t : uint8_t { Left, None, Right, Both } doors = Doors_t::None;
 	};
 
@@ -551,8 +547,8 @@ namespace track {
 	// Track.AtsP
 	struct Transponder : public instruction_base {
 		enum : uint8_t { S_type, SN_type, Departure, ATS_P_RENEWAL, ATS_P_STOP } type = S_type;
-		std::size_t signal;
-		bool switch_system;
+		std::size_t signal = 0;
+		bool switch_system = true;
 		// UnitOfLength
 		float x_offset = 0;
 		// UnitOfLength
@@ -586,7 +582,7 @@ namespace track {
 	};
 
 	struct Brightness : public instruction_base {
-		std::uint8_t value;
+		std::uint8_t value = 255;
 	};
 
 	struct Marker : public instruction_base {
