@@ -1339,51 +1339,58 @@ namespace csv_rw_route {
 		};
 	} // namespace
 
+	static instruction generate_instruction(const preprocessed_lines& lines, preprocessed_line& line,
+	                                 errors::multi_error& errors, std::string& with_value) {
+		instruction i;
+
+		auto parsed = line_splitting::csv(line);
+
+		if (parsed.track_position) {
+			return create_instruction_location_statement(parsed);
+		}
+
+		util::lower(parsed.name);
+
+		auto dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
+		bool has_dot = dot_iter != parsed.name.end();
+
+		// get fully qualified name
+		if (has_dot && dot_iter == parsed.name.begin()) {
+			parsed.name = with_value + parsed.name;
+		}
+
+		// lookup function
+		auto func_iter = function_mapping.find(parsed.name);
+		if (func_iter == function_mapping.end()) {
+			if (parsed.name == "with") {
+				with_value = util::lower_copy(parsed.args[0]);
+			}
+			else {
+				std::ostringstream oss;
+				oss << "\"" << parsed.name << "\" is not a known function in a csv file";
+				errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
+			}
+			return instructions::naked::None{};
+		}
+
+		try {
+			i = func_iter->second(parsed);
+		}
+		catch (const std::invalid_argument& e) {
+			errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, e.what()});
+			return instructions::naked::None{};
+		}
+
+		return i;
+	}
+
 	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors) {
 		instruction_list i_list;
 		i_list.reserve(lines.lines.size());
 
 		std::string with_value = "";
 		for (auto& line : lines.lines) {
-			instruction i;
-
-			auto parsed = line_splitting::csv(line);
-
-			if (parsed.track_position) {
-				i = create_instruction_location_statement(parsed);
-				continue;
-			}
-
-			util::lower(parsed.name);
-
-			auto dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
-			bool has_dot = dot_iter != parsed.name.end();
-
-			// get fully qualified name
-			if (has_dot && dot_iter == parsed.name.begin()) {
-				parsed.name = with_value + parsed.name;
-			}
-
-			// lookup function
-			auto func_iter = function_mapping.find(parsed.name);
-			if (func_iter == function_mapping.end()) {
-				if (parsed.name == "with") {
-					with_value = util::lower_copy(parsed.args[0]);
-				}
-				else {
-					std::ostringstream oss;
-					oss << "\"" << parsed.name << "\" is not a known function in a csv file";
-					errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
-				}
-				continue;
-			}
-
-			try {
-				i = func_iter->second(parsed);
-			}
-			catch (const std::invalid_argument& e) {
-				errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, e.what()});
-			}
+			auto i = generate_instruction(lines, line, errors, with_value);
 
 			mapbox::util::apply_visitor(
 			    [&line](auto& i) {
@@ -1392,7 +1399,7 @@ namespace csv_rw_route {
 			    },
 			    i);
 
-			i_list.emplace_back(std::move(i));
+			i_list.emplace_back(i);
 		}
 
 		return i_list;

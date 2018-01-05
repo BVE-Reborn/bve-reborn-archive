@@ -12,7 +12,7 @@
 	_os << ", " #name " = " << (inst.name / 3600) << ':' << ((inst.name / 60) % 60) << ':' << (inst.name % 60);
 #define PRINT_COLOR(name)                                                                                              \
 	_os << ", " #name " = "                                                                                            \
-	    << "(r = " << inst.name.r << ", g = " << inst.name.g << ", b = " << inst.name.b << ')';
+	    << "(r = " << int(inst.name.r) << ", g = " << int(inst.name.g) << ", b = " << int(inst.name.b) << ')';
 
 #define PRINT_ENUM1(name, nsp, value1)                                                                                 \
 	if (inst.name == instructions::nsp::value1)                                                                        \

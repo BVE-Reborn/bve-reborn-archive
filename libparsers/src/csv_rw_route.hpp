@@ -30,7 +30,7 @@ namespace csv_rw_route {
 #include "csv_rw_route/instructions.hpp"
 
 	using instruction = mapbox::util::variant<
-	    instructions::naked::position, instructions::naked::None,
+	    instructions::naked::None, instructions::naked::position,
 	    // options commands
 	    instructions::options::UnitOfLength, instructions::options::UnitOfSpeed, instructions::options::BlockLength,
 	    instructions::options::ObjectVisibility, instructions::options::SectionBehavior,

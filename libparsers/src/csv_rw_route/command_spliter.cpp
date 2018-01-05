@@ -42,7 +42,7 @@ namespace csv_rw_route {
 			else {
 				// if there isn't a parethesis here we know that's it and there are only arguments
 				start_of_arg_list = text.end();
-				indices_set = util::split_text(std::string(after_first_break, text.end()));
+				indices_set = util::split_text(std::string(after_first_break, text.end()), ';');
 			}
 
 			std::for_each(indices_set.begin(), indices_set.end(), [](std::string& s) { return util::strip_text(s); });
