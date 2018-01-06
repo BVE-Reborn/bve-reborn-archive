@@ -114,7 +114,8 @@ namespace csv_rw_route {
 
 			template <class T>
 			void start(const T& inst, const char* name) {
-				_os << "(" << name << ", filename = " << inst.file_index << ", line = " << inst.line;
+				_os << "(" << inst.absolute_offset << ":" << name << ", filename = " << inst.file_index
+				    << ", line = " << inst.line;
 			}
 
 			void end() {
@@ -828,7 +829,12 @@ std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruct
 }
 
 std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction_list& list) {
-	for (auto& i : list) {
+	os << "Files:\n";
+	for (std::size_t i = 0; i < list.filenames.size(); ++i) {
+		os << i << ": " << list.filenames[i] << '\n';
+	}
+	os << "Instructions:\n";
+	for (auto& i : list.instructions) {
 		::operator<<(os, i) << "\n";
 	}
 	return os;

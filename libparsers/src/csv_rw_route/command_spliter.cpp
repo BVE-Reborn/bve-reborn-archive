@@ -24,13 +24,13 @@ namespace csv_rw_route {
 			if (has_colon || !has_letters) {
 				auto list = util::split_text(command_name, ':');
 
-				return instruction_info{"", {}, std::move(list), {}, true};
+				return instruction_info{"", {}, std::move(list), {}, l.offset, true};
 			}
 
 			// all text is stripped by the preprocessor, so if there is a break we need to parse a parenthesized
 			// statement
 			if (first_break == text.end()) {
-				return instruction_info{command_name, {}, {}, {}};
+				return instruction_info{command_name, {}, {}, {},  l.offset};
 			}
 
 			// skip passed all whitespace
@@ -54,7 +54,7 @@ namespace csv_rw_route {
 
 			// no indices, we were just parsing arguments
 			if (start_of_arg_list == text.end() || start_of_arg_list + 1 == text.end()) {
-				return instruction_info{command_name, {}, indices_set, {}};
+				return instruction_info{command_name, {}, indices_set, {},  l.offset};
 			}
 			start_of_arg_list += 1;
 			bool has_suffix = *start_of_arg_list == '.';
@@ -69,7 +69,7 @@ namespace csv_rw_route {
 			}
 
 			if (start_of_arg_list == text.end()) {
-				return instruction_info{command_name, {}, indices_set, suffix};
+				return instruction_info{command_name, {}, indices_set, suffix,  l.offset};
 			}
 
 			auto end_of_arg_list =
@@ -80,7 +80,7 @@ namespace csv_rw_route {
 
 			std::for_each(arg_list.begin(), arg_list.end(), [](std::string& s) { return util::strip_text(s); });
 
-			return instruction_info{command_name, indices_set, arg_list, suffix};
+			return instruction_info{command_name, indices_set, arg_list, suffix,  l.offset};
 		}
 
 		instruction_info rw(const preprocessed_line& l) {
@@ -98,14 +98,14 @@ namespace csv_rw_route {
 			if (has_colon || !has_letters) {
 				auto list = util::split_text(command_name, ':');
 
-				return instruction_info{"", {}, std::move(list), {}, true};
+				return instruction_info{"", {}, std::move(list), {},  l.offset, true};
 			}
 
 			// This is a section header
 			if (first_break == text.end()) {
 				util::strip_text(command_name, "\t\n\v\f\r []");
 
-				return instruction_info{"with"s, {}, {command_name}, {}};
+				return instruction_info{"with"s, {}, {command_name}, {},  l.offset };
 			}
 
 			// skip passed all whitespace
@@ -121,7 +121,7 @@ namespace csv_rw_route {
 			}
 
 			if (first_break + 1 == text.end()) {
-				return instruction_info{command_name, {}, std::move(parens_list), {}};
+				return instruction_info{command_name, {}, std::move(parens_list), {},  l.offset };
 			}
 
 			bool has_suffix = *first_break + 1 == '.' && first_break + 2 != text.end();
@@ -138,11 +138,11 @@ namespace csv_rw_route {
 			}
 
 			if (first_break == text.end() && first_break + 1 == text.end()) {
-				return instruction_info{command_name, {}, std::move(parens_list), suffix};
+				return instruction_info{command_name, {}, std::move(parens_list), suffix,  l.offset };
 			}
 
 			return instruction_info{
-			    command_name, std::move(parens_list), {std::string(first_break + 1, text.end())}, suffix};
+			    command_name, std::move(parens_list), {std::string(first_break + 1, text.end())}, suffix,  l.offset };
 		}
 	} // namespace line_splitting
 } // namespace csv_rw_route

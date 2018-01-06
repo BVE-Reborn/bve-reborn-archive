@@ -7,6 +7,7 @@ namespace instructions {
 struct instruction_base {
 	std::size_t file_index = 0;
 	std::size_t line = 0;
+	float absolute_offset = -1;
 };
 
 namespace naked {
@@ -28,6 +29,7 @@ namespace options {
 		float factor_in_kph;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct BlockLength {
@@ -35,6 +37,7 @@ namespace options {
 		float length;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct ObjectVisibility : public instruction_base {
@@ -67,18 +70,21 @@ namespace route {
 		std::string text;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Image {
 		std::string filename;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Timetable {
 		std::string text;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Change : public instruction_base {
@@ -94,17 +100,20 @@ namespace route {
 		float guage = 1435;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Signal : public instruction_base {
 		std::size_t aspect_index;
 		// UnitOfSpeed
 		float speed;
+		float absolute_offset = -1;
 	};
 
 	struct RunInterval : public instruction_base {
 		// seconds
 		std::vector<float> time_interval;
+		float absolute_offset = -1;
 	};
 
 	struct AccelerationDueToGravity {
@@ -112,6 +121,7 @@ namespace route {
 		float value;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Elevation {
@@ -119,6 +129,7 @@ namespace route {
 		float height = 0;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Temperature {
@@ -126,6 +137,7 @@ namespace route {
 		float celcius;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Pressure {
@@ -133,6 +145,7 @@ namespace route {
 		float kPa = 101.325f;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct DisplaySpeed : public instruction_base {
@@ -145,18 +158,21 @@ namespace route {
 		std::string filename;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct StartTime {
 		openbve2::datatypes::time time;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct DynamicLight {
 		std::string filename;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct AmbiantLight : public instruction_base {
@@ -182,6 +198,7 @@ namespace train {
 		std::string filepath;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	// Train.Run
@@ -211,6 +228,7 @@ namespace train {
 		float speed;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 } // namespace train
 
@@ -328,6 +346,7 @@ namespace track {
 		float value = 100;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Pitch {
@@ -335,6 +354,7 @@ namespace track {
 		float rate = 0;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Curve : public instruction_base {
@@ -348,6 +368,7 @@ namespace track {
 		float ratio = 0;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Height {
@@ -355,6 +376,7 @@ namespace track {
 		float y;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct FreeObj : public instruction_base {
@@ -382,6 +404,7 @@ namespace track {
 		std::size_t rail_index;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Dike : public instruction_base {
@@ -394,6 +417,7 @@ namespace track {
 		std::size_t rail_index;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Pole : public instruction_base {
@@ -409,6 +433,7 @@ namespace track {
 		std::size_t rail_index;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Crack : public instruction_base {
@@ -421,6 +446,7 @@ namespace track {
 		std::size_t ground_structure_index;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Sta : public instruction_base {
@@ -571,6 +597,7 @@ namespace track {
 		std::size_t background_texture_index;
 		std::size_t file_index = 0;
 		std::size_t line = 0;
+		float absolute_offset = -1;
 	};
 
 	struct Fog : public instruction_base {

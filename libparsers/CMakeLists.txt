@@ -11,6 +11,7 @@ set(SOURCES
             src/csv_rw_route/instruction_generator.cpp
             src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/command_spliter.cpp
+            src/csv_rw_route/executor_pass1.cpp
             src/csv_rw_route/preprocessor.cpp
             src/csv_rw_route/process_includes.cpp
             src/errors/iostream.cpp

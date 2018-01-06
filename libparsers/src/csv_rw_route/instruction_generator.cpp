@@ -125,7 +125,8 @@ namespace csv_rw_route {
 			args_at_least(instr, 1, "Location Statement");
 
 			instructions::naked::position pos;
-			pos.distances.reserve(instr.args.size());
+			pos.distances.reserve(instr.args.size() + 1);
+			pos.distances.emplace_back(instr.offset);
 			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(pos.distances),
 			               [](const std::string& s) { return util::parse_loose_float(s, 0); });
 
@@ -138,7 +139,8 @@ namespace csv_rw_route {
 
 		static instruction create_instruction_options_unitoflength(const line_splitting::instruction_info& instr) {
 			instructions::options::UnitOfLength uol;
-			uol.factors_in_meters.reserve(std::max(std::size_t(1), instr.args.size()));
+			uol.factors_in_meters.reserve(std::max(std::size_t(2), instr.args.size() + 1));
+			uol.factors_in_meters.emplace_back(1.0f);
 			if (instr.args.size() >= 1) {
 				uol.factors_in_meters.emplace_back(util::parse_loose_float(instr.args[0], 1));
 				std::transform(instr.args.begin() + 1, instr.args.end(), std::back_inserter(uol.factors_in_meters),
@@ -1821,7 +1823,7 @@ namespace csv_rw_route {
 		};
 	} // namespace
 
-	static instruction generate_instruction(const preprocessed_lines& lines, preprocessed_line& line,
+	static instruction generate_instruction(const preprocessed_lines& lines, const preprocessed_line& line,
 	                                        errors::multi_error& errors, std::string& with_value, file_type ft) {
 		instruction i;
 
@@ -1880,7 +1882,8 @@ namespace csv_rw_route {
 
 				if (!ignored) {
 					std::ostringstream oss;
-					oss << "\"" << parsed.name << "\" is not a known function in a csv file";
+					oss << "\"" << parsed.name << "\" is not a known function in a "
+					    << (ft == file_type::csv ? "csv" : "rw") << " file";
 					errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
 				}
 			}
@@ -1898,9 +1901,9 @@ namespace csv_rw_route {
 		return i;
 	}
 
-	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors, file_type ft) {
+	instruction_list generate_instructions(const preprocessed_lines& lines, errors::multi_error& errors, file_type ft) {
 		instruction_list i_list;
-		i_list.reserve(lines.lines.size());
+		i_list.instructions.reserve(lines.lines.size());
 
 		std::string with_value = "";
 		for (auto& line : lines.lines) {
@@ -1913,8 +1916,10 @@ namespace csv_rw_route {
 			    },
 			    i);
 
-			i_list.emplace_back(i);
+			i_list.instructions.emplace_back(i);
 		}
+
+		i_list.filenames = lines.filenames;
 
 		return i_list;
 	}

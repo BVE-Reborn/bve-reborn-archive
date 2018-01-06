@@ -75,7 +75,10 @@ namespace csv_rw_route {
 	    instructions::track::PreTrain, instructions::track::Announce, instructions::track::Doppler,
 	    instructions::track::Buffer>;
 
-	using instruction_list = std::vector<instruction>;
+	struct instruction_list {
+		std::vector<instruction> instructions;
+		std::vector<std::string> filenames;
+	};
 
 	namespace line_splitting {
 		struct instruction_info {
@@ -83,6 +86,7 @@ namespace csv_rw_route {
 			std::vector<std::string> indices;
 			std::vector<std::string> args;
 			std::string suffix;
+			float offset;
 			bool track_position = false;
 		};
 
@@ -90,7 +94,9 @@ namespace csv_rw_route {
 		instruction_info rw(const preprocessed_line& l);
 	} // namespace line_splitting
 
-	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors, file_type ft);
+	instruction_list generate_instructions(const preprocessed_lines& lines, errors::multi_error& errors, file_type ft);
+
+	void execute_instructions_pass1(instruction_list& list, errors::multi_error& errors);
 } // namespace csv_rw_route
 } // namespace parsers
 
