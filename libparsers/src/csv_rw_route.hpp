@@ -10,6 +10,8 @@
 
 namespace parsers {
 namespace csv_rw_route {
+	enum class file_type { csv, rw };
+
 	struct preprocessed_line {
 		std::string contents;
 		std::size_t filename_index;
@@ -23,10 +25,11 @@ namespace csv_rw_route {
 	};
 
 	preprocessed_lines process_include_files(
-	    const std::string& filename, openbve2::datatypes::rng& rng, errors::multi_error& errors,
+	    const std::string& filename, openbve2::datatypes::rng& rng, errors::multi_error& errors, file_type ft,
 	    const std::function<std::string(const std::string& base_file, const std::string& relative)>& get_abs_path);
 
-	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors);
+	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors,
+	                     file_type ft);
 
 #define INSTRUCTIONS_NO_INCLUDE
 #include "csv_rw_route/instructions.hpp"
@@ -84,9 +87,10 @@ namespace csv_rw_route {
 		};
 
 		instruction_info csv(const preprocessed_line& l);
+		instruction_info rw(const preprocessed_line& l);
 	} // namespace line_splitting
 
-	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors);
+	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors, file_type ft);
 } // namespace csv_rw_route
 } // namespace parsers
 

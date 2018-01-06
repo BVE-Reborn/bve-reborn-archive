@@ -6,6 +6,7 @@ libparsers/tests/*.animated
 libparsers/tests/*.csv
 libparsers/tests/*.b3d
 libparsers/tests/*.x
+libparsers/tests/*.rw
 libparsers/tests/plymouth
 
 windep32/

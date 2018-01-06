@@ -19,12 +19,12 @@ void test_csv_route() {
 	parsers::errors::multi_error me;
 
 	// auto file_location = DIRECTORY "tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
-	auto file_location = DIRECTORY "tests/Maastricht v8 Express.csv";
+	auto file_location = DIRECTORY "tests/NYCT-F (To NHP).rw";
 	auto used_file = std::experimental::filesystem::path(file_location);
 
 	auto vals = parsers::csv_rw_route::process_include_files(
 	    std::experimental::filesystem::canonical(file_location).string(), eng, me,
-	    [&](const std::string& base_file, const std::string& file) {
+	    parsers::csv_rw_route::file_type::rw, [&](const std::string& base_file, const std::string& file) {
 		    std::string new_file = file;
 		    std::replace(new_file.begin(), new_file.end(), '\\', '/');
 		    auto file_path = std::experimental::filesystem::path(base_file); //
@@ -37,9 +37,9 @@ void test_csv_route() {
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';
 
-	parsers::csv_rw_route::preprocess_file(vals, eng, me);
+	parsers::csv_rw_route::preprocess_file(vals, eng, me, parsers::csv_rw_route::file_type::rw);
 
-	auto instructions = parsers::csv_rw_route::generate_instructions(vals, me);
+	auto instructions = parsers::csv_rw_route::generate_instructions(vals, me, parsers::csv_rw_route::file_type::rw);
 
-	//std::cout << instructions << '\n';
+	std::cout << instructions << '\n';
 }

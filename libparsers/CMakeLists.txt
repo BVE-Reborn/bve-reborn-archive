@@ -76,6 +76,7 @@ file(COPY tests/pole_2.csv
           "tests/NYCT-6 Exp Pelham Bay to Brooklyn Bridge NTT [v1.0].csv"
           "tests/(4) To New Lots Avenue Bronx(LCL)Manhattan(EXP)Brooklyn(EXP) New Lots(LCL).csv"
           "tests/Maastricht v8 Express.csv"
+          "tests/NYCT-F (To NHP).rw"
      DESTINATION tests/)
 
 add_executable(parsers_test ${TEST_SOURCES})

@@ -1,4 +1,3 @@
-
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
 #include <algorithm>
@@ -6,14 +5,12 @@
 #include <string>
 #include <vector>
 
+using namespace std::string_literals;
+
 namespace parsers {
 namespace csv_rw_route {
 	namespace line_splitting {
 		instruction_info csv(const preprocessed_line& l) {
-			if (l.line == 1609) {
-				auto val = 2;
-			}
-
 			const std::string& text = l.contents;
 			auto first_break =
 			    std::find_if(text.begin(), text.end(), [](const char c) { return c == ' ' || c == '('; });
@@ -30,7 +27,6 @@ namespace csv_rw_route {
 				return instruction_info{"", {}, std::move(list), {}, true};
 			}
 
-
 			// all text is stripped by the preprocessor, so if there is a break we need to parse a parenthesized
 			// statement
 			if (first_break == text.end()) {
@@ -38,7 +34,8 @@ namespace csv_rw_route {
 			}
 
 			// skip passed all whitespace
-			first_break = std::find_if(first_break + 1, text.end(), [](const char c) { return !(c == ' ' || c == '('); }) - 1;
+			first_break =
+			    std::find_if(first_break + 1, text.end(), [](const char c) { return !(c == ' ' || c == '('); }) - 1;
 
 			auto after_first_break = first_break + 1;
 			std::string::const_iterator start_of_arg_list;
@@ -84,6 +81,67 @@ namespace csv_rw_route {
 			std::for_each(arg_list.begin(), arg_list.end(), [](std::string& s) { return util::strip_text(s); });
 
 			return instruction_info{command_name, indices_set, arg_list, suffix};
+		}
+
+		instruction_info rw(const preprocessed_line& l) {
+			const std::string& text = l.contents;
+			auto first_break =
+				std::find_if(text.begin(), text.end(), [](const char c) { return c == ' ' || c == '(' || c == '='; });
+
+			std::string command_name(text.begin(), first_break);
+			util::lower(command_name);
+
+			// if there is a : or text has no letters, is a position declaration
+			bool has_colon = std::count(command_name.begin(), command_name.end(), ':') > 0;
+			bool has_letters = std::count_if(command_name.begin(), command_name.end(),
+				[](const char c) { return std::isdigit(c) == 0 && c != '.'; }) > 0;
+			if (has_colon || !has_letters) {
+				auto list = util::split_text(command_name, ':');
+
+				return instruction_info{ "",{}, std::move(list),{}, true };
+			}
+
+			// This is a section header
+			if (first_break == text.end()) {
+				util::strip_text(command_name, "\t\n\v\f\r []");
+
+				return instruction_info{ "with"s, {}, {command_name}, {} };
+			}
+
+			// skip passed all whitespace
+			first_break =
+				std::find_if(first_break + 1, text.end(), [](const char c) { return !(c == ' ' || c == '(' || c == '='); }) - 1;
+
+			std::vector<std::string> parens_list;
+			if (*first_break == '(') {
+				auto rparen = std::find(first_break + 1, text.end(), ')');
+				parens_list = util::split_text(std::string(first_break + 1, rparen), ',');
+				first_break = rparen;
+			}
+
+			if (first_break + 1 == text.end()) {
+				return instruction_info{ command_name, {}, std::move(parens_list), {} };
+			}
+
+			bool has_suffix = *first_break + 1 == '.' && first_break + 2 != text.end();
+
+			std::string suffix;
+			if (has_suffix) {
+				auto suffix_end =
+					std::find_if(first_break + 1, text.end(), [](const char c) { return c == '='; });
+				suffix = std::string(first_break + 2, suffix_end);
+				util::lower(suffix);
+				first_break = suffix_end;
+			}
+			else {
+				first_break += 1;
+			}
+
+			if (first_break == text.end() && first_break + 1 == text.end()) {
+				return instruction_info{ command_name, {}, std::move(parens_list), suffix };
+			}
+
+			return instruction_info{ command_name, std::move(parens_list), {std::string(first_break + 1, text.end())}, suffix };
 		}
 	} // namespace line_splitting
 } // namespace csv_rw_route

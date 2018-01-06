@@ -239,11 +239,19 @@ namespace csv_rw_route {
 		}
 	}
 
-	static void split_on_commas(preprocessed_lines& lines) {
+	static void split_on_char(preprocessed_lines& lines, file_type ft) {
 		preprocessed_lines fixed;
 
+		char c;
+		if (ft == file_type::csv) {
+			c = ',';
+		}
+		else {
+			c = '@';
+		}
+
 		for (auto& line : lines.lines) {
-			auto vec = util::split_text(line.contents, ',', true);
+			auto vec = util::split_text(line.contents, c, ft == file_type::csv);
 			for (auto& elem : vec) {
 				util::strip_text(elem);
 				if (!elem.empty()) {
@@ -258,20 +266,23 @@ namespace csv_rw_route {
 		lines = fixed;
 	}
 
-	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors) {
+	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors,
+	                     file_type ft) {
 		preprocess_pass(lines, rng, errors);
 
 		// remove comments that have been added by preprocessing
 		for (auto& line : lines.lines) {
-			util::remove_comments(line.contents, ';', true);
+			util::remove_comments(line.contents, ';', ft == file_type::csv);
 		}
 
 		// split lines on commas
-		split_on_commas(lines);
+		split_on_char(lines, ft);
 
-		// remove comments that have been made valid by splitting
-		for (auto& line : lines.lines) {
-			util::remove_comments(line.contents, ';', true);
+		if (ft == file_type::csv) {
+			// remove comments that have been made valid by splitting
+			for (auto& line : lines.lines) {
+				util::remove_comments(line.contents, ';', true);
+			}
 		}
 
 		// remove empty lines

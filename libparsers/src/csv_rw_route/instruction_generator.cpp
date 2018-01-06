@@ -132,6 +132,10 @@ namespace csv_rw_route {
 			return pos;
 		}
 
+		///////////////////////
+		// Options Namespace //
+		///////////////////////
+
 		static instruction create_instruction_options_unitoflength(const line_splitting::instruction_info& instr) {
 			instructions::options::UnitOfLength uol;
 			uol.factors_in_meters.reserve(std::max(std::size_t(1), instr.args.size()));
@@ -252,6 +256,10 @@ namespace csv_rw_route {
 
 			return ebth;
 		}
+
+		/////////////////////
+		// Route Namespace //
+		/////////////////////
 
 		static instruction create_instruction_route_comment(const line_splitting::instruction_info& instr) {
 			return create_single_string_instruction<instructions::route::Comment>(instr, "Route.Comment");
@@ -418,6 +426,10 @@ namespace csv_rw_route {
 			return ld;
 		}
 
+		/////////////////////
+		// Train Namespace //
+		/////////////////////
+
 		static instruction create_instruction_train_folder(const line_splitting::instruction_info& instr) {
 			return create_single_string_instruction<instructions::train::Folder>(instr, "Train.Folder");
 		}
@@ -470,6 +482,10 @@ namespace csv_rw_route {
 			return create_single_float_instruction<instructions::train::Velocity>(instr, "Train.Velocity", 0);
 		}
 
+		/////////////////////////
+		// Structure Namespace //
+		/////////////////////////
+
 		static instruction create_instruction_structure_command(const line_splitting::instruction_info& instr) {
 			indices_at_least(instr, 1, "Structure.Command");
 			args_at_least(instr, 1, "Structure.Command");
@@ -493,6 +509,24 @@ namespace csv_rw_route {
 			    {"structure.crackr"s, instructions::structure::Command::CrackR},
 			    {"structure.freeobj"s, instructions::structure::Command::FreeObj},
 			    {"structure.beacon"s, instructions::structure::Command::Beacon},
+			    {"@@object@@ground"s, instructions::structure::Command::Ground},
+			    {"@@object@@rail"s, instructions::structure::Command::Rail},
+			    {"@@object@@walll"s, instructions::structure::Command::WallL},
+			    {"@@object@@wallr"s, instructions::structure::Command::WallR},
+			    {"@@object@@dikel"s, instructions::structure::Command::DikeL},
+			    {"@@object@@diker"s, instructions::structure::Command::DikeR},
+			    {"@@object@@forml"s, instructions::structure::Command::FormL},
+			    {"@@object@@formr"s, instructions::structure::Command::FormR},
+			    {"@@object@@formcl"s, instructions::structure::Command::FormCL},
+			    {"@@object@@formcr"s, instructions::structure::Command::FormCR},
+			    {"@@object@@roofl"s, instructions::structure::Command::RoofL},
+			    {"@@object@@roofr"s, instructions::structure::Command::RoofR},
+			    {"@@object@@roofcl"s, instructions::structure::Command::RoofCL},
+			    {"@@object@@roofcr"s, instructions::structure::Command::RoofCR},
+			    {"@@object@@crackl"s, instructions::structure::Command::CrackL},
+			    {"@@object@@crackr"s, instructions::structure::Command::CrackR},
+			    {"@@object@@freeobj"s, instructions::structure::Command::FreeObj},
+			    {"@@object@@beacon"s, instructions::structure::Command::Beacon},
 			};
 
 			instructions::structure::Command c;
@@ -517,6 +551,10 @@ namespace csv_rw_route {
 
 			return p;
 		}
+
+		///////////////////////
+		// Texture Namespace //
+		///////////////////////
 
 		static instruction create_instruction_texture_background(const line_splitting::instruction_info& instr) {
 			indices_at_least(instr, 1, "Texture.Background");
@@ -553,6 +591,10 @@ namespace csv_rw_route {
 			throw std::invalid_argument("Invalid suffix to Texture.Background");
 		}
 
+		/////////////////////
+		// Cycle Namespace //
+		/////////////////////
+
 		static instruction create_instruction_cycle_ground(const line_splitting::instruction_info& instr) {
 			indices_at_least(instr, 1, "Cycle.Ground");
 			args_at_least(instr, 1, "Cycle.Ground");
@@ -583,6 +625,10 @@ namespace csv_rw_route {
 			return r;
 		}
 
+		//////////////////////////////
+		// Signal (naked) Namespace //
+		//////////////////////////////
+
 		static instruction create_instruction_signal(const line_splitting::instruction_info& instr) {
 			indices_at_least(instr, 1, "Signal");
 			args_at_least(instr, 1, "Signal");
@@ -604,6 +650,14 @@ namespace csv_rw_route {
 			sa.filename = instr.args[0];
 			return sa;
 		}
+
+		/////////////////////
+		// Track Namespace //
+		/////////////////////
+
+		///////////
+		// Rails //
+		///////////
 
 		static instruction create_instruction_track_railstart(const line_splitting::instruction_info& instr) {
 			args_at_least(instr, 1, "RailStart");
@@ -744,6 +798,10 @@ namespace csv_rw_route {
 			return create_single_float_instruction<instructions::track::Pitch>(instr, "Track.Pitch");
 		}
 
+		//////////////
+		// Geometry //
+		//////////////
+
 		static instruction create_instruction_track_curve(const line_splitting::instruction_info& instr) {
 			instructions::track::Curve c;
 
@@ -769,6 +827,10 @@ namespace csv_rw_route {
 		static instruction create_instruction_track_height(const line_splitting::instruction_info& instr) {
 			return create_single_float_instruction<instructions::track::Height>(instr, "Track.Height");
 		}
+
+		/////////////
+		// Objects //
+		/////////////
 
 		static instruction create_instruction_track_freeobj(const line_splitting::instruction_info& instr) {
 			instructions::track::FreeObj fobj;
@@ -901,6 +963,10 @@ namespace csv_rw_route {
 		static instruction create_instruction_track_ground(const line_splitting::instruction_info& instr) {
 			return create_single_sizet_instruction<instructions::track::Ground>(instr, "Track.Ground");
 		}
+
+		//////////////
+		// Stations //
+		//////////////
 
 		static instruction create_instruction_track_sta(const line_splitting::instruction_info& instr) {
 			args_at_least(instr, 1, "Track.Sta");
@@ -1113,7 +1179,7 @@ namespace csv_rw_route {
 		}
 
 		static instruction create_instruction_track_form(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 4, "Tract.Form");
+			args_at_least(instr, 4, "Track.Form");
 
 			instructions::track::Form f;
 
@@ -1124,6 +1190,10 @@ namespace csv_rw_route {
 
 			return f;
 		}
+
+		/////////////////////////////////
+		// Signalling and Speed Limits //
+		/////////////////////////////////
 
 		static instruction create_instruction_track_limit(const line_splitting::instruction_info& instr) {
 			instructions::track::Limit l;
@@ -1248,6 +1318,10 @@ namespace csv_rw_route {
 			return r;
 		}
 
+		////////////////////
+		// Safety Systems //
+		////////////////////
+
 		static instruction create_instruction_track_beacon(const line_splitting::instruction_info& instr) {
 			args_at_least(instr, 4, "Track.Beacon");
 
@@ -1352,6 +1426,10 @@ namespace csv_rw_route {
 
 			return p;
 		}
+
+		//////////
+		// Misc //
+		//////////
 
 		static instruction create_instruction_track_back(const line_splitting::instruction_info& instr) {
 			return create_single_sizet_instruction<instructions::track::Back>(instr, "Track.Back");
@@ -1477,6 +1555,10 @@ namespace csv_rw_route {
 
 		static const std::map<std::string, instruction (*)(const line_splitting::instruction_info& instr)>
 		    function_mapping = {
+		        ////////////////
+		        // CSV ROUTES //
+		        ////////////////
+
 		        // Options namespace
 		        {"options.unitoflength"s, &create_instruction_options_unitoflength},
 		        {"options.unitofspeed"s, &create_instruction_options_unitofspeed},
@@ -1515,7 +1597,6 @@ namespace csv_rw_route {
 		        {"train.rail"s, &create_instruction_train_run},
 		        {"train.flange"s, &create_instruction_train_flange},
 		        {"train.timetable"s, &create_instruction_train_timetable},
-		        {"train.timetable"s, &create_instruction_train_timetable},
 		        {"train.gauge"s, &create_instruction_route_gauge},
 		        {"train.interval"s, &create_instruction_route_runinterval},
 		        {"train.velocity"s, &create_instruction_train_velocity},
@@ -1552,7 +1633,8 @@ namespace csv_rw_route {
 		        {"signal"s, &create_instruction_signal},
 
 		        // Track namespace
-		        // Rails:
+
+		        // Rails
 		        {"track.railstart"s, &create_instruction_track_railstart},
 		        {"track.rail"s, &create_instruction_track_rail},
 		        {"track.railtype"s, &create_instruction_track_railtype},
@@ -1560,13 +1642,13 @@ namespace csv_rw_route {
 		        {"track.accuracy"s, &create_instruction_track_accuracy},
 		        {"track.adhesion"s, &create_instruction_track_adhesion},
 
-		        // Geometry:
+		        // Geometry
 		        {"track.pitch"s, &create_instruction_track_pitch},
 		        {"track.curve"s, &create_instruction_track_curve},
 		        {"track.turn"s, &create_instruction_track_turn},
 		        {"track.height"s, &create_instruction_track_height},
 
-		        // Objects:
+		        // Objects
 		        {"track.freeobj"s, &create_instruction_track_freeobj},
 		        {"track.wall"s, &create_instruction_track_wall},
 		        {"track.wallend"s, &create_instruction_track_wallend},
@@ -1577,13 +1659,13 @@ namespace csv_rw_route {
 		        {"track.crack"s, &create_instruction_track_crack},
 		        {"track.ground"s, &create_instruction_track_ground},
 
-		        // Stations:
+		        // Stations
 		        {"track.sta"s, &create_instruction_track_sta},
 		        {"track.station"s, &create_instruction_track_station},
 		        {"track.stop"s, &create_instruction_track_stop},
 		        {"track.form"s, &create_instruction_track_form},
 
-		        // Signalling and speed limits:
+		        // Signalling and speed limits
 		        {"track.limit"s, &create_instruction_track_limit},
 		        {"track.section"s, &create_instruction_track_section},
 		        {"track.sigf"s, &create_instruction_track_sigf},
@@ -1591,7 +1673,7 @@ namespace csv_rw_route {
 		        {"track.sig"s, &create_instruction_track_signal},
 		        {"track.relay"s, &create_instruction_track_relay},
 
-		        // Safety systems:
+		        // Safety systems
 		        {"track.beacon"s, &create_instruction_track_beacon},
 		        {"track.transponder"s, &create_instruction_track_transponder},
 		        {"track.atssn"s, &create_instruction_track_atssn},
@@ -1599,7 +1681,7 @@ namespace csv_rw_route {
 		        {"track.pattern"s, &create_instruction_track_pattern},
 		        {"track.plimit"s, &create_instruction_track_plimit},
 
-		        // Miscellaneous:
+		        // Miscellaneous
 		        {"track.back"s, &create_instruction_track_back},
 		        {"track.fog"s, &create_instruction_track_fog},
 		        {"track.brightness"s, &create_instruction_track_brightness},
@@ -1609,14 +1691,141 @@ namespace csv_rw_route {
 		        {"track.announce"s, &create_instruction_track_announce},
 		        {"track.doppler"s, &create_instruction_track_doppler},
 		        {"track.buffer"s, &create_instruction_track_buffer},
+
+		        ///////////////
+		        // RW Routes //
+		        ///////////////
+
+		        // [Options]
+		        {"@@options@@unitoflength"s, &create_instruction_options_unitoflength},
+		        {"@@options@@unitofspeed"s, &create_instruction_options_unitofspeed},
+		        {"@@options@@blocklength"s, &create_instruction_options_blocklength},
+		        {"@@options@@objectvisibility"s, &create_instruction_options_objectvisibility},
+		        {"@@options@@sectionbehavior"s, &create_instruction_options_sectionbehavior},
+		        {"@@options@@cantbehavior"s, &create_instruction_options_cantbehavior},
+		        {"@@options@@fogbehavior"s, &create_instruction_options_fogbehavior},
+
+		        // [Route]
+		        {"@@route@@comment"s, &create_instruction_route_comment},
+		        {"@@route@@image"s, &create_instruction_route_image},
+		        {"@@route@@timetable"s, &create_instruction_route_timetable},
+		        {"@@route@@change"s, &create_instruction_route_change},
+		        {"@@route@@gauge"s, &create_instruction_route_gauge},
+		        {"@@route@@signal"s, &create_instruction_route_signal},
+		        {"@@route@@runinterval"s, &create_instruction_route_runinterval},
+		        {"@@route@@accelerationduetogravity"s, &create_instruction_route_accelerationduetogravity},
+		        {"@@route@@elevation"s, &create_instruction_route_elevation},
+		        {"@@route@@temperature"s, &create_instruction_route_temperature},
+		        {"@@route@@pressure"s, &create_instruction_route_pressure},
+		        {"@@route@@ambientlight"s, &create_instruction_route_ambientlight},
+		        {"@@route@@directionallight"s, &create_instruction_route_directionallight},
+		        {"@@route@@lightdirection"s, &create_instruction_route_lightdirection},
+
+		        // [Train]
+		        {"@@train@@folder"s, &create_instruction_train_folder},
+				{ "@@train@@file"s, &create_instruction_train_folder },
+		        {"@@train@@run"s, &create_instruction_train_run},
+				{ "@@train@@rail"s, &create_instruction_train_run },
+		        {"@@train@@flange"s, &create_instruction_train_flange},
+		        {"@@train@@timetable"s, &create_instruction_train_timetable},
+		        {"@@train@@gauge"s, &create_instruction_route_gauge},
+		        {"@@train@@interval"s, &create_instruction_route_runinterval},
+		        {"@@train@@velocity"s, &create_instruction_train_velocity},
+
+		        // [Object]
+		        {"@@object@@rail"s, &create_instruction_structure_command},
+		        {"@@object@@beacon"s, &create_instruction_structure_command},
+		        {"@@object@@ground"s, &create_instruction_structure_command},
+		        {"@@object@@walll"s, &create_instruction_structure_command},
+		        {"@@object@@wallr"s, &create_instruction_structure_command},
+		        {"@@object@@dikel"s, &create_instruction_structure_command},
+		        {"@@object@@diker"s, &create_instruction_structure_command},
+		        {"@@object@@forml"s, &create_instruction_structure_command},
+		        {"@@object@@formr"s, &create_instruction_structure_command},
+		        {"@@object@@formcl"s, &create_instruction_structure_command},
+		        {"@@object@@formcr"s, &create_instruction_structure_command},
+		        {"@@object@@roofl"s, &create_instruction_structure_command},
+		        {"@@object@@roofr"s, &create_instruction_structure_command},
+		        {"@@object@@roofcl"s, &create_instruction_structure_command},
+		        {"@@object@@roofcr"s, &create_instruction_structure_command},
+		        {"@@object@@crackl"s, &create_instruction_structure_command},
+		        {"@@object@@crackr"s, &create_instruction_structure_command},
+		        {"@@object@@freeobj"s, &create_instruction_structure_command},
+		        {"@@object@@pole"s, &create_instruction_structure_pole},
+		        {"@@object@@back"s, &create_instruction_texture_background},
+
+		        // [Cycle]
+		        {"@@cycle@@groundstructureindex"s, &create_instruction_cycle_ground},
+
+		        // [Signal]
+		        {"@@signal@@signalindex"s, &create_instruction_signal},
+
+		        // [Railway]
+
+		        // Rails
+		        {"@@railway@@railstart"s, &create_instruction_track_railstart},
+		        {"@@railway@@rail"s, &create_instruction_track_rail},
+		        {"@@railway@@railtype"s, &create_instruction_track_railtype},
+		        {"@@railway@@railend"s, &create_instruction_track_railend},
+		        {"@@railway@@accuracy"s, &create_instruction_track_accuracy},
+		        {"@@railway@@adhesion"s, &create_instruction_track_adhesion},
+
+		        // Geometry
+		        {"@@railway@@pitch"s, &create_instruction_track_pitch},
+		        {"@@railway@@curve"s, &create_instruction_track_curve},
+		        {"@@railway@@turn"s, &create_instruction_track_turn},
+		        {"@@railway@@height"s, &create_instruction_track_height},
+
+		        // Objects
+		        {"@@railway@@freeobj"s, &create_instruction_track_freeobj},
+		        {"@@railway@@wall"s, &create_instruction_track_wall},
+		        {"@@railway@@wallend"s, &create_instruction_track_wallend},
+		        {"@@railway@@dike"s, &create_instruction_track_dike},
+		        {"@@railway@@dikeend"s, &create_instruction_track_dikeend},
+		        {"@@railway@@pole"s, &create_instruction_track_pole},
+		        {"@@railway@@poleend"s, &create_instruction_track_poleend},
+		        {"@@railway@@crack"s, &create_instruction_track_crack},
+		        {"@@railway@@ground"s, &create_instruction_track_ground},
+
+		        // Stations
+		        {"@@railway@@sta"s, &create_instruction_track_sta},
+		        {"@@railway@@station"s, &create_instruction_track_station},
+		        {"@@railway@@stop"s, &create_instruction_track_stop},
+		        {"@@railway@@form"s, &create_instruction_track_form},
+
+		        // Signalling and speed limits
+		        {"@@railway@@limit"s, &create_instruction_track_limit},
+		        {"@@railway@@section"s, &create_instruction_track_section},
+		        {"@@railway@@sigf"s, &create_instruction_track_sigf},
+		        {"@@railway@@signal"s, &create_instruction_track_signal},
+		        {"@@railway@@relay"s, &create_instruction_track_relay},
+
+		        // Safety systems
+		        {"@@railway@@beacon"s, &create_instruction_track_beacon},
+		        {"@@railway@@transponder"s, &create_instruction_track_transponder},
+		        {"@@railway@@atssn"s, &create_instruction_track_atssn},
+		        {"@@railway@@atsp"s, &create_instruction_track_atsp},
+		        {"@@railway@@pattern"s, &create_instruction_track_pattern},
+		        {"@@railway@@plimit"s, &create_instruction_track_plimit},
+
+		        // Miscellaneous
+		        {"@@railway@@back"s, &create_instruction_track_back},
+		        {"@@railway@@fog"s, &create_instruction_track_fog},
+		        {"@@railway@@brightness"s, &create_instruction_track_brightness},
+		        {"@@railway@@marker"s, &create_instruction_track_marker},
+		        {"@@railway@@pointofinterest"s, &create_instruction_track_pointofinterest},
+		        {"@@railway@@pretrain"s, &create_instruction_track_pretrain},
+		        {"@@railway@@announce"s, &create_instruction_track_announce},
+		        {"@@railway@@doppler"s, &create_instruction_track_doppler},
+		        {"@@railway@@buffer"s, &create_instruction_track_buffer},
 		};
 	} // namespace
 
 	static instruction generate_instruction(const preprocessed_lines& lines, preprocessed_line& line,
-	                                        errors::multi_error& errors, std::string& with_value) {
+	                                        errors::multi_error& errors, std::string& with_value, file_type ft) {
 		instruction i;
 
-		auto parsed = line_splitting::csv(line);
+		auto parsed = ft == file_type::csv ? line_splitting::csv(line) : line_splitting::rw(line);
 
 		if (parsed.track_position) {
 			return create_instruction_location_statement(parsed);
@@ -1624,12 +1833,32 @@ namespace csv_rw_route {
 
 		util::lower(parsed.name);
 
-		auto dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
-		bool has_dot = dot_iter != parsed.name.end();
+		if (ft == file_type::csv) {
+			auto dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
+			bool has_dot = dot_iter != parsed.name.end();
 
-		// get fully qualified name
-		if (has_dot && dot_iter == parsed.name.begin()) {
-			parsed.name = with_value + parsed.name;
+			// get fully qualified name
+			if (has_dot && dot_iter == parsed.name.begin()) {
+				parsed.name = with_value + parsed.name;
+			}
+		}
+		else if (parsed.name != "with"s) {
+			// Deal with special cases
+			if (with_value.empty() && parsed.name != "with"s) {
+				return instructions::route::Comment{line.contents};
+			}
+			if (with_value == "signal") {
+				parsed.indices.emplace_back(std::move(parsed.name));
+				parsed.name = "@@signal@@signalindex"s;
+			}
+			else if (with_value == "cycle") {
+				parsed.indices.emplace_back(std::move(parsed.name));
+				parsed.name = "@@cycle@@groundstructureindex"s;
+			}
+			// Get normal qualitifed name
+			else {
+				parsed.name = "@@"s + with_value + "@@" + parsed.name;
+			}
 		}
 
 		// lookup function
@@ -1639,7 +1868,15 @@ namespace csv_rw_route {
 				with_value = util::lower_copy(parsed.args[0]);
 			}
 			else {
-				if (parsed.name != "route.developerid"s) {
+				bool ignored = false;
+				if (ft == file_type::csv) {
+					ignored = parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s || parsed.name == "train.station"s;
+				}
+				else {
+					ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s || parsed.name == "@@train@@station"s;
+				}
+
+				if (!ignored) {
 					std::ostringstream oss;
 					oss << "\"" << parsed.name << "\" is not a known function in a csv file";
 					errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
@@ -1659,13 +1896,13 @@ namespace csv_rw_route {
 		return i;
 	}
 
-	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors) {
+	instruction_list generate_instructions(preprocessed_lines& lines, errors::multi_error& errors, file_type ft) {
 		instruction_list i_list;
 		i_list.reserve(lines.lines.size());
 
 		std::string with_value = "";
 		for (auto& line : lines.lines) {
-			auto i = generate_instruction(lines, line, errors, with_value);
+			auto i = generate_instruction(lines, line, errors, with_value, ft);
 
 			mapbox::util::apply_visitor(
 			    [&line](auto& i) {

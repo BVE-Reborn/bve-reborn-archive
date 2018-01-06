@@ -1,5 +1,6 @@
 #include "csv_rw_route.hpp"
 #include <boost/optional/optional_io.hpp>
+#include <iomanip>
 #include <ostream>
 
 // MSVC doesn't expand __VA_ARGS__ right, this is a workaround
@@ -10,7 +11,9 @@
 	_os << ", " #name " = ";                                                                                           \
 	print_vector(inst.name);
 #define PRINT_TIME(name)                                                                                               \
-	_os << ", " #name " = " << (inst.name / 3600) << ':' << ((inst.name / 60) % 60) << ':' << (inst.name % 60);
+	_os << ", " #name " = " << std::setw(2) << std::setfill('0') << (inst.name / 3600) << ':' << std::setw(2)          \
+	    << std::setfill('0') << ((inst.name / 60) % 60) << ':' << std::setw(2) << std::setfill('0')                    \
+	    << (inst.name % 60);
 #define PRINT_COLOR(name)                                                                                              \
 	_os << ", " #name " = "                                                                                            \
 	    << "(r = " << int(inst.name.r) << ", g = " << int(inst.name.g) << ", b = " << int(inst.name.b) << ')';

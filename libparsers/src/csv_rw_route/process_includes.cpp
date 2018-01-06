@@ -175,13 +175,14 @@ namespace csv_rw_route {
 
 	static preprocessed_lines recursive_process_includes(
 	    const std::set<std::string>& past_files, const std::string& current_filename, openbve2::datatypes::rng& rng,
-	    errors::multi_error& errors,
+	    errors::multi_error& errors, file_type ft,
 	    const std::function<std::string(const std::string& base_file, const std::string& relative)>& get_abs_path) {
+
 		auto& current_file_errors = errors[current_filename];
 
 		// Read file
 		auto file_contents = util::load_from_file_utf8_bom(current_filename);
-		util::remove_comments(file_contents, ';', true);
+		util::remove_comments(file_contents, ';', ft == file_type::csv);
 
 		// Extract array of lines
 		auto file_line_array = util::split_text(file_contents, '\n');
@@ -223,7 +224,7 @@ namespace csv_rw_route {
 			               include_chain_list.insert(include.filename);
 
 			               try {
-				               return recursive_process_includes(include_chain_list, include.filename, rng, errors,
+				               return recursive_process_includes(include_chain_list, include.filename, rng, errors, ft,
 				                                                 get_abs_path);
 			               }
 			               catch (std::invalid_argument& e) {
@@ -297,9 +298,10 @@ namespace csv_rw_route {
 	}
 
 	preprocessed_lines process_include_files(
-	    const std::string& filename, openbve2::datatypes::rng& rng, errors::multi_error& errors,
+	    const std::string& filename, openbve2::datatypes::rng& rng, errors::multi_error& errors, file_type ft,
 	    const std::function<std::string(const std::string& base_file, const std::string& relative)>& get_abs_path) {
-		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng, errors, get_abs_path);
+		auto lines =
+		    recursive_process_includes(std::set<std::string>{filename}, filename, rng, errors, ft, get_abs_path);
 		remove_duplicate_filenames(lines);
 		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
 		                                 [](const preprocessed_line& l) { return l.contents.empty(); }),
