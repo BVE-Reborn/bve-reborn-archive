@@ -7,6 +7,7 @@
 #define EXPAND(x) x;
 
 #define PRINT_VALUE(name) _os << ", " #name " = " << inst.name;
+#define PRINT_BYTE(name) _os << ", " #name " = " << int(inst.name);
 #define PRINT_VECTOR(name)                                                                                             \
 	_os << ", " #name " = ";                                                                                           \
 	print_vector(inst.name);
@@ -741,7 +742,7 @@ namespace csv_rw_route {
 			void operator()(const instructions::track::Brightness& inst) {
 				start(inst, "Track.Brightness");
 
-				PRINT_VALUE(value);
+				PRINT_BYTE(value);
 
 				end();
 			}

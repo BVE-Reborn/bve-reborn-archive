@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -15,5 +16,9 @@ namespace errors {
 	using errors_t = std::vector<error_t>;
 
 	using multi_error = std::unordered_map<std::string, errors_t>;
+
+	std::ostream& operator<<(std::ostream& os, error_t);
+	std::ostream& operator<<(std::ostream& os, errors_t);
+	std::ostream& operator<<(std::ostream& os, multi_error);
 } // namespace errors
 } // namespace parsers

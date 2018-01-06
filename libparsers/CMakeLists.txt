@@ -13,6 +13,7 @@ set(SOURCES
             src/csv_rw_route/command_spliter.cpp
             src/csv_rw_route/preprocessor.cpp
             src/csv_rw_route/process_includes.cpp
+            src/errors/iostream.cpp
             src/function_scripts/instruction_builder.cpp
             src/function_scripts/instruction_iostream.cpp
             src/function_scripts/lexer.cpp

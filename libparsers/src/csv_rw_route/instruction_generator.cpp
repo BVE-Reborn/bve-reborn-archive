@@ -1059,7 +1059,7 @@ namespace csv_rw_route {
 						if (arr_arg.size() == 0) {
 							s.departure_tag = instructions::track::Sta::DepartureTime_t::AnyTime;
 						}
-						else if (arr_arg[0] == 't') {
+						else if (arr_arg[0] == 't' || arr_arg[0] == '=') {
 							if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
 								s.departure = util::parse_time(arr_arg.substr(2));
 								s.departure_tag = instructions::track::Sta::DepartureTime_t::TerminalTime;
@@ -1723,9 +1723,9 @@ namespace csv_rw_route {
 
 		        // [Train]
 		        {"@@train@@folder"s, &create_instruction_train_folder},
-				{ "@@train@@file"s, &create_instruction_train_folder },
+		        {"@@train@@file"s, &create_instruction_train_folder},
 		        {"@@train@@run"s, &create_instruction_train_run},
-				{ "@@train@@rail"s, &create_instruction_train_run },
+		        {"@@train@@rail"s, &create_instruction_train_run},
 		        {"@@train@@flange"s, &create_instruction_train_flange},
 		        {"@@train@@timetable"s, &create_instruction_train_timetable},
 		        {"@@train@@gauge"s, &create_instruction_route_gauge},
@@ -1870,10 +1870,12 @@ namespace csv_rw_route {
 			else {
 				bool ignored = false;
 				if (ft == file_type::csv) {
-					ignored = parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s || parsed.name == "train.station"s;
+					ignored = parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s ||
+					          parsed.name == "train.station"s;
 				}
 				else {
-					ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s || parsed.name == "@@train@@station"s;
+					ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s ||
+					          parsed.name == "@@train@@station"s;
 				}
 
 				if (!ignored) {
