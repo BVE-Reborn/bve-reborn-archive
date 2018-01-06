@@ -94,7 +94,10 @@ namespace csv_rw_route {
 		while (begin != end) {
 			auto next_money = std::find(begin, end, '$');
 			if (next_money == end) {
-				return std::string(begin, end);
+				// Prevent commas from beign dragged into the contents of a preprocessing statement
+				auto comma_iter = std::find(begin, end, ',');
+				return_value += std::string(begin, comma_iter);
+				break;
 			}
 			auto next_parens = std::find(next_money, end, '(');
 
@@ -263,13 +266,18 @@ namespace csv_rw_route {
 			util::remove_comments(line.contents, ';', true);
 		}
 
+		// split lines on commas
+		split_on_commas(lines);
+
+		// remove comments that have been made valid by splitting
+		for (auto& line : lines.lines) {
+			util::remove_comments(line.contents, ';', true);
+		}
+
 		// remove empty lines
 		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
 		                                 [](preprocessed_line& l) { return l.contents.empty(); }),
 		                  lines.lines.end());
-
-		// split lines on commas
-		split_on_commas(lines);
 	}
 } // namespace csv_rw_route
 } // namespace parsers

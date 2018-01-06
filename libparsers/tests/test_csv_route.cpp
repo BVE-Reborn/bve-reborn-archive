@@ -18,7 +18,8 @@ void test_csv_route() {
 
 	parsers::errors::multi_error me;
 
-	auto file_location = DIRECTORY "tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
+	// auto file_location = DIRECTORY "tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
+	auto file_location = DIRECTORY "tests/Maastricht v8 Express.csv";
 	auto used_file = std::experimental::filesystem::path(file_location);
 
 	auto vals = parsers::csv_rw_route::process_include_files(
@@ -40,5 +41,5 @@ void test_csv_route() {
 
 	auto instructions = parsers::csv_rw_route::generate_instructions(vals, me);
 
-	std::cout << instructions << '\n';
+	//std::cout << instructions << '\n';
 }

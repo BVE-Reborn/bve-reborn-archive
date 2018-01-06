@@ -10,6 +10,10 @@ namespace parsers {
 namespace csv_rw_route {
 	namespace line_splitting {
 		instruction_info csv(const preprocessed_line& l) {
+			if (l.line == 1609) {
+				auto val = 2;
+			}
+
 			const std::string& text = l.contents;
 			auto first_break =
 			    std::find_if(text.begin(), text.end(), [](const char c) { return c == ' ' || c == '('; });
@@ -19,18 +23,22 @@ namespace csv_rw_route {
 			// if there is a : or text has no letters, is a position declaration
 			bool has_colon = std::count(command_name.begin(), command_name.end(), ':') > 0;
 			bool has_letters = std::count_if(command_name.begin(), command_name.end(),
-			                                 [](const char c) { return std::isdigit(c) == 0; }) > 0;
+			                                 [](const char c) { return std::isdigit(c) == 0 && c != '.'; }) > 0;
 			if (has_colon || !has_letters) {
 				auto list = util::split_text(command_name, ':');
 
 				return instruction_info{"", {}, std::move(list), {}, true};
 			}
 
+
 			// all text is stripped by the preprocessor, so if there is a break we need to parse a parenthesized
 			// statement
 			if (first_break == text.end()) {
 				return instruction_info{command_name, {}, {}, {}};
 			}
+
+			// skip passed all whitespace
+			first_break = std::find_if(first_break + 1, text.end(), [](const char c) { return !(c == ' ' || c == '('); }) - 1;
 
 			auto after_first_break = first_break + 1;
 			std::string::const_iterator start_of_arg_list;
@@ -59,6 +67,7 @@ namespace csv_rw_route {
 				auto suffix_end =
 				    std::find_if(start_of_arg_list, text.end(), [](const char c) { return c == ' ' || c == '('; });
 				suffix = std::string(start_of_arg_list + 1, suffix_end);
+				util::lower(suffix);
 				start_of_arg_list = suffix_end;
 			}
 

@@ -254,7 +254,7 @@ namespace util {
 
 	void remove_comments(std::string& text, char comment, bool first_in_line) {
 		bool removing = false;
-		bool newline = false;
+		bool newline = true;
 		auto remove_func = [&](const char& c) {
 			if (c == comment && (first_in_line ? newline : true)) {
 				removing = true;

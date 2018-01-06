@@ -414,7 +414,7 @@ namespace track {
 	struct Crack : public instruction_base {
 		std::size_t rail_index_1;
 		std::size_t rail_index_2;
-		std::size_t crack_structure_index;
+		std::size_t crack_structure_index = 0;
 	};
 
 	struct Ground {
@@ -459,7 +459,7 @@ namespace track {
 
 		float forwards_tolerance = 5;
 		float backwards_tolerance = 5;
-		std::size_t cars;
+		std::size_t cars = 0;
 	};
 
 	struct Form : public instruction_base {

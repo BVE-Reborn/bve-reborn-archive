@@ -15,13 +15,17 @@ namespace csv_rw_route {
 
 		static void args_at_least(const line_splitting::instruction_info& instr, std::size_t num, const char* name) {
 			if (instr.args.size() < num) {
-				throw std::invalid_argument(name + " must have at least one argument"s);
+				std::ostringstream oss;
+				oss << name << " must have at least " << num << " argument" << (num == 1 ? "" : "s");
+				throw std::invalid_argument(oss.str());
 			}
 		}
 
 		static void indices_at_least(const line_splitting::instruction_info& instr, std::size_t num, const char* name) {
 			if (instr.indices.size() < num) {
-				throw std::invalid_argument(name + " must have at least one index"s);
+				std::ostringstream oss;
+				oss << name << " must have at least " << num << " ind" << (num == 1 ? "ex" : "ices");
+				throw std::invalid_argument(oss.str());
 			}
 		}
 
@@ -881,13 +885,15 @@ namespace csv_rw_route {
 		}
 
 		static instruction create_instruction_track_crack(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 3, "Track.Crack");
+			args_at_least(instr, 2, "Track.Crack");
 
 			instructions::track::Crack c;
 
 			c.rail_index_1 = std::size_t(util::parse_loose_integer(instr.args[0]));
 			c.rail_index_2 = std::size_t(util::parse_loose_integer(instr.args[1]));
-			c.crack_structure_index = std::size_t(util::parse_loose_integer(instr.args[2]));
+			if (instr.args.size() >= 3) {
+				c.crack_structure_index = std::size_t(util::parse_loose_integer(instr.args[2], 0));
+			}
 
 			return c;
 		}
@@ -921,7 +927,7 @@ namespace csv_rw_route {
 				case 7:
 					// System
 					{
-						auto& arg_val = instr.args[6];
+						auto arg_val = util::lower_copy(instr.args[6]);
 						s.system = arg_val == "atc" || arg_val == "1";
 					}
 					// fall through
@@ -935,7 +941,7 @@ namespace csv_rw_route {
 				case 5:
 					// Doors
 					{
-						auto& arg_val = instr.args[4];
+						auto arg_val = util::lower_copy(instr.args[4]);
 						if (arg_val.size() == 0) {
 							s.doors = instructions::track::Sta::Doors_t::None;
 						}
@@ -983,7 +989,7 @@ namespace csv_rw_route {
 				case 3:
 					// Departure Time
 					{
-						auto& arr_arg = instr.args[2];
+						auto arr_arg = util::lower_copy(instr.args[2]);
 						if (arr_arg.size() == 0) {
 							s.departure_tag = instructions::track::Sta::DepartureTime_t::AnyTime;
 						}
@@ -1013,7 +1019,7 @@ namespace csv_rw_route {
 				case 2:
 					// Arrival time
 					{
-						auto& arr_arg = instr.args[1];
+						auto arr_arg = util::lower_copy(instr.args[1]);
 						if (arr_arg.size() == 0) {
 							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::AnyTime;
 						}
@@ -1504,7 +1510,9 @@ namespace csv_rw_route {
 
 		        // Train namespace
 		        {"train.folder"s, &create_instruction_train_folder},
+		        {"train.file"s, &create_instruction_train_folder},
 		        {"train.run"s, &create_instruction_train_run},
+		        {"train.rail"s, &create_instruction_train_run},
 		        {"train.flange"s, &create_instruction_train_flange},
 		        {"train.timetable"s, &create_instruction_train_timetable},
 		        {"train.timetable"s, &create_instruction_train_timetable},
@@ -1580,6 +1588,7 @@ namespace csv_rw_route {
 		        {"track.section"s, &create_instruction_track_section},
 		        {"track.sigf"s, &create_instruction_track_sigf},
 		        {"track.signal"s, &create_instruction_track_signal},
+		        {"track.sig"s, &create_instruction_track_signal},
 		        {"track.relay"s, &create_instruction_track_relay},
 
 		        // Safety systems:
@@ -1630,9 +1639,11 @@ namespace csv_rw_route {
 				with_value = util::lower_copy(parsed.args[0]);
 			}
 			else {
-				std::ostringstream oss;
-				oss << "\"" << parsed.name << "\" is not a known function in a csv file";
-				errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
+				if (parsed.name != "route.developerid"s) {
+					std::ostringstream oss;
+					oss << "\"" << parsed.name << "\" is not a known function in a csv file";
+					errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
+				}
 			}
 			return instructions::naked::None{};
 		}
