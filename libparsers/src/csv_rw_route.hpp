@@ -1,6 +1,8 @@
 #pragma once
 
 #include "core/datatypes.hpp"
+#include "csv_rw_route/instructions.hpp"
+#include "csv_rw_route/route_structure.hpp"
 #include "parsers/errors.hpp"
 #include <boost/optional/optional.hpp>
 #include <functional>
@@ -30,9 +32,6 @@ namespace csv_rw_route {
 
 	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors,
 	                     file_type ft);
-
-#define INSTRUCTIONS_NO_INCLUDE
-#include "csv_rw_route/instructions.hpp"
 
 	using instruction = mapbox::util::variant<
 	    instructions::naked::None, instructions::naked::position,
@@ -97,6 +96,7 @@ namespace csv_rw_route {
 	instruction_list generate_instructions(const preprocessed_lines& lines, errors::multi_error& errors, file_type ft);
 
 	void execute_instructions_pass1(instruction_list& list, errors::multi_error& errors);
+
 } // namespace csv_rw_route
 } // namespace parsers
 

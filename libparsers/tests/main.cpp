@@ -27,5 +27,8 @@ int main(int argc, char** argv) {
 		case 5:
 			test_csv_route();
 			break;
+		case 6:
+			test_math();
+			break;
 	}
 }

@@ -4,7 +4,12 @@ project(OpenBVE2 CXX)
 set (CMAKE_CXX_STANDARD 14)
 set (CXX_STANDARD_REQUIRED True)
 
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+
 add_subdirectory("dependencies/glm")
+
+set_target_properties(glm_dummy PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 include("dependencies/cmake-utils/include/clang_format.cmake")
 include("dependencies/cmake-utils/include/linter.cmake")
@@ -18,17 +23,13 @@ add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 # Suppress annoying boost message
 add_definitions(-DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
 
-#message(STATUS "${CMAKE_CXX_FLAGS}")
-#if(OPENBVE2_ADD_FLAGS MATCHES "/GL")
-#    string(REGEX REPLACE "/Z(i|I)" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
-#endif()
-#if(OPENBVE2_ADD_FLAGS MATCHES "/GL")
-#    string(REGEX REPLACE "/Z(i|I)" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-#endif()
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OPENBVE2_ADD_FLAGS}")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPENBVE2_ADD_FLAGS}")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OPENBVE2_LINKER_FLAGS}")
-#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${OPENBVE2_LINKER_FLAGS}")
+if (NOT(CMAKE_BUILD_TYPE EQUAL "DEBUG"))
+    if (MSVC)
+        add_compile_options(/fp:fast)
+    else()
+        add_compile_options(-ffast-math)
+    endif()
+endif()
 
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

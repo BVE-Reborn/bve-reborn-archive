@@ -1,9 +1,11 @@
 #pragma once
 
 #include <cinttypes>
+#include <cmath>
 #include <glm/integer.hpp>
 #include <glm/vec3.hpp>
 #include <random>
+#include <type_traits>
 
 namespace openbve2 {
 namespace datatypes {
@@ -25,5 +27,55 @@ namespace datatypes {
 	using rng = std::mt19937;
 
 	using time = std::intmax_t;
+
+	/*class position_value {
+	  private:
+		constexpr static std::intmax_t wraparound = 32782;
+		std::intmax_t offset;
+		float value;
+
+	  public:
+		position_value() : offset(0), value(0.0f){};
+
+		template <class T, typename std::enable_if<std::is_integral<T>::value, void>::type** = nullptr>
+		position_value(T input) : offset(input / wraparound), value(input % wraparound){};
+
+		template <class T, typename std::enable_if<std::is_floating_point<T>::value, void>::type** = nullptr>
+		position_value(T input) : offset(std::floor(input / float(wraparound))), value(std::remainder(input, float(wraparound))){};
+
+		template <class T, typename std::enable_if<std::is_integral<T>::value, void>::type** = nullptr>
+		explicit operator T() {
+			return T(offset * wraparound + std::intmax_t(value));
+		};
+
+		template <class T, typename std::enable_if<std::is_floating_point<T>::value, void>::type** = nullptr>
+		explicit operator T() {
+			return T(offset) * wraparound + value;
+		};
+
+		friend position_value& operator+(position_value& lhs, const position_value& rhs);
+		friend position_value& operator-(position_value& lhs, const position_value& rhs);
+		friend bool operator<(position_value& lhs, const position_value& rhs);
+		friend bool operator>(position_value& lhs, const position_value& rhs);
+		friend bool operator<=(position_value& lhs, const position_value& rhs);
+		friend bool operator>=(position_value& lhs, const position_value& rhs);
+		friend bool operator==(position_value& lhs, const position_value& rhs);
+		friend bool operator!=(position_value& lhs, const position_value& rhs);
+	};
+
+	inline position_value& operator+(position_value& lhs, const position_value& rhs) {
+		auto sum = 2;
+		float val = std::remainder(, float(position_value::wraparound));
+
+
+		return lhs;
+	}
+	inline position_value& operator-(position_value& lhs, const position_value& rhs);
+	inline bool operator<(position_value& lhs, const position_value& rhs);
+	inline bool operator>(position_value& lhs, const position_value& rhs);
+	inline bool operator<=(position_value& lhs, const position_value& rhs);
+	inline bool operator>=(position_value& lhs, const position_value& rhs);
+	inline bool operator==(position_value& lhs, const position_value& rhs);
+	inline bool operator!=(position_value& lhs, const position_value& rhs);*/
 } // namespace datatypes
 } // namespace openbve2

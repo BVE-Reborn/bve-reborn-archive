@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <glm/vec3.hpp>
 
 namespace openbve2 {
 namespace math {
@@ -24,5 +25,14 @@ namespace math {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) < t(b) ? t(a) : t(b);
 	}
+
+	float radius_from_distances(float deltax, float deltay);
+
+	struct evaulate_curve_t {
+		glm::vec3 position;
+		glm::vec3 tangent;
+	};
+
+	evaulate_curve_t evaluate_curve(glm::vec3 input_position, glm::vec3 input_direction, float distance, float radius);
 } // namespace math
 } // namespace openbve2

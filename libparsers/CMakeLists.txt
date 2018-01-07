@@ -12,6 +12,7 @@ set(SOURCES
             src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/command_spliter.cpp
             src/csv_rw_route/executor_pass1.cpp
+            src/csv_rw_route/executor_pass2.cpp
             src/csv_rw_route/preprocessor.cpp
             src/csv_rw_route/process_includes.cpp
             src/errors/iostream.cpp
@@ -36,6 +37,7 @@ set(HEADERS
             src/csv.hpp
             src/csv_rw_route.hpp
             src/csv_rw_route/instructions.hpp
+            src/csv_rw_route/route_structure.hpp
             src/function_scripts.hpp
             src/ini.hpp
 )
@@ -60,6 +62,7 @@ set(TEST_SOURCES
                  tests/test_csv_obj.cpp
                  tests/test_csv_route.cpp
                  tests/test_fs.cpp
+                 tests/test_math.cpp
     )
 
 set(TEST_HEADERS
@@ -83,7 +86,7 @@ file(COPY tests/pole_2.csv
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test parsers Boost::boost)
+target_link_libraries(parsers_test core parsers Boost::boost)
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     target_link_libraries(parsers_test -lstdc++fs)
 endif()

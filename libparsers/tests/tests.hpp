@@ -11,3 +11,4 @@ void test_csv_obj();
 void test_animated();
 void test_fs();
 void test_csv_route();
+void test_math();
