@@ -48,7 +48,7 @@ namespace csv_rw_route {
 
 		std::stable_sort(list.instructions.begin(), list.instructions.end(),
 		                 [](const instruction& a, const instruction& b) {
-			                 auto position = [](auto& a) -> float { return a.absolute_offset; };
+			                 auto position = [](auto& val) -> float { return val.absolute_offset; };
 			                 return mapbox::util::apply_visitor(position, a) < mapbox::util::apply_visitor(position, b);
 		                 });
 	}

@@ -496,9 +496,10 @@ namespace csv_rw_route {
 
 			struct Form : public instruction_base {
 				std::size_t rail_index_1;
-				std::size_t rail_index_2;
-				std::size_t roof_structure_index;
-				std::size_t form_structure_index;
+				std::size_t rail_index_2 = 0;
+				std::size_t roof_structure_index = 0;
+				std::size_t form_structure_index = 0;
+				enum { Left, Right, RailIndex } placement = RailIndex;
 			};
 
 			struct Limit : public instruction_base {

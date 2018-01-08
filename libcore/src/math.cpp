@@ -27,10 +27,14 @@ float openbve2::math::radius_from_distances(float deltax, float deltay) {
 
 openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_position, glm::vec3 input_direction,
                                                                 float distance, float radius) {
+	if (distance == 0) {
+		return {input_position, input_direction};
+	}
+
 	auto original_input_direction = input_direction;
 	if (input_direction == glm::vec3(0)) {
-		input_direction = glm::vec3(0, 0, 1);
 		original_input_direction = input_direction;
+		input_direction = glm::vec3(0, 0, 1);
 	}
 	else {
 		input_direction = glm::normalize(input_direction);
@@ -38,7 +42,7 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 
 	if (radius == 0) {
 		input_position += input_direction * distance;
-		return {input_position, input_direction};
+		return {input_position, original_input_direction};
 	}
 
 	float vertical_movement = input_direction.y * distance;
@@ -51,6 +55,12 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 
 	// convert from game direction coordinates to 2d cartisian plane
 	auto xy = glm::vec2(input_direction.z, -input_direction.x);
+
+	// this algorithm works by pretending all curves are to the right. THe problem lies if we keep the input vector the
+	// same, we will get the wrong part of the curve. Inverting it over the Y axis brings it to the right place
+	if (flipped_radius) {
+		xy.y *= -1;
+	}
 
 	// get angle of input
 	float atan = std::atan2(xy.y, xy.x);
@@ -118,5 +128,5 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	// add to the position
 	input_position += gamespace_offset;
 
-	return {input_position, tangent_3d};
+	return openbve2::math::evaulate_curve_t{input_position, tangent_3d};
 }

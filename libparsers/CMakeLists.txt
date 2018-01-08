@@ -8,11 +8,17 @@ set(SOURCES
             src/core_csv/parser.cpp
             src/core_ini/iostream.cpp
             src/core_ini/parser.cpp
-            src/csv_rw_route/instruction_generator.cpp
-            src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/command_spliter.cpp
             src/csv_rw_route/executor_pass1.cpp
             src/csv_rw_route/executor_pass2.cpp
+            src/csv_rw_route/executor_pass3.cpp
+            src/csv_rw_route/executor_pass3_options.cpp
+            src/csv_rw_route/executor_pass3_route.cpp
+            src/csv_rw_route/executor_pass3_structure.cpp
+            src/csv_rw_route/executor_pass3_train.cpp
+            src/csv_rw_route/executor_pass3_texture.cpp
+            src/csv_rw_route/instruction_generator.cpp
+            src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/preprocessor.cpp
             src/csv_rw_route/process_includes.cpp
             src/errors/iostream.cpp
@@ -24,6 +30,8 @@ set(SOURCES
             src/function_scripts/parser.cpp
             src/function_scripts/parser_iostream.cpp
             src/utils.cpp
+            src/xml/dynamic_backgrounds.cpp
+            src/xml/dynamic_lighting.cpp
     )
 
 set(HEADERS
@@ -33,9 +41,12 @@ set(HEADERS
             include/parsers/errors.hpp
             include/parsers/function_scripts.hpp
             include/parsers/parsers.hpp
+            include/parsers/xml/dynamic_backgrounds.hpp
+            include/parsers/xml/dynamic_lighting.hpp
             src/b3d_csv_object.hpp
             src/csv.hpp
             src/csv_rw_route.hpp
+            src/csv_rw_route/executor_pass3.hpp
             src/csv_rw_route/instructions.hpp
             src/csv_rw_route/route_structure.hpp
             src/function_scripts.hpp
@@ -51,6 +62,7 @@ add_library(parsers SHARED ${SOURCES} ${HEADERS})
 target_include_directories(parsers PUBLIC include)
 target_include_directories(parsers PRIVATE src)
 target_include_directories(parsers SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/mapbox-variant/include)
+target_include_directories(parsers SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/rapidxml/include)
 target_link_libraries(parsers PRIVATE Boost::boost)
 target_link_libraries(parsers PUBLIC core)
 target_link_libraries(parsers PUBLIC glm)

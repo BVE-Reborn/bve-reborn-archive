@@ -1009,22 +1009,26 @@ namespace csv_rw_route {
 				case 5:
 					// Doors
 					{
-						auto arg_val = util::lower_copy(instr.args[4]);
+						auto& arg_val = instr.args[4];
 						if (arg_val.size() == 0) {
 							s.doors = instructions::track::Sta::Doors_t::None;
 						}
 						else {
 							switch (arg_val[0]) {
 								case 'l':
+								case 'L':
 									s.doors = instructions::track::Sta::Doors_t::Left;
 									break;
 								case 'n':
+								case 'N':
 									s.doors = instructions::track::Sta::Doors_t::None;
 									break;
 								case 'r':
+								case 'R':
 									s.doors = instructions::track::Sta::Doors_t::Right;
 									break;
 								case 'b':
+								case 'B':
 									s.doors = instructions::track::Sta::Doors_t::Both;
 									break;
 								default: {
@@ -1057,56 +1061,71 @@ namespace csv_rw_route {
 				case 3:
 					// Departure Time
 					{
-						auto arr_arg = util::lower_copy(instr.args[2]);
+						auto& arr_arg = instr.args[2];
 						if (arr_arg.size() == 0) {
 							s.departure_tag = instructions::track::Sta::DepartureTime_t::AnyTime;
 						}
-						else if (arr_arg[0] == 't' || arr_arg[0] == '=') {
-							if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
-								s.departure = util::parse_time(arr_arg.substr(2));
-								s.departure_tag = instructions::track::Sta::DepartureTime_t::TerminalTime;
-							}
-							else {
-								s.departure_tag = instructions::track::Sta::DepartureTime_t::Terminal;
-							}
-						}
-						else if (arr_arg[0] == 'c') {
-							if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
-								s.departure = util::parse_time(arr_arg.substr(2));
-								s.departure_tag = instructions::track::Sta::DepartureTime_t::ChangeEnds;
-							}
-							else {
-								s.departure_tag = instructions::track::Sta::DepartureTime_t::ChangeEndsTime;
-							}
-						}
 						else {
-							s.departure = util::parse_time(arr_arg);
+							switch (arr_arg[0]) {
+								case 't':
+								case 'T':
+								case '=':
+									if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
+										s.departure = util::parse_time(arr_arg.substr(2));
+										s.departure_tag = instructions::track::Sta::DepartureTime_t::TerminalTime;
+									}
+									else {
+										s.departure_tag = instructions::track::Sta::DepartureTime_t::Terminal;
+									}
+									break;
+								case 'c':
+								case 'C':
+									if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
+										s.departure = util::parse_time(arr_arg.substr(2));
+										s.departure_tag = instructions::track::Sta::DepartureTime_t::ChangeEnds;
+									}
+									else {
+										s.departure_tag = instructions::track::Sta::DepartureTime_t::ChangeEndsTime;
+									}
+									break;
+								default:
+									s.departure = util::parse_time(arr_arg);
+									break;
+							}
 						}
 					}
 					// fall through
 				case 2:
 					// Arrival time
 					{
-						auto arr_arg = util::lower_copy(instr.args[1]);
+						auto& arr_arg = instr.args[1];
 						if (arr_arg.size() == 0) {
 							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::AnyTime;
 						}
-						else if (arr_arg[0] == 'p' || arr_arg[0] == 'l') {
-							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::AllPass;
-						}
-						else if (arr_arg[0] == 'b') {
-							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::PlayerPass;
-						}
-						else if (arr_arg[0] == 's') {
-							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::PlayerStop;
-
-							if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
-								s.arrival = util::parse_time(arr_arg.substr(2));
-							}
-						}
 						else {
-							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::Time;
-							s.arrival = util::parse_time(arr_arg);
+							switch (arr_arg[0]) {
+								case 'p':
+								case 'P':
+								case 'l':
+								case 'L':
+									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::AllPass;
+									break;
+								case 'b':
+								case 'B':
+									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::PlayerPass;
+									break;
+								case 's':
+								case 'S':
+									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::PlayerStop;
+
+									if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
+										s.arrival = util::parse_time(arr_arg.substr(2));
+									}
+									break;
+								default:
+									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::Time;
+									s.arrival = util::parse_time(arr_arg);
+							}
 						}
 					}
 					// fall through
@@ -1181,14 +1200,46 @@ namespace csv_rw_route {
 		}
 
 		static instruction create_instruction_track_form(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 4, "Track.Form");
+			args_at_least(instr, 2, "Track.Form");
 
 			instructions::track::Form f;
 
-			f.rail_index_1 = std::size_t(util::parse_loose_integer(instr.args[0]));
-			f.rail_index_2 = std::size_t(util::parse_loose_integer(instr.args[1]));
-			f.roof_structure_index = std::size_t(util::parse_loose_integer(instr.args[2]));
-			f.form_structure_index = std::size_t(util::parse_loose_integer(instr.args[3]));
+			switch (instr.args.size()) {
+				default:
+				case 4:
+					f.form_structure_index = std::size_t(util::parse_loose_integer(instr.args[3], 0));
+					// fall through
+				case 3:
+					f.roof_structure_index = std::size_t(util::parse_loose_integer(instr.args[2], 0));
+					// fall through
+				case 2:
+					if (instr.args[1].size() >= 1) {
+						switch (instr.args[1][0]) {
+							case 'l':
+							case 'L':
+								f.placement = instructions::track::Form::Left;
+								break;
+							case 'r':
+							case 'R':
+								f.placement = instructions::track::Form::Right;
+								break;
+							default:
+								f.rail_index_2 = std::size_t(util::parse_loose_integer(instr.args[1], 0));
+								f.placement = instructions::track::Form::RailIndex;
+								break;
+						}
+					}
+					else {
+						f.rail_index_2 = 0;
+						f.placement = instructions::track::Form::RailIndex;
+					}
+					// fall through
+				case 1:
+					f.rail_index_1 = std::size_t(util::parse_loose_integer(instr.args[0]));
+					// fall through
+				case 0:
+					break;
+			}
 
 			return f;
 		}
@@ -1253,7 +1304,7 @@ namespace csv_rw_route {
 			s.a_term.reserve(instr.args.size());
 
 			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(s.a_term),
-			               [](const std::string& s) { return util::parse_loose_integer(s, 0); });
+			               [](const std::string& val) { return util::parse_loose_integer(val, 0); });
 
 			return s;
 		}
@@ -1537,6 +1588,7 @@ namespace csv_rw_route {
 
 			d.filename = instr.args[0];
 			switch (instr.args.size()) {
+				default:
 				case 3:
 					d.y_offset = util::parse_loose_float(instr.args[2]);
 					// fall through
@@ -1910,9 +1962,9 @@ namespace csv_rw_route {
 			auto i = generate_instruction(lines, line, errors, with_value, ft);
 
 			mapbox::util::apply_visitor(
-			    [&line](auto& i) {
-				    i.file_index = line.filename_index;
-				    i.line = line.line;
+			    [&line](auto& instr) {
+				    instr.file_index = line.filename_index;
+				    instr.line = line.line;
 			    },
 			    i);
 

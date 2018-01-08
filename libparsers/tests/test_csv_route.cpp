@@ -18,7 +18,7 @@ void test_csv_route() {
 
 	parsers::errors::multi_error me;
 
-	auto file_location = DIRECTORY "tests/Maastricht v8 Express.csv";
+	auto file_location = DIRECTORY "../libparsers/tests/Maastricht v8 Express.csv";
 	// auto file_location = DIRECTORY "tests/NYCT-6 Exp Pelham Bay to Brooklyn Bridge NTT [v1.0].csv";
 	auto used_file = std::experimental::filesystem::path(file_location);
 
@@ -42,8 +42,8 @@ void test_csv_route() {
 	auto instructions = parsers::csv_rw_route::generate_instructions(vals, me, parsers::csv_rw_route::file_type::csv);
 
 	parsers::csv_rw_route::execute_instructions_pass1(instructions, me);
+	auto route_data = parsers::csv_rw_route::execute_instructions_pass2(instructions, me);
 
 	std::cout << instructions;
-
 	std::cout << me;
 }

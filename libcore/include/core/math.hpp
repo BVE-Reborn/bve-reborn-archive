@@ -12,8 +12,8 @@ namespace math {
 
 	template <class R = void, class A, class B>
 	inline auto max(A a, B b) ->
-	    typename std::conditional<std::is_same<R, void>::value,
-	                              typename std::make_signed<typename std::common_type<A, B>::type>::type, R>::type {
+		typename std::conditional<std::is_same<R, void>::value,
+		typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) > t(b) ? t(a) : t(b);
 	}
@@ -21,7 +21,7 @@ namespace math {
 	template <class R = void, class A, class B>
 	inline auto min(A a, B b) ->
 	    typename std::conditional<std::is_same<R, void>::value,
-	                              typename std::make_signed<typename std::common_type<A, B>::type>::type, R>::type {
+	                              typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) < t(b) ? t(a) : t(b);
 	}

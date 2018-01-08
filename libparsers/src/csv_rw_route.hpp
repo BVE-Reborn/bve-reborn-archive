@@ -4,6 +4,7 @@
 #include "csv_rw_route/instructions.hpp"
 #include "csv_rw_route/route_structure.hpp"
 #include "parsers/errors.hpp"
+#include "parsers/find_relative_file.hpp"
 #include <boost/optional/optional.hpp>
 #include <functional>
 #include <mapbox/variant.hpp>
@@ -26,9 +27,9 @@ namespace csv_rw_route {
 		std::vector<std::string> filenames;
 	};
 
-	preprocessed_lines process_include_files(
-	    const std::string& filename, openbve2::datatypes::rng& rng, errors::multi_error& errors, file_type ft,
-	    const std::function<std::string(const std::string& base_file, const std::string& relative)>& get_abs_path);
+	preprocessed_lines process_include_files(const std::string& filename, openbve2::datatypes::rng& rng,
+	                                         errors::multi_error& errors, file_type ft,
+	                                         const find_relative_file_func& get_abs_path);
 
 	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors,
 	                     file_type ft);
@@ -96,6 +97,7 @@ namespace csv_rw_route {
 	instruction_list generate_instructions(const preprocessed_lines& lines, errors::multi_error& errors, file_type ft);
 
 	void execute_instructions_pass1(instruction_list& list, errors::multi_error& errors);
+	parsed_route_data execute_instructions_pass2(instruction_list& list, errors::multi_error& errors);
 
 } // namespace csv_rw_route
 } // namespace parsers
