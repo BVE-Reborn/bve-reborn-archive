@@ -36,6 +36,17 @@ namespace csv_rw_route {
 		float conversion_factor;
 	};
 
+	struct animated_signal {
+		std::string filename;
+	};
+
+	struct traditional_signal {
+		std::string signal_filename;
+		std::string glow_filename;
+	};
+
+	using signal_info = mapbox::util::variant<animated_signal, traditional_signal>;
+
 	// More compatibility levels to come in the future
 	struct CompatibilityModes {
 		bool bve2_4_transparancy : 1;
@@ -66,7 +77,6 @@ namespace csv_rw_route {
 
 		// Lighting and Background
 		std::vector<xml::dynamic_lighting::lighting_info> lighting;
-		xml::dynamic_backgrounds::parsed_dynamic_background background;
 
 		// Signalling
 		std::vector<float> signal_speed = {0, 25, 55, 75, -1, -1};

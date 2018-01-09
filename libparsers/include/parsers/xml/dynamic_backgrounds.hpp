@@ -16,6 +16,8 @@ namespace xml {
 			std::size_t repetitions = 6;
 			std::string filename;
 			std::size_t transition_time = 10;
+			bool preserve_aspect = false;
+			bool fromXML = true;
 		};
 
 		struct object_background_info {

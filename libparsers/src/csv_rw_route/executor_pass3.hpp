@@ -43,9 +43,14 @@ namespace csv_rw_route {
 		                   boost::hash<std::pair<std::size_t, std::size_t>>>
 		    object_pole_mapping;
 
+		// Background indices
+		std::unordered_map<std::size_t, xml::dynamic_backgrounds::parsed_dynamic_background> background_mapping;
+
+		// Signal indices
+		std::unordered_map<std::size_t, signal_info> signal_mapping;
+
 		// error checking values
 		bool used_dynamic_light = false;
-		bool used_dynamic_background = false;
 
 		struct file_index_line_pair {
 			std::size_t file_index;
@@ -70,7 +75,7 @@ namespace csv_rw_route {
 		template <class T>
 		void operator()(const T&) {}
 
-		// defined in executor_pass3_options.cpp
+		// defined in executor_pass3/options.cpp
 		void operator()(const instructions::options::UnitOfLength&);
 		void operator()(const instructions::options::UnitOfSpeed&);
 		void operator()(const instructions::options::SectionBehavior&);
@@ -78,7 +83,7 @@ namespace csv_rw_route {
 		void operator()(const instructions::options::CompatibleTransparencyMode&);
 		void operator()(const instructions::options::EnableBveTsHacks&);
 
-		// defined in executor_pass3_route.cpp
+		// defined in executor_pass3/route.cpp
 		void operator()(const instructions::route::Comment&);
 		void operator()(const instructions::route::Image&);
 		void operator()(const instructions::route::Timetable&);
@@ -98,40 +103,44 @@ namespace csv_rw_route {
 		void operator()(const instructions::route::DirectionalLight&);
 		void operator()(const instructions::route::LightDirection&);
 
-		// defined in executor_pass3_train.cpp
+		// defined in executor_pass3/train.cpp
 		void operator()(const instructions::train::Folder&);
 		void operator()(const instructions::train::Rail&);
 		void operator()(const instructions::train::Flange&);
 		void operator()(const instructions::train::Timetable&);
 		void operator()(const instructions::train::Velocity&);
 
-		// defined in executor_pass3_structure.cpp
+		// defined in executor_pass3/structure.cpp
 		void operator()(const instructions::structure::Command&);
 		void operator()(const instructions::structure::Pole&);
 
-		// defined in executor_pass3_texture.cpp
+		// defined in executor_pass3/texture.cpp
+		// helper functions for background_load
+	  private:
+		void background_load_xml(const instructions::texture::Background_Load&);
+		void background_load_image(const instructions::texture::Background_Load&);
+
+	  public:
 		void operator()(const instructions::texture::Background_Load&);
 		void operator()(const instructions::texture::Background_X&);
 		void operator()(const instructions::texture::Background_Aspect&);
 
-		// defined in executor_pass3_structure.cpp
+		// defined in executor_pass3/cycle.cpp
 		void operator()(const instructions::cycle::Ground&);
 		void operator()(const instructions::cycle::Rail&);
 
-		// defined in executor_pass3_structure.cpp
+		// defined in executor_pass3/signal.cpp
 		void operator()(const instructions::naked::SignalAnimated&);
 		void operator()(const instructions::naked::Signal&);
 
-		// defined in executor_pass3_structure
+		// defined in executor_pass3/rails.cpp
 		void operator()(const instructions::track::RailStart&);
 		void operator()(const instructions::track::Rail&);
 		void operator()(const instructions::track::RailType&);
 		void operator()(const instructions::track::RailEnd&);
 		void operator()(const instructions::track::Adhesion&);
-		void operator()(const instructions::track::Pitch&);
-		void operator()(const instructions::track::Curve&);
-		void operator()(const instructions::track::Turn&);
-		void operator()(const instructions::track::Height&);
+
+		// defined in executor_pass3/objects.cpp
 		void operator()(const instructions::track::FreeObj&);
 		void operator()(const instructions::track::Wall&);
 		void operator()(const instructions::track::WallEnd&);
@@ -141,17 +150,25 @@ namespace csv_rw_route {
 		void operator()(const instructions::track::PoleEnd&);
 		void operator()(const instructions::track::Crack&);
 		void operator()(const instructions::track::Ground&);
+
+		// defined in executor_pass3/stations.cpp
 		void operator()(const instructions::track::Sta&);
 		void operator()(const instructions::track::Stop&);
 		void operator()(const instructions::track::Form&);
+
+		// defined in executor_pass3/signalling.cpp
 		void operator()(const instructions::track::Limit&);
 		void operator()(const instructions::track::Section&);
 		void operator()(const instructions::track::SigF&);
 		void operator()(const instructions::track::Signal&);
 		void operator()(const instructions::track::Relay&);
+
+		// defined in executor_pass3/safety.cpp
 		void operator()(const instructions::track::Beacon&);
 		void operator()(const instructions::track::Transponder&);
 		void operator()(const instructions::track::Pattern&);
+
+		// defined in executor_pass3/misc.cpp
 		void operator()(const instructions::track::Back&);
 		void operator()(const instructions::track::Fog&);
 		void operator()(const instructions::track::Brightness&);
