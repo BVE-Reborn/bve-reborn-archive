@@ -34,5 +34,7 @@ namespace math {
 	};
 
 	evaulate_curve_t evaluate_curve(glm::vec3 input_position, glm::vec3 input_direction, float distance, float radius);
+
+	glm::vec3 postion_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset, float y_offset);
 } // namespace math
 } // namespace openbve2

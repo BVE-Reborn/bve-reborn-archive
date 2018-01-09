@@ -130,3 +130,16 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 
 	return openbve2::math::evaulate_curve_t{input_position, tangent_3d};
 }
+
+glm::vec3 openbve2::math::postion_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset,
+                                               float y_offset) {
+	auto x_z = glm::normalize(glm::vec2(input_tangent.x, input_tangent.z));
+
+	// rotate 270 degrees
+	glm::vec2 normal(x_z.y, -x_z.x);
+
+	// apply offset
+	normal *= x_offset;
+
+	return input_position + glm::vec3(normal.x, y_offset, normal.y);
+}

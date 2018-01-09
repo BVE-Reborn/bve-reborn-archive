@@ -5,18 +5,19 @@ namespace parsers {
 namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::structure::Command& instr) {
 		auto add_and_warn = [&](auto& container, const char* command_name) {
-			auto insert_pair =
-			    container.insert(std::pair<std::size_t, std::string>{instr.structure_index, instr.filename});
+			auto filename_iter = add_object_filename(instr.filename);
+
+			auto insert_pair = container.insert(std::make_pair(instr.structure_index, filename_iter));
 
 			auto& iterator = insert_pair.first;
 			auto& inserted = insert_pair.second;
 
 			if (!inserted) {
-				auto previous_filename = iterator->second;
-				iterator->second = instr.filename;
+				auto& previous_filename = *iterator->second;
+				iterator->second = filename_iter;
 				std::ostringstream err;
 				err << command_name << " overwriting index number " << instr.structure_index << ". Old Filename: \""
-				    << previous_filename << "\". Current Filename: \"" << instr.filename << "\".";
+				    << previous_filename << "\". Current Filename: \"" << *filename_iter << "\".";
 				_errors[get_filename(instr.file_index)].emplace_back<errors::error_t>({instr.line, err.str()});
 			}
 		};
@@ -80,20 +81,22 @@ namespace csv_rw_route {
 				break;
 		}
 	}
+
 	void pass3_executor::operator()(const instructions::structure::Pole& instr) {
-		std::pair<std::pair<std::size_t, std::size_t>, std::string> value{
-		    {instr.additional_rails, instr.pole_structure_index}, instr.filename};
+		auto filename_iter = add_object_filename(instr.filename);
+
+		auto value = std::make_pair(std::make_pair(instr.additional_rails, instr.pole_structure_index), filename_iter);
 		auto insert_pair = object_pole_mapping.insert(value);
 
 		auto& iterator = insert_pair.first;
 		auto& inserted = insert_pair.second;
 
 		if (!inserted) {
-			auto previous_filename = iterator->second;
-			iterator->second = instr.filename;
+			auto& previous_filename = *iterator->second;
+			iterator->second = filename_iter;
 			std::ostringstream err;
 			err << "Structure.Pole overwriting pair (" << instr.additional_rails << ", " << instr.pole_structure_index
-			    << "). Old Pair: \"" << previous_filename << "\". Current Filename: \"" << instr.filename << "\".";
+			    << "). Old Pair: \"" << previous_filename << "\". Current Filename: \"" << *filename_iter << "\".";
 			_errors[get_filename(instr.file_index)].emplace_back<errors::error_t>({instr.line, err.str()});
 		}
 	}

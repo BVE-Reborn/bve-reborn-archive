@@ -3,6 +3,7 @@
 #include "parsers/xml/dynamic_backgrounds.hpp"
 #include "parsers/xml/dynamic_lighting.hpp"
 #include <glm/vec3.hpp>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -25,8 +26,11 @@ namespace csv_rw_route {
 		} cache;
 	};
 
+	using filename_set = std::set<std::string>;
+	using filename_set_iterator = std::set<std::string>::const_iterator;
+
 	struct rail_object_info {
-		std::string filename;
+		filename_set_iterator filename;
 		glm::vec3 position;
 		glm::vec3 rotation;
 	};
@@ -66,14 +70,22 @@ namespace csv_rw_route {
 	};
 
 	using ground_height_info = position_data_pair<float>;
+	using rail_adheason_info = position_data_pair<float>;
 
 	struct parsed_route_data {
 		// Core route info
 		std::vector<rail_block_info> blocks;
 		std::vector<ground_height_info> ground_height;
 
+		// Secondary route info
+		std::vector<rail_adheason_info> adheason;
+
 		// Objects
 		std::vector<rail_object_info> objects;
+
+		// file references
+		filename_set object_filenames;
+		filename_set texture_filenames;
 
 		// Lighting and Background
 		std::vector<xml::dynamic_lighting::lighting_info> lighting;

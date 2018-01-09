@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/math.hpp"
 #include "csv_rw_route.hpp"
 #include "parsers/find_relative_file.hpp"
 #include <boost/functional/hash.hpp>
@@ -7,6 +8,14 @@
 
 namespace parsers {
 namespace csv_rw_route {
+	struct rail_state {
+		float x_offset = 0;
+		float y_offset = 0;
+		std::size_t rail_structure_type = 0;
+		float postion_last_updated = 0;
+		bool active = false;
+	};
+
 	struct pass3_executor {
 	  private:
 		errors::multi_error& _errors;
@@ -19,27 +28,30 @@ namespace csv_rw_route {
 		float unit_of_speed = 1;
 		decltype(instructions::options::SectionBehavior::mode) section_behavior;
 
+		// rall state
+		std::unordered_map<std::size_t, rail_state> current_rail_state = {{0, rail_state{0, 0, 0, 0, true}}};
+
 		// structures and poles
-		std::unordered_map<std::size_t, std::string> object_ground_mapping;
-		std::unordered_map<std::size_t, std::string> object_rail_mapping;
-		std::unordered_map<std::size_t, std::string> object_wallL_mapping;
-		std::unordered_map<std::size_t, std::string> object_wallR_mapping;
-		std::unordered_map<std::size_t, std::string> object_dikeL_mapping;
-		std::unordered_map<std::size_t, std::string> object_dikeR_mapping;
-		std::unordered_map<std::size_t, std::string> object_formL_mapping;
-		std::unordered_map<std::size_t, std::string> object_formR_mapping;
-		std::unordered_map<std::size_t, std::string> object_formCL_mapping;
-		std::unordered_map<std::size_t, std::string> object_formCR_mapping;
-		std::unordered_map<std::size_t, std::string> object_roofL_mapping;
-		std::unordered_map<std::size_t, std::string> object_roofR_mapping;
-		std::unordered_map<std::size_t, std::string> object_roofCL_mapping;
-		std::unordered_map<std::size_t, std::string> object_roofCR_mapping;
-		std::unordered_map<std::size_t, std::string> object_crackL_mapping;
-		std::unordered_map<std::size_t, std::string> object_crackR_mapping;
-		std::unordered_map<std::size_t, std::string> object_freeobj_mapping;
-		std::unordered_map<std::size_t, std::string> object_beacon_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_ground_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_rail_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_wallL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_wallR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_dikeL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_dikeR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_formL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_formR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_formCL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_formCR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_roofL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_roofR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_roofCL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_roofCR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_crackL_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_crackR_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_freeobj_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_beacon_mapping;
 		// Poles are unique based on the number of rails as well as the pole structure index
-		std::unordered_map<std::pair<std::size_t, std::size_t>, std::string,
+		std::unordered_map<std::pair<std::size_t, std::size_t>, filename_set_iterator,
 		                   boost::hash<std::pair<std::size_t, std::size_t>>>
 		    object_pole_mapping;
 
@@ -62,8 +74,39 @@ namespace csv_rw_route {
 		std::unordered_map<std::size_t, file_index_line_pair> rail_runsound_blame;
 		std::unordered_map<std::size_t, file_index_line_pair> rail_flangesound_blame;
 
+		// helper functions
 		const std::string& get_filename(std::size_t index) {
 			return _filenames[index];
+		}
+
+		filename_set_iterator add_object_filename(const std::string& val) {
+			return _route_data.object_filenames.insert(val).first;
+		}
+
+		openbve2::math::evaulate_curve_t find_track_position_at(float position) {
+			decltype(_route_data.blocks)::const_iterator starting_it;
+
+			if (position < _route_data.blocks.front().position) {
+				starting_it = _route_data.blocks.cbegin();
+			}
+			else {
+				starting_it = std::upper_bound(_route_data.blocks.begin(), _route_data.blocks.end(), position,
+				                               [](float a, const rail_block_info& b) { return a < b.position; });
+				starting_it -= 1;
+			}
+
+			return openbve2::math::evaluate_curve(starting_it->cache.location, starting_it->cache.direction,
+			                                      position - starting_it->position, starting_it->radius);
+		}
+
+		glm::vec3 get_position_relative_to_rail(std::size_t rail_num, float position, float x_offset, float y_offset) {
+			auto track_postion = find_track_position_at(position);
+
+			auto track_state_iter = current_rail_state.find(rail_num);
+
+			return openbve2::math::postion_from_offsets(track_postion.position, track_postion.tangent,
+			                                            track_state_iter->second.x_offset + x_offset,
+			                                            track_state_iter->second.y_offset + y_offset);
 		}
 
 	  public:
@@ -133,6 +176,10 @@ namespace csv_rw_route {
 		void operator()(const instructions::naked::SignalAnimated&);
 		void operator()(const instructions::naked::Signal&);
 
+	  private:
+		void add_rail_objects_up_to_postion(rail_state& state, float position);
+
+	  public:
 		// defined in executor_pass3/rails.cpp
 		void operator()(const instructions::track::RailStart&);
 		void operator()(const instructions::track::Rail&);
