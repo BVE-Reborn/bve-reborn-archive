@@ -94,7 +94,7 @@ set(TEST_HEADERS
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 
-if(OPENBVE2_ON_TRAVIS)
+if(NOT OPENBVE2_ON_TRAVIS)
     file(COPY tests/pole_2.csv
               tests/ind4.csv
               tests/westonmill_2.b3d
