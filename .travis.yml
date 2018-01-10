@@ -1,0 +1,63 @@
+language: cpp
+
+matrix:
+	include:
+		- os: linux
+			dist: precise
+			addons:
+				sources:
+					- george-edison55-precise-backports
+					- ubuntu-toolchain-r-test
+				packages:
+					- ninja-build
+					- gcc-6
+					- cmake-data
+					- cmake
+			env:
+				- MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+
+		- os: linux
+			dist: trusty
+			addons:
+				sources:
+					- ubuntu-toolchain-r-test
+				packages:
+					- ninja-build
+					- gcc-6
+			env:
+				- MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+
+		- os: linux
+			dist: precise
+			addons:
+				sources:
+					- george-edison55-precise-backports
+					- ubuntu-toolchain-r-test
+					- llvm-toolchain-precise-3.6
+				packages:
+					- ninja-build
+					- clang-3.6
+					- cmake-data
+					- cmake
+			env:
+				- MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+					
+		- os: linux
+			dist: trusty
+			addons:
+				sources:
+					- ubuntu-toolchain-r-test
+					- llvm-toolchain-trusty-5.0
+				packages:
+					- ninja-build
+					- clang-5.0
+			env:
+				- MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - mkdir build
+  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+script:
+	- cd build && ninja
