@@ -10,8 +10,8 @@ matrix:
             - george-edison55-precise-backports
             - ubuntu-toolchain-r-test
           packages:
-            - ninja-build
             - gcc-6
+            - g++-6
             - cmake-data
             - cmake
       env:
@@ -24,8 +24,8 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - ninja-build
             - gcc-6
+            - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
@@ -39,7 +39,6 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
           packages:
-            - ninja-build
             - clang-3.6
             - cmake-data
             - cmake
@@ -54,7 +53,6 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
           packages:
-            - ninja-build
             - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
@@ -62,6 +60,6 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
   - mkdir build
-  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
 script:
-  - cd build && ninja
+  - cd build && make
