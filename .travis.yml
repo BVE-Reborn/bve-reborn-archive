@@ -10,6 +10,7 @@ matrix:
             - george-edison55-precise-backports
             - ubuntu-toolchain-r-test
           packages:
+            - libboost-dev
             - gcc-5
             - g++-5
             - cmake-data
@@ -24,6 +25,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - libboost-dev
             - gcc-6
             - g++-6
       env:
@@ -39,6 +41,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
           packages:
+            - libboost-dev
             - clang-3.6
             - cmake-data
             - cmake
@@ -53,6 +56,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
           packages:
+            - libboost-dev
             - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
