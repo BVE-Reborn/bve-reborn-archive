@@ -74,4 +74,4 @@ before_install:
   - mkdir build
   - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 script:
-  - cd build && ninja
+  - ninja
