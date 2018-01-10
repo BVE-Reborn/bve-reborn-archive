@@ -64,6 +64,6 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
   - mkdir build
-  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
+  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True
 script:
   - cd build && make

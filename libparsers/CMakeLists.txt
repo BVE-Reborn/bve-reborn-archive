@@ -94,17 +94,19 @@ set(TEST_HEADERS
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 
-file(COPY tests/pole_2.csv
-          tests/ind4.csv
-          tests/westonmill_2.b3d
-          tests/81xx_2.b3d
-          tests/r160.animated
-          tests/plymouth
-          "tests/NYCT-6 Exp Pelham Bay to Brooklyn Bridge NTT [v1.0].csv"
-          "tests/(4) To New Lots Avenue Bronx(LCL)Manhattan(EXP)Brooklyn(EXP) New Lots(LCL).csv"
-          "tests/Maastricht v8 Express.csv"
-          "tests/NYCT-F (To NHP).rw"
-     DESTINATION tests/)
+if(OPENBVE2_ON_TRAVIS)
+    file(COPY tests/pole_2.csv
+              tests/ind4.csv
+              tests/westonmill_2.b3d
+              tests/81xx_2.b3d
+              tests/r160.animated
+              tests/plymouth
+              "tests/NYCT-6 Exp Pelham Bay to Brooklyn Bridge NTT [v1.0].csv"
+              "tests/(4) To New Lots Avenue Bronx(LCL)Manhattan(EXP)Brooklyn(EXP) New Lots(LCL).csv"
+              "tests/Maastricht v8 Express.csv"
+              "tests/NYCT-F (To NHP).rw"
+         DESTINATION tests/)
+endif()
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
