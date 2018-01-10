@@ -1,5 +1,7 @@
 language: cpp
 
+sudo: true
+
 matrix:
   include:
     - os: linux
@@ -10,6 +12,7 @@ matrix:
             - george-edison55-precise-backports
             - ubuntu-toolchain-r-test
           packages:
+            - ninja-build
             - libboost-dev
             - gcc-5
             - g++-5
@@ -25,6 +28,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - ninja-build
             - libboost-dev
             - gcc-6
             - g++-6
@@ -41,6 +45,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
           packages:
+            - ninja-build
             - libboost-dev
             - clang-3.6
             - cmake-data
@@ -56,6 +61,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
           packages:
+            - ninja-build
             - libboost-dev
             - clang-5.0
       env:
@@ -63,7 +69,9 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
+  - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+  - sudo bash cmake-3.10.1-Linux-x86_64.sh
   - mkdir build
-  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True
+  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 script:
-  - cd build && make
+  - cd build && ninja
