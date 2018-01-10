@@ -13,16 +13,16 @@ namespace csv_rw_route {
 		// Argument/Indices Count Helper Functions //
 		/////////////////////////////////////////////
 
-		static void args_at_least(const line_splitting::instruction_info& instr, std::size_t num, const char* name) {
-			if (instr.args.size() < num) {
+		static void args_at_least(const line_splitting::instruction_info& inst, std::size_t num, const char* name) {
+			if (inst.args.size() < num) {
 				std::ostringstream oss;
 				oss << name << " must have at least " << num << " argument" << (num == 1 ? "" : "s");
 				throw std::invalid_argument(oss.str());
 			}
 		}
 
-		static void indices_at_least(const line_splitting::instruction_info& instr, std::size_t num, const char* name) {
-			if (instr.indices.size() < num) {
+		static void indices_at_least(const line_splitting::instruction_info& inst, std::size_t num, const char* name) {
+			if (inst.indices.size() < num) {
 				std::ostringstream oss;
 				oss << name << " must have at least " << num << " ind" << (num == 1 ? "ex" : "ices");
 				throw std::invalid_argument(oss.str());
@@ -34,28 +34,28 @@ namespace csv_rw_route {
 		//////////////////////////////
 
 		template <class T>
-		static instruction create_single_string_instruction(const line_splitting::instruction_info& instr,
+		static instruction create_single_string_instruction(const line_splitting::instruction_info& inst,
 		                                                    const char* name) {
-			args_at_least(instr, 1, name);
+			args_at_least(inst, 1, name);
 
-			return T{instr.args[0]};
+			return T{inst.args[0]};
 		}
 
 		template <class T>
-		static instruction create_single_float_instruction(const line_splitting::instruction_info& instr,
+		static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
 		                                                   const char* name) {
-			args_at_least(instr, 1, name);
+			args_at_least(inst, 1, name);
 
-			return T{util::parse_loose_float(instr.args[0])};
+			return T{util::parse_loose_float(inst.args[0])};
 		}
 
 		template <class T>
-		static instruction create_single_float_instruction(const line_splitting::instruction_info& instr,
+		static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
 		                                                   const char* name, float def) {
 			(void) name;
 
-			if (instr.args.size() >= 1) {
-				return T{util::parse_loose_float(instr.args[0], def)};
+			if (inst.args.size() >= 1) {
+				return T{util::parse_loose_float(inst.args[0], def)};
 			}
 			else {
 				return T{def};
@@ -63,20 +63,20 @@ namespace csv_rw_route {
 		}
 
 		template <class T>
-		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& instr,
+		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
 		                                                   const char* name) {
-			args_at_least(instr, 1, name);
+			args_at_least(inst, 1, name);
 
-			return T{std::size_t(util::parse_loose_integer(instr.args[0]))};
+			return T{std::size_t(util::parse_loose_integer(inst.args[0]))};
 		}
 
 		template <class T>
-		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& instr,
+		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
 		                                                   const char* name, std::intmax_t def) {
 			(void) name;
 
-			if (instr.args.size() >= 1) {
-				return T{std::size_t(util::parse_loose_integer(instr.args[0], def))};
+			if (inst.args.size() >= 1) {
+				return T{std::size_t(util::parse_loose_integer(inst.args[0], def))};
 			}
 			else {
 				return T{def};
@@ -84,32 +84,32 @@ namespace csv_rw_route {
 		}
 
 		template <class T>
-		static instruction create_single_time_instruction(const line_splitting::instruction_info& instr,
+		static instruction create_single_time_instruction(const line_splitting::instruction_info& inst,
 		                                                  const char* name) {
-			args_at_least(instr, 1, name);
+			args_at_least(inst, 1, name);
 
-			return T{util::parse_time(instr.args[0])};
+			return T{util::parse_time(inst.args[0])};
 		}
 
 		template <std::size_t offset, class T>
-		static void set_positions(T& instr, const line_splitting::instruction_info& instr_info) {
+		static void set_positions(T& inst, const line_splitting::instruction_info& instr_info) {
 			if (instr_info.args.size() > offset) {
 				switch (instr_info.args.size()) {
 					default:
 					case offset + 5:
-						instr.roll = util::parse_loose_float(instr_info.args[offset + 4], 0);
+						inst.roll = util::parse_loose_float(instr_info.args[offset + 4], 0);
 						// fall through
 					case offset + 4:
-						instr.pitch = util::parse_loose_float(instr_info.args[offset + 3], 0);
+						inst.pitch = util::parse_loose_float(instr_info.args[offset + 3], 0);
 						// fall through
 					case offset + 3:
-						instr.yaw = util::parse_loose_float(instr_info.args[offset + 2], 0);
+						inst.yaw = util::parse_loose_float(instr_info.args[offset + 2], 0);
 						// fall through
 					case offset + 2:
-						instr.y_offset = util::parse_loose_float(instr_info.args[offset + 1], 0);
+						inst.y_offset = util::parse_loose_float(instr_info.args[offset + 1], 0);
 						// fall through
 					case offset + 1:
-						instr.x_offset = util::parse_loose_float(instr_info.args[offset + 0], 0);
+						inst.x_offset = util::parse_loose_float(instr_info.args[offset + 0], 0);
 						// fall through
 					case offset:
 						break;
@@ -121,13 +121,13 @@ namespace csv_rw_route {
 		// Instruction Generation Functions //
 		//////////////////////////////////////
 
-		static instruction create_instruction_location_statement(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Location Statement");
+		static instruction create_instruction_location_statement(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Location Statement");
 
 			instructions::naked::position pos;
-			pos.distances.reserve(instr.args.size() + 1);
-			pos.distances.emplace_back(instr.offset);
-			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(pos.distances),
+			pos.distances.reserve(inst.args.size() + 1);
+			pos.distances.emplace_back(inst.offset);
+			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(pos.distances),
 			               [](const std::string& s) { return util::parse_loose_float(s, 0); });
 
 			return pos;
@@ -137,13 +137,13 @@ namespace csv_rw_route {
 		// Options Namespace //
 		///////////////////////
 
-		static instruction create_instruction_options_unitoflength(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_options_unitoflength(const line_splitting::instruction_info& inst) {
 			instructions::options::UnitOfLength uol;
-			uol.factors_in_meters.reserve(std::max(std::size_t(2), instr.args.size() + 1));
+			uol.factors_in_meters.reserve(std::max(std::size_t(2), inst.args.size() + 1));
 			uol.factors_in_meters.emplace_back(1.0f);
-			if (instr.args.size() >= 1) {
-				uol.factors_in_meters.emplace_back(util::parse_loose_float(instr.args[0], 1));
-				std::transform(instr.args.begin() + 1, instr.args.end(), std::back_inserter(uol.factors_in_meters),
+			if (inst.args.size() >= 1) {
+				uol.factors_in_meters.emplace_back(util::parse_loose_float(inst.args[0], 1));
+				std::transform(inst.args.begin() + 1, inst.args.end(), std::back_inserter(uol.factors_in_meters),
 				               [](const std::string& s) { return util::parse_loose_float(s, 0); });
 			}
 			else {
@@ -153,20 +153,19 @@ namespace csv_rw_route {
 			return uol;
 		}
 
-		static instruction create_instruction_options_unitofspeed(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::options::UnitOfSpeed>(instr, "Options.UnitOfSpeed", 1);
+		static instruction create_instruction_options_unitofspeed(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::options::UnitOfSpeed>(inst, "Options.UnitOfSpeed", 1);
 		}
 
-		static instruction create_instruction_options_blocklength(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::options::BlockLength>(instr, "Options.BlockLength",
-			                                                                           25);
+		static instruction create_instruction_options_blocklength(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::options::BlockLength>(inst, "Options.BlockLength", 25);
 		}
 
-		static instruction create_instruction_options_objectvisibility(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_options_objectvisibility(const line_splitting::instruction_info& inst) {
 			instructions::options::ObjectVisibility ov;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], 0);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], 0);
 
 				ov.mode = value == 0 ? instructions::options::ObjectVisibility::Legacy
 				                     : instructions::options::ObjectVisibility::TrackBased;
@@ -178,11 +177,11 @@ namespace csv_rw_route {
 			return ov;
 		}
 
-		static instruction create_instruction_options_sectionbehavior(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_options_sectionbehavior(const line_splitting::instruction_info& inst) {
 			instructions::options::SectionBehavior sb;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], 0);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], 0);
 
 				sb.mode = value == 0 ? instructions::options::SectionBehavior::Default
 				                     : instructions::options::SectionBehavior::Simplified;
@@ -194,11 +193,11 @@ namespace csv_rw_route {
 			return sb;
 		}
 
-		static instruction create_instruction_options_cantbehavior(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_options_cantbehavior(const line_splitting::instruction_info& inst) {
 			instructions::options::CantBehavior cb;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], 0);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], 0);
 
 				cb.mode = value == 0 ? instructions::options::CantBehavior::Unsigned
 				                     : instructions::options::CantBehavior::Signed;
@@ -210,11 +209,11 @@ namespace csv_rw_route {
 			return cb;
 		}
 
-		static instruction create_instruction_options_fogbehavior(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_options_fogbehavior(const line_splitting::instruction_info& inst) {
 			instructions::options::FogBehavior fb;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], 0);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], 0);
 
 				fb.mode = value == 0 ? instructions::options::FogBehavior::BlockBased
 				                     : instructions::options::FogBehavior::Interpolated;
@@ -227,11 +226,11 @@ namespace csv_rw_route {
 		}
 
 		static instruction
-		create_instruction_options_compatibletransparencymode(const line_splitting::instruction_info& instr) {
+		create_instruction_options_compatibletransparencymode(const line_splitting::instruction_info& inst) {
 			instructions::options::CompatibleTransparencyMode ctm;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], 0);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], 0);
 
 				ctm.mode = value == 0 ? instructions::options::CompatibleTransparencyMode::Off
 				                      : instructions::options::CompatibleTransparencyMode::On;
@@ -243,11 +242,11 @@ namespace csv_rw_route {
 			return ctm;
 		}
 
-		static instruction create_instruction_options_enablebvetshacks(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_options_enablebvetshacks(const line_splitting::instruction_info& inst) {
 			instructions::options::EnableBveTsHacks ebth;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], 0);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], 0);
 
 				ebth.mode = value == 0 ? instructions::options::EnableBveTsHacks::Off
 				                       : instructions::options::EnableBveTsHacks::On;
@@ -263,23 +262,23 @@ namespace csv_rw_route {
 		// Route Namespace //
 		/////////////////////
 
-		static instruction create_instruction_route_comment(const line_splitting::instruction_info& instr) {
-			return create_single_string_instruction<instructions::route::Comment>(instr, "Route.Comment");
+		static instruction create_instruction_route_comment(const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::Comment>(inst, "Route.Comment");
 		}
 
-		static instruction create_instruction_route_image(const line_splitting::instruction_info& instr) {
-			return create_single_string_instruction<instructions::route::Image>(instr, "Route.Image");
+		static instruction create_instruction_route_image(const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::Image>(inst, "Route.Image");
 		}
 
-		static instruction create_instruction_route_timetable(const line_splitting::instruction_info& instr) {
-			return create_single_string_instruction<instructions::route::Timetable>(instr, "Route.Timetable");
+		static instruction create_instruction_route_timetable(const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::Timetable>(inst, "Route.Timetable");
 		}
 
-		static instruction create_instruction_route_change(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_route_change(const line_splitting::instruction_info& inst) {
 			instructions::route::Change change;
 
-			if (instr.args.size() >= 1) {
-				auto value = util::parse_loose_integer(instr.args[0], -1);
+			if (inst.args.size() >= 1) {
+				auto value = util::parse_loose_integer(inst.args[0], -1);
 				switch (value) {
 					default:
 					case -1:
@@ -300,87 +299,87 @@ namespace csv_rw_route {
 			return change;
 		}
 
-		static instruction create_instruction_route_gauge(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::route::Guage>(instr, "Route.Guage", 1435);
+		static instruction create_instruction_route_gauge(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Guage>(inst, "Route.Guage", 1435);
 		}
 
-		static instruction create_instruction_route_signal(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Route.Signal");
-			args_at_least(instr, 1, "Route.Signal");
+		static instruction create_instruction_route_signal(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Route.Signal");
+			args_at_least(inst, 1, "Route.Signal");
 
 			instructions::route::Signal s;
 
-			s.aspect_index = util::parse_loose_integer(instr.indices[0]);
-			s.speed = util::parse_loose_float(instr.args[0]);
+			s.aspect_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			s.speed = util::parse_loose_float(inst.args[0]);
 
 			return s;
 		}
 
-		static instruction create_instruction_route_runinterval(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Route.RunInterval");
+		static instruction create_instruction_route_runinterval(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Route.RunInterval");
 
 			instructions::route::RunInterval ri;
-			ri.time_interval.reserve(instr.args.size());
-			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(ri.time_interval),
+			ri.time_interval.reserve(inst.args.size());
+			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(ri.time_interval),
 			               [](const std::string& s) { return util::parse_loose_float(s); });
 
 			return ri;
 		}
 
 		static instruction
-		create_instruction_route_accelerationduetogravity(const line_splitting::instruction_info& instr) {
+		create_instruction_route_accelerationduetogravity(const line_splitting::instruction_info& inst) {
 			return create_single_float_instruction<instructions::route::AccelerationDueToGravity>(
-			    instr, "Route.AccelerationDueToGravity", 9.80665f);
+			    inst, "Route.AccelerationDueToGravity", 9.80665f);
 		}
 
-		static instruction create_instruction_route_elevation(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::route::Elevation>(instr, "Route.Elevation", 0);
+		static instruction create_instruction_route_elevation(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Elevation>(inst, "Route.Elevation", 0);
 		}
 
-		static instruction create_instruction_route_temperature(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::route::Temperature>(instr, "Route.Temperature", 20);
+		static instruction create_instruction_route_temperature(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Temperature>(inst, "Route.Temperature", 20);
 		}
 
-		static instruction create_instruction_route_pressure(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::route::Pressure>(instr, "Route.Pressure", 101.325f);
+		static instruction create_instruction_route_pressure(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Pressure>(inst, "Route.Pressure", 101.325f);
 		}
 
-		static instruction create_instruction_route_displayspeed(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Route.DisplaySpeed");
+		static instruction create_instruction_route_displayspeed(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Route.DisplaySpeed");
 
 			instructions::route::DisplaySpeed ds;
 
-			ds.unit_string = instr.args[0];
-			ds.conversion_factor = util::parse_loose_float(instr.args[1]);
+			ds.unit_string = inst.args[0];
+			ds.conversion_factor = util::parse_loose_float(inst.args[1]);
 
 			return ds;
 		}
 
-		static instruction create_instruction_route_loadingscreen(const line_splitting::instruction_info& instr) {
-			return create_single_string_instruction<instructions::route::LoadingScreen>(instr, "Route.LoadingScreen");
+		static instruction create_instruction_route_loadingscreen(const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::LoadingScreen>(inst, "Route.LoadingScreen");
 		}
 
-		static instruction create_instruction_route_starttime(const line_splitting::instruction_info& instr) {
-			return create_single_time_instruction<instructions::route::StartTime>(instr, "Route.StartTime");
+		static instruction create_instruction_route_starttime(const line_splitting::instruction_info& inst) {
+			return create_single_time_instruction<instructions::route::StartTime>(inst, "Route.StartTime");
 		}
 
-		static instruction create_instruction_route_dynamiclight(const line_splitting::instruction_info& instr) {
-			return create_single_string_instruction<instructions::route::DynamicLight>(instr, "Route.DynamicLight");
+		static instruction create_instruction_route_dynamiclight(const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::DynamicLight>(inst, "Route.DynamicLight");
 		}
 
-		static instruction create_instruction_route_ambientlight(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_route_ambientlight(const line_splitting::instruction_info& inst) {
 			instructions::route::AmbiantLight al;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 3:
-					al.color.b = std::uint8_t(util::parse_loose_integer(instr.args[2], 160));
+					al.color.b = std::uint8_t(util::parse_loose_integer(inst.args[2], 160));
 					// fall through
 				case 2:
-					al.color.g = std::uint8_t(util::parse_loose_integer(instr.args[1], 160));
+					al.color.g = std::uint8_t(util::parse_loose_integer(inst.args[1], 160));
 					// fall through
 				case 1:
-					al.color.r = std::uint8_t(util::parse_loose_integer(instr.args[0], 160));
+					al.color.r = std::uint8_t(util::parse_loose_integer(inst.args[0], 160));
 					// fall through
 				case 0:
 					break;
@@ -389,19 +388,19 @@ namespace csv_rw_route {
 			return al;
 		}
 
-		static instruction create_instruction_route_directionallight(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_route_directionallight(const line_splitting::instruction_info& inst) {
 			instructions::route::DirectionalLight dl;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 3:
-					dl.color.b = std::uint8_t(util::parse_loose_integer(instr.args[2], 160));
+					dl.color.b = std::uint8_t(util::parse_loose_integer(inst.args[2], 160));
 					// fall through
 				case 2:
-					dl.color.g = std::uint8_t(util::parse_loose_integer(instr.args[1], 160));
+					dl.color.g = std::uint8_t(util::parse_loose_integer(inst.args[1], 160));
 					// fall through
 				case 1:
-					dl.color.r = std::uint8_t(util::parse_loose_integer(instr.args[0], 160));
+					dl.color.r = std::uint8_t(util::parse_loose_integer(inst.args[0], 160));
 					// fall through
 				case 0:
 					break;
@@ -410,16 +409,16 @@ namespace csv_rw_route {
 			return dl;
 		}
 
-		static instruction create_instruction_route_lightdirection(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_route_lightdirection(const line_splitting::instruction_info& inst) {
 			instructions::route::LightDirection ld;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 2:
-					ld.theta = util::parse_loose_float(instr.args[0], 60);
+					ld.theta = util::parse_loose_float(inst.args[0], 60);
 					// fall through
 				case 1:
-					ld.phi = util::parse_loose_float(instr.args[1], -26.57f);
+					ld.phi = util::parse_loose_float(inst.args[1], -26.57f);
 					// fall through
 				case 0:
 					break;
@@ -432,47 +431,49 @@ namespace csv_rw_route {
 		// Train Namespace //
 		/////////////////////
 
-		static instruction create_instruction_train_folder(const line_splitting::instruction_info& instr) {
-			return create_single_string_instruction<instructions::train::Folder>(instr, "Train.Folder");
+		static instruction create_instruction_train_folder(const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::train::Folder>(inst, "Train.Folder");
 		}
 
-		static instruction create_instruction_train_run(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Train.Run");
-			args_at_least(instr, 1, "Train.Run");
+		static instruction create_instruction_train_run(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Train.Run");
+			args_at_least(inst, 1, "Train.Run");
 
 			instructions::train::Rail r;
 
-			r.rail_type_index = util::parse_loose_integer(instr.indices[0]);
-			r.run_sound_index = util::parse_loose_integer(instr.args[0]);
+			r.rail_type_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			r.run_sound_index = std::size_t(util::parse_loose_integer(inst.args[0]));
 
 			return r;
 		}
 
-		static instruction create_instruction_train_flange(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Train.Flange");
-			args_at_least(instr, 1, "Train.Flange");
+		static instruction create_instruction_train_flange(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Train.Flange");
+			args_at_least(inst, 1, "Train.Flange");
 
 			instructions::train::Flange f;
 
-			f.rail_type_index = util::parse_loose_integer(instr.indices[0]);
-			f.flange_sound_index = util::parse_loose_integer(instr.args[0]);
+			f.rail_type_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			f.flange_sound_index = std::size_t(util::parse_loose_integer(inst.args[0]));
 
 			return f;
 		}
 
-		static instruction create_instruction_train_timetable(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Train.Timetable");
-			args_at_least(instr, 1, "Train.Timetable");
+		static instruction create_instruction_train_timetable(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Train.Timetable");
+			args_at_least(inst, 1, "Train.Timetable");
 
 			instructions::train::Timetable tt;
 
-			tt.timetable_index = util::parse_loose_integer(instr.indices[0]);
-			tt.filename = instr.args[0];
+			tt.timetable_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			tt.filename = inst.args[0];
 
-			auto suffixes = util::split_text(instr.suffix, '.');
+			auto suffixes = util::split_text(inst.suffix, '.');
 
 			if (suffixes.size() == 0 || (suffixes[0] != "day" && suffixes[0] != "night")) {
-				throw std::invalid_argument("A suffix of .Day or .Night is required for Train.Timetable");
+				throw std::invalid_argument(
+				    "A suffix of .Day or .Night is required for "
+				    "Train.Timetable");
 			}
 
 			tt.day = suffixes[0] == "day";
@@ -480,17 +481,17 @@ namespace csv_rw_route {
 			return tt;
 		}
 
-		static instruction create_instruction_train_velocity(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::train::Velocity>(instr, "Train.Velocity", 0);
+		static instruction create_instruction_train_velocity(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::train::Velocity>(inst, "Train.Velocity", 0);
 		}
 
 		/////////////////////////
 		// Structure Namespace //
 		/////////////////////////
 
-		static instruction create_instruction_structure_command(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Structure.Command");
-			args_at_least(instr, 1, "Structure.Command");
+		static instruction create_instruction_structure_command(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Structure.Command");
+			args_at_least(inst, 1, "Structure.Command");
 
 			static std::map<std::string, decltype(instructions::structure::Command::command)> command_mapping{
 			    {"structure.ground"s, instructions::structure::Command::Ground},
@@ -533,23 +534,23 @@ namespace csv_rw_route {
 
 			instructions::structure::Command c;
 
-			c.command = command_mapping.find(instr.name)->second;
+			c.command = command_mapping.find(inst.name)->second;
 
-			c.structure_index = std::size_t(util::parse_loose_integer(instr.indices[0]));
-			c.filename = instr.args[0];
+			c.structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			c.filename = inst.args[0];
 
 			return c;
 		}
 
-		static instruction create_instruction_structure_pole(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 2, "Structure.Pole");
-			args_at_least(instr, 1, "Structure.Pole");
+		static instruction create_instruction_structure_pole(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 2, "Structure.Pole");
+			args_at_least(inst, 1, "Structure.Pole");
 
 			instructions::structure::Pole p;
 
-			p.additional_rails = std::size_t(util::parse_loose_integer(instr.indices[0]));
-			p.pole_structure_index = std::size_t(util::parse_loose_integer(instr.indices[1]));
-			p.filename = instr.args[0];
+			p.additional_rails = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.indices[1]));
+			p.filename = inst.args[0];
 
 			return p;
 		}
@@ -558,29 +559,29 @@ namespace csv_rw_route {
 		// Texture Namespace //
 		///////////////////////
 
-		static instruction create_instruction_texture_background(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Texture.Background");
-			args_at_least(instr, 1, "Texture.Background");
+		static instruction create_instruction_texture_background(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Texture.Background");
+			args_at_least(inst, 1, "Texture.Background");
 
-			auto background_texture_index = std::size_t(util::parse_loose_integer(instr.indices[0]));
+			auto background_texture_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
 
-			if (instr.suffix.size() == 0 || instr.suffix == "load") {
+			if (inst.suffix.size() == 0 || inst.suffix == "load") {
 				instructions::texture::Background_Load bl;
 				bl.background_texture_index = background_texture_index;
-				bl.filename = instr.args[0];
+				bl.filename = inst.args[0];
 				return bl;
 			}
 
-			auto number = std::size_t(util::parse_loose_integer(instr.args[0]));
+			auto number = std::size_t(util::parse_loose_integer(inst.args[0]));
 
-			if (instr.suffix == "x") {
+			if (inst.suffix == "x") {
 				instructions::texture::Background_X x;
 				x.background_texture_index = background_texture_index;
 				x.repetition_count = number;
 				return x;
 			}
 
-			if (instr.suffix == "aspect") {
+			if (inst.suffix == "aspect") {
 				instructions::texture::Background_Aspect ba;
 
 				ba.background_texture_index = background_texture_index;
@@ -597,31 +598,31 @@ namespace csv_rw_route {
 		// Cycle Namespace //
 		/////////////////////
 
-		static instruction create_instruction_cycle_ground(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Cycle.Ground");
-			args_at_least(instr, 1, "Cycle.Ground");
+		static instruction create_instruction_cycle_ground(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Cycle.Ground");
+			args_at_least(inst, 1, "Cycle.Ground");
 
 			instructions::cycle::Ground g;
 
-			g.ground_structure_index = std::size_t(util::parse_loose_integer(instr.indices[0]));
+			g.ground_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
 
-			g.input_indices.reserve(instr.args.size());
-			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(g.input_indices),
+			g.input_indices.reserve(inst.args.size());
+			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(g.input_indices),
 			               [](const std::string& arg) { return std::size_t(util::parse_loose_integer(arg)); });
 
 			return g;
 		}
 
-		static instruction create_instruction_cycle_rail(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Cycle.Rail");
-			args_at_least(instr, 1, "Cycle.Rail");
+		static instruction create_instruction_cycle_rail(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Cycle.Rail");
+			args_at_least(inst, 1, "Cycle.Rail");
 
 			instructions::cycle::Rail r;
 
-			r.rail_structure_index = std::size_t(util::parse_loose_integer(instr.indices[0]));
+			r.rail_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
 
-			r.input_indices.reserve(instr.args.size());
-			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(r.input_indices),
+			r.input_indices.reserve(inst.args.size());
+			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(r.input_indices),
 			               [](const std::string& arg) { return std::size_t(util::parse_loose_integer(arg)); });
 
 			return r;
@@ -631,25 +632,25 @@ namespace csv_rw_route {
 		// Signal (naked) Namespace //
 		//////////////////////////////
 
-		static instruction create_instruction_signal(const line_splitting::instruction_info& instr) {
-			indices_at_least(instr, 1, "Signal");
-			args_at_least(instr, 1, "Signal");
+		static instruction create_instruction_signal(const line_splitting::instruction_info& inst) {
+			indices_at_least(inst, 1, "Signal");
+			args_at_least(inst, 1, "Signal");
 
-			auto signal_index = std::size_t(util::parse_loose_integer(instr.indices[0]));
+			auto signal_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
 
 			// Signal File version
-			if (instr.args.size() >= 2) {
+			if (inst.args.size() >= 2) {
 				instructions::naked::Signal s;
 				s.signal_index = signal_index;
-				s.signal_filename = instr.args[0];
-				s.glow_filename = instr.args[1];
+				s.signal_filename = inst.args[0];
+				s.glow_filename = inst.args[1];
 				return s;
 			}
 
 			// Animated File version
 			instructions::naked::SignalAnimated sa;
 			sa.signal_index = signal_index;
-			sa.filename = instr.args[0];
+			sa.filename = inst.args[0];
 			return sa;
 		}
 
@@ -661,36 +662,36 @@ namespace csv_rw_route {
 		// Rails //
 		///////////
 
-		static instruction create_instruction_track_railstart(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "RailStart");
+		static instruction create_instruction_track_railstart(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "RailStart");
 
 			instructions::track::RailStart rs;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 4:
 					try {
-						rs.rail_type = std::size_t(util::parse_loose_integer(instr.args[3]));
+						rs.rail_type = std::size_t(util::parse_loose_integer(inst.args[3]));
 					}
 					catch (const std::invalid_argument&) {
 					}
 					// fall through
 				case 3:
 					try {
-						rs.y_offset = util::parse_loose_float(instr.args[2]);
+						rs.y_offset = util::parse_loose_float(inst.args[2]);
 					}
 					catch (const std::invalid_argument&) {
 					}
 					// fall through
 				case 2:
 					try {
-						rs.x_offset = util::parse_loose_float(instr.args[1]);
+						rs.x_offset = util::parse_loose_float(inst.args[1]);
 					}
 					catch (const std::invalid_argument&) {
 					}
 					// fall through
 				case 1:
-					rs.rail_index = std::size_t(util::parse_loose_integer(instr.args[0]));
+					rs.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
 					// fall through
 				case 0:
 					break;
@@ -699,36 +700,36 @@ namespace csv_rw_route {
 			return rs;
 		}
 
-		static instruction create_instruction_track_rail(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Rail");
+		static instruction create_instruction_track_rail(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Rail");
 
 			instructions::track::Rail r;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 4:
 					try {
-						r.rail_type = std::size_t(util::parse_loose_integer(instr.args[3]));
+						r.rail_type = std::size_t(util::parse_loose_integer(inst.args[3]));
 					}
 					catch (const std::invalid_argument&) {
 					}
 					// fall through
 				case 3:
 					try {
-						r.y_offset = util::parse_loose_float(instr.args[2]);
+						r.y_offset = util::parse_loose_float(inst.args[2]);
 					}
 					catch (const std::invalid_argument&) {
 					}
 					// fall through
 				case 2:
 					try {
-						r.x_offset = util::parse_loose_float(instr.args[1]);
+						r.x_offset = util::parse_loose_float(inst.args[1]);
 					}
 					catch (const std::invalid_argument&) {
 					}
 					// fall through
 				case 1:
-					r.rail_index = std::size_t(util::parse_loose_integer(instr.args[0]));
+					r.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
 					// fall through
 				case 0:
 					break;
@@ -737,16 +738,16 @@ namespace csv_rw_route {
 			return r;
 		}
 
-		static instruction create_instruction_track_railtype(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_railtype(const line_splitting::instruction_info& inst) {
 			instructions::track::RailType rt;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 2:
-					rt.rail_type = std::size_t(util::parse_loose_integer(instr.args[1], 0));
+					rt.rail_type = std::size_t(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
-					rt.rail_index = std::size_t(util::parse_loose_integer(instr.args[0], 0));
+					rt.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -755,29 +756,29 @@ namespace csv_rw_route {
 			return rt;
 		}
 
-		static instruction create_instruction_track_railend(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "RailEnd");
+		static instruction create_instruction_track_railend(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "RailEnd");
 
 			instructions::track::RailEnd re;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 3:
 					try {
-						re.y_offset = util::parse_loose_float(instr.args[2]);
+						re.y_offset = util::parse_loose_float(inst.args[2]);
 					}
 					catch (const std::invalid_argument&) {
 					};
 					// fall through
 				case 2:
 					try {
-						re.x_offset = util::parse_loose_float(instr.args[1]);
+						re.x_offset = util::parse_loose_float(inst.args[1]);
 					}
 					catch (const std::invalid_argument&) {
 					};
 					// fall through
 				case 1:
-					re.rail_index = std::size_t(util::parse_loose_integer(instr.args[0]));
+					re.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
 					// fall through
 				case 0:
 					break;
@@ -786,34 +787,34 @@ namespace csv_rw_route {
 			return re;
 		}
 
-		static instruction create_instruction_track_accuracy(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_accuracy(const line_splitting::instruction_info& inst) {
 			// Ignored instruction
-			(void) instr;
+			(void) inst;
 			return instructions::naked::None{};
 		}
 
-		static instruction create_instruction_track_adhesion(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::track::Adhesion>(instr, "Track.Adhesion");
+		static instruction create_instruction_track_adhesion(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::track::Adhesion>(inst, "Track.Adhesion");
 		}
 
-		static instruction create_instruction_track_pitch(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::track::Pitch>(instr, "Track.Pitch");
+		static instruction create_instruction_track_pitch(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::track::Pitch>(inst, "Track.Pitch");
 		}
 
 		//////////////
 		// Geometry //
 		//////////////
 
-		static instruction create_instruction_track_curve(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_curve(const line_splitting::instruction_info& inst) {
 			instructions::track::Curve c;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 2:
-					c.cant = util::parse_loose_float(instr.args[1], 0);
+					c.cant = util::parse_loose_float(inst.args[1], 0);
 					// fall through
 				case 1:
-					c.radius = util::parse_loose_float(instr.args[0], 0);
+					c.radius = util::parse_loose_float(inst.args[0], 0);
 					// fall through
 				case 0:
 					break;
@@ -822,31 +823,31 @@ namespace csv_rw_route {
 			return c;
 		}
 
-		static instruction create_instruction_track_turn(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::track::Turn>(instr, "Track.Turn", 0);
+		static instruction create_instruction_track_turn(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::track::Turn>(inst, "Track.Turn", 0);
 		}
 
-		static instruction create_instruction_track_height(const line_splitting::instruction_info& instr) {
-			return create_single_float_instruction<instructions::track::Height>(instr, "Track.Height");
+		static instruction create_instruction_track_height(const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::track::Height>(inst, "Track.Height");
 		}
 
 		/////////////
 		// Objects //
 		/////////////
 
-		static instruction create_instruction_track_freeobj(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_freeobj(const line_splitting::instruction_info& inst) {
 			instructions::track::FreeObj fobj;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 3:
-					set_positions<2>(fobj, instr);
+					set_positions<2>(fobj, inst);
 					// fall through
 				case 2:
-					fobj.free_obj_structure_index = std::size_t(util::parse_loose_integer(instr.args[1], 0));
+					fobj.free_obj_structure_index = std::size_t(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
-					fobj.rail_index = std::size_t(util::parse_loose_integer(instr.args[0], 0));
+					fobj.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -855,15 +856,15 @@ namespace csv_rw_route {
 			return fobj;
 		}
 
-		static instruction create_instruction_track_wall(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Track.Wall");
+		static instruction create_instruction_track_wall(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Track.Wall");
 
 			instructions::track::Wall w;
 
-			w.rail_index = std::size_t(util::parse_loose_integer(instr.args[0], 0));
-			auto direction_num = util::parse_loose_integer(instr.args[1]);
-			if (instr.args.size() >= 3) {
-				w.wall_structure_index = std::size_t(util::parse_loose_integer(instr.args[2], 0));
+			w.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+			auto direction_num = util::parse_loose_integer(inst.args[1]);
+			if (inst.args.size() >= 3) {
+				w.wall_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
 			}
 
 			switch (direction_num) {
@@ -882,19 +883,19 @@ namespace csv_rw_route {
 			return w;
 		}
 
-		static instruction create_instruction_track_wallend(const line_splitting::instruction_info& instr) {
-			return create_single_sizet_instruction<instructions::track::WallEnd>(instr, "Track.WallEnd");
+		static instruction create_instruction_track_wallend(const line_splitting::instruction_info& inst) {
+			return create_single_sizet_instruction<instructions::track::WallEnd>(inst, "Track.WallEnd");
 		}
 
-		static instruction create_instruction_track_dike(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Track.Dike");
+		static instruction create_instruction_track_dike(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Track.Dike");
 
 			instructions::track::Dike d;
 
-			d.rail_index = std::size_t(util::parse_loose_integer(instr.args[0], 0));
-			auto direction_num = util::parse_loose_integer(instr.args[1]);
-			if (instr.args.size() >= 3) {
-				d.dike_structure_index = std::size_t(util::parse_loose_integer(instr.args[2], 0));
+			d.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+			auto direction_num = util::parse_loose_integer(inst.args[1]);
+			if (inst.args.size() >= 3) {
+				d.dike_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
 			}
 
 			switch (direction_num) {
@@ -913,29 +914,29 @@ namespace csv_rw_route {
 			return d;
 		}
 
-		static instruction create_instruction_track_dikeend(const line_splitting::instruction_info& instr) {
-			return create_single_sizet_instruction<instructions::track::DikeEnd>(instr, "Track.DikeEnd");
+		static instruction create_instruction_track_dikeend(const line_splitting::instruction_info& inst) {
+			return create_single_sizet_instruction<instructions::track::DikeEnd>(inst, "Track.DikeEnd");
 		}
 
-		static instruction create_instruction_track_pole(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_pole(const line_splitting::instruction_info& inst) {
 			instructions::track::Pole p;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 5:
-					p.pole_structure_index = std::size_t(util::parse_loose_integer(instr.args[4], 0));
+					p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.args[4], 0));
 					// fall through
 				case 4:
-					p.interval = util::parse_loose_integer(instr.args[3], 1);
+					p.interval = util::parse_loose_integer(inst.args[3], 1);
 					// fall through
 				case 3:
-					p.location = util::parse_loose_integer(instr.args[2], 0);
+					p.location = util::parse_loose_integer(inst.args[2], 0);
 					// fall through
 				case 2:
-					p.additional_rails = std::size_t(util::parse_loose_integer(instr.args[1], 0));
+					p.additional_rails = std::size_t(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
-					p.rail_index = std::size_t(util::parse_loose_integer(instr.args[0], 0));
+					p.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -944,72 +945,72 @@ namespace csv_rw_route {
 			return p;
 		}
 
-		static instruction create_instruction_track_poleend(const line_splitting::instruction_info& instr) {
-			return create_single_sizet_instruction<instructions::track::PoleEnd>(instr, "Track.PoleEnd");
+		static instruction create_instruction_track_poleend(const line_splitting::instruction_info& inst) {
+			return create_single_sizet_instruction<instructions::track::PoleEnd>(inst, "Track.PoleEnd");
 		}
 
-		static instruction create_instruction_track_crack(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Track.Crack");
+		static instruction create_instruction_track_crack(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Track.Crack");
 
 			instructions::track::Crack c;
 
-			c.rail_index_1 = std::size_t(util::parse_loose_integer(instr.args[0]));
-			c.rail_index_2 = std::size_t(util::parse_loose_integer(instr.args[1]));
-			if (instr.args.size() >= 3) {
-				c.crack_structure_index = std::size_t(util::parse_loose_integer(instr.args[2], 0));
+			c.rail_index_1 = std::size_t(util::parse_loose_integer(inst.args[0]));
+			c.rail_index_2 = std::size_t(util::parse_loose_integer(inst.args[1]));
+			if (inst.args.size() >= 3) {
+				c.crack_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
 			}
 
 			return c;
 		}
 
-		static instruction create_instruction_track_ground(const line_splitting::instruction_info& instr) {
-			return create_single_sizet_instruction<instructions::track::Ground>(instr, "Track.Ground");
+		static instruction create_instruction_track_ground(const line_splitting::instruction_info& inst) {
+			return create_single_sizet_instruction<instructions::track::Ground>(inst, "Track.Ground");
 		}
 
 		//////////////
 		// Stations //
 		//////////////
 
-		static instruction create_instruction_track_sta(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.Sta");
+		static instruction create_instruction_track_sta(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.Sta");
 
 			instructions::track::Sta s;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 12:
-					s.timetable_index = std::size_t(util::parse_loose_integer(instr.args[11], 0));
+					s.timetable_index = std::size_t(util::parse_loose_integer(inst.args[11], 0));
 					// fall through
 				case 11:
-					s.departure_sound = instr.args[10];
+					s.departure_sound = inst.args[10];
 					// fall through
 				case 10:
-					s.passenger_ratio = util::parse_loose_float(instr.args[9], 100);
+					s.passenger_ratio = util::parse_loose_float(inst.args[9], 100);
 					// fall through
 				case 9:
-					s.stop_duration = util::parse_loose_float(instr.args[8], 15);
+					s.stop_duration = util::parse_loose_float(inst.args[8], 15);
 					// fall through
 				case 8:
-					s.arrival_sound = instr.args[7];
+					s.arrival_sound = inst.args[7];
 					// fall through
 				case 7:
 					// System
 					{
-						auto arg_val = util::lower_copy(instr.args[6]);
+						auto arg_val = util::lower_copy(inst.args[6]);
 						s.system = arg_val == "atc" || arg_val == "1";
 					}
 					// fall through
 				case 6:
 					// Forced Red Signal
 					{
-						auto val = util::parse_loose_integer(instr.args[5], 0);
+						auto val = util::parse_loose_integer(inst.args[5], 0);
 						s.force_red = val == 1;
 					}
 					// fall through
 				case 5:
 					// Doors
 					{
-						auto& arg_val = instr.args[4];
+						auto& arg_val = inst.args[4];
 						if (arg_val.size() == 0) {
 							s.doors = instructions::track::Sta::Doors_t::None;
 						}
@@ -1054,14 +1055,14 @@ namespace csv_rw_route {
 				case 4:
 					// Pass Alarm
 					{
-						auto val = util::parse_loose_integer(instr.args[3], 0);
+						auto val = util::parse_loose_integer(inst.args[3], 0);
 						s.pass_alarm = val == 1;
 					}
 					// fall through
 				case 3:
 					// Departure Time
 					{
-						auto& arr_arg = instr.args[2];
+						auto& arr_arg = inst.args[2];
 						if (arr_arg.size() == 0) {
 							s.departure_tag = instructions::track::Sta::DepartureTime_t::AnyTime;
 						}
@@ -1098,7 +1099,7 @@ namespace csv_rw_route {
 				case 2:
 					// Arrival time
 					{
-						auto& arr_arg = instr.args[1];
+						auto& arr_arg = inst.args[1];
 						if (arr_arg.size() == 0) {
 							s.arrival_tag = instructions::track::Sta::ArrivalTime_t::AnyTime;
 						}
@@ -1130,7 +1131,7 @@ namespace csv_rw_route {
 					}
 					// fall through
 				case 1:
-					s.name = instr.args[0];
+					s.name = inst.args[0];
 					// fall through
 				case 0:
 					break;
@@ -1139,44 +1140,44 @@ namespace csv_rw_route {
 			return s;
 		}
 
-		static instruction create_instruction_track_station(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.Station");
+		static instruction create_instruction_track_station(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.Station");
 
 			line_splitting::instruction_info ii;
-			ii.name = instr.name;
+			ii.name = inst.name;
 			ii.args.resize(12);
-			ii.args[0] = instr.args.size() >= 1 ? instr.args[0] : ""s;  // Name
-			ii.args[1] = instr.args.size() >= 2 ? instr.args[1] : ""s;  // ArivalTime
-			ii.args[2] = instr.args.size() >= 3 ? instr.args[2] : ""s;  // DepartureTime
-			ii.args[3] = "0"s;                                          // Pass Alarm
-			ii.args[4] = "b"s;                                          // Doors
-			ii.args[5] = instr.args.size() >= 4 ? instr.args[3] : "0"s; // ForcedRedSignal
-			ii.args[6] = instr.args.size() >= 5 ? instr.args[4] : "0"s; // System
-			ii.args[7] = ""s;                                           // Arival Sound
-			ii.args[8] = "15"s;                                         // Stop Duration
-			ii.args[9] = "100"s;                                        // PassengerRatio
-			ii.args[10] = instr.args.size() >= 6 ? instr.args[5] : ""s; // DepartureSound
-			ii.args[11] = "0"s;                                         // Timetable Index
+			ii.args[0] = inst.args.size() >= 1 ? inst.args[0] : ""s;  // Name
+			ii.args[1] = inst.args.size() >= 2 ? inst.args[1] : ""s;  // ArivalTime
+			ii.args[2] = inst.args.size() >= 3 ? inst.args[2] : ""s;  // DepartureTime
+			ii.args[3] = "0"s;                                        // Pass Alarm
+			ii.args[4] = "b"s;                                        // Doors
+			ii.args[5] = inst.args.size() >= 4 ? inst.args[3] : "0"s; // ForcedRedSignal
+			ii.args[6] = inst.args.size() >= 5 ? inst.args[4] : "0"s; // System
+			ii.args[7] = ""s;                                         // Arival Sound
+			ii.args[8] = "15"s;                                       // Stop Duration
+			ii.args[9] = "100"s;                                      // PassengerRatio
+			ii.args[10] = inst.args.size() >= 6 ? inst.args[5] : ""s; // DepartureSound
+			ii.args[11] = "0"s;                                       // Timetable Index
 
 			return create_instruction_track_sta(ii);
 		} // namespace
 
-		static instruction create_instruction_track_stop(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_stop(const line_splitting::instruction_info& inst) {
 			instructions::track::Stop s;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 4:
-					s.cars = std::size_t(util::parse_loose_integer(instr.args[3], 0));
+					s.cars = std::size_t(util::parse_loose_integer(inst.args[3], 0));
 					// fall through
 				case 3:
-					s.forwards_tolerance = util::parse_loose_float(instr.args[2], 5);
+					s.forwards_tolerance = util::parse_loose_float(inst.args[2], 5);
 					// fall through
 				case 2:
-					s.backwards_tolerance = util::parse_loose_float(instr.args[1], 5);
+					s.backwards_tolerance = util::parse_loose_float(inst.args[1], 5);
 					// fall through
 				case 1: {
-					auto direction_num = util::parse_loose_integer(instr.args[0], 0);
+					auto direction_num = util::parse_loose_integer(inst.args[0], 0);
 
 					switch (direction_num) {
 						case -1:
@@ -1199,22 +1200,22 @@ namespace csv_rw_route {
 			return s;
 		}
 
-		static instruction create_instruction_track_form(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Track.Form");
+		static instruction create_instruction_track_form(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Track.Form");
 
 			instructions::track::Form f;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 4:
-					f.form_structure_index = std::size_t(util::parse_loose_integer(instr.args[3], 0));
+					f.form_structure_index = std::size_t(util::parse_loose_integer(inst.args[3], 0));
 					// fall through
 				case 3:
-					f.roof_structure_index = std::size_t(util::parse_loose_integer(instr.args[2], 0));
+					f.roof_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
 					// fall through
 				case 2:
-					if (instr.args[1].size() >= 1) {
-						switch (instr.args[1][0]) {
+					if (inst.args[1].size() >= 1) {
+						switch (inst.args[1][0]) {
 							case 'l':
 							case 'L':
 								f.placement = instructions::track::Form::Left;
@@ -1224,7 +1225,7 @@ namespace csv_rw_route {
 								f.placement = instructions::track::Form::Right;
 								break;
 							default:
-								f.rail_index_2 = std::size_t(util::parse_loose_integer(instr.args[1], 0));
+								f.rail_index_2 = std::size_t(util::parse_loose_integer(inst.args[1], 0));
 								f.placement = instructions::track::Form::RailIndex;
 								break;
 						}
@@ -1235,7 +1236,7 @@ namespace csv_rw_route {
 					}
 					// fall through
 				case 1:
-					f.rail_index_1 = std::size_t(util::parse_loose_integer(instr.args[0]));
+					f.rail_index_1 = std::size_t(util::parse_loose_integer(inst.args[0]));
 					// fall through
 				case 0:
 					break;
@@ -1248,13 +1249,13 @@ namespace csv_rw_route {
 		// Signalling and Speed Limits //
 		/////////////////////////////////
 
-		static instruction create_instruction_track_limit(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_limit(const line_splitting::instruction_info& inst) {
 			instructions::track::Limit l;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 3: {
-					auto course_num = util::parse_loose_integer(instr.args[2], 0);
+					auto course_num = util::parse_loose_integer(inst.args[2], 0);
 
 					switch (course_num) {
 						case -1:
@@ -1271,7 +1272,7 @@ namespace csv_rw_route {
 				}
 					// fall through
 				case 2: {
-					auto post_num = util::parse_loose_integer(instr.args[1], 0);
+					auto post_num = util::parse_loose_integer(inst.args[1], 0);
 
 					switch (post_num) {
 						case -1:
@@ -1288,7 +1289,7 @@ namespace csv_rw_route {
 				}
 				// fall through
 				case 1:
-					l.speed = util::parse_loose_float(instr.args[0], 0);
+					l.speed = util::parse_loose_float(inst.args[0], 0);
 					// fall through
 				case 0:
 					break;
@@ -1297,34 +1298,34 @@ namespace csv_rw_route {
 			return l;
 		}
 
-		static instruction create_instruction_track_section(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.Section");
+		static instruction create_instruction_track_section(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.Section");
 
 			instructions::track::Section s;
-			s.a_term.reserve(instr.args.size());
+			s.a_term.reserve(inst.args.size());
 
-			std::transform(instr.args.begin(), instr.args.end(), std::back_inserter(s.a_term),
-			               [](const std::string& val) { return util::parse_loose_integer(val, 0); });
+			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(s.a_term),
+			               [](const std::string& val) { return std::size_t(util::parse_loose_integer(val, 0)); });
 
 			return s;
 		}
 
-		static instruction create_instruction_track_sigf(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Track.SigF");
+		static instruction create_instruction_track_sigf(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Track.SigF");
 
 			instructions::track::SigF sf;
 
-			sf.signal_index = std::size_t(util::parse_loose_integer(instr.args[0]));
-			sf.section = std::size_t(util::parse_loose_integer(instr.args[1]));
-			set_positions<2>(sf, instr);
+			sf.signal_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+			sf.section = std::size_t(util::parse_loose_integer(inst.args[1]));
+			set_positions<2>(sf, inst);
 
 			return sf;
 		}
-		static instruction create_instruction_track_signal(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_signal(const line_splitting::instruction_info& inst) {
 			instructions::track::Signal s;
 
-			if (instr.args.size() >= 1) {
-				auto type_num = util::parse_loose_integer(instr.args[0]);
+			if (inst.args.size() >= 1) {
+				auto type_num = util::parse_loose_integer(inst.args[0]);
 
 				switch (type_num) {
 					case 2:
@@ -1358,15 +1359,15 @@ namespace csv_rw_route {
 				s.type = instructions::track::Signal::R_G;
 			}
 
-			set_positions<2>(s, instr);
+			set_positions<2>(s, inst);
 
 			return s;
 		}
 
-		static instruction create_instruction_track_relay(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_relay(const line_splitting::instruction_info& inst) {
 			instructions::track::Relay r;
 
-			set_positions<0>(r, instr);
+			set_positions<0>(r, inst);
 
 			return r;
 		}
@@ -1375,34 +1376,34 @@ namespace csv_rw_route {
 		// Safety Systems //
 		////////////////////
 
-		static instruction create_instruction_track_beacon(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 4, "Track.Beacon");
+		static instruction create_instruction_track_beacon(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 4, "Track.Beacon");
 
 			instructions::track::Beacon b;
 
-			b.type = std::size_t(util::parse_loose_integer(instr.args[0]));
-			b.beacon_structure_index = std::size_t(util::parse_loose_integer(instr.args[1]));
-			b.section = std::size_t(util::parse_loose_integer(instr.args[2]));
-			b.data = std::size_t(util::parse_loose_integer(instr.args[3]));
+			b.type = std::size_t(util::parse_loose_integer(inst.args[0]));
+			b.beacon_structure_index = std::size_t(util::parse_loose_integer(inst.args[1]));
+			b.section = std::size_t(util::parse_loose_integer(inst.args[2]));
+			b.data = std::size_t(util::parse_loose_integer(inst.args[3]));
 
-			set_positions<4>(b, instr);
+			set_positions<4>(b, inst);
 
 			return b;
 		}
 
-		static instruction create_instruction_track_transponder(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_transponder(const line_splitting::instruction_info& inst) {
 			instructions::track::Transponder t;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 3:
-					t.switch_system = util::parse_loose_integer(instr.args[2], 0) == 0;
+					t.switch_system = util::parse_loose_integer(inst.args[2], 0) == 0;
 					// fall through
 				case 2:
-					t.signal = std::size_t(util::parse_loose_integer(instr.args[1], 0));
+					t.signal = std::size_t(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1: {
-					auto type_num = util::parse_loose_integer(instr.args[0], 0);
+					auto type_num = util::parse_loose_integer(inst.args[0], 0);
 
 					switch (type_num) {
 						default:
@@ -1428,13 +1429,13 @@ namespace csv_rw_route {
 					break;
 			}
 
-			set_positions<3>(t, instr);
+			set_positions<3>(t, inst);
 
 			return t;
 		}
 
-		static instruction create_instruction_track_atssn(const line_splitting::instruction_info& instr) {
-			(void) instr;
+		static instruction create_instruction_track_atssn(const line_splitting::instruction_info& inst) {
+			(void) inst;
 
 			instructions::track::Transponder t;
 
@@ -1445,8 +1446,8 @@ namespace csv_rw_route {
 			return t;
 		}
 
-		static instruction create_instruction_track_atsp(const line_splitting::instruction_info& instr) {
-			(void) instr;
+		static instruction create_instruction_track_atsp(const line_splitting::instruction_info& inst) {
+			(void) inst;
 
 			instructions::track::Transponder t;
 
@@ -1457,25 +1458,25 @@ namespace csv_rw_route {
 			return t;
 		}
 
-		static instruction create_instruction_track_pattern(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 2, "Track.Pattern");
+		static instruction create_instruction_track_pattern(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 2, "Track.Pattern");
 
 			instructions::track::Pattern p;
 
-			auto type_num = util::parse_loose_integer(instr.args[0]);
+			auto type_num = util::parse_loose_integer(inst.args[0]);
 			p.type = type_num == 0 ? instructions::track::Pattern::Permanent : instructions::track::Pattern::Temporary;
-			p.speed = util::parse_loose_float(instr.args[1]);
+			p.speed = util::parse_loose_float(inst.args[1]);
 
 			return p;
 		}
 
-		static instruction create_instruction_track_plimit(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.PLimit");
+		static instruction create_instruction_track_plimit(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.PLimit");
 
 			instructions::track::Pattern p;
 
 			p.type = instructions::track::Pattern::Temporary;
-			p.speed = util::parse_loose_float(instr.args[0]);
+			p.speed = util::parse_loose_float(inst.args[0]);
 
 			return p;
 		}
@@ -1484,29 +1485,29 @@ namespace csv_rw_route {
 		// Misc //
 		//////////
 
-		static instruction create_instruction_track_back(const line_splitting::instruction_info& instr) {
-			return create_single_sizet_instruction<instructions::track::Back>(instr, "Track.Back");
+		static instruction create_instruction_track_back(const line_splitting::instruction_info& inst) {
+			return create_single_sizet_instruction<instructions::track::Back>(inst, "Track.Back");
 		}
 
-		static instruction create_instruction_track_fog(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_fog(const line_splitting::instruction_info& inst) {
 			instructions::track::Fog f;
 
-			switch (instr.args.size()) {
+			switch (inst.args.size()) {
 				default:
 				case 5:
-					f.color.b = std::uint8_t(util::parse_loose_integer(instr.args[4], 128));
+					f.color.b = std::uint8_t(util::parse_loose_integer(inst.args[4], 128));
 					// fall through
 				case 4:
-					f.color.g = std::uint8_t(util::parse_loose_integer(instr.args[3], 128));
+					f.color.g = std::uint8_t(util::parse_loose_integer(inst.args[3], 128));
 					// fall through
 				case 3:
-					f.color.r = std::uint8_t(util::parse_loose_integer(instr.args[2], 128));
+					f.color.r = std::uint8_t(util::parse_loose_integer(inst.args[2], 128));
 					// fall through
 				case 2:
-					f.ending_distance = util::parse_loose_float(instr.args[1], 0);
+					f.ending_distance = util::parse_loose_float(inst.args[1], 0);
 					// fall through
 				case 1:
-					f.starting_distance = util::parse_loose_float(instr.args[0], 0);
+					f.starting_distance = util::parse_loose_float(inst.args[0], 0);
 					// fall through
 				case 0:
 					break;
@@ -1515,85 +1516,85 @@ namespace csv_rw_route {
 			return f;
 		}
 
-		static instruction create_instruction_track_brightness(const line_splitting::instruction_info& instr) {
+		static instruction create_instruction_track_brightness(const line_splitting::instruction_info& inst) {
 			instructions::track::Brightness b;
 
-			if (instr.args.size() >= 1) {
-				b.value = std::uint8_t(util::parse_loose_integer(instr.args[0], 255));
+			if (inst.args.size() >= 1) {
+				b.value = std::uint8_t(util::parse_loose_integer(inst.args[0], 255));
 			}
 
 			return b;
 		}
 
-		static instruction create_instruction_track_marker(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.Marker");
+		static instruction create_instruction_track_marker(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.Marker");
 
-			if (instr.args.size() >= 2) {
+			if (inst.args.size() >= 2) {
 				instructions::track::Marker m;
 
-				m.filename = instr.args[0];
-				m.distance = util::parse_loose_float(instr.args[1]);
+				m.filename = inst.args[0];
+				m.distance = util::parse_loose_float(inst.args[1]);
 
 				return m;
 			}
 
 			instructions::track::MarkerXML mxml;
 
-			mxml.filename = instr.args[0];
+			mxml.filename = inst.args[0];
 
 			return mxml;
 		}
 
-		static instruction create_instruction_track_pointofinterest(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.PointOfInterest");
+		static instruction create_instruction_track_pointofinterest(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.PointOfInterest");
 
 			instructions::track::PointOfInterest poi;
 
-			poi.rail_index = std::size_t(util::parse_loose_integer(instr.args[0]));
-			set_positions<1>(poi, instr);
-			if (instr.args.size() >= 7) {
-				poi.text = instr.args[6];
+			poi.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+			set_positions<1>(poi, inst);
+			if (inst.args.size() >= 7) {
+				poi.text = inst.args[6];
 			}
 
 			return poi;
 		}
 
-		static instruction create_instruction_track_pretrain(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.PreTrain");
+		static instruction create_instruction_track_pretrain(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.PreTrain");
 
 			instructions::track::PreTrain pt;
 
-			pt.time = util::parse_time(instr.args[0]);
+			pt.time = util::parse_time(inst.args[0]);
 
 			return pt;
 		}
 
-		static instruction create_instruction_track_announce(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.Announce");
+		static instruction create_instruction_track_announce(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.Announce");
 
 			instructions::track::Announce a;
 
-			a.filename = instr.args[0];
-			if (instr.args.size() >= 2) {
-				a.speed = util::parse_loose_float(instr.args[1], 0);
+			a.filename = inst.args[0];
+			if (inst.args.size() >= 2) {
+				a.speed = util::parse_loose_float(inst.args[1], 0);
 			}
 
 			return a;
 		}
 
-		static instruction create_instruction_track_doppler(const line_splitting::instruction_info& instr) {
-			args_at_least(instr, 1, "Track.Doppler");
+		static instruction create_instruction_track_doppler(const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.Doppler");
 
 			instructions::track::Doppler d;
 
-			d.filename = instr.args[0];
-			switch (instr.args.size()) {
+			d.filename = inst.args[0];
+			switch (inst.args.size()) {
 				default:
 				case 3:
-					d.y_offset = util::parse_loose_float(instr.args[2]);
+					d.y_offset = util::parse_loose_float(inst.args[2]);
 					// fall through
 				case 2:
-					d.x_offset = util::parse_loose_float(instr.args[1]);
+					d.x_offset = util::parse_loose_float(inst.args[1]);
 					// fall through
 				case 1:
 					break;
@@ -1602,12 +1603,12 @@ namespace csv_rw_route {
 			return d;
 		}
 
-		static instruction create_instruction_track_buffer(const line_splitting::instruction_info& instr) {
-			(void) instr;
+		static instruction create_instruction_track_buffer(const line_splitting::instruction_info& inst) {
+			(void) inst;
 			return instructions::track::Buffer{};
 		}
 
-		static const std::map<std::string, instruction (*)(const line_splitting::instruction_info& instr)>
+		static const std::map<std::string, instruction (*)(const line_splitting::instruction_info& inst)>
 		    function_mapping = {
 		        ////////////////
 		        // CSV ROUTES //
@@ -1962,9 +1963,9 @@ namespace csv_rw_route {
 			auto i = generate_instruction(lines, line, errors, with_value, ft);
 
 			mapbox::util::apply_visitor(
-			    [&line](auto& instr) {
-				    instr.file_index = line.filename_index;
-				    instr.line = line.line;
+			    [&line](auto& inst) {
+				    inst.file_index = line.filename_index;
+				    inst.line = line.line;
 			    },
 			    i);
 

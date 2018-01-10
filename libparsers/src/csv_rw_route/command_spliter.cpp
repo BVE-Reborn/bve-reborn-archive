@@ -27,8 +27,8 @@ namespace csv_rw_route {
 				return instruction_info{"", {}, std::move(list), {}, l.offset, true};
 			}
 
-			// all text is stripped by the preprocessor, so if there is a break we need to parse a parenthesized
-			// statement
+			// all text is stripped by the preprocessor, so if there is a break
+			// we need to parse a parenthesized statement
 			if (first_break == text.end()) {
 				return instruction_info{command_name, {}, {}, {}, l.offset};
 			}
@@ -45,7 +45,8 @@ namespace csv_rw_route {
 				indices_set = util::split_text(std::string(after_first_break, start_of_arg_list), ';');
 			}
 			else {
-				// if there isn't a parethesis here we know that's it and there are only arguments
+				// if there isn't a parethesis here we know that's it and there
+				// are only arguments
 				start_of_arg_list = text.end();
 				indices_set = util::split_text(std::string(after_first_break, text.end()), ';');
 			}

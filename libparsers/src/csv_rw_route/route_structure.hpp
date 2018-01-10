@@ -33,6 +33,7 @@ namespace csv_rw_route {
 		filename_set_iterator filename;
 		glm::vec3 position;
 		glm::vec3 rotation;
+		bool flip_x = false;
 	};
 
 	struct display_unit_info {

@@ -278,7 +278,7 @@ namespace animated_object {
 				auto split = util::split_text(kvp.value, ',');
 
 				if (split.size() != 3) {
-					pso.errors.emplace_back(errors::error_t{kvp.line, "Postion must have 3 arguments"});
+					pso.errors.emplace_back(errors::error_t{kvp.line, "position must have 3 arguments"});
 				}
 
 				try {
@@ -302,8 +302,9 @@ namespace animated_object {
 				}
 			}
 			else {
-				pso.errors.emplace_back(
-				    errors::error_t{kvp.line, "No other key may be set besides position inside an include section"});
+				pso.errors.emplace_back(errors::error_t{kvp.line,
+				                                        "No other key may be set besides position "
+				                                        "inside an include section"});
 			}
 		}
 
@@ -321,13 +322,15 @@ namespace animated_object {
 			// "" section is before any named section
 			if (section.name == "") {
 				for (auto& value : section.values) {
-					pao.errors.emplace_back(
-					    errors::error_t{value.line, "Animated files must have all commands within sections"});
+					pao.errors.emplace_back(errors::error_t{value.line,
+					                                        "Animated files must have all commands "
+					                                        "within sections"});
 				}
 
 				for (auto& kvp : section.key_value_pairs) {
-					pao.errors.emplace_back(
-					    errors::error_t{kvp.line, "Animated files must have all commands within sections"});
+					pao.errors.emplace_back(errors::error_t{kvp.line,
+					                                        "Animated files must have all commands "
+					                                        "within sections"});
 				}
 			}
 
@@ -341,8 +344,9 @@ namespace animated_object {
 				parse_object_section(pao, section);
 			}
 			else {
-				pao.errors.emplace_back(
-				    errors::error_t{section.line, "Animated files may only have \"Include\" and \"Object\" sections"});
+				pao.errors.emplace_back(errors::error_t{section.line,
+				                                        "Animated files may only have \"Include\" "
+				                                        "and \"Object\" sections"});
 			}
 		}
 

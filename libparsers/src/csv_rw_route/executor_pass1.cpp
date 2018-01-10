@@ -17,24 +17,25 @@ namespace csv_rw_route {
 				if (p.distances.size() > current_unitoflength.size()) {
 					_errors[_filenames[p.file_index]].emplace_back<errors::error_t>(
 					    {p.line,
-					     "Position has more arguments than UnitOfLength, assuming 0 factors for missing Units."});
+					     "Position has more arguments than UnitOfLength, "
+					     "assuming 0 factors for missing Units."});
 				}
 				// Dot product
 				current_position = 0;
 				for (std::size_t i = 0; i < std::min(current_unitoflength.size(), p.distances.size()); ++i) {
 					current_position += current_unitoflength[i] * p.distances[i];
 				}
-				p.absolute_offset = current_position;
+				p.absolute_position = current_position;
 			}
 
 			void operator()(instructions::options::UnitOfLength& u) {
 				current_unitoflength = u.factors_in_meters;
-				u.absolute_offset = current_position;
+				u.absolute_position = current_position;
 			}
 
 			template <class T>
 			void operator()(T& value) {
-				value.absolute_offset = current_position;
+				value.absolute_position = current_position;
 			}
 		};
 	} // namespace
@@ -48,7 +49,7 @@ namespace csv_rw_route {
 
 		std::stable_sort(list.instructions.begin(), list.instructions.end(),
 		                 [](const instruction& a, const instruction& b) {
-			                 auto position = [](auto& val) -> float { return val.absolute_offset; };
+			                 auto position = [](auto& val) -> float { return val.absolute_position; };
 			                 return mapbox::util::apply_visitor(position, a) < mapbox::util::apply_visitor(position, b);
 		                 });
 	}

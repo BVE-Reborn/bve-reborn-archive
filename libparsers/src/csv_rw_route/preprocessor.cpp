@@ -30,14 +30,14 @@ namespace csv_rw_route {
 	}
 
 	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set, std::string parens) {
-		auto index = util::parse_loose_integer(parens);
+		auto index = std::size_t(util::parse_loose_integer(parens));
 
 		return variable_set[index];
 	}
 
 	static std::string parse_sub_equality(std::unordered_map<std::size_t, std::string>& variable_set,
 	                                      std::string parens, std::string after_equals) {
-		auto index = util::parse_loose_integer(parens);
+		auto index = std::size_t(util::parse_loose_integer(parens));
 		variable_set[index] = after_equals;
 
 		return ""s;
@@ -94,7 +94,8 @@ namespace csv_rw_route {
 		while (begin != end) {
 			auto next_money = std::find(begin, end, '$');
 			if (next_money == end) {
-				// Prevent commas from beign dragged into the contents of a preprocessing statement
+				// Prevent commas from beign dragged into the contents of a
+				// preprocessing statement
 				auto comma_iter = std::find(begin, end, ',');
 				return_value += std::string(begin, comma_iter);
 				break;
@@ -222,8 +223,9 @@ namespace csv_rw_route {
 				}
 
 				if (if_condition_stack.back()) {
-					// copy the result of the directive, and concatinate \r\n into \n
-					// if condition will be true if this is not the \n of the \r\n sequence
+					// copy the result of the directive, and concatinate \r\n
+					// into \n if condition will be true if this is not the \n
+					// of the \r\n sequence
 					if (!(directive_value == "\n" && !processed_line.empty() && processed_line.back() == '\r')) {
 						processed_line += directive_value;
 					}

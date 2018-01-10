@@ -13,7 +13,7 @@ namespace csv_rw_route {
 		struct instruction_base {
 			std::size_t file_index = 0;
 			std::size_t line = 0;
-			float absolute_offset = -1;
+			float absolute_position = -1;
 		};
 
 		namespace naked {
@@ -35,7 +35,7 @@ namespace csv_rw_route {
 				float factor_in_kph;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct BlockLength {
@@ -43,7 +43,7 @@ namespace csv_rw_route {
 				float length;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct ObjectVisibility : public instruction_base {
@@ -76,21 +76,21 @@ namespace csv_rw_route {
 				std::string text;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Image {
 				std::string filename;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Timetable {
 				std::string text;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Change : public instruction_base {
@@ -106,20 +106,20 @@ namespace csv_rw_route {
 				float guage = 1435;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Signal : public instruction_base {
 				std::size_t aspect_index;
 				// UnitOfSpeed
 				float speed;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct RunInterval : public instruction_base {
 				// seconds
 				std::vector<float> time_interval;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct AccelerationDueToGravity {
@@ -127,7 +127,7 @@ namespace csv_rw_route {
 				float value;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Elevation {
@@ -135,7 +135,7 @@ namespace csv_rw_route {
 				float height = 0;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Temperature {
@@ -143,7 +143,7 @@ namespace csv_rw_route {
 				float celcius;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Pressure {
@@ -151,7 +151,7 @@ namespace csv_rw_route {
 				float kPa = 101.325f;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct DisplaySpeed : public instruction_base {
@@ -164,21 +164,21 @@ namespace csv_rw_route {
 				std::string filename;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct StartTime {
 				openbve2::datatypes::time time;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct DynamicLight {
 				std::string filename;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct AmbiantLight : public instruction_base {
@@ -204,7 +204,7 @@ namespace csv_rw_route {
 				std::string filepath;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			// Train.Run
@@ -234,7 +234,7 @@ namespace csv_rw_route {
 				float speed;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 		} // namespace train
 
@@ -352,7 +352,7 @@ namespace csv_rw_route {
 				float value = 100;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Pitch {
@@ -360,7 +360,7 @@ namespace csv_rw_route {
 				float rate = 0;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Curve : public instruction_base {
@@ -374,7 +374,7 @@ namespace csv_rw_route {
 				float ratio = 0;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Height {
@@ -382,7 +382,7 @@ namespace csv_rw_route {
 				float y;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct FreeObj : public instruction_base {
@@ -410,7 +410,7 @@ namespace csv_rw_route {
 				std::size_t rail_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Dike : public instruction_base {
@@ -423,7 +423,7 @@ namespace csv_rw_route {
 				std::size_t rail_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Pole : public instruction_base {
@@ -439,7 +439,7 @@ namespace csv_rw_route {
 				std::size_t rail_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Crack : public instruction_base {
@@ -452,7 +452,7 @@ namespace csv_rw_route {
 				std::size_t ground_structure_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Sta : public instruction_base {
@@ -613,7 +613,7 @@ namespace csv_rw_route {
 				std::size_t background_texture_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
-				float absolute_offset = -1;
+				float absolute_position = -1;
 			};
 
 			struct Fog : public instruction_base {

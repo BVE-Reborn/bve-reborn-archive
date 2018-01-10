@@ -466,8 +466,8 @@ namespace function_scripts {
 			os << '\n';
 		}
 
-		for (auto& instr : list.instructions) {
-			mapbox::util::apply_visitor(fsiic, instr);
+		for (auto& inst : list.instructions) {
+			mapbox::util::apply_visitor(fsiic, inst);
 		}
 
 		fsiic.print();

@@ -65,8 +65,9 @@ namespace xml {
 						}
 					}
 					if (pairs.size() != 3) {
-						errors[filename].emplace_back<errors::error_t>(
-						    {0, "<DirectionalLight> must have exactly 3 arguments"});
+						errors[filename].emplace_back<errors::error_t>({0,
+						                                                "<DirectionalLight> must have exactly 3 "
+						                                                "arguments"});
 					}
 				}
 

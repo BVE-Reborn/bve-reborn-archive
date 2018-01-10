@@ -114,7 +114,7 @@ namespace csv_rw_route {
 
 			template <class T>
 			void start(const T& inst, const char* name) {
-				_os << "(" << inst.absolute_offset << ":" << name << ", filename = " << inst.file_index
+				_os << "(" << inst.absolute_position << ":" << name << ", filename = " << inst.file_index
 				    << ", line = " << inst.line;
 			}
 

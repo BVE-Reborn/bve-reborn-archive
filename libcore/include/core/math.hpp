@@ -1,7 +1,7 @@
 #pragma once
 
-#include <type_traits>
 #include <glm/vec3.hpp>
+#include <type_traits>
 
 namespace openbve2 {
 namespace math {
@@ -12,18 +12,22 @@ namespace math {
 
 	template <class R = void, class A, class B>
 	inline auto max(A a, B b) ->
-		typename std::conditional<std::is_same<R, void>::value,
-		typename std::common_type<A, B>::type, R>::type {
+	    typename std::conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) > t(b) ? t(a) : t(b);
 	}
 
 	template <class R = void, class A, class B>
 	inline auto min(A a, B b) ->
-	    typename std::conditional<std::is_same<R, void>::value,
-	                              typename std::common_type<A, B>::type, R>::type {
+	    typename std::conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) < t(b) ? t(a) : t(b);
+	}
+
+	template <class A, class B, class C>
+	inline auto lerp(A v0, B v1, C t) {
+		using common = typename std::common_type<A, B, C>::type;
+		return common(v0) + common(t) * (common(v1) - common(v0));
 	}
 
 	float radius_from_distances(float deltax, float deltay);
@@ -35,6 +39,6 @@ namespace math {
 
 	evaulate_curve_t evaluate_curve(glm::vec3 input_position, glm::vec3 input_direction, float distance, float radius);
 
-	glm::vec3 postion_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset, float y_offset);
+	glm::vec3 position_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset, float y_offset);
 } // namespace math
 } // namespace openbve2

@@ -12,15 +12,40 @@ namespace csv_rw_route {
 		float x_offset = 0;
 		float y_offset = 0;
 		std::size_t rail_structure_type = 0;
-		float postion_last_updated = 0;
+		float position_last_updated = 0;
 		bool active = false;
+
+		std::size_t ground_index = 0;
+		float position_ground_updated = 0;
+
+		std::size_t wallL_index = 0;
+		std::size_t wallR_index = 0;
+		std::size_t dikeL_index = 0;
+		std::size_t dikeR_index = 0;
+
+		std::size_t pole_additional_rails = 0;
+		std::size_t pole_location = 0;
+		std::intmax_t pole_interval = 0;
+		std::size_t pole_structure_index = 0;
+
+		float position_wallL_updated = 0;
+		float position_wallR_updated = 0;
+		float position_dikeL_updated = 0;
+		float position_dikeR_updated = 0;
+		float position_pole_updated = 0;
+
+		bool wallL_active = false;
+		bool wallR_active = false;
+		bool dikeL_active = false;
+		bool dikeR_active = false;
+		bool pole_active = false;
 	};
 
 	struct pass3_executor {
 	  private:
 		errors::multi_error& _errors;
 		const std::vector<std::string>& _filenames;
-		parsed_route_data& _route_data;
+		parsed_route_data _route_data;
 		const find_relative_file_func& _get_relative_file;
 
 		// state variables
@@ -50,7 +75,8 @@ namespace csv_rw_route {
 		std::unordered_map<std::size_t, filename_set_iterator> object_crackR_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_freeobj_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_beacon_mapping;
-		// Poles are unique based on the number of rails as well as the pole structure index
+		// Poles are unique based on the number of rails as well as the pole
+		// structure index
 		std::unordered_map<std::pair<std::size_t, std::size_t>, filename_set_iterator,
 		                   boost::hash<std::pair<std::size_t, std::size_t>>>
 		    object_pole_mapping;
@@ -83,36 +109,19 @@ namespace csv_rw_route {
 			return _route_data.object_filenames.insert(val).first;
 		}
 
-		openbve2::math::evaulate_curve_t find_track_position_at(float position) {
-			decltype(_route_data.blocks)::const_iterator starting_it;
-
-			if (position < _route_data.blocks.front().position) {
-				starting_it = _route_data.blocks.cbegin();
-			}
-			else {
-				starting_it = std::upper_bound(_route_data.blocks.begin(), _route_data.blocks.end(), position,
-				                               [](float a, const rail_block_info& b) { return a < b.position; });
-				starting_it -= 1;
-			}
-
-			return openbve2::math::evaluate_curve(starting_it->cache.location, starting_it->cache.direction,
-			                                      position - starting_it->position, starting_it->radius);
-		}
-
-		glm::vec3 get_position_relative_to_rail(std::size_t rail_num, float position, float x_offset, float y_offset) {
-			auto track_postion = find_track_position_at(position);
-
-			auto track_state_iter = current_rail_state.find(rail_num);
-
-			return openbve2::math::postion_from_offsets(track_postion.position, track_postion.tangent,
-			                                            track_state_iter->second.x_offset + x_offset,
-			                                            track_state_iter->second.y_offset + y_offset);
-		}
+		// defined in executor_pass3/util.cpp
+		float ground_height_at(float position);
+		openbve2::math::evaulate_curve_t track_position_at(float position);
+		glm::vec3 position_relative_to_rail(std::size_t rail_num, float position, float x_offset, float y_offset);
 
 	  public:
 		pass3_executor(parsed_route_data& rd, errors::multi_error& e, const std::vector<std::string>& fn,
 		               const find_relative_file_func& grf)
 		    : _errors(e), _filenames(fn), _route_data(rd), _get_relative_file(grf){};
+
+		// defined in executor_pass3/finalize.cpp
+		// ensure all state is dumped to the structure
+		void finalize(float max_position);
 
 		// unused instructions
 		template <class T>
@@ -177,7 +186,7 @@ namespace csv_rw_route {
 		void operator()(const instructions::naked::Signal&);
 
 	  private:
-		void add_rail_objects_up_to_postion(rail_state& state, float position);
+		void add_rail_objects_up_to_position(rail_state& state, float position);
 
 	  public:
 		// defined in executor_pass3/rails.cpp
@@ -187,6 +196,12 @@ namespace csv_rw_route {
 		void operator()(const instructions::track::RailEnd&);
 		void operator()(const instructions::track::Adhesion&);
 
+	  private:
+		void add_wall_objects_up_to_position(rail_state& state, float position, uint8_t type);
+		void add_poll_objects_up_to_position(std::size_t rail_number, rail_state& state, float position);
+		void add_ground_objects_up_to_position(rail_state& state, float position);
+
+	  public:
 		// defined in executor_pass3/objects.cpp
 		void operator()(const instructions::track::FreeObj&);
 		void operator()(const instructions::track::Wall&);

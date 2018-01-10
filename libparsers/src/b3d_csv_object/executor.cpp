@@ -10,8 +10,10 @@
 namespace parsers {
 namespace b3d_csv_object {
 	namespace {
-		// Following https://stackoverflow.com/questions/3574680/sort-based-on-multiple-things-in-c
-		// Sort based on properties to get all faces with same properties next to each other
+		// Following
+		// https://stackoverflow.com/questions/3574680/sort-based-on-multiple-things-in-c
+		// Sort based on properties to get all faces with same properties next
+		// to each other
 		static bool sort_function(const instructions::parsed_csv_object_builder::untriangulated_face_t& face1,
 		                          const instructions::parsed_csv_object_builder::untriangulated_face_t& face2) {
 			auto& data1 = face1.data;
@@ -22,7 +24,8 @@ namespace b3d_csv_object {
 			if (data2.texture > data1.texture)
 				return false;
 
-			// Need to create an order, though the order doesn't matter as long as they are not equal
+			// Need to create an order, though the order doesn't matter as long
+			// as they are not equal
 			auto dtc_equal = data1.decal_transparent_color == data2.decal_transparent_color;
 			auto dtca = glm::compAdd(data1.decal_transparent_color);
 			auto dtcb = glm::compAdd(data2.decal_transparent_color);
@@ -178,7 +181,8 @@ namespace b3d_csv_object {
 			tex.decal_transparent_color = begin->data.decal_transparent_color;
 			tex.has_transparent_color = begin->data.has_decal_transparent_color;
 
-			// properties that must be the same for all faces in an internal mesh
+			// properties that must be the same for all faces in an internal
+			// mesh
 			mesh.texture = tex;
 			mesh.BlendMode = begin->data.BlendMode;
 			mesh.GlowAttenuationMode = begin->data.GlowAttenuationMode;
@@ -193,7 +197,8 @@ namespace b3d_csv_object {
 				}
 			});
 
-			// make a shorter list of vertices and adjust the indices accordingly
+			// make a shorter list of vertices and adjust the indices
+			// accordingly
 			mesh.verts = shrink_vertex_list(vertices, mesh.indices);
 
 			calculate_normals(mesh);
@@ -427,8 +432,8 @@ namespace b3d_csv_object {
 
 	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& ilist) {
 		instructions::parsed_csv_object_builder pcsvob;
-		for (auto& instr : ilist) {
-			mapbox::util::apply_visitor(pcsvob, instr);
+		for (auto& inst : ilist) {
+			mapbox::util::apply_visitor(pcsvob, inst);
 		}
 		// Add final mesh builder
 		pcsvob.add_mesh_builder();

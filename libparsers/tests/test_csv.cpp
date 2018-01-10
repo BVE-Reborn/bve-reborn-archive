@@ -19,7 +19,8 @@ void test_csv() {
 	    "ShearAll, dX, dY, dZ, sX, sY, sZ, Ratio\n"
 	    "SetColor, Red, Green, Blue, Alpha\n"
 	    "SetEmissiveColor, Red, Green, Blue\n"
-	    "SetBlendMode, { Normal | Additive }, GlowHalfDistance, { DivideExponent2 | DivideExponent4 }\n"
+	    "SetBlendMode, { Normal | Additive }, GlowHalfDistance, { "
+	    "DivideExponent2 | DivideExponent4 }\n"
 	    "LoadTexture, DaytimeTexture, NighttimeTexture\n"
 	    "SetDecalTransparentColor, Red, Green, Blue\n"
 	    "SetTextureCoordinates, VertexIndex, X, Y\n";

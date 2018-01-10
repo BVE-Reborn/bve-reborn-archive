@@ -4,7 +4,8 @@
 namespace parsers {
 namespace function_scripts {
 	namespace {
-		// See function_script_grammar.bnf for the grammar this parser is following
+		// See function_script_grammar.bnf for the grammar this parser is
+		// following
 		static tree_node parse_expression(lexer_token_container& list);
 		static tree_node parse_xor_expression(lexer_token_container& list);
 		static tree_node parse_or_expression(lexer_token_container& list);

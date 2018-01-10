@@ -13,8 +13,8 @@ namespace xml {
 		                                const find_relative_file_func& get_relative_file) {
 			auto file = util::load_from_file_utf8_bom(filename);
 
-			// This is always an vector of texture backgrounds, the object code shortcircuts this variable and returns a
-			// newly constructed object
+			// This is always an vector of texture backgrounds, the object code
+			// shortcircuts this variable and returns a newly constructed object
 			parsed_dynamic_background db = std::vector<texture_background_info>{};
 
 			rapidxml::xml_document<> doc;
@@ -97,7 +97,8 @@ namespace xml {
 					}
 				}
 
-				// No need to check as we know the type for sure within this function (see above)
+				// No need to check as we know the type for sure within this
+				// function (see above)
 				db.get_unchecked<std::vector<texture_background_info>>().emplace_back(std::move(tbi));
 			}
 

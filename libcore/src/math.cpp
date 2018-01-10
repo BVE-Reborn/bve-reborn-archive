@@ -56,8 +56,10 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	// convert from game direction coordinates to 2d cartisian plane
 	auto xy = glm::vec2(input_direction.z, -input_direction.x);
 
-	// this algorithm works by pretending all curves are to the right. THe problem lies if we keep the input vector the
-	// same, we will get the wrong part of the curve. Inverting it over the Y axis brings it to the right place
+	// this algorithm works by pretending all curves are to the right. THe
+	// problem lies if we keep the input vector the same, we will get the wrong
+	// part of the curve. Inverting it over the Y axis brings it to the right
+	// place
 	if (flipped_radius) {
 		xy.y *= -1;
 	}
@@ -131,8 +133,8 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	return openbve2::math::evaulate_curve_t{input_position, tangent_3d};
 }
 
-glm::vec3 openbve2::math::postion_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset,
-                                               float y_offset) {
+glm::vec3 openbve2::math::position_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset,
+                                                float y_offset) {
 	auto x_z = glm::normalize(glm::vec2(input_tangent.x, input_tangent.z));
 
 	// rotate 270 degrees

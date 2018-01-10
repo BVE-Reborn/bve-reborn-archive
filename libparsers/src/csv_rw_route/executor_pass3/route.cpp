@@ -6,20 +6,20 @@ using namespace std::string_literals;
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::operator()(const instructions::route::Comment& instr) {
-		_route_data.comment = instr.text;
+	void pass3_executor::operator()(const instructions::route::Comment& inst) {
+		_route_data.comment = inst.text;
 	}
 
-	void pass3_executor::operator()(const instructions::route::Image& instr) {
-		_route_data.image_location = _get_relative_file(get_filename(instr.file_index), instr.filename);
+	void pass3_executor::operator()(const instructions::route::Image& inst) {
+		_route_data.image_location = _get_relative_file(get_filename(inst.file_index), inst.filename);
 	}
 
-	void pass3_executor::operator()(const instructions::route::Timetable& instr) {
-		_route_data.timetable_text = instr.text;
+	void pass3_executor::operator()(const instructions::route::Timetable& inst) {
+		_route_data.timetable_text = inst.text;
 	}
 
-	void pass3_executor::operator()(const instructions::route::Change& instr) {
-		switch (instr.mode) {
+	void pass3_executor::operator()(const instructions::route::Change& inst) {
+		switch (inst.mode) {
 			case instructions::route::Change::SaftyActiviatedEmergencyBrakes:
 				_route_data.safty_system_status = SaftySystemStatus::SaftyActiviatedEmergencyBrakes;
 				break;
@@ -34,75 +34,75 @@ namespace csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::route::Guage& instr) {
-		_route_data.guage = instr.guage;
+	void pass3_executor::operator()(const instructions::route::Guage& inst) {
+		_route_data.guage = inst.guage;
 	}
 
-	void pass3_executor::operator()(const instructions::route::Signal& instr) {
-		if (instr.aspect_index >= _route_data.signal_speed.size()) {
-			_route_data.signal_speed.resize(instr.aspect_index, -1);
+	void pass3_executor::operator()(const instructions::route::Signal& inst) {
+		if (inst.aspect_index >= _route_data.signal_speed.size()) {
+			_route_data.signal_speed.resize(inst.aspect_index, -1);
 		}
 
-		_route_data.signal_speed[instr.aspect_index] = instr.speed * unit_of_speed;
+		_route_data.signal_speed[inst.aspect_index] = inst.speed * unit_of_speed;
 	}
 
-	void pass3_executor::operator()(const instructions::route::RunInterval& instr) {
-		_route_data.ai_train_start_intervals = instr.time_interval;
+	void pass3_executor::operator()(const instructions::route::RunInterval& inst) {
+		_route_data.ai_train_start_intervals = inst.time_interval;
 	}
 
-	void pass3_executor::operator()(const instructions::route::AccelerationDueToGravity& instr) {
-		_route_data.acceleration_due_to_gravity = instr.value;
+	void pass3_executor::operator()(const instructions::route::AccelerationDueToGravity& inst) {
+		_route_data.acceleration_due_to_gravity = inst.value;
 	}
 
-	void pass3_executor::operator()(const instructions::route::Elevation& instr) {
-		_route_data.altitude = instr.height * units_of_length[1];
+	void pass3_executor::operator()(const instructions::route::Elevation& inst) {
+		_route_data.altitude = inst.height * units_of_length[1];
 	}
 
-	void pass3_executor::operator()(const instructions::route::Temperature& instr) {
-		_route_data.temperature = instr.celcius;
+	void pass3_executor::operator()(const instructions::route::Temperature& inst) {
+		_route_data.temperature = inst.celcius;
 	}
 
-	void pass3_executor::operator()(const instructions::route::Pressure& instr) {
-		_route_data.pressure = instr.kPa;
+	void pass3_executor::operator()(const instructions::route::Pressure& inst) {
+		_route_data.pressure = inst.kPa;
 	}
 
-	void pass3_executor::operator()(const instructions::route::DisplaySpeed& instr) {
-		_route_data.display_unit.unit_name = instr.unit_string;
-		_route_data.display_unit.conversion_factor = instr.conversion_factor;
+	void pass3_executor::operator()(const instructions::route::DisplaySpeed& inst) {
+		_route_data.display_unit.unit_name = inst.unit_string;
+		_route_data.display_unit.conversion_factor = inst.conversion_factor;
 	}
 
-	void pass3_executor::operator()(const instructions::route::LoadingScreen& instr) {
-		_route_data.loading_image_location = _get_relative_file(get_filename(instr.file_index), instr.filename);
+	void pass3_executor::operator()(const instructions::route::LoadingScreen& inst) {
+		_route_data.loading_image_location = _get_relative_file(get_filename(inst.file_index), inst.filename);
 	}
 
-	void pass3_executor::operator()(const instructions::route::StartTime& instr) {
-		_route_data.game_start_time = instr.time;
+	void pass3_executor::operator()(const instructions::route::StartTime& inst) {
+		_route_data.game_start_time = inst.time;
 	}
 
-	void pass3_executor::operator()(const instructions::route::DynamicLight& instr) {
-		auto issuer_filename = get_filename(instr.file_index);
+	void pass3_executor::operator()(const instructions::route::DynamicLight& inst) {
+		auto issuer_filename = get_filename(inst.file_index);
 
 		if (!_route_data.lighting.empty()) {
-			_errors[get_filename(instr.file_index)].emplace_back<errors::error_t>(
-			    {instr.line, "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s});
 		}
 
-		auto filename = _get_relative_file(issuer_filename, instr.filename);
+		auto filename = _get_relative_file(issuer_filename, inst.filename);
 
 		try {
 			_route_data.lighting = xml::dynamic_lighting::parse(filename, _errors);
 		}
 		catch (const std::invalid_argument& e) {
-			_errors[issuer_filename].emplace_back<errors::error_t>({instr.line, e.what()});
+			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});
 		}
 
 		used_dynamic_light = true;
 	}
 
-	void pass3_executor::operator()(const instructions::route::AmbiantLight& instr) {
+	void pass3_executor::operator()(const instructions::route::AmbiantLight& inst) {
 		if (used_dynamic_light) {
-			_errors[get_filename(instr.file_index)].emplace_back<errors::error_t>(
-			    {instr.line, "Route.DynamicLight has already been used, ignoring Route.AmbiantLight"s});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, "Route.DynamicLight has already been used, ignoring Route.AmbiantLight"s});
 			return;
 		}
 
@@ -110,13 +110,15 @@ namespace csv_rw_route {
 			_route_data.lighting.resize(1);
 		}
 
-		_route_data.lighting[0].ambient = instr.color;
+		_route_data.lighting[0].ambient = inst.color;
 	}
 
-	void pass3_executor::operator()(const instructions::route::DirectionalLight& instr) {
+	void pass3_executor::operator()(const instructions::route::DirectionalLight& inst) {
 		if (used_dynamic_light) {
-			_errors[get_filename(instr.file_index)].emplace_back<errors::error_t>(
-			    {instr.line, "Route.DynamicLight has already been used, ignoring Route.DirectionalLight"});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line,
+			     "Route.DynamicLight has already been used, ignoring "
+			     "Route.DirectionalLight"});
 			return;
 		}
 
@@ -124,13 +126,13 @@ namespace csv_rw_route {
 			_route_data.lighting.resize(1);
 		}
 
-		_route_data.lighting[0].directional_lighting = instr.color;
+		_route_data.lighting[0].directional_lighting = inst.color;
 	}
 
-	void pass3_executor::operator()(const instructions::route::LightDirection& instr) {
+	void pass3_executor::operator()(const instructions::route::LightDirection& inst) {
 		if (used_dynamic_light) {
-			_errors[get_filename(instr.file_index)].emplace_back<errors::error_t>(
-			    {instr.line, "Route.DynamicLight has already been used, ignoring Route.LightDirection"s});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, "Route.DynamicLight has already been used, ignoring Route.LightDirection"s});
 			return;
 		}
 
@@ -138,9 +140,9 @@ namespace csv_rw_route {
 			_route_data.lighting.resize(1);
 		}
 
-		_route_data.lighting[0].light_direction.x = std::cos(instr.theta) * std::sin(instr.phi);
-		_route_data.lighting[0].light_direction.y = -std::sin(instr.theta);
-		_route_data.lighting[0].light_direction.z = std::cos(instr.theta) * std::cos(instr.phi);
+		_route_data.lighting[0].light_direction.x = std::cos(inst.theta) * std::sin(inst.phi);
+		_route_data.lighting[0].light_direction.y = -std::sin(inst.theta);
+		_route_data.lighting[0].light_direction.z = std::cos(inst.theta) * std::cos(inst.phi);
 	}
 } // namespace csv_rw_route
 } // namespace parsers

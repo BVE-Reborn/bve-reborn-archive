@@ -28,8 +28,8 @@ namespace b3d_csv_object {
 		ShearAll, dX, dY, dZ, sX, sY, sZ, Ratio
 		SetColor, Red, Green, Blue, Alpha
 		SetEmissiveColor, Red, Green, Blue
-		SetBlendMode, { Normal | Additive }, GlowHalfDistance, { DivideExponent2 | DivideExponent4 }
-		LoadTexture, DaytimeTexture, NighttimeTexture
+		SetBlendMode, { Normal | Additive }, GlowHalfDistance, { DivideExponent2
+		| DivideExponent4 } LoadTexture, DaytimeTexture, NighttimeTexture
 		SetDecalTransparentColor, Red, Green, Blue
 		SetTextureCoordinates, VertexIndex, X, Y
 		*/
@@ -168,9 +168,10 @@ namespace b3d_csv_object {
 		struct parsed_csv_object_builder {
 			parsed_b3d_csv_object_t pso;
 
-			// More data is needed for the faces before we convert them to internal format
-			// all of this data has to be consistant within an internal mesh, so part of the
-			// parsing process is to split up based on this data.
+			// More data is needed for the faces before we convert them to
+			// internal format all of this data has to be consistant within an
+			// internal mesh, so part of the parsing process is to split up
+			// based on this data.
 			struct extended_face_data_t : face_data_t {
 				std::string texture;
 				openbve2::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};

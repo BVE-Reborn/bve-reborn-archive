@@ -11,7 +11,9 @@ set(SOURCES
             src/csv_rw_route/command_spliter.cpp
             src/csv_rw_route/executor_pass1.cpp
             src/csv_rw_route/executor_pass2.cpp
+            src/csv_rw_route/executor_pass3.cpp
             src/csv_rw_route/executor_pass3/cycle.cpp
+            src/csv_rw_route/executor_pass3/finalize.cpp
             src/csv_rw_route/executor_pass3/misc.cpp
             src/csv_rw_route/executor_pass3/objects.cpp
             src/csv_rw_route/executor_pass3/options.cpp
@@ -24,6 +26,7 @@ set(SOURCES
             src/csv_rw_route/executor_pass3/structure.cpp
             src/csv_rw_route/executor_pass3/texture.cpp
             src/csv_rw_route/executor_pass3/train.cpp
+            src/csv_rw_route/executor_pass3/util.cpp
             src/csv_rw_route/instruction_generator.cpp
             src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/preprocessor.cpp

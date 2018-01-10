@@ -56,7 +56,8 @@ namespace csv_rw_route {
 			mapping[line_pairs.front().second] = 0;
 			new_file_list.emplace_back(line_pairs.front().first);
 
-			// Copy the unique filenames (as they are sorted) and create the mapping
+			// Copy the unique filenames (as they are sorted) and create the
+			// mapping
 			std::size_t new_index = 0;
 			for (std::size_t i = 1; i < line_pairs.size(); ++i) {
 				if (line_pairs[i - 1].first != line_pairs[i].first) {
@@ -77,9 +78,10 @@ namespace csv_rw_route {
 		// Capture group 1 is filename
 		// Capture group 2 is position offset
 		// Capture group 3 is everything after the first filename
-		static std::regex include_finder("\\$Include\\(([\\w\\-. \\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
-		                                 std::regex_constants::icase | std::regex_constants::ECMAScript |
-		                                     std::regex_constants::optimize);
+		static std::regex include_finder(
+		    "\\$Include\\(([\\w\\-. "
+		    "\\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
+		    std::regex_constants::icase | std::regex_constants::ECMAScript | std::regex_constants::optimize);
 	} // namespace
 
 	struct include_pos {
@@ -202,7 +204,8 @@ namespace csv_rw_route {
 			if (past_files.find(include.filename) != past_files.end()) {
 				std::ostringstream err;
 				err << "File \"" << include.filename
-				    << "\" has included this file. There is a circular chain of includes. Including nothing.";
+				    << "\" has included this file. There is a circular chain "
+				       "of includes. Including nothing.";
 				current_file_errors.emplace_back<errors::error_t>({include.line, err.str()});
 				include.filename = ""s;
 			}
@@ -271,7 +274,8 @@ namespace csv_rw_route {
 			std::transform(contents.lines.begin(), contents.lines.end(), std::back_inserter(output.lines),
 			               [&](preprocessed_line l) {
 				               l.offset += include.offset;
-				               // Original filename index of 0 means it's the file we're including
+				               // Original filename index of 0 means it's the
+				               // file we're including
 				               if (l.filename_index == 0) {
 					               l.filename_index = name_index;
 				               }

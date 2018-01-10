@@ -98,6 +98,8 @@ namespace csv_rw_route {
 
 	void execute_instructions_pass1(instruction_list& list, errors::multi_error& errors);
 	parsed_route_data execute_instructions_pass2(instruction_list& list, errors::multi_error& errors);
+	void execute_instructions_pass3(parsed_route_data& rd, instruction_list& list, errors::multi_error& errors,
+	                                const find_relative_file_func& get_abs_path);
 
 } // namespace csv_rw_route
 } // namespace parsers
