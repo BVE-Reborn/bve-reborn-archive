@@ -65,8 +65,8 @@ before_install:
   - eval "${MATRIX_EVAL}"
   - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
   - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local/bin --exclude-subdir
-  - /usr/local/bin/cmake --version
+  - cmake --version
   - mkdir build
-  - cd build && /usr/local/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 script:
   - ninja
