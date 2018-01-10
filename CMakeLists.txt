@@ -23,7 +23,11 @@ add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 # Suppress annoying boost message
 add_definitions(-DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
 
-if (NOT(CMAKE_BUILD_TYPE EQUAL "DEBUG"))
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if (MSVC)
+        add_definitions(/D_ITERATOR_DEBUG_LEVEL=1)
+    endif()
+else ()
     if (MSVC)
         add_compile_options(/fp:fast)
     else()

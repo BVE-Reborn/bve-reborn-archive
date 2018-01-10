@@ -5,9 +5,15 @@
 #include "parsers/find_relative_file.hpp"
 #include <boost/functional/hash.hpp>
 #include <functional>
+#include <iosfwd>
 
 namespace parsers {
 namespace csv_rw_route {
+	using cycle_type = mapbox::util::variant<std::vector<std::size_t>, filename_set_iterator>;
+
+	// defined in executor_pass3/cycle.cpp
+	void print_cycle_type(std::ostream& o, const cycle_type& c);
+
 	struct rail_state {
 		float x_offset = 0;
 		float y_offset = 0;
@@ -45,7 +51,7 @@ namespace csv_rw_route {
 	  private:
 		errors::multi_error& _errors;
 		const std::vector<std::string>& _filenames;
-		parsed_route_data _route_data;
+		parsed_route_data& _route_data;
 		const find_relative_file_func& _get_relative_file;
 
 		// state variables
@@ -57,8 +63,8 @@ namespace csv_rw_route {
 		std::unordered_map<std::size_t, rail_state> current_rail_state = {{0, rail_state{0, 0, 0, 0, true}}};
 
 		// structures and poles
-		std::unordered_map<std::size_t, filename_set_iterator> object_ground_mapping;
-		std::unordered_map<std::size_t, filename_set_iterator> object_rail_mapping;
+		std::unordered_map<std::size_t, cycle_type> object_ground_mapping;
+		std::unordered_map<std::size_t, cycle_type> object_rail_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_wallL_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_wallR_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_dikeL_mapping;

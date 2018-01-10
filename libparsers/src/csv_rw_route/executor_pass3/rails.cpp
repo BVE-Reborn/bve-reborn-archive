@@ -16,7 +16,25 @@ namespace csv_rw_route {
 			    track_position.position, track_position.tangent, state.x_offset, state.y_offset);
 
 			rail_object_info i;
-			i.filename = object_mapping_iter->second;
+			// we're printing a cycle
+			if (object_mapping_iter->second.is<std::vector<std::size_t>>()) {
+				auto& cycle_array = object_mapping_iter->second.get_unchecked<std::vector<std::size_t>>();
+
+				auto index_to_use = (pos / 25) % cycle_array.size();
+
+				auto cycle_mapping_iter = object_rail_mapping.find(cycle_array[index_to_use]);
+
+				if (cycle_mapping_iter->second.is<filename_set_iterator>()) {
+					i.filename = cycle_mapping_iter->second.get_unchecked<filename_set_iterator>();
+				}
+				else {
+					// No cycles of cycles
+					continue;
+				}
+			}
+			else {
+				i.filename = object_mapping_iter->second.get_unchecked<filename_set_iterator>();
+			}
 			i.position = object_location;
 			i.rotation = glm::vec3(0);
 			_route_data.objects.emplace_back(std::move(i));

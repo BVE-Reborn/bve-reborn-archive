@@ -23,17 +23,19 @@ void test_csv_route() {
 	// Bridge NTT [v1.0].csv";
 	auto used_file = std::experimental::filesystem::path(file_location);
 
-	auto vals = parsers::csv_rw_route::process_include_files(
-	    std::experimental::filesystem::canonical(file_location).string(), eng, me,
-	    parsers::csv_rw_route::file_type::csv, [&](const std::string& base_file, const std::string& file) {
-		    std::string new_file = file;
-		    std::replace(new_file.begin(), new_file.end(), '\\', '/');
-		    auto file_path = std::experimental::filesystem::path(base_file); //
-		    auto new_file_path = std::experimental::filesystem::absolute(new_file, file_path.parent_path());
-		    new_file_path =
-		        std::experimental::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
-		    return new_file_path.string();
-	    });
+	auto get_abs_path = [&](const std::string& base_file, const std::string& file) {
+		std::string new_file = file;
+		std::replace(new_file.begin(), new_file.end(), '\\', '/');
+		auto file_path = std::experimental::filesystem::path(base_file); //
+		auto new_file_path = std::experimental::filesystem::absolute(new_file, file_path.parent_path());
+		new_file_path =
+		    std::experimental::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
+		return new_file_path.string();
+	};
+
+	auto vals =
+	    parsers::csv_rw_route::process_include_files(std::experimental::filesystem::canonical(file_location).string(),
+	                                                 eng, me, parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';
@@ -44,6 +46,7 @@ void test_csv_route() {
 
 	parsers::csv_rw_route::execute_instructions_pass1(instructions, me);
 	auto route_data = parsers::csv_rw_route::execute_instructions_pass2(instructions, me);
+	parsers::csv_rw_route::execute_instructions_pass3(route_data, instructions, me, get_abs_path);
 
 	std::cout << instructions;
 	std::cout << me;

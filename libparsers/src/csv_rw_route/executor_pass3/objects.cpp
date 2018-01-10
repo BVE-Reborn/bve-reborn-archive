@@ -341,7 +341,25 @@ namespace csv_rw_route {
 			auto ground_height = ground_height_at(position);
 
 			rail_object_info roi;
-			roi.filename = object_mapping_iter->second;
+			// we're printing a cycle
+			if (object_mapping_iter->second.is<std::vector<std::size_t>>()) {
+				auto& cycle_array = object_mapping_iter->second.get_unchecked<std::vector<std::size_t>>();
+
+				auto index_to_use = (pos / 25) % cycle_array.size();
+
+				auto cycle_mapping_iter = object_rail_mapping.find(cycle_array[index_to_use]);
+
+				if (cycle_mapping_iter->second.is<filename_set_iterator>()) {
+					roi.filename = cycle_mapping_iter->second.get_unchecked<filename_set_iterator>();
+				}
+				else {
+					// No cycles of cycles
+					continue;
+				}
+			}
+			else {
+				roi.filename = object_mapping_iter->second.get_unchecked<filename_set_iterator>();
+			}
 			roi.position = openbve2::math::position_from_offsets(track_location.position, track_location.tangent, 0,
 			                                                     -ground_height);
 			roi.rotation = glm::vec3(0);
