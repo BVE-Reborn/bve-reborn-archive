@@ -9,15 +9,12 @@ matrix:
       addons:
         apt:
           sources:
-            - george-edison55-precise-backports
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
             - libboost-dev
             - gcc-5
             - g++-5
-            - cmake-data
-            - cmake
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
@@ -41,15 +38,12 @@ matrix:
       addons:
         apt:
           sources:
-            - george-edison55-precise-backports
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
           packages:
             - ninja-build
             - libboost-dev
             - clang-3.6
-            - cmake-data
-            - cmake
       env:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
           
@@ -71,7 +65,8 @@ before_install:
   - eval "${MATRIX_EVAL}"
   - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
   - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local/bin --exclude-subdir
+  - /usr/local/bin/cmake --version
   - mkdir build
-  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+  - cd build && /usr/local/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 script:
   - ninja
