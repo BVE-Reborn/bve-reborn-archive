@@ -27,7 +27,8 @@ namespace xml {
 		using parsed_dynamic_background =
 		    mapbox::util::variant<std::vector<texture_background_info>, object_background_info>;
 
-		parsed_dynamic_background parse(const std::string& filename, errors::multi_error& err,
+		parsed_dynamic_background parse(const std::string& filename,
+		                                errors::multi_error& err,
 		                                const find_relative_file_func& get_relative_file);
 	} // namespace dynamic_backgrounds
 } // namespace xml

@@ -105,8 +105,8 @@ namespace util {
 		// hh.mmss
 		if (right_hand_size <= 4) {
 			return std::stoll(text) * 3600 + //
-			       std::stoll(std::string(dot + 1, dot + 3)) * 60 +
-			       std::stoll(std::string(dot + 3, dot + 1 + right_hand_size));
+			       std::stoll(std::string(dot + 1, dot + 3)) * 60
+			       + std::stoll(std::string(dot + 3, dot + 1 + right_hand_size));
 		}
 
 		throw std::invalid_argument("");

@@ -2,6 +2,7 @@
 #include <cassert>
 #include <glm/geometric.hpp>
 #define _USE_MATH_DEFINES
+#include <cassert>
 #include <cmath> // Also include overloads of std::*
 #include <math.h>
 
@@ -25,20 +26,17 @@ float openbve2::math::radius_from_distances(float deltax, float deltay) {
 	return radius;
 }
 
-openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_position, glm::vec3 input_direction,
-                                                                float distance, float radius) {
+openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_position,
+                                                                glm::vec3 input_direction,
+                                                                float distance,
+                                                                float radius) {
 	if (distance == 0) {
 		return {input_position, input_direction};
 	}
 
 	auto original_input_direction = input_direction;
-	if (input_direction == glm::vec3(0)) {
-		original_input_direction = input_direction;
-		input_direction = glm::vec3(0, 0, 1);
-	}
-	else {
-		input_direction = glm::normalize(input_direction);
-	}
+	assert(input_direction != glm::vec3(0));
+	input_direction = glm::normalize(input_direction);
 
 	if (radius == 0) {
 		input_position += input_direction * distance;
@@ -133,8 +131,12 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	return openbve2::math::evaulate_curve_t{input_position, tangent_3d};
 }
 
-glm::vec3 openbve2::math::position_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset,
+glm::vec3 openbve2::math::position_from_offsets(glm::vec3 input_position,
+                                                glm::vec3 input_tangent,
+                                                float x_offset,
                                                 float y_offset) {
+	assert(input_tangent != glm::vec3(0));
+
 	auto x_z = glm::normalize(glm::vec2(input_tangent.x, input_tangent.z));
 
 	// rotate 270 degrees

@@ -36,7 +36,8 @@ namespace csv_rw_route {
 	}
 
 	static std::string parse_sub_equality(std::unordered_map<std::size_t, std::string>& variable_set,
-	                                      std::string parens, std::string after_equals) {
+	                                      std::string parens,
+	                                      std::string after_equals) {
 		auto index = std::size_t(util::parse_loose_integer(parens));
 		variable_set[index] = after_equals;
 
@@ -81,7 +82,8 @@ namespace csv_rw_route {
 	};
 
 	static std::string preprocess_pass_dispatch(std::unordered_map<std::size_t, std::string>& variable_set,
-	                                            if_status& if_conditions, openbve2::datatypes::rng& rng,
+	                                            if_status& if_conditions,
+	                                            openbve2::datatypes::rng& rng,
 	                                            std::string::const_iterator& last_used,
 	                                            std::string::const_iterator arg_begin,
 	                                            std::string::const_iterator arg_end,
@@ -268,7 +270,9 @@ namespace csv_rw_route {
 		lines = fixed;
 	}
 
-	void preprocess_file(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors,
+	void preprocess_file(preprocessed_lines& lines,
+	                     openbve2::datatypes::rng& rng,
+	                     errors::multi_error& errors,
 	                     file_type ft) {
 		preprocess_pass(lines, rng, errors);
 

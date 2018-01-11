@@ -15,8 +15,10 @@ namespace animated_object {
 		//////////////////////
 		// Helper functions //
 		//////////////////////
-		static glm::vec2 parse_2_argument_list(parsed_animated_object& pso, const char* const value_name,
-		                                       const std::size_t line_number, const std::string& list) {
+		static glm::vec2 parse_2_argument_list(parsed_animated_object& pso,
+		                                       const char* const value_name,
+		                                       const std::size_t line_number,
+		                                       const std::string& list) {
 			auto split_list = util::split_text(list, ',');
 
 			if (split_list.size() != 2) {
@@ -42,8 +44,10 @@ namespace animated_object {
 			return value;
 		}
 
-		static glm::vec3 parse_3_argument_list(parsed_animated_object& pso, const char* const value_name,
-		                                       const std::size_t line_number, const std::string& list) {
+		static glm::vec3 parse_3_argument_list(parsed_animated_object& pso,
+		                                       const char* const value_name,
+		                                       const std::size_t line_number,
+		                                       const std::string& list) {
 			auto split_list = util::split_text(list, ',');
 
 			if (split_list.size() != 3) {
@@ -72,7 +76,8 @@ namespace animated_object {
 			return value;
 		}
 
-		static function_script parse_function_script(parsed_animated_object& pso, const std::string& function,
+		static function_script parse_function_script(parsed_animated_object& pso,
+		                                             const std::string& function,
 		                                             std::size_t line) {
 			(void) pso;
 			auto instructions = function_scripts::parse(function);

@@ -44,7 +44,9 @@ namespace csv_rw_route {
 		                                      position - starting_it->position, starting_it->radius);
 	}
 
-	glm::vec3 pass3_executor::position_relative_to_rail(std::size_t rail_num, float position, float x_offset,
+	glm::vec3 pass3_executor::position_relative_to_rail(std::size_t rail_num,
+	                                                    float position,
+	                                                    float x_offset,
 	                                                    float y_offset) {
 		auto track_position = track_position_at(position);
 

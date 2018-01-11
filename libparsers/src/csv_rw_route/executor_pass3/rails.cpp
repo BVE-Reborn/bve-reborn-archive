@@ -12,8 +12,9 @@ namespace csv_rw_route {
 
 		for (auto pos = std::size_t(state.position_last_updated); pos < std::size_t(position); pos += 25) {
 			auto track_position = track_position_at(float(pos));
-			auto object_location = openbve2::math::position_from_offsets(
-			    track_position.position, track_position.tangent, state.x_offset, state.y_offset);
+			auto object_location =
+			    openbve2::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset,
+			                                          state.y_offset);
 
 			rail_object_info i;
 			// we're printing a cycle

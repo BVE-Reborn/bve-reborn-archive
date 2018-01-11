@@ -1,9 +1,9 @@
 #pragma once
 
 #ifdef WIN32
-#define DIRECTORY ""
+#	define DIRECTORY ""
 #else
-#define DIRECTORY "libparsers/"
+#	define DIRECTORY "libparsers/"
 #endif
 
 void test_csv();

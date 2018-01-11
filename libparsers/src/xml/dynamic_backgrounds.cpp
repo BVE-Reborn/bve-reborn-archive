@@ -9,7 +9,8 @@ using namespace std::string_literals;
 namespace parsers {
 namespace xml {
 	namespace dynamic_backgrounds {
-		parsed_dynamic_background parse(const std::string& filename, errors::multi_error& errors,
+		parsed_dynamic_background parse(const std::string& filename,
+		                                errors::multi_error& errors,
 		                                const find_relative_file_func& get_relative_file) {
 			auto file = util::load_from_file_utf8_bom(filename);
 

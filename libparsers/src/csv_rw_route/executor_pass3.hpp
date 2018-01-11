@@ -83,7 +83,8 @@ namespace csv_rw_route {
 		std::unordered_map<std::size_t, filename_set_iterator> object_beacon_mapping;
 		// Poles are unique based on the number of rails as well as the pole
 		// structure index
-		std::unordered_map<std::pair<std::size_t, std::size_t>, filename_set_iterator,
+		std::unordered_map<std::pair<std::size_t, std::size_t>,
+		                   filename_set_iterator,
 		                   boost::hash<std::pair<std::size_t, std::size_t>>>
 		    object_pole_mapping;
 
@@ -121,9 +122,14 @@ namespace csv_rw_route {
 		glm::vec3 position_relative_to_rail(std::size_t rail_num, float position, float x_offset, float y_offset);
 
 	  public:
-		pass3_executor(parsed_route_data& rd, errors::multi_error& e, const std::vector<std::string>& fn,
-		               const find_relative_file_func& grf)
-		    : _errors(e), _filenames(fn), _route_data(rd), _get_relative_file(grf){};
+		pass3_executor(parsed_route_data& rd,
+		               errors::multi_error& e,
+		               const std::vector<std::string>& fn,
+		               const find_relative_file_func& grf) :
+		    _errors(e),
+		    _filenames(fn),
+		    _route_data(rd),
+		    _get_relative_file(grf){};
 
 		// defined in executor_pass3/finalize.cpp
 		// ensure all state is dumped to the structure

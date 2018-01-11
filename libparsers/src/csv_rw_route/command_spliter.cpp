@@ -20,7 +20,8 @@ namespace csv_rw_route {
 			// if there is a : or text has no letters, is a position declaration
 			bool has_colon = std::count(command_name.begin(), command_name.end(), ':') > 0;
 			bool has_letters = std::count_if(command_name.begin(), command_name.end(),
-			                                 [](const char c) { return std::isdigit(c) == 0 && c != '.'; }) > 0;
+			                                 [](const char c) { return std::isdigit(c) == 0 && c != '.'; })
+			                   > 0;
 			if (has_colon || !has_letters) {
 				auto list = util::split_text(command_name, ':');
 
@@ -95,7 +96,8 @@ namespace csv_rw_route {
 			// if there is a : or text has no letters, is a position declaration
 			bool has_colon = std::count(command_name.begin(), command_name.end(), ':') > 0;
 			bool has_letters = std::count_if(command_name.begin(), command_name.end(),
-			                                 [](const char c) { return std::isdigit(c) == 0 && c != '.'; }) > 0;
+			                                 [](const char c) { return std::isdigit(c) == 0 && c != '.'; })
+			                   > 0;
 			if (has_colon || !has_letters) {
 				auto list = util::split_text(command_name, ':');
 
@@ -111,8 +113,8 @@ namespace csv_rw_route {
 
 			// skip passed all whitespace
 			first_break = std::find_if(first_break + 1, text.end(),
-			                           [](const char c) { return !(c == ' ' || c == '(' || c == '='); }) -
-			              1;
+			                           [](const char c) { return !(c == ' ' || c == '(' || c == '='); })
+			              - 1;
 
 			std::vector<std::string> parens_list;
 			if (*first_break == '(') {
@@ -142,8 +144,11 @@ namespace csv_rw_route {
 				return instruction_info{command_name, {}, std::move(parens_list), suffix, l.offset};
 			}
 
-			return instruction_info{
-			    command_name, std::move(parens_list), {std::string(first_break + 1, text.end())}, suffix, l.offset};
+			return instruction_info{command_name,
+			                        std::move(parens_list),
+			                        {std::string(first_break + 1, text.end())},
+			                        suffix,
+			                        l.offset};
 		}
 	} // namespace line_splitting
 } // namespace csv_rw_route

@@ -27,8 +27,10 @@ namespace csv_rw_route {
 			return std::distance(breaks.begin(), iter);
 		}
 
-		static void add_error(const line_break_list& line_br_list, errors::errors_t errors,
-		                      std::string::const_iterator pos, const char* msg) {
+		static void add_error(const line_break_list& line_br_list,
+		                      errors::errors_t errors,
+		                      std::string::const_iterator pos,
+		                      const char* msg) {
 			auto num = line_number(line_br_list, pos);
 			errors.emplace_back(errors::error_t{num, msg});
 		}
@@ -92,7 +94,8 @@ namespace csv_rw_route {
 		std::string::const_iterator end;
 	};
 
-	static include_pos parse_weighted_include(const line_break_list& breaks, const std::smatch& match,
+	static include_pos parse_weighted_include(const line_break_list& breaks,
+	                                          const std::smatch& match,
 	                                          openbve2::datatypes::rng& rng) {
 		auto string = match[1].str() + match[3].str();
 
@@ -139,7 +142,8 @@ namespace csv_rw_route {
 		return include_pos{filename, 0, line_number(breaks, match[0].first), match[0].first, match[0].second};
 	}
 
-	static std::vector<include_pos> parse_include_directives(const std::string& contents, openbve2::datatypes::rng& rng,
+	static std::vector<include_pos> parse_include_directives(const std::string& contents,
+	                                                         openbve2::datatypes::rng& rng,
 	                                                         errors::errors_t& errors) {
 		std::vector<include_pos> includes;
 
@@ -177,9 +181,10 @@ namespace csv_rw_route {
 
 	static preprocessed_lines recursive_process_includes(const std::set<std::string>& past_files,
 	                                                     const std::string& current_filename,
-	                                                     openbve2::datatypes::rng& rng, errors::multi_error& errors,
-	                                                     file_type ft, const find_relative_file_func& get_abs_path) {
-
+	                                                     openbve2::datatypes::rng& rng,
+	                                                     errors::multi_error& errors,
+	                                                     file_type ft,
+	                                                     const find_relative_file_func& get_abs_path) {
 		auto& current_file_errors = errors[current_filename];
 
 		// Read file
@@ -301,8 +306,10 @@ namespace csv_rw_route {
 		return output;
 	}
 
-	preprocessed_lines process_include_files(const std::string& filename, openbve2::datatypes::rng& rng,
-	                                         errors::multi_error& errors, file_type ft,
+	preprocessed_lines process_include_files(const std::string& filename,
+	                                         openbve2::datatypes::rng& rng,
+	                                         errors::multi_error& errors,
+	                                         file_type ft,
 	                                         const find_relative_file_func& get_abs_path) {
 		auto lines =
 		    recursive_process_includes(std::set<std::string>{filename}, filename, rng, errors, ft, get_abs_path);

@@ -81,8 +81,9 @@ namespace csv_rw_route {
 
 		for (auto pos = std::size_t(*last_updated); pos < std::size_t(position); pos += 25) {
 			auto track_position = track_position_at(float(pos));
-			auto object_location = openbve2::math::position_from_offsets(
-			    track_position.position, track_position.tangent, state.x_offset, state.y_offset);
+			auto object_location =
+			    openbve2::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset,
+			                                          state.y_offset);
 
 			rail_object_info i;
 			i.filename = object_mapping_iter->second;
@@ -336,9 +337,9 @@ namespace csv_rw_route {
 			return;
 		}
 
-		for (auto pos = std::size_t(state.position_pole_updated); pos < std::size_t(position); pos += 25) {
-			auto track_location = track_position_at(position);
-			auto ground_height = ground_height_at(position);
+		for (auto pos = std::size_t(state.position_ground_updated); pos < std::size_t(position); pos += 25) {
+			auto track_location = track_position_at(float(pos));
+			auto ground_height = ground_height_at(float(pos));
 
 			rail_object_info roi;
 			// we're printing a cycle

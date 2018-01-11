@@ -90,7 +90,8 @@ namespace b3d_csv_object {
 		}
 
 		static std::size_t triangulate_faces(std::vector<std::size_t>& output_list,
-		                                     const std::vector<std::size_t>& input_face, bool two_sided) {
+		                                     const std::vector<std::size_t>& input_face,
+		                                     bool two_sided) {
 			if (input_face.size() < 3) {
 				return 0;
 			}
@@ -304,12 +305,15 @@ namespace b3d_csv_object {
 		// Add Faces
 		for (std::size_t i = 0; i < n; ++i) {
 			if (i != n - 1) {
-				untriangulated_faces.emplace_back(untriangulated_face_t{
-				    std::vector<std::size_t>{v + (2 * i + 2), v + (2 * i + 3), v + (2 * i + 1), v + (2 * i + 0)}, {}});
+				untriangulated_faces.emplace_back(
+				    untriangulated_face_t{std::vector<std::size_t>{v + (2 * i + 2), v + (2 * i + 3), v + (2 * i + 1),
+				                                                   v + (2 * i + 0)},
+				                          {}});
 			}
 			else {
-				untriangulated_faces.emplace_back(untriangulated_face_t{
-				    std::vector<std::size_t>{v + 0, v + 1, v + (2 * i + 1), v + (2 * i + 0)}, {}});
+				untriangulated_faces.emplace_back(
+				    untriangulated_face_t{std::vector<std::size_t>{v + 0, v + 1, v + (2 * i + 1), v + (2 * i + 0)},
+				                          {}});
 			}
 		}
 	}

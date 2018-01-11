@@ -213,11 +213,22 @@ namespace b3d_csv_object {
 		};
 
 	} // namespace instructions
-	using instruction = mapbox::util::variant<
-	    instructions::Error, instructions::CreateMeshBuilder, instructions::AddVertex, instructions::AddFace,
-	    instructions::Cube, instructions::Cylinder, instructions::Translate, instructions::Scale, instructions::Rotate,
-	    instructions::Shear, instructions::SetColor, instructions::SetEmissiveColor, instructions::SetBlendMode,
-	    instructions::LoadTexture, instructions::SetDecalTransparentColor, instructions::SetTextureCoordinates>;
+	using instruction = mapbox::util::variant<instructions::Error,
+	                                          instructions::CreateMeshBuilder,
+	                                          instructions::AddVertex,
+	                                          instructions::AddFace,
+	                                          instructions::Cube,
+	                                          instructions::Cylinder,
+	                                          instructions::Translate,
+	                                          instructions::Scale,
+	                                          instructions::Rotate,
+	                                          instructions::Shear,
+	                                          instructions::SetColor,
+	                                          instructions::SetEmissiveColor,
+	                                          instructions::SetBlendMode,
+	                                          instructions::LoadTexture,
+	                                          instructions::SetDecalTransparentColor,
+	                                          instructions::SetTextureCoordinates>;
 
 	using instruction_list = std::vector<instruction>;
 

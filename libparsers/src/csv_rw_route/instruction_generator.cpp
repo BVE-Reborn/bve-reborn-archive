@@ -51,7 +51,8 @@ namespace csv_rw_route {
 
 		template <class T>
 		static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
-		                                                   const char* name, float def) {
+		                                                   const char* name,
+		                                                   float def) {
 			(void) name;
 
 			if (inst.args.size() >= 1) {
@@ -72,7 +73,8 @@ namespace csv_rw_route {
 
 		template <class T>
 		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
-		                                                   const char* name, std::intmax_t def) {
+		                                                   const char* name,
+		                                                   std::intmax_t def) {
 			(void) name;
 
 			if (inst.args.size() >= 1) {
@@ -225,8 +227,8 @@ namespace csv_rw_route {
 			return fb;
 		}
 
-		static instruction
-		create_instruction_options_compatibletransparencymode(const line_splitting::instruction_info& inst) {
+		static instruction create_instruction_options_compatibletransparencymode(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::CompatibleTransparencyMode ctm;
 
 			if (inst.args.size() >= 1) {
@@ -326,10 +328,10 @@ namespace csv_rw_route {
 			return ri;
 		}
 
-		static instruction
-		create_instruction_route_accelerationduetogravity(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::AccelerationDueToGravity>(
-			    inst, "Route.AccelerationDueToGravity", 9.80665f);
+		static instruction create_instruction_route_accelerationduetogravity(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<
+			    instructions::route::AccelerationDueToGravity>(inst, "Route.AccelerationDueToGravity", 9.80665f);
 		}
 
 		static instruction create_instruction_route_elevation(const line_splitting::instruction_info& inst) {
@@ -1876,8 +1878,11 @@ namespace csv_rw_route {
 		};
 	} // namespace
 
-	static instruction generate_instruction(const preprocessed_lines& lines, const preprocessed_line& line,
-	                                        errors::multi_error& errors, std::string& with_value, file_type ft) {
+	static instruction generate_instruction(const preprocessed_lines& lines,
+	                                        const preprocessed_line& line,
+	                                        errors::multi_error& errors,
+	                                        std::string& with_value,
+	                                        file_type ft) {
 		instruction i;
 
 		auto parsed = ft == file_type::csv ? line_splitting::csv(line) : line_splitting::rw(line);
@@ -1925,12 +1930,12 @@ namespace csv_rw_route {
 			else {
 				bool ignored = false;
 				if (ft == file_type::csv) {
-					ignored = parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s ||
-					          parsed.name == "train.station"s;
+					ignored = parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s
+					          || parsed.name == "train.station"s;
 				}
 				else {
-					ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s ||
-					          parsed.name == "@@train@@station"s;
+					ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s
+					          || parsed.name == "@@train@@station"s;
 				}
 
 				if (!ignored) {

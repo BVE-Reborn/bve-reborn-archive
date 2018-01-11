@@ -18,27 +18,35 @@ namespace csv_rw_route {
 
 			rail_block_info& make_new_block(float position) {
 				position = openbve2::math::max<float>(0, position);
-				if (!rd.blocks.empty()) {
-					// Make sure we always have the block if positions are
-					// identical
-					if (rd.blocks.back().position == position) {
-						return rd.blocks.back();
+				if (rd.blocks.empty()) {
+					if (position != 0) {
+						rd.blocks.emplace_back();
+						rd.blocks.back().cache.direction = glm::vec3(0, 0, 1);
 					}
 					else {
-						// set the last block's length based on this block's
-						// position
+						rd.blocks.emplace_back();
+						rail_block_info& rbi = rd.blocks.back();
+						rbi.position = position;
+						rbi.cache.direction = glm::vec3(0, 0, 1);
+						return rbi;
+					}
+				}
+				// Make sure we always have the same block if positions are
+				// identical
+				if (rd.blocks.back().position == position) {
+					return rd.blocks.back();
+				}
+				else {
+					// set the last block's length based on this block's
+					// position
+					{
 						auto& last_block = rd.blocks.back();
 						last_block.length = position - last_block.position;
 
 						// make a duplicate of the last block
 						rd.blocks.emplace_back(last_block);
-						rail_block_info& rbi = rd.blocks.back();
-						rbi.position = position;
-						return rbi;
+						// emplacement may invalidate reference
 					}
-				}
-				else {
-					rd.blocks.emplace_back();
 					rail_block_info& rbi = rd.blocks.back();
 					rbi.position = position;
 					return rbi;
@@ -59,8 +67,9 @@ namespace csv_rw_route {
 					// with a vector of (0, 0, 1) this way we can directly set
 					// the y component in order to get the proper angle
 					last_block.cache.direction.y = last_block.pitch;
-					auto curve_results = openbve2::math::evaluate_curve(
-					    last_block.cache.location, last_block.cache.direction, last_block.length, last_block.radius);
+					auto curve_results =
+					    openbve2::math::evaluate_curve(last_block.cache.location, last_block.cache.direction,
+					                                   last_block.length, last_block.radius);
 
 					current_block.cache.location = curve_results.position;
 					current_block.cache.direction = curve_results.tangent;
