@@ -5,6 +5,7 @@
 #include <array>
 #include <boost/filesystem.hpp>
 #include <iostream>
+#include <string>
 
 using namespace std::string_literals;
 

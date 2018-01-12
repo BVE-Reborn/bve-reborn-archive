@@ -1,6 +1,7 @@
 #include "function_scripts.hpp"
 #include "tests.hpp"
 #include <iostream>
+#include <string>
 
 using namespace std::string_literals;
 
