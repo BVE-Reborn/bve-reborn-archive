@@ -54,6 +54,7 @@ if (MSVC)
             file(GLOB BOOST_BINARY_FILES "../windep64/bin/*")
         endif()
     endif()
+    add_definitions(-DBOOST_ALL_DYN_LINK)
     file(COPY ${BOOST_BINARY_FILES} DESTINATION ${CMAKE_BINARY_DIR}/bin)
 endif()
 

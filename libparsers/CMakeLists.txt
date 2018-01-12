@@ -109,4 +109,4 @@ endif()
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test core parsers Boost::boost Boost::filesystem Boost::dynamic_linking)
+target_link_libraries(parsers_test core parsers Boost::boost Boost::filesystem)
