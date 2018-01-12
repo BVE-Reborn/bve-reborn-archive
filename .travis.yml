@@ -16,6 +16,23 @@ matrix:
             - g++-5
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+        - cmake --version
+      # Build Boost.... 
+        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
+        - sudo tar xjf boost_1_64_0.tar.bz2
+        - cd boost_1_64_0/
+        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
+        - sudo ./b2 link=static threading=multi variant=release -d0
+        - sudo ./b2 install  -d0
+        - cd ..
+      # Do rest of stuff
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
     - os: linux
       dist: trusty
@@ -29,6 +46,23 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+        - cmake --version
+      # Build Boost.... 
+        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
+        - sudo tar xjf boost_1_64_0.tar.bz2
+        - cd boost_1_64_0/
+        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
+        - sudo ./b2 link=static threading=multi variant=release -d0
+        - sudo ./b2 install  -d0
+        - cd ..
+      # Do rest of stuff
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
 
     - os: linux
@@ -44,6 +78,23 @@ matrix:
             - clang-3.6
       env:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+        - cmake --version
+      # Build Boost.... 
+        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
+        - sudo tar xjf boost_1_64_0.tar.bz2
+        - cd boost_1_64_0/
+        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
+        - sudo ./b2 link=static threading=multi variant=release -d0
+        - sudo ./b2 install  -d0
+        - cd ..
+      # Do rest of stuff
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
           
     - os: linux
       dist: trusty
@@ -58,23 +109,37 @@ matrix:
             - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+        - cmake --version
+      # Build Boost.... 
+        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
+        - sudo tar xjf boost_1_64_0.tar.bz2
+        - cd boost_1_64_0/
+        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
+        - sudo ./b2 link=static threading=multi variant=release -d0
+        - sudo ./b2 install  -d0
+        - cd ..
+      # Do rest of stuff
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
-before_install:
-  - eval "${MATRIX_EVAL}"
-# Get Newer CMake
-  - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-  - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
-  - cmake --version
-# Build Boost.... 
-  - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
-  - sudo tar xjf boost_1_64_0.tar.bz2
-  - cd boost_1_64_0/
-  - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
-  - sudo ./b2 link=static threading=multi variant=release -d0
-  - sudo ./b2 install  -d0
-  - cd ..
-# Do rest of stuff
-  - mkdir build
-  - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+    - os: osx
+      osx_image: xcode6.4
+      before_install:
+        - brew install ninja boost cmake
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+
+    - os: osx
+      osx_image: xcode9.2
+      before_install:
+        - brew install ninja boost cmake
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+
 script:
   - ninja
