@@ -40,7 +40,6 @@ matrix:
             - llvm-toolchain-precise-3.6
           packages:
             - ninja-build
-            - g++-5 # Need it for libstdc++
             - clang-3.6
       env:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
@@ -54,6 +53,8 @@ matrix:
             - llvm-toolchain-trusty-5.0
           packages:
             - ninja-build
+            - g++-5 # Need it for libstdc++
+            - libstdc++-5.0-dev
             - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
