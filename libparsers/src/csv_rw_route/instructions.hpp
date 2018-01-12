@@ -291,12 +291,12 @@ namespace csv_rw_route {
 
 		namespace cycle {
 			struct Ground : public instruction_base {
-				std::size_t ground_structure_index;
+				std::size_t cycle_structure_index;
 				std::vector<std::size_t> input_indices;
 			};
 
 			struct Rail : public instruction_base {
-				std::size_t rail_structure_index;
+				std::size_t cycle_structure_index;
 				std::vector<std::size_t> input_indices;
 			};
 		} // namespace cycle

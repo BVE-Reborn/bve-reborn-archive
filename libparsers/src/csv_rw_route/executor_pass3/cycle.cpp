@@ -4,21 +4,46 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	void print_cycle_type(std::ostream& o, const cycle_type& c) {
-		auto print_regular_filename = [&o](const filename_set_iterator& i) { o << *i << '\n'; };
-		auto print_cycle_filename = [&o](const std::vector<std::size_t>& list) {
-			o << "Cycle of: (";
-			std::size_t i = 0;
-			for (auto& item : list) {
-				o << "#" << item;
-				if (++i != list.size()) {
-					o << ", ";
-				}
-				o << ")";
-			}
-		};
+	boost::optional<filename_set_iterator> get_cycle_filename_index(
+	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
+	    const std::unordered_map<std::size_t, filename_set_iterator>& object_mapping,
+	    std::size_t index,
+	    std::size_t position) {
+		auto cycle_iterator = cycle_mapping.find(index);
+		if (cycle_iterator != cycle_mapping.end()) {
+			auto index_to_use = (position / 25) % cycle_iterator->second.size();
 
-		c.match(print_regular_filename, print_cycle_filename);
+			auto to_use_iter = object_mapping.find(cycle_iterator->second[index_to_use]);
+
+			if (to_use_iter == object_mapping.end()) {
+				return boost::none;
+			}
+			else {
+				return to_use_iter->second;
+			}
+		}
+		else {
+			auto to_use_iter = object_mapping.find(index);
+
+			if (to_use_iter == object_mapping.end()) {
+				return boost::none;
+			}
+			else {
+				return to_use_iter->second;
+			}
+		}
+	}
+
+	void print_cycle_type(std::ostream& o, const cycle_type& c) {
+		o << "Cycle of: (";
+		std::size_t i = 0;
+		for (auto& item : c) {
+			o << "#" << item;
+			if (++i != c.size()) {
+				o << ", ";
+			}
+			o << ")";
+		}
 	}
 
 	void pass3_executor::operator()(const instructions::cycle::Ground& inst) {
@@ -28,7 +53,7 @@ namespace csv_rw_route {
 			cycle.emplace_back(ground_index);
 		}
 
-		auto insert_ret = object_ground_mapping.insert({inst.ground_structure_index, cycle});
+		auto insert_ret = cycle_ground_mapping.insert({inst.cycle_structure_index, cycle});
 
 		auto& iterator = insert_ret.first;
 		auto& inserted = insert_ret.second;
@@ -39,7 +64,7 @@ namespace csv_rw_route {
 
 			std::ostringstream err;
 
-			err << "Cycle.Ground overwriting index number " << inst.ground_structure_index << ". Old Filename: \"";
+			err << "Cycle.Ground overwriting #" << inst.cycle_structure_index << ". Old Filename: \"";
 			print_cycle_type(err, old_value);
 			err << "\". Current Filename: \"";
 			print_cycle_type(err, cycle);
@@ -56,7 +81,7 @@ namespace csv_rw_route {
 			cycle.emplace_back(ground_index);
 		}
 
-		auto insert_ret = object_rail_mapping.insert({inst.rail_structure_index, cycle});
+		auto insert_ret = cycle_rail_mapping.insert({inst.cycle_structure_index, cycle});
 
 		auto& iterator = insert_ret.first;
 		auto& inserted = insert_ret.second;
@@ -67,7 +92,7 @@ namespace csv_rw_route {
 
 			std::ostringstream err;
 
-			err << "Cycle.Rail overwriting index #" << inst.rail_structure_index << ". Old Filename: \"";
+			err << "Cycle.Rail overwriting index #" << inst.cycle_structure_index << ". Old Filename: \"";
 			print_cycle_type(err, old_value);
 			err << "\". Current Filename: \"";
 			print_cycle_type(err, cycle);

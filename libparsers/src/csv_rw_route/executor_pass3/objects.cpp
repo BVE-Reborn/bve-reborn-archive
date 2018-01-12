@@ -263,7 +263,7 @@ namespace csv_rw_route {
 				object_location = position_relative_to_rail(rail_number, position, 0, 0);
 			}
 			else {
-				object_location = position_relative_to_rail(rail_number, position, state.pole_location * 3.8f, 0);
+				object_location = position_relative_to_rail(rail_number, position, float(state.pole_location) * 3.8f, 0);
 			}
 
 			i.filename = object_mapping_iter->second;
@@ -331,41 +331,26 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::add_ground_objects_up_to_position(rail_state& state, float position) {
-		auto object_mapping_iter = object_ground_mapping.find(state.ground_index);
-
-		if (object_mapping_iter == object_ground_mapping.end()) {
-			return;
-		}
-
 		for (auto pos = std::size_t(state.position_ground_updated); pos < std::size_t(position); pos += 25) {
 			auto track_location = track_position_at(float(pos));
 			auto ground_height = ground_height_at(float(pos));
 
+			auto filename_iter_optional = get_cycle_filename_index(cycle_ground_mapping, object_ground_mapping,
+			                                                       state.ground_index, pos);
+
+			if (!filename_iter_optional) {
+				return;
+			}
+
 			rail_object_info roi;
-			// we're printing a cycle
-			if (object_mapping_iter->second.is<std::vector<std::size_t>>()) {
-				auto& cycle_array = object_mapping_iter->second.get_unchecked<std::vector<std::size_t>>();
-
-				auto index_to_use = (pos / 25) % cycle_array.size();
-
-				auto cycle_mapping_iter = object_rail_mapping.find(cycle_array[index_to_use]);
-
-				if (cycle_mapping_iter->second.is<filename_set_iterator>()) {
-					roi.filename = cycle_mapping_iter->second.get_unchecked<filename_set_iterator>();
-				}
-				else {
-					// No cycles of cycles
-					continue;
-				}
-			}
-			else {
-				roi.filename = object_mapping_iter->second.get_unchecked<filename_set_iterator>();
-			}
+			roi.filename = *filename_iter_optional.get_ptr();
 			roi.position = openbve2::math::position_from_offsets(track_location.position, track_location.tangent, 0,
 			                                                     -ground_height);
 			roi.rotation = glm::vec3(0);
 			_route_data.objects.emplace_back(roi);
 		}
+
+		state.position_ground_updated = position;
 	}
 
 	void pass3_executor::operator()(const instructions::track::Ground& inst) {

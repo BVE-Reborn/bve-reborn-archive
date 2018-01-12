@@ -606,7 +606,7 @@ namespace csv_rw_route {
 
 			instructions::cycle::Ground g;
 
-			g.ground_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			g.cycle_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
 
 			g.input_indices.reserve(inst.args.size());
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(g.input_indices),
@@ -621,7 +621,7 @@ namespace csv_rw_route {
 
 			instructions::cycle::Rail r;
 
-			r.rail_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			r.cycle_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
 
 			r.input_indices.reserve(inst.args.size());
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(r.input_indices),
@@ -694,8 +694,10 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					rs.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
-					// fall through
+					break;
 				case 0:
+					// Make GCC happy
+					std::abort();
 					break;
 			}
 
@@ -732,8 +734,10 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					r.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
-					// fall through
+					break;
 				case 0:
+					// Make GCC happy
+					std::abort();
 					break;
 			}
 
@@ -781,8 +785,10 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					re.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
-					// fall through
+					break;
 				case 0:
+					// Make GCC happy
+					std::abort();
 					break;
 			}
 

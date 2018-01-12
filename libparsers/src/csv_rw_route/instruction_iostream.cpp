@@ -410,7 +410,7 @@ namespace csv_rw_route {
 			void operator()(const instructions::cycle::Ground& inst) {
 				start(inst, "Cycle.Ground");
 
-				PRINT_VALUE(ground_structure_index);
+				PRINT_VALUE(cycle_structure_index);
 				PRINT_VECTOR(input_indices);
 
 				end();
@@ -418,7 +418,7 @@ namespace csv_rw_route {
 			void operator()(const instructions::cycle::Rail& inst) {
 				start(inst, "Cycle.Rail");
 
-				PRINT_VALUE(rail_structure_index);
+				PRINT_VALUE(cycle_structure_index);
 				PRINT_VECTOR(input_indices);
 
 				end();

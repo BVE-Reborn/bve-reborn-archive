@@ -87,6 +87,7 @@ namespace csv_rw_route {
 		// file references
 		filename_set object_filenames;
 		filename_set texture_filenames;
+		filename_set sound_filenames;
 
 		// Lighting and Background
 		std::vector<xml::dynamic_lighting::lighting_info> lighting;

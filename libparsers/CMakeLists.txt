@@ -63,8 +63,6 @@ set(HEADERS
             src/ini.hpp
 )
 
-find_package(Boost 1.44 REQUIRED)
-
 lint(FILES ${SOURCES})
 format(FILES ${SOURCES} ${HEADERS})
 
@@ -101,6 +99,7 @@ if(NOT OPENBVE2_ON_TRAVIS)
               tests/81xx_2.b3d
               tests/r160.animated
               tests/plymouth
+              "tests/Xmasmonorail.csv"
               "tests/NYCT-6 Exp Pelham Bay to Brooklyn Bridge NTT [v1.0].csv"
               "tests/(4) To New Lots Avenue Bronx(LCL)Manhattan(EXP)Brooklyn(EXP) New Lots(LCL).csv"
               "tests/Maastricht v8 Express.csv"
@@ -110,7 +109,4 @@ endif()
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test core parsers Boost::boost)
-if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    target_link_libraries(parsers_test -lstdc++fs)
-endif()
+target_link_libraries(parsers_test core parsers Boost::boost Boost::filesystem Boost::dynamic_linking)

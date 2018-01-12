@@ -52,6 +52,10 @@ namespace csv_rw_route {
 
 		auto track_state_iter = current_rail_state.find(rail_num);
 
+		if (track_state_iter == current_rail_state.end()) {
+			throw std::invalid_argument("Rail Num Invalid");
+		}
+
 		return openbve2::math::position_from_offsets(track_position.position, track_position.tangent,
 		                                             track_state_iter->second.x_offset + x_offset,
 		                                             track_state_iter->second.y_offset + y_offset);

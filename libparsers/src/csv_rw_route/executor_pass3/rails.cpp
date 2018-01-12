@@ -4,9 +4,7 @@
 namespace parsers {
 namespace csv_rw_route {
 	void pass3_executor::add_rail_objects_up_to_position(rail_state& state, float position) {
-		auto object_mapping_iter = object_rail_mapping.find(state.rail_structure_type);
-
-		if (object_mapping_iter == object_rail_mapping.end() || state.active == false) {
+		if (state.active == false) {
 			return;
 		}
 
@@ -16,26 +14,15 @@ namespace csv_rw_route {
 			    openbve2::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset,
 			                                          state.y_offset);
 
+			auto filename_iter_optional = get_cycle_filename_index(cycle_rail_mapping, object_rail_mapping,
+			                                                       state.rail_structure_index, std::size_t(position));
+
+			if (!filename_iter_optional) {
+				return;
+			}
+
 			rail_object_info i;
-			// we're printing a cycle
-			if (object_mapping_iter->second.is<std::vector<std::size_t>>()) {
-				auto& cycle_array = object_mapping_iter->second.get_unchecked<std::vector<std::size_t>>();
-
-				auto index_to_use = (pos / 25) % cycle_array.size();
-
-				auto cycle_mapping_iter = object_rail_mapping.find(cycle_array[index_to_use]);
-
-				if (cycle_mapping_iter->second.is<filename_set_iterator>()) {
-					i.filename = cycle_mapping_iter->second.get_unchecked<filename_set_iterator>();
-				}
-				else {
-					// No cycles of cycles
-					continue;
-				}
-			}
-			else {
-				i.filename = object_mapping_iter->second.get_unchecked<filename_set_iterator>();
-			}
+			i.filename = *filename_iter_optional.get_ptr();
 			i.position = object_location;
 			i.rotation = glm::vec3(0);
 			_route_data.objects.emplace_back(std::move(i));
@@ -58,13 +45,13 @@ namespace csv_rw_route {
 
 		state.x_offset = inst.x_offset.get_value_or(0);
 		state.y_offset = inst.y_offset.get_value_or(0);
-		state.rail_structure_type = inst.rail_type.get_value_or(0);
+		state.rail_structure_index = inst.rail_type.get_value_or(0);
 		state.active = true;
 
-		if (object_rail_mapping.count(state.rail_structure_type) == 0) {
+		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_type << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
 		}
 	}
@@ -76,13 +63,13 @@ namespace csv_rw_route {
 
 		state.x_offset = inst.x_offset.get_value_or(0);
 		state.y_offset = inst.y_offset.get_value_or(0);
-		state.rail_structure_type = inst.rail_type.get_value_or(0);
+		state.rail_structure_index = inst.rail_type.get_value_or(0);
 		state.active = true;
 
-		if (object_rail_mapping.count(state.rail_structure_type) == 0) {
+		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_type << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
 		}
 	}
@@ -99,12 +86,12 @@ namespace csv_rw_route {
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
 		}
 
-		state.rail_structure_type = inst.rail_type;
+		state.rail_structure_index = inst.rail_type;
 
-		if (object_rail_mapping.count(state.rail_structure_type) == 0) {
+		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_type << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
 		}
 	}
@@ -123,10 +110,10 @@ namespace csv_rw_route {
 
 		state.active = true;
 
-		if (object_rail_mapping.count(state.rail_structure_type) == 0) {
+		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_type << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
 		}
 	}

@@ -36,11 +36,8 @@ namespace csv_rw_route {
 
 				std::ostringstream err;
 
-				err << command_name << " overwriting index number " << inst.structure_index << ". Old Filename: \"";
-				print_cycle_type(err, old_value);
-				err << "\". Current Filename: \"";
-				print_cycle_type(err, filename_iter);
-				err << "\".";
+				err << command_name << " overwriting index number " << inst.structure_index << ". Old Filename: \"" << *old_value <<
+				 "\". Current Filename: \"" << *filename_iter << "\".";
 
 				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
 			}

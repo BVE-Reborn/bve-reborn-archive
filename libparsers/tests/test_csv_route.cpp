@@ -3,7 +3,7 @@
 #include "tests.hpp"
 #include <algorithm>
 #include <array>
-#include <experimental/filesystem>
+#include <boost/filesystem.hpp>
 #include <iostream>
 
 using namespace std::string_literals;
@@ -18,23 +18,23 @@ void test_csv_route() {
 
 	parsers::errors::multi_error me;
 
-	auto file_location = DIRECTORY "../libparsers/tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
-	// auto file_location = DIRECTORY "tests/NYCT-6 Exp Pelham Bay to Brooklyn
+	// auto file_location = DIRECTORY "../libparsers/tests/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
+	auto file_location = DIRECTORY "../libparsers/tests/Xmasmonorail.csv";
 	// Bridge NTT [v1.0].csv";
-	auto used_file = std::experimental::filesystem::path(file_location);
+	auto used_file = boost::filesystem::path(file_location);
 
 	auto get_abs_path = [&](const std::string& base_file, const std::string& file) {
 		std::string new_file = file;
 		std::replace(new_file.begin(), new_file.end(), '\\', '/');
-		auto file_path = std::experimental::filesystem::path(base_file); //
-		auto new_file_path = std::experimental::filesystem::absolute(new_file, file_path.parent_path());
+		auto file_path = boost::filesystem::path(base_file); //
+		auto new_file_path = boost::filesystem::absolute(new_file, file_path.parent_path());
 		new_file_path =
-		    std::experimental::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
+		    boost::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
 		return new_file_path.string();
 	};
 
 	auto vals =
-	    parsers::csv_rw_route::process_include_files(std::experimental::filesystem::canonical(file_location).string(),
+	    parsers::csv_rw_route::process_include_files(boost::filesystem::canonical(file_location).string(),
 	                                                 eng, me, parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';

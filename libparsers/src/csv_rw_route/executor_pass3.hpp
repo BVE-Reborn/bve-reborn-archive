@@ -9,15 +9,20 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	using cycle_type = mapbox::util::variant<std::vector<std::size_t>, filename_set_iterator>;
+	using cycle_type = std::vector<std::size_t>;
 
 	// defined in executor_pass3/cycle.cpp
+	boost::optional<filename_set_iterator> get_cycle_filename_index(
+	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
+	    const std::unordered_map<std::size_t, filename_set_iterator>& object_mapping,
+	    std::size_t index,
+	    std::size_t position);
 	void print_cycle_type(std::ostream& o, const cycle_type& c);
 
 	struct rail_state {
 		float x_offset = 0;
 		float y_offset = 0;
-		std::size_t rail_structure_type = 0;
+		std::size_t rail_structure_index = 0;
 		float position_last_updated = 0;
 		bool active = false;
 
@@ -63,8 +68,10 @@ namespace csv_rw_route {
 		std::unordered_map<std::size_t, rail_state> current_rail_state = {{0, rail_state{0, 0, 0, 0, true}}};
 
 		// structures and poles
-		std::unordered_map<std::size_t, cycle_type> object_ground_mapping;
-		std::unordered_map<std::size_t, cycle_type> object_rail_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_ground_mapping;
+		std::unordered_map<std::size_t, filename_set_iterator> object_rail_mapping;
+		std::unordered_map<std::size_t, std::vector<std::size_t>> cycle_ground_mapping;
+		std::unordered_map<std::size_t, std::vector<std::size_t>> cycle_rail_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_wallL_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_wallR_mapping;
 		std::unordered_map<std::size_t, filename_set_iterator> object_dikeL_mapping;
@@ -114,6 +121,12 @@ namespace csv_rw_route {
 
 		filename_set_iterator add_object_filename(const std::string& val) {
 			return _route_data.object_filenames.insert(val).first;
+		}
+
+		filename_set_iterator add_texture_filename(const std::string& val);
+
+		filename_set_iterator add_sound_filename(const std::string& val) {
+			return _route_data.sound_filenames.insert(val).first;
 		}
 
 		// defined in executor_pass3/util.cpp
