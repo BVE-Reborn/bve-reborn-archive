@@ -130,6 +130,7 @@ matrix:
     - os: osx
       osx_image: xcode6.4
       before_install:
+        - brew update
         - brew install ninja boost cmake
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
@@ -137,6 +138,7 @@ matrix:
     - os: osx
       osx_image: xcode9.2
       before_install:
+        - brew update
         - brew install ninja boost cmake
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
