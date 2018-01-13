@@ -263,7 +263,8 @@ namespace csv_rw_route {
 				object_location = position_relative_to_rail(rail_number, position, 0, 0);
 			}
 			else {
-				object_location = position_relative_to_rail(rail_number, position, float(state.pole_location) * 3.8f, 0);
+				object_location =
+				    position_relative_to_rail(rail_number, position, float(state.pole_location) * 3.8f, 0);
 			}
 
 			i.filename = object_mapping_iter->second;
@@ -335,8 +336,8 @@ namespace csv_rw_route {
 			auto track_location = track_position_at(float(pos));
 			auto ground_height = ground_height_at(float(pos));
 
-			auto filename_iter_optional = get_cycle_filename_index(cycle_ground_mapping, object_ground_mapping,
-			                                                       state.ground_index, pos);
+			auto filename_iter_optional =
+			    get_cycle_filename_index(cycle_ground_mapping, object_ground_mapping, state.ground_index, pos);
 
 			if (!filename_iter_optional) {
 				return;

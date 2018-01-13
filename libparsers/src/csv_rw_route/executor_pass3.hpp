@@ -2,6 +2,7 @@
 
 #include "core/math.hpp"
 #include "csv_rw_route.hpp"
+#include "utils.hpp"
 #include "parsers/find_relative_file.hpp"
 #include <boost/functional/hash.hpp>
 #include <functional>
@@ -120,13 +121,15 @@ namespace csv_rw_route {
 		}
 
 		filename_set_iterator add_object_filename(const std::string& val) {
-			return _route_data.object_filenames.insert(val).first;
+			return _route_data.object_filenames.insert(util::lower_copy(val)).first;
 		}
 
-		filename_set_iterator add_texture_filename(const std::string& val);
+		filename_set_iterator add_texture_filename(const std::string& val) {
+			return _route_data.texture_filenames.insert(util::lower_copy(val)).first;
+		}
 
 		filename_set_iterator add_sound_filename(const std::string& val) {
-			return _route_data.sound_filenames.insert(val).first;
+			return _route_data.sound_filenames.insert(util::lower_copy(val)).first;
 		}
 
 		// defined in executor_pass3/util.cpp

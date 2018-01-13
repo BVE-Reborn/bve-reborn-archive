@@ -2,6 +2,7 @@
 
 #include "boost/optional.hpp"
 #include "core/datatypes.hpp"
+#include "route_structure.hpp"
 #include <cstddef>
 #include <string>
 #include <vector>
@@ -467,27 +468,17 @@ namespace csv_rw_route {
 				bool pass_alarm = false;
 				bool force_red = false;
 				bool system = false;
-				enum class ArrivalTime_t : uint8_t {
-					Time,
-					AnyTime,
-					AllPass,
-					PlayerPass,
-					PlayerStop,
-					AllStop
-				} arrival_tag = ArrivalTime_t::AnyTime;
-				enum class DepartureTime_t : uint8_t {
-					Time,
-					AnyTime,
-					Terminal,
-					TerminalTime,
-					ChangeEnds,
-					ChangeEndsTime
-				} departure_tag = DepartureTime_t::AnyTime;
-				enum class Doors_t : uint8_t { Left, None, Right, Both } doors = Doors_t::None;
+				using ArrivalTime_t = rail_station_info::ArrivalTime_t;
+				ArrivalTime_t arrival_tag = ArrivalTime_t::AnyTime;
+				using DepartureTime_t = rail_station_info::DepartureTime_t;
+				DepartureTime_t departure_tag = DepartureTime_t::AnyTime;
+				using Doors_t = rail_station_info::Doors_t;
+				Doors_t doors = Doors_t::None;
 			};
 
 			struct Stop : public instruction_base {
-				enum { Left, None, Right } stop_post = None;
+				using Stop_Post_t = Direction;
+				Stop_Post_t stop_post = Stop_Post_t::None;
 
 				float forwards_tolerance = 5;
 				float backwards_tolerance = 5;

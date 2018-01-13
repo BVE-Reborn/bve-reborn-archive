@@ -64,14 +64,66 @@ namespace csv_rw_route {
 		SaftyDeactivatedEmergencyBrakes
 	};
 
+	enum class Direction { Left, None, Right };
+
+	enum class BiDirection { Left, Both, Right };
+
+	struct rail_station_stop_info {
+		float position;
+		Direction direction;
+		float backward_tolerance;
+		float forward_tolerance;
+		std::size_t car_count;
+	};
+
+	struct rail_station_info {
+		std::string name;
+		filename_set_iterator arrival_sound;
+		filename_set_iterator departure_sound;
+		std::size_t timetable_index = 0;
+		std::vector<rail_station_stop_info> stop_points;
+		openbve2::datatypes::time arrival;
+		openbve2::datatypes::time departure;
+		float stop_duration = 15;
+		float passenger_ratio = 100;
+		bool pass_alarm = false;
+		bool force_red = false;
+		bool system = false;
+		enum class ArrivalTime_t : uint8_t {
+			Time,
+			AnyTime,
+			AllPass,
+			PlayerPass,
+			PlayerStop,
+			AllStop
+		} arrival_tag = ArrivalTime_t::AnyTime;
+		enum class DepartureTime_t : uint8_t {
+			Time,
+			AnyTime,
+			Terminal,
+			TerminalTime,
+			ChangeEnds,
+			ChangeEndsTime
+		} departure_tag = DepartureTime_t::AnyTime;
+		enum class Doors_t : uint8_t { Left, None, Right, Both } doors = Doors_t::None;
+	};
+
+	template <class T, std::intmax_t def>
+	struct position_data_pair_default {
+		float position = 0;
+		T value = def;
+	};
+
 	template <class T>
 	struct position_data_pair {
 		float position = 0;
-		T value = 0;
+		T value;
 	};
 
-	using ground_height_info = position_data_pair<float>;
-	using rail_adheason_info = position_data_pair<float>;
+	using ground_height_info = position_data_pair_default<float, 0>;
+	using rail_adheason_info = position_data_pair_default<float, 0>;
+	using track_limit_info = position_data_pair_default<float, 0>;
+	using section_info = position_data_pair<std::vector<std::size_t>>;
 
 	struct parsed_route_data {
 		// Core route info
@@ -84,6 +136,12 @@ namespace csv_rw_route {
 		// Objects
 		std::vector<rail_object_info> objects;
 
+		// Stations
+		std::vector<rail_station_info> stations;
+
+		// Speed limits
+		std::vector<track_limit_info> limits;
+
 		// file references
 		filename_set object_filenames;
 		filename_set texture_filenames;
@@ -94,6 +152,7 @@ namespace csv_rw_route {
 
 		// Signalling
 		std::vector<float> signal_speed = {0, 25, 55, 75, -1, -1};
+		std::vector<section_info> sections;
 
 		// Other trains
 		std::vector<float> ai_train_start_intervals;

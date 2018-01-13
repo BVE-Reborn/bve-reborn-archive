@@ -617,7 +617,7 @@ namespace csv_rw_route {
 			void operator()(const instructions::track::Stop& inst) {
 				start(inst, "Track.Stop");
 
-				PRINT_ENUM3(stop_post, track::Stop, Left, None, Right);
+				PRINT_ENUM3(stop_post, track::Stop::Stop_Post_t, Left, None, Right);
 				PRINT_VALUE(forwards_tolerance);
 				PRINT_VALUE(backwards_tolerance);
 				PRINT_VALUE(cars);

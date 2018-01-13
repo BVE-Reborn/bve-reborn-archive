@@ -29,14 +29,12 @@ void test_csv_route() {
 		std::replace(new_file.begin(), new_file.end(), '\\', '/');
 		auto file_path = boost::filesystem::path(base_file); //
 		auto new_file_path = boost::filesystem::absolute(new_file, file_path.parent_path());
-		new_file_path =
-		    boost::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
+		new_file_path = boost::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
 		return new_file_path.string();
 	};
 
-	auto vals =
-	    parsers::csv_rw_route::process_include_files(boost::filesystem::canonical(file_location).string(),
-	                                                 eng, me, parsers::csv_rw_route::file_type::csv, get_abs_path);
+	auto vals = parsers::csv_rw_route::process_include_files(boost::filesystem::canonical(file_location).string(), eng,
+	                                                         me, parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';

@@ -1189,14 +1189,14 @@ namespace csv_rw_route {
 
 					switch (direction_num) {
 						case -1:
-							s.stop_post = instructions::track::Stop::Left;
+							s.stop_post = instructions::track::Stop::Stop_Post_t::Left;
 							break;
 						default:
 						case 0:
-							s.stop_post = instructions::track::Stop::None;
+							s.stop_post = instructions::track::Stop::Stop_Post_t::None;
 							break;
 						case 1:
-							s.stop_post = instructions::track::Stop::Right;
+							s.stop_post = instructions::track::Stop::Stop_Post_t::Right;
 							break;
 					}
 				}
