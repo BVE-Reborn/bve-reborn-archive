@@ -1,4 +1,5 @@
 #include "csv_rw_route.hpp"
+#include "parsers/errors.hpp"
 
 namespace parsers {
 namespace csv_rw_route {
@@ -15,10 +16,8 @@ namespace csv_rw_route {
 
 			void operator()(instructions::naked::position& p) {
 				if (p.distances.size() > current_unitoflength.size()) {
-					_errors[_filenames[p.file_index]].emplace_back<errors::error_t>(
-					    {p.line,
-					     "Position has more arguments than UnitOfLength, "
-					     "assuming 0 factors for missing Units."});
+					add_error(_errors, _filenames[p.file_index], p.line,
+					          "Position has more arguments than UnitOfLength, assuming 0 factors for missing Units.");
 				}
 				// Dot product
 				current_position = 0;

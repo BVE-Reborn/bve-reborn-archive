@@ -31,6 +31,7 @@ set(SOURCES
             src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/preprocessor.cpp
             src/csv_rw_route/process_includes.cpp
+            src/errors/add_error.cpp
             src/errors/iostream.cpp
             src/function_scripts/instruction_builder.cpp
             src/function_scripts/instruction_iostream.cpp
@@ -109,4 +110,4 @@ endif()
 
 add_executable(parsers_test ${TEST_SOURCES})
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test core parsers Boost::boost Boost::filesystem)
+target_link_libraries(parsers_test core parsers Boost::boost Boost::filesystem Threads::Threads)

@@ -30,7 +30,7 @@ namespace xml {
 						info.time = util::parse_time(time->value());
 					}
 					catch (const std::invalid_argument& e) {
-						errors[filename].emplace_back<errors::error_t>({0, e.what()});
+						errors::add_error(errors, filename, 0, e.what());
 					}
 				}
 
@@ -43,7 +43,7 @@ namespace xml {
 							info.ambient.b = uint8_t(util::parse_loose_integer(pairs[2]));
 						}
 						catch (const std::invalid_argument& e) {
-							errors[filename].emplace_back<errors::error_t>({0, e.what()});
+							errors::add_error(errors, filename, 0, e.what());
 						}
 					}
 					if (pairs.size() != 3) {
@@ -61,13 +61,13 @@ namespace xml {
 							info.directional_lighting.b = uint8_t(util::parse_loose_integer(pairs[2]));
 						}
 						catch (const std::invalid_argument& e) {
-							errors[filename].emplace_back<errors::error_t>({0, e.what()});
+							errors::add_error(errors, filename, 0, e.what());
 						}
 					}
 					if (pairs.size() != 3) {
-						errors[filename].emplace_back<errors::error_t>({0,
-						                                                "<DirectionalLight> must have exactly 3 "
-						                                                "arguments"});
+						errors::add_error(errors, filename, 0,
+						                  "<DirectionalLight> must have exactly 3 "
+						                  "arguments");
 					}
 				}
 
@@ -80,7 +80,7 @@ namespace xml {
 							info.light_direction.z = util::parse_loose_float(pairs[2]);
 						}
 						catch (const std::invalid_argument& e) {
-							errors[filename].emplace_back<errors::error_t>({0, e.what()});
+							errors::add_error(errors, filename, 0, e.what());
 						}
 					}
 					if (pairs.size() != 3) {
@@ -94,7 +94,7 @@ namespace xml {
 						info.cablighting = uint8_t(util::parse_loose_integer(cab_lighting->value()));
 					}
 					catch (const std::invalid_argument& e) {
-						errors[filename].emplace_back<errors::error_t>({0, e.what()});
+						errors::add_error(errors, filename, 0, e.what());
 					}
 				}
 

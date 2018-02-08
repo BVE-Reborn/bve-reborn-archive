@@ -1,6 +1,5 @@
 build*/
-.kdev4/*
-.vs/*
+.*/
 
 libparsers/tests/*.animated
 libparsers/tests/*.csv

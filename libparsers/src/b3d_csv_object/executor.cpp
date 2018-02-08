@@ -220,7 +220,7 @@ namespace b3d_csv_object {
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const Error& arg) {
-		pso.errors.emplace_back(errors::error_t{arg.line, arg.cause});
+		errors::add_error(pso.errors, arg.line, arg.cause);
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const CreateMeshBuilder& arg) {
@@ -240,7 +240,7 @@ namespace b3d_csv_object {
 				std::ostringstream error_msg;
 				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, " << vertices.size() - 1
 				          << "]";
-				pso.errors.emplace_back(errors::error_t{arg.line, error_msg.str()});
+				errors::add_error(pso.errors, arg.line, error_msg.str());
 			}
 			else {
 				untriangulated_faces.back().indices.emplace_back(vert);
@@ -427,7 +427,7 @@ namespace b3d_csv_object {
 			std::ostringstream error_msg;
 			error_msg << "SetTextureCoordinates index " << arg.VertexIndex << " is larger than the valid range: [0, "
 			          << vertices.size() - 1 << "]";
-			pso.errors.emplace_back(errors::error_t{arg.line, error_msg.str()});
+			errors::add_error(pso.errors, arg.line, error_msg.str());
 		}
 		else {
 			vertices[arg.VertexIndex].texture_coord = glm::vec2{arg.X, arg.Y};

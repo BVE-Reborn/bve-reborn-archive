@@ -67,6 +67,7 @@ else()
     set(Boost_USE_STATIC_LIBS Off)
 endif()
 find_package(Boost 1.44 REQUIRED COMPONENTS filesystem)
+find_package(Threads REQUIRED)
 
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

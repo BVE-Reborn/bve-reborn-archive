@@ -108,6 +108,13 @@ namespace csv_rw_route {
 		enum class Doors_t : uint8_t { Left, None, Right, Both } doors = Doors_t::None;
 	};
 
+	struct beacon_info {
+		float position = 0;
+		std::intmax_t beacon_type;
+		std::intmax_t beacon_data;
+		std::size_t section_offset;
+	};
+
 	template <class T, std::intmax_t def>
 	struct position_data_pair_default {
 		float position = 0;
@@ -153,6 +160,7 @@ namespace csv_rw_route {
 		// Signalling
 		std::vector<float> signal_speed = {0, 25, 55, 75, -1, -1};
 		std::vector<section_info> sections;
+		std::vector<beacon_info> beacons;
 
 		// Other trains
 		std::vector<float> ai_train_start_intervals;

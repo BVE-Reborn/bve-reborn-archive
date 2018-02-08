@@ -12,7 +12,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		auto structure_index_iter = object_freeobj_mapping.find(inst.free_obj_structure_index);
@@ -23,7 +23,7 @@ namespace csv_rw_route {
 			err << "FreeObj Structure #" << inst.free_obj_structure_index
 			    << " isn't mapped. Ignoring call. Use Structure.FreeObj to "
 			       "declare it.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 			return;
 		}
 
@@ -104,7 +104,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		bool left =
@@ -121,6 +121,7 @@ namespace csv_rw_route {
 				err << "WallL Structure #" << inst.wall_structure_index
 				    << " isn't mapped. Ignoring call. Use Structure.WallL to "
 				       "declare it.";
+				add_error(_errors, issuer_filename, inst.line, err);
 				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
 				goto right_wall;
 			}
@@ -138,6 +139,7 @@ namespace csv_rw_route {
 				err << "WallR Structure #" << inst.wall_structure_index
 				    << " isn't mapped. Ignoring call. Use Structure.WallR to "
 				       "declare it.";
+				add_error(_errors, issuer_filename, inst.line, err);
 				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
 				return;
 			}
@@ -156,7 +158,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		add_wall_objects_up_to_position(state, inst.absolute_position, 0);
@@ -175,7 +177,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		bool left =
@@ -192,6 +194,7 @@ namespace csv_rw_route {
 				err << "DikeL Structure #" << inst.dike_structure_index
 				    << " isn't mapped. Ignoring call. Use Structure.DikeL to "
 				       "declare it.";
+				add_error(_errors, issuer_filename, inst.line, err);
 				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
 				goto right_dike;
 			}
@@ -209,6 +212,7 @@ namespace csv_rw_route {
 				err << "DikeR Structure #" << inst.dike_structure_index
 				    << " isn't mapped. Ignoring call. Use Structure.DikeR to "
 				       "declare it.";
+				add_error(_errors, issuer_filename, inst.line, err);
 				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
 				return;
 			}
@@ -227,7 +231,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		add_wall_objects_up_to_position(state, inst.absolute_position, 2);
@@ -287,7 +291,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		auto pole_structure_iter = object_pole_mapping.find({inst.additional_rails, inst.pole_structure_index});
@@ -298,7 +302,7 @@ namespace csv_rw_route {
 			err << "Pole Structure (" << inst.additional_rails << ", " << inst.pole_structure_index
 			    << ") isn't mapped. Ignoring call. Use Structure.Pole to "
 			       "declare it.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 			return;
 		}
 
@@ -318,7 +322,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
 		add_poll_objects_up_to_position(inst.rail_index, state, inst.absolute_position);
@@ -366,7 +370,7 @@ namespace csv_rw_route {
 
 			err << "Ground Structure #" << inst.ground_structure_index
 			    << " isn't mapped. Ignoring call. Use Structure.Ground to declare it.";
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, issuer_filename, inst.line, err);
 			return;
 		}
 

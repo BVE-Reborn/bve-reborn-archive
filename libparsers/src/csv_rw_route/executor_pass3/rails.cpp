@@ -40,7 +40,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " is still active. Please use Track.Rail to update.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
 		state.x_offset = inst.x_offset.get_value_or(0);
@@ -52,7 +52,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 
@@ -70,7 +70,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 
@@ -83,7 +83,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
 		state.rail_structure_index = inst.rail_type;
@@ -92,7 +92,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 
@@ -105,7 +105,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " was already inactive. Did you mean Track.RailStart?";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
 		state.active = true;
@@ -114,7 +114,7 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 

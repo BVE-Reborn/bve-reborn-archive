@@ -24,7 +24,7 @@ namespace animated_object {
 			if (split_list.size() != 2) {
 				std::ostringstream oss;
 				oss << value_name << " must take 2 arguments\n";
-				pso.errors.emplace_back(errors::error_t{line_number, oss.str()});
+				errors::add_error(pso.errors, line_number, oss.str());
 			}
 
 			glm::vec2 value;
@@ -53,7 +53,7 @@ namespace animated_object {
 			if (split_list.size() != 3) {
 				std::ostringstream oss;
 				oss << value_name << " must take 3 arguments\n";
-				pso.errors.emplace_back(errors::error_t{line_number, oss.str()});
+				errors::add_error(pso.errors, line_number, oss.str());
 			}
 
 			glm::vec3 value;
@@ -214,7 +214,7 @@ namespace animated_object {
 			else {
 				std::ostringstream oss;
 				oss << section.value << " is not a valid value for TextureOverride";
-				pso.errors.emplace_back(errors::error_t{section.line, oss.str()});
+				errors::add_error(pso.errors, section.line, oss);
 			}
 		}
 
@@ -257,18 +257,18 @@ namespace animated_object {
 		for (auto& assignment : section.key_value_pairs) {
 			auto found_func = function_mapping.find(util::lower_copy(assignment.key));
 			if (found_func == function_mapping.end()) {
-				pso.errors.emplace_back(errors::error_t{assignment.line, "Member " + assignment.key + " not found"});
+				errors::add_error(pso.errors, assignment.line, "Member " + assignment.key + " not found");
 			}
 			else {
 				try {
 					(found_func->second)(pso, assignment);
 				}
 				catch (const std::invalid_argument& e) {
-					pso.errors.emplace_back(errors::error_t{assignment.line, e.what()});
+					errors::add_error(pso.errors, assignment.line, e.what());
 				}
 			}
 		}
-	}
+	} // namespace animated_object
 
 	static void parse_include_section(parsed_animated_object& pso, const ini::ini_section_t& section) {
 		std::vector<std::string> files;
@@ -283,7 +283,7 @@ namespace animated_object {
 				auto split = util::split_text(kvp.value, ',');
 
 				if (split.size() != 3) {
-					pso.errors.emplace_back(errors::error_t{kvp.line, "position must have 3 arguments"});
+					errors::add_error(pso.errors, kvp.line, "position must have 3 arguments");
 				}
 
 				try {
@@ -303,13 +303,12 @@ namespace animated_object {
 					}
 				}
 				catch (const std::invalid_argument& e) {
-					pso.errors.emplace_back(errors::error_t{kvp.line, e.what()});
+					errors::add_error(pso.errors, kvp.line, e.what());
 				}
 			}
 			else {
-				pso.errors.emplace_back(errors::error_t{kvp.line,
-				                                        "No other key may be set besides position "
-				                                        "inside an include section"});
+				errors::add_error(pso.errors, kvp.line,
+				                  "No other key may be set besides position inside an include section");
 			}
 		}
 
@@ -327,15 +326,11 @@ namespace animated_object {
 			// "" section is before any named section
 			if (section.name == "") {
 				for (auto& value : section.values) {
-					pao.errors.emplace_back(errors::error_t{value.line,
-					                                        "Animated files must have all commands "
-					                                        "within sections"});
+					add_error(pao.errors, value.line, "Animated files must have all commands within sections");
 				}
 
 				for (auto& kvp : section.key_value_pairs) {
-					pao.errors.emplace_back(errors::error_t{kvp.line,
-					                                        "Animated files must have all commands "
-					                                        "within sections"});
+					add_error(pao.errors, kvp.line, "Animated files must have all commands within sections");
 				}
 			}
 
@@ -349,9 +344,7 @@ namespace animated_object {
 				parse_object_section(pao, section);
 			}
 			else {
-				pao.errors.emplace_back(errors::error_t{section.line,
-				                                        "Animated files may only have \"Include\" "
-				                                        "and \"Object\" sections"});
+				add_error(pao.errors, section.line, "Animated files may only have \"Include\" and \"Object\" sections");
 			}
 		}
 

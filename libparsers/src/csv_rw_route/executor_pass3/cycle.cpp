@@ -70,7 +70,7 @@ namespace csv_rw_route {
 			print_cycle_type(err, cycle);
 			err << "\".";
 
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 
@@ -98,7 +98,7 @@ namespace csv_rw_route {
 			print_cycle_type(err, cycle);
 			err << "\".";
 
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace csv_rw_route

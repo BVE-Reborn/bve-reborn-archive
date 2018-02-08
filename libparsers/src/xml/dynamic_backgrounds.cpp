@@ -55,7 +55,7 @@ namespace xml {
 						    util::parse_loose_integer(std::string(repetitions->value(), repetitions->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
-						errors[filename].emplace_back<errors::error_t>({0, e.what()});
+						errors::add_error(errors, filename, 0, e.what());
 					}
 				}
 
@@ -72,7 +72,7 @@ namespace xml {
 						if (mode_text != "none"s) {
 							std::ostringstream err;
 							err << "Unrecognized texture mode: \"" << mode->value() << "\" assuming \"None\"";
-							errors[filename].emplace_back<errors::error_t>({0, err.str()});
+							errors::add_error(errors, filename, 0, err.str());
 						}
 						tbi.transition_mode = texture_background_info::None;
 					}
@@ -84,7 +84,7 @@ namespace xml {
 						    std::string(transition_time->value(), transition_time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
-						errors[filename].emplace_back<errors::error_t>({0, e.what()});
+						errors::add_error(errors, filename, 0, e.what());
 					}
 				}
 
@@ -94,7 +94,7 @@ namespace xml {
 						    util::parse_time(std::string(transition_time->value(), transition_time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
-						errors[filename].emplace_back<errors::error_t>({0, e.what()});
+						errors::add_error(errors, filename, 0, e.what());
 					}
 				}
 

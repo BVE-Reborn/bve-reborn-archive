@@ -1,5 +1,6 @@
 #include "core/math.hpp"
 #include "csv_rw_route.hpp"
+#include "parsers/errors.hpp"
 
 namespace parsers {
 namespace csv_rw_route {
