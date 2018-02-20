@@ -23,13 +23,7 @@ matrix:
         - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
         - cmake --version
       # Build Boost.... 
-        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
-        - sudo tar xjf boost_1_64_0.tar.bz2
-        - cd boost_1_64_0/
-        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
-        - sudo ./b2 link=static threading=multi variant=release -d0
-        - sudo ./b2 install  -d0
-        - cd ..
+        - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
@@ -53,13 +47,7 @@ matrix:
         - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
         - cmake --version
       # Build Boost.... 
-        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
-        - sudo tar xjf boost_1_64_0.tar.bz2
-        - cd boost_1_64_0/
-        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
-        - sudo ./b2 link=static threading=multi variant=release -d0
-        - sudo ./b2 install  -d0
-        - cd ..
+        - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
@@ -85,13 +73,7 @@ matrix:
         - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
         - cmake --version
       # Build Boost.... 
-        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
-        - sudo tar xjf boost_1_64_0.tar.bz2
-        - cd boost_1_64_0/
-        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
-        - sudo ./b2 link=static threading=multi variant=release -d0
-        - sudo ./b2 install  -d0
-        - cd ..
+        - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
@@ -116,13 +98,7 @@ matrix:
         - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
         - cmake --version
       # Build Boost.... 
-        - sudo wget -O boost_1_64_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
-        - sudo tar xjf boost_1_64_0.tar.bz2
-        - cd boost_1_64_0/
-        - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
-        - sudo ./b2 link=static threading=multi variant=release -d0
-        - sudo ./b2 install  -d0
-        - cd ..
+        - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
@@ -131,7 +107,11 @@ matrix:
       osx_image: xcode6.4
       before_install:
         - brew update
-        - brew install ninja boost cmake
+        - brew upgrade cmake
+        - brew install ninja
+      # Build Boost.... 
+        - bash ./build-deps-unix.sh
+      # Do rest of stuff
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
@@ -139,7 +119,11 @@ matrix:
       osx_image: xcode9.2
       before_install:
         - brew update
-        - brew install ninja boost cmake
+        - brew upgrade cmake
+        - brew install ninja
+      # Build Boost.... 
+        - bash ./build-deps-unix.sh
+      # Do rest of Stuff
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
