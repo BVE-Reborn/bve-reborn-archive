@@ -5,7 +5,7 @@
 namespace parsers {
 namespace function_scripts {
 	namespace {
-		static bool is_special_symbol(char c) {
+		bool is_special_symbol(char c) {
 			switch (c) {
 				case '+':
 				case '-':
@@ -29,16 +29,16 @@ namespace function_scripts {
 			}
 		}
 
-		static bool is_number(char c) {
+		bool is_number(char c) {
 			return ('0' <= c && c <= '9');
 		}
 
-		static bool is_start_of_number(char c) {
+		bool is_start_of_number(char c) {
 			return (is_number(c) || c == '-' || c == '.');
 		}
 
-		static bool is_part_of_variable(char c) {
-			return !is_special_symbol(c) && !std::isspace(c);
+		bool is_part_of_variable(char c) {
+			return !is_special_symbol(c) && (std::isspace(c) == 0);
 		}
 	} // namespace
 
@@ -106,7 +106,7 @@ namespace function_scripts {
 							i += 1;
 						}
 						else {
-							errors.emplace_back<errors::error_t>({0, "\"=\" must be \"==\""});
+							errors.emplace_back<errors::error_t>({0, R"("=" must be "==")"});
 						}
 						lt = lexer_types::double_eq{};
 						break;
@@ -166,11 +166,12 @@ namespace function_scripts {
 				}
 			}
 			// parsing variable
-			else if (!std::isspace(text[i])) {
+			else if (std::isspace(text[i]) == 0) {
 				// Find end of variable
 				std::size_t i2 = i;
-				for (; i2 < text.size() && is_part_of_variable(text[i2]); ++i2)
+				for (; i2 < text.size() && is_part_of_variable(text[i2]); ++i2) {
 					;
+				}
 
 				std::string var{text.begin() + i, text.begin() + i2};
 

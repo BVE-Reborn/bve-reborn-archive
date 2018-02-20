@@ -25,7 +25,7 @@ namespace xml {
 				auto* light_direction = current_section->first_node("lightdirection", 0, false);
 				auto* cab_lighting = current_section->first_node("cablighting", 0, false);
 
-				if (time) {
+				if (time != nullptr) {
 					try {
 						info.time = util::parse_time(time->value());
 					}
@@ -34,7 +34,7 @@ namespace xml {
 					}
 				}
 
-				if (ambient_light) {
+				if (ambient_light != nullptr) {
 					auto pairs = util::split_text(ambient_light->value());
 					if (pairs.size() >= 3) {
 						try {
@@ -52,7 +52,7 @@ namespace xml {
 					}
 				}
 
-				if (directional_light) {
+				if (directional_light != nullptr) {
 					auto pairs = util::split_text(ambient_light->value());
 					if (pairs.size() >= 3) {
 						try {
@@ -71,7 +71,7 @@ namespace xml {
 					}
 				}
 
-				if (light_direction) {
+				if (light_direction != nullptr) {
 					auto pairs = util::split_text(ambient_light->value());
 					if (pairs.size() >= 3) {
 						try {
@@ -89,7 +89,7 @@ namespace xml {
 					}
 				}
 
-				if (cab_lighting) {
+				if (cab_lighting != nullptr) {
 					try {
 						info.cablighting = uint8_t(util::parse_loose_integer(cab_lighting->value()));
 					}

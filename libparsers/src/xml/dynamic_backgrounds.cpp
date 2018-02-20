@@ -27,7 +27,7 @@ namespace xml {
 				auto* object = current_section->first_node("object", 0, false);
 
 				// Only one object background allowed, and it takes priority
-				if (object) {
+				if (object != nullptr) {
 					std::string object_filename(object->value(), object->value_size());
 
 					auto absolute = get_relative_file(filename, object_filename);
@@ -43,13 +43,13 @@ namespace xml {
 				auto* transition_time = current_section->first_node("transitiontime", 0, false);
 				auto* time = current_section->first_node("time", 0, false);
 
-				if (texture) {
+				if (texture != nullptr) {
 					std::string texture_filename(texture->value(), texture->value_size());
 
 					tbi.filename = get_relative_file(filename, texture_filename);
 				}
 
-				if (repetitions) {
+				if (repetitions != nullptr) {
 					try {
 						tbi.repetitions = std::size_t(
 						    util::parse_loose_integer(std::string(repetitions->value(), repetitions->value_size())));
@@ -59,7 +59,7 @@ namespace xml {
 					}
 				}
 
-				if (mode) {
+				if (mode != nullptr) {
 					std::string mode_text = util::lower_copy(std::string(mode->value(), mode->value_size()));
 
 					if (mode_text == "fadein"s) {
@@ -71,14 +71,14 @@ namespace xml {
 					else {
 						if (mode_text != "none"s) {
 							std::ostringstream err;
-							err << "Unrecognized texture mode: \"" << mode->value() << "\" assuming \"None\"";
+							err << "Unrecognized texture mode: \"" << mode->value() << R"(" assuming "None")";
 							errors::add_error(errors, filename, 0, err.str());
 						}
 						tbi.transition_mode = texture_background_info::None;
 					}
 				}
 
-				if (transition_time) {
+				if (transition_time != nullptr) {
 					try {
 						tbi.transition_time = std::size_t(util::parse_loose_integer(
 						    std::string(transition_time->value(), transition_time->value_size())));
@@ -88,7 +88,7 @@ namespace xml {
 					}
 				}
 
-				if (time) {
+				if (time != nullptr) {
 					try {
 						tbi.time = std::size_t(
 						    util::parse_time(std::string(transition_time->value(), transition_time->value_size())));

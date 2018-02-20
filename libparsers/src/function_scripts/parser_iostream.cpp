@@ -36,7 +36,7 @@ namespace function_scripts {
 		}
 
 	  public:
-		function_script_parse_tree_printer(std::ostream& os) : _os(os){};
+		explicit function_script_parse_tree_printer(std::ostream& os) : _os(os){};
 
 		void operator()(const tree_types::binary_and& node) {
 			print_binary(node, "AND");

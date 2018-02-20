@@ -7,16 +7,16 @@
 
 namespace parsers {
 namespace util {
-	std::intmax_t parse_loose_integer(std::string text);
+	std::intmax_t parse_loose_integer(const std::string& text);
 	std::intmax_t parse_loose_integer(std::string text, std::intmax_t default_value);
 
-	float parse_loose_float(std::string text);
+	float parse_loose_float(const std::string& text);
 	float parse_loose_float(std::string text, float default_value);
 
-	openbve2::datatypes::time parse_time(std::string text);
+	openbve2::datatypes::time parse_time(const std::string& text);
 	openbve2::datatypes::time parse_time(std::string text, std::intmax_t default_value);
 
-	openbve2::datatypes::color8_rgba parse_color(std::string text);
+	openbve2::datatypes::color8_rgba parse_color(const std::string& text);
 	openbve2::datatypes::color8_rgba parse_color(std::string text, openbve2::datatypes::color8_rgba default_value);
 
 	void lower(std::string& text);

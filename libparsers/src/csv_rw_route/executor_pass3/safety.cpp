@@ -38,7 +38,7 @@ namespace csv_rw_route {
 		_route_data.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Transponder& inst) {}
-	void pass3_executor::operator()(const instructions::track::Pattern& inst) {}
+	void pass3_executor::operator()(const instructions::track::Transponder& /*inst*/) {}
+	void pass3_executor::operator()(const instructions::track::Pattern& /*inst*/) {}
 } // namespace csv_rw_route
 } // namespace parsers

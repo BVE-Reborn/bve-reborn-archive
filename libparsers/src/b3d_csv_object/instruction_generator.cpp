@@ -337,7 +337,7 @@ namespace b3d_csv_object {
 			return stc;
 		}
 
-		static const std::map<std::string, instruction (*)(const std::vector<csv::csv_token>&)> function_mapping{
+		const std::map<std::string, instruction (*)(const std::vector<csv::csv_token>&)> function_mapping{
 		    // .csv
 		    {"createmeshbuilder"s, &create_instruction_createmeshbuilder},
 		    {"addvertex"s, &create_instruction_addvertex},

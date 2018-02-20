@@ -5,7 +5,7 @@ namespace parsers {
 namespace function_scripts {
 	struct function_script_lexer_token_io_class {
 		std::ostream& _os;
-		function_script_lexer_token_io_class(std::ostream& os) : _os(os){};
+		explicit function_script_lexer_token_io_class(std::ostream& os) : _os(os){};
 
 		void operator()(const lexer_types::plus& arg) {
 			(void) arg;

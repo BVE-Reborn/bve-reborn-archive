@@ -7,6 +7,7 @@
 #include <iterator>
 #include <sstream>
 #include <string>
+#include <utility>
 
 using namespace std::string_literals;
 
@@ -29,7 +30,7 @@ namespace util {
 		return std::stoll(text);
 	}
 
-	std::intmax_t parse_loose_integer(std::string text) {
+	std::intmax_t parse_loose_integer(const std::string& text) {
 		try {
 			return _parse_loose_integer_impl(text);
 		}
@@ -42,7 +43,7 @@ namespace util {
 
 	std::intmax_t parse_loose_integer(std::string text, std::intmax_t default_value) {
 		try {
-			return _parse_loose_integer_impl(text);
+			return _parse_loose_integer_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -60,7 +61,7 @@ namespace util {
 		return std::stof(text);
 	}
 
-	float parse_loose_float(std::string text) {
+	float parse_loose_float(const std::string& text) {
 		try {
 			return _parse_loose_float_impl(text);
 		}
@@ -73,7 +74,7 @@ namespace util {
 
 	float parse_loose_float(std::string text, float default_value) {
 		try {
-			return _parse_loose_float_impl(text);
+			return _parse_loose_float_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -112,7 +113,7 @@ namespace util {
 		throw std::invalid_argument("");
 	}
 
-	openbve2::datatypes::time parse_time(std::string text) {
+	openbve2::datatypes::time parse_time(const std::string& text) {
 		try {
 			return _parse_time_impl(text);
 		}
@@ -125,7 +126,7 @@ namespace util {
 
 	openbve2::datatypes::time parse_time(std::string text, std::intmax_t default_value) {
 		try {
-			return _parse_time_impl(text);
+			return _parse_time_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -155,7 +156,7 @@ namespace util {
 		throw std::invalid_argument("");
 	}
 
-	openbve2::datatypes::color8_rgba parse_color(std::string text) {
+	openbve2::datatypes::color8_rgba parse_color(const std::string& text) {
 		try {
 			return _parse_color_impl(text);
 		}
@@ -168,7 +169,7 @@ namespace util {
 
 	openbve2::datatypes::color8_rgba parse_color(std::string text, openbve2::datatypes::color8_rgba default_value) {
 		try {
-			return _parse_color_impl(text);
+			return _parse_color_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -283,8 +284,9 @@ namespace util {
 		// check for bom
 		std::array<unsigned char, 3> bom = {};
 		std::size_t i = 0;
-		for (; i < 3 && file >> bom[i]; ++i)
+		for (; i < 3 && file >> bom[i]; ++i) {
 			;
+		}
 
 		bool has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB && std::get<2>(bom) == 0xBF;
 		std::size_t start_of_file = has_bom ? 3 : 0;
@@ -298,11 +300,11 @@ namespace util {
 		contents.reserve(length);
 
 		// extract file combining \r\n into \n
-		std::array<char, 4096> buf;
+		std::array<char, 4096> buf{};
 		bool last_char_r = false;
 		while (true) {
 			file.read(buf.data(), buf.size());
-			std::size_t chars_read = std::size_t(file.gcount());
+			auto chars_read = std::size_t(file.gcount());
 			for (std::size_t j = 0; j < chars_read; ++j) {
 				if (last_char_r && buf[j] == '\n') {
 					contents.back() = '\n';

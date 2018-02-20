@@ -1,5 +1,6 @@
 #include <parsers/errors.hpp>
 #include <sstream>
+#include <utility>
 
 namespace parsers {
 namespace errors {
@@ -20,7 +21,7 @@ namespace errors {
 	}
 
 	void add_error(multi_error& errors, const std::string& filename, std::intmax_t line, std::string msg) {
-		add_error(errors[filename], line, msg);
+		add_error(errors[filename], line, std::move(msg));
 	}
 
 	void add_error(multi_error& errors,

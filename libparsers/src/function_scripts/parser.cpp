@@ -18,7 +18,7 @@ namespace function_scripts {
 		static tree_node parse_function_call_expression(lexer_token_container& list);
 		static tree_node parse_term(lexer_token_container& list);
 
-		static tree_node parse_expression(lexer_token_container& list) {
+		tree_node parse_expression(lexer_token_container& list) {
 			auto left = parse_xor_expression(list);
 
 			if (list.skip_next_token<lexer_types::ampersand>()) {
@@ -26,12 +26,11 @@ namespace function_scripts {
 
 				return tree_types::binary_and{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_xor_expression(lexer_token_container& list) {
+		tree_node parse_xor_expression(lexer_token_container& list) {
 			auto left = parse_or_expression(list);
 
 			if (list.skip_next_token<lexer_types::carret>()) {
@@ -39,12 +38,11 @@ namespace function_scripts {
 
 				return tree_types::binary_xor{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_or_expression(lexer_token_container& list) {
+		tree_node parse_or_expression(lexer_token_container& list) {
 			auto left = parse_not_expression(list);
 
 			if (list.skip_next_token<lexer_types::bar>()) {
@@ -52,23 +50,21 @@ namespace function_scripts {
 
 				return tree_types::binary_or{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_not_expression(lexer_token_container& list) {
+		tree_node parse_not_expression(lexer_token_container& list) {
 			if (list.skip_next_token<lexer_types::bang>()) {
 				auto right = parse_equal_expression(list);
 
 				return tree_types::unary_not{right};
 			}
-			else {
-				return parse_equal_expression(list);
-			}
+
+			    return parse_equal_expression(list);
 		}
 
-		static tree_node parse_equal_expression(lexer_token_container& list) {
+		tree_node parse_equal_expression(lexer_token_container& list) {
 			auto left = parse_plus_expression(list);
 
 			if (list.skip_next_token<lexer_types::double_eq>()) {
@@ -76,37 +72,36 @@ namespace function_scripts {
 
 				return tree_types::binary_eq{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::un_eq>()) {
+			if (list.skip_next_token<lexer_types::un_eq>()) {
 				auto right = parse_equal_expression(list);
 
 				return tree_types::binary_not_eq{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::less>()) {
+			if (list.skip_next_token<lexer_types::less>()) {
 				auto right = parse_equal_expression(list);
 
 				return tree_types::binary_less{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::greater>()) {
+			if (list.skip_next_token<lexer_types::greater>()) {
 				auto right = parse_equal_expression(list);
 
 				return tree_types::binary_greater{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::less_eq>()) {
+			if (list.skip_next_token<lexer_types::less_eq>()) {
 				auto right = parse_equal_expression(list);
 
 				return tree_types::binary_less_eq{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::greater_eq>()) {
+			if (list.skip_next_token<lexer_types::greater_eq>()) {
 				auto right = parse_equal_expression(list);
 
 				return tree_types::binary_greater_eq{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_plus_expression(lexer_token_container& list) {
+		tree_node parse_plus_expression(lexer_token_container& list) {
 			auto left = parse_times_expression(list);
 
 			if (list.skip_next_token<lexer_types::plus>()) {
@@ -114,17 +109,16 @@ namespace function_scripts {
 
 				return tree_types::binary_add{left, right};
 			}
-			else if (list.skip_next_token<lexer_types::minus>()) {
+			if (list.skip_next_token<lexer_types::minus>()) {
 				auto right = parse_plus_expression(list);
 
 				return tree_types::binary_subtract{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_times_expression(lexer_token_container& list) {
+		tree_node parse_times_expression(lexer_token_container& list) {
 			auto left = parse_divide_expression(list);
 
 			if (list.skip_next_token<lexer_types::star>()) {
@@ -132,12 +126,11 @@ namespace function_scripts {
 
 				return tree_types::binary_multiply{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_divide_expression(lexer_token_container& list) {
+		tree_node parse_divide_expression(lexer_token_container& list) {
 			auto left = parse_minus_expression(list);
 
 			if (list.skip_next_token<lexer_types::slash>()) {
@@ -145,23 +138,21 @@ namespace function_scripts {
 
 				return tree_types::binary_divide{left, right};
 			}
-			else {
-				return left;
-			}
+
+			    return left;
 		}
 
-		static tree_node parse_minus_expression(lexer_token_container& list) {
+		tree_node parse_minus_expression(lexer_token_container& list) {
 			if (list.skip_next_token<lexer_types::minus>()) {
 				auto right = parse_function_call_expression(list);
 
 				return tree_types::unary_minus{right};
 			}
-			else {
-				return parse_function_call_expression(list);
-			}
+
+			    return parse_function_call_expression(list);
 		}
 
-		static tree_node parse_function_call_expression(lexer_token_container& list) {
+		tree_node parse_function_call_expression(lexer_token_container& list) {
 			auto variable = list.get_next_token<lexer_types::variable>();
 			if (variable) {
 				tree_types::name name_node{variable->name};
@@ -178,16 +169,14 @@ namespace function_scripts {
 					}
 					return func_node;
 				}
-				else {
-					return name_node;
-				}
+
+				    return name_node;
 			}
-			else {
-				return parse_term(list);
-			}
+
+			    return parse_term(list);
 		}
 
-		static tree_node parse_term(lexer_token_container& list) {
+		tree_node parse_term(lexer_token_container& list) {
 			boost::optional<lexer_types::floating> f;
 			boost::optional<lexer_types::integer> i;
 			boost::optional<lexer_types::variable> v;
@@ -201,17 +190,17 @@ namespace function_scripts {
 
 				return inside;
 			}
-			else if ((f = list.get_next_token<lexer_types::floating>())) {
+			if ((f = list.get_next_token<lexer_types::floating>())) {
 				return tree_types::floating{f->val};
 			}
-			else if ((i = list.get_next_token<lexer_types::integer>())) {
+			if ((i = list.get_next_token<lexer_types::integer>())) {
 				return tree_types::integer{i->val};
 			}
-			else if ((v = list.get_next_token<lexer_types::variable>())) {
+			if ((v = list.get_next_token<lexer_types::variable>())) {
 				return tree_types::name{v->name};
 			}
-			else {
-				auto next_token = list.peak_next_token();
+
+			    auto next_token = list.peak_next_token();
 
 				std::ostringstream err;
 				if (next_token) {
@@ -222,7 +211,6 @@ namespace function_scripts {
 				}
 				list.add_error({0, err.str()});
 				return tree_types::none{};
-			}
 		}
 	} // namespace
 

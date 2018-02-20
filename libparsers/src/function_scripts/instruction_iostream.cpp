@@ -162,10 +162,10 @@ namespace function_scripts {
 
 		std::size_t last_function_size = 0;
 		std::size_t stack_size = 0;
-		function_script_instruction_io_class(std::ostream& os) : _os(os){};
+		explicit function_script_instruction_io_class(std::ostream& os) : _os(os){};
 
 		void print() {
-			if (outputs.size() == 0) {
+			if (outputs.empty()) {
 				return;
 			}
 			auto size_name_iter =

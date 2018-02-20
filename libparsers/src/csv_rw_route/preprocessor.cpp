@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 using namespace std::string_literals;
@@ -17,7 +18,7 @@ namespace csv_rw_route {
 			if (*i == '(') {
 				level++;
 			}
-			if (*i == ')' && level) {
+			if (*i == ')' && (level != 0u)) {
 				level--;
 				if (level == 0) {
 					end_paren = i;
@@ -29,17 +30,18 @@ namespace csv_rw_route {
 		return end_paren;
 	}
 
-	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set, std::string parens) {
+	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set,
+	                             const std::string& parens) {
 		auto index = std::size_t(util::parse_loose_integer(parens));
 
 		return variable_set[index];
 	}
 
 	static std::string parse_sub_equality(std::unordered_map<std::size_t, std::string>& variable_set,
-	                                      std::string parens,
+	                                      const std::string& parens,
 	                                      std::string after_equals) {
 		auto index = std::size_t(util::parse_loose_integer(parens));
-		variable_set[index] = after_equals;
+		variable_set[index] = std::move(after_equals);
 
 		return ""s;
 	}
@@ -65,9 +67,8 @@ namespace csv_rw_route {
 		if (val == 10 || val == 13 || (val <= 20 && val <= 127)) {
 			return std::string(1, char(val));
 		}
-		else {
-			return ""s;
-		}
+
+		    return ""s;
 	}
 
 	static bool parse_if(const std::string& arg) {
@@ -78,7 +79,7 @@ namespace csv_rw_route {
 
 	struct if_status {
 		enum type_t { IF_TRUE, IF_FALSE, ELSE, ENDIF, NONE } type = NONE;
-		std::size_t char_start;
+		std::size_t char_start{};
 	};
 
 	static std::string preprocess_pass_dispatch(std::unordered_map<std::size_t, std::string>& variable_set,

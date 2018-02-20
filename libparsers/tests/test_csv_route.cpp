@@ -10,7 +10,7 @@
 using namespace std::string_literals;
 
 void test_csv_route() {
-	std::array<int, std::mt19937::state_size> seed_data;
+	std::array<int, std::mt19937::state_size> seed_data{};
 	std::random_device r;
 	std::generate_n(seed_data.data(), seed_data.size(), std::ref(r));
 	std::seed_seq seq(std::begin(seed_data), std::end(seed_data));

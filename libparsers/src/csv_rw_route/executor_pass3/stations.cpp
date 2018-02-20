@@ -32,7 +32,7 @@ namespace csv_rw_route {
 			return;
 		}
 
-		rail_station_stop_info rssi;
+		rail_station_stop_info rssi{};
 		rssi.position = inst.absolute_position;
 		rssi.backward_tolerance = inst.backwards_tolerance;
 		rssi.forward_tolerance = inst.forwards_tolerance;

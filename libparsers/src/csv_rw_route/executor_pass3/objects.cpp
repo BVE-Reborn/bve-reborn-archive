@@ -8,7 +8,7 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -75,7 +75,7 @@ namespace csv_rw_route {
 
 		auto object_mapping_iter = object_mapping->find(index);
 
-		if (object_mapping_iter == object_mapping->end() || state.active == false || *enabled == false) {
+		if (object_mapping_iter == object_mapping->end() || !state.active || !*enabled) {
 			return;
 		}
 
@@ -100,7 +100,7 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -154,7 +154,7 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -173,7 +173,7 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -227,7 +227,7 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -244,7 +244,7 @@ namespace csv_rw_route {
 	void pass3_executor::add_poll_objects_up_to_position(std::size_t rail_number, rail_state& state, float position) {
 		auto object_mapping_iter = object_pole_mapping.find({state.pole_additional_rails, state.pole_structure_index});
 
-		if (object_mapping_iter == object_pole_mapping.end() || state.active == false || state.pole_active == false) {
+		if (object_mapping_iter == object_pole_mapping.end() || !state.active || !state.pole_active) {
 			return;
 		}
 
@@ -287,7 +287,7 @@ namespace csv_rw_route {
 
 		add_poll_objects_up_to_position(inst.rail_index, state, inst.absolute_position);
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -318,7 +318,7 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";

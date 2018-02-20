@@ -5,7 +5,7 @@
 #include <sstream>
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 namespace parsers {
 namespace b3d_csv_object {
@@ -14,56 +14,70 @@ namespace b3d_csv_object {
 		// https://stackoverflow.com/questions/3574680/sort-based-on-multiple-things-in-c
 		// Sort based on properties to get all faces with same properties next
 		// to each other
-		static bool sort_function(const instructions::parsed_csv_object_builder::untriangulated_face_t& face1,
-		                          const instructions::parsed_csv_object_builder::untriangulated_face_t& face2) {
+		bool sort_function(const instructions::parsed_csv_object_builder::untriangulated_face_t& face1,
+		                   const instructions::parsed_csv_object_builder::untriangulated_face_t& face2) {
 			auto& data1 = face1.data;
 			auto& data2 = face2.data;
 
-			if (data1.texture < data2.texture)
+			if (data1.texture < data2.texture) {
 				return true;
-			if (data2.texture > data1.texture)
+			}
+			if (data2.texture > data1.texture) {
 				return false;
+			}
 
 			// Need to create an order, though the order doesn't matter as long
 			// as they are not equal
 			auto dtc_equal = data1.decal_transparent_color == data2.decal_transparent_color;
 			auto dtca = glm::compAdd(data1.decal_transparent_color);
 			auto dtcb = glm::compAdd(data2.decal_transparent_color);
-			if (!dtc_equal && dtca < dtcb)
+			if (!dtc_equal && dtca < dtcb) {
 				return true;
-			if (!dtc_equal && dtca >= dtcb)
+			}
+			if (!dtc_equal && dtca >= dtcb) {
 				return false;
+			}
 
-			if (data1.has_decal_transparent_color < data2.has_decal_transparent_color)
+			if (static_cast<int>(data1.has_decal_transparent_color)
+			    < static_cast<int>(data2.has_decal_transparent_color)) {
 				return true;
-			if (data2.has_decal_transparent_color > data1.has_decal_transparent_color)
+			}
+			if (static_cast<int>(data2.has_decal_transparent_color)
+			    > static_cast<int>(data1.has_decal_transparent_color)) {
 				return false;
+			}
 
 			// blend mode integer
 			auto bmia = std::underlying_type<decltype(data1.BlendMode)>::type(data1.BlendMode);
 			auto bmib = std::underlying_type<decltype(data2.BlendMode)>::type(data2.BlendMode);
-			if (bmia < bmib)
+			if (bmia < bmib) {
 				return true;
-			if (bmib > bmia)
+			}
+			if (bmib > bmia) {
 				return false;
+			}
 
 			// glow attenuation mode integer
 			auto gama = std::underlying_type<decltype(data1.GlowAttenuationMode)>::type(data1.GlowAttenuationMode);
 			auto gamb = std::underlying_type<decltype(data2.GlowAttenuationMode)>::type(data2.GlowAttenuationMode);
-			if (gama < gamb)
+			if (gama < gamb) {
 				return true;
-			if (gamb > gama)
+			}
+			if (gamb > gama) {
 				return false;
+			}
 
-			if (data1.GlowHalfDistance < data2.GlowHalfDistance)
+			if (data1.GlowHalfDistance < data2.GlowHalfDistance) {
 				return true;
-			if (data2.GlowHalfDistance < data1.GlowHalfDistance)
+			}
+			if (data2.GlowHalfDistance < data1.GlowHalfDistance) {
 				return false;
+			}
 
 			return false;
 		}
 
-		static void calculate_normals(mesh_t& mesh) {
+		void calculate_normals(mesh_t& mesh) {
 			for (auto& vert : mesh.verts) {
 				vert.normal = glm::vec3(0);
 			}
@@ -89,9 +103,9 @@ namespace b3d_csv_object {
 			}
 		}
 
-		static std::size_t triangulate_faces(std::vector<std::size_t>& output_list,
-		                                     const std::vector<std::size_t>& input_face,
-		                                     bool two_sided) {
+		std::size_t triangulate_faces(std::vector<std::size_t>& output_list,
+		                              const std::vector<std::size_t>& input_face,
+		                              bool two_sided) {
 			if (input_face.size() < 3) {
 				return 0;
 			}
@@ -116,8 +130,8 @@ namespace b3d_csv_object {
 			return face_count;
 		}
 
-		static std::vector<vertex_t> shrink_vertex_list(const std::vector<vertex_t>& vertices,
-		                                                std::vector<std::size_t>& indices) {
+		std::vector<vertex_t> shrink_vertex_list(const std::vector<vertex_t>& vertices,
+		                                         std::vector<std::size_t>& indices) {
 			std::vector<std::size_t> translation(vertices.size(), 0);
 			std::vector<bool> use_vertex(vertices.size(), false);
 

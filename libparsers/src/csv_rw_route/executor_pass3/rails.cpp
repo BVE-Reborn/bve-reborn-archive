@@ -4,7 +4,7 @@
 namespace parsers {
 namespace csv_rw_route {
 	void pass3_executor::add_rail_objects_up_to_position(rail_state& state, float position) {
-		if (state.active == false) {
+		if (!state.active) {
 			return;
 		}
 
@@ -36,7 +36,7 @@ namespace csv_rw_route {
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
-		if (state.active == true) {
+		if (state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " is still active. Please use Track.Rail to update.";
@@ -79,7 +79,7 @@ namespace csv_rw_route {
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
@@ -101,7 +101,7 @@ namespace csv_rw_route {
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
-		if (state.active == false) {
+		if (!state.active) {
 			std::ostringstream err;
 
 			err << "Rail number " << inst.rail_index << " was already inactive. Did you mean Track.RailStart?";

@@ -97,7 +97,7 @@ namespace csv_rw_route {
 		struct csv_rw_route_instruction_io_class {
 			std::ostream& _os;
 
-			csv_rw_route_instruction_io_class(std::ostream& os) : _os(os){};
+			explicit csv_rw_route_instruction_io_class(std::ostream& os) : _os(os){};
 
 			template <class T>
 			void print_vector(const std::vector<T>& vec) {

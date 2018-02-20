@@ -4,7 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <cassert>
 #include <cmath> // Also include overloads of std::*
-#include <math.h>
+#include <cmath>
 
 float openbve2::math::radius_from_distances(float deltax, float deltay) {
 	// https://math.stackexchange.com/questions/1088902/what-is-the-radius-of-a-circle-given-two-points-and-the-center-of-the-circle-is#comment2218658_1088926

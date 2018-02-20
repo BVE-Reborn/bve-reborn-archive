@@ -12,7 +12,7 @@ namespace csv_rw_route {
 	namespace {
 		using line_break_list = std::vector<std::string::const_iterator>;
 
-		static line_break_list list_line_breaks(const std::string& str) {
+		line_break_list list_line_breaks(const std::string& str) {
 			line_break_list breaks;
 			for (auto i = str.cbegin(); i != str.cend(); ++i) {
 				if (*i == '\n') {
@@ -22,20 +22,20 @@ namespace csv_rw_route {
 			return breaks;
 		}
 
-		static std::size_t line_number(const line_break_list& breaks, std::string::const_iterator pos) {
+		std::size_t line_number(const line_break_list& breaks, std::string::const_iterator pos) {
 			auto iter = std::upper_bound(breaks.begin(), breaks.end(), pos);
 			return std::distance(breaks.begin(), iter);
 		}
 
-		static void add_error(const line_break_list& line_br_list,
-		                      errors::errors_t errors,
-		                      std::string::const_iterator pos,
-		                      const char* msg) {
+		void add_error(const line_break_list& line_br_list,
+		               errors::errors_t errors,
+		               std::string::const_iterator pos,
+		               const char* msg) {
 			auto num = line_number(line_br_list, pos);
 			errors.emplace_back(errors::error_t{num, msg});
 		}
 
-		static void remove_duplicate_filenames(preprocessed_lines& lines) {
+		void remove_duplicate_filenames(preprocessed_lines& lines) {
 			if (lines.filenames.empty()) {
 				return;
 			}
@@ -80,7 +80,7 @@ namespace csv_rw_route {
 		// Capture group 1 is filename
 		// Capture group 2 is position offset
 		// Capture group 3 is everything after the first filename
-		static std::regex include_finder(
+		std::regex include_finder(
 		    "\\$Include\\(([\\w\\-. "
 		    "\\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
 		    std::regex_constants::icase | std::regex_constants::ECMAScript | std::regex_constants::optimize);
