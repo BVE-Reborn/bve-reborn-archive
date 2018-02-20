@@ -59,7 +59,7 @@ namespace csv_rw_route {
 				return T{util::parse_loose_float(inst.args[0], def)};
 			}
 
-			    return T{def};
+			return T{def};
 		}
 
 		template <class T>
@@ -80,7 +80,7 @@ namespace csv_rw_route {
 				return T{std::size_t(util::parse_loose_integer(inst.args[0], def))};
 			}
 
-			    return T{def};
+			return T{def};
 		}
 
 		template <class T>

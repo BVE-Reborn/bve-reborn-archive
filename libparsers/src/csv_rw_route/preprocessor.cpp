@@ -68,7 +68,7 @@ namespace csv_rw_route {
 			return std::string(1, char(val));
 		}
 
-		    return ""s;
+		return ""s;
 	}
 
 	static bool parse_if(const std::string& arg) {

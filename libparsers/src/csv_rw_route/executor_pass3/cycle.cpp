@@ -19,16 +19,16 @@ namespace csv_rw_route {
 				return boost::none;
 			}
 
-			    return to_use_iter->second;
+			return to_use_iter->second;
 		}
 
-		    auto to_use_iter = object_mapping.find(index);
+		auto to_use_iter = object_mapping.find(index);
 
-			if (to_use_iter == object_mapping.end()) {
-				return boost::none;
-			}
+		if (to_use_iter == object_mapping.end()) {
+			return boost::none;
+		}
 
-			    return to_use_iter->second;
+		return to_use_iter->second;
 	}
 
 	void print_cycle_type(std::ostream& o, const cycle_type& c) {

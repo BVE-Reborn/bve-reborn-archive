@@ -38,19 +38,19 @@ namespace csv_rw_route {
 					return rd.blocks.back();
 				}
 
-				    // set the last block's length based on this block's
-					// position
-					{
-						auto& last_block = rd.blocks.back();
-						last_block.length = position - last_block.position;
+				// set the last block's length based on this block's
+				// position
+				{
+					auto& last_block = rd.blocks.back();
+					last_block.length = position - last_block.position;
 
-						// make a duplicate of the last block
-						rd.blocks.emplace_back(last_block);
-						// emplacement may invalidate reference
-					}
-					rail_block_info& rbi = rd.blocks.back();
-					rbi.position = position;
-					return rbi;
+					// make a duplicate of the last block
+					rd.blocks.emplace_back(last_block);
+					// emplacement may invalidate reference
+				}
+				rail_block_info& rbi = rd.blocks.back();
+				rbi.position = position;
+				return rbi;
 			}
 
 			void calculate_cache_impl(rail_block_info& last_block, rail_block_info& current_block) {

@@ -27,7 +27,7 @@ namespace function_scripts {
 				return tree_types::binary_and{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_xor_expression(lexer_token_container& list) {
@@ -39,7 +39,7 @@ namespace function_scripts {
 				return tree_types::binary_xor{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_or_expression(lexer_token_container& list) {
@@ -51,7 +51,7 @@ namespace function_scripts {
 				return tree_types::binary_or{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_not_expression(lexer_token_container& list) {
@@ -61,7 +61,7 @@ namespace function_scripts {
 				return tree_types::unary_not{right};
 			}
 
-			    return parse_equal_expression(list);
+			return parse_equal_expression(list);
 		}
 
 		tree_node parse_equal_expression(lexer_token_container& list) {
@@ -98,7 +98,7 @@ namespace function_scripts {
 				return tree_types::binary_greater_eq{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_plus_expression(lexer_token_container& list) {
@@ -115,7 +115,7 @@ namespace function_scripts {
 				return tree_types::binary_subtract{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_times_expression(lexer_token_container& list) {
@@ -127,7 +127,7 @@ namespace function_scripts {
 				return tree_types::binary_multiply{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_divide_expression(lexer_token_container& list) {
@@ -139,7 +139,7 @@ namespace function_scripts {
 				return tree_types::binary_divide{left, right};
 			}
 
-			    return left;
+			return left;
 		}
 
 		tree_node parse_minus_expression(lexer_token_container& list) {
@@ -149,7 +149,7 @@ namespace function_scripts {
 				return tree_types::unary_minus{right};
 			}
 
-			    return parse_function_call_expression(list);
+			return parse_function_call_expression(list);
 		}
 
 		tree_node parse_function_call_expression(lexer_token_container& list) {
@@ -170,10 +170,10 @@ namespace function_scripts {
 					return func_node;
 				}
 
-				    return name_node;
+				return name_node;
 			}
 
-			    return parse_term(list);
+			return parse_term(list);
 		}
 
 		tree_node parse_term(lexer_token_container& list) {
@@ -200,17 +200,17 @@ namespace function_scripts {
 				return tree_types::name{v->name};
 			}
 
-			    auto next_token = list.peak_next_token();
+			auto next_token = list.peak_next_token();
 
-				std::ostringstream err;
-				if (next_token) {
-					::operator<<(err << "Unexpected ", *next_token);
-				}
-				else {
-					err << "Unexpected end of function script";
-				}
-				list.add_error({0, err.str()});
-				return tree_types::none{};
+			std::ostringstream err;
+			if (next_token) {
+				::operator<<(err << "Unexpected ", *next_token);
+			}
+			else {
+				err << "Unexpected end of function script";
+			}
+			list.add_error({0, err.str()});
+			return tree_types::none{};
 		}
 	} // namespace
 

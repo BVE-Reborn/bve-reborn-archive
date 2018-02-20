@@ -4,10 +4,14 @@ project(OpenBVE2 CXX)
 set (CMAKE_CXX_STANDARD 14)
 set (CXX_STANDARD_REQUIRED True)
 
+list(INSERT CMAKE_PREFIX_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/binary/build")
+
 include("dependencies/cmake-utils/include/clang_format.cmake")
 include("dependencies/cmake-utils/include/linter.cmake")
 include("dependencies/cmake-utils/include/make_target_includes_system.cmake")
 include("dependencies/cmake-utils/include/warnings.cmake")
+
+configure_file(.clang-tidy-manager .clang-tidy-manager COPYONLY)
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )

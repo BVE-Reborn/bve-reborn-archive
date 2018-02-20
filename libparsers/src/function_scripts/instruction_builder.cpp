@@ -332,11 +332,11 @@ namespace function_scripts {
 				return;
 			}
 
-			    std::ostringstream error;
-				error << "Function \"" << node.name.val << "\" not recognized.";
-				list.errors.emplace_back<errors::error_t>({0, error.str()});
+			std::ostringstream error;
+			error << "Function \"" << node.name.val << "\" not recognized.";
+			list.errors.emplace_back<errors::error_t>({0, error.str()});
 
-				list.instructions.emplace_back<instructions::stack_push>({0});
+			list.instructions.emplace_back<instructions::stack_push>({0});
 		}
 	};
 
