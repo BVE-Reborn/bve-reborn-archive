@@ -217,6 +217,7 @@ namespace util {
 		auto min_len = std::min(text_len, match_len);
 
 		for (std::size_t i = 0; i < min_len; ++i) {
+			// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 			if (std::tolower(text[i]) != match[i]) {
 				return false;
 			}

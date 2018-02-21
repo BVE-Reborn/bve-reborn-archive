@@ -5,7 +5,7 @@
 #include <sstream>
 
 #define _USE_MATH_DEFINES
-#include <cmath>
+#include <math.h> // NOLINT
 
 namespace parsers {
 namespace b3d_csv_object {

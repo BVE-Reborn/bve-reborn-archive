@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	auto val = std::stoll(argv[1]);
+	auto val = std::stoll(argv[1]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
 	switch (val) {
 		default:

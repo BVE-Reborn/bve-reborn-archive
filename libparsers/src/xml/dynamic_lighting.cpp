@@ -53,7 +53,7 @@ namespace xml {
 				}
 
 				if (directional_light != nullptr) {
-					auto pairs = util::split_text(ambient_light->value());
+					auto pairs = util::split_text(directional_light->value());
 					if (pairs.size() >= 3) {
 						try {
 							info.directional_lighting.r = uint8_t(util::parse_loose_integer(pairs[0]));
@@ -72,7 +72,7 @@ namespace xml {
 				}
 
 				if (light_direction != nullptr) {
-					auto pairs = util::split_text(ambient_light->value());
+					auto pairs = util::split_text(light_direction->value());
 					if (pairs.size() >= 3) {
 						try {
 							info.light_direction.x = util::parse_loose_float(pairs[0]);

@@ -90,8 +90,7 @@ namespace xml {
 
 				if (time != nullptr) {
 					try {
-						tbi.time = std::size_t(
-						    util::parse_time(std::string(transition_time->value(), transition_time->value_size())));
+						tbi.time = std::size_t(util::parse_time(std::string(time->value(), time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
 						errors::add_error(errors, filename, 0, e.what());

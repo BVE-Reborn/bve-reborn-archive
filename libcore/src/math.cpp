@@ -1,10 +1,10 @@
 #include "core/math.hpp"
 #include <cassert>
-#include <glm/geometric.hpp>
-#define _USE_MATH_DEFINES
-#include <cassert>
-#include <cmath> // Also include overloads of std::*
 #include <cmath>
+#include <glm/geometric.hpp>
+
+#define _USE_MATH_DEFINES
+#include <math.h> // NOLINT Also include overloads of std::*
 
 float openbve2::math::radius_from_distances(float deltax, float deltay) {
 	// https://math.stackexchange.com/questions/1088902/what-is-the-radius-of-a-circle-given-two-points-and-the-center-of-the-circle-is#comment2218658_1088926

@@ -67,21 +67,25 @@ namespace function_scripts {
 
 				// parsing float
 				if (has_dot) {
+					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					const char* start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
 					float f = std::strtof(start_ptr, &str_end);
 
 					lt = lexer_types::floating{f};
+					// NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					auto chars_used = std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
 				}
 				// parsing int
 				else {
+					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					const char* start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
 					auto integer = std::strtoll(start_ptr, &str_end, 10);
 
 					lt = lexer_types::integer{integer};
+					// NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					auto chars_used = std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
 				}

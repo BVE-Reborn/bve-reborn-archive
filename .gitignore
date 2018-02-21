@@ -1,6 +1,8 @@
 build*/
 .*/
 
+CMakeLists.txt.user
+
 dependencies/binary
 
 libparsers/tests/*.animated

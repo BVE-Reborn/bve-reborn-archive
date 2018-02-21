@@ -19,7 +19,7 @@ namespace dependencies {
 			                   & uint32_t(rhs.decal_transparent_color.g) << 8 & rhs.decal_transparent_color.r;
 
 			return lhs.file < rhs.file && lhs_dtc_val < rhs_dtc_val
-			       && lhs.has_transparent_color < rhs.has_transparent_color;
+			       && static_cast<int>(lhs.has_transparent_color) < static_cast<int>(rhs.has_transparent_color);
 		}
 	};
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ostream>
 #include <mapbox/variant.hpp>
+#include <ostream>
 #ifdef __GNUC__
 #include <cxxabi.h>
 #endif
@@ -20,7 +20,7 @@ namespace openbve2 {
 				os << name << " " << sizeof(std::get<num>(val)) << '\n';
 
 #ifdef __GNUC__
-				free(const_cast<char*>(name));
+				free(const_cast<char*>(name)); // NOLINT
 #endif
 			 }
 
@@ -40,7 +40,7 @@ namespace openbve2 {
 					_print_sizes<0>(os, val);
 				}
 			};
-		}
+		}  // namespace
 
 		template <class... Args>
 		void print_sizes(std::ostream& os, const mapbox::util::variant<Args...>& val) {
@@ -53,10 +53,10 @@ namespace openbve2 {
 			os << name << " " << sizeof(val) << '\n';
 
 #ifdef __GNUC__
-			free(const_cast<char*>(name));
+			free(const_cast<char*>(name)); // NOLINT
 #endif
 
 			_print_sizes_struct<std::tuple_size<typename mapbox::util::variant<Args...>::types>::value - 1>::func(os, typename mapbox::util::variant<Args...>::types{});
 		}
-	}
-}
+	}  // namespace variant_util
+}  // namespace openbve2

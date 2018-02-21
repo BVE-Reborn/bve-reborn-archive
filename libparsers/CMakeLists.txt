@@ -1,3 +1,7 @@
+##############
+# libparsers #
+##############
+
 set(SOURCES 
             src/animated_object/parser.cpp
             src/b3d_csv_object/executor.cpp
@@ -68,13 +72,18 @@ lint(FILES ${SOURCES})
 format(FILES ${SOURCES} ${HEADERS})
 
 add_library(parsers SHARED ${SOURCES} ${HEADERS})
+
+target_compile_features(parsers PUBLIC cxx_std_14)
+
 target_include_directories(parsers PUBLIC include)
+target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant)
+
 target_include_directories(parsers PRIVATE src)
-target_include_directories(parsers SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/mapbox-variant/include)
-target_include_directories(parsers SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/rapidxml/include)
-target_link_libraries(parsers PRIVATE Boost::boost)
-target_link_libraries(parsers PUBLIC core)
-target_link_libraries(parsers PUBLIC glm)
+target_link_libraries(parsers PRIVATE Boost::boost rapidxml::rapidxml options::fast_math options::iterator_debug_level_1)
+
+################
+# parsers_test #
+################
 
 set(TEST_SOURCES 
                  tests/main.cpp
@@ -109,5 +118,6 @@ if(NOT OPENBVE2_ON_TRAVIS)
 endif()
 
 add_executable(parsers_test ${TEST_SOURCES})
+target_compile_features(parsers_test PRIVATE cxx_std_14)
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test core parsers Boost::boost Boost::filesystem Threads::Threads)
+target_link_libraries(parsers_test PRIVATE core parsers Boost::boost Boost::filesystem Threads::Threads options::fast_math options::iterator_debug_level_1)

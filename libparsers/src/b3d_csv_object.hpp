@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <mapbox/variant.hpp>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace parsers {
@@ -41,7 +42,7 @@ namespace b3d_csv_object {
 		struct Error : public base_instruction {
 			std::string cause;
 			Error() = default;
-			Error(const std::string& desc) : cause(desc){};
+			explicit Error(std::string desc) : cause(std::move(desc)){};
 		};
 
 		struct CreateMeshBuilder : public base_instruction {};
@@ -238,6 +239,6 @@ namespace b3d_csv_object {
 	instruction_list create_instructions(std::string text, file_type ft);
 
 	// Defined in csv_object_generator.cpp
-	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list&);
+	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& /*ilist*/);
 } // namespace b3d_csv_object
 } // namespace parsers

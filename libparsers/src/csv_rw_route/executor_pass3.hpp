@@ -153,76 +153,76 @@ namespace csv_rw_route {
 
 		// unused instructions
 		template <class T>
-		void operator()(const T&) {}
+		void operator()(const T& /*unused*/) {}
 
 		// defined in executor_pass3/options.cpp
-		void operator()(const instructions::options::UnitOfLength&);
-		void operator()(const instructions::options::UnitOfSpeed&);
-		void operator()(const instructions::options::SectionBehavior&);
+		void operator()(const instructions::options::UnitOfLength& /*inst*/);
+		void operator()(const instructions::options::UnitOfSpeed& /*inst*/);
+		void operator()(const instructions::options::SectionBehavior& /*inst*/);
 		/*void operator()(const instructions::options::FogBehavior&);*/
-		void operator()(const instructions::options::CompatibleTransparencyMode&);
-		void operator()(const instructions::options::EnableBveTsHacks&);
+		void operator()(const instructions::options::CompatibleTransparencyMode& /*inst*/);
+		void operator()(const instructions::options::EnableBveTsHacks& /*inst*/);
 
 		// defined in executor_pass3/route.cpp
-		void operator()(const instructions::route::Comment&);
-		void operator()(const instructions::route::Image&);
-		void operator()(const instructions::route::Timetable&);
-		void operator()(const instructions::route::Change&);
-		void operator()(const instructions::route::Guage&);
-		void operator()(const instructions::route::Signal&);
-		void operator()(const instructions::route::RunInterval&);
-		void operator()(const instructions::route::AccelerationDueToGravity&);
-		void operator()(const instructions::route::Elevation&);
-		void operator()(const instructions::route::Temperature&);
-		void operator()(const instructions::route::Pressure&);
-		void operator()(const instructions::route::DisplaySpeed&);
-		void operator()(const instructions::route::LoadingScreen&);
-		void operator()(const instructions::route::StartTime&);
-		void operator()(const instructions::route::DynamicLight&);
-		void operator()(const instructions::route::AmbiantLight&);
-		void operator()(const instructions::route::DirectionalLight&);
-		void operator()(const instructions::route::LightDirection&);
+		void operator()(const instructions::route::Comment& /*inst*/);
+		void operator()(const instructions::route::Image& /*inst*/);
+		void operator()(const instructions::route::Timetable& /*inst*/);
+		void operator()(const instructions::route::Change& /*inst*/);
+		void operator()(const instructions::route::Guage& /*inst*/);
+		void operator()(const instructions::route::Signal& /*inst*/);
+		void operator()(const instructions::route::RunInterval& /*inst*/);
+		void operator()(const instructions::route::AccelerationDueToGravity& /*inst*/);
+		void operator()(const instructions::route::Elevation& /*inst*/);
+		void operator()(const instructions::route::Temperature& /*inst*/);
+		void operator()(const instructions::route::Pressure& /*inst*/);
+		void operator()(const instructions::route::DisplaySpeed& /*inst*/);
+		void operator()(const instructions::route::LoadingScreen& /*inst*/);
+		void operator()(const instructions::route::StartTime& /*inst*/);
+		void operator()(const instructions::route::DynamicLight& /*inst*/);
+		void operator()(const instructions::route::AmbiantLight& /*inst*/);
+		void operator()(const instructions::route::DirectionalLight& /*inst*/);
+		void operator()(const instructions::route::LightDirection& /*inst*/);
 
 		// defined in executor_pass3/train.cpp
-		void operator()(const instructions::train::Folder&);
-		void operator()(const instructions::train::Rail&);
-		void operator()(const instructions::train::Flange&);
-		void operator()(const instructions::train::Timetable&);
-		void operator()(const instructions::train::Velocity&);
+		void operator()(const instructions::train::Folder& /*inst*/);
+		void operator()(const instructions::train::Rail& /*inst*/);
+		void operator()(const instructions::train::Flange& /*inst*/);
+		void operator()(const instructions::train::Timetable& /*inst*/);
+		void operator()(const instructions::train::Velocity& /*inst*/);
 
 		// defined in executor_pass3/structure.cpp
-		void operator()(const instructions::structure::Command&);
-		void operator()(const instructions::structure::Pole&);
+		void operator()(const instructions::structure::Command& /*inst*/);
+		void operator()(const instructions::structure::Pole& /*inst*/);
 
 		// defined in executor_pass3/texture.cpp
 		// helper functions for background_load
 	  private:
-		void background_load_xml(const instructions::texture::Background_Load&);
-		void background_load_image(const instructions::texture::Background_Load&);
+		void background_load_xml(const instructions::texture::Background_Load& /*inst*/);
+		void background_load_image(const instructions::texture::Background_Load& /*inst*/);
 
 	  public:
-		void operator()(const instructions::texture::Background_Load&);
-		void operator()(const instructions::texture::Background_X&);
-		void operator()(const instructions::texture::Background_Aspect&);
+		void operator()(const instructions::texture::Background_Load& /*inst*/);
+		void operator()(const instructions::texture::Background_X& /*inst*/);
+		void operator()(const instructions::texture::Background_Aspect& /*inst*/);
 
 		// defined in executor_pass3/cycle.cpp
-		void operator()(const instructions::cycle::Ground&);
-		void operator()(const instructions::cycle::Rail&);
+		void operator()(const instructions::cycle::Ground& /*inst*/);
+		void operator()(const instructions::cycle::Rail& /*inst*/);
 
 		// defined in executor_pass3/signal.cpp
-		void operator()(const instructions::naked::SignalAnimated&);
-		void operator()(const instructions::naked::Signal&);
+		void operator()(const instructions::naked::SignalAnimated& /*inst*/);
+		void operator()(const instructions::naked::Signal& /*inst*/);
 
 	  private:
 		void add_rail_objects_up_to_position(rail_state& state, float position);
 
 	  public:
 		// defined in executor_pass3/rails.cpp
-		void operator()(const instructions::track::RailStart&);
-		void operator()(const instructions::track::Rail&);
-		void operator()(const instructions::track::RailType&);
-		void operator()(const instructions::track::RailEnd&);
-		void operator()(const instructions::track::Adhesion&);
+		void operator()(const instructions::track::RailStart& /*inst*/);
+		void operator()(const instructions::track::Rail& /*inst*/);
+		void operator()(const instructions::track::RailType& /*inst*/);
+		void operator()(const instructions::track::RailEnd& /*inst*/);
+		void operator()(const instructions::track::Adhesion& /*inst*/);
 
 	  private:
 		void add_wall_objects_up_to_position(rail_state& state, float position, uint8_t type);
@@ -231,45 +231,45 @@ namespace csv_rw_route {
 
 	  public:
 		// defined in executor_pass3/objects.cpp
-		void operator()(const instructions::track::FreeObj&);
-		void operator()(const instructions::track::Wall&);
-		void operator()(const instructions::track::WallEnd&);
-		void operator()(const instructions::track::Dike&);
-		void operator()(const instructions::track::DikeEnd&);
-		void operator()(const instructions::track::Pole&);
-		void operator()(const instructions::track::PoleEnd&);
-		void operator()(const instructions::track::Crack&);
-		void operator()(const instructions::track::Ground&);
+		void operator()(const instructions::track::FreeObj& /*inst*/);
+		void operator()(const instructions::track::Wall& /*inst*/);
+		void operator()(const instructions::track::WallEnd& /*inst*/);
+		void operator()(const instructions::track::Dike& /*inst*/);
+		void operator()(const instructions::track::DikeEnd& /*inst*/);
+		void operator()(const instructions::track::Pole& /*inst*/);
+		void operator()(const instructions::track::PoleEnd& /*inst*/);
+		void operator()(const instructions::track::Crack& /*inst*/);
+		void operator()(const instructions::track::Ground& /*inst*/);
 
 		// defined in executor_pass3/stations.cpp
-		void operator()(const instructions::track::Sta&);
-		void operator()(const instructions::track::Stop&);
-		void operator()(const instructions::track::Form&);
+		void operator()(const instructions::track::Sta& /*inst*/);
+		void operator()(const instructions::track::Stop& /*inst*/);
+		void operator()(const instructions::track::Form& /*inst*/);
 
 		// defined in executor_pass3/signalling.cpp
-		void operator()(const instructions::track::Limit&);
-		void operator()(const instructions::track::Section&);
-		void operator()(const instructions::track::SigF&);
-		void operator()(const instructions::track::Signal&);
-		void operator()(const instructions::track::Relay&);
+		void operator()(const instructions::track::Limit& /*inst*/);
+		void operator()(const instructions::track::Section& /*inst*/);
+		void operator()(const instructions::track::SigF& /*inst*/);
+		void operator()(const instructions::track::Signal& /*inst*/);
+		void operator()(const instructions::track::Relay& /*inst*/);
 
 		// defined in executor_pass3/safety.cpp
-		void operator()(const instructions::track::Beacon&);
-		void operator()(const instructions::track::Transponder&);
-		void operator()(const instructions::track::Pattern&);
+		void operator()(const instructions::track::Beacon& /*inst*/);
+		void operator()(const instructions::track::Transponder& /*unused*/);
+		void operator()(const instructions::track::Pattern& /*unused*/);
 
 		// defined in executor_pass3/misc.cpp
-		void operator()(const instructions::track::Back&);
-		void operator()(const instructions::track::Fog&);
-		void operator()(const instructions::track::Brightness&);
-		void operator()(const instructions::track::Marker&);
-		void operator()(const instructions::track::MarkerXML&);
-		void operator()(const instructions::track::TextMarker&);
-		void operator()(const instructions::track::PointOfInterest&);
-		void operator()(const instructions::track::PreTrain&);
-		void operator()(const instructions::track::Announce&);
-		void operator()(const instructions::track::Doppler&);
-		void operator()(const instructions::track::Buffer&);
+		void operator()(const instructions::track::Back& /*unused*/);
+		void operator()(const instructions::track::Fog& /*unused*/);
+		void operator()(const instructions::track::Brightness& /*unused*/);
+		void operator()(const instructions::track::Marker& /*unused*/);
+		void operator()(const instructions::track::MarkerXML& /*unused*/);
+		void operator()(const instructions::track::TextMarker& /*unused*/);
+		void operator()(const instructions::track::PointOfInterest& /*unused*/);
+		void operator()(const instructions::track::PreTrain& /*unused*/);
+		void operator()(const instructions::track::Announce& /*unused*/);
+		void operator()(const instructions::track::Doppler& /*unused*/);
+		void operator()(const instructions::track::Buffer& /*unused*/);
 	};
 } // namespace csv_rw_route
 } // namespace parsers

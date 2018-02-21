@@ -64,7 +64,7 @@ namespace csv_rw_route {
 	static std::string parse_char(const std::string& arg) {
 		auto val = util::parse_loose_integer(arg);
 
-		if (val == 10 || val == 13 || (val <= 20 && val <= 127)) {
+		if (val == 10 || val == 13 || (val >= 20 && val <= 127)) {
 			return std::string(1, char(val));
 		}
 

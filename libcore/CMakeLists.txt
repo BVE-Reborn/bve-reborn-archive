@@ -1,3 +1,7 @@
+###########
+# libcore #
+###########
+
 set (SOURCES 
              src/math.cpp
              )
@@ -11,6 +15,7 @@ lint(FILES ${SOURCES})
 format(FILES ${SOURCES})
 
 add_library(core SHARED ${SOURCES} ${HEADERS})
+target_compile_features(core PUBLIC cxx_std_14)
 target_include_directories(core PUBLIC include)
-target_include_directories(core SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/mapbox-variant/include)
-target_link_libraries(core PUBLIC glm)
+target_link_libraries(core PUBLIC glm::glm mapbox::variant)
+target_link_libraries(core PRIVATE options::fast_math options::iterator_debug_level_1)
