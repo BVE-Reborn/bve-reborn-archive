@@ -579,7 +579,7 @@ namespace csv_rw_route {
 			// Track.AtsSn
 			// Track.AtsP
 			struct Transponder : public instruction_base {
-				enum : uint8_t { S_type, SN_type, Departure, ATS_P_RENEWAL, ATS_P_STOP } type = S_type;
+				enum : uint8_t { S_type = 0, SN_type = 1, Departure = 2, ATS_P_RENEWAL = 3, ATS_P_STOP = 4 } type = S_type;
 				std::size_t signal = 0;
 				bool switch_system = true;
 				// UnitOfLength

@@ -115,6 +115,12 @@ namespace csv_rw_route {
 		std::size_t section_offset;
 	};
 
+	struct atsp_section_info {
+		float position = 0;
+		float speed = 0;
+		bool permanent = false;
+	};
+
 	template <class T, std::intmax_t def>
 	struct position_data_pair_default {
 		float position = 0;
@@ -161,6 +167,7 @@ namespace csv_rw_route {
 		std::vector<float> signal_speed = {0, 25, 55, 75, -1, -1};
 		std::vector<section_info> sections;
 		std::vector<beacon_info> beacons;
+		std::vector<atsp_section_info> patterns;
 
 		// Other trains
 		std::vector<float> ai_train_start_intervals;

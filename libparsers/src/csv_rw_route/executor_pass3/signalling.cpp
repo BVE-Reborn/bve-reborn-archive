@@ -12,7 +12,7 @@ namespace csv_rw_route {
 
 		if (inst.post != instructions::track::Limit::Post_t::None) {
 			std::ostringstream obj_name;
-			obj_name << "@compat@/limit/";
+			obj_name << "\034compat\034/limit/";
 
 			if (inst.speed != 0) {
 				if (inst.post == instructions::track::Limit::Post_t::Left) {
@@ -79,16 +79,16 @@ namespace csv_rw_route {
 			switch (inst.signal_index) {
 				default:
 				case 3:
-					name << "@compat@/signal/3";
+					name << "\034compat\034/signal/3";
 					break;
 				case 4:
-					name << "@compat@/signal/4a";
+					name << "\034compat\034/signal/4a";
 					break;
 				case 5:
-					name << "@compat@/signal/5a";
+					name << "\034compat\034/signal/5a";
 					break;
 				case 6:
-					name << "@compat@/signal/relay";
+					name << "\034compat\034/signal/relay";
 					break;
 			}
 		}
@@ -97,7 +97,7 @@ namespace csv_rw_route {
 		}
 		else {
 			auto& sig = signal_info_iter->second.get_unchecked<traditional_signal>();
-			name << "@compat@/user_signal/" << sig.signal_filename << "/" << sig.glow_filename;
+			name << "\034compat\034/user_signal/" << sig.signal_filename << "/\034/" << sig.glow_filename;
 		}
 
 		rail_object_info roi;
@@ -120,35 +120,35 @@ namespace csv_rw_route {
 		std::ostringstream name;
 		switch (inst.type) {
 			case instructions::track::Signal::R_Y:
-				name << "@compat@/signal/2a";
+				name << "\034compat\034/signal/2a";
 				si.value = {0, 1};
 				break;
 			case instructions::track::Signal::R_G:
-				name << "@compat@/signal/2b";
+				name << "\034compat\034/signal/2b";
 				si.value = {0, 1};
 				break;
 			case instructions::track::Signal::R_Y_G:
-				name << "@compat@/signal/3";
+				name << "\034compat\034/signal/3";
 				si.value = {0, 1, 2};
 				break;
 			case instructions::track::Signal::R_YY_Y_G:
-				name << "@compat@/signal/4a";
+				name << "\034compat\034/signal/4a";
 				si.value = {0, 1, 2, 3};
 				break;
 			case instructions::track::Signal::R_Y_YG_G:
-				name << "@compat@/signal/4b";
+				name << "\034compat\034/signal/4b";
 				si.value = {0, 1, 2, 3};
 				break;
 			case instructions::track::Signal::R_YY_Y_YG_G:
-				name << "@compat@/signal/5a";
+				name << "\034compat\034/signal/5a";
 				si.value = {0, 1, 2, 3, 4};
 				break;
 			case instructions::track::Signal::R_Y_YG_G_GG:
-				name << "@compat@/signal/5b";
+				name << "\034compat\034/signal/5b";
 				si.value = {0, 1, 2, 3, 4};
 				break;
 			case instructions::track::Signal::R_YY_Y_YG_G_GG:
-				name << "@compat@/signal/6";
+				name << "\034compat\034/signal/6";
 				si.value = {0, 1, 2, 3, 4, 5};
 				break;
 		}
@@ -177,7 +177,7 @@ namespace csv_rw_route {
 		}
 
 		rail_object_info roi;
-		roi.filename = add_object_filename("@compat@/signal/relay");
+		roi.filename = add_object_filename("\034compat\034/signal/relay");
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
 			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}

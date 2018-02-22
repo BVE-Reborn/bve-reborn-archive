@@ -27,6 +27,6 @@ wget -c -nc https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.t
 tar xjf dependencies/binary/downloads/boost_1_64_0.tar.bz2 -C dependencies/binary/src/boost
 cd dependencies/binary/src/boost/boost_1_64_0/
 ./bootstrap.sh --prefix=$basedir/dependencies/binary/build --with-libraries=filesystem,system
-./b2 link=static threading=multi variant=release 
-./b2 install 
+./b2 link=static threading=multi variant=release runtime-link=static
+./b2 install -d0
 cd "${0%/*}"

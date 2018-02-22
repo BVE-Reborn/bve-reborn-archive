@@ -10,10 +10,16 @@ include("dependencies/cmake-utils/include/meta_features.cmake")
 include("dependencies/cmake-utils/include/warnings.cmake")
 include("dependencies/targets.cmake")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 configure_file(.clang-tidy-manager .clang-tidy-manager COPYONLY)
+
+set(CMAKE_CXX_EXTENSIONS False)
+
+if (NOT CMAKE_BUILD_TYPE) 
+    set(CMAKE_BUILD_TYPE Release) 
+endif() 
 
 ###########
 # depends #

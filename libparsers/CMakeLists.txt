@@ -79,7 +79,9 @@ target_include_directories(parsers PUBLIC include)
 target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant)
 
 target_include_directories(parsers PRIVATE src)
-target_link_libraries(parsers PRIVATE Boost::boost rapidxml::rapidxml options::fast_math options::iterator_debug_level_1)
+target_link_libraries(parsers PRIVATE Boost::boost
+                                      rapidxml::rapidxml
+                                      options::fast_math options::iterator_debug_level_1)
 
 ################
 # parsers_test #
@@ -120,4 +122,7 @@ endif()
 add_executable(parsers_test ${TEST_SOURCES})
 target_compile_features(parsers_test PRIVATE cxx_std_14)
 target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test PRIVATE core parsers Boost::boost Boost::filesystem Threads::Threads options::fast_math options::iterator_debug_level_1)
+target_link_libraries(parsers_test PRIVATE core parsers
+                                           Boost::boost Boost::filesystem
+                                           Threads::Threads
+                                           options::fast_math options::iterator_debug_level_1)

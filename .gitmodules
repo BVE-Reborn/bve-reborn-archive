@@ -7,3 +7,9 @@
 [submodule "dependencies/mapbox-variant"]
 	path = dependencies/mapbox-variant
 	url = https://github.com/mapbox/variant.git
+[submodule "dependencies/bin2c"]
+	path = dependencies/bin2c
+	url = https://github.com/Sirflankalot/bin2c.git
+[submodule "dependencies/doctest"]
+	path = dependencies/doctest
+	url = https://github.com/onqtam/doctest.git
