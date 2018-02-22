@@ -5,12 +5,8 @@ CMakeLists.txt.user
 
 dependencies/binary
 
-libparsers/tests/*.animated
-libparsers/tests/*.csv
-libparsers/tests/*.b3d
-libparsers/tests/*.x
-libparsers/tests/*.rw
-libparsers/tests/plymouth
+libparsers/tests/test_files/*
+!libparsers/tests/test_files/README.md
 
 windep32/
 windep64/

@@ -13,3 +13,6 @@
 [submodule "dependencies/doctest"]
 	path = dependencies/doctest
 	url = https://github.com/onqtam/doctest.git
+[submodule "cmake-sanitizers"]
+	path = dependencies/cmake-sanitizers
+	url = https://github.com/arsenm/sanitizers-cmake.git

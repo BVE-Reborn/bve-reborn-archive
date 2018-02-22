@@ -15,6 +15,7 @@ lint(FILES ${SOURCES})
 format(FILES ${SOURCES})
 
 add_library(core SHARED ${SOURCES} ${HEADERS})
+add_sanitizers(core)
 target_compile_features(core PUBLIC cxx_std_14)
 target_include_directories(core PUBLIC include)
 target_link_libraries(core PUBLIC glm::glm mapbox::variant)
