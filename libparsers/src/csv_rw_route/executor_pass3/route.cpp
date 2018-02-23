@@ -90,7 +90,8 @@ namespace csv_rw_route {
 		auto filename = _get_relative_file(issuer_filename, inst.filename);
 
 		try {
-			_route_data.lighting = xml::dynamic_lighting::parse(filename, _errors);
+			auto file_contents = util::load_from_file_utf8_bom(filename);
+			_route_data.lighting = xml::dynamic_lighting::parse(filename, std::move(file_contents), _errors);
 		}
 		catch (const std::invalid_argument& e) {
 			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});

@@ -10,16 +10,15 @@ namespace parsers {
 namespace xml {
 	namespace dynamic_backgrounds {
 		parsed_dynamic_background parse(const std::string& filename,
+		                                std::string input_string,
 		                                errors::multi_error& errors,
 		                                const find_relative_file_func& get_relative_file) {
-			auto file = util::load_from_file_utf8_bom(filename);
-
 			// This is always an vector of texture backgrounds, the object code
 			// shortcircuts this variable and returns a newly constructed object
 			parsed_dynamic_background db = std::vector<texture_background_info>{};
 
 			rapidxml::xml_document<> doc;
-			doc.parse<rapidxml::parse_default>(&file[0]);
+			doc.parse<rapidxml::parse_default>(&input_string[0]);
 
 			auto* current_section = doc.first_node("background", 0, false);
 

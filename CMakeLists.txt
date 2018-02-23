@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.9)
 project(OpenBVE2 CXX)
 
 # Allow boost to be built from the binary dir
-list(INSERT CMAKE_PREFIX_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/binary/build")
+list(INSERT CMAKE_PREFIX_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/binary/build_x86")
+list(INSERT CMAKE_PREFIX_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/binary/build_x64")
 
 include("dependencies/cmake-utils/include/clang_format.cmake")
 include("dependencies/cmake-utils/include/linter.cmake")
@@ -24,6 +25,12 @@ endif()
 ###########
 # depends #
 ###########
+
+if (UNIX)
+    set(Boost_USE_STATIC_LIBS On)
+else()
+    set(Boost_USE_STATIC_LIBS Off)
+endif()
 
 find_package(Boost 1.44 REQUIRED COMPONENTS filesystem)
 find_package(Threads REQUIRED)
@@ -60,12 +67,6 @@ if (MSVC)
     )
 
     file(COPY ${BOOST_BINARY_FILES} DESTINATION ${CMAKE_BINARY_DIR}/bin)
-endif()
-
-if (UNIX)
-    set(Boost_USE_STATIC_LIBS On)
-else()
-    set(Boost_USE_STATIC_LIBS Off)
 endif()
 
 #################

@@ -23,7 +23,8 @@ namespace csv_rw_route {
 		auto filename = _get_relative_file(issuer_filename, inst.filename);
 
 		try {
-			bround = xml::dynamic_backgrounds::parse(filename, _errors, _get_relative_file);
+			auto file_contents = util::load_from_file_utf8_bom(filename);
+			bround = xml::dynamic_backgrounds::parse(filename, std::move(file_contents), _errors, _get_relative_file);
 		}
 		catch (const std::exception& e) {
 			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});

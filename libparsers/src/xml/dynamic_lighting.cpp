@@ -5,13 +5,13 @@
 namespace parsers {
 namespace xml {
 	namespace dynamic_lighting {
-		std::vector<lighting_info> parse(const std::string& filename, errors::multi_error& errors) {
-			auto file = util::load_from_file_utf8_bom(filename);
-
+		std::vector<lighting_info> parse(const std::string& filename,
+		                                 std::string input_string,
+		                                 errors::multi_error& errors) {
 			std::vector<lighting_info> retvalue;
 
 			rapidxml::xml_document<> doc;
-			doc.parse<rapidxml::parse_default>(&file[0]);
+			doc.parse<rapidxml::parse_default>(&input_string[0]);
 
 			auto* current_section = doc.first_node("brightness", 0, false);
 

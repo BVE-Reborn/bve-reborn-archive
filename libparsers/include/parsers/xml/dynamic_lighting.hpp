@@ -15,7 +15,9 @@ namespace xml {
 			uint8_t cablighting = 255;
 		};
 
-		std::vector<lighting_info> parse(const std::string& filename, errors::multi_error& errors);
+		std::vector<lighting_info> parse(const std::string& filename,
+		                                 std::string input_string,
+		                                 errors::multi_error& errors);
 	} // namespace dynamic_lighting
 } // namespace xml
 } // namespace parsers
