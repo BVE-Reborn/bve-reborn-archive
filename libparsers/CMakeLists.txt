@@ -45,8 +45,9 @@ set(SOURCES
             src/function_scripts/parser.cpp
             src/function_scripts/parser_iostream.cpp
             src/utils.cpp
-            src/xml/dynamic_backgrounds.cpp
+            src/xml/dynamic_background.cpp
             src/xml/dynamic_lighting.cpp
+            src/xml/route_marker.cpp
     )
 
 set(HEADERS
@@ -56,8 +57,9 @@ set(HEADERS
             include/parsers/errors.hpp
             include/parsers/function_scripts.hpp
             include/parsers/parsers.hpp
-            include/parsers/xml/dynamic_backgrounds.hpp
+            include/parsers/xml/dynamic_background.hpp
             include/parsers/xml/dynamic_lighting.hpp
+            include/parsers/xml/route_marker.hpp
             src/b3d_csv_object.hpp
             src/csv.hpp
             src/csv_rw_route.hpp

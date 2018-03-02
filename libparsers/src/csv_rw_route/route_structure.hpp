@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parsers/xml/dynamic_backgrounds.hpp"
+#include "parsers/xml/dynamic_background.hpp"
 #include "parsers/xml/dynamic_lighting.hpp"
 #include <glm/vec3.hpp>
 #include <set>
@@ -121,12 +121,12 @@ namespace csv_rw_route {
 		bool permanent = false;
 	};
 
-    struct fog_info {
-        float position = 0;
-        float starting_distance = 0;
-        float ending_distance = 0;
-        openbve2::datatypes::color8_rgb color;
-    };
+	struct fog_info {
+		float position = 0;
+		float starting_distance = 0;
+		float ending_distance = 0;
+		openbve2::datatypes::color8_rgb color;
+	};
 
 	template <class T, std::intmax_t def>
 	struct position_data_pair_default {
@@ -144,8 +144,8 @@ namespace csv_rw_route {
 	using rail_adheason_info = position_data_pair_default<float, 0>;
 	using track_limit_info = position_data_pair_default<float, 0>;
 	using section_info = position_data_pair<std::vector<std::size_t>>;
-	using background_info = position_data_pair<xml::dynamic_backgrounds::parsed_dynamic_background>;
-    using brightness_level_info = position_data_pair<float>;
+	using background_info = position_data_pair<xml::dynamic_background::parsed_dynamic_background>;
+	using brightness_level_info = position_data_pair<std::uint8_t>;
 
 	struct parsed_route_data {
 		// Core route info
@@ -172,8 +172,8 @@ namespace csv_rw_route {
 		// Lighting and Background
 		std::vector<xml::dynamic_lighting::lighting_info> lighting;
 		std::vector<background_info> backgrounds;
-        std::vector<fog_info> fog;
-        std::vector<brightness_level_info> brightness_levels;
+		std::vector<fog_info> fog;
+		std::vector<brightness_level_info> brightness_levels;
 
 		// Signalling
 		std::vector<float> signal_speed = {0, 25, 55, 75, -1, -1};

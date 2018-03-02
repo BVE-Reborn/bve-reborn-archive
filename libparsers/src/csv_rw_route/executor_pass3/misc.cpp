@@ -20,20 +20,21 @@ namespace csv_rw_route {
 		_route_data.backgrounds.emplace_back<background_info>({inst.absolute_position, background_iterator->second});
 	}
 
-    void pass3_executor::operator()(const instructions::track::Fog& inst) {
-        fog_info fi;
+	void pass3_executor::operator()(const instructions::track::Fog& inst) {
+		fog_info fi;
 
-        fi.position = inst.absolute_position;
-        fi.starting_distance = inst.starting_distance * units_of_length[1];
-        fi.ending_distance = inst.ending_distance * units_of_length[1];
-        fi.color = inst.color;
+		fi.position = inst.absolute_position;
+		fi.starting_distance = inst.starting_distance * units_of_length[1];
+		fi.ending_distance = inst.ending_distance * units_of_length[1];
+		fi.color = inst.color;
 
-        _route_data.fog.emplace_back(std::move(fi));
-    }
+		_route_data.fog.emplace_back(std::move(fi));
+	}
 
-    void pass3_executor::operator()(const instructions::track::Brightness& /*inst*/) {
-        // Continue: Add brightness data
-    }
+	void pass3_executor::operator()(const instructions::track::Brightness& inst) {
+		_route_data.brightness_levels.emplace_back<brightness_level_info>({inst.absolute_position, inst.value});
+	}
+
 	void pass3_executor::operator()(const instructions::track::Marker& /*inst*/) {}
 	void pass3_executor::operator()(const instructions::track::MarkerXML& /*inst*/) {}
 	void pass3_executor::operator()(const instructions::track::TextMarker& /*inst*/) {}

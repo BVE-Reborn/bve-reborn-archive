@@ -5,7 +5,7 @@
 #include <iostream>
 
 void test_animated() {
-	auto text = parsers::util::load_from_file_utf8_bom("libparsers/tests/r160.animated");
+	auto text = parsers::util::load_from_file_utf8_bom("libparsers/tests/test_files/r160.animated");
 
 	parsers::util::remove_comments(text);
 

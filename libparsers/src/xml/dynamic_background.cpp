@@ -1,4 +1,4 @@
-#include "parsers/xml/dynamic_backgrounds.hpp"
+#include "parsers/xml/dynamic_background.hpp"
 #include "utils.hpp"
 #include <rapidxml/rapidxml.hpp>
 #include <sstream>
@@ -8,7 +8,7 @@ using namespace std::string_literals;
 
 namespace parsers {
 namespace xml {
-	namespace dynamic_backgrounds {
+	namespace dynamic_background {
 		parsed_dynamic_background parse(const std::string& filename,
 		                                std::string input_string,
 		                                errors::multi_error& errors,
@@ -103,6 +103,6 @@ namespace xml {
 
 			return db;
 		}
-	} // namespace dynamic_backgrounds
+	} // namespace dynamic_background
 } // namespace xml
 } // namespace parsers

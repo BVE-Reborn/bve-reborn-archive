@@ -6,10 +6,10 @@ using namespace std::string_literals;
 
 namespace parsers {
 namespace csv_rw_route {
-	using texture_vector = std::vector<xml::dynamic_backgrounds::texture_background_info>;
-	using xml::dynamic_backgrounds::object_background_info;
-	using xml::dynamic_backgrounds::parsed_dynamic_background;
-	using xml::dynamic_backgrounds::texture_background_info;
+	using texture_vector = std::vector<xml::dynamic_background::texture_background_info>;
+	using xml::dynamic_background::object_background_info;
+	using xml::dynamic_background::parsed_dynamic_background;
+	using xml::dynamic_background::texture_background_info;
 
 	//////////////////////////////
 	// Background.Load Subcalls //
@@ -24,7 +24,7 @@ namespace csv_rw_route {
 
 		try {
 			auto file_contents = util::load_from_file_utf8_bom(filename);
-			bround = xml::dynamic_backgrounds::parse(filename, std::move(file_contents), _errors, _get_relative_file);
+			bround = xml::dynamic_background::parse(filename, std::move(file_contents), _errors, _get_relative_file);
 		}
 		catch (const std::exception& e) {
 			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});
@@ -67,7 +67,7 @@ namespace csv_rw_route {
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
 		    [](const texture_vector& v) -> bool { return v[0].fromXML; },
-		    [](const xml::dynamic_backgrounds::object_background_info&) -> bool { return true; });
+		    [](const xml::dynamic_background::object_background_info&) -> bool { return true; });
 
 		if (created_by_xml) {
 			_errors[issuer_filename].emplace_back<errors::error_t>(
@@ -125,7 +125,7 @@ namespace csv_rw_route {
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
 		    [](const texture_vector& v) -> bool { return v[0].fromXML; },
-		    [](const xml::dynamic_backgrounds::object_background_info&) -> bool { return true; });
+		    [](const xml::dynamic_background::object_background_info&) -> bool { return true; });
 
 		if (created_by_xml) {
 			_errors[issuer_filename].emplace_back<errors::error_t>(
@@ -155,7 +155,7 @@ namespace csv_rw_route {
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
 		    [](const texture_vector& v) -> bool { return v[0].fromXML; },
-		    [](const xml::dynamic_backgrounds::object_background_info&) -> bool { return true; });
+		    [](const xml::dynamic_background::object_background_info&) -> bool { return true; });
 
 		if (created_by_xml) {
 			_errors[issuer_filename].emplace_back<errors::error_t>(

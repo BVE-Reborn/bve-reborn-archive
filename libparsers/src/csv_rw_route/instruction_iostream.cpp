@@ -4,7 +4,7 @@
 #include <ostream>
 
 // MSVC doesn't expand __VA_ARGS__ right, this is a workaround
-#define EXPAND(x) x;
+#define EXPAND(x) x
 
 #define PRINT_VALUE(name) _os << ", " #name " = " << inst.name;
 #define PRINT_BYTE(name) _os << ", " #name " = " << int(inst.name);

@@ -9,7 +9,7 @@
 
 namespace parsers {
 namespace xml {
-	namespace dynamic_backgrounds {
+	namespace dynamic_background {
 		struct texture_background_info {
 			openbve2::datatypes::time time = 0;
 			enum { FadeIn, FadeOut, None } transition_mode = None;
@@ -31,6 +31,6 @@ namespace xml {
 		                                std::string input_string,
 		                                errors::multi_error& errors,
 		                                const find_relative_file_func& get_relative_file);
-	} // namespace dynamic_backgrounds
+	} // namespace dynamic_background
 } // namespace xml
 } // namespace parsers

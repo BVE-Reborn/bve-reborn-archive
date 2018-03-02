@@ -97,7 +97,7 @@ namespace csv_rw_route {
 		    object_pole_mapping;
 
 		// Background indices
-		std::unordered_map<std::size_t, xml::dynamic_backgrounds::parsed_dynamic_background> background_mapping;
+		std::unordered_map<std::size_t, xml::dynamic_background::parsed_dynamic_background> background_mapping;
 
 		// Signal indices
 		std::unordered_map<std::size_t, signal_info> signal_mapping;
