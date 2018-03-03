@@ -17,9 +17,8 @@ namespace xml {
 			std::string late_filename;
 			openbve2::datatypes::time early_time;
 			openbve2::datatypes::time late_time;
-			std::intmax_t timeout;
+			std::intmax_t timeout = 0;
 			float distance;
-			bool using_time = false;
 			bool using_early = false;
 			bool using_late = false;
 		};
@@ -33,12 +32,11 @@ namespace xml {
 			std::string late_text;
 			openbve2::datatypes::time early_time;
 			openbve2::datatypes::time late_time;
-			std::intmax_t timeout;
+			std::intmax_t timeout = 0;
 			float distance;
 			color early_color = color::White;
 			color on_time_color = color::White;
 			color late_color = color::White;
-			bool using_time = false;
 			bool using_early = false;
 			bool using_late = false;
 		};

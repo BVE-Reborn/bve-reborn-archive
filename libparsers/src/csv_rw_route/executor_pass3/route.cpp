@@ -89,12 +89,13 @@ namespace csv_rw_route {
 
 		auto filename = _get_relative_file(issuer_filename, inst.filename);
 
+		std::string file_contents;
 		try {
-			auto file_contents = util::load_from_file_utf8_bom(filename);
+			file_contents = util::load_from_file_utf8_bom(filename);
 			_route_data.lighting = xml::dynamic_lighting::parse(filename, std::move(file_contents), _errors);
 		}
 		catch (const std::invalid_argument& e) {
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});
+			errors::add_error(_errors, issuer_filename, inst.line, e.what());
 		}
 
 		used_dynamic_light = true;

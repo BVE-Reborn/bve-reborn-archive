@@ -20,7 +20,17 @@ namespace xml {
 			rapidxml::xml_document<> doc;
 			doc.parse<rapidxml::parse_default>(&input_string[0]);
 
-			auto* current_section = doc.first_node("background", 0, false);
+			// OpenBVE Node is Optional
+			auto* openbve_node = doc.first_node("openbve", 0, false);
+			rapidxml::xml_node<char>* current_section;
+			if (openbve_node != nullptr) {
+				current_section = openbve_node->first_node();
+			}
+			else {
+				current_section = doc.first_node();
+			}
+
+			current_section = doc.first_node("background", 0, false);
 
 			for (; current_section != nullptr; current_section->next_sibling("background", 0, false)) {
 				auto* object = current_section->first_node("object", 0, false);
