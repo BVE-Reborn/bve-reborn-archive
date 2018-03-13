@@ -32,7 +32,8 @@ namespace xml {
 
 			current_section = doc.first_node("background", 0, false);
 
-			for (; current_section != nullptr; current_section->next_sibling("background", 0, false)) {
+			for (; current_section != nullptr;
+			     current_section->next_sibling("background", 0, false)) {
 				auto* object = current_section->first_node("object", 0, false);
 
 				// Only one object background allowed, and it takes priority
@@ -60,8 +61,8 @@ namespace xml {
 
 				if (repetitions != nullptr) {
 					try {
-						tbi.repetitions = std::size_t(
-						    util::parse_loose_integer(std::string(repetitions->value(), repetitions->value_size())));
+						tbi.repetitions = std::size_t(util::parse_loose_integer(
+						    std::string(repetitions->value(), repetitions->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
 						errors::add_error(errors, filename, 0, e.what());
@@ -69,7 +70,8 @@ namespace xml {
 				}
 
 				if (mode != nullptr) {
-					std::string mode_text = util::lower_copy(std::string(mode->value(), mode->value_size()));
+					std::string mode_text =
+					    util::lower_copy(std::string(mode->value(), mode->value_size()));
 
 					if (mode_text == "fadein"s) {
 						tbi.transition_mode = texture_background_info::FadeIn;
@@ -80,7 +82,8 @@ namespace xml {
 					else {
 						if (mode_text != "none"s) {
 							std::ostringstream err;
-							err << "Unrecognized texture mode: \"" << mode->value() << R"(" assuming "None")";
+							err << "Unrecognized texture mode: \"" << mode->value()
+							    << R"(" assuming "None")";
 							errors::add_error(errors, filename, 0, err.str());
 						}
 						tbi.transition_mode = texture_background_info::None;
@@ -99,7 +102,8 @@ namespace xml {
 
 				if (time != nullptr) {
 					try {
-						tbi.time = std::size_t(util::parse_time(std::string(time->value(), time->value_size())));
+						tbi.time = std::size_t(
+						    util::parse_time(std::string(time->value(), time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
 						errors::add_error(errors, filename, 0, e.what());
@@ -108,7 +112,8 @@ namespace xml {
 
 				// No need to check as we know the type for sure within this
 				// function (see above)
-				db.get_unchecked<std::vector<texture_background_info>>().emplace_back(std::move(tbi));
+				db.get_unchecked<std::vector<texture_background_info>>().emplace_back(
+				    std::move(tbi));
 			}
 
 			return db;

@@ -128,7 +128,8 @@ namespace b3d_csv_object {
 		struct SetBlendMode : public base_instruction {
 			mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;
 			uint16_t GlowHalfDistance = 0;
-			mesh_t::GlowAttenuationMode_t GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent4;
+			mesh_t::GlowAttenuationMode_t GlowAttenuationMode =
+			    mesh_t::GlowAttenuationMode_t::DivideExponent4;
 		};
 
 		struct LoadTexture : public base_instruction {
@@ -179,7 +180,8 @@ namespace b3d_csv_object {
 				bool has_decal_transparent_color = false;
 
 				mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;
-				mesh_t::GlowAttenuationMode_t GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent4;
+				mesh_t::GlowAttenuationMode_t GlowAttenuationMode =
+				    mesh_t::GlowAttenuationMode_t::DivideExponent4;
 				uint16_t GlowHalfDistance = 0;
 
 				bool back_visible = false;

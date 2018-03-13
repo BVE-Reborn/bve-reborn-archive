@@ -83,7 +83,8 @@ namespace animated_object {
 			auto instructions = function_scripts::parse(function);
 			std::for_each(instructions.errors.begin(), instructions.errors.end(),
 			              [&line](errors::error_t& e) { e.line = line; });
-			std::copy(instructions.errors.begin(), instructions.errors.end(), std::back_inserter(pso.errors));
+			std::copy(instructions.errors.begin(), instructions.errors.end(),
+			          std::back_inserter(pso.errors));
 			return instructions;
 		}
 
@@ -92,7 +93,8 @@ namespace animated_object {
 		/////////////////////////////
 
 		void parse_position(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().position = parse_3_argument_list(pso, "Position", section.line, section.value);
+			pso.subobjects.back().position =
+			    parse_3_argument_list(pso, "Position", section.line, section.value);
 		}
 
 		void parse_states(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -106,7 +108,8 @@ namespace animated_object {
 		}
 
 		void parse_state_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().state_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().state_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_translate_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -123,15 +126,18 @@ namespace animated_object {
 		}
 
 		void parse_translate_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().translate_x_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().translate_x_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_translate_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().translate_y_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().translate_y_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_translate_z_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().translate_z_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().translate_z_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_rotate_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -148,15 +154,18 @@ namespace animated_object {
 		}
 
 		void parse_rotate_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().rotate_x_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().rotate_x_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_rotate_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().rotate_y_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().rotate_y_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_rotate_z_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().rotate_z_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().rotate_z_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_rotate_x_damping(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -183,25 +192,32 @@ namespace animated_object {
 			damping.ratio = list.y;
 		}
 
-		void parse_texture_shift_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_texture_shift_x_direction(parsed_animated_object& pso,
+		                                     const ini::kvp_t& section) {
 			pso.subobjects.back().texture_shift_x_direction =
 			    parse_2_argument_list(pso, "TextureShiftXDirection", section.line, section.value);
 		}
 
-		void parse_texture_shift_y_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_texture_shift_y_direction(parsed_animated_object& pso,
+		                                     const ini::kvp_t& section) {
 			pso.subobjects.back().texture_shift_y_direction =
 			    parse_2_argument_list(pso, "TextureShiftYDirection", section.line, section.value);
 		}
 
-		void parse_texture_shift_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().texture_shift_x_function = parse_function_script(pso, section.value, section.line);
+		void parse_texture_shift_x_function(parsed_animated_object& pso,
+		                                    const ini::kvp_t& section) {
+			pso.subobjects.back().texture_shift_x_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
-		void parse_texture_shift_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().texture_shift_y_function = parse_function_script(pso, section.value, section.line);
+		void parse_texture_shift_y_function(parsed_animated_object& pso,
+		                                    const ini::kvp_t& section) {
+			pso.subobjects.back().texture_shift_y_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_track_follower_function(parsed_animated_object& pso, const ini::kvp_t& section) {
-			pso.subobjects.back().track_follower_function = parse_function_script(pso, section.value, section.line);
+			pso.subobjects.back().track_follower_function =
+			    parse_function_script(pso, section.value, section.line);
 		}
 
 		void parse_texture_override(parsed_animated_object& pso, const ini::kvp_t& section) {
@@ -222,42 +238,45 @@ namespace animated_object {
 			pso.subobjects.back().refresh_rate = util::parse_loose_float(section.value);
 		}
 
-		std::map<std::string, void (*)(parsed_animated_object&, const ini::kvp_t&)> function_mapping = {
-		    {"position"s, &parse_position},
-		    {"states"s, &parse_states},
-		    {"statefunction"s, &parse_state_function},
-		    {"translatexdirection"s, &parse_translate_x_direction},
-		    {"translateydirection"s, &parse_translate_y_direction},
-		    {"translatezdirection"s, &parse_translate_z_direction},
-		    {"translatexfunction"s, &parse_translate_x_function},
-		    {"translateyfunction"s, &parse_translate_y_function},
-		    {"translatezfunction"s, &parse_translate_z_function},
-		    {"rotatexdirection"s, &parse_rotate_x_direction},
-		    {"rotateydirection"s, &parse_rotate_y_direction},
-		    {"rotatezdirection"s, &parse_rotate_z_direction},
-		    {"rotatexfunction"s, &parse_rotate_x_function},
-		    {"rotateyfunction"s, &parse_rotate_y_function},
-		    {"rotatezfunction"s, &parse_rotate_z_function},
-		    {"rotatexdamping"s, &parse_rotate_x_damping},
-		    {"rotateydamping"s, &parse_rotate_y_damping},
-		    {"rotatezdamping"s, &parse_rotate_z_damping},
-		    {"textureshiftxdirection"s, &parse_texture_shift_x_direction},
-		    {"textureshiftydirection"s, &parse_texture_shift_y_direction},
-		    {"textureshiftxfunction"s, &parse_texture_shift_x_function},
-		    {"textureshiftyfunction"s, &parse_texture_shift_y_function},
-		    {"trackfollowerfunction"s, &parse_track_follower_function},
-		    {"textureoverride"s, &parse_texture_override},
-		    {"refreshrate"s, &parse_refresh_rate},
+		std::map<std::string, void (*)(parsed_animated_object&, const ini::kvp_t&)>
+		    function_mapping = {
+		        {"position"s, &parse_position},
+		        {"states"s, &parse_states},
+		        {"statefunction"s, &parse_state_function},
+		        {"translatexdirection"s, &parse_translate_x_direction},
+		        {"translateydirection"s, &parse_translate_y_direction},
+		        {"translatezdirection"s, &parse_translate_z_direction},
+		        {"translatexfunction"s, &parse_translate_x_function},
+		        {"translateyfunction"s, &parse_translate_y_function},
+		        {"translatezfunction"s, &parse_translate_z_function},
+		        {"rotatexdirection"s, &parse_rotate_x_direction},
+		        {"rotateydirection"s, &parse_rotate_y_direction},
+		        {"rotatezdirection"s, &parse_rotate_z_direction},
+		        {"rotatexfunction"s, &parse_rotate_x_function},
+		        {"rotateyfunction"s, &parse_rotate_y_function},
+		        {"rotatezfunction"s, &parse_rotate_z_function},
+		        {"rotatexdamping"s, &parse_rotate_x_damping},
+		        {"rotateydamping"s, &parse_rotate_y_damping},
+		        {"rotatezdamping"s, &parse_rotate_z_damping},
+		        {"textureshiftxdirection"s, &parse_texture_shift_x_direction},
+		        {"textureshiftydirection"s, &parse_texture_shift_y_direction},
+		        {"textureshiftxfunction"s, &parse_texture_shift_x_function},
+		        {"textureshiftyfunction"s, &parse_texture_shift_y_function},
+		        {"trackfollowerfunction"s, &parse_track_follower_function},
+		        {"textureoverride"s, &parse_texture_override},
+		        {"refreshrate"s, &parse_refresh_rate},
 		};
 	} // namespace
 
-	static void parse_object_section(parsed_animated_object& pso, const ini::ini_section_t& section) {
+	static void parse_object_section(parsed_animated_object& pso,
+	                                 const ini::ini_section_t& section) {
 		pso.subobjects.emplace_back();
 
 		for (auto& assignment : section.key_value_pairs) {
 			auto found_func = function_mapping.find(util::lower_copy(assignment.key));
 			if (found_func == function_mapping.end()) {
-				errors::add_error(pso.errors, assignment.line, "Member " + assignment.key + " not found");
+				errors::add_error(pso.errors, assignment.line,
+				                  "Member " + assignment.key + " not found");
 			}
 			else {
 				try {
@@ -270,7 +289,8 @@ namespace animated_object {
 		}
 	} // namespace animated_object
 
-	static void parse_include_section(parsed_animated_object& pso, const ini::ini_section_t& section) {
+	static void parse_include_section(parsed_animated_object& pso,
+	                                  const ini::ini_section_t& section) {
 		std::vector<std::string> files;
 		glm::vec3 position = glm::vec3(0);
 
@@ -308,7 +328,8 @@ namespace animated_object {
 			}
 			else {
 				errors::add_error(pso.errors, kvp.line,
-				                  "No other key may be set besides position inside an include section");
+				                  "No other key may be set besides position "
+				                  "inside an include section");
 			}
 		}
 
@@ -326,11 +347,15 @@ namespace animated_object {
 			// "" section is before any named section
 			if (section.name.empty()) {
 				for (auto& value : section.values) {
-					add_error(pao.errors, value.line, "Animated files must have all commands within sections");
+					add_error(pao.errors, value.line,
+					          "Animated files must have all commands within "
+					          "sections");
 				}
 
 				for (auto& kvp : section.key_value_pairs) {
-					add_error(pao.errors, kvp.line, "Animated files must have all commands within sections");
+					add_error(pao.errors, kvp.line,
+					          "Animated files must have all commands within "
+					          "sections");
 				}
 			}
 
@@ -344,7 +369,8 @@ namespace animated_object {
 				parse_object_section(pao, section);
 			}
 			else {
-				add_error(pao.errors, section.line, R"(Animated files may only have "Include" and "Object" sections)");
+				add_error(pao.errors, section.line,
+				          R"(Animated files may only have "Include" and "Object" sections)");
 			}
 		}
 

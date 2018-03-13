@@ -169,17 +169,20 @@ namespace function_scripts {
 				return;
 			}
 			auto size_name_iter =
-			    std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
-				    return std::get<0>(lhs).size() < std::get<0>(rhs).size();
-			    });
+			    std::max_element(outputs.begin(), outputs.end(),
+			                     [](const auto& lhs, const auto& rhs) {
+				                     return std::get<0>(lhs).size() < std::get<0>(rhs).size();
+			                     });
 			auto size_input_iter =
-			    std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
-				    return std::get<1>(lhs).size() < std::get<1>(rhs).size();
-			    });
+			    std::max_element(outputs.begin(), outputs.end(),
+			                     [](const auto& lhs, const auto& rhs) {
+				                     return std::get<1>(lhs).size() < std::get<1>(rhs).size();
+			                     });
 			auto size_output_iter =
-			    std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
-				    return std::get<2>(lhs).size() < std::get<2>(rhs).size();
-			    });
+			    std::max_element(outputs.begin(), outputs.end(),
+			                     [](const auto& lhs, const auto& rhs) {
+				                     return std::get<2>(lhs).size() < std::get<2>(rhs).size();
+			                     });
 
 			std::ptrdiff_t size_largest_name = std::get<0>(*size_name_iter).size();
 			std::ptrdiff_t size_largest_input = std::get<1>(*size_input_iter).size();
@@ -193,16 +196,19 @@ namespace function_scripts {
 
 				_os << std::setw(int(std::ceil(std::log10(outputs.size())))) << count << '\t';
 				_os << name;
-				for (std::ptrdiff_t i = 0; i < size_largest_name - std::ptrdiff_t(name.size()) + 2; ++i) {
+				for (std::ptrdiff_t i = 0; i < size_largest_name - std::ptrdiff_t(name.size()) + 2;
+				     ++i) {
 					_os << ' ';
 				}
-				for (std::ptrdiff_t i = 0; i < size_largest_input - std::ptrdiff_t(input.size()) + 1; ++i) {
+				for (std::ptrdiff_t i = 0;
+				     i < size_largest_input - std::ptrdiff_t(input.size()) + 1; ++i) {
 					_os << ' ';
 				}
 				_os << input;
 				_os << " -> ";
 				_os << output;
-				for (std::ptrdiff_t i = 0; i < size_largest_output - std::ptrdiff_t(output.size()) + 1; ++i) {
+				for (std::ptrdiff_t i = 0;
+				     i < size_largest_output - std::ptrdiff_t(output.size()) + 1; ++i) {
 					_os << ' ';
 				}
 				_os << '\n';
@@ -210,7 +216,9 @@ namespace function_scripts {
 			}
 		}
 
-		void add_outputs(const std::string& name, const std::string& repr, const std::string& output) {
+		void add_outputs(const std::string& name,
+		                 const std::string& repr,
+		                 const std::string& output) {
 			outputs.emplace_back(std::make_tuple(name, repr, output));
 		}
 
@@ -229,7 +237,9 @@ namespace function_scripts {
 			add_outputs(name, inputs.str(), output.str());
 		}
 
-		void print_variatic_expr(const std::string& name, const char* separator, std::size_t count) {
+		void print_variatic_expr(const std::string& name,
+		                         const char* separator,
+		                         std::size_t count) {
 			std::ostringstream inputs, output;
 			inputs << "(";
 			for (std::size_t i = count; i > 0; --i) {
@@ -244,7 +254,9 @@ namespace function_scripts {
 			add_outputs(name, inputs.str(), output.str());
 		}
 
-		void print_function(const std::string& name, const std::string& input_name, std::size_t count) {
+		void print_function(const std::string& name,
+		                    const std::string& input_name,
+		                    std::size_t count) {
 			std::ostringstream inputs, output;
 			inputs << input_name << "[";
 			for (std::size_t i = count; i > 0; --i) {

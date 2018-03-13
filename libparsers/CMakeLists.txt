@@ -56,6 +56,7 @@ set(HEADERS
             include/parsers/dependencies.hpp
             include/parsers/errors.hpp
             include/parsers/function_scripts.hpp
+            include/parsers/find_relative_file.hpp
             include/parsers/parsers.hpp
             include/parsers/xml/dynamic_background.hpp
             include/parsers/xml/dynamic_lighting.hpp
@@ -74,7 +75,6 @@ lint(FILES ${SOURCES})
 format(FILES ${SOURCES} ${HEADERS})
 
 add_library(parsers SHARED ${SOURCES} ${HEADERS})
-add_sanitizers(parsers)
 
 target_compile_features(parsers PUBLIC cxx_std_14)
 
@@ -85,6 +85,8 @@ target_include_directories(parsers PRIVATE src)
 target_link_libraries(parsers PRIVATE Boost::boost
                                       rapidxml::rapidxml
                                       options::fast_math options::iterator_debug_level_1)
+add_sanitizers(parsers)
+cotire(parsers)
 
 ################
 # parsers_test #
@@ -120,3 +122,5 @@ target_link_libraries(parsers_test PRIVATE core parsers
                                            Boost::boost Boost::filesystem
                                            Threads::Threads
                                            options::fast_math options::iterator_debug_level_1)
+add_sanitizers(parsers_test)
+cotire(parsers_test)

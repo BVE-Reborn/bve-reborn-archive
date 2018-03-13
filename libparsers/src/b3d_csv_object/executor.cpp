@@ -14,8 +14,9 @@ namespace b3d_csv_object {
 		// https://stackoverflow.com/questions/3574680/sort-based-on-multiple-things-in-c
 		// Sort based on properties to get all faces with same properties next
 		// to each other
-		bool sort_function(const instructions::parsed_csv_object_builder::untriangulated_face_t& face1,
-		                   const instructions::parsed_csv_object_builder::untriangulated_face_t& face2) {
+		bool sort_function(
+		    const instructions::parsed_csv_object_builder::untriangulated_face_t& face1,
+		    const instructions::parsed_csv_object_builder::untriangulated_face_t& face2) {
 			auto& data1 = face1.data;
 			auto& data2 = face2.data;
 
@@ -58,8 +59,10 @@ namespace b3d_csv_object {
 			}
 
 			// glow attenuation mode integer
-			auto gama = std::underlying_type<decltype(data1.GlowAttenuationMode)>::type(data1.GlowAttenuationMode);
-			auto gamb = std::underlying_type<decltype(data2.GlowAttenuationMode)>::type(data2.GlowAttenuationMode);
+			auto gama = std::underlying_type<decltype(data1.GlowAttenuationMode)>::type(
+			    data1.GlowAttenuationMode);
+			auto gamb = std::underlying_type<decltype(data2.GlowAttenuationMode)>::type(
+			    data2.GlowAttenuationMode);
 			if (gama < gamb) {
 				return true;
 			}
@@ -177,8 +180,10 @@ namespace b3d_csv_object {
 		while (true) {
 			auto cmp_func = [&begin](const untriangulated_face_t& face) -> bool {
 				bool tex_same = begin->data.texture == face.data.texture;
-				bool dtc_same = begin->data.decal_transparent_color == face.data.decal_transparent_color;
-				bool hdtc_same = begin->data.has_decal_transparent_color == face.data.has_decal_transparent_color;
+				bool dtc_same =
+				    begin->data.decal_transparent_color == face.data.decal_transparent_color;
+				bool hdtc_same = begin->data.has_decal_transparent_color
+				                 == face.data.has_decal_transparent_color;
 				bool blend_same = begin->data.BlendMode == face.data.BlendMode;
 				bool glow_same = begin->data.GlowAttenuationMode == face.data.GlowAttenuationMode;
 				bool glow_half = begin->data.GlowHalfDistance == face.data.GlowHalfDistance;
@@ -208,7 +213,8 @@ namespace b3d_csv_object {
 			std::for_each(begin, next_face, [&mesh](untriangulated_face_t& face) {
 				auto count = triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
 				for (std::size_t i = 0; i < count; ++i) {
-					mesh.face_data.emplace_back(face_data_t{face.data.color, face.data.emissive_color});
+					mesh.face_data.emplace_back(
+					    face_data_t{face.data.color, face.data.emissive_color});
 				}
 			});
 
@@ -243,7 +249,8 @@ namespace b3d_csv_object {
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const AddVertex& arg) {
-		vertices.emplace_back(vertex_t{glm::vec3{arg.vX, arg.vY, arg.vZ}, glm::vec3{arg.nX, arg.nY, arg.nZ}});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3{arg.vX, arg.vY, arg.vZ}, glm::vec3{arg.nX, arg.nY, arg.nZ}});
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const AddFace& arg) {
@@ -252,8 +259,8 @@ namespace b3d_csv_object {
 		for (auto& vert : arg.vertices) {
 			if (vert >= vertices.size()) {
 				std::ostringstream error_msg;
-				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, " << vertices.size() - 1
-				          << "]";
+				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, "
+				          << vertices.size() - 1 << "]";
 				errors::add_error(pso.errors, arg.line, error_msg.str());
 			}
 			else {
@@ -307,26 +314,30 @@ namespace b3d_csv_object {
 
 		// Add vertices
 		for (std::size_t i = 0; i < n; ++i) {
-			vertices.emplace_back(vertex_t{glm::vec3{std::cos(2 * float(M_PI) * float(i) / float(n)) * r1, //
-			                                         h / 2,                                                //
-			                                         std::sin(2 * float(M_PI) * float(i) / float(n)) * r1}});
+			vertices.emplace_back(
+			    vertex_t{glm::vec3{std::cos(2 * float(M_PI) * float(i) / float(n)) * r1, //
+			                       h / 2,                                                //
+			                       std::sin(2 * float(M_PI) * float(i) / float(n)) * r1}});
 
-			vertices.emplace_back(vertex_t{glm::vec3{std::cos(2 * float(M_PI) * float(i) / float(n)) * r2, //
-			                                         -h / 2,                                               //
-			                                         std::sin(2 * float(M_PI) * float(i) / float(n)) * r2}});
+			vertices.emplace_back(
+			    vertex_t{glm::vec3{std::cos(2 * float(M_PI) * float(i) / float(n)) * r2, //
+			                       -h / 2,                                               //
+			                       std::sin(2 * float(M_PI) * float(i) / float(n)) * r2}});
 		}
 
 		// Add Faces
 		for (std::size_t i = 0; i < n; ++i) {
 			if (i != n - 1) {
 				untriangulated_faces.emplace_back(
-				    untriangulated_face_t{std::vector<std::size_t>{v + (2 * i + 2), v + (2 * i + 3), v + (2 * i + 1),
+				    untriangulated_face_t{std::vector<std::size_t>{v + (2 * i + 2), v + (2 * i + 3),
+				                                                   v + (2 * i + 1),
 				                                                   v + (2 * i + 0)},
 				                          {}});
 			}
 			else {
 				untriangulated_faces.emplace_back(
-				    untriangulated_face_t{std::vector<std::size_t>{v + 0, v + 1, v + (2 * i + 1), v + (2 * i + 0)},
+				    untriangulated_face_t{std::vector<std::size_t>{v + 0, v + 1, v + (2 * i + 1),
+				                                                   v + (2 * i + 0)},
 				                          {}});
 			}
 		}
@@ -407,13 +418,15 @@ namespace b3d_csv_object {
 
 	void instructions::parsed_csv_object_builder::operator()(const SetColor& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.color = openbve2::datatypes::color8_rgba{arg.Red, arg.Green, arg.Blue, arg.Alpha};
+			face.data.color =
+			    openbve2::datatypes::color8_rgba{arg.Red, arg.Green, arg.Blue, arg.Alpha};
 		}
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const SetEmissiveColor& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.emissive_color = openbve2::datatypes::color8_rgb{arg.Red, arg.Green, arg.Blue};
+			face.data.emissive_color =
+			    openbve2::datatypes::color8_rgb{arg.Red, arg.Green, arg.Blue};
 		}
 	}
 
@@ -433,14 +446,15 @@ namespace b3d_csv_object {
 
 	void instructions::parsed_csv_object_builder::operator()(const SetDecalTransparentColor& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.decal_transparent_color = openbve2::datatypes::color8_rgb{arg.Red, arg.Green, arg.Blue};
+			face.data.decal_transparent_color =
+			    openbve2::datatypes::color8_rgb{arg.Red, arg.Green, arg.Blue};
 		}
 	}
 	void instructions::parsed_csv_object_builder::operator()(const SetTextureCoordinates& arg) {
 		if (arg.VertexIndex >= vertices.size()) {
 			std::ostringstream error_msg;
-			error_msg << "SetTextureCoordinates index " << arg.VertexIndex << " is larger than the valid range: [0, "
-			          << vertices.size() - 1 << "]";
+			error_msg << "SetTextureCoordinates index " << arg.VertexIndex
+			          << " is larger than the valid range: [0, " << vertices.size() - 1 << "]";
 			errors::add_error(pso.errors, arg.line, error_msg.str());
 		}
 		else {

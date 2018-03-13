@@ -26,8 +26,8 @@ namespace xml {
 				    //
 				};
 
-				auto find_mapping_iter = text_mapping.find(
-				    util::lower_copy(std::string(test_color_node->value(), test_color_node->value_size())));
+				auto find_mapping_iter = text_mapping.find(util::lower_copy(
+				    std::string(test_color_node->value(), test_color_node->value_size())));
 				if (find_mapping_iter != text_mapping.end()) {
 					return find_mapping_iter->second;
 				}
@@ -42,7 +42,8 @@ namespace xml {
 			template <bool early, bool text>
 			auto parse_early_late_impl(rapidxml::xml_node<char>* start_node) {
 				auto* time_node = start_node->first_node("time", 0, false);
-				auto* data_node = start_node->first_node((text ? "text"s : "image"s).c_str(), 0, false);
+				auto* data_node =
+				    start_node->first_node((text ? "text"s : "image"s).c_str(), 0, false);
 
 				if (time_node == nullptr || data_node == nullptr) {
 					std::string err;
@@ -71,7 +72,8 @@ namespace xml {
 
 					if (text_color_node != nullptr) {
 						return std::make_tuple(util::parse_time(time_node->value()),
-						                       std::string(data_node->name(), data_node->name_size()),
+						                       std::string(data_node->name(),
+						                                   data_node->name_size()),
 						                       parse_text_color(text_color_node));
 					}
 					return std::make_tuple(util::parse_time(time_node->value()),
@@ -103,7 +105,8 @@ namespace xml {
 
 			template <bool text>
 			std::string parse_on_time_impl(rapidxml::xml_node<char>* on_time_node) {
-				auto* data_node = on_time_node->first_node((text ? "text"s : "image"s).c_str(), 0, false);
+				auto* data_node =
+				    on_time_node->first_node((text ? "text"s : "image"s).c_str(), 0, false);
 
 				if (data_node == nullptr) {
 					std::string err;
@@ -134,7 +137,8 @@ namespace xml {
 
 			float parse_distance(rapidxml::xml_node<char>* distance_node) {
 				try {
-					return util::parse_loose_float(std::string(distance_node->value(), distance_node->value_size()));
+					return util::parse_loose_float(
+					    std::string(distance_node->value(), distance_node->value_size()));
 				}
 				catch (const std::invalid_argument& e) {
 					throw e;
@@ -147,7 +151,8 @@ namespace xml {
 
 			std::intmax_t parse_timeout(rapidxml::xml_node<char>* timeout_node) {
 				try {
-					return util::parse_loose_integer(std::string(timeout_node->value(), timeout_node->value_size()));
+					return util::parse_loose_integer(
+					    std::string(timeout_node->value(), timeout_node->value_size()));
 				}
 				catch (const std::invalid_argument& e) {
 					throw e;
@@ -159,7 +164,8 @@ namespace xml {
 			/////////////////////////
 
 			std::vector<std::string> parse_trains(rapidxml::xml_node<char>* train_node) {
-				return util::split_text(std::string(train_node->value(), train_node->value_size()), ';', true);
+				return util::split_text(std::string(train_node->value(), train_node->value_size()),
+				                        ';', true);
 			}
 
 			image_marker parse_image_marker(const std::string& filename,
@@ -174,9 +180,11 @@ namespace xml {
 				auto* timeout_node = start_node->first_node("timeout", 0, false);
 				auto* trains_node = start_node->first_node("trains", 0, false);
 
-				if (on_time_node == nullptr || (distance_node == nullptr && timeout_node == nullptr)) {
+				if (on_time_node == nullptr
+				    || (distance_node == nullptr && timeout_node == nullptr)) {
 					throw std::invalid_argument(
-					    "An <ImageMarker> section must have a <OnTime> and either a <Distance> or <Timeout>");
+					    "An <ImageMarker> section must have a <OnTime> and "
+					    "either a <Distance> or <Timeout>");
 				}
 
 				if (early_node != nullptr) {
@@ -220,16 +228,18 @@ namespace xml {
 				auto* timeout_node = start_node->first_node("timeout", 0, false);
 				auto* trains_node = start_node->first_node("trains", 0, false);
 
-				if (on_time_node == nullptr || (distance_node == nullptr && timeout_node == nullptr)) {
+				if (on_time_node == nullptr
+				    || (distance_node == nullptr && timeout_node == nullptr)) {
 					throw std::invalid_argument(
-					    "An <TextMarker> section must have a <OnTime> and either a <Distance> or <Timeout>");
+					    "An <TextMarker> section must have a <OnTime> and "
+					    "either a <Distance> or <Timeout>");
 				}
 
 				if (early_node != nullptr) {
 					auto tuple = parse_text_early(early_node);
 					marker.using_early = true;
 					marker.early_time = std::get<0>(tuple);
-					marker.early_text = get_relative_file(filename, std::get<1>(tuple));
+					marker.early_text = std::get<1>(tuple);
 					marker.early_color = std::get<2>(tuple);
 				}
 				if (on_time_node != nullptr) {
@@ -240,7 +250,7 @@ namespace xml {
 					auto tuple = parse_text_late(late_node);
 					marker.using_late = true;
 					marker.late_time = std::get<0>(tuple);
-					marker.late_text = get_relative_file(filename, std::get<1>(tuple));
+					marker.late_text = std::get<1>(tuple);
 					marker.late_color = std::get<2>(tuple);
 				}
 				if (distance_node != nullptr) {

@@ -150,26 +150,27 @@ namespace function_scripts {
 		struct none {};
 	} // namespace tree_types
 
-	using tree_node = mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::binary_and>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_xor>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_or>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_eq>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_not_eq>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_less>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_greater>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_less_eq>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_greater_eq>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_add>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_subtract>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_multiply>,
-	                                        mapbox::util::recursive_wrapper<tree_types::binary_divide>,
-	                                        mapbox::util::recursive_wrapper<tree_types::unary_not>,
-	                                        mapbox::util::recursive_wrapper<tree_types::unary_minus>,
-	                                        mapbox::util::recursive_wrapper<tree_types::function_call>,
-	                                        tree_types::integer,
-	                                        tree_types::floating,
-	                                        tree_types::name,
-	                                        tree_types::none>;
+	using tree_node =
+	    mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::binary_and>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_xor>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_or>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_not_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_less>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_greater>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_less_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_greater_eq>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_add>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_subtract>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_multiply>,
+	                          mapbox::util::recursive_wrapper<tree_types::binary_divide>,
+	                          mapbox::util::recursive_wrapper<tree_types::unary_not>,
+	                          mapbox::util::recursive_wrapper<tree_types::unary_minus>,
+	                          mapbox::util::recursive_wrapper<tree_types::function_call>,
+	                          tree_types::integer,
+	                          tree_types::floating,
+	                          tree_types::name,
+	                          tree_types::none>;
 
 	namespace tree_types {
 		struct binary_and {
@@ -252,7 +253,8 @@ namespace function_scripts {
 
 	lexer_token_list lex(const std::string& text, errors::errors_t& errors);
 	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors);
-	instruction_list build_instructions(const tree_node& head_node, const errors::errors_t& errors = {});
+	instruction_list build_instructions(const tree_node& head_node,
+	                                    const errors::errors_t& errors = {});
 	instruction_list parse(const std::string& text);
 } // namespace function_scripts
 } // namespace parsers

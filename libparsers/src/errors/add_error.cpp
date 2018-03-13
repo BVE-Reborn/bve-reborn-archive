@@ -20,7 +20,10 @@ namespace errors {
 		errors.emplace_back(std::move(err));
 	}
 
-	void add_error(multi_error& errors, const std::string& filename, std::intmax_t line, std::string msg) {
+	void add_error(multi_error& errors,
+	               const std::string& filename,
+	               std::intmax_t line,
+	               std::string msg) {
 		add_error(errors[filename], line, std::move(msg));
 	}
 

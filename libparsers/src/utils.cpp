@@ -167,7 +167,8 @@ namespace util {
 		}
 	}
 
-	openbve2::datatypes::color8_rgba parse_color(std::string text, openbve2::datatypes::color8_rgba default_value) {
+	openbve2::datatypes::color8_rgba parse_color(std::string text,
+	                                             openbve2::datatypes::color8_rgba default_value) {
 		try {
 			return _parse_color_impl(std::move(text));
 		}
@@ -289,7 +290,8 @@ namespace util {
 			;
 		}
 
-		bool has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB && std::get<2>(bom) == 0xBF;
+		bool has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB
+		               && std::get<2>(bom) == 0xBF;
 		std::size_t start_of_file = has_bom ? 3 : 0;
 
 		// get file length

@@ -123,7 +123,8 @@ std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexe
 	return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token_list& list) {
+std::ostream& operator<<(std::ostream& os,
+                         const parsers::function_scripts::lexer_token_list& list) {
 	for (auto& token : list) {
 		os << token << '\n';
 	}

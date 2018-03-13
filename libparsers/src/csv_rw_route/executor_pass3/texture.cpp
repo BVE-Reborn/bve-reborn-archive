@@ -24,7 +24,8 @@ namespace csv_rw_route {
 
 		try {
 			auto file_contents = util::load_from_file_utf8_bom(filename);
-			bround = xml::dynamic_background::parse(filename, std::move(file_contents), _errors, _get_relative_file);
+			bround = xml::dynamic_background::parse(filename, std::move(file_contents), _errors,
+			                                        _get_relative_file);
 		}
 		catch (const std::exception& e) {
 			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});
@@ -57,7 +58,8 @@ namespace csv_rw_route {
 			texture_background_info tbi;
 			tbi.fromXML = false;
 			tbi.filename = inst.filename;
-			background_mapping.insert({inst.background_texture_index, texture_vector{std::move(tbi)}});
+			background_mapping.insert(
+			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
 			return;
 		}
 
@@ -71,7 +73,8 @@ namespace csv_rw_route {
 
 		if (created_by_xml) {
 			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line, "Texture.Background(XML) has already been used, ignoring Texture.Background(Image)"s});
+			    {inst.line,
+			     "Texture.Background(XML) has already been used, ignoring Texture.Background(Image)"s});
 			return;
 		}
 
@@ -115,7 +118,8 @@ namespace csv_rw_route {
 			texture_background_info tbi;
 			tbi.fromXML = false;
 			tbi.repetitions = inst.repetition_count;
-			background_mapping.insert({inst.background_texture_index, texture_vector{std::move(tbi)}});
+			background_mapping.insert(
+			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
 			return;
 		}
 
@@ -129,7 +133,8 @@ namespace csv_rw_route {
 
 		if (created_by_xml) {
 			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line, "Texture.Background(XML) has already been used, ignoring Texture.Background.X"s});
+			    {inst.line,
+			     "Texture.Background(XML) has already been used, ignoring Texture.Background.X"s});
 			return;
 		}
 
@@ -145,7 +150,8 @@ namespace csv_rw_route {
 			texture_background_info tbi;
 			tbi.fromXML = false;
 			tbi.preserve_aspect = inst.mode == instructions::texture::Background_Aspect::Aspect;
-			background_mapping.insert({inst.background_texture_index, texture_vector{std::move(tbi)}});
+			background_mapping.insert(
+			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
 			return;
 		}
 
@@ -159,7 +165,8 @@ namespace csv_rw_route {
 
 		if (created_by_xml) {
 			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line, "Texture.Background(XML) has already been used, ignoring Texture.Background.Aspect"s});
+			    {inst.line,
+			     "Texture.Background(XML) has already been used, ignoring Texture.Background.Aspect"s});
 			return;
 		}
 

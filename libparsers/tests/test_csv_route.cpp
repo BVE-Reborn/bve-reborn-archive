@@ -19,8 +19,9 @@ void test_csv_route() {
 
 	parsers::errors::multi_error me;
 
-	auto file_location =
-	    DIRECTORY "../libparsers/tests/test_files/plymouth/1980s/HST (Non-Stopping) - Liskeard [c].csv";
+	auto file_location = DIRECTORY
+	    "../libparsers/tests/test_files/plymouth/1980s/HST (Non-Stopping) - "
+	    "Liskeard [c].csv";
 	//	auto file_location = DIRECTORY "../libparsers/tests/Xmasmonorail.csv";
 	// Bridge NTT [v1.0].csv";
 	auto used_file = boost::filesystem::path(file_location);
@@ -30,19 +31,25 @@ void test_csv_route() {
 		std::replace(new_file.begin(), new_file.end(), '\\', '/');
 		auto file_path = boost::filesystem::path(base_file); //
 		auto new_file_path = boost::filesystem::absolute(new_file, file_path.parent_path());
-		new_file_path = boost::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
+		new_file_path =
+		    boost::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
 		return new_file_path.string();
 	};
 
-	auto vals = parsers::csv_rw_route::process_include_files(boost::filesystem::canonical(file_location).string(), eng,
-	                                                         me, parsers::csv_rw_route::file_type::csv, get_abs_path);
+	auto vals =
+	    parsers::csv_rw_route::process_include_files(boost::filesystem::canonical(file_location)
+	                                                     .string(),
+	                                                 eng, me, parsers::csv_rw_route::file_type::csv,
+	                                                 get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';
 
 	parsers::csv_rw_route::preprocess_file(vals, eng, me, parsers::csv_rw_route::file_type::csv);
 
-	auto instructions = parsers::csv_rw_route::generate_instructions(vals, me, parsers::csv_rw_route::file_type::csv);
+	auto instructions =
+	    parsers::csv_rw_route::generate_instructions(vals, me,
+	                                                 parsers::csv_rw_route::file_type::csv);
 
 	parsers::csv_rw_route::execute_instructions_pass1(instructions, me);
 	auto route_data = parsers::csv_rw_route::execute_instructions_pass2(instructions, me);

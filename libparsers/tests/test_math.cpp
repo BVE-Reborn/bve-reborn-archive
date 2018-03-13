@@ -6,7 +6,8 @@
 using std::to_string;
 
 void print_evaluate_curve(const openbve2::math::evaulate_curve_t& val) {
-	std::cout << "Position: " << to_string(val.position) << ", Tangent: " << to_string(val.tangent) << '\n';
+	std::cout << "Position: " << to_string(val.position) << ", Tangent: " << to_string(val.tangent)
+	          << '\n';
 }
 
 void test_math() {

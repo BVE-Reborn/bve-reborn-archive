@@ -97,16 +97,19 @@ namespace csv_rw_route {
 		}
 		else {
 			auto& sig = signal_info_iter->second.get_unchecked<traditional_signal>();
-			name << "\034compat\034/user_signal/" << sig.signal_filename << "/\034/" << sig.glow_filename;
+			name << "\034compat\034/user_signal/" << sig.signal_filename << "/\034/"
+			     << sig.glow_filename;
 		}
 
 		rail_object_info roi;
 		roi.filename = add_object_filename(name.str());
 		if (inst.y_offset >= 0) {
-			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			roi.position =
+			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		else {
-			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position =
+			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}
 		roi.rotation = glm::vec3(0);
 
@@ -163,10 +166,12 @@ namespace csv_rw_route {
 
 		roi.filename = add_object_filename(name.str());
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
-			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position =
+			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}
 		else {
-			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			roi.position =
+			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		roi.rotation = glm::vec3(0);
 	}
@@ -179,10 +184,12 @@ namespace csv_rw_route {
 		rail_object_info roi;
 		roi.filename = add_object_filename("\034compat\034/signal/relay");
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
-			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position =
+			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}
 		else {
-			roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			roi.position =
+			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		roi.rotation = glm::vec3(0);
 	}

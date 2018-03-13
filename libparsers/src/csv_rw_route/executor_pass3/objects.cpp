@@ -11,7 +11,8 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
@@ -31,14 +32,17 @@ namespace csv_rw_route {
 
 		rail_object_info roi;
 		roi.filename = structure_filename_iter;
-		roi.position = position_relative_to_rail(inst.rail_index, inst.absolute_position, inst.x_offset, inst.y_offset);
+		roi.position = position_relative_to_rail(inst.rail_index, inst.absolute_position,
+		                                         inst.x_offset, inst.y_offset);
 		/*roi.rotation = */ // TODO(sirflankalot): convert Yaw/Pitch/Roll to
 		                    // rotation vector
 
 		_route_data.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::add_wall_objects_up_to_position(rail_state& state, float position, uint8_t type) {
+	void pass3_executor::add_wall_objects_up_to_position(rail_state& state,
+	                                                     float position,
+	                                                     uint8_t type) {
 		std::unordered_map<std::size_t, filename_set_iterator>* object_mapping;
 		std::size_t index;
 		float* last_updated;
@@ -82,7 +86,8 @@ namespace csv_rw_route {
 		for (auto pos = std::size_t(*last_updated); pos < std::size_t(position); pos += 25) {
 			auto track_position = track_position_at(float(pos));
 			auto object_location =
-			    openbve2::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset,
+			    openbve2::math::position_from_offsets(track_position.position,
+			                                          track_position.tangent, state.x_offset,
 			                                          state.y_offset);
 
 			rail_object_info i;
@@ -103,14 +108,15 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
-		bool left =
-		    inst.direction == instructions::track::Wall::Left || inst.direction == instructions::track::Wall::Both;
-		bool right =
-		    inst.direction == instructions::track::Wall::Right || inst.direction == instructions::track::Wall::Both;
+		bool left = inst.direction == instructions::track::Wall::Left
+		            || inst.direction == instructions::track::Wall::Both;
+		bool right = inst.direction == instructions::track::Wall::Right
+		             || inst.direction == instructions::track::Wall::Both;
 
 		if (left) {
 			add_wall_objects_up_to_position(state, inst.absolute_position, 0);
@@ -157,7 +163,8 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
@@ -176,14 +183,15 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
-		bool left =
-		    inst.direction == instructions::track::Dike::Left || inst.direction == instructions::track::Dike::Both;
-		bool right =
-		    inst.direction == instructions::track::Dike::Right || inst.direction == instructions::track::Dike::Both;
+		bool left = inst.direction == instructions::track::Dike::Left
+		            || inst.direction == instructions::track::Dike::Both;
+		bool right = inst.direction == instructions::track::Dike::Right
+		             || inst.direction == instructions::track::Dike::Both;
 
 		if (left) {
 			add_wall_objects_up_to_position(state, inst.absolute_position, 2);
@@ -230,7 +238,8 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
@@ -241,14 +250,19 @@ namespace csv_rw_route {
 		state.dikeR_active = false;
 	}
 
-	void pass3_executor::add_poll_objects_up_to_position(std::size_t rail_number, rail_state& state, float position) {
-		auto object_mapping_iter = object_pole_mapping.find({state.pole_additional_rails, state.pole_structure_index});
+	void pass3_executor::add_poll_objects_up_to_position(std::size_t rail_number,
+	                                                     rail_state& state,
+	                                                     float position) {
+		auto object_mapping_iter =
+		    object_pole_mapping.find({state.pole_additional_rails, state.pole_structure_index});
 
-		if (object_mapping_iter == object_pole_mapping.end() || !state.active || !state.pole_active) {
+		if (object_mapping_iter == object_pole_mapping.end() || !state.active
+		    || !state.pole_active) {
 			return;
 		}
 
-		for (auto pos = std::size_t(state.position_pole_updated); pos < std::size_t(position); pos += 25) {
+		for (auto pos = std::size_t(state.position_pole_updated); pos < std::size_t(position);
+		     pos += 25) {
 			bool add_object = pos % state.pole_interval == 0;
 
 			if (!add_object) {
@@ -267,8 +281,8 @@ namespace csv_rw_route {
 				object_location = position_relative_to_rail(rail_number, position, 0, 0);
 			}
 			else {
-				object_location =
-				    position_relative_to_rail(rail_number, position, float(state.pole_location) * 3.8f, 0);
+				object_location = position_relative_to_rail(rail_number, position,
+				                                            float(state.pole_location) * 3.8f, 0);
 			}
 
 			i.filename = object_mapping_iter->second;
@@ -290,11 +304,13 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
-		auto pole_structure_iter = object_pole_mapping.find({inst.additional_rails, inst.pole_structure_index});
+		auto pole_structure_iter =
+		    object_pole_mapping.find({inst.additional_rails, inst.pole_structure_index});
 
 		if (pole_structure_iter == object_pole_mapping.end()) {
 			std::ostringstream err;
@@ -321,7 +337,8 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, issuer_filename, inst.line, err);
 		}
 
@@ -336,12 +353,14 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::add_ground_objects_up_to_position(rail_state& state, float position) {
-		for (auto pos = std::size_t(state.position_ground_updated); pos < std::size_t(position); pos += 25) {
+		for (auto pos = std::size_t(state.position_ground_updated); pos < std::size_t(position);
+		     pos += 25) {
 			auto track_location = track_position_at(float(pos));
 			auto ground_height = ground_height_at(float(pos));
 
 			auto filename_iter_optional =
-			    get_cycle_filename_index(cycle_ground_mapping, object_ground_mapping, state.ground_index, pos);
+			    get_cycle_filename_index(cycle_ground_mapping, object_ground_mapping,
+			                             state.ground_index, pos);
 
 			if (!filename_iter_optional) {
 				return;
@@ -349,8 +368,9 @@ namespace csv_rw_route {
 
 			rail_object_info roi;
 			roi.filename = *filename_iter_optional.get_ptr();
-			roi.position = openbve2::math::position_from_offsets(track_location.position, track_location.tangent, 0,
-			                                                     -ground_height);
+			roi.position =
+			    openbve2::math::position_from_offsets(track_location.position,
+			                                          track_location.tangent, 0, -ground_height);
 			roi.rotation = glm::vec3(0);
 			_route_data.objects.emplace_back(roi);
 		}
@@ -369,7 +389,8 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Ground Structure #" << inst.ground_structure_index
-			    << " isn't mapped. Ignoring call. Use Structure.Ground to declare it.";
+			    << " isn't mapped. Ignoring call. Use Structure.Ground to "
+			       "declare it.";
 			add_error(_errors, issuer_filename, inst.line, err);
 			return;
 		}

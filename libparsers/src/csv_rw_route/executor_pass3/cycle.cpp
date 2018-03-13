@@ -61,7 +61,8 @@ namespace csv_rw_route {
 
 			std::ostringstream err;
 
-			err << "Cycle.Ground overwriting #" << inst.cycle_structure_index << ". Old Filename: \"";
+			err << "Cycle.Ground overwriting #" << inst.cycle_structure_index
+			    << ". Old Filename: \"";
 			print_cycle_type(err, old_value);
 			err << "\". Current Filename: \"";
 			print_cycle_type(err, cycle);
@@ -89,7 +90,8 @@ namespace csv_rw_route {
 
 			std::ostringstream err;
 
-			err << "Cycle.Rail overwriting index #" << inst.cycle_structure_index << ". Old Filename: \"";
+			err << "Cycle.Rail overwriting index #" << inst.cycle_structure_index
+			    << ". Old Filename: \"";
 			print_cycle_type(err, old_value);
 			err << "\". Current Filename: \"";
 			print_cycle_type(err, cycle);

@@ -7,7 +7,8 @@ namespace csv_rw_route {
 		auto add_and_warn = [&](auto& container, const char* command_name) {
 			auto filename_iter = add_object_filename(inst.filename);
 
-			auto insert_pair = container.insert(std::make_pair(inst.structure_index, filename_iter));
+			auto insert_pair =
+			    container.insert(std::make_pair(inst.structure_index, filename_iter));
 
 			auto& iterator = insert_pair.first;
 			auto& inserted = insert_pair.second;
@@ -16,16 +17,19 @@ namespace csv_rw_route {
 				auto& previous_filename = *iterator->second;
 				iterator->second = filename_iter;
 				std::ostringstream err;
-				err << command_name << " overwriting index #" << inst.structure_index << ". Old Filename: \""
-				    << previous_filename << "\". Current Filename: \"" << *filename_iter << "\".";
-				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+				err << command_name << " overwriting index #" << inst.structure_index
+				    << ". Old Filename: \"" << previous_filename << "\". Current Filename: \""
+				    << *filename_iter << "\".";
+				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+				    {inst.line, err.str()});
 			}
 		};
 
 		auto add_and_warn_cycle = [&](auto& container, const char* command_name) {
 			auto filename_iter = add_object_filename(inst.filename);
 
-			auto insert_pair = container.insert(std::make_pair(inst.structure_index, filename_iter));
+			auto insert_pair =
+			    container.insert(std::make_pair(inst.structure_index, filename_iter));
 
 			auto& iterator = insert_pair.first;
 			auto& inserted = insert_pair.second;
@@ -36,10 +40,12 @@ namespace csv_rw_route {
 
 				std::ostringstream err;
 
-				err << command_name << " overwriting index number " << inst.structure_index << ". Old Filename: \""
-				    << *old_value << "\". Current Filename: \"" << *filename_iter << "\".";
+				err << command_name << " overwriting index number " << inst.structure_index
+				    << ". Old Filename: \"" << *old_value << "\". Current Filename: \""
+				    << *filename_iter << "\".";
 
-				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+				    {inst.line, err.str()});
 			}
 		};
 
@@ -106,7 +112,9 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::structure::Pole& inst) {
 		auto filename_iter = add_object_filename(inst.filename);
 
-		auto value = std::make_pair(std::make_pair(inst.additional_rails, inst.pole_structure_index), filename_iter);
+		auto value =
+		    std::make_pair(std::make_pair(inst.additional_rails, inst.pole_structure_index),
+		                   filename_iter);
 		auto insert_pair = object_pole_mapping.insert(value);
 
 		auto& iterator = insert_pair.first;
@@ -116,9 +124,11 @@ namespace csv_rw_route {
 			auto& previous_filename = *iterator->second;
 			iterator->second = filename_iter;
 			std::ostringstream err;
-			err << "Structure.Pole overwriting pair (" << inst.additional_rails << ", " << inst.pole_structure_index
-			    << "). Old Pair: \"" << previous_filename << "\". Current Filename: \"" << *filename_iter << "\".";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			err << "Structure.Pole overwriting pair (" << inst.additional_rails << ", "
+			    << inst.pole_structure_index << "). Old Pair: \"" << previous_filename
+			    << "\". Current Filename: \"" << *filename_iter << "\".";
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, err.str()});
 		}
 	}
 } // namespace csv_rw_route

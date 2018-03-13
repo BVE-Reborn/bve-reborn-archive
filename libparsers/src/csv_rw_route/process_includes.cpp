@@ -83,7 +83,8 @@ namespace csv_rw_route {
 		std::regex include_finder(
 		    "\\$Include\\(([\\w\\-. "
 		    "\\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
-		    std::regex_constants::icase | std::regex_constants::ECMAScript | std::regex_constants::optimize);
+		    std::regex_constants::icase | std::regex_constants::ECMAScript
+		        | std::regex_constants::optimize);
 	} // namespace
 
 	struct include_pos {
@@ -123,23 +124,27 @@ namespace csv_rw_route {
 		auto choosen_iter = std::lower_bound(weights.begin(), weights.end(), choosen_value);
 		auto choosen_offset = std::distance(weights.begin(), choosen_iter);
 
-		return include_pos{split_includes[choosen_offset * 2], 0, line_number(breaks, match[0].first), match[0].first,
-		                   match[0].second};
+		return include_pos{split_includes[choosen_offset * 2], 0,
+		                   line_number(breaks, match[0].first), match[0].first, match[0].second};
 	}
 
-	static include_pos parse_offset_include(const line_break_list& breaks, const std::smatch& match) {
+	static include_pos parse_offset_include(const line_break_list& breaks,
+	                                        const std::smatch& match) {
 		auto filename = match[1].str();
 		auto offset_str = match[2].str();
 
 		auto offset = util::parse_loose_float(offset_str, 0);
 
-		return include_pos{filename, offset, line_number(breaks, match[0].first), match[0].first, match[0].second};
+		return include_pos{filename, offset, line_number(breaks, match[0].first), match[0].first,
+		                   match[0].second};
 	}
 
-	static include_pos parse_naked_include(const line_break_list& breaks, const std::smatch& match) {
+	static include_pos parse_naked_include(const line_break_list& breaks,
+	                                       const std::smatch& match) {
 		auto filename = match[1].str();
 
-		return include_pos{filename, 0, line_number(breaks, match[0].first), match[0].first, match[0].second};
+		return include_pos{filename, 0, line_number(breaks, match[0].first), match[0].first,
+		                   match[0].second};
 	}
 
 	static std::vector<include_pos> parse_include_directives(const std::string& contents,
@@ -179,12 +184,13 @@ namespace csv_rw_route {
 		return includes;
 	}
 
-	static preprocessed_lines recursive_process_includes(const std::set<std::string>& past_files,
-	                                                     const std::string& current_filename,
-	                                                     openbve2::datatypes::rng& rng,
-	                                                     errors::multi_error& errors,
-	                                                     file_type ft,
-	                                                     const find_relative_file_func& get_abs_path) {
+	static preprocessed_lines recursive_process_includes(
+	    const std::set<std::string>& past_files,
+	    const std::string& current_filename,
+	    openbve2::datatypes::rng& rng,
+	    errors::multi_error& errors,
+	    file_type ft,
+	    const find_relative_file_func& get_abs_path) {
 		auto& current_file_errors = errors[current_filename];
 
 		// Read file
@@ -220,26 +226,27 @@ namespace csv_rw_route {
 		std::vector<preprocessed_lines> include_texts;
 		include_texts.reserve(include_list.size());
 
-		std::transform(include_list.begin(), include_list.end(), std::back_inserter(include_texts),
-		               [&](const include_pos& include) -> preprocessed_lines {
-			               // Error in file name handling/circular depedency
-			               if (include.filename.empty()) {
-				               return {};
-			               }
+		std::transform(
+		    include_list.begin(), include_list.end(), std::back_inserter(include_texts),
+		    [&](const include_pos& include) -> preprocessed_lines {
+			    // Error in file name handling/circular depedency
+			    if (include.filename.empty()) {
+				    return {};
+			    }
 
-			               // Add the included file to include chain
-			               auto include_chain_list = past_files;
-			               include_chain_list.insert(include.filename);
+			    // Add the included file to include chain
+			    auto include_chain_list = past_files;
+			    include_chain_list.insert(include.filename);
 
-			               try {
-				               return recursive_process_includes(include_chain_list, include.filename, rng, errors, ft,
-				                                                 get_abs_path);
-			               }
-			               catch (std::invalid_argument& e) {
-				               current_file_errors.emplace_back<errors::error_t>({include.line, e.what()});
-				               return {};
-			               }
-		               });
+			    try {
+				    return recursive_process_includes(include_chain_list, include.filename, rng,
+				                                      errors, ft, get_abs_path);
+			    }
+			    catch (std::invalid_argument& e) {
+				    current_file_errors.emplace_back<errors::error_t>({include.line, e.what()});
+				    return {};
+			    }
+		    });
 
 		preprocessed_lines output;
 
@@ -251,14 +258,16 @@ namespace csv_rw_route {
 
 		// Compute filename indices
 		for (auto& include : include_list) {
-			auto insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(), include.filename);
+			auto insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(),
+			                                    include.filename);
 			if (insert_iter == output.filenames.end() || *insert_iter != include.filename) {
 				output.filenames.insert(insert_iter, include.filename);
 			}
 		}
 
 		for (auto& include : include_list) {
-			auto insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(), include.filename);
+			auto insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(),
+			                                    include.filename);
 			auto insert_index = std::distance(output.filenames.begin(), insert_iter);
 			include_file_index_mapping.emplace_back(insert_index);
 		}
@@ -272,12 +281,13 @@ namespace csv_rw_route {
 
 			// Add all lines before the current include and after the last one
 			for (std::size_t j = last_line; j < include.line; ++j) {
-				output.lines.emplace_back<preprocessed_line>({std::move(file_line_array[j]), 0, j + 1, 0});
+				output.lines.emplace_back<preprocessed_line>(
+				    {std::move(file_line_array[j]), 0, j + 1, 0});
 			}
 
 			// Copy contents of the include
-			std::transform(contents.lines.begin(), contents.lines.end(), std::back_inserter(output.lines),
-			               [&](preprocessed_line l) {
+			std::transform(contents.lines.begin(), contents.lines.end(),
+			               std::back_inserter(output.lines), [&](preprocessed_line l) {
 				               l.offset += include.offset;
 				               // Original filename index of 0 means it's the
 				               // file we're including
@@ -292,7 +302,8 @@ namespace csv_rw_route {
 			               });
 
 			// Copy filenames
-			std::copy(contents.filenames.begin(), contents.filenames.end(), std::back_inserter(output.filenames));
+			std::copy(contents.filenames.begin(), contents.filenames.end(),
+			          std::back_inserter(output.filenames));
 
 			// Start at next line
 			last_line = include.line + 1;
@@ -311,11 +322,13 @@ namespace csv_rw_route {
 	                                         errors::multi_error& errors,
 	                                         file_type ft,
 	                                         const find_relative_file_func& get_abs_path) {
-		auto lines =
-		    recursive_process_includes(std::set<std::string>{filename}, filename, rng, errors, ft, get_abs_path);
+		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng,
+		                                        errors, ft, get_abs_path);
 		remove_duplicate_filenames(lines);
 		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
-		                                 [](const preprocessed_line& l) { return l.contents.empty(); }),
+		                                 [](const preprocessed_line& l) {
+			                                 return l.contents.empty();
+		                                 }),
 		                  lines.lines.end());
 		return lines;
 	}

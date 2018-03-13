@@ -14,8 +14,9 @@ namespace csv_rw_route {
 			mapbox::util::apply_visitor(p3e, inst);
 		}
 
-		float largest_position = mapbox::util::apply_visitor([](auto& inst) -> float { return inst.absolute_position; },
-		                                                     list.instructions.back());
+		float largest_position =
+		    mapbox::util::apply_visitor([](auto& inst) -> float { return inst.absolute_position; },
+		                                list.instructions.back());
 
 		p3e.finalize(largest_position);
 	}

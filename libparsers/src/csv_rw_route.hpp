@@ -149,10 +149,13 @@ namespace csv_rw_route {
 		instruction_info rw(const preprocessed_line& l);
 	} // namespace line_splitting
 
-	instruction_list generate_instructions(const preprocessed_lines& lines, errors::multi_error& errors, file_type ft);
+	instruction_list generate_instructions(const preprocessed_lines& lines,
+	                                       errors::multi_error& errors,
+	                                       file_type ft);
 
 	void execute_instructions_pass1(instruction_list& list, errors::multi_error& errors);
-	parsed_route_data execute_instructions_pass2(instruction_list& list, errors::multi_error& errors);
+	parsed_route_data execute_instructions_pass2(instruction_list& list,
+	                                             errors::multi_error& errors);
 	void execute_instructions_pass3(parsed_route_data& rd,
 	                                instruction_list& list,
 	                                errors::multi_error& errors,

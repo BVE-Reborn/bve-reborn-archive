@@ -37,9 +37,10 @@ namespace csv_rw_route {
 		return variable_set[index];
 	}
 
-	static std::string parse_sub_equality(std::unordered_map<std::size_t, std::string>& variable_set,
-	                                      const std::string& parens,
-	                                      std::string after_equals) {
+	static std::string parse_sub_equality(
+	    std::unordered_map<std::size_t, std::string>& variable_set,
+	    const std::string& parens,
+	    std::string after_equals) {
 		auto index = std::size_t(util::parse_loose_integer(parens));
 		variable_set[index] = std::move(after_equals);
 
@@ -82,13 +83,14 @@ namespace csv_rw_route {
 		std::size_t char_start{};
 	};
 
-	static std::string preprocess_pass_dispatch(std::unordered_map<std::size_t, std::string>& variable_set,
-	                                            if_status& if_conditions,
-	                                            openbve2::datatypes::rng& rng,
-	                                            std::string::const_iterator& last_used,
-	                                            std::string::const_iterator arg_begin,
-	                                            std::string::const_iterator arg_end,
-	                                            std::string::const_iterator line_end) {
+	static std::string preprocess_pass_dispatch(
+	    std::unordered_map<std::size_t, std::string>& variable_set,
+	    if_status& if_conditions,
+	    openbve2::datatypes::rng& rng,
+	    std::string::const_iterator& last_used,
+	    std::string::const_iterator arg_begin,
+	    std::string::const_iterator arg_end,
+	    std::string::const_iterator line_end) {
 		auto begin = arg_begin;
 		auto end = arg_end;
 
@@ -108,8 +110,9 @@ namespace csv_rw_route {
 			// find the matching parenthesis
 			auto matched_rparens = find_matching_parens(next_parens, end);
 
-			auto inside_value = preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used, next_parens + 1,
-			                                             matched_rparens, matched_rparens);
+			auto inside_value =
+			    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
+			                             next_parens + 1, matched_rparens, matched_rparens);
 			util::strip_text(inside_value);
 
 			auto command_text = std::string(next_money + 1, next_parens);
@@ -121,8 +124,9 @@ namespace csv_rw_route {
 				// check for an assignment
 				auto equals = std::find(matched_rparens, line_end, '=');
 				if (end != line_end && equals != line_end) {
-					auto after_equals = preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
-					                                             equals + 1, line_end, line_end);
+					auto after_equals =
+					    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
+					                             equals + 1, line_end, line_end);
 					parse_sub_equality(variable_set, inside_value, after_equals);
 
 					inside_value.clear();
@@ -152,12 +156,14 @@ namespace csv_rw_route {
 			}
 			else if (command_text == "else") {
 				inside_value = "";
-				if_conditions = {if_status::ELSE, std::size_t(std::distance(arg_begin, next_money))};
+				if_conditions = {if_status::ELSE,
+				                 std::size_t(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "endif") {
 				inside_value = "";
-				if_conditions = {if_status::ENDIF, std::size_t(std::distance(arg_begin, next_money))};
+				if_conditions = {if_status::ENDIF,
+				                 std::size_t(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 
@@ -170,7 +176,9 @@ namespace csv_rw_route {
 		return return_value;
 	}
 
-	static void preprocess_pass(preprocessed_lines& lines, openbve2::datatypes::rng& rng, errors::multi_error& errors) {
+	static void preprocess_pass(preprocessed_lines& lines,
+	                            openbve2::datatypes::rng& rng,
+	                            errors::multi_error& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
 		std::vector<bool> if_condition_stack(1, true);
@@ -200,11 +208,13 @@ namespace csv_rw_route {
 				std::string::const_iterator last_used;
 				std::string directive_value;
 				try {
-					directive_value = preprocess_pass_dispatch(variable_storage, if_condition, rng, last_used,
-					                                           next_money, matched_rparens + 1, end);
+					directive_value =
+					    preprocess_pass_dispatch(variable_storage, if_condition, rng, last_used,
+					                             next_money, matched_rparens + 1, end);
 				}
 				catch (const std::invalid_argument& e) {
-					errors[lines.filenames[line.filename_index]].emplace_back<errors::error_t>({line.line, e.what()});
+					errors[lines.filenames[line.filename_index]].emplace_back<errors::error_t>(
+					    {line.line, e.what()});
 					continue;
 				}
 
@@ -229,7 +239,8 @@ namespace csv_rw_route {
 					// copy the result of the directive, and concatinate \r\n
 					// into \n if condition will be true if this is not the \n
 					// of the \r\n sequence
-					if (!(directive_value == "\n" && !processed_line.empty() && processed_line.back() == '\r')) {
+					if (!(directive_value == "\n" && !processed_line.empty()
+					      && processed_line.back() == '\r')) {
 						processed_line += directive_value;
 					}
 					else {

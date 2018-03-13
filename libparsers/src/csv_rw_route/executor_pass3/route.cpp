@@ -11,7 +11,8 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::operator()(const instructions::route::Image& inst) {
-		_route_data.image_location = _get_relative_file(get_filename(inst.file_index), inst.filename);
+		_route_data.image_location =
+		    _get_relative_file(get_filename(inst.file_index), inst.filename);
 	}
 
 	void pass3_executor::operator()(const instructions::route::Timetable& inst) {
@@ -27,7 +28,8 @@ namespace csv_rw_route {
 				_route_data.safty_system_status = SaftySystemStatus::SaftyActiviatedServiceBrakes;
 				break;
 			case instructions::route::Change::SaftyDeactivatedEmergencyBrakes:
-				_route_data.safty_system_status = SaftySystemStatus::SaftyDeactivatedEmergencyBrakes;
+				_route_data.safty_system_status =
+				    SaftySystemStatus::SaftyDeactivatedEmergencyBrakes;
 				break;
 			default:
 				break;
@@ -72,7 +74,8 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::operator()(const instructions::route::LoadingScreen& inst) {
-		_route_data.loading_image_location = _get_relative_file(get_filename(inst.file_index), inst.filename);
+		_route_data.loading_image_location =
+		    _get_relative_file(get_filename(inst.file_index), inst.filename);
 	}
 
 	void pass3_executor::operator()(const instructions::route::StartTime& inst) {
@@ -84,7 +87,8 @@ namespace csv_rw_route {
 
 		if (!_route_data.lighting.empty()) {
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line, "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s});
+			    {inst.line,
+			     "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s});
 		}
 
 		auto filename = _get_relative_file(issuer_filename, inst.filename);
@@ -92,7 +96,8 @@ namespace csv_rw_route {
 		std::string file_contents;
 		try {
 			file_contents = util::load_from_file_utf8_bom(filename);
-			_route_data.lighting = xml::dynamic_lighting::parse(filename, std::move(file_contents), _errors);
+			_route_data.lighting =
+			    xml::dynamic_lighting::parse(filename, std::move(file_contents), _errors);
 		}
 		catch (const std::invalid_argument& e) {
 			errors::add_error(_errors, issuer_filename, inst.line, e.what());
@@ -104,7 +109,8 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::route::AmbiantLight& inst) {
 		if (used_dynamic_light) {
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line, "Route.DynamicLight has already been used, ignoring Route.AmbiantLight"s});
+			    {inst.line,
+			     "Route.DynamicLight has already been used, ignoring Route.AmbiantLight"s});
 			return;
 		}
 
@@ -134,7 +140,8 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::route::LightDirection& inst) {
 		if (used_dynamic_light) {
 			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line, "Route.DynamicLight has already been used, ignoring Route.LightDirection"s});
+			    {inst.line,
+			     "Route.DynamicLight has already been used, ignoring Route.LightDirection"s});
 			return;
 		}
 

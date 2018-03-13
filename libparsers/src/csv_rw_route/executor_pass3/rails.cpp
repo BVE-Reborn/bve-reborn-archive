@@ -8,14 +8,17 @@ namespace csv_rw_route {
 			return;
 		}
 
-		for (auto pos = std::size_t(state.position_last_updated); pos < std::size_t(position); pos += 25) {
+		for (auto pos = std::size_t(state.position_last_updated); pos < std::size_t(position);
+		     pos += 25) {
 			auto track_position = track_position_at(float(pos));
 			auto object_location =
-			    openbve2::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset,
+			    openbve2::math::position_from_offsets(track_position.position,
+			                                          track_position.tangent, state.x_offset,
 			                                          state.y_offset);
 
-			auto filename_iter_optional = get_cycle_filename_index(cycle_rail_mapping, object_rail_mapping,
-			                                                       state.rail_structure_index, std::size_t(position));
+			auto filename_iter_optional =
+			    get_cycle_filename_index(cycle_rail_mapping, object_rail_mapping,
+			                             state.rail_structure_index, std::size_t(position));
 
 			if (!filename_iter_optional) {
 				return;
@@ -39,7 +42,8 @@ namespace csv_rw_route {
 		if (state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " is still active. Please use Track.Rail to update.";
+			err << "Rail number " << inst.rail_index
+			    << " is still active. Please use Track.Rail to update.";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
@@ -51,7 +55,8 @@ namespace csv_rw_route {
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index
+			    << " has not been declared. Ignoring.";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
@@ -69,7 +74,8 @@ namespace csv_rw_route {
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index
+			    << " has not been declared. Ignoring.";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
@@ -82,7 +88,8 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index
+			    << " isn't active. Use Track.RailStart to start the track.";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
@@ -91,7 +98,8 @@ namespace csv_rw_route {
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index
+			    << " has not been declared. Ignoring.";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
@@ -104,7 +112,8 @@ namespace csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index << " was already inactive. Did you mean Track.RailStart?";
+			err << "Rail number " << inst.rail_index
+			    << " was already inactive. Did you mean Track.RailStart?";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
@@ -113,7 +122,8 @@ namespace csv_rw_route {
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index
+			    << " has not been declared. Ignoring.";
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}

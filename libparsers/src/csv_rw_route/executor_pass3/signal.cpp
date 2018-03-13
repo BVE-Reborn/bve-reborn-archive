@@ -17,14 +17,17 @@ namespace csv_rw_route {
 			iterator->second = this_signal;
 
 			std::ostringstream oss;
-			oss << "Signal(Animated) is overwriting signal at index (" << inst.signal_index << "). Old Value: ";
-			old_value.match([&oss](const animated_signal& as) -> void { oss << "\"" << as.filename << "\"\n"; },
+			oss << "Signal(Animated) is overwriting signal at index (" << inst.signal_index
+			    << "). Old Value: ";
+			old_value.match([&oss](const animated_signal& as)
+			                    -> void { oss << "\"" << as.filename << "\"\n"; },
 			                [&oss](const traditional_signal& ts) -> void {
-				                oss << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename
-				                    << ".{bmp,png,jpg}\")";
+				                oss << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \""
+				                    << ts.glow_filename << ".{bmp,png,jpg}\")";
 			                });
 			oss << ". New Value: \"" << inst.filename << "\".";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, oss.str()});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, oss.str()});
 		}
 	}
 
@@ -48,15 +51,18 @@ namespace csv_rw_route {
 				oss << "\"" << as.filename << "\"\n";
 			};
 			auto print_traditional_tuple = [&oss](const traditional_signal& ts) -> void {
-				oss << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename << ".{bmp,png,jpg}\")";
+				oss << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename
+				    << ".{bmp,png,jpg}\")";
 			};
 
-			oss << "Signal(Traditional) is overwriting signal at index (" << inst.signal_index << "). Old Value: ";
+			oss << "Signal(Traditional) is overwriting signal at index (" << inst.signal_index
+			    << "). Old Value: ";
 			old_value.match(print_animated_file, print_traditional_tuple);
 			oss << "New Value: ";
 			print_traditional_tuple(this_signal);
 			oss << ".";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, oss.str()});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, oss.str()});
 		}
 	}
 } // namespace csv_rw_route

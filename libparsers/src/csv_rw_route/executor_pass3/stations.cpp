@@ -28,7 +28,8 @@ namespace csv_rw_route {
 			std::ostringstream err;
 
 			err << "Track.Stop: no station to bind to. Ignoring.";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>({inst.line, err.str()});
+			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
+			    {inst.line, err.str()});
 			return;
 		}
 

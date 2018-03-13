@@ -74,7 +74,8 @@ namespace function_scripts {
 
 					lt = lexer_types::floating{f};
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					auto chars_used = std::distance(start_ptr, const_cast<const char*>(str_end - 1));
+					auto chars_used =
+					    std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
 				}
 				// parsing int
@@ -86,7 +87,8 @@ namespace function_scripts {
 
 					lt = lexer_types::integer{integer};
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					auto chars_used = std::distance(start_ptr, const_cast<const char*>(str_end - 1));
+					auto chars_used =
+					    std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
 				}
 			}

@@ -68,7 +68,8 @@ namespace csv_rw_route {
 					// the y component in order to get the proper angle
 					last_block.cache.direction.y = last_block.pitch;
 					auto curve_results =
-					    openbve2::math::evaluate_curve(last_block.cache.location, last_block.cache.direction,
+					    openbve2::math::evaluate_curve(last_block.cache.location,
+					                                   last_block.cache.direction,
 					                                   last_block.length, last_block.radius);
 
 					current_block.cache.location = curve_results.position;
@@ -102,7 +103,9 @@ namespace csv_rw_route {
 			}
 
 		  public:
-			pass2_executor(errors::multi_error& e, const std::vector<std::string>& f) : _errors(e), _filenames(f){};
+			pass2_executor(errors::multi_error& e, const std::vector<std::string>& f) :
+			    _errors(e),
+			    _filenames(f){};
 
 			void operator()(const instructions::options::UnitOfLength& inst) {
 				// verification of argument count has already happened
@@ -166,7 +169,8 @@ namespace csv_rw_route {
 		};
 	} // namespace
 
-	parsed_route_data execute_instructions_pass2(instruction_list& list, errors::multi_error& errors) {
+	parsed_route_data execute_instructions_pass2(instruction_list& list,
+	                                             errors::multi_error& errors) {
 		pass2_executor p2e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {

@@ -10,8 +10,8 @@ namespace ini {
 				os << "Line: " << value.line << " \t\t\"" << value.value << "\"\n";
 			}
 			for (auto& key_value_pair : section.key_value_pairs) {
-				os << "Line: " << key_value_pair.line << " \t\t\"" << key_value_pair.key << "\" = \""
-				   << key_value_pair.value << "\"\n";
+				os << "Line: " << key_value_pair.line << " \t\t\"" << key_value_pair.key
+				   << "\" = \"" << key_value_pair.value << "\"\n";
 			}
 		}
 

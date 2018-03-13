@@ -66,9 +66,12 @@ namespace xml {
 					auto pairs = util::split_text(directional_light->value());
 					if (pairs.size() >= 3) {
 						try {
-							info.directional_lighting.r = uint8_t(util::parse_loose_integer(pairs[0]));
-							info.directional_lighting.g = uint8_t(util::parse_loose_integer(pairs[1]));
-							info.directional_lighting.b = uint8_t(util::parse_loose_integer(pairs[2]));
+							info.directional_lighting.r =
+							    uint8_t(util::parse_loose_integer(pairs[0]));
+							info.directional_lighting.g =
+							    uint8_t(util::parse_loose_integer(pairs[1]));
+							info.directional_lighting.b =
+							    uint8_t(util::parse_loose_integer(pairs[2]));
 						}
 						catch (const std::invalid_argument& e) {
 							errors::add_error(errors, filename, 0, e.what());
@@ -76,7 +79,8 @@ namespace xml {
 					}
 					if (pairs.size() != 3) {
 						errors::add_error(errors, filename, 0,
-						                  "<DirectionalLight> must have exactly 3 "
+						                  "<DirectionalLight> must have "
+						                  "exactly 3 "
 						                  "arguments");
 					}
 				}
@@ -101,7 +105,8 @@ namespace xml {
 
 				if (cab_lighting != nullptr) {
 					try {
-						info.cablighting = uint8_t(util::parse_loose_integer(cab_lighting->value()));
+						info.cablighting =
+						    uint8_t(util::parse_loose_integer(cab_lighting->value()));
 					}
 					catch (const std::invalid_argument& e) {
 						errors::add_error(errors, filename, 0, e.what());

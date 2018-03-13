@@ -13,18 +13,24 @@ namespace csv_rw_route {
 		// Argument/Indices Count Helper Functions //
 		/////////////////////////////////////////////
 
-		void args_at_least(const line_splitting::instruction_info& inst, std::size_t num, const char* name) {
+		void args_at_least(const line_splitting::instruction_info& inst,
+		                   std::size_t num,
+		                   const char* name) {
 			if (inst.args.size() < num) {
 				std::ostringstream oss;
-				oss << name << " must have at least " << num << " argument" << (num == 1 ? "" : "s");
+				oss << name << " must have at least " << num << " argument"
+				    << (num == 1 ? "" : "s");
 				throw std::invalid_argument(oss.str());
 			}
 		}
 
-		void indices_at_least(const line_splitting::instruction_info& inst, std::size_t num, const char* name) {
+		void indices_at_least(const line_splitting::instruction_info& inst,
+		                      std::size_t num,
+		                      const char* name) {
 			if (inst.indices.size() < num) {
 				std::ostringstream oss;
-				oss << name << " must have at least " << num << " ind" << (num == 1 ? "ex" : "ices");
+				oss << name << " must have at least " << num << " ind"
+				    << (num == 1 ? "ex" : "ices");
 				throw std::invalid_argument(oss.str());
 			}
 		}
@@ -34,25 +40,28 @@ namespace csv_rw_route {
 		//////////////////////////////
 
 		template <class T>
-		static instruction create_single_string_instruction(const line_splitting::instruction_info& inst,
-		                                                    const char* name) {
+		static instruction create_single_string_instruction(
+		    const line_splitting::instruction_info& inst,
+		    const char* name) {
 			args_at_least(inst, 1, name);
 
 			return T{inst.args[0]};
 		}
 
 		template <class T>
-		static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
-		                                                   const char* name) {
+		static instruction create_single_float_instruction(
+		    const line_splitting::instruction_info& inst,
+		    const char* name) {
 			args_at_least(inst, 1, name);
 
 			return T{util::parse_loose_float(inst.args[0])};
 		}
 
 		template <class T>
-		static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
-		                                                   const char* name,
-		                                                   float def) {
+		static instruction create_single_float_instruction(
+		    const line_splitting::instruction_info& inst,
+		    const char* name,
+		    float def) {
 			(void) name;
 
 			if (!inst.args.empty()) {
@@ -63,17 +72,19 @@ namespace csv_rw_route {
 		}
 
 		template <class T>
-		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
-		                                                   const char* name) {
+		static instruction create_single_sizet_instruction(
+		    const line_splitting::instruction_info& inst,
+		    const char* name) {
 			args_at_least(inst, 1, name);
 
 			return T{std::size_t(util::parse_loose_integer(inst.args[0]))};
 		}
 
 		template <class T>
-		static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
-		                                                   const char* name,
-		                                                   std::intmax_t def) {
+		static instruction create_single_sizet_instruction(
+		    const line_splitting::instruction_info& inst,
+		    const char* name,
+		    std::intmax_t def) {
 			(void) name;
 
 			if (!inst.args.empty()) {
@@ -84,8 +95,9 @@ namespace csv_rw_route {
 		}
 
 		template <class T>
-		static instruction create_single_time_instruction(const line_splitting::instruction_info& inst,
-		                                                  const char* name) {
+		static instruction create_single_time_instruction(
+		    const line_splitting::instruction_info& inst,
+		    const char* name) {
 			args_at_least(inst, 1, name);
 
 			return T{util::parse_time(inst.args[0])};
@@ -121,7 +133,8 @@ namespace csv_rw_route {
 		// Instruction Generation Functions //
 		//////////////////////////////////////
 
-		instruction create_instruction_location_statement(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_location_statement(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Location Statement");
 
 			instructions::naked::position pos;
@@ -137,13 +150,15 @@ namespace csv_rw_route {
 		// Options Namespace //
 		///////////////////////
 
-		instruction create_instruction_options_unitoflength(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_options_unitoflength(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::UnitOfLength uol;
 			uol.factors_in_meters.reserve(std::max(std::size_t(2), inst.args.size() + 1));
 			uol.factors_in_meters.emplace_back(1.0f);
 			if (!inst.args.empty()) {
 				uol.factors_in_meters.emplace_back(util::parse_loose_float(inst.args[0], 1));
-				std::transform(inst.args.begin() + 1, inst.args.end(), std::back_inserter(uol.factors_in_meters),
+				std::transform(inst.args.begin() + 1, inst.args.end(),
+				               std::back_inserter(uol.factors_in_meters),
 				               [](const std::string& s) { return util::parse_loose_float(s, 0); });
 			}
 			else {
@@ -153,15 +168,20 @@ namespace csv_rw_route {
 			return uol;
 		}
 
-		instruction create_instruction_options_unitofspeed(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::options::UnitOfSpeed>(inst, "Options.UnitOfSpeed", 1);
+		instruction create_instruction_options_unitofspeed(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<
+			    instructions::options::UnitOfSpeed>(inst, "Options.UnitOfSpeed", 1);
 		}
 
-		instruction create_instruction_options_blocklength(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::options::BlockLength>(inst, "Options.BlockLength", 25);
+		instruction create_instruction_options_blocklength(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<
+			    instructions::options::BlockLength>(inst, "Options.BlockLength", 25);
 		}
 
-		instruction create_instruction_options_objectvisibility(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_options_objectvisibility(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::ObjectVisibility ov;
 
 			if (!inst.args.empty()) {
@@ -177,7 +197,8 @@ namespace csv_rw_route {
 			return ov;
 		}
 
-		instruction create_instruction_options_sectionbehavior(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_options_sectionbehavior(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::SectionBehavior sb;
 
 			if (!inst.args.empty()) {
@@ -193,7 +214,8 @@ namespace csv_rw_route {
 			return sb;
 		}
 
-		instruction create_instruction_options_cantbehavior(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_options_cantbehavior(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::CantBehavior cb;
 
 			if (!inst.args.empty()) {
@@ -209,7 +231,8 @@ namespace csv_rw_route {
 			return cb;
 		}
 
-		instruction create_instruction_options_fogbehavior(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_options_fogbehavior(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::FogBehavior fb;
 
 			if (!inst.args.empty()) {
@@ -242,7 +265,8 @@ namespace csv_rw_route {
 			return ctm;
 		}
 
-		instruction create_instruction_options_enablebvetshacks(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_options_enablebvetshacks(
+		    const line_splitting::instruction_info& inst) {
 			instructions::options::EnableBveTsHacks ebth;
 
 			if (!inst.args.empty()) {
@@ -263,15 +287,20 @@ namespace csv_rw_route {
 		/////////////////////
 
 		instruction create_instruction_route_comment(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::Comment>(inst, "Route.Comment");
+			return create_single_string_instruction<instructions::route::Comment>(inst,
+			                                                                      "Route.Comment");
 		}
 
 		instruction create_instruction_route_image(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::Image>(inst, "Route.Image");
+			return create_single_string_instruction<instructions::route::Image>(inst,
+			                                                                    "Route.Image");
 		}
 
-		instruction create_instruction_route_timetable(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::Timetable>(inst, "Route.Timetable");
+		instruction create_instruction_route_timetable(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::Timetable>(inst,
+			                                                                        "Route."
+			                                                                        "Timetable");
 		}
 
 		instruction create_instruction_route_change(const line_splitting::instruction_info& inst) {
@@ -300,7 +329,8 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_route_gauge(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Guage>(inst, "Route.Guage", 1435);
+			return create_single_float_instruction<instructions::route::Guage>(inst, "Route.Guage",
+			                                                                   1435);
 		}
 
 		instruction create_instruction_route_signal(const line_splitting::instruction_info& inst) {
@@ -315,7 +345,8 @@ namespace csv_rw_route {
 			return s;
 		}
 
-		instruction create_instruction_route_runinterval(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_route_runinterval(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Route.RunInterval");
 
 			instructions::route::RunInterval ri;
@@ -326,24 +357,41 @@ namespace csv_rw_route {
 			return ri;
 		}
 
-		instruction create_instruction_route_accelerationduetogravity(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_route_accelerationduetogravity(
+		    const line_splitting::instruction_info& inst) {
 			return create_single_float_instruction<
-			    instructions::route::AccelerationDueToGravity>(inst, "Route.AccelerationDueToGravity", 9.80665f);
+			    instructions::route::AccelerationDueToGravity>(inst,
+			                                                   "Route."
+			                                                   "AccelerationDue"
+			                                                   "ToGravity",
+			                                                   9.80665f);
 		}
 
-		instruction create_instruction_route_elevation(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Elevation>(inst, "Route.Elevation", 0);
+		instruction create_instruction_route_elevation(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Elevation>(inst,
+			                                                                       "Route."
+			                                                                       "Elevation",
+			                                                                       0);
 		}
 
-		instruction create_instruction_route_temperature(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Temperature>(inst, "Route.Temperature", 20);
+		instruction create_instruction_route_temperature(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Temperature>(inst,
+			                                                                         "Route."
+			                                                                         "Temperature",
+			                                                                         20);
 		}
 
-		instruction create_instruction_route_pressure(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Pressure>(inst, "Route.Pressure", 101.325f);
+		instruction create_instruction_route_pressure(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::route::Pressure>(inst,
+			                                                                      "Route.Pressure",
+			                                                                      101.325f);
 		}
 
-		instruction create_instruction_route_displayspeed(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_route_displayspeed(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 2, "Route.DisplaySpeed");
 
 			instructions::route::DisplaySpeed ds;
@@ -354,19 +402,31 @@ namespace csv_rw_route {
 			return ds;
 		}
 
-		instruction create_instruction_route_loadingscreen(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::LoadingScreen>(inst, "Route.LoadingScreen");
+		instruction create_instruction_route_loadingscreen(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::LoadingScreen>(inst,
+			                                                                            "Route."
+			                                                                            "LoadingScr"
+			                                                                            "een");
 		}
 
-		instruction create_instruction_route_starttime(const line_splitting::instruction_info& inst) {
-			return create_single_time_instruction<instructions::route::StartTime>(inst, "Route.StartTime");
+		instruction create_instruction_route_starttime(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_time_instruction<instructions::route::StartTime>(inst,
+			                                                                      "Route."
+			                                                                      "StartTime");
 		}
 
-		instruction create_instruction_route_dynamiclight(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::DynamicLight>(inst, "Route.DynamicLight");
+		instruction create_instruction_route_dynamiclight(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_string_instruction<instructions::route::DynamicLight>(inst,
+			                                                                           "Route."
+			                                                                           "DynamicLigh"
+			                                                                           "t");
 		}
 
-		instruction create_instruction_route_ambientlight(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_route_ambientlight(
+		    const line_splitting::instruction_info& inst) {
 			instructions::route::AmbiantLight al;
 
 			switch (inst.args.size()) {
@@ -387,7 +447,8 @@ namespace csv_rw_route {
 			return al;
 		}
 
-		instruction create_instruction_route_directionallight(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_route_directionallight(
+		    const line_splitting::instruction_info& inst) {
 			instructions::route::DirectionalLight dl;
 
 			switch (inst.args.size()) {
@@ -408,7 +469,8 @@ namespace csv_rw_route {
 			return dl;
 		}
 
-		instruction create_instruction_route_lightdirection(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_route_lightdirection(
+		    const line_splitting::instruction_info& inst) {
 			instructions::route::LightDirection ld;
 
 			switch (inst.args.size()) {
@@ -431,7 +493,8 @@ namespace csv_rw_route {
 		/////////////////////
 
 		instruction create_instruction_train_folder(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::train::Folder>(inst, "Train.Folder");
+			return create_single_string_instruction<instructions::train::Folder>(inst,
+			                                                                     "Train.Folder");
 		}
 
 		instruction create_instruction_train_run(const line_splitting::instruction_info& inst) {
@@ -458,7 +521,8 @@ namespace csv_rw_route {
 			return f;
 		}
 
-		instruction create_instruction_train_timetable(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_train_timetable(
+		    const line_splitting::instruction_info& inst) {
 			indices_at_least(inst, 1, "Train.Timetable");
 			args_at_least(inst, 1, "Train.Timetable");
 
@@ -480,56 +544,61 @@ namespace csv_rw_route {
 			return tt;
 		}
 
-		instruction create_instruction_train_velocity(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::train::Velocity>(inst, "Train.Velocity", 0);
+		instruction create_instruction_train_velocity(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::train::Velocity>(inst,
+			                                                                      "Train.Velocity",
+			                                                                      0);
 		}
 
 		/////////////////////////
 		// Structure Namespace //
 		/////////////////////////
 
-		instruction create_instruction_structure_command(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_structure_command(
+		    const line_splitting::instruction_info& inst) {
 			indices_at_least(inst, 1, "Structure.Command");
 			args_at_least(inst, 1, "Structure.Command");
 
-			static std::map<std::string, decltype(instructions::structure::Command::command)> command_mapping{
-			    {"structure.ground"s, instructions::structure::Command::Ground},
-			    {"structure.rail"s, instructions::structure::Command::Rail},
-			    {"structure.walll"s, instructions::structure::Command::WallL},
-			    {"structure.wallr"s, instructions::structure::Command::WallR},
-			    {"structure.dikel"s, instructions::structure::Command::DikeL},
-			    {"structure.diker"s, instructions::structure::Command::DikeR},
-			    {"structure.forml"s, instructions::structure::Command::FormL},
-			    {"structure.formr"s, instructions::structure::Command::FormR},
-			    {"structure.formcl"s, instructions::structure::Command::FormCL},
-			    {"structure.formcr"s, instructions::structure::Command::FormCR},
-			    {"structure.roofl"s, instructions::structure::Command::RoofL},
-			    {"structure.roofr"s, instructions::structure::Command::RoofR},
-			    {"structure.roofcl"s, instructions::structure::Command::RoofCL},
-			    {"structure.roofcr"s, instructions::structure::Command::RoofCR},
-			    {"structure.crackl"s, instructions::structure::Command::CrackL},
-			    {"structure.crackr"s, instructions::structure::Command::CrackR},
-			    {"structure.freeobj"s, instructions::structure::Command::FreeObj},
-			    {"structure.beacon"s, instructions::structure::Command::Beacon},
-			    {"@@object@@ground"s, instructions::structure::Command::Ground},
-			    {"@@object@@rail"s, instructions::structure::Command::Rail},
-			    {"@@object@@walll"s, instructions::structure::Command::WallL},
-			    {"@@object@@wallr"s, instructions::structure::Command::WallR},
-			    {"@@object@@dikel"s, instructions::structure::Command::DikeL},
-			    {"@@object@@diker"s, instructions::structure::Command::DikeR},
-			    {"@@object@@forml"s, instructions::structure::Command::FormL},
-			    {"@@object@@formr"s, instructions::structure::Command::FormR},
-			    {"@@object@@formcl"s, instructions::structure::Command::FormCL},
-			    {"@@object@@formcr"s, instructions::structure::Command::FormCR},
-			    {"@@object@@roofl"s, instructions::structure::Command::RoofL},
-			    {"@@object@@roofr"s, instructions::structure::Command::RoofR},
-			    {"@@object@@roofcl"s, instructions::structure::Command::RoofCL},
-			    {"@@object@@roofcr"s, instructions::structure::Command::RoofCR},
-			    {"@@object@@crackl"s, instructions::structure::Command::CrackL},
-			    {"@@object@@crackr"s, instructions::structure::Command::CrackR},
-			    {"@@object@@freeobj"s, instructions::structure::Command::FreeObj},
-			    {"@@object@@beacon"s, instructions::structure::Command::Beacon},
-			};
+			static std::map<std::string, decltype(instructions::structure::Command::command)>
+			    command_mapping{
+			        {"structure.ground"s, instructions::structure::Command::Ground},
+			        {"structure.rail"s, instructions::structure::Command::Rail},
+			        {"structure.walll"s, instructions::structure::Command::WallL},
+			        {"structure.wallr"s, instructions::structure::Command::WallR},
+			        {"structure.dikel"s, instructions::structure::Command::DikeL},
+			        {"structure.diker"s, instructions::structure::Command::DikeR},
+			        {"structure.forml"s, instructions::structure::Command::FormL},
+			        {"structure.formr"s, instructions::structure::Command::FormR},
+			        {"structure.formcl"s, instructions::structure::Command::FormCL},
+			        {"structure.formcr"s, instructions::structure::Command::FormCR},
+			        {"structure.roofl"s, instructions::structure::Command::RoofL},
+			        {"structure.roofr"s, instructions::structure::Command::RoofR},
+			        {"structure.roofcl"s, instructions::structure::Command::RoofCL},
+			        {"structure.roofcr"s, instructions::structure::Command::RoofCR},
+			        {"structure.crackl"s, instructions::structure::Command::CrackL},
+			        {"structure.crackr"s, instructions::structure::Command::CrackR},
+			        {"structure.freeobj"s, instructions::structure::Command::FreeObj},
+			        {"structure.beacon"s, instructions::structure::Command::Beacon},
+			        {"@@object@@ground"s, instructions::structure::Command::Ground},
+			        {"@@object@@rail"s, instructions::structure::Command::Rail},
+			        {"@@object@@walll"s, instructions::structure::Command::WallL},
+			        {"@@object@@wallr"s, instructions::structure::Command::WallR},
+			        {"@@object@@dikel"s, instructions::structure::Command::DikeL},
+			        {"@@object@@diker"s, instructions::structure::Command::DikeR},
+			        {"@@object@@forml"s, instructions::structure::Command::FormL},
+			        {"@@object@@formr"s, instructions::structure::Command::FormR},
+			        {"@@object@@formcl"s, instructions::structure::Command::FormCL},
+			        {"@@object@@formcr"s, instructions::structure::Command::FormCR},
+			        {"@@object@@roofl"s, instructions::structure::Command::RoofL},
+			        {"@@object@@roofr"s, instructions::structure::Command::RoofR},
+			        {"@@object@@roofcl"s, instructions::structure::Command::RoofCL},
+			        {"@@object@@roofcr"s, instructions::structure::Command::RoofCR},
+			        {"@@object@@crackl"s, instructions::structure::Command::CrackL},
+			        {"@@object@@crackr"s, instructions::structure::Command::CrackR},
+			        {"@@object@@freeobj"s, instructions::structure::Command::FreeObj},
+			        {"@@object@@beacon"s, instructions::structure::Command::Beacon},
+			    };
 
 			instructions::structure::Command c;
 
@@ -541,7 +610,8 @@ namespace csv_rw_route {
 			return c;
 		}
 
-		instruction create_instruction_structure_pole(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_structure_pole(
+		    const line_splitting::instruction_info& inst) {
 			indices_at_least(inst, 2, "Structure.Pole");
 			args_at_least(inst, 1, "Structure.Pole");
 
@@ -558,7 +628,8 @@ namespace csv_rw_route {
 		// Texture Namespace //
 		///////////////////////
 
-		instruction create_instruction_texture_background(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_texture_background(
+		    const line_splitting::instruction_info& inst) {
 			indices_at_least(inst, 1, "Texture.Background");
 			args_at_least(inst, 1, "Texture.Background");
 
@@ -607,7 +678,9 @@ namespace csv_rw_route {
 
 			g.input_indices.reserve(inst.args.size());
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(g.input_indices),
-			               [](const std::string& arg) { return std::size_t(util::parse_loose_integer(arg)); });
+			               [](const std::string& arg) {
+				               return std::size_t(util::parse_loose_integer(arg));
+			               });
 
 			return g;
 		}
@@ -622,7 +695,9 @@ namespace csv_rw_route {
 
 			r.input_indices.reserve(inst.args.size());
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(r.input_indices),
-			               [](const std::string& arg) { return std::size_t(util::parse_loose_integer(arg)); });
+			               [](const std::string& arg) {
+				               return std::size_t(util::parse_loose_integer(arg));
+			               });
 
 			return r;
 		}
@@ -661,7 +736,8 @@ namespace csv_rw_route {
 		// Rails //
 		///////////
 
-		instruction create_instruction_track_railstart(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_railstart(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "RailStart");
 
 			instructions::track::RailStart rs;
@@ -741,7 +817,8 @@ namespace csv_rw_route {
 			return r;
 		}
 
-		instruction create_instruction_track_railtype(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_railtype(
+		    const line_splitting::instruction_info& inst) {
 			instructions::track::RailType rt;
 
 			switch (inst.args.size()) {
@@ -792,14 +869,17 @@ namespace csv_rw_route {
 			return re;
 		}
 
-		instruction create_instruction_track_accuracy(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_accuracy(
+		    const line_splitting::instruction_info& inst) {
 			// Ignored instruction
 			(void) inst;
 			return instructions::naked::None{};
 		}
 
-		instruction create_instruction_track_adhesion(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Adhesion>(inst, "Track.Adhesion");
+		instruction create_instruction_track_adhesion(
+		    const line_splitting::instruction_info& inst) {
+			return create_single_float_instruction<instructions::track::Adhesion>(inst,
+			                                                                      "Track.Adhesion");
 		}
 
 		instruction create_instruction_track_pitch(const line_splitting::instruction_info& inst) {
@@ -829,11 +909,13 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_turn(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Turn>(inst, "Track.Turn", 0);
+			return create_single_float_instruction<instructions::track::Turn>(inst, "Track.Turn",
+			                                                                  0);
 		}
 
 		instruction create_instruction_track_height(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Height>(inst, "Track.Height");
+			return create_single_float_instruction<instructions::track::Height>(inst,
+			                                                                    "Track.Height");
 		}
 
 		/////////////
@@ -849,7 +931,8 @@ namespace csv_rw_route {
 					set_positions<2>(fobj, inst);
 					// fall through
 				case 2:
-					fobj.free_obj_structure_index = std::size_t(util::parse_loose_integer(inst.args[1], 0));
+					fobj.free_obj_structure_index =
+					    std::size_t(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
 					fobj.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
@@ -889,7 +972,8 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_wallend(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::WallEnd>(inst, "Track.WallEnd");
+			return create_single_sizet_instruction<instructions::track::WallEnd>(inst,
+			                                                                     "Track.WallEnd");
 		}
 
 		instruction create_instruction_track_dike(const line_splitting::instruction_info& inst) {
@@ -920,7 +1004,8 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_dikeend(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::DikeEnd>(inst, "Track.DikeEnd");
+			return create_single_sizet_instruction<instructions::track::DikeEnd>(inst,
+			                                                                     "Track.DikeEnd");
 		}
 
 		instruction create_instruction_track_pole(const line_splitting::instruction_info& inst) {
@@ -929,7 +1014,8 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 5:
-					p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.args[4], 0));
+					p.pole_structure_index =
+					    std::size_t(util::parse_loose_integer(inst.args[4], 0));
 					// fall through
 				case 4:
 					p.interval = util::parse_loose_integer(inst.args[3], 1);
@@ -951,7 +1037,8 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_poleend(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::PoleEnd>(inst, "Track.PoleEnd");
+			return create_single_sizet_instruction<instructions::track::PoleEnd>(inst,
+			                                                                     "Track.PoleEnd");
 		}
 
 		instruction create_instruction_track_crack(const line_splitting::instruction_info& inst) {
@@ -969,7 +1056,8 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_ground(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::Ground>(inst, "Track.Ground");
+			return create_single_sizet_instruction<instructions::track::Ground>(inst,
+			                                                                    "Track.Ground");
 		}
 
 		//////////////
@@ -1078,20 +1166,24 @@ namespace csv_rw_route {
 								case '=':
 									if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
 										s.departure = util::parse_time(arr_arg.substr(2));
-										s.departure_tag = instructions::track::Sta::DepartureTime_t::TerminalTime;
+										s.departure_tag =
+										    instructions::track::Sta::DepartureTime_t::TerminalTime;
 									}
 									else {
-										s.departure_tag = instructions::track::Sta::DepartureTime_t::Terminal;
+										s.departure_tag =
+										    instructions::track::Sta::DepartureTime_t::Terminal;
 									}
 									break;
 								case 'c':
 								case 'C':
 									if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
 										s.departure = util::parse_time(arr_arg.substr(2));
-										s.departure_tag = instructions::track::Sta::DepartureTime_t::ChangeEnds;
+										s.departure_tag =
+										    instructions::track::Sta::DepartureTime_t::ChangeEnds;
 									}
 									else {
-										s.departure_tag = instructions::track::Sta::DepartureTime_t::ChangeEndsTime;
+										s.departure_tag = instructions::track::Sta::
+										    DepartureTime_t::ChangeEndsTime;
 									}
 									break;
 								default:
@@ -1114,15 +1206,18 @@ namespace csv_rw_route {
 								case 'P':
 								case 'l':
 								case 'L':
-									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::AllPass;
+									s.arrival_tag =
+									    instructions::track::Sta::ArrivalTime_t::AllPass;
 									break;
 								case 'b':
 								case 'B':
-									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::PlayerPass;
+									s.arrival_tag =
+									    instructions::track::Sta::ArrivalTime_t::PlayerPass;
 									break;
 								case 's':
 								case 'S':
-									s.arrival_tag = instructions::track::Sta::ArrivalTime_t::PlayerStop;
+									s.arrival_tag =
+									    instructions::track::Sta::ArrivalTime_t::PlayerStop;
 
 									if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
 										s.arrival = util::parse_time(arr_arg.substr(2));
@@ -1213,10 +1308,12 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 4:
-					f.form_structure_index = std::size_t(util::parse_loose_integer(inst.args[3], 0));
+					f.form_structure_index =
+					    std::size_t(util::parse_loose_integer(inst.args[3], 0));
 					// fall through
 				case 3:
-					f.roof_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
+					f.roof_structure_index =
+					    std::size_t(util::parse_loose_integer(inst.args[2], 0));
 					// fall through
 				case 2:
 					if (!inst.args[1].empty()) {
@@ -1230,7 +1327,8 @@ namespace csv_rw_route {
 								f.placement = instructions::track::Form::Right;
 								break;
 							default:
-								f.rail_index_2 = std::size_t(util::parse_loose_integer(inst.args[1], 0));
+								f.rail_index_2 =
+								    std::size_t(util::parse_loose_integer(inst.args[1], 0));
 								f.placement = instructions::track::Form::RailIndex;
 								break;
 						}
@@ -1310,7 +1408,9 @@ namespace csv_rw_route {
 			s.a_term.reserve(inst.args.size());
 
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(s.a_term),
-			               [](const std::string& val) { return std::size_t(util::parse_loose_integer(val, 0)); });
+			               [](const std::string& val) {
+				               return std::size_t(util::parse_loose_integer(val, 0));
+			               });
 
 			return s;
 		}
@@ -1396,7 +1496,8 @@ namespace csv_rw_route {
 			return b;
 		}
 
-		instruction create_instruction_track_transponder(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_transponder(
+		    const line_splitting::instruction_info& inst) {
 			instructions::track::Transponder t;
 
 			switch (inst.args.size()) {
@@ -1469,7 +1570,8 @@ namespace csv_rw_route {
 			instructions::track::Pattern p;
 
 			auto type_num = util::parse_loose_integer(inst.args[0]);
-			p.type = type_num == 0 ? instructions::track::Pattern::Permanent : instructions::track::Pattern::Temporary;
+			p.type = type_num == 0 ? instructions::track::Pattern::Permanent
+			                       : instructions::track::Pattern::Temporary;
 			p.speed = util::parse_loose_float(inst.args[1]);
 
 			return p;
@@ -1521,7 +1623,8 @@ namespace csv_rw_route {
 			return f;
 		}
 
-		instruction create_instruction_track_brightness(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_brightness(
+		    const line_splitting::instruction_info& inst) {
 			instructions::track::Brightness b;
 
 			if (!inst.args.empty()) {
@@ -1550,7 +1653,8 @@ namespace csv_rw_route {
 			return mxml;
 		}
 
-		instruction create_instruction_track_pointofinterest(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_pointofinterest(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.PointOfInterest");
 
 			instructions::track::PointOfInterest poi;
@@ -1564,7 +1668,8 @@ namespace csv_rw_route {
 			return poi;
 		}
 
-		instruction create_instruction_track_pretrain(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_pretrain(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.PreTrain");
 
 			instructions::track::PreTrain pt;
@@ -1574,7 +1679,8 @@ namespace csv_rw_route {
 			return pt;
 		}
 
-		instruction create_instruction_track_announce(const line_splitting::instruction_info& inst) {
+		instruction create_instruction_track_announce(
+		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.Announce");
 
 			instructions::track::Announce a;
@@ -1613,270 +1719,274 @@ namespace csv_rw_route {
 			return instructions::track::Buffer{};
 		}
 
-		const std::map<std::string, instruction (*)(const line_splitting::instruction_info& inst)> function_mapping = {
-		    ////////////////
-		    // CSV ROUTES //
-		    ////////////////
+		const std::map<std::string, instruction (*)(const line_splitting::instruction_info& inst)>
+		    function_mapping = {
+		        ////////////////
+		        // CSV ROUTES //
+		        ////////////////
 
-		    // Options namespace
-		    {"options.unitoflength"s, &create_instruction_options_unitoflength},
-		    {"options.unitofspeed"s, &create_instruction_options_unitofspeed},
-		    {"options.blocklength"s, &create_instruction_options_blocklength},
-		    {"options.objectvisibility"s, &create_instruction_options_objectvisibility},
-		    {"options.sectionbehavior"s, &create_instruction_options_sectionbehavior},
-		    {"options.cantbehavior"s, &create_instruction_options_cantbehavior},
-		    {"options.fogbehavior"s, &create_instruction_options_fogbehavior},
-		    {"options.compatibletransparencymode"s, &create_instruction_options_compatibletransparencymode},
-		    {"options.enablebvetshacks"s, &create_instruction_options_enablebvetshacks},
+		        // Options namespace
+		        {"options.unitoflength"s, &create_instruction_options_unitoflength},
+		        {"options.unitofspeed"s, &create_instruction_options_unitofspeed},
+		        {"options.blocklength"s, &create_instruction_options_blocklength},
+		        {"options.objectvisibility"s, &create_instruction_options_objectvisibility},
+		        {"options.sectionbehavior"s, &create_instruction_options_sectionbehavior},
+		        {"options.cantbehavior"s, &create_instruction_options_cantbehavior},
+		        {"options.fogbehavior"s, &create_instruction_options_fogbehavior},
+		        {"options.compatibletransparencymode"s,
+		         &create_instruction_options_compatibletransparencymode},
+		        {"options.enablebvetshacks"s, &create_instruction_options_enablebvetshacks},
 
-		    // Route namespace
-		    {"route.comment"s, &create_instruction_route_comment},
-		    {"route.image"s, &create_instruction_route_image},
-		    {"route.timetable"s, &create_instruction_route_timetable},
-		    {"route.change"s, &create_instruction_route_change},
-		    {"route.gauge"s, &create_instruction_route_gauge},
-		    {"route.signal"s, &create_instruction_route_signal},
-		    {"route.runinterval"s, &create_instruction_route_runinterval},
-		    {"route.accelerationduetogravity"s, &create_instruction_route_accelerationduetogravity},
-		    {"route.elevation"s, &create_instruction_route_elevation},
-		    {"route.temperature"s, &create_instruction_route_temperature},
-		    {"route.pressure"s, &create_instruction_route_pressure},
-		    {"route.displayspeed"s, &create_instruction_route_displayspeed},
-		    {"route.loadingscreen"s, &create_instruction_route_loadingscreen},
-		    {"route.starttime "s, &create_instruction_route_starttime},
-		    {"route.dynamiclight"s, &create_instruction_route_dynamiclight},
-		    {"route.ambientlight"s, &create_instruction_route_ambientlight},
-		    {"route.directionallight"s, &create_instruction_route_directionallight},
-		    {"route.lightdirection"s, &create_instruction_route_lightdirection},
+		        // Route namespace
+		        {"route.comment"s, &create_instruction_route_comment},
+		        {"route.image"s, &create_instruction_route_image},
+		        {"route.timetable"s, &create_instruction_route_timetable},
+		        {"route.change"s, &create_instruction_route_change},
+		        {"route.gauge"s, &create_instruction_route_gauge},
+		        {"route.signal"s, &create_instruction_route_signal},
+		        {"route.runinterval"s, &create_instruction_route_runinterval},
+		        {"route.accelerationduetogravity"s,
+		         &create_instruction_route_accelerationduetogravity},
+		        {"route.elevation"s, &create_instruction_route_elevation},
+		        {"route.temperature"s, &create_instruction_route_temperature},
+		        {"route.pressure"s, &create_instruction_route_pressure},
+		        {"route.displayspeed"s, &create_instruction_route_displayspeed},
+		        {"route.loadingscreen"s, &create_instruction_route_loadingscreen},
+		        {"route.starttime "s, &create_instruction_route_starttime},
+		        {"route.dynamiclight"s, &create_instruction_route_dynamiclight},
+		        {"route.ambientlight"s, &create_instruction_route_ambientlight},
+		        {"route.directionallight"s, &create_instruction_route_directionallight},
+		        {"route.lightdirection"s, &create_instruction_route_lightdirection},
 
-		    // Train namespace
-		    {"train.folder"s, &create_instruction_train_folder},
-		    {"train.file"s, &create_instruction_train_folder},
-		    {"train.run"s, &create_instruction_train_run},
-		    {"train.rail"s, &create_instruction_train_run},
-		    {"train.flange"s, &create_instruction_train_flange},
-		    {"train.timetable"s, &create_instruction_train_timetable},
-		    {"train.gauge"s, &create_instruction_route_gauge},
-		    {"train.interval"s, &create_instruction_route_runinterval},
-		    {"train.velocity"s, &create_instruction_train_velocity},
+		        // Train namespace
+		        {"train.folder"s, &create_instruction_train_folder},
+		        {"train.file"s, &create_instruction_train_folder},
+		        {"train.run"s, &create_instruction_train_run},
+		        {"train.rail"s, &create_instruction_train_run},
+		        {"train.flange"s, &create_instruction_train_flange},
+		        {"train.timetable"s, &create_instruction_train_timetable},
+		        {"train.gauge"s, &create_instruction_route_gauge},
+		        {"train.interval"s, &create_instruction_route_runinterval},
+		        {"train.velocity"s, &create_instruction_train_velocity},
 
-		    // Structure namespace
-		    {"structure.rail"s, &create_instruction_structure_command},
-		    {"structure.ground"s, &create_instruction_structure_command},
-		    {"structure.walll"s, &create_instruction_structure_command},
-		    {"structure.wallr"s, &create_instruction_structure_command},
-		    {"structure.dikel"s, &create_instruction_structure_command},
-		    {"structure.diker"s, &create_instruction_structure_command},
-		    {"structure.forml"s, &create_instruction_structure_command},
-		    {"structure.formr"s, &create_instruction_structure_command},
-		    {"structure.formcl"s, &create_instruction_structure_command},
-		    {"structure.formcr"s, &create_instruction_structure_command},
-		    {"structure.roofl"s, &create_instruction_structure_command},
-		    {"structure.roofr"s, &create_instruction_structure_command},
-		    {"structure.roofcl"s, &create_instruction_structure_command},
-		    {"structure.roofcr"s, &create_instruction_structure_command},
-		    {"structure.crackl"s, &create_instruction_structure_command},
-		    {"structure.crackr"s, &create_instruction_structure_command},
-		    {"structure.freeobj"s, &create_instruction_structure_command},
-		    {"structure.beacon"s, &create_instruction_structure_command},
-		    {"structure.pole"s, &create_instruction_structure_pole},
+		        // Structure namespace
+		        {"structure.rail"s, &create_instruction_structure_command},
+		        {"structure.ground"s, &create_instruction_structure_command},
+		        {"structure.walll"s, &create_instruction_structure_command},
+		        {"structure.wallr"s, &create_instruction_structure_command},
+		        {"structure.dikel"s, &create_instruction_structure_command},
+		        {"structure.diker"s, &create_instruction_structure_command},
+		        {"structure.forml"s, &create_instruction_structure_command},
+		        {"structure.formr"s, &create_instruction_structure_command},
+		        {"structure.formcl"s, &create_instruction_structure_command},
+		        {"structure.formcr"s, &create_instruction_structure_command},
+		        {"structure.roofl"s, &create_instruction_structure_command},
+		        {"structure.roofr"s, &create_instruction_structure_command},
+		        {"structure.roofcl"s, &create_instruction_structure_command},
+		        {"structure.roofcr"s, &create_instruction_structure_command},
+		        {"structure.crackl"s, &create_instruction_structure_command},
+		        {"structure.crackr"s, &create_instruction_structure_command},
+		        {"structure.freeobj"s, &create_instruction_structure_command},
+		        {"structure.beacon"s, &create_instruction_structure_command},
+		        {"structure.pole"s, &create_instruction_structure_pole},
 
-		    // Texture namespace
-		    {"texture.background"s, &create_instruction_texture_background},
+		        // Texture namespace
+		        {"texture.background"s, &create_instruction_texture_background},
 
-		    // Cycle namespace
-		    {"cycle.ground"s, &create_instruction_cycle_ground},
-		    {"cycle.rail"s, &create_instruction_cycle_rail},
+		        // Cycle namespace
+		        {"cycle.ground"s, &create_instruction_cycle_ground},
+		        {"cycle.rail"s, &create_instruction_cycle_rail},
 
-		    // Signal namespace
-		    {"signal"s, &create_instruction_signal},
+		        // Signal namespace
+		        {"signal"s, &create_instruction_signal},
 
-		    // Track namespace
+		        // Track namespace
 
-		    // Rails
-		    {"track.railstart"s, &create_instruction_track_railstart},
-		    {"track.rail"s, &create_instruction_track_rail},
-		    {"track.railtype"s, &create_instruction_track_railtype},
-		    {"track.railend"s, &create_instruction_track_railend},
-		    {"track.accuracy"s, &create_instruction_track_accuracy},
-		    {"track.adhesion"s, &create_instruction_track_adhesion},
+		        // Rails
+		        {"track.railstart"s, &create_instruction_track_railstart},
+		        {"track.rail"s, &create_instruction_track_rail},
+		        {"track.railtype"s, &create_instruction_track_railtype},
+		        {"track.railend"s, &create_instruction_track_railend},
+		        {"track.accuracy"s, &create_instruction_track_accuracy},
+		        {"track.adhesion"s, &create_instruction_track_adhesion},
 
-		    // Geometry
-		    {"track.pitch"s, &create_instruction_track_pitch},
-		    {"track.curve"s, &create_instruction_track_curve},
-		    {"track.turn"s, &create_instruction_track_turn},
-		    {"track.height"s, &create_instruction_track_height},
+		        // Geometry
+		        {"track.pitch"s, &create_instruction_track_pitch},
+		        {"track.curve"s, &create_instruction_track_curve},
+		        {"track.turn"s, &create_instruction_track_turn},
+		        {"track.height"s, &create_instruction_track_height},
 
-		    // Objects
-		    {"track.freeobj"s, &create_instruction_track_freeobj},
-		    {"track.wall"s, &create_instruction_track_wall},
-		    {"track.wallend"s, &create_instruction_track_wallend},
-		    {"track.dike"s, &create_instruction_track_dike},
-		    {"track.dikeend"s, &create_instruction_track_dikeend},
-		    {"track.pole"s, &create_instruction_track_pole},
-		    {"track.poleend"s, &create_instruction_track_poleend},
-		    {"track.crack"s, &create_instruction_track_crack},
-		    {"track.ground"s, &create_instruction_track_ground},
+		        // Objects
+		        {"track.freeobj"s, &create_instruction_track_freeobj},
+		        {"track.wall"s, &create_instruction_track_wall},
+		        {"track.wallend"s, &create_instruction_track_wallend},
+		        {"track.dike"s, &create_instruction_track_dike},
+		        {"track.dikeend"s, &create_instruction_track_dikeend},
+		        {"track.pole"s, &create_instruction_track_pole},
+		        {"track.poleend"s, &create_instruction_track_poleend},
+		        {"track.crack"s, &create_instruction_track_crack},
+		        {"track.ground"s, &create_instruction_track_ground},
 
-		    // Stations
-		    {"track.sta"s, &create_instruction_track_sta},
-		    {"track.station"s, &create_instruction_track_station},
-		    {"track.stop"s, &create_instruction_track_stop},
-		    {"track.form"s, &create_instruction_track_form},
+		        // Stations
+		        {"track.sta"s, &create_instruction_track_sta},
+		        {"track.station"s, &create_instruction_track_station},
+		        {"track.stop"s, &create_instruction_track_stop},
+		        {"track.form"s, &create_instruction_track_form},
 
-		    // Signalling and speed limits
-		    {"track.limit"s, &create_instruction_track_limit},
-		    {"track.section"s, &create_instruction_track_section},
-		    {"track.sigf"s, &create_instruction_track_sigf},
-		    {"track.signal"s, &create_instruction_track_signal},
-		    {"track.sig"s, &create_instruction_track_signal},
-		    {"track.relay"s, &create_instruction_track_relay},
+		        // Signalling and speed limits
+		        {"track.limit"s, &create_instruction_track_limit},
+		        {"track.section"s, &create_instruction_track_section},
+		        {"track.sigf"s, &create_instruction_track_sigf},
+		        {"track.signal"s, &create_instruction_track_signal},
+		        {"track.sig"s, &create_instruction_track_signal},
+		        {"track.relay"s, &create_instruction_track_relay},
 
-		    // Safety systems
-		    {"track.beacon"s, &create_instruction_track_beacon},
-		    {"track.transponder"s, &create_instruction_track_transponder},
-		    {"track.atssn"s, &create_instruction_track_atssn},
-		    {"track.atsp"s, &create_instruction_track_atsp},
-		    {"track.pattern"s, &create_instruction_track_pattern},
-		    {"track.plimit"s, &create_instruction_track_plimit},
+		        // Safety systems
+		        {"track.beacon"s, &create_instruction_track_beacon},
+		        {"track.transponder"s, &create_instruction_track_transponder},
+		        {"track.atssn"s, &create_instruction_track_atssn},
+		        {"track.atsp"s, &create_instruction_track_atsp},
+		        {"track.pattern"s, &create_instruction_track_pattern},
+		        {"track.plimit"s, &create_instruction_track_plimit},
 
-		    // Miscellaneous
-		    {"track.back"s, &create_instruction_track_back},
-		    {"track.fog"s, &create_instruction_track_fog},
-		    {"track.brightness"s, &create_instruction_track_brightness},
-		    {"track.marker"s, &create_instruction_track_marker},
-		    {"track.pointofinterest"s, &create_instruction_track_pointofinterest},
-		    {"track.pretrain"s, &create_instruction_track_pretrain},
-		    {"track.announce"s, &create_instruction_track_announce},
-		    {"track.doppler"s, &create_instruction_track_doppler},
-		    {"track.buffer"s, &create_instruction_track_buffer},
+		        // Miscellaneous
+		        {"track.back"s, &create_instruction_track_back},
+		        {"track.fog"s, &create_instruction_track_fog},
+		        {"track.brightness"s, &create_instruction_track_brightness},
+		        {"track.marker"s, &create_instruction_track_marker},
+		        {"track.pointofinterest"s, &create_instruction_track_pointofinterest},
+		        {"track.pretrain"s, &create_instruction_track_pretrain},
+		        {"track.announce"s, &create_instruction_track_announce},
+		        {"track.doppler"s, &create_instruction_track_doppler},
+		        {"track.buffer"s, &create_instruction_track_buffer},
 
-		    ///////////////
-		    // RW Routes //
-		    ///////////////
+		        ///////////////
+		        // RW Routes //
+		        ///////////////
 
-		    // [Options]
-		    {"@@options@@unitoflength"s, &create_instruction_options_unitoflength},
-		    {"@@options@@unitofspeed"s, &create_instruction_options_unitofspeed},
-		    {"@@options@@blocklength"s, &create_instruction_options_blocklength},
-		    {"@@options@@objectvisibility"s, &create_instruction_options_objectvisibility},
-		    {"@@options@@sectionbehavior"s, &create_instruction_options_sectionbehavior},
-		    {"@@options@@cantbehavior"s, &create_instruction_options_cantbehavior},
-		    {"@@options@@fogbehavior"s, &create_instruction_options_fogbehavior},
+		        // [Options]
+		        {"@@options@@unitoflength"s, &create_instruction_options_unitoflength},
+		        {"@@options@@unitofspeed"s, &create_instruction_options_unitofspeed},
+		        {"@@options@@blocklength"s, &create_instruction_options_blocklength},
+		        {"@@options@@objectvisibility"s, &create_instruction_options_objectvisibility},
+		        {"@@options@@sectionbehavior"s, &create_instruction_options_sectionbehavior},
+		        {"@@options@@cantbehavior"s, &create_instruction_options_cantbehavior},
+		        {"@@options@@fogbehavior"s, &create_instruction_options_fogbehavior},
 
-		    // [Route]
-		    {"@@route@@comment"s, &create_instruction_route_comment},
-		    {"@@route@@image"s, &create_instruction_route_image},
-		    {"@@route@@timetable"s, &create_instruction_route_timetable},
-		    {"@@route@@change"s, &create_instruction_route_change},
-		    {"@@route@@gauge"s, &create_instruction_route_gauge},
-		    {"@@route@@signal"s, &create_instruction_route_signal},
-		    {"@@route@@runinterval"s, &create_instruction_route_runinterval},
-		    {"@@route@@accelerationduetogravity"s, &create_instruction_route_accelerationduetogravity},
-		    {"@@route@@elevation"s, &create_instruction_route_elevation},
-		    {"@@route@@temperature"s, &create_instruction_route_temperature},
-		    {"@@route@@pressure"s, &create_instruction_route_pressure},
-		    {"@@route@@ambientlight"s, &create_instruction_route_ambientlight},
-		    {"@@route@@directionallight"s, &create_instruction_route_directionallight},
-		    {"@@route@@lightdirection"s, &create_instruction_route_lightdirection},
+		        // [Route]
+		        {"@@route@@comment"s, &create_instruction_route_comment},
+		        {"@@route@@image"s, &create_instruction_route_image},
+		        {"@@route@@timetable"s, &create_instruction_route_timetable},
+		        {"@@route@@change"s, &create_instruction_route_change},
+		        {"@@route@@gauge"s, &create_instruction_route_gauge},
+		        {"@@route@@signal"s, &create_instruction_route_signal},
+		        {"@@route@@runinterval"s, &create_instruction_route_runinterval},
+		        {"@@route@@accelerationduetogravity"s,
+		         &create_instruction_route_accelerationduetogravity},
+		        {"@@route@@elevation"s, &create_instruction_route_elevation},
+		        {"@@route@@temperature"s, &create_instruction_route_temperature},
+		        {"@@route@@pressure"s, &create_instruction_route_pressure},
+		        {"@@route@@ambientlight"s, &create_instruction_route_ambientlight},
+		        {"@@route@@directionallight"s, &create_instruction_route_directionallight},
+		        {"@@route@@lightdirection"s, &create_instruction_route_lightdirection},
 
-		    // [Train]
-		    {"@@train@@folder"s, &create_instruction_train_folder},
-		    {"@@train@@file"s, &create_instruction_train_folder},
-		    {"@@train@@run"s, &create_instruction_train_run},
-		    {"@@train@@rail"s, &create_instruction_train_run},
-		    {"@@train@@flange"s, &create_instruction_train_flange},
-		    {"@@train@@timetable"s, &create_instruction_train_timetable},
-		    {"@@train@@gauge"s, &create_instruction_route_gauge},
-		    {"@@train@@interval"s, &create_instruction_route_runinterval},
-		    {"@@train@@velocity"s, &create_instruction_train_velocity},
+		        // [Train]
+		        {"@@train@@folder"s, &create_instruction_train_folder},
+		        {"@@train@@file"s, &create_instruction_train_folder},
+		        {"@@train@@run"s, &create_instruction_train_run},
+		        {"@@train@@rail"s, &create_instruction_train_run},
+		        {"@@train@@flange"s, &create_instruction_train_flange},
+		        {"@@train@@timetable"s, &create_instruction_train_timetable},
+		        {"@@train@@gauge"s, &create_instruction_route_gauge},
+		        {"@@train@@interval"s, &create_instruction_route_runinterval},
+		        {"@@train@@velocity"s, &create_instruction_train_velocity},
 
-		    // [Object]
-		    {"@@object@@rail"s, &create_instruction_structure_command},
-		    {"@@object@@beacon"s, &create_instruction_structure_command},
-		    {"@@object@@ground"s, &create_instruction_structure_command},
-		    {"@@object@@walll"s, &create_instruction_structure_command},
-		    {"@@object@@wallr"s, &create_instruction_structure_command},
-		    {"@@object@@dikel"s, &create_instruction_structure_command},
-		    {"@@object@@diker"s, &create_instruction_structure_command},
-		    {"@@object@@forml"s, &create_instruction_structure_command},
-		    {"@@object@@formr"s, &create_instruction_structure_command},
-		    {"@@object@@formcl"s, &create_instruction_structure_command},
-		    {"@@object@@formcr"s, &create_instruction_structure_command},
-		    {"@@object@@roofl"s, &create_instruction_structure_command},
-		    {"@@object@@roofr"s, &create_instruction_structure_command},
-		    {"@@object@@roofcl"s, &create_instruction_structure_command},
-		    {"@@object@@roofcr"s, &create_instruction_structure_command},
-		    {"@@object@@crackl"s, &create_instruction_structure_command},
-		    {"@@object@@crackr"s, &create_instruction_structure_command},
-		    {"@@object@@freeobj"s, &create_instruction_structure_command},
-		    {"@@object@@pole"s, &create_instruction_structure_pole},
-		    {"@@object@@back"s, &create_instruction_texture_background},
+		        // [Object]
+		        {"@@object@@rail"s, &create_instruction_structure_command},
+		        {"@@object@@beacon"s, &create_instruction_structure_command},
+		        {"@@object@@ground"s, &create_instruction_structure_command},
+		        {"@@object@@walll"s, &create_instruction_structure_command},
+		        {"@@object@@wallr"s, &create_instruction_structure_command},
+		        {"@@object@@dikel"s, &create_instruction_structure_command},
+		        {"@@object@@diker"s, &create_instruction_structure_command},
+		        {"@@object@@forml"s, &create_instruction_structure_command},
+		        {"@@object@@formr"s, &create_instruction_structure_command},
+		        {"@@object@@formcl"s, &create_instruction_structure_command},
+		        {"@@object@@formcr"s, &create_instruction_structure_command},
+		        {"@@object@@roofl"s, &create_instruction_structure_command},
+		        {"@@object@@roofr"s, &create_instruction_structure_command},
+		        {"@@object@@roofcl"s, &create_instruction_structure_command},
+		        {"@@object@@roofcr"s, &create_instruction_structure_command},
+		        {"@@object@@crackl"s, &create_instruction_structure_command},
+		        {"@@object@@crackr"s, &create_instruction_structure_command},
+		        {"@@object@@freeobj"s, &create_instruction_structure_command},
+		        {"@@object@@pole"s, &create_instruction_structure_pole},
+		        {"@@object@@back"s, &create_instruction_texture_background},
 
-		    // [Cycle]
-		    {"@@cycle@@groundstructureindex"s, &create_instruction_cycle_ground},
+		        // [Cycle]
+		        {"@@cycle@@groundstructureindex"s, &create_instruction_cycle_ground},
 
-		    // [Signal]
-		    {"@@signal@@signalindex"s, &create_instruction_signal},
+		        // [Signal]
+		        {"@@signal@@signalindex"s, &create_instruction_signal},
 
-		    // [Railway]
+		        // [Railway]
 
-		    // Rails
-		    {"@@railway@@railstart"s, &create_instruction_track_railstart},
-		    {"@@railway@@rail"s, &create_instruction_track_rail},
-		    {"@@railway@@railtype"s, &create_instruction_track_railtype},
-		    {"@@railway@@railend"s, &create_instruction_track_railend},
-		    {"@@railway@@accuracy"s, &create_instruction_track_accuracy},
-		    {"@@railway@@adhesion"s, &create_instruction_track_adhesion},
+		        // Rails
+		        {"@@railway@@railstart"s, &create_instruction_track_railstart},
+		        {"@@railway@@rail"s, &create_instruction_track_rail},
+		        {"@@railway@@railtype"s, &create_instruction_track_railtype},
+		        {"@@railway@@railend"s, &create_instruction_track_railend},
+		        {"@@railway@@accuracy"s, &create_instruction_track_accuracy},
+		        {"@@railway@@adhesion"s, &create_instruction_track_adhesion},
 
-		    // Geometry
-		    {"@@railway@@pitch"s, &create_instruction_track_pitch},
-		    {"@@railway@@curve"s, &create_instruction_track_curve},
-		    {"@@railway@@turn"s, &create_instruction_track_turn},
-		    {"@@railway@@height"s, &create_instruction_track_height},
+		        // Geometry
+		        {"@@railway@@pitch"s, &create_instruction_track_pitch},
+		        {"@@railway@@curve"s, &create_instruction_track_curve},
+		        {"@@railway@@turn"s, &create_instruction_track_turn},
+		        {"@@railway@@height"s, &create_instruction_track_height},
 
-		    // Objects
-		    {"@@railway@@freeobj"s, &create_instruction_track_freeobj},
-		    {"@@railway@@wall"s, &create_instruction_track_wall},
-		    {"@@railway@@wallend"s, &create_instruction_track_wallend},
-		    {"@@railway@@dike"s, &create_instruction_track_dike},
-		    {"@@railway@@dikeend"s, &create_instruction_track_dikeend},
-		    {"@@railway@@pole"s, &create_instruction_track_pole},
-		    {"@@railway@@poleend"s, &create_instruction_track_poleend},
-		    {"@@railway@@crack"s, &create_instruction_track_crack},
-		    {"@@railway@@ground"s, &create_instruction_track_ground},
+		        // Objects
+		        {"@@railway@@freeobj"s, &create_instruction_track_freeobj},
+		        {"@@railway@@wall"s, &create_instruction_track_wall},
+		        {"@@railway@@wallend"s, &create_instruction_track_wallend},
+		        {"@@railway@@dike"s, &create_instruction_track_dike},
+		        {"@@railway@@dikeend"s, &create_instruction_track_dikeend},
+		        {"@@railway@@pole"s, &create_instruction_track_pole},
+		        {"@@railway@@poleend"s, &create_instruction_track_poleend},
+		        {"@@railway@@crack"s, &create_instruction_track_crack},
+		        {"@@railway@@ground"s, &create_instruction_track_ground},
 
-		    // Stations
-		    {"@@railway@@sta"s, &create_instruction_track_sta},
-		    {"@@railway@@station"s, &create_instruction_track_station},
-		    {"@@railway@@stop"s, &create_instruction_track_stop},
-		    {"@@railway@@form"s, &create_instruction_track_form},
+		        // Stations
+		        {"@@railway@@sta"s, &create_instruction_track_sta},
+		        {"@@railway@@station"s, &create_instruction_track_station},
+		        {"@@railway@@stop"s, &create_instruction_track_stop},
+		        {"@@railway@@form"s, &create_instruction_track_form},
 
-		    // Signalling and speed limits
-		    {"@@railway@@limit"s, &create_instruction_track_limit},
-		    {"@@railway@@section"s, &create_instruction_track_section},
-		    {"@@railway@@sigf"s, &create_instruction_track_sigf},
-		    {"@@railway@@signal"s, &create_instruction_track_signal},
-		    {"@@railway@@relay"s, &create_instruction_track_relay},
+		        // Signalling and speed limits
+		        {"@@railway@@limit"s, &create_instruction_track_limit},
+		        {"@@railway@@section"s, &create_instruction_track_section},
+		        {"@@railway@@sigf"s, &create_instruction_track_sigf},
+		        {"@@railway@@signal"s, &create_instruction_track_signal},
+		        {"@@railway@@relay"s, &create_instruction_track_relay},
 
-		    // Safety systems
-		    {"@@railway@@beacon"s, &create_instruction_track_beacon},
-		    {"@@railway@@transponder"s, &create_instruction_track_transponder},
-		    {"@@railway@@atssn"s, &create_instruction_track_atssn},
-		    {"@@railway@@atsp"s, &create_instruction_track_atsp},
-		    {"@@railway@@pattern"s, &create_instruction_track_pattern},
-		    {"@@railway@@plimit"s, &create_instruction_track_plimit},
+		        // Safety systems
+		        {"@@railway@@beacon"s, &create_instruction_track_beacon},
+		        {"@@railway@@transponder"s, &create_instruction_track_transponder},
+		        {"@@railway@@atssn"s, &create_instruction_track_atssn},
+		        {"@@railway@@atsp"s, &create_instruction_track_atsp},
+		        {"@@railway@@pattern"s, &create_instruction_track_pattern},
+		        {"@@railway@@plimit"s, &create_instruction_track_plimit},
 
-		    // Miscellaneous
-		    {"@@railway@@back"s, &create_instruction_track_back},
-		    {"@@railway@@fog"s, &create_instruction_track_fog},
-		    {"@@railway@@brightness"s, &create_instruction_track_brightness},
-		    {"@@railway@@marker"s, &create_instruction_track_marker},
-		    {"@@railway@@pointofinterest"s, &create_instruction_track_pointofinterest},
-		    {"@@railway@@pretrain"s, &create_instruction_track_pretrain},
-		    {"@@railway@@announce"s, &create_instruction_track_announce},
-		    {"@@railway@@doppler"s, &create_instruction_track_doppler},
-		    {"@@railway@@buffer"s, &create_instruction_track_buffer},
+		        // Miscellaneous
+		        {"@@railway@@back"s, &create_instruction_track_back},
+		        {"@@railway@@fog"s, &create_instruction_track_fog},
+		        {"@@railway@@brightness"s, &create_instruction_track_brightness},
+		        {"@@railway@@marker"s, &create_instruction_track_marker},
+		        {"@@railway@@pointofinterest"s, &create_instruction_track_pointofinterest},
+		        {"@@railway@@pretrain"s, &create_instruction_track_pretrain},
+		        {"@@railway@@announce"s, &create_instruction_track_announce},
+		        {"@@railway@@doppler"s, &create_instruction_track_doppler},
+		        {"@@railway@@buffer"s, &create_instruction_track_buffer},
 		};
 	} // namespace
 
@@ -1932,11 +2042,13 @@ namespace csv_rw_route {
 			else {
 				bool ignored = false;
 				if (ft == file_type::csv) {
-					ignored = parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s
+					ignored = parsed.name == "route.developerid"s
+					          || parsed.name == "train.acceleration"s
 					          || parsed.name == "train.station"s;
 				}
 				else {
-					ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s
+					ignored = parsed.name == "@@route@@developerid"s
+					          || parsed.name == "@@train@@acceleration"s
 					          || parsed.name == "@@train@@station"s;
 				}
 
@@ -1944,7 +2056,8 @@ namespace csv_rw_route {
 					std::ostringstream oss;
 					oss << "\"" << parsed.name << "\" is not a known function in a "
 					    << (ft == file_type::csv ? "csv" : "rw") << " file";
-					errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, oss.str()});
+					errors[lines.filenames[line.filename_index]].emplace_back(
+					    errors::error_t{line.line, oss.str()});
 				}
 			}
 			return instructions::naked::None{};
@@ -1954,14 +2067,17 @@ namespace csv_rw_route {
 			i = func_iter->second(parsed);
 		}
 		catch (const std::invalid_argument& e) {
-			errors[lines.filenames[line.filename_index]].emplace_back(errors::error_t{line.line, e.what()});
+			errors[lines.filenames[line.filename_index]].emplace_back(
+			    errors::error_t{line.line, e.what()});
 			return instructions::naked::None{};
 		}
 
 		return i;
 	}
 
-	instruction_list generate_instructions(const preprocessed_lines& lines, errors::multi_error& errors, file_type ft) {
+	instruction_list generate_instructions(const preprocessed_lines& lines,
+	                                       errors::multi_error& errors,
+	                                       file_type ft) {
 		instruction_list i_list;
 		i_list.instructions.reserve(lines.lines.size());
 

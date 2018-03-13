@@ -66,7 +66,8 @@ namespace csv_rw_route {
 		decltype(instructions::options::SectionBehavior::mode) section_behavior;
 
 		// rall state
-		std::unordered_map<std::size_t, rail_state> current_rail_state = {{0, rail_state{0, 0, 0, 0, true}}};
+		std::unordered_map<std::size_t, rail_state> current_rail_state = {
+		    {0, rail_state{0, 0, 0, 0, true}}};
 
 		// structures and poles
 		std::unordered_map<std::size_t, filename_set_iterator> object_ground_mapping;
@@ -97,7 +98,8 @@ namespace csv_rw_route {
 		    object_pole_mapping;
 
 		// Background indices
-		std::unordered_map<std::size_t, xml::dynamic_background::parsed_dynamic_background> background_mapping;
+		std::unordered_map<std::size_t, xml::dynamic_background::parsed_dynamic_background>
+		    background_mapping;
 
 		// Signal indices
 		std::unordered_map<std::size_t, signal_info> signal_mapping;
@@ -135,7 +137,10 @@ namespace csv_rw_route {
 		// defined in executor_pass3/util.cpp
 		float ground_height_at(float position);
 		openbve2::math::evaulate_curve_t track_position_at(float position);
-		glm::vec3 position_relative_to_rail(std::size_t rail_num, float position, float x_offset, float y_offset);
+		glm::vec3 position_relative_to_rail(std::size_t rail_num,
+		                                    float position,
+		                                    float x_offset,
+		                                    float y_offset);
 
 	  public:
 		pass3_executor(parsed_route_data& rd,
@@ -226,7 +231,9 @@ namespace csv_rw_route {
 
 	  private:
 		void add_wall_objects_up_to_position(rail_state& state, float position, uint8_t type);
-		void add_poll_objects_up_to_position(std::size_t rail_number, rail_state& state, float position);
+		void add_poll_objects_up_to_position(std::size_t rail_number,
+		                                     rail_state& state,
+		                                     float position);
 		void add_ground_objects_up_to_position(rail_state& state, float position);
 
 	  public:

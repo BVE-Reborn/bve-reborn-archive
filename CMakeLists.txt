@@ -19,12 +19,17 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release) 
 endif() 
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dependencies/cotire/CMake)
+include(cotire)
 include("dependencies/cmake-utils/include/clang_format.cmake")
 include("dependencies/cmake-utils/include/linter.cmake")
 include("dependencies/cmake-utils/include/meta_features.cmake")
 include("dependencies/cmake-utils/include/warnings.cmake")
 include("dependencies/targets.cmake")
 include("dependencies/binary.cmake")
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
+set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 
 #################
 # Global Config #

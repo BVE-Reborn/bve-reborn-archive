@@ -2,6 +2,7 @@
 
 #include "parsers/xml/dynamic_background.hpp"
 #include "parsers/xml/dynamic_lighting.hpp"
+#include "parsers/xml/route_marker.hpp"
 #include <glm/vec3.hpp>
 #include <set>
 #include <string>
@@ -128,6 +129,12 @@ namespace csv_rw_route {
 		openbve2::datatypes::color8_rgb color;
 	};
 
+	struct marker_info {
+		xml::route_marker::parsed_route_marker marker;
+		float start;
+		float end;
+	};
+
 	template <class T, std::intmax_t def>
 	struct position_data_pair_default {
 		float position = 0;
@@ -202,6 +209,7 @@ namespace csv_rw_route {
 		std::string comment;
 		std::string timetable_text;
 		display_unit_info display_unit;
+		std::vector<marker_info> markers;
 
 		// World State -- Ignored
 		float guage = 1435;

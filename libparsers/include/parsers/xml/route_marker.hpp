@@ -24,7 +24,16 @@ namespace xml {
 		};
 
 		struct text_marker {
-			enum class color : std::uint8_t { Black, Gray, White, Red, Orange, Green, Blue, Magenta };
+			enum class color : std::uint8_t {
+				Black,
+				Gray,
+				White,
+				Red,
+				Orange,
+				Green,
+				Blue,
+				Magenta
+			};
 
 			std::vector<std::string> allowed_trains;
 			std::string early_text;

@@ -46,7 +46,8 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	float vertical_movement = input_direction.y * distance;
 
 	// non-vertical movement we are allowed
-	float horizontal_movement = std::sqrt(distance * distance - vertical_movement * vertical_movement);
+	float horizontal_movement =
+	    std::sqrt(distance * distance - vertical_movement * vertical_movement);
 
 	bool flipped_radius = radius < 0;
 	radius = std::abs(radius);

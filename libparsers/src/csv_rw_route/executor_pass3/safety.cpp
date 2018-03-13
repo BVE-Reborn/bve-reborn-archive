@@ -33,7 +33,8 @@ namespace csv_rw_route {
 		}
 
 		roi.filename = file_iter->second;
-		roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		roi.position =
+		    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		// TODO(sirflankalot): convert PYR to angle vector
 		/* roi.rotation = */
 
@@ -78,7 +79,8 @@ namespace csv_rw_route {
 				break;
 		}
 
-		roi.position = position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		roi.position =
+		    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		// TODO(sirflankalot): convert PYR to angle vector
 		/* roi.rotation = */
 

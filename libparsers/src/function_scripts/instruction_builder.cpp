@@ -241,7 +241,8 @@ namespace function_scripts {
 			if (index_iter != indexable_variables.end()) {
 				if (arg_count >= 1) {
 					call_next_node(node.args[0]);
-					list.instructions.emplace_back<instructions::op_variable_indexed>({index_iter->second});
+					list.instructions.emplace_back<instructions::op_variable_indexed>(
+					    {index_iter->second});
 					list.used_indexed_variables.insert(index_iter->second);
 				}
 				else {
@@ -249,7 +250,8 @@ namespace function_scripts {
 				}
 				if (arg_count != 1) {
 					std::ostringstream error;
-					error << "Variable \"" << node.name.val << "\" must be indexed with one argument.";
+					error << "Variable \"" << node.name.val
+					      << "\" must be indexed with one argument.";
 					list.errors.emplace_back<errors::error_t>({0, error.str()});
 				}
 				return;
@@ -340,7 +342,8 @@ namespace function_scripts {
 		}
 	};
 
-	instruction_list build_instructions(const tree_node& head_node, const errors::errors_t& errors) {
+	instruction_list build_instructions(const tree_node& head_node,
+	                                    const errors::errors_t& errors) {
 		intruction_builder_helper ibh;
 		std::copy(errors.begin(), errors.end(), std::back_inserter(ibh.list.errors));
 		mapbox::util::apply_visitor(ibh, head_node);

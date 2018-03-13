@@ -109,11 +109,13 @@ namespace b3d_csv_object {
 
 		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs) {
 			os << "(SetBlendMode, line = " << rhs.line << ", " //
-			   << "BlendMode = " << (rhs.BlendMode == mesh_t::BlendMode_t::Normal ? "Normal"s : "Additive"s) << ", "
+			   << "BlendMode = "
+			   << (rhs.BlendMode == mesh_t::BlendMode_t::Normal ? "Normal"s : "Additive"s) << ", "
 			   << "GlowHalfDistance = " << rhs.GlowHalfDistance << ", "
 			   << "GlowAttenuationMode = "
-			   << (rhs.GlowAttenuationMode == mesh_t::GlowAttenuationMode_t::DivideExponent2 ? "DivideExponent2"s
-			                                                                                 : "DivideExponent4"s)
+			   << (rhs.GlowAttenuationMode == mesh_t::GlowAttenuationMode_t::DivideExponent2
+			           ? "DivideExponent2"s
+			           : "DivideExponent4"s)
 			   << ")";
 			return os;
 		}

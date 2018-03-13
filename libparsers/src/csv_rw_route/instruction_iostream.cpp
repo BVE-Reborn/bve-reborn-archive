@@ -8,87 +8,88 @@
 
 #define PRINT_VALUE(name) _os << ", " #name " = " << inst.name;
 #define PRINT_BYTE(name) _os << ", " #name " = " << int(inst.name);
-#define PRINT_VECTOR(name)                                                                                             \
-	_os << ", " #name " = ";                                                                                           \
+#define PRINT_VECTOR(name)                                                                         \
+	_os << ", " #name " = ";                                                                       \
 	print_vector(inst.name);
-#define PRINT_TIME(name)                                                                                               \
-	_os << ", " #name " = " << std::setw(2) << std::setfill('0') << (inst.name / 3600) << ':' << std::setw(2)          \
-	    << std::setfill('0') << ((inst.name / 60) % 60) << ':' << std::setw(2) << std::setfill('0')                    \
-	    << (inst.name % 60);
-#define PRINT_COLOR(name)                                                                                              \
-	_os << ", " #name " = "                                                                                            \
-	    << "(r = " << int(inst.name.r) << ", g = " << int(inst.name.g) << ", b = " << int(inst.name.b) << ')';
+#define PRINT_TIME(name)                                                                           \
+	_os << ", " #name " = " << std::setw(2) << std::setfill('0') << (inst.name / 3600) << ':'      \
+	    << std::setw(2) << std::setfill('0') << ((inst.name / 60) % 60) << ':' << std::setw(2)     \
+	    << std::setfill('0') << (inst.name % 60);
+#define PRINT_COLOR(name)                                                                          \
+	_os << ", " #name " = "                                                                        \
+	    << "(r = " << int(inst.name.r) << ", g = " << int(inst.name.g)                             \
+	    << ", b = " << int(inst.name.b) << ')';
 
-#define PRINT_ENUM1(name, nsp, value1)                                                                                 \
-	if (inst.name == instructions::nsp::value1)                                                                        \
+#define PRINT_ENUM1(name, nsp, value1)                                                             \
+	if (inst.name == instructions::nsp::value1)                                                    \
 		_os << ", " #name " = " #value1;
-#define PRINT_ENUM2(name, nsp, value2, ...)                                                                            \
-	if (inst.name == instructions::nsp::value2)                                                                        \
-		_os << ", " #name " = " #value2;                                                                               \
+#define PRINT_ENUM2(name, nsp, value2, ...)                                                        \
+	if (inst.name == instructions::nsp::value2)                                                    \
+		_os << ", " #name " = " #value2;                                                           \
 	EXPAND(PRINT_ENUM1(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM3(name, nsp, value3, ...)                                                                            \
-	if (inst.name == instructions::nsp::value3)                                                                        \
-		_os << ", " #name " = " #value3;                                                                               \
+#define PRINT_ENUM3(name, nsp, value3, ...)                                                        \
+	if (inst.name == instructions::nsp::value3)                                                    \
+		_os << ", " #name " = " #value3;                                                           \
 	EXPAND(PRINT_ENUM2(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM4(name, nsp, value4, ...)                                                                            \
-	if (inst.name == instructions::nsp::value4)                                                                        \
-		_os << ", " #name " = " #value4;                                                                               \
+#define PRINT_ENUM4(name, nsp, value4, ...)                                                        \
+	if (inst.name == instructions::nsp::value4)                                                    \
+		_os << ", " #name " = " #value4;                                                           \
 	EXPAND(PRINT_ENUM3(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM5(name, nsp, value5, ...)                                                                            \
-	if (inst.name == instructions::nsp::value5)                                                                        \
-		_os << ", " #name " = " #value5;                                                                               \
+#define PRINT_ENUM5(name, nsp, value5, ...)                                                        \
+	if (inst.name == instructions::nsp::value5)                                                    \
+		_os << ", " #name " = " #value5;                                                           \
 	EXPAND(PRINT_ENUM4(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM6(name, nsp, value6, ...)                                                                            \
-	if (inst.name == instructions::nsp::value6)                                                                        \
-		_os << ", " #name " = " #value6;                                                                               \
+#define PRINT_ENUM6(name, nsp, value6, ...)                                                        \
+	if (inst.name == instructions::nsp::value6)                                                    \
+		_os << ", " #name " = " #value6;                                                           \
 	EXPAND(PRINT_ENUM5(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM7(name, nsp, value7, ...)                                                                            \
-	if (inst.name == instructions::nsp::value7)                                                                        \
-		_os << ", " #name " = " #value7;                                                                               \
+#define PRINT_ENUM7(name, nsp, value7, ...)                                                        \
+	if (inst.name == instructions::nsp::value7)                                                    \
+		_os << ", " #name " = " #value7;                                                           \
 	EXPAND(PRINT_ENUM6(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM8(name, nsp, value8, ...)                                                                            \
-	if (inst.name == instructions::nsp::value8)                                                                        \
-		_os << ", " #name " = " #value8;                                                                               \
+#define PRINT_ENUM8(name, nsp, value8, ...)                                                        \
+	if (inst.name == instructions::nsp::value8)                                                    \
+		_os << ", " #name " = " #value8;                                                           \
 	EXPAND(PRINT_ENUM7(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM9(name, nsp, value9, ...)                                                                            \
-	if (inst.name == instructions::nsp::value9)                                                                        \
-		_os << ", " #name " = " #value9;                                                                               \
+#define PRINT_ENUM9(name, nsp, value9, ...)                                                        \
+	if (inst.name == instructions::nsp::value9)                                                    \
+		_os << ", " #name " = " #value9;                                                           \
 	EXPAND(PRINT_ENUM8(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM10(name, nsp, value10, ...)                                                                          \
-	if (inst.name == instructions::nsp::value10)                                                                       \
-		_os << ", " #name " = " #value10;                                                                              \
+#define PRINT_ENUM10(name, nsp, value10, ...)                                                      \
+	if (inst.name == instructions::nsp::value10)                                                   \
+		_os << ", " #name " = " #value10;                                                          \
 	EXPAND(PRINT_ENUM9(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM11(name, nsp, value11, ...)                                                                          \
-	if (inst.name == instructions::nsp::value11)                                                                       \
-		_os << ", " #name " = " #value11;                                                                              \
+#define PRINT_ENUM11(name, nsp, value11, ...)                                                      \
+	if (inst.name == instructions::nsp::value11)                                                   \
+		_os << ", " #name " = " #value11;                                                          \
 	EXPAND(PRINT_ENUM10(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM12(name, nsp, value12, ...)                                                                          \
-	if (inst.name == instructions::nsp::value12)                                                                       \
-		_os << ", " #name " = " #value12;                                                                              \
+#define PRINT_ENUM12(name, nsp, value12, ...)                                                      \
+	if (inst.name == instructions::nsp::value12)                                                   \
+		_os << ", " #name " = " #value12;                                                          \
 	EXPAND(PRINT_ENUM11(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM13(name, nsp, value13, ...)                                                                          \
-	if (inst.name == instructions::nsp::value13)                                                                       \
-		_os << ", " #name " = " #value13;                                                                              \
+#define PRINT_ENUM13(name, nsp, value13, ...)                                                      \
+	if (inst.name == instructions::nsp::value13)                                                   \
+		_os << ", " #name " = " #value13;                                                          \
 	EXPAND(PRINT_ENUM12(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM14(name, nsp, value14, ...)                                                                          \
-	if (inst.name == instructions::nsp::value14)                                                                       \
-		_os << ", " #name " = " #value14;                                                                              \
+#define PRINT_ENUM14(name, nsp, value14, ...)                                                      \
+	if (inst.name == instructions::nsp::value14)                                                   \
+		_os << ", " #name " = " #value14;                                                          \
 	EXPAND(PRINT_ENUM13(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM15(name, nsp, value15, ...)                                                                          \
-	if (inst.name == instructions::nsp::value15)                                                                       \
-		_os << ", " #name " = " #value15;                                                                              \
+#define PRINT_ENUM15(name, nsp, value15, ...)                                                      \
+	if (inst.name == instructions::nsp::value15)                                                   \
+		_os << ", " #name " = " #value15;                                                          \
 	EXPAND(PRINT_ENUM14(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM16(name, nsp, value16, ...)                                                                          \
-	if (inst.name == instructions::nsp::value16)                                                                       \
-		_os << ", " #name " = " #value16;                                                                              \
+#define PRINT_ENUM16(name, nsp, value16, ...)                                                      \
+	if (inst.name == instructions::nsp::value16)                                                   \
+		_os << ", " #name " = " #value16;                                                          \
 	EXPAND(PRINT_ENUM15(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM17(name, nsp, value17, ...)                                                                          \
-	if (inst.name == instructions::nsp::value17)                                                                       \
-		_os << ", " #name " = " #value17;                                                                              \
+#define PRINT_ENUM17(name, nsp, value17, ...)                                                      \
+	if (inst.name == instructions::nsp::value17)                                                   \
+		_os << ", " #name " = " #value17;                                                          \
 	EXPAND(PRINT_ENUM16(name, nsp, __VA_ARGS__))
-#define PRINT_ENUM18(name, nsp, value18, ...)                                                                          \
-	if (inst.name == instructions::nsp::value18)                                                                       \
-		_os << ", " #name " = " #value18;                                                                              \
+#define PRINT_ENUM18(name, nsp, value18, ...)                                                      \
+	if (inst.name == instructions::nsp::value18)                                                   \
+		_os << ", " #name " = " #value18;                                                          \
 	EXPAND(PRINT_ENUM17(name, nsp, __VA_ARGS__))
 
 namespace parsers {
@@ -114,8 +115,8 @@ namespace csv_rw_route {
 
 			template <class T>
 			void start(const T& inst, const char* name) {
-				_os << "(" << inst.absolute_position << ":" << name << ", filename = " << inst.file_index
-				    << ", line = " << inst.line;
+				_os << "(" << inst.absolute_position << ":" << name
+				    << ", filename = " << inst.file_index << ", line = " << inst.line;
 			}
 
 			void end() {
@@ -220,8 +221,8 @@ namespace csv_rw_route {
 			}
 			void operator()(const instructions::route::Change& inst) {
 				start(inst, "Route.Change");
-				PRINT_ENUM3(mode, route::Change, SaftyActiviatedServiceBrakes, SaftyActiviatedEmergencyBrakes,
-				            SaftyDeactivatedEmergencyBrakes);
+				PRINT_ENUM3(mode, route::Change, SaftyActiviatedServiceBrakes,
+				            SaftyActiviatedEmergencyBrakes, SaftyDeactivatedEmergencyBrakes);
 
 				end();
 			}
@@ -366,8 +367,9 @@ namespace csv_rw_route {
 			void operator()(const instructions::structure::Command& inst) {
 				start(inst, "Structure.Command");
 
-				PRINT_ENUM18(command, structure::Command, Ground, Rail, WallL, WallR, DikeL, DikeR, FormL, FormR,
-				             FormCL, FormCR, RoofL, RoofR, RoofCL, RoofCR, CrackL, CrackR, FreeObj, Beacon);
+				PRINT_ENUM18(command, structure::Command, Ground, Rail, WallL, WallR, DikeL, DikeR,
+				             FormL, FormR, FormCL, FormCR, RoofL, RoofR, RoofCL, RoofCR, CrackL,
+				             CrackR, FreeObj, Beacon);
 
 				PRINT_VALUE(structure_index);
 				PRINT_VALUE(filename);
@@ -597,11 +599,11 @@ namespace csv_rw_route {
 
 				PRINT_VALUE(name);
 				PRINT_TIME(arrival);
-				PRINT_ENUM6(arrival_tag, track::Sta::ArrivalTime_t, Time, AnyTime, AllPass, PlayerPass, PlayerStop,
-				            AllStop);
+				PRINT_ENUM6(arrival_tag, track::Sta::ArrivalTime_t, Time, AnyTime, AllPass,
+				            PlayerPass, PlayerStop, AllStop);
 				PRINT_TIME(departure);
-				PRINT_ENUM6(departure_tag, track::Sta::DepartureTime_t, Time, AnyTime, Terminal, TerminalTime,
-				            ChangeEnds, ChangeEndsTime);
+				PRINT_ENUM6(departure_tag, track::Sta::DepartureTime_t, Time, AnyTime, Terminal,
+				            TerminalTime, ChangeEnds, ChangeEndsTime);
 				PRINT_VALUE(pass_alarm);
 				PRINT_ENUM4(doors, track::Sta::Doors_t, Left, None, Right, Both);
 				PRINT_VALUE(force_red);
@@ -666,8 +668,8 @@ namespace csv_rw_route {
 			void operator()(const instructions::track::Signal& inst) {
 				start(inst, "Track.Signal");
 
-				PRINT_ENUM8(type, track::Signal, R_Y, R_G, R_Y_G, R_YY_Y_G, R_Y_YG_G, R_YY_Y_YG_G, R_Y_YG_G_GG,
-				            R_YY_Y_YG_G_GG);
+				PRINT_ENUM8(type, track::Signal, R_Y, R_G, R_Y_G, R_YY_Y_G, R_Y_YG_G, R_YY_Y_YG_G,
+				            R_Y_YG_G_GG, R_YY_Y_YG_G_GG);
 				PRINT_VALUE(x_offset);
 				PRINT_VALUE(y_offset);
 				PRINT_VALUE(yaw);
@@ -705,7 +707,8 @@ namespace csv_rw_route {
 			void operator()(const instructions::track::Transponder& inst) {
 				start(inst, "Track.Transponder");
 
-				PRINT_ENUM5(type, track::Transponder, S_type, SN_type, Departure, ATS_P_RENEWAL, ATS_P_STOP);
+				PRINT_ENUM5(type, track::Transponder, S_type, SN_type, Departure, ATS_P_RENEWAL,
+				            ATS_P_STOP);
 				PRINT_VALUE(signal);
 				PRINT_VALUE(switch_system);
 				PRINT_VALUE(x_offset);
@@ -767,7 +770,8 @@ namespace csv_rw_route {
 
 				PRINT_VALUE(text);
 				PRINT_VALUE(distance);
-				PRINT_ENUM8(font_color, track::TextMarker, Black, Gray, White, Red, Orange, Green, Blue, Magenta);
+				PRINT_ENUM8(font_color, track::TextMarker, Black, Gray, White, Red, Orange, Green,
+				            Blue, Magenta);
 
 				end();
 			}
