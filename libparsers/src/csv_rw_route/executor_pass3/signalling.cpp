@@ -26,6 +26,7 @@ namespace csv_rw_route {
 					case instructions::track::Limit::Cource_t::Left:
 						obj_name << "left_bound";
 						break;
+					default:
 					case instructions::track::Limit::Cource_t::None:
 						obj_name << "no_bound";
 						break;
@@ -126,6 +127,7 @@ namespace csv_rw_route {
 				name << "\034compat\034/signal/2a";
 				si.value = {0, 1};
 				break;
+			default:
 			case instructions::track::Signal::R_G:
 				name << "\034compat\034/signal/2b";
 				si.value = {0, 1};
