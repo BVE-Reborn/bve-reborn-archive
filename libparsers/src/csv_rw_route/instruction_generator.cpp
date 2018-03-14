@@ -1653,6 +1653,54 @@ namespace csv_rw_route {
 			return mxml;
 		}
 
+		instruction create_instruction_track_text_marker(
+		    const line_splitting::instruction_info& inst) {
+			args_at_least(inst, 1, "Track.TextMarker");
+
+			if (inst.args.size() >= 2) {
+				instructions::track::TextMarker m;
+
+				m.text = inst.args[0];
+				m.distance = util::parse_loose_float(inst.args[1]);
+
+				if (inst.args.size() >= 3) {
+					static std::map<std::string, decltype(decltype(m)::font_color)> text_mapping{
+					    //
+					    {"black", instructions::track::TextMarker::Black},
+					    {"gray", instructions::track::TextMarker::Gray},
+					    {"grey", instructions::track::TextMarker::Gray},
+					    {"white", instructions::track::TextMarker::White},
+					    {"red", instructions::track::TextMarker::Red},
+					    {"orange", instructions::track::TextMarker::Orange},
+					    {"green", instructions::track::TextMarker::Green},
+					    {"blue", instructions::track::TextMarker::Blue},
+					    {"magenta", instructions::track::TextMarker::Magenta}
+					    //
+					};
+
+					auto text_mapping_iter = text_mapping.find(util::lower_copy(inst.args[2]));
+
+					if (text_mapping_iter != text_mapping.end()) {
+						m.font_color = text_mapping_iter->second;
+					}
+					else {
+						m.font_color = instructions::track::TextMarker::Black;
+					}
+				}
+				else {
+					m.font_color = instructions::track::TextMarker::Black;
+				}
+
+				return m;
+			}
+
+			instructions::track::MarkerXML mxml;
+
+			mxml.filename = inst.args[0];
+
+			return mxml;
+		}
+
 		instruction create_instruction_track_pointofinterest(
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.PointOfInterest");
@@ -1854,6 +1902,7 @@ namespace csv_rw_route {
 		        {"track.fog"s, &create_instruction_track_fog},
 		        {"track.brightness"s, &create_instruction_track_brightness},
 		        {"track.marker"s, &create_instruction_track_marker},
+		        {"track.textmarker"s, &create_instruction_track_text_marker},
 		        {"track.pointofinterest"s, &create_instruction_track_pointofinterest},
 		        {"track.pretrain"s, &create_instruction_track_pretrain},
 		        {"track.announce"s, &create_instruction_track_announce},

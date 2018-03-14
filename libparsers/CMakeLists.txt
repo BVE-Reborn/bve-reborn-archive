@@ -84,9 +84,13 @@ target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant)
 target_include_directories(parsers PRIVATE src)
 target_link_libraries(parsers PRIVATE Boost::boost
                                       rapidxml::rapidxml
-                                      options::fast_math options::iterator_debug_level_1)
+                                      options::fast_math options::iterator_debug_level_1
+                                      options::best_linker)
 add_sanitizers(parsers)
 cotire(parsers)
+
+# message(STATUS "${flaggers} ${includes} ${sysincludes} ${defines}")
+# message(STATUS "${_sourceFiles}")
 
 ################
 # parsers_test #
@@ -121,6 +125,7 @@ target_include_directories(parsers_test PRIVATE src)
 target_link_libraries(parsers_test PRIVATE core parsers
                                            Boost::boost Boost::filesystem
                                            Threads::Threads
-                                           options::fast_math options::iterator_debug_level_1)
+                                           options::fast_math options::iterator_debug_level_1 
+                                           options::best_linker)
 add_sanitizers(parsers_test)
 cotire(parsers_test)

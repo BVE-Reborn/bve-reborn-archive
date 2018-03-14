@@ -17,13 +17,11 @@ namespace xml {
 			auto* openbve_node = doc.first_node("openbve", 0, false);
 			rapidxml::xml_node<char>* current_section;
 			if (openbve_node != nullptr) {
-				current_section = openbve_node->first_node();
+				current_section = openbve_node->first_node("brightness", 0, false);
 			}
 			else {
-				current_section = doc.first_node();
+				current_section = doc.first_node("brightness", 0, false);
 			}
-
-			current_section = doc.first_node("brightness", 0, false);
 
 			for (; current_section != nullptr;
 			     current_section = current_section->next_sibling("brightness", 0, false)) {

@@ -135,6 +135,23 @@ namespace csv_rw_route {
 		float end;
 	};
 
+	struct point_of_interest_info {
+		glm::vec3 position;
+		glm::vec3 camera_rotation;
+		std::string text;
+	};
+
+	struct announcement_info {
+		float position;
+		float speed = 0;
+		filename_set_iterator filename;
+	};
+
+	struct sound_info {
+		glm::vec3 position;
+		filename_set_iterator filename;
+	};
+
 	template <class T, std::intmax_t def>
 	struct position_data_pair_default {
 		float position = 0;
@@ -153,11 +170,13 @@ namespace csv_rw_route {
 	using section_info = position_data_pair<std::vector<std::size_t>>;
 	using background_info = position_data_pair<xml::dynamic_background::parsed_dynamic_background>;
 	using brightness_level_info = position_data_pair<std::uint8_t>;
+	using pretrain_info = position_data_pair<openbve2::datatypes::time>;
 
 	struct parsed_route_data {
 		// Core route info
 		std::vector<rail_block_info> blocks;
 		std::vector<ground_height_info> ground_height;
+		std::vector<float> bumpers;
 
 		// Secondary route info
 		std::vector<rail_adheason_info> adheason;
@@ -189,6 +208,7 @@ namespace csv_rw_route {
 		std::vector<atsp_section_info> patterns;
 
 		// Other trains
+		std::vector<pretrain_info> pretrain_points;
 		std::vector<float> ai_train_start_intervals;
 		float ai_max_speed = 0;
 
@@ -199,6 +219,8 @@ namespace csv_rw_route {
 		openbve2::datatypes::time game_start_time = -1;
 
 		// Sound indices
+		std::vector<sound_info> sounds;
+		std::vector<announcement_info> announcments;
 		std::unordered_map<std::size_t, std::size_t> rail_runsound_mapping;
 		std::unordered_map<std::size_t, std::size_t> rail_flangesound_mapping;
 
@@ -210,6 +232,7 @@ namespace csv_rw_route {
 		std::string timetable_text;
 		display_unit_info display_unit;
 		std::vector<marker_info> markers;
+		std::vector<point_of_interest_info> points_of_interest;
 
 		// World State -- Ignored
 		float guage = 1435;

@@ -114,6 +114,7 @@ namespace csv_rw_route {
 
 		// blame indices to get the line number that committed an error
 		// these are verified in the verificiation pass
+		// TODO(sirflankalot): wtf are these blame pairs?
 		std::unordered_map<std::size_t, file_index_line_pair> rail_runsound_blame;
 		std::unordered_map<std::size_t, file_index_line_pair> rail_flangesound_blame;
 

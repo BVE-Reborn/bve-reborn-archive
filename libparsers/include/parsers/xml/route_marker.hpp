@@ -54,7 +54,6 @@ namespace xml {
 
 		parsed_route_marker parse(const std::string& filename,
 		                          std::string input_string,
-		                          errors::errors_t& file_errors,
 		                          const find_relative_file_func& get_relative_file);
 	} // namespace route_marker
 } // namespace xml
