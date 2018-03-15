@@ -107,8 +107,8 @@ matrix:
       osx_image: xcode6.4
       before_install:
         - brew update
-        - brew upgrade cmake
-        - brew install ninja
+        - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
+        - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of stuff
@@ -119,8 +119,8 @@ matrix:
       osx_image: xcode9.2
       before_install:
         - brew update
-        - brew upgrade cmake
-        - brew install ninja
+        - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
+        - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of Stuff
