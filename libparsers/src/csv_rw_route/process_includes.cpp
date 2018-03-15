@@ -317,11 +317,11 @@ namespace csv_rw_route {
 		return output;
 	}
 
-	preprocessed_lines process_include_files(const std::string& filename,
-	                                         openbve2::datatypes::rng& rng,
-	                                         errors::multi_error& errors,
-	                                         file_type ft,
-	                                         const find_relative_file_func& get_abs_path) {
+	preprocessed_lines process_include_directives(const std::string& filename,
+	                                              openbve2::datatypes::rng& rng,
+	                                              errors::multi_error& errors,
+	                                              file_type ft,
+	                                              const find_relative_file_func& get_abs_path) {
 		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng,
 		                                        errors, ft, get_abs_path);
 		remove_duplicate_filenames(lines);

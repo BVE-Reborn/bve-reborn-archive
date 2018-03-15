@@ -1,4 +1,4 @@
-#include "../executor_pass3.hpp"
+#include "executor_pass3.hpp"
 #include <sstream>
 
 namespace parsers {
@@ -160,13 +160,8 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (!state.active) {
-			std::ostringstream err;
-
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
-			add_error(_errors, issuer_filename, inst.line, err);
-		}
+		// Don't check if the rail is active as people can call .RailEnd before calling .WallEnd
+		// if (!state.active) {}
 
 		add_wall_objects_up_to_position(state, inst.absolute_position, 0);
 		add_wall_objects_up_to_position(state, inst.absolute_position, 1);
@@ -235,13 +230,8 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (!state.active) {
-			std::ostringstream err;
-
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
-			add_error(_errors, issuer_filename, inst.line, err);
-		}
+		// Don't check if the rail is active as people can call .RailEnd before calling .DikeEnd
+		// if (!state.active) {}
 
 		add_wall_objects_up_to_position(state, inst.absolute_position, 2);
 		add_wall_objects_up_to_position(state, inst.absolute_position, 3);
@@ -334,13 +324,8 @@ namespace csv_rw_route {
 
 		auto& state = current_rail_state[inst.rail_index];
 
-		if (!state.active) {
-			std::ostringstream err;
-
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
-			add_error(_errors, issuer_filename, inst.line, err);
-		}
+		// Don't check if the rail is active as people can call .RailEnd before calling .PoleEnd
+		// if (!state.active) {}
 
 		add_poll_objects_up_to_position(inst.rail_index, state, inst.absolute_position);
 

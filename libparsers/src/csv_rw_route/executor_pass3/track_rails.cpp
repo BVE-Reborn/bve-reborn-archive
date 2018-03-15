@@ -1,4 +1,4 @@
-#include "../executor_pass3.hpp"
+#include "executor_pass3.hpp"
 #include <sstream>
 
 namespace parsers {
@@ -47,9 +47,9 @@ namespace csv_rw_route {
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
-		state.x_offset = inst.x_offset.get_value_or(0);
-		state.y_offset = inst.y_offset.get_value_or(0);
-		state.rail_structure_index = inst.rail_type.get_value_or(0);
+		state.x_offset = inst.x_offset.get_value_or(state.x_offset);
+		state.y_offset = inst.y_offset.get_value_or(state.y_offset);
+		state.rail_structure_index = inst.rail_type.get_value_or(state.rail_structure_index);
 		state.active = true;
 
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
@@ -66,9 +66,9 @@ namespace csv_rw_route {
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
-		state.x_offset = inst.x_offset.get_value_or(0);
-		state.y_offset = inst.y_offset.get_value_or(0);
-		state.rail_structure_index = inst.rail_type.get_value_or(0);
+		state.x_offset = inst.x_offset.get_value_or(state.x_offset);
+		state.y_offset = inst.y_offset.get_value_or(state.y_offset);
+		state.rail_structure_index = inst.rail_type.get_value_or(state.rail_structure_index);
 		state.active = true;
 
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
@@ -94,6 +94,7 @@ namespace csv_rw_route {
 		}
 
 		state.rail_structure_index = inst.rail_type;
+		state.active = true;
 
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
@@ -117,7 +118,7 @@ namespace csv_rw_route {
 			add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
-		state.active = true;
+		state.active = false;
 
 		if (object_rail_mapping.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;

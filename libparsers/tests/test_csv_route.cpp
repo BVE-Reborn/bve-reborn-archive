@@ -22,6 +22,8 @@ void test_csv_route() {
 	auto file_location = DIRECTORY
 	    "../libparsers/tests/test_files/plymouth/1980s/HST (Non-Stopping) - "
 	    "Liskeard [c].csv";
+	/*auto file_location = DIRECTORY
+	    "../libparsers/tests/test_files/OpenBVE - 2009 (ATO) Walthamstow to Vauxhall.csv"s;*/
 	//	auto file_location = DIRECTORY "../libparsers/tests/Xmasmonorail.csv";
 	// Bridge NTT [v1.0].csv";
 	auto used_file = boost::filesystem::path(file_location);
@@ -37,10 +39,12 @@ void test_csv_route() {
 	};
 
 	auto vals =
-	    parsers::csv_rw_route::process_include_files(boost::filesystem::canonical(file_location)
-	                                                     .string(),
-	                                                 eng, me, parsers::csv_rw_route::file_type::csv,
-	                                                 get_abs_path);
+	    parsers::csv_rw_route::process_include_directives(boost::filesystem::canonical(
+	                                                          file_location)
+	                                                          .string(),
+	                                                      eng, me,
+	                                                      parsers::csv_rw_route::file_type::csv,
+	                                                      get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';

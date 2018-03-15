@@ -27,7 +27,7 @@ namespace csv_rw_route {
 		std::vector<std::string> filenames;
 	};
 
-	preprocessed_lines process_include_files(const std::string& filename,
+	preprocessed_lines process_include_directives(const std::string& filename,
 	                                         openbve2::datatypes::rng& rng,
 	                                         errors::multi_error& errors,
 	                                         file_type ft,

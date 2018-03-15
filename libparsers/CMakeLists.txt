@@ -18,19 +18,35 @@ set(SOURCES
             src/csv_rw_route/executor_pass3.cpp
             src/csv_rw_route/executor_pass3/cycle.cpp
             src/csv_rw_route/executor_pass3/finalize.cpp
-            src/csv_rw_route/executor_pass3/misc.cpp
-            src/csv_rw_route/executor_pass3/objects.cpp
             src/csv_rw_route/executor_pass3/options.cpp
-            src/csv_rw_route/executor_pass3/rails.cpp
             src/csv_rw_route/executor_pass3/route.cpp
-            src/csv_rw_route/executor_pass3/safety.cpp
-            src/csv_rw_route/executor_pass3/signal.cpp
-            src/csv_rw_route/executor_pass3/signalling.cpp
-            src/csv_rw_route/executor_pass3/stations.cpp
+            src/csv_rw_route/executor_pass3/signals.cpp
             src/csv_rw_route/executor_pass3/structure.cpp
             src/csv_rw_route/executor_pass3/texture.cpp
+            src/csv_rw_route/executor_pass3/track_misc.cpp
+            src/csv_rw_route/executor_pass3/track_objects.cpp
+            src/csv_rw_route/executor_pass3/track_rails.cpp
+            src/csv_rw_route/executor_pass3/track_safety.cpp
+            src/csv_rw_route/executor_pass3/track_signals_limits.cpp
+            src/csv_rw_route/executor_pass3/track_stations.cpp
             src/csv_rw_route/executor_pass3/train.cpp
             src/csv_rw_route/executor_pass3/util.cpp
+            src/csv_rw_route/instruction_generation/cycles.cpp
+            src/csv_rw_route/instruction_generation/location_statement.cpp
+            src/csv_rw_route/instruction_generation/options.cpp
+            src/csv_rw_route/instruction_generation/route.cpp
+            src/csv_rw_route/instruction_generation/signals.cpp
+            src/csv_rw_route/instruction_generation/string_instruction_mapping.cpp
+            src/csv_rw_route/instruction_generation/structure.cpp
+            src/csv_rw_route/instruction_generation/texture.cpp
+            src/csv_rw_route/instruction_generation/track_geometry.cpp
+            src/csv_rw_route/instruction_generation/track_misc.cpp
+            src/csv_rw_route/instruction_generation/track_objects.cpp
+            src/csv_rw_route/instruction_generation/track_rails.cpp
+            src/csv_rw_route/instruction_generation/track_safety.cpp
+            src/csv_rw_route/instruction_generation/track_signals_limits.cpp
+            src/csv_rw_route/instruction_generation/track_stations.cpp
+            src/csv_rw_route/instruction_generation/train.cpp
             src/csv_rw_route/instruction_generator.cpp
             src/csv_rw_route/instruction_iostream.cpp
             src/csv_rw_route/preprocessor.cpp
@@ -55,8 +71,8 @@ set(HEADERS
             include/parsers/b3d_csv.hpp
             include/parsers/dependencies.hpp
             include/parsers/errors.hpp
-            include/parsers/function_scripts.hpp
             include/parsers/find_relative_file.hpp
+            include/parsers/function_scripts.hpp
             include/parsers/parsers.hpp
             include/parsers/xml/dynamic_background.hpp
             include/parsers/xml/dynamic_lighting.hpp
@@ -64,7 +80,8 @@ set(HEADERS
             src/b3d_csv_object.hpp
             src/csv.hpp
             src/csv_rw_route.hpp
-            src/csv_rw_route/executor_pass3.hpp
+            src/csv_rw_route/executor_pass3/executor_pass3.hpp
+            src/csv_rw_route/instruction_generation/instruction_generator.hpp
             src/csv_rw_route/instructions.hpp
             src/csv_rw_route/route_structure.hpp
             src/function_scripts.hpp

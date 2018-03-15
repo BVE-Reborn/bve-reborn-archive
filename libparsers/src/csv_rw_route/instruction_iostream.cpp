@@ -97,8 +97,17 @@ namespace csv_rw_route {
 	namespace {
 		struct csv_rw_route_instruction_io_class {
 			std::ostream& _os;
+			const std::vector<std::string> _filenames;
+			bool has_filenames;
 
-			explicit csv_rw_route_instruction_io_class(std::ostream& os) : _os(os){};
+			explicit csv_rw_route_instruction_io_class(std::ostream& os) :
+			    _os(os),
+			    has_filenames(false){};
+			explicit csv_rw_route_instruction_io_class(std::ostream& os,
+			                                           const std::vector<std::string>& filenames) :
+			    _os(os),
+			    _filenames(filenames),
+			    has_filenames(true){};
 
 			template <class T>
 			void print_vector(const std::vector<T>& vec) {
@@ -115,13 +124,17 @@ namespace csv_rw_route {
 
 			template <class T>
 			void start(const T& inst, const char* name) {
-				_os << "(" << inst.absolute_position << ":" << name
-				    << ", filename = " << inst.file_index << ", line = " << inst.line;
+				_os << inst.absolute_position << ", " << name;
+				if (has_filenames) {
+					_os << ", filename = " << _filenames[inst.file_index];
+				}
+				else {
+					_os << ", file_index = " << inst.file_index;
+				}
+				_os << ", line = " << inst.line;
 			}
 
-			void end() {
-				_os << ")";
-			}
+			void end() {}
 
 			void operator()(const instructions::naked::position& inst) {
 				start(inst, "Position");
@@ -839,7 +852,13 @@ std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruct
 	}
 	os << "Instructions:\n";
 	for (auto& i : list.instructions) {
-		::operator<<(os, i) << "\n";
+		os << std::boolalpha;
+
+		parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os, list.filenames);
+
+		mapbox::util::apply_visitor(crriic, i);
+
+		os << "\n";
 	}
 	return os;
 }
