@@ -99,11 +99,10 @@ target_include_directories(parsers PUBLIC include)
 target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant)
 
 target_include_directories(parsers PRIVATE src)
-target_link_libraries(parsers PRIVATE Boost::boost
+target_link_libraries(parsers PRIVATE Boost::boost Boost::regex
                                       rapidxml::rapidxml
                                       options::fast_math options::iterator_debug_level_1
                                       # options::best_linker
-                                      
                                       )
 add_sanitizers(parsers)
 cotire(parsers)

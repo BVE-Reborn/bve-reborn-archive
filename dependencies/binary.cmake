@@ -3,12 +3,12 @@
 ##########
 
 if (UNIX)
-    set(Boost_USE_STATIC_LIBS On)
+    set(Boost_USE_STATIC_LIBS Off)
 else()
     set(Boost_USE_STATIC_LIBS Off)
 endif()
 
-find_package(Boost 1.44 REQUIRED COMPONENTS filesystem)
+find_package(Boost 1.44 REQUIRED COMPONENTS filesystem regex)
 find_package(Threads REQUIRED)
 
 ################
@@ -29,6 +29,10 @@ if (MSVC)
     )
 
     set_property(TARGET Boost::filesystem APPEND PROPERTY
+        INTERFACE_COMPILE_DEFINITIONS "BOOST_ALL_DYN_LINK"
+    )
+
+    set_property(TARGET Boost::regex APPEND PROPERTY
         INTERFACE_COMPILE_DEFINITIONS "BOOST_ALL_DYN_LINK"
     )
 

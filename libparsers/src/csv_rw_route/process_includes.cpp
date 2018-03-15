@@ -1,7 +1,7 @@
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
+#include <boost/regex.hpp>
 #include <numeric>
-#include <regex>
 #include <set>
 #include <sstream>
 
@@ -80,11 +80,10 @@ namespace csv_rw_route {
 		// Capture group 1 is filename
 		// Capture group 2 is position offset
 		// Capture group 3 is everything after the first filename
-		std::regex include_finder(
-		    "\\$Include\\(([\\w\\-. "
-		    "\\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
-		    std::regex_constants::icase | std::regex_constants::ECMAScript
-		        | std::regex_constants::optimize);
+		boost::regex include_finder(
+		    "\\$Include\\(([\\w\\-. \\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
+		    boost::regex_constants::icase | boost::regex_constants::ECMAScript
+		        | boost::regex_constants::optimize);
 	} // namespace
 
 	struct include_pos {
@@ -96,7 +95,7 @@ namespace csv_rw_route {
 	};
 
 	static include_pos parse_weighted_include(const line_break_list& breaks,
-	                                          const std::smatch& match,
+	                                          const boost::smatch& match,
 	                                          openbve2::datatypes::rng& rng) {
 		auto string = match[1].str() + match[3].str();
 
@@ -129,7 +128,7 @@ namespace csv_rw_route {
 	}
 
 	static include_pos parse_offset_include(const line_break_list& breaks,
-	                                        const std::smatch& match) {
+	                                        const boost::smatch& match) {
 		auto filename = match[1].str();
 		auto offset_str = match[2].str();
 
@@ -140,7 +139,7 @@ namespace csv_rw_route {
 	}
 
 	static include_pos parse_naked_include(const line_break_list& breaks,
-	                                       const std::smatch& match) {
+	                                       const boost::smatch& match) {
 		auto filename = match[1].str();
 
 		return include_pos{filename, 0, line_number(breaks, match[0].first), match[0].first,
@@ -154,11 +153,11 @@ namespace csv_rw_route {
 
 		auto line_br_list = list_line_breaks(contents);
 
-		auto regex_start = std::sregex_iterator(contents.begin(), contents.end(), include_finder);
-		auto regex_end = std::sregex_iterator();
+		auto regex_start = boost::sregex_iterator(contents.begin(), contents.end(), include_finder);
+		auto regex_end = boost::sregex_iterator();
 
-		for (std::sregex_iterator i = regex_start; i != regex_end; ++i) {
-			std::smatch match = *i;
+		for (boost::sregex_iterator i = regex_start; i != regex_end; ++i) {
+			boost::smatch match = *i;
 
 			try {
 				// Weighted include
