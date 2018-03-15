@@ -102,7 +102,9 @@ target_include_directories(parsers PRIVATE src)
 target_link_libraries(parsers PRIVATE Boost::boost
                                       rapidxml::rapidxml
                                       options::fast_math options::iterator_debug_level_1
-                                      options::best_linker)
+                                      # options::best_linker
+                                      
+                                      )
 add_sanitizers(parsers)
 cotire(parsers)
 
@@ -143,6 +145,7 @@ target_link_libraries(parsers_test PRIVATE core parsers
                                            Boost::boost Boost::filesystem
                                            Threads::Threads
                                            options::fast_math options::iterator_debug_level_1 
-                                           options::best_linker)
+                                           # options::best_linker
+                                           )
 add_sanitizers(parsers_test)
 cotire(parsers_test)
