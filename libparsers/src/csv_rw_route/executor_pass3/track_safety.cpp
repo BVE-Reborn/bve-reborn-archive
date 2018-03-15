@@ -91,7 +91,7 @@ namespace csv_rw_route {
 		atsp_section_info asi;
 
 		asi.position = inst.absolute_position;
-		asi.permanent = inst.type ? inst.Permanent : inst.Temporary;
+		asi.permanent = bool(inst.type) ? bool(inst.Permanent) : bool(inst.Temporary);
 		asi.speed = inst.speed;
 
 		_route_data.patterns.emplace_back(std::move(asi));

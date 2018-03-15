@@ -104,9 +104,9 @@ namespace csv_rw_route {
 			    _os(os),
 			    has_filenames(false){};
 			explicit csv_rw_route_instruction_io_class(std::ostream& os,
-			                                           const std::vector<std::string>& filenames) :
+			                                           std::vector<std::string> filenames) :
 			    _os(os),
-			    _filenames(filenames),
+			    _filenames(std::move(filenames)),
 			    has_filenames(true){};
 
 			template <class T>

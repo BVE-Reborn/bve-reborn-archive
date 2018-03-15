@@ -2,6 +2,15 @@
 
 namespace parsers {
 namespace csv_rw_route {
+	rail_state& pass3_executor::get_rail_state(std::size_t index) {
+		if (index == std::numeric_limits<std::size_t>::max()) {
+			return current_rail_state[0];
+		}
+		else {
+			return current_rail_state[index];
+		}
+	}
+
 	float pass3_executor::ground_height_at(float position) {
 		if (position <= _route_data.ground_height.front().position) {
 			return _route_data.ground_height.front().value;
@@ -58,16 +67,30 @@ namespace csv_rw_route {
 	                                                    float y_offset) {
 		auto track_position = track_position_at(position);
 
+		bool max = false;
+		if (rail_num == std::numeric_limits<std::size_t>::max()) {
+			max = true;
+			rail_num = 0;
+		}
+
 		auto track_state_iter = current_rail_state.find(rail_num);
 
+#ifndef NDEBUG
 		if (track_state_iter == current_rail_state.end()) {
 			throw std::invalid_argument("Rail Num Invalid");
 		}
+#endif
 
-		return openbve2::math::position_from_offsets(track_position.position,
-		                                             track_position.tangent,
-		                                             track_state_iter->second.x_offset + x_offset,
-		                                             track_state_iter->second.y_offset + y_offset);
+		auto ret_val =
+		    openbve2::math::position_from_offsets(track_position.position, track_position.tangent,
+		                                          track_state_iter->second.x_offset + x_offset,
+		                                          track_state_iter->second.y_offset + y_offset);
+
+		if (max == true) {
+			ret_val.y -= ground_height_at(position);
+		}
+
+		return ret_val;
 	}
 } // namespace csv_rw_route
 } // namespace parsers

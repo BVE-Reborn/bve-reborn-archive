@@ -6,7 +6,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::FreeObj& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -103,7 +103,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::Wall& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -157,7 +157,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::WallEnd& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		// Don't check if the rail is active as people can call .RailEnd before calling .WallEnd
 		// if (!state.active) {}
@@ -172,7 +172,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::Dike& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -227,7 +227,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::DikeEnd& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		// Don't check if the rail is active as people can call .RailEnd before calling .DikeEnd
 		// if (!state.active) {}
@@ -286,7 +286,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::Pole& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		add_poll_objects_up_to_position(inst.rail_index, state, inst.absolute_position);
 
@@ -321,7 +321,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::PoleEnd& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		// Don't check if the rail is active as people can call .RailEnd before calling .PoleEnd
 		// if (!state.active) {}
@@ -365,7 +365,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::Ground& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = current_rail_state[0];
+		auto& state = get_rail_state(0);
 
 		add_ground_objects_up_to_position(state, inst.absolute_position);
 

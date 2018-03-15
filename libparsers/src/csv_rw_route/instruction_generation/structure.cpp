@@ -20,13 +20,19 @@ namespace csv_rw_route {
 
 		instruction create_instruction_structure_pole(
 		    const line_splitting::instruction_info& inst) {
-			indices_at_least(inst, 2, "Structure.Pole");
+			indices_at_least(inst, 1, "Structure.Pole");
 			args_at_least(inst, 1, "Structure.Pole");
 
 			instructions::structure::Pole p;
 
-			p.additional_rails = std::size_t(util::parse_loose_integer(inst.indices[0]));
-			p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.indices[1]));
+			if (inst.indices.size() == 1) {
+				p.additional_rails = 0;
+				p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			}
+			else {
+				p.additional_rails = std::size_t(util::parse_loose_integer(inst.indices[0]));
+				p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.indices[1]));
+			}
 			p.filename = inst.args[0];
 
 			return p;

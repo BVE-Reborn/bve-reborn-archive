@@ -137,7 +137,7 @@ namespace csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::PointOfInterest& inst) {
 		point_of_interest_info poii;
 
-		if (!current_rail_state[inst.rail_index].active) {
+		if (!get_rail_state(inst.rail_index).active) {
 			std::ostringstream err;
 
 			err << "Track Index " << inst.rail_index

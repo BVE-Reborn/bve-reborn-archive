@@ -73,8 +73,8 @@ namespace function_scripts {
 					float f = std::strtof(start_ptr, &str_end);
 
 					lt = lexer_types::floating{f};
-					// NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					auto chars_used =
+					    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					    std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
 				}
@@ -86,8 +86,8 @@ namespace function_scripts {
 					auto integer = std::strtoll(start_ptr, &str_end, 10);
 
 					lt = lexer_types::integer{integer};
-					// NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					auto chars_used =
+					    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					    std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
 				}

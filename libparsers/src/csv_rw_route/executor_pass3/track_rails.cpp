@@ -35,7 +35,7 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::operator()(const instructions::track::RailStart& inst) {
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
@@ -62,7 +62,7 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::operator()(const instructions::track::Rail& inst) {
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
@@ -81,7 +81,7 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::operator()(const instructions::track::RailType& inst) {
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
@@ -106,7 +106,7 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::operator()(const instructions::track::RailEnd& inst) {
-		auto& state = current_rail_state[inst.rail_index];
+		auto& state = get_rail_state(inst.rail_index);
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 

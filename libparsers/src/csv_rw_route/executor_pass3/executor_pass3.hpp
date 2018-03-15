@@ -67,7 +67,10 @@ namespace csv_rw_route {
 
 		// rall state
 		std::unordered_map<std::size_t, rail_state> current_rail_state = {
-		    {0, rail_state{0, 0, 0, 0, true}}};
+		    //
+		    {std::size_t(0), rail_state{0, 0, 0, 0, true}},
+		    //
+		};
 
 		// structures and poles
 		std::unordered_map<std::size_t, filename_set_iterator> object_ground_mapping;
@@ -136,6 +139,7 @@ namespace csv_rw_route {
 		}
 
 		// defined in executor_pass3/util.cpp
+		rail_state& get_rail_state(std::size_t index);
 		float ground_height_at(float position);
 		openbve2::math::evaulate_curve_t track_position_at(float position);
 		glm::vec3 position_relative_to_rail(std::size_t rail_num,
