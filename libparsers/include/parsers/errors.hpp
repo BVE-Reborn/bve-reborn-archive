@@ -9,7 +9,7 @@
 namespace parsers {
 namespace errors {
 	struct error_t {
-		std::size_t line;
+		std::intmax_t line;
 		std::string error;
 	};
 

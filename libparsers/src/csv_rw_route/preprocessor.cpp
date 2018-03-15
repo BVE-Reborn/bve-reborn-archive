@@ -213,8 +213,8 @@ namespace csv_rw_route {
 					                             next_money, matched_rparens + 1, end);
 				}
 				catch (const std::invalid_argument& e) {
-					errors[lines.filenames[line.filename_index]].emplace_back<errors::error_t>(
-					    {line.line, e.what()});
+					errors::add_error(errors, lines.filenames[line.filename_index], line.line,
+					                  e.what());
 					continue;
 				}
 

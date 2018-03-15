@@ -36,7 +36,7 @@ namespace csv_rw_route {
 		std::size_t dikeR_index = 0;
 
 		std::size_t pole_additional_rails = 0;
-		std::size_t pole_location = 0;
+		std::intmax_t pole_location = 0;
 		std::intmax_t pole_interval = 0;
 		std::size_t pole_structure_index = 0;
 

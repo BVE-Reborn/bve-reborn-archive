@@ -55,8 +55,8 @@ namespace xml {
 						}
 					}
 					if (pairs.size() != 3) {
-						errors[filename].emplace_back<errors::error_t>(
-						    {0, "<AmbientLight> must have exactly 3 arguments"});
+						errors::add_error(errors, filename, 0,
+						                  "<AmbientLight> must have exactly 3 arguments");
 					}
 				}
 
@@ -96,8 +96,8 @@ namespace xml {
 						}
 					}
 					if (pairs.size() != 3) {
-						errors[filename].emplace_back<errors::error_t>(
-						    {0, "<LightDirection> must have exactly 3 arguments"});
+						errors::add_error(errors, filename, 0,
+						                  "<LightDirection> must have exactly 3 arguments");
 					}
 				}
 

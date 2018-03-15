@@ -86,9 +86,9 @@ namespace csv_rw_route {
 		auto issuer_filename = get_filename(inst.file_index);
 
 		if (!_route_data.lighting.empty()) {
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s});
+			errors::add_error(
+			    _errors, issuer_filename, inst.line,
+			    "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s);
 		}
 
 		auto filename = _get_relative_file(issuer_filename, inst.filename);
@@ -108,9 +108,9 @@ namespace csv_rw_route {
 
 	void pass3_executor::operator()(const instructions::route::AmbiantLight& inst) {
 		if (used_dynamic_light) {
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Route.DynamicLight has already been used, ignoring Route.AmbiantLight"s});
+			errors::
+			    add_error(_errors, get_filename(inst.file_index), inst.line,
+			              "Route.DynamicLight has already been used, ignoring Route.AmbiantLight"s);
 			return;
 		}
 
@@ -123,10 +123,9 @@ namespace csv_rw_route {
 
 	void pass3_executor::operator()(const instructions::route::DirectionalLight& inst) {
 		if (used_dynamic_light) {
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Route.DynamicLight has already been used, ignoring "
-			     "Route.DirectionalLight"});
+			errors::add_error(_errors, get_filename(inst.file_index), inst.line,
+			                  "Route.DynamicLight has already been used, ignoring "
+			                  "Route.DirectionalLight");
 			return;
 		}
 
@@ -139,9 +138,9 @@ namespace csv_rw_route {
 
 	void pass3_executor::operator()(const instructions::route::LightDirection& inst) {
 		if (used_dynamic_light) {
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Route.DynamicLight has already been used, ignoring Route.LightDirection"s});
+			errors::add_error(
+			    _errors, get_filename(inst.file_index), inst.line,
+			    "Route.DynamicLight has already been used, ignoring Route.LightDirection"s);
 			return;
 		}
 

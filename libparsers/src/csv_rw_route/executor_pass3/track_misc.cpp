@@ -143,7 +143,7 @@ namespace csv_rw_route {
 			err << "Track Index " << inst.rail_index
 			    << " is not activated. Please use Track.RailStart or Track.Rail to activate";
 
-			errors::add_error(_errors[get_filename(inst.file_index)], inst.line, err);
+			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 			return;
 		}
 
@@ -165,7 +165,7 @@ namespace csv_rw_route {
 			    << " than current point at " << inst.absolute_position << " and time " << inst.time
 			    << ". Ignoring.";
 
-			errors::add_error(_errors[get_filename(inst.file_index)], inst.line, err);
+			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 
 		pretrain_info pti;

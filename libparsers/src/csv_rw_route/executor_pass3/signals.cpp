@@ -16,18 +16,17 @@ namespace csv_rw_route {
 			auto old_value = iterator->second;
 			iterator->second = this_signal;
 
-			std::ostringstream oss;
-			oss << "Signal(Animated) is overwriting signal at index (" << inst.signal_index
+			std::ostringstream err;
+			err << "Signal(Animated) is overwriting signal at index (" << inst.signal_index
 			    << "). Old Value: ";
-			old_value.match([&oss](const animated_signal& as)
-			                    -> void { oss << "\"" << as.filename << "\"\n"; },
-			                [&oss](const traditional_signal& ts) -> void {
-				                oss << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \""
+			old_value.match([&err](const animated_signal& as)
+			                    -> void { err << "\"" << as.filename << "\"\n"; },
+			                [&err](const traditional_signal& ts) -> void {
+				                err << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \""
 				                    << ts.glow_filename << ".{bmp,png,jpg}\")";
 			                });
-			oss << ". New Value: \"" << inst.filename << "\".";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line, oss.str()});
+			err << ". New Value: \"" << inst.filename << "\".";
+			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 
@@ -45,24 +44,23 @@ namespace csv_rw_route {
 			auto old_value = iterator->second;
 			iterator->second = this_signal;
 
-			std::ostringstream oss;
+			std::ostringstream err;
 
-			auto print_animated_file = [&oss](const animated_signal& as) -> void {
-				oss << "\"" << as.filename << "\"\n";
+			auto print_animated_file = [&err](const animated_signal& as) -> void {
+				err << "\"" << as.filename << "\"\n";
 			};
-			auto print_traditional_tuple = [&oss](const traditional_signal& ts) -> void {
-				oss << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename
+			auto print_traditional_tuple = [&err](const traditional_signal& ts) -> void {
+				err << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename
 				    << ".{bmp,png,jpg}\")";
 			};
 
-			oss << "Signal(Traditional) is overwriting signal at index (" << inst.signal_index
+			err << "Signal(Traditional) is overwriting signal at index (" << inst.signal_index
 			    << "). Old Value: ";
 			old_value.match(print_animated_file, print_traditional_tuple);
-			oss << "New Value: ";
+			err << "New Value: ";
 			print_traditional_tuple(this_signal);
-			oss << ".";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line, oss.str()});
+			err << ".";
+			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace csv_rw_route

@@ -32,7 +32,7 @@ namespace csv_rw_route {
 		               std::string::const_iterator pos,
 		               const char* msg) {
 			auto num = line_number(line_br_list, pos);
-			errors.emplace_back(errors::error_t{num, msg});
+			errors::add_error(errors, num, msg);
 		}
 
 		void remove_duplicate_filenames(preprocessed_lines& lines) {
@@ -217,7 +217,7 @@ namespace csv_rw_route {
 				err << "File \"" << include.filename
 				    << "\" has included this file. There is a circular chain "
 				       "of includes. Including nothing.";
-				current_file_errors.emplace_back<errors::error_t>({include.line, err.str()});
+				errors::add_error(current_file_errors, include.line, err);
 				include.filename = ""s;
 			}
 		}
@@ -226,27 +226,27 @@ namespace csv_rw_route {
 		std::vector<preprocessed_lines> include_texts;
 		include_texts.reserve(include_list.size());
 
-		std::transform(
-		    include_list.begin(), include_list.end(), std::back_inserter(include_texts),
-		    [&](const include_pos& include) -> preprocessed_lines {
-			    // Error in file name handling/circular depedency
-			    if (include.filename.empty()) {
-				    return {};
-			    }
+		std::transform(include_list.begin(), include_list.end(), std::back_inserter(include_texts),
+		               [&](const include_pos& include) -> preprocessed_lines {
+			               // Error in file name handling/circular depedency
+			               if (include.filename.empty()) {
+				               return {};
+			               }
 
-			    // Add the included file to include chain
-			    auto include_chain_list = past_files;
-			    include_chain_list.insert(include.filename);
+			               // Add the included file to include chain
+			               auto include_chain_list = past_files;
+			               include_chain_list.insert(include.filename);
 
-			    try {
-				    return recursive_process_includes(include_chain_list, include.filename, rng,
-				                                      errors, ft, get_abs_path);
-			    }
-			    catch (std::invalid_argument& e) {
-				    current_file_errors.emplace_back<errors::error_t>({include.line, e.what()});
-				    return {};
-			    }
-		    });
+			               try {
+				               return recursive_process_includes(include_chain_list,
+				                                                 include.filename, rng, errors, ft,
+				                                                 get_abs_path);
+			               }
+			               catch (std::invalid_argument& e) {
+				               errors::add_error(current_file_errors, include.line, e.what());
+				               return {};
+			               }
+		               });
 
 		preprocessed_lines output;
 

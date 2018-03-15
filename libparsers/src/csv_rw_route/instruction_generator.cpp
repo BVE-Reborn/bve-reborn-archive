@@ -2,6 +2,7 @@
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <parsers/errors.hpp>
 #include <sstream>
 
 using namespace std::string_literals;
@@ -76,8 +77,8 @@ namespace csv_rw_route {
 						std::ostringstream oss;
 						oss << "\"" << parsed.name << "\" is not a known function in a "
 						    << (ft == file_type::csv ? "csv" : "rw") << " file";
-						errors[lines.filenames[line.filename_index]].emplace_back(
-						    errors::error_t{line.line, oss.str()});
+						errors::add_error(errors, lines.filenames[line.filename_index], line.line,
+						                  oss);
 					}
 				}
 				return instructions::naked::None{};
@@ -87,8 +88,8 @@ namespace csv_rw_route {
 				i = func_iter->second(parsed);
 			}
 			catch (const std::invalid_argument& e) {
-				errors[lines.filenames[line.filename_index]].emplace_back(
-				    errors::error_t{line.line, e.what()});
+				errors::add_error(errors, lines.filenames[line.filename_index], line.line,
+				                  e.what());
 				return instructions::naked::None{};
 			}
 

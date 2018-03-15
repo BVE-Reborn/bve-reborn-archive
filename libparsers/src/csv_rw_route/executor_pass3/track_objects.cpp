@@ -127,8 +127,7 @@ namespace csv_rw_route {
 				err << "WallL Structure #" << inst.wall_structure_index
 				    << " isn't mapped. Ignoring call. Use Structure.WallL to "
 				       "declare it.";
-				add_error(_errors, issuer_filename, inst.line, err);
-				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+				errors::add_error(_errors, issuer_filename, inst.line, err);
 				goto right_wall;
 			}
 
@@ -146,7 +145,7 @@ namespace csv_rw_route {
 				    << " isn't mapped. Ignoring call. Use Structure.WallR to "
 				       "declare it.";
 				add_error(_errors, issuer_filename, inst.line, err);
-				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+				errors::add_error(_errors, issuer_filename, inst.line, err);
 				return;
 			}
 
@@ -198,7 +197,7 @@ namespace csv_rw_route {
 				    << " isn't mapped. Ignoring call. Use Structure.DikeL to "
 				       "declare it.";
 				add_error(_errors, issuer_filename, inst.line, err);
-				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+				errors::add_error(_errors, issuer_filename, inst.line, err);
 				goto right_dike;
 			}
 
@@ -216,7 +215,7 @@ namespace csv_rw_route {
 				    << " isn't mapped. Ignoring call. Use Structure.DikeR to "
 				       "declare it.";
 				add_error(_errors, issuer_filename, inst.line, err);
-				_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, err.str()});
+				errors::add_error(_errors, issuer_filename, inst.line, err);
 				return;
 			}
 

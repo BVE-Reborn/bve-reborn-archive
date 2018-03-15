@@ -28,7 +28,7 @@ namespace csv_rw_route {
 			                                        _get_relative_file);
 		}
 		catch (const std::exception& e) {
-			_errors[issuer_filename].emplace_back<errors::error_t>({inst.line, e.what()});
+			errors::add_error(_errors, issuer_filename, inst.line, e.what());
 		}
 
 		auto insert_pair = std::make_pair(inst.background_texture_index, std::move(bround));
@@ -43,9 +43,9 @@ namespace csv_rw_route {
 			// actually preform the insertion, not using the bround variable as
 			// it has been moved
 			iterator->second = std::move(insert_pair.second);
-			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Texture.Background(XML) is overwriting all prior calls the Texture Background functions"s});
+			errors::add_error(
+			    _errors, issuer_filename, inst.line,
+			    "Texture.Background(XML) is overwriting all prior calls the Texture Background functions"s);
 		}
 	}
 
@@ -72,9 +72,9 @@ namespace csv_rw_route {
 		    [](const xml::dynamic_background::object_background_info&) -> bool { return true; });
 
 		if (created_by_xml) {
-			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Texture.Background(XML) has already been used, ignoring Texture.Background(Image)"s});
+			errors::add_error(
+			    _errors, issuer_filename, inst.line,
+			    "Texture.Background(XML) has already been used, ignoring Texture.Background(Image)"s);
 			return;
 		}
 
@@ -132,9 +132,9 @@ namespace csv_rw_route {
 		    [](const xml::dynamic_background::object_background_info&) -> bool { return true; });
 
 		if (created_by_xml) {
-			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Texture.Background(XML) has already been used, ignoring Texture.Background.X"s});
+			errors::add_error(
+			    _errors, issuer_filename, inst.line,
+			    "Texture.Background(XML) has already been used, ignoring Texture.Background.X"s);
 			return;
 		}
 
@@ -164,9 +164,9 @@ namespace csv_rw_route {
 		    [](const xml::dynamic_background::object_background_info&) -> bool { return true; });
 
 		if (created_by_xml) {
-			_errors[issuer_filename].emplace_back<errors::error_t>(
-			    {inst.line,
-			     "Texture.Background(XML) has already been used, ignoring Texture.Background.Aspect"s});
+			errors::add_error(
+			    _errors, issuer_filename, inst.line,
+			    "Texture.Background(XML) has already been used, ignoring Texture.Background.Aspect"s);
 			return;
 		}
 

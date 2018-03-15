@@ -113,7 +113,7 @@ namespace csv_rw_route {
 		float position = 0;
 		std::intmax_t beacon_type;
 		std::intmax_t beacon_data;
-		std::size_t section_offset;
+		std::intmax_t section_offset;
 	};
 
 	struct atsp_section_info {

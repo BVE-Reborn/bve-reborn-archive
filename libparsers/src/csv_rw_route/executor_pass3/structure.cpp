@@ -20,8 +20,8 @@ namespace csv_rw_route {
 				err << command_name << " overwriting index #" << inst.structure_index
 				    << ". Old Filename: \"" << previous_filename << "\". Current Filename: \""
 				    << *filename_iter << "\".";
-				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-				    {inst.line, err.str()});
+
+				errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 			}
 		};
 
@@ -44,8 +44,7 @@ namespace csv_rw_route {
 				    << ". Old Filename: \"" << *old_value << "\". Current Filename: \""
 				    << *filename_iter << "\".";
 
-				_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-				    {inst.line, err.str()});
+				errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 			}
 		};
 
@@ -127,8 +126,8 @@ namespace csv_rw_route {
 			err << "Structure.Pole overwriting pair (" << inst.additional_rails << ", "
 			    << inst.pole_structure_index << "). Old Pair: \"" << previous_filename
 			    << "\". Current Filename: \"" << *filename_iter << "\".";
-			_errors[get_filename(inst.file_index)].emplace_back<errors::error_t>(
-			    {inst.line, err.str()});
+
+			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace csv_rw_route
