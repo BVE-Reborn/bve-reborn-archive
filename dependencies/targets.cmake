@@ -17,6 +17,12 @@ set_target_properties(rapidxml::rapidxml PROPERTIES
 	INTERFACE_COMPILE_FEATURES cxx_std_11
 )
 
+add_library(doctest::doctest INTERFACE IMPORTED)
+set_target_properties(doctest::doctest PROPERTIES
+	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/doctest/doctest"
+	INTERFACE_COMPILE_FEATURES cxx_std_11
+)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 
 find_package(Sanitizers)

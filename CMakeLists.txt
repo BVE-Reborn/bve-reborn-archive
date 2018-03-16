@@ -44,5 +44,6 @@ add_warnings()
 
 add_linted_subdirectory(libcore)
 add_linted_subdirectory(libparsers)
+add_linted_subdirectory(test_main)
 
 configure_linter()

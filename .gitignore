@@ -5,7 +5,7 @@ CMakeLists.txt.user*
 
 dependencies/binary
 
-libparsers/tests/test_files/*
+libparsers/tests/simple_tests/test_files/*
 !libparsers/tests/test_files/README.md
 
 windep32/

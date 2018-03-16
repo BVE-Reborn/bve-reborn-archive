@@ -99,52 +99,54 @@ target_include_directories(parsers PUBLIC include)
 target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant)
 
 target_include_directories(parsers PRIVATE src)
-target_link_libraries(parsers PRIVATE Boost::boost Boost::regex
-                                      rapidxml::rapidxml
-                                      options::fast_math options::iterator_debug_level_1
+target_link_libraries(parsers PUBLIC Boost::boost Boost::regex
+                                     options::fast_math options::iterator_debug_level_1)
+target_link_libraries(parsers PRIVATE rapidxml::rapidxml
                                       # options::best_linker
                                       )
 add_sanitizers(parsers)
 cotire(parsers)
 
-# message(STATUS "${flaggers} ${includes} ${sysincludes} ${defines}")
-# message(STATUS "${_sourceFiles}")
+###################
+# test libparsers #
+###################
 
-################
-# parsers_test #
-################
 
-set(TEST_SOURCES 
-                 tests/main.cpp
-                 tests/test_animated.cpp
-                 tests/test_csv.cpp
-                 tests/test_csv_obj.cpp
-                 tests/test_csv_route.cpp
-                 tests/test_fs.cpp
-                 tests/test_math.cpp
+
+#######################
+# simple_parsers_test #
+#######################
+
+set(SIMPLE_TEST_SOURCES
+                 tests/simple_tests/main.cpp
+                 tests/simple_tests/test_animated.cpp
+                 tests/simple_tests/test_csv.cpp
+                 tests/simple_tests/test_csv_obj.cpp
+                 tests/simple_tests/test_csv_route.cpp
+                 tests/simple_tests/test_fs.cpp
+                 tests/simple_tests/test_math.cpp
     )
 
-set(TEST_HEADERS
-                 tests/tests.hpp
+set(SIMPLE_TEST_HEADERS
+                 tests/simple_tests/tests.hpp
     )
 
-lint(FILES ${TEST_SOURCES})
-format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
+lint(FILES ${SIMPLE_TEST_SOURCES})
+format(FILES ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS})
 
 if(NOT OPENBVE2_ON_TRAVIS)
-    file(COPY tests/test_files
+    file(COPY tests/simple_tests/test_files
          DESTINATION tests/)
 endif()
 
-add_executable(parsers_test ${TEST_SOURCES})
-add_sanitizers(parsers_test)
-target_compile_features(parsers_test PRIVATE cxx_std_14)
-target_include_directories(parsers_test PRIVATE src)
-target_link_libraries(parsers_test PRIVATE core parsers
+add_executable(simple_parsers_test ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS})
+target_compile_features(simple_parsers_test PRIVATE cxx_std_14)
+target_include_directories(simple_parsers_test PRIVATE src)
+target_link_libraries(simple_parsers_test PRIVATE core parsers
                                            Boost::boost Boost::filesystem
                                            Threads::Threads
-                                           options::fast_math options::iterator_debug_level_1 
+                                           options::fast_math options::iterator_debug_level_1
                                            # options::best_linker
                                            )
-add_sanitizers(parsers_test)
-cotire(parsers_test)
+add_sanitizers(simple_parsers_test)
+cotire(simple_parsers_test)

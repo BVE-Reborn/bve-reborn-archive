@@ -1,0 +1,5 @@
+add_executable(test_all main.cpp)
+target_link_libraries(test_all doctest::doctest)
+lint(FILES main.cpp)
+format(FILES main.cpp)
+#cotire(test_all)
