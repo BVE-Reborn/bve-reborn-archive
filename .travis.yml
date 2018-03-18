@@ -29,7 +29,8 @@ matrix:
         - mkdir build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
-        - cd .. && coveralls -b build -e build -e dependencies -e libparsers/tests -e test_main
+        - cd .. && coveralls -b build -e build -e dependencies -e libparsers/tests
+        - coveralls -b build -e build -e dependencies -e test_main
 
     - os: linux
       dist: precise
