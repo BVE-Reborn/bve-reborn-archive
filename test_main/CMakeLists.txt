@@ -1,5 +1,5 @@
 add_library(test_main STATIC main.cpp)
-target_link_libraries(test_main PUBLIC doctest::doctest)
+target_link_libraries(test_main PUBLIC doctest::doctest options::iterator_debug_level_1)
 lint(FILES main.cpp)
 format(FILES main.cpp)
 add_sanitizers(test_main)

@@ -120,7 +120,8 @@ set(TEST_HEADERS
     )
 
 add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})
-target_link_libraries(test_parsers test_main parsers)
+target_link_libraries(test_parsers PRIVATE test_main parsers
+                                           options::iterator_debug_level_1)
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 add_sanitizers(test_parsers)

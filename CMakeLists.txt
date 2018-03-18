@@ -40,11 +40,11 @@ set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 #################
 
 if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (OPENBVE2_CODE_COVERAGE))
-    message(STATUS Compiling with CodeCoverage)
+    message(STATUS "Compiling with CodeCoverage")
     include(CodeCoverage)
     APPEND_COVERAGE_COMPILER_FLAGS()
 else()
-    message(STATUS Compiling without CodeCoverage)
+    message(STATUS "Compiling without CodeCoverage")
 endif()
 
 # TODO: Proper Exporting of Symbols
