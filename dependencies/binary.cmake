@@ -36,5 +36,11 @@ if (MSVC)
         INTERFACE_COMPILE_DEFINITIONS "BOOST_ALL_DYN_LINK"
     )
 
-    file(COPY ${BOOST_BINARY_FILES} DESTINATION ${CMAKE_BINARY_DIR}/bin)
+	if (${CMAKE_GENERATOR} MATCHES "Visual Studio|Xcode")
+		foreach(config ${CMAKE_CONFIGURATION_TYPES})
+			file(COPY ${BOOST_BINARY_FILES} DESTINATION ${CMAKE_BINARY_DIR}/bin/${config})
+		endforeach()
+	else()
+		file(COPY ${BOOST_BINARY_FILES} DESTINATION ${CMAKE_BINARY_DIR}/bin)
+	endif()
 endif()
