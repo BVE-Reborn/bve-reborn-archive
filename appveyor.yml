@@ -30,4 +30,4 @@ build:
   project: C:\projects\openbve2\build\openbve2.sln
 
 test_script:
-  - cmd: C:\projects\openbve2\build\%CONFIGURATION%\bin\test_parsers.exe
+  - cmd: C:\projects\openbve2\build\bin\%CONFIGURATION%\test_parsers.exe
