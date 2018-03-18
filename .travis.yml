@@ -15,7 +15,7 @@ matrix:
             - gcc-7
             - g++-7
       env:
-        - MATRIX_EVAL="OS='Trusty' && CC='gcc-7' && CXX='g++-7' && TYPE='Debug' && Coverage='On'"
+        - MATRIX_EVAL="OS='Trusty' && Coverage='On' && CXX='g++-7' && TYPE='Debug'"
       before_install:
         - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
@@ -41,7 +41,7 @@ matrix:
             - gcc-5
             - g++-5
       env:
-        - MATRIX_EVAL="OS='Precise' && CC=gcc-5 && CXX=g++-5 && TYPE='Release' && LINKER='LD'"
+        - MATRIX_EVAL="OS='Precise' && LINKER='LD' && CXX=g++-5 && TYPE='Release'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -66,7 +66,7 @@ matrix:
             - gcc-7
             - g++-7
       env:
-        - MATRIX_EVAL="OS='Trusty' && CC=gcc-7 && CXX=g++-7 && TYPE='Release' && LINKER='LD'"
+        - MATRIX_EVAL="OS='Trusty' && LINKER='LD' && CXX=g++-7 && TYPE='Release'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -93,7 +93,7 @@ matrix:
             - libstdc++-5-dev
             - clang-3.6
       env:
-        - MATRIX_EVAL="OS='Precise' && CC=clang-3.6 && CXX=clang++-3.6 && TYPE='Release' && LINKER='LD'"
+        - MATRIX_EVAL="OS='Precise' && LINKER='LD' && CXX=clang++-3.6 && TYPE='Release'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -119,7 +119,7 @@ matrix:
             - libstdc++-5-dev
             - clang-6.0
       env:
-        - MATRIX_EVAL="OS='Trusty' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Release' && LINKER='LD'"
+        - MATRIX_EVAL="OS='Trusty' && LINKER='LD' && CXX=clang++-6.0 && TYPE='Release'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -146,7 +146,7 @@ matrix:
             - clang-6.0
             - lld-6.0
       env:
-        - MATRIX_EVAL="OS='Trusty' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Release' && LINKER='LLD'"
+        - MATRIX_EVAL="OS='Trusty' && LINKER='LLD' && CXX=clang++-6.0 && TYPE='Release'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
