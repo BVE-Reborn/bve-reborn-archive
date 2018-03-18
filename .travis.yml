@@ -27,7 +27,7 @@ matrix:
         - bash ./build-deps-unix.sh
        # Do rest of stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE -GNinja
+        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
         - cd .. && coveralls -b build -i libcore -i libparsers/ -e libparsers/tests/ --gcov-options '\-lp'
 
