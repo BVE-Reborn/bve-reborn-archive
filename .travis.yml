@@ -25,9 +25,11 @@ matrix:
         - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
         - $HOME/cmake_root/bin/cmake --version
         - bash ./build-deps-unix.sh
-        - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=$Type -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$Coverage -GNinja
+        - echo $TYPE
+        - echo $Coverage
+        - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
-        - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main
+        - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
     - os: linux
       dist: precise
