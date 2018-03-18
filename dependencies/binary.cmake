@@ -2,8 +2,8 @@
 # config #
 ##########
 
-if (UNIX)
-    set(Boost_USE_STATIC_LIBS Off)
+if (APPLE)
+    set(Boost_USE_STATIC_LIBS ON)
 else()
     set(Boost_USE_STATIC_LIBS Off)
 endif()
