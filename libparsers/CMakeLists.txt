@@ -113,15 +113,18 @@ cotire(parsers)
 
 set(TEST_SOURCES
                  tests/errors/error_tests.cpp
-                 tests/impl.cpp
     )
 
 set(TEST_HEADERS
 
     )
 
-add_library(testlibparsers SHARED ${TEST_SOURCES} ${TEST_HEADERS})
-target_link_libraries(testlibparsers doctest::doctest parsers)
+add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})
+target_link_libraries(test_parsers test_main parsers)
+lint(FILES ${TEST_SOURCES})
+format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
+add_sanitizers(test_parsers)
+cotire(test_parsers)
 
 #######################
 # simple_parsers_test #
