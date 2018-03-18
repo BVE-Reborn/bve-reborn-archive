@@ -23,11 +23,11 @@ matrix:
         - pip install --user cpp-coveralls
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir ~/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=~/cmake_root --exclude-subdir
-        - ~/cmake_root/bin/cmake --version
+        - mkdir $HOME/cmake_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
+        - $HOME/cmake_root/bin/cmake --version
         - bash ./build-deps-unix.sh
-        - ~/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$COVERAGE -GNinja
+        - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$COVERAGE -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
