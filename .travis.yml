@@ -12,23 +12,23 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-            - gcc-6
-            - g++-6
+            - gcc-7
+            - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - CC="gcc-7"
+        - CXX="g++-7"
+        - TYPE="DEBUG"
+        - COVERAGE="On"
       before_install:
-        - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
-        - cmake --version
-      # Build Boost.... 
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=~/cmake_root --exclude-subdir
+        - ~/cmake_root/bin/cmake --version
         - bash ./build-deps-unix.sh
-       # Do rest of stuff
-        - cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
+        - ~/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$COVERAGE -GNinja
       after_success:
-        - coveralls -e dependencies -e libparsers/tests -e test_main
+        - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
     - os: linux
       dist: precise
@@ -62,10 +62,10 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-            - gcc-6
-            - g++-6
+            - gcc-7
+            - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
