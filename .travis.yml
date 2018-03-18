@@ -15,7 +15,7 @@ matrix:
             - gcc-7
             - g++-7
       env:
-        - MATRIX_EVAL="CC='gcc-7' && CXX='g++-7' && TYPE='Debug' && Coverage='On'"
+        - MATRIX_EVAL="OS='Trusty' && CC='gcc-7' && CXX='g++-7' && TYPE='Debug' && Coverage='On'"
       before_install:
         - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
@@ -25,8 +25,7 @@ matrix:
         - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
         - $HOME/cmake_root/bin/cmake --version
         - bash ./build-deps-unix.sh
-        - echo $TYPE
-        - echo $Coverage
+        - echo $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$Coverage -GNinja
         - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
@@ -42,7 +41,7 @@ matrix:
             - gcc-5
             - g++-5
       env:
-        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+        - MATRIX_EVAL="OS='Precise' && CC=gcc-5 && CXX=g++-5 && TYPE='Release' && LINKER='LD'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -53,7 +52,7 @@ matrix:
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
     - os: linux
       dist: trusty
@@ -66,7 +65,7 @@ matrix:
             - gcc-7
             - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="OS='Trusty' && CC=gcc-7 && CXX=g++-7 && TYPE='Release' && LINKER='LD'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -77,7 +76,7 @@ matrix:
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
 
     - os: linux
@@ -92,7 +91,7 @@ matrix:
             - libstdc++-5-dev
             - clang-3.6
       env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+        - MATRIX_EVAL="OS='Precise' && CC=clang-3.6 && CXX=clang++-3.6 && TYPE='Release' && LINKER='LD'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -103,7 +102,7 @@ matrix:
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
           
     - os: linux
       dist: trusty
@@ -111,13 +110,13 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
             - ninja-build
             - libstdc++-5-dev
-            - clang-5.0
+            - clang-6.0
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+        - MATRIX_EVAL="OS='Trusty' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Release' && LINKER='LD'"
       before_install:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
@@ -128,7 +127,33 @@ matrix:
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+          
+    - os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+          packages:
+            - ninja-build
+            - libstdc++-5-dev
+            - clang-6.0
+            - lld-6.0
+      env:
+        - MATRIX_EVAL="OS='Trusty' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Release' && LINKER='LLD'"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+        - cmake --version
+      # Build Boost.... 
+        - bash ./build-deps-unix.sh
+      # Do rest of stuff
+        - mkdir build
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' -GNinja
 
     - os: osx
       osx_image: xcode6.4
@@ -140,7 +165,7 @@ matrix:
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
     - os: osx
       osx_image: xcode9.2
@@ -152,7 +177,7 @@ matrix:
         - bash ./build-deps-unix.sh
       # Do rest of Stuff
         - mkdir build
-        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
 script:
   - ninja
