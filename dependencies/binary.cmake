@@ -3,7 +3,7 @@
 ##########
 
 if (UNIX)
-    set(Boost_USE_STATIC_LIBS On)
+    set(Boost_USE_STATIC_LIBS Off)
 else()
     set(Boost_USE_STATIC_LIBS Off)
 endif()

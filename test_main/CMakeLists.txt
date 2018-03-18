@@ -1,5 +1,6 @@
 add_executable(test_all main.cpp)
-target_link_libraries(test_all doctest::doctest)
+target_link_libraries(test_all doctest::doctest testlibparsers)
 lint(FILES main.cpp)
 format(FILES main.cpp)
-#cotire(test_all)
+add_sanitizers(test_all)
+cotire(test_all)

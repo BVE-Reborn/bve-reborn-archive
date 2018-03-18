@@ -111,7 +111,17 @@ cotire(parsers)
 # test libparsers #
 ###################
 
+set(TEST_SOURCES
+                 tests/errors/error_tests.cpp
+                 tests/impl.cpp
+    )
 
+set(TEST_HEADERS
+
+    )
+
+add_library(testlibparsers SHARED ${TEST_SOURCES} ${TEST_HEADERS})
+target_link_libraries(testlibparsers doctest::doctest parsers)
 
 #######################
 # simple_parsers_test #

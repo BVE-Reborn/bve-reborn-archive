@@ -19,15 +19,18 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release) 
 endif() 
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dependencies/cotire/CMake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dependencies/cotire/CMake 
+                                           ${CMAKE_SOURCE_DIR}/dependencies/cmake
+                                           ${CMAKE_SOURCE_DIR}/dependencies/cmake-utils/include
+                                           ${CMAKE_SOURCE_DIR}/dependencies)
+include(binary)
+include(clang_format)
 include(cotire)
-include("dependencies/cmake-utils/include/clang_format.cmake")
-include("dependencies/cmake-utils/include/linker_support.cmake")
-include("dependencies/cmake-utils/include/linter.cmake")
-include("dependencies/cmake-utils/include/meta_features.cmake")
-include("dependencies/cmake-utils/include/warnings.cmake")
-include("dependencies/targets.cmake")
-include("dependencies/binary.cmake")
+include(linker_support)
+include(linter)
+include(meta_features)
+include(targets)
+include(warnings)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
@@ -35,6 +38,11 @@ set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 #################
 # Global Config #
 #################
+
+if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (OPENBVE2_CODE_COVERAGE))
+    include(CodeCoverage)
+    APPEND_COVERAGE_COMPILER_FLAGS()
+endif()
 
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

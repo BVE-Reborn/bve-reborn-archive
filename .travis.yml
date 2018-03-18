@@ -129,3 +129,4 @@ matrix:
 
 script:
   - ninja
+  - bin/test_all

@@ -22,8 +22,8 @@ void test_csv_route() {
 	// auto file_location = DIRECTORY
 	//     "../libparsers/tests/test_files/plymouth/1980s/HST (Non-Stopping) - "
 	//     "Liskeard [c].csv";
-	auto file_location = DIRECTORY
-	    "../libparsers/tests/test_files/NYCT- R [Astoria to 95 St - 4th Av].csv"s;
+	auto file_location =
+	    DIRECTORY "../libparsers/tests/test_files/NYCT- R [Astoria to 95 St - 4th Av].csv"s;
 	//	auto file_location = DIRECTORY "../libparsers/tests/Xmasmonorail.csv";
 	// Bridge NTT [v1.0].csv";
 	auto used_file = boost::filesystem::path(file_location);
