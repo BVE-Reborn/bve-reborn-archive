@@ -29,6 +29,29 @@ matrix:
         - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
+        
+    - os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - ninja-build
+            - gcc-7
+            - g++-7
+      env:
+        - MATRIX_EVAL="OS='Trusty' && Sanitize='Asan,UBsan' && CXX='g++-7' && TYPE='Debug'"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - pip install --user cpp-coveralls
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - mkdir $HOME/cmake_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
+        - $HOME/cmake_root/bin/cmake --version
+        - bash ./build-deps-unix.sh
+        - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja
 
     - os: linux
       dist: precise
