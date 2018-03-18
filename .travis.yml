@@ -5,6 +5,33 @@ sudo: true
 matrix:
   include:
     - os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - ninja-build
+            - gcc-6
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - pip install --user cpp-coveralls
+      # Get Newer CMake
+        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
+        - sudo bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+        - cmake --version
+      # Build Boost.... 
+        - bash ./build-deps-unix.sh
+       # Do rest of stuff
+        - mkdir build
+        - cd build && cmake .. -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE -GNinja
+      after_success:
+        - cd .. && coveralls -b build -i libcore -i libparsers/ -e libparsers/tests/ --gcov-options '\-lp'
+
+    - os: linux
       dist: precise
       addons:
         apt:
@@ -129,4 +156,4 @@ matrix:
 
 script:
   - ninja
-  - bin/test_all
+  - bin/test_parsers
