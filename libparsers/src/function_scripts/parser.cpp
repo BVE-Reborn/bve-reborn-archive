@@ -6,32 +6,32 @@ namespace function_scripts {
 	namespace {
 		// See function_script_grammar.bnf for the grammar this parser is
 		// following
-		static tree_node parse_expression(lexer_token_container& list);
-		static tree_node parse_xor_expression(lexer_token_container& list);
-		static tree_node parse_or_expression(lexer_token_container& list);
-		static tree_node parse_not_expression(lexer_token_container& list);
-		static tree_node parse_equal_expression(lexer_token_container& list);
-		static tree_node parse_plus_expression(lexer_token_container& list);
-		static tree_node parse_times_expression(lexer_token_container& list);
-		static tree_node parse_divide_expression(lexer_token_container& list);
-		static tree_node parse_minus_expression(lexer_token_container& list);
-		static tree_node parse_function_call_expression(lexer_token_container& list);
-		static tree_node parse_term(lexer_token_container& list);
+		tree_node parse_expression(lexer_token_container& list);
+		tree_node parse_xor_expression(lexer_token_container& list);
+		tree_node parse_and_expression(lexer_token_container& list);
+		tree_node parse_not_expression(lexer_token_container& list);
+		tree_node parse_equal_expression(lexer_token_container& list);
+		tree_node parse_plus_expression(lexer_token_container& list);
+		tree_node parse_times_expression(lexer_token_container& list);
+		tree_node parse_divide_expression(lexer_token_container& list);
+		tree_node parse_minus_expression(lexer_token_container& list);
+		tree_node parse_function_call_expression(lexer_token_container& list);
+		tree_node parse_term(lexer_token_container& list);
 
 		tree_node parse_expression(lexer_token_container& list) {
 			auto left = parse_xor_expression(list);
 
-			if (list.skip_next_token<lexer_types::ampersand>()) {
+			if (list.skip_next_token<lexer_types::bar>()) {
 				auto right = parse_expression(list);
 
-				return tree_types::binary_and{left, right};
+				return tree_types::binary_or{left, right};
 			}
 
 			return left;
 		}
 
 		tree_node parse_xor_expression(lexer_token_container& list) {
-			auto left = parse_or_expression(list);
+			auto left = parse_and_expression(list);
 
 			if (list.skip_next_token<lexer_types::carret>()) {
 				auto right = parse_xor_expression(list);
@@ -42,13 +42,13 @@ namespace function_scripts {
 			return left;
 		}
 
-		tree_node parse_or_expression(lexer_token_container& list) {
+		tree_node parse_and_expression(lexer_token_container& list) {
 			auto left = parse_not_expression(list);
 
-			if (list.skip_next_token<lexer_types::bar>()) {
-				auto right = parse_or_expression(list);
+			if (list.skip_next_token<lexer_types::ampersand>()) {
+				auto right = parse_and_expression(list);
 
-				return tree_types::binary_or{left, right};
+				return tree_types::binary_and{left, right};
 			}
 
 			return left;

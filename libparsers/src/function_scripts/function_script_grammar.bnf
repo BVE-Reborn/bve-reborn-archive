@@ -10,9 +10,9 @@
 ; ^
 ; |
 
-<expression>        ::= <xor_expression> "&" <expression>     | <xor_expression>
-<xor_expression>    ::= <or_expression>  "^" <xor_expression> | <or_expression>
-<or_expression>     ::= <not_expression> "|" <or_expression>  | <not_expression>
+<expression>        ::= <xor_expression> "|" <expression>      | <xor_expression>
+<xor_expression>    ::= <and_expression> "^" <xor_expression>  | <and_expression>
+<and_expression>    ::= <not_expression> "&" <and_expression>  | <not_expression>
 
 <not_expression>    ::= "!" <equal_expression> | <equal_expression>
 
