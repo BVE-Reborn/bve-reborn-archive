@@ -6,13 +6,13 @@ namespace csv_rw_route {
 	namespace {
 		class pass1_executor {
 		  private:
-			errors::multi_error& _errors;
+			errors::multi_error_t& _errors;
 			const std::vector<std::string>& _filenames;
 			float current_position = -1;
 			std::vector<float> current_unitoflength = {1, 1};
 
 		  public:
-			pass1_executor(errors::multi_error& e, const std::vector<std::string>& f) :
+			pass1_executor(errors::multi_error_t& e, const std::vector<std::string>& f) :
 			    _errors(e),
 			    _filenames(f){};
 
@@ -43,7 +43,7 @@ namespace csv_rw_route {
 		};
 	} // namespace
 
-	void execute_instructions_pass1(instruction_list& list, errors::multi_error& errors) {
+	void execute_instructions_pass1(instruction_list& list, errors::multi_error_t& errors) {
 		pass1_executor e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {

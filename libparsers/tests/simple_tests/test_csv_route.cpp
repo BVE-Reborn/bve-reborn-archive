@@ -17,7 +17,7 @@ void test_csv_route() {
 
 	std::mt19937 eng(seq);
 
-	parsers::errors::multi_error me;
+	parsers::errors::multi_error_t me;
 
 	// auto file_location = DIRECTORY
 	//     "../libparsers/tests/test_files/plymouth/1980s/HST (Non-Stopping) - "

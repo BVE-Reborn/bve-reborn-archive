@@ -12,7 +12,7 @@ namespace csv_rw_route {
 			float block_size = 25;
 
 		  private:
-			errors::multi_error& _errors;
+			errors::multi_error_t& _errors;
 			const std::vector<std::string>& _filenames;
 
 			decltype(instructions::options::CantBehavior::mode) cant_behavior;
@@ -103,7 +103,7 @@ namespace csv_rw_route {
 			}
 
 		  public:
-			pass2_executor(errors::multi_error& e, const std::vector<std::string>& f) :
+			pass2_executor(errors::multi_error_t& e, const std::vector<std::string>& f) :
 			    _errors(e),
 			    _filenames(f){};
 
@@ -170,7 +170,7 @@ namespace csv_rw_route {
 	} // namespace
 
 	parsed_route_data execute_instructions_pass2(instruction_list& list,
-	                                             errors::multi_error& errors) {
+	                                             errors::multi_error_t& errors) {
 		pass2_executor p2e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {

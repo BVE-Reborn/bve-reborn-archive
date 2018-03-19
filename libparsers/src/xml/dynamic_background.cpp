@@ -11,7 +11,7 @@ namespace xml {
 	namespace dynamic_background {
 		parsed_dynamic_background parse(const std::string& filename,
 		                                std::string input_string,
-		                                errors::multi_error& errors,
+		                                errors::multi_error_t& errors,
 		                                const find_relative_file_func& get_relative_file) {
 			// This is always an vector of texture backgrounds, the object code
 			// shortcircuts this variable and returns a newly constructed object

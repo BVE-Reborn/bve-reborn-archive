@@ -55,7 +55,7 @@ namespace csv_rw_route {
 
 	struct pass3_executor {
 	  private:
-		errors::multi_error& _errors;
+		errors::multi_error_t& _errors;
 		const std::vector<std::string>& _filenames;
 		parsed_route_data& _route_data;
 		const find_relative_file_func& _get_relative_file;
@@ -149,7 +149,7 @@ namespace csv_rw_route {
 
 	  public:
 		pass3_executor(parsed_route_data& rd,
-		               errors::multi_error& e,
+		               errors::multi_error_t& e,
 		               const std::vector<std::string>& fn,
 		               const find_relative_file_func& grf) :
 		    _errors(e),

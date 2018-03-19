@@ -187,7 +187,7 @@ namespace csv_rw_route {
 	    const std::set<std::string>& past_files,
 	    const std::string& current_filename,
 	    openbve2::datatypes::rng& rng,
-	    errors::multi_error& errors,
+	    errors::multi_error_t& errors,
 	    file_type ft,
 	    const find_relative_file_func& get_abs_path) {
 		auto& current_file_errors = errors[current_filename];
@@ -318,7 +318,7 @@ namespace csv_rw_route {
 
 	preprocessed_lines process_include_directives(const std::string& filename,
 	                                              openbve2::datatypes::rng& rng,
-	                                              errors::multi_error& errors,
+	                                              errors::multi_error_t& errors,
 	                                              file_type ft,
 	                                              const find_relative_file_func& get_abs_path) {
 		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng,

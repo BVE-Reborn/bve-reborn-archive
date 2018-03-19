@@ -29,7 +29,7 @@ namespace xml {
 
 		parsed_dynamic_background parse(const std::string& filename,
 		                                std::string input_string,
-		                                errors::multi_error& errors,
+		                                errors::multi_error_t& errors,
 		                                const find_relative_file_func& get_relative_file);
 	} // namespace dynamic_background
 } // namespace xml

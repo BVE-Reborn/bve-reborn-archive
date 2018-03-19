@@ -17,7 +17,7 @@ namespace xml {
 
 		std::vector<lighting_info> parse(const std::string& filename,
 		                                 std::string input_string,
-		                                 errors::multi_error& errors);
+		                                 errors::multi_error_t& errors);
 	} // namespace dynamic_lighting
 } // namespace xml
 } // namespace parsers

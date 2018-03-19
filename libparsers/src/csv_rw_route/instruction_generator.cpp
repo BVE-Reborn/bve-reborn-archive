@@ -12,7 +12,7 @@ namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction generate_instruction(const preprocessed_lines& lines,
 		                                 const preprocessed_line& line,
-		                                 errors::multi_error& errors,
+		                                 errors::multi_error_t& errors,
 		                                 std::string& with_value,
 		                                 file_type ft) {
 			instruction i;
@@ -98,7 +98,7 @@ namespace csv_rw_route {
 	} // namespace instruction_generation
 
 	instruction_list generate_instructions(const preprocessed_lines& lines,
-	                                       errors::multi_error& errors,
+	                                       errors::multi_error_t& errors,
 	                                       file_type ft) {
 		instruction_list i_list;
 		i_list.instructions.reserve(lines.lines.size());

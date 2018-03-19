@@ -7,7 +7,7 @@ namespace xml {
 	namespace dynamic_lighting {
 		std::vector<lighting_info> parse(const std::string& filename,
 		                                 std::string input_string,
-		                                 errors::multi_error& errors) {
+		                                 errors::multi_error_t& errors) {
 			std::vector<lighting_info> retvalue;
 
 			rapidxml::xml_document<> doc;

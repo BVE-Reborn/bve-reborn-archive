@@ -178,7 +178,7 @@ namespace csv_rw_route {
 
 	static void preprocess_pass(preprocessed_lines& lines,
 	                            openbve2::datatypes::rng& rng,
-	                            errors::multi_error& errors) {
+	                            errors::multi_error_t& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
 		std::vector<bool> if_condition_stack(1, true);
@@ -284,7 +284,7 @@ namespace csv_rw_route {
 
 	void preprocess_file(preprocessed_lines& lines,
 	                     openbve2::datatypes::rng& rng,
-	                     errors::multi_error& errors,
+	                     errors::multi_error_t& errors,
 	                     file_type ft) {
 		preprocess_pass(lines, rng, errors);
 

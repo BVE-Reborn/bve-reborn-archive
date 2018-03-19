@@ -112,7 +112,8 @@ cotire(parsers)
 ###################
 
 set(TEST_SOURCES
-                 tests/errors/error_tests.cpp
+                 tests/errors/tests.cpp
+                 tests/errors/iostream_tests.cpp
     )
 
 set(TEST_HEADERS
