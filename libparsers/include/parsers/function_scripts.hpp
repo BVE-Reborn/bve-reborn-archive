@@ -56,6 +56,7 @@ namespace function_scripts {
 			Odometer,
 			Klaxon,
 			PrimaryKlaxon,
+			SecondaryKlaxon,
 			MusicKlaxon,
 			section
 		};
@@ -81,7 +82,8 @@ namespace function_scripts {
 			pluginState,
 			FrontAxleCurveRadius,
 			RearAxleCurveRadius,
-			CurveCant
+			CurveCant,
+			Odometer
 		};
 
 		struct has_count {
@@ -195,6 +197,8 @@ namespace function_scripts {
 		std::vector<instruction> instructions;
 		errors::errors_t errors;
 	};
+
+	instruction_list parse(const std::string& text);
 
 	std::ostream& operator<<(std::ostream& os, const instruction_list& list);
 } // namespace function_scripts

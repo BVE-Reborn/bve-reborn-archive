@@ -255,7 +255,6 @@ namespace function_scripts {
 	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors);
 	instruction_list build_instructions(const tree_node& head_node,
 	                                    const errors::errors_t& errors = {});
-	instruction_list parse(const std::string& text);
 } // namespace function_scripts
 } // namespace parsers
 

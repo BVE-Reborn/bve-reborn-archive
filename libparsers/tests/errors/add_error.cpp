@@ -1,3 +1,4 @@
+#include "variant_compare.hpp"
 #include <doctest.h>
 #include <parsers/errors.hpp>
 #include <sstream>

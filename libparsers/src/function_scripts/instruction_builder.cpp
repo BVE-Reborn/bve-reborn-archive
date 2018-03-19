@@ -54,6 +54,7 @@ namespace function_scripts {
 		    {"odometer"s, instructions::variable::Odometer},                     //
 		    {"klaxon"s, instructions::variable::Klaxon},                         //
 		    {"primaryklaxon"s, instructions::variable::PrimaryKlaxon},           //
+		    {"secondaryklaxon"s, instructions::variable::SecondaryKlaxon},       //
 		    {"musicklaxon"s, instructions::variable::MusicKlaxon},               //
 		    {"section"s, instructions::variable::section},                       //
 		};
@@ -79,6 +80,7 @@ namespace function_scripts {
 		    {"frontaxlecurveradius"s, instructions::indexed_variable::FrontAxleCurveRadius}, //
 		    {"rearaxlecurveradius"s, instructions::indexed_variable::RearAxleCurveRadius},   //
 		    {"curvecant"s, instructions::indexed_variable::CurveCant},                       //
+		    {"odometer"s, instructions::indexed_variable::Odometer},                         //
 		};
 
 		const std::map<std::string, instruction> unary_functions = {

@@ -112,16 +112,22 @@ cotire(parsers)
 ###################
 
 set(TEST_SOURCES
-                 tests/errors/tests.cpp
-                 tests/errors/iostream_tests.cpp
+                 tests/errors/add_error.cpp
+                 tests/errors/iostream.cpp
+                 tests/function_scripts/functions.cpp
+                 tests/function_scripts/operators.cpp
+                 tests/function_scripts/order_of_operations.cpp
+                 tests/function_scripts/variables.cpp
+                 tests/function_scripts/variables_indexed.cpp
     )
 
 set(TEST_HEADERS
-
+                 tests/variant_compare.hpp
     )
 
 add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})
-target_link_libraries(test_parsers PRIVATE test_main parsers
+target_include_directories(test_parsers PRIVATE tests)
+target_link_libraries(test_parsers PRIVATE test_main parsers doctest::doctest
                                            options::iterator_debug_level_1)
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
