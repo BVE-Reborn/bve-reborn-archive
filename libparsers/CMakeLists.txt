@@ -114,7 +114,9 @@ cotire(parsers)
 set(TEST_SOURCES
                  tests/errors/add_error.cpp
                  tests/errors/iostream.cpp
+                 tests/function_scripts/errors.cpp
                  tests/function_scripts/functions.cpp
+                 tests/function_scripts/lexer.cpp
                  tests/function_scripts/operators.cpp
                  tests/function_scripts/order_of_operations.cpp
                  tests/function_scripts/variables.cpp

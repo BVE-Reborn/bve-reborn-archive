@@ -79,7 +79,7 @@ namespace function_scripts {
 					i += chars_used;
 				}
 				// parsing int
-				else {
+				else if (!((has_dash || has_dot) && !has_another_character)) {
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					const char* start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
@@ -90,6 +90,10 @@ namespace function_scripts {
 					    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					    std::distance(start_ptr, const_cast<const char*>(str_end - 1));
 					i += chars_used;
+				}
+				// Raw dash/dot
+				else if(has_dash){
+					lt = lexer_types::minus{};
 				}
 			}
 			// parsing symbol

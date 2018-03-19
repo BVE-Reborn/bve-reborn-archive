@@ -1,6 +1,5 @@
 #include "variant_compare.hpp"
 #include <doctest.h>
-#include <iostream>
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
@@ -46,9 +45,9 @@ namespace fs_inst = parsers::function_scripts::instructions;
 		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[2], fs_inst::stack_push{4}, value);  \
 		COMPARE_VARIANT_NODES(back_result.instructions[3], back_function2);                        \
 		COMPARE_VARIANT_NODES(back_result.instructions[4], back_function1);                        \
-	};
+	}
 
-#define UNIARY_NOT_TEST(name, instr_name, symbol)                                                  \
+#define UNARY_NOT_TEST(name, instr_name, symbol)                                                   \
 	TEST_CASE("order-of-operations - " str(name) " > unary not") {                                 \
 		auto function1 = fs_inst::op_unary_not{};                                                  \
 		auto function2 = fs_inst::instr_name{};                                                    \
@@ -64,9 +63,9 @@ namespace fs_inst = parsers::function_scripts::instructions;
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 // ^
-CREATE_OOO_DIFFERENT_TEST_CASE(binary xor, binary or, op_xor, op_or, ^, |);
+CREATE_OOO_DIFFERENT_TEST_CASE(binary xor, binary or, op_xor, op_or, ^, |)
 // &
-CREATE_OOO_DIFFERENT_TEST_CASE(binary and, binary xor, op_and, op_xor, &, ^);
+CREATE_OOO_DIFFERENT_TEST_CASE(binary and, binary xor, op_and, op_xor, &, ^)
 
 // !
 TEST_CASE("order-of-operations - unary not > binary and") {
@@ -80,34 +79,34 @@ TEST_CASE("order-of-operations - unary not > binary and") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::stack_push{3}, value);
 	COMPARE_VARIANT_NODES(result.instructions[3], function2);
 }
-UNIARY_NOT_TEST(equals, op_equal, ==);
-UNIARY_NOT_TEST(not equals, op_unequal, !=);
-UNIARY_NOT_TEST(less, op_less, <);
-UNIARY_NOT_TEST(greater, op_greater, >);
-UNIARY_NOT_TEST(lesser or equal, op_less_equal, <=);
-UNIARY_NOT_TEST(greater or equal, op_greater_equal, >=);
+UNARY_NOT_TEST(equals, op_equal, ==)
+UNARY_NOT_TEST(not equals, op_unequal, !=)
+UNARY_NOT_TEST(less, op_less, <)
+UNARY_NOT_TEST(greater, op_greater, >)
+UNARY_NOT_TEST(lesser or equal, op_less_equal, <=)
+UNARY_NOT_TEST(greater or equal, op_greater_equal, >=)
 
 // ==
-CREATE_OOO_SAME_TEST_CASE(equals, not equals, op_equal, op_unequal, ==, !=);
-CREATE_OOO_SAME_TEST_CASE(equals, less, op_equal, op_less, ==, <);
-CREATE_OOO_SAME_TEST_CASE(equals, greater, op_equal, op_greater, ==, >);
-CREATE_OOO_SAME_TEST_CASE(equals, lesser or equals, op_equal, op_less_equal, ==, <=);
-CREATE_OOO_SAME_TEST_CASE(equals, greater or equals, op_equal, op_greater_equal, ==, >=);
+CREATE_OOO_SAME_TEST_CASE(equals, not equals, op_equal, op_unequal, ==, !=)
+CREATE_OOO_SAME_TEST_CASE(equals, less, op_equal, op_less, ==, <)
+CREATE_OOO_SAME_TEST_CASE(equals, greater, op_equal, op_greater, ==, >)
+CREATE_OOO_SAME_TEST_CASE(equals, lesser or equals, op_equal, op_less_equal, ==, <=)
+CREATE_OOO_SAME_TEST_CASE(equals, greater or equals, op_equal, op_greater_equal, ==, >=)
 
 // !=
-CREATE_OOO_SAME_TEST_CASE(not equals, less, op_unequal, op_less, !=, <);
-CREATE_OOO_SAME_TEST_CASE(not equals, greater, op_unequal, op_greater, !=, >);
-CREATE_OOO_SAME_TEST_CASE(not equals, lesser or equals, op_unequal, op_less_equal, !=, <=);
-CREATE_OOO_SAME_TEST_CASE(not equals, greater or equals, op_unequal, op_greater_equal, !=, >=);
+CREATE_OOO_SAME_TEST_CASE(not equals, less, op_unequal, op_less, !=, <)
+CREATE_OOO_SAME_TEST_CASE(not equals, greater, op_unequal, op_greater, !=, >)
+CREATE_OOO_SAME_TEST_CASE(not equals, lesser or equals, op_unequal, op_less_equal, !=, <=)
+CREATE_OOO_SAME_TEST_CASE(not equals, greater or equals, op_unequal, op_greater_equal, !=, >=)
 
 // <
-CREATE_OOO_SAME_TEST_CASE(less, greater, op_less, op_greater, <, >);
-CREATE_OOO_SAME_TEST_CASE(less, lesser or equals, op_less, op_less_equal, <, <=);
-CREATE_OOO_SAME_TEST_CASE(less, greater or equals, op_less, op_greater_equal, <, >=);
+CREATE_OOO_SAME_TEST_CASE(less, greater, op_less, op_greater, <, >)
+CREATE_OOO_SAME_TEST_CASE(less, lesser or equals, op_less, op_less_equal, <, <=)
+CREATE_OOO_SAME_TEST_CASE(less, greater or equals, op_less, op_greater_equal, <, >=)
 
 // >
-CREATE_OOO_SAME_TEST_CASE(greater, lesser or equals, op_greater, op_less_equal, >, <=);
-CREATE_OOO_SAME_TEST_CASE(greater, greater or equals, op_greater, op_greater_equal, >, >=);
+CREATE_OOO_SAME_TEST_CASE(greater, lesser or equals, op_greater, op_less_equal, >, <=)
+CREATE_OOO_SAME_TEST_CASE(greater, greater or equals, op_greater, op_greater_equal, >, >=)
 
 // <=
 CREATE_OOO_SAME_TEST_CASE(lesser or equals,
@@ -115,31 +114,31 @@ CREATE_OOO_SAME_TEST_CASE(lesser or equals,
                           op_less_equal,
                           op_greater_equal,
                           <=,
-                          >=);
+                          >=)
 
 // +
-CREATE_OOO_DIFFERENT_TEST_CASE(add, equals, op_add, op_equal, +, ==);
-CREATE_OOO_DIFFERENT_TEST_CASE(add, not equals, op_add, op_unequal, +, !=);
-CREATE_OOO_DIFFERENT_TEST_CASE(add, less, op_add, op_less, +, <);
-CREATE_OOO_DIFFERENT_TEST_CASE(add, greater, op_add, op_greater, +, >);
-CREATE_OOO_DIFFERENT_TEST_CASE(add, lesser or equals, op_add, op_less_equal, +, <=);
-CREATE_OOO_DIFFERENT_TEST_CASE(add, greater or equals, op_add, op_greater_equal, +, >=);
+CREATE_OOO_DIFFERENT_TEST_CASE(add, equals, op_add, op_equal, +, ==)
+CREATE_OOO_DIFFERENT_TEST_CASE(add, not equals, op_add, op_unequal, +, !=)
+CREATE_OOO_DIFFERENT_TEST_CASE(add, less, op_add, op_less, +, <)
+CREATE_OOO_DIFFERENT_TEST_CASE(add, greater, op_add, op_greater, +, >)
+CREATE_OOO_DIFFERENT_TEST_CASE(add, lesser or equals, op_add, op_less_equal, +, <=)
+CREATE_OOO_DIFFERENT_TEST_CASE(add, greater or equals, op_add, op_greater_equal, +, >=)
 // -
-CREATE_OOO_DIFFERENT_TEST_CASE(subtract, equals, op_subtract, op_equal, -, ==);
-CREATE_OOO_DIFFERENT_TEST_CASE(subtract, not equals, op_subtract, op_unequal, -, !=);
-CREATE_OOO_DIFFERENT_TEST_CASE(subtract, less, op_subtract, op_less, -, <);
-CREATE_OOO_DIFFERENT_TEST_CASE(subtract, greater, op_subtract, op_greater, -, >);
-CREATE_OOO_DIFFERENT_TEST_CASE(subtract, lesser or equals, op_subtract, op_less_equal, -, <=);
-CREATE_OOO_DIFFERENT_TEST_CASE(subtract, greater or equals, op_subtract, op_greater_equal, -, >=);
+CREATE_OOO_DIFFERENT_TEST_CASE(subtract, equals, op_subtract, op_equal, -, ==)
+CREATE_OOO_DIFFERENT_TEST_CASE(subtract, not equals, op_subtract, op_unequal, -, !=)
+CREATE_OOO_DIFFERENT_TEST_CASE(subtract, less, op_subtract, op_less, -, <)
+CREATE_OOO_DIFFERENT_TEST_CASE(subtract, greater, op_subtract, op_greater, -, >)
+CREATE_OOO_DIFFERENT_TEST_CASE(subtract, lesser or equals, op_subtract, op_less_equal, -, <=)
+CREATE_OOO_DIFFERENT_TEST_CASE(subtract, greater or equals, op_subtract, op_greater_equal, -, >=)
 
-CREATE_OOO_SAME_TEST_CASE(add, subtract, op_add, op_subtract, +, -);
+CREATE_OOO_SAME_TEST_CASE(add, subtract, op_add, op_subtract, +, -)
 
 // *
-CREATE_OOO_DIFFERENT_TEST_CASE(multiply, add, op_multiply, op_add, *, +);
-CREATE_OOO_DIFFERENT_TEST_CASE(multiply, subtract, op_multiply, op_subtract, *, -);
+CREATE_OOO_DIFFERENT_TEST_CASE(multiply, add, op_multiply, op_add, *, +)
+CREATE_OOO_DIFFERENT_TEST_CASE(multiply, subtract, op_multiply, op_subtract, *, -)
 
 // /
-CREATE_OOO_DIFFERENT_TEST_CASE(divide, multiply, op_divide, op_multiply, /, *);
+CREATE_OOO_DIFFERENT_TEST_CASE(divide, multiply, op_divide, op_multiply, /, *)
 
 // - (unary)
 TEST_CASE("order-of-operations - unary minus > divide") {
