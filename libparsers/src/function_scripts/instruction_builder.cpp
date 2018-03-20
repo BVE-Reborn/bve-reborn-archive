@@ -227,14 +227,16 @@ namespace function_scripts {
 			auto unary_iter = unary_functions.find(lower_name);
 			if (unary_iter != unary_functions.end()) {
 				if (arg_count < 1) {
-					std::ostringstream error;
-					error << "Function \"" << node.name.val << "\" requires 1 argument.";
-					list.errors.emplace_back<errors::error_t>({0, error.str()});
 					list.instructions.emplace_back<instructions::stack_push>({0});
 				}
 				else {
 					call_next_node(node.args[0]);
 					list.instructions.emplace_back(unary_iter->second);
+				}
+				if (arg_count != 1) {
+					std::ostringstream err;
+					err << "Function \"" << node.name.val << "\" requires only 1 argument.";
+					errors::add_error(list.errors, 0, err);
 				}
 				return;
 			}
@@ -267,13 +269,20 @@ namespace function_scripts {
 					call_next_node(node.args[1]);
 					list.instructions.emplace_back(binary_iter->second);
 				}
+				else if (arg_count == 1) {
+					call_next_node(node.args[0]);
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back(binary_iter->second);
+				}
 				else {
 					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back(binary_iter->second);
 				}
 				if (arg_count != 2) {
 					std::ostringstream error;
 					error << "Function \"" << node.name.val << "\" requires 2 arguments.";
-					list.errors.emplace_back<errors::error_t>({0, error.str()});
+					errors::add_error(list.errors, 0, error);
 				}
 				return;
 			}
@@ -294,14 +303,20 @@ namespace function_scripts {
 				}
 				else if (arg_count == 1) {
 					call_next_node(node.args[0]);
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::func_if>({});
 				}
 				else if (arg_count == 0) {
 					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::func_if>({});
 				}
 				if (arg_count != 3) {
 					std::ostringstream error;
 					error << "Function \"" << node.name.val << "\" requires 3 arguments.";
-					list.errors.emplace_back<errors::error_t>({0, error.str()});
+					errors::add_error(list.errors, 0, error);
 				}
 				return;
 			}
@@ -338,7 +353,7 @@ namespace function_scripts {
 
 			std::ostringstream error;
 			error << "Function \"" << node.name.val << "\" not recognized.";
-			list.errors.emplace_back<errors::error_t>({0, error.str()});
+			errors::add_error(list.errors, 0, error);
 
 			list.instructions.emplace_back<instructions::stack_push>({0});
 		}

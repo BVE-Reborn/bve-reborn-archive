@@ -34,7 +34,7 @@ namespace function_scripts {
 		}
 
 		bool is_start_of_number(char c) {
-			return (is_number(c) || c == '-' || c == '.');
+			return (is_number(c) || c == '.');
 		}
 
 		bool is_part_of_variable(char c) {
@@ -51,13 +51,11 @@ namespace function_scripts {
 			bool has_another_character = i + 1 < text.size();
 
 			// parsing number
-			if (is_start_of_number(text[i])
-			    && (has_another_character && text[i] == '-' ? is_number(text[i + 1]) : true)) {
-				bool has_dash = text[i] == '-';
+			if (is_start_of_number(text[i])) {
 				bool has_dot = false;
 
 				// find if the number has a . in it
-				std::find_if(text.begin() + i + (has_dash ? 1 : 0), text.end(), [&has_dot](char c) {
+				std::find_if(text.begin() + i, text.end(), [&has_dot](char c) {
 					if (c == '.') {
 						has_dot = true;
 						return true;
@@ -82,7 +80,7 @@ namespace function_scripts {
 					i += chars_used;
 				}
 				// parsing int
-				else if (!((has_dash || has_dot) && !has_another_number_character)) {
+				else if (!(has_dot && !has_another_number_character)) {
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					const char* start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
@@ -95,9 +93,6 @@ namespace function_scripts {
 					i += chars_used;
 				}
 				// Raw dash/dot
-				else if (has_dash) {
-					lt = lexer_types::minus{};
-				}
 				else if (has_dot) {
 					lt = lexer_types::dot{};
 				}

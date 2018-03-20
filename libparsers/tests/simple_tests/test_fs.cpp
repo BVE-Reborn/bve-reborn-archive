@@ -13,7 +13,7 @@ void test_fs() {
 	// * Power[3.14, 2, 2] * 2"s;
 	parsers::errors::errors_t e;
 	auto test_string =
-	    ".25 * Reciprocal[floor[plus[Time * 0.1, 23, 1, pluginstate[2 * mod[-time, 4] + 25]]]] * Power[]"s;
+	    ".25 * Reciprocal[floor[plus[Time * 0.1, 23, 1, pluginstate[2 * mod[-time, 4] + 25]]]] * Power[2]"s;
 
 	auto output = parsers::function_scripts::lex(test_string, e);
 
