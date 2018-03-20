@@ -35,6 +35,7 @@ namespace function_scripts {
 		struct r_bracket {}; // }
 
 		struct comma {}; // ,
+		struct dot {};   // .
 
 		struct variable { // BLAH
 			std::string name;
@@ -69,6 +70,7 @@ namespace function_scripts {
 	                                          lexer_types::l_bracket,
 	                                          lexer_types::r_bracket,
 	                                          lexer_types::comma,
+	                                          lexer_types::dot,
 	                                          lexer_types::variable,
 	                                          lexer_types::integer,
 	                                          lexer_types::floating>;
@@ -107,6 +109,12 @@ namespace function_scripts {
 		template <class T>
 		bool is_next_token() {
 			return index < list.size() && list[index].is<T>();
+		}
+
+		void advance_one_token() {
+			if (index < list.size()) {
+				index += 1;
+			}
 		}
 
 		boost::optional<lexer_token> peak_next_token() {

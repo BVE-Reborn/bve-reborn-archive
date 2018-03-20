@@ -65,8 +65,11 @@ namespace function_scripts {
 					return !is_number(c);
 				});
 
+				bool has_another_number_character =
+				    has_another_character && (is_number(text[i + 1]) || text[i + 1] == '.');
+
 				// parsing float
-				if (has_dot) {
+				if (has_dot && has_another_number_character) {
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					const char* start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
@@ -79,7 +82,7 @@ namespace function_scripts {
 					i += chars_used;
 				}
 				// parsing int
-				else if (!((has_dash || has_dot) && !has_another_character)) {
+				else if (!((has_dash || has_dot) && !has_another_number_character)) {
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					const char* start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
@@ -92,8 +95,11 @@ namespace function_scripts {
 					i += chars_used;
 				}
 				// Raw dash/dot
-				else if(has_dash){
+				else if (has_dash) {
 					lt = lexer_types::minus{};
+				}
+				else if (has_dot) {
+					lt = lexer_types::dot{};
 				}
 			}
 			// parsing symbol

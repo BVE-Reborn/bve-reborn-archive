@@ -102,6 +102,11 @@ namespace function_scripts {
 			_os << "\",\"";
 		}
 
+		void operator()(const lexer_types::dot& arg) {
+			(void) arg;
+			_os << "\".\"";
+		}
+
 		void operator()(const lexer_types::variable& arg) {
 			_os << "(variable, \"" << arg.name << "\")";
 		}

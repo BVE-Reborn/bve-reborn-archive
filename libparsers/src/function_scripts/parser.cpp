@@ -217,7 +217,18 @@ namespace function_scripts {
 	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors) {
 		auto container = lexer_token_container(list, errors);
 
-		return parse_expression(container);
+		auto ret_tree = parse_expression(container);
+
+		boost::optional<lexer_token> next_token;
+		while ((next_token = container.peak_next_token())) {
+			std::ostringstream err;
+
+			::operator<<(err << "Unexpected ", *next_token) << ", expected end of function script";
+			errors::add_error(errors, 0, err);
+
+			container.advance_one_token();
+		}
+		return ret_tree;
 	}
 } // namespace function_scripts
 } // namespace parsers
