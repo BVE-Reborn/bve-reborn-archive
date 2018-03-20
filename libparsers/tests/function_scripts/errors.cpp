@@ -235,4 +235,15 @@ TEST_CASE("errors - 1 missing variatic function argument") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], function, count);
 }
 
+TEST_CASE("errors - Single equals") {
+	parsers::function_scripts::instruction_list result;
+
+	result = parsers::function_scripts::parse("2 = 3");
+	REQUIRE_EQ(result.instructions.size(), 3);
+	REQUIRE_GE(result.errors.size(), 1);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_equal{});
+}
+
 TEST_SUITE_END();

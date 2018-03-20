@@ -2,6 +2,11 @@ language: cpp
 
 sudo: true
 
+cache:
+  directories:
+  - dependencies/binary/
+  - $HOME/binary_root
+
 matrix:
   include:
     - os: linux
@@ -21,12 +26,12 @@ matrix:
         - pip install --user cpp-coveralls
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
         - bash ./build-deps-unix.sh
-        - echo $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$Coverage -GNinja
-        - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
+        - echo $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$Coverage -GNinja
+        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
         
@@ -47,11 +52,11 @@ matrix:
         - pip install --user cpp-coveralls
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
         - bash ./build-deps-unix.sh
-        - $HOME/cmake_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja
+        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja
 
     - os: linux
       dist: precise
@@ -69,14 +74,14 @@ matrix:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && $HOME/cmake_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
     - os: linux
       dist: trusty
@@ -94,14 +99,14 @@ matrix:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && $HOME/cmake_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
 
     - os: linux
@@ -121,14 +126,14 @@ matrix:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && $HOME/cmake_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
           
     - os: linux
       dist: trusty
@@ -147,14 +152,14 @@ matrix:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && $HOME/cmake_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
           
     - os: linux
       dist: trusty
@@ -174,14 +179,14 @@ matrix:
         - eval "${MATRIX_EVAL}"
       # Get Newer CMake
         - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir $HOME/cmake_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake_root --exclude-subdir
-        - $HOME/cmake_root/bin/cmake --version
+        - mkdir $HOME/binary_root
+        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
+        - $HOME/binary_root/bin/cmake --version
       # Build Boost.... 
         - bash ./build-deps-unix.sh
       # Do rest of stuff
         - mkdir build
-        - cd build && $HOME/cmake_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' -GNinja
 
     - os: osx
       osx_image: xcode6.4
