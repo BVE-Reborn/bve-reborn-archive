@@ -64,7 +64,6 @@ TEST_CASE("lexer - negative float no decimal") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
 }
 
-
 TEST_CASE("lexer - subtraction over unary minus") {
 	parsers::function_scripts::instruction_list result;
 

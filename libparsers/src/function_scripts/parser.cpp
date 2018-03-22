@@ -179,7 +179,6 @@ namespace function_scripts {
 		tree_node parse_term(lexer_token_container& list) {
 			boost::optional<lexer_types::floating> f;
 			boost::optional<lexer_types::integer> i;
-			boost::optional<lexer_types::variable> v;
 
 			if (list.skip_next_token<lexer_types::l_paren>()) {
 				auto inside = parse_expression(list);
@@ -195,9 +194,6 @@ namespace function_scripts {
 			}
 			if ((i = list.get_next_token<lexer_types::integer>())) {
 				return tree_types::integer{i->val};
-			}
-			if ((v = list.get_next_token<lexer_types::variable>())) {
-				return tree_types::name{v->name};
 			}
 
 			auto next_token = list.peak_next_token();

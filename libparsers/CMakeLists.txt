@@ -116,6 +116,8 @@ set(TEST_SOURCES
                  tests/errors/iostream.cpp
                  tests/function_scripts/errors.cpp
                  tests/function_scripts/functions.cpp
+                 tests/function_scripts/iostream_lexer.cpp
+                 tests/function_scripts/iostream_tree.cpp
                  tests/function_scripts/lexer.cpp
                  tests/function_scripts/operators.cpp
                  tests/function_scripts/order_of_operations.cpp
@@ -128,7 +130,7 @@ set(TEST_HEADERS
     )
 
 add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})
-target_include_directories(test_parsers PRIVATE tests)
+target_include_directories(test_parsers PRIVATE tests src)
 target_link_libraries(test_parsers PRIVATE test_main parsers doctest::doctest
                                            options::iterator_debug_level_1)
 lint(FILES ${TEST_SOURCES})
