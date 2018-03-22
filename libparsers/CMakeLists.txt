@@ -118,6 +118,7 @@ set(TEST_SOURCES
                  tests/function_scripts/functions.cpp
                  tests/function_scripts/iostream_lexer.cpp
                  tests/function_scripts/iostream_tree.cpp
+                 tests/function_scripts/iostream_instructions.cpp
                  tests/function_scripts/lexer.cpp
                  tests/function_scripts/operators.cpp
                  tests/function_scripts/order_of_operations.cpp

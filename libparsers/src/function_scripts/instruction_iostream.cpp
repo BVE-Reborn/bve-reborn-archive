@@ -206,11 +206,11 @@ namespace function_scripts {
 				}
 				_os << input;
 				_os << " -> ";
-				_os << output;
-				for (std::ptrdiff_t i = 0;
-				     i < size_largest_output - std::ptrdiff_t(output.size()) + 1; ++i) {
+				for (std::ptrdiff_t i = 0; i < size_largest_output - std::ptrdiff_t(output.size());
+				     ++i) {
 					_os << ' ';
 				}
+				_os << output;
 				_os << '\n';
 				count++;
 			}
@@ -302,7 +302,7 @@ namespace function_scripts {
 		}
 		void operator()(const instructions::op_equal& inst) {
 			(void) inst;
-			print_binary_expr("OP_EQUAL"s, "/");
+			print_binary_expr("OP_EQUAL"s, "==");
 		}
 		void operator()(const instructions::op_unequal& inst) {
 			(void) inst;
@@ -361,7 +361,7 @@ namespace function_scripts {
 		}
 		void operator()(const instructions::func_power& inst) {
 			std::ostringstream name;
-			name << "OP_POWER" << inst.count;
+			name << "FUNC_POWER" << inst.count;
 			print_variatic_expr(name.str(), "^", inst.count);
 		}
 		void operator()(const instructions::func_quotient& inst) {
@@ -374,12 +374,12 @@ namespace function_scripts {
 		}
 		void operator()(const instructions::func_min& inst) {
 			std::ostringstream name;
-			name << "OP_MIN" << inst.count;
+			name << "FUNC_MIN" << inst.count;
 			print_function(name.str(), "Min", inst.count);
 		}
 		void operator()(const instructions::func_max& inst) {
 			std::ostringstream name;
-			name << "OP_MAX" << inst.count;
+			name << "FUNC_MAX" << inst.count;
 			print_function(name.str(), "Max", inst.count);
 		}
 		void operator()(const instructions::func_abs& inst) {

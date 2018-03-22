@@ -86,18 +86,18 @@ namespace function_scripts {
 			Odometer
 		};
 
-		struct has_count {
-			std::size_t count = 2;
-		};
-
 		struct stack_push {
 			float value;
 		};
 
-		struct op_add : public has_count {};
+		struct op_add {
+			std::size_t count = 2;
+		};
 		struct op_subtract {};
 		struct op_unary_minus {};
-		struct op_multiply : public has_count {};
+		struct op_multiply {
+			std::size_t count = 2;
+		};
 		struct op_divide {};
 
 		struct op_equal {};
@@ -126,12 +126,18 @@ namespace function_scripts {
 		};
 
 		struct func_reciprocal {};
-		struct func_power : public has_count {};
+		struct func_power {
+			std::size_t count = 2;
+		};
 
 		struct func_quotient {};
 		struct func_mod {};
-		struct func_min : public has_count {};
-		struct func_max : public has_count {};
+		struct func_min {
+			std::size_t count = 2;
+		};
+		struct func_max {
+			std::size_t count = 2;
+		};
 		struct func_abs {};
 		struct func_sign {};
 		struct func_floor {};

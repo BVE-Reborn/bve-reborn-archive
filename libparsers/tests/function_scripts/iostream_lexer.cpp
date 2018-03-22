@@ -26,6 +26,10 @@ TEST_CASE("lexer iostream - all symbols") {
 	    fs_lex_token::carret{},         //
 	    fs_lex_token::l_paren{},        //
 	    fs_lex_token::r_paren{},        //
+	    fs_lex_token::l_bracket{},      //
+	    fs_lex_token::r_bracket{},      //
+	    fs_lex_token::comma{},          //
+	    fs_lex_token::dot{},            //
 	    fs_lex_token::variable{"sin"s}, //
 	    fs_lex_token::integer{2},       //
 	    fs_lex_token::floating{2.2f}    //
@@ -52,6 +56,10 @@ TEST_CASE("lexer iostream - all symbols") {
 	         "\"^\"\n"
 	         "\"(\"\n"
 	         "\")\"\n"
+	         "\"[\"\n"
+	         "\"]\"\n"
+	         "\",\"\n"
+	         "\".\"\n"
 	         "(variable, \"sin\")\n"
 	         "(int, \"2\")\n"
 	         "(float, \"2.2\")\n");

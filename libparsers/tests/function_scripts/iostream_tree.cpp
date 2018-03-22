@@ -24,7 +24,7 @@ namespace fs_tree_node = parsers::function_scripts::tree_types;
 
 #define BINARY_TREE_TEST(full_name, type_name, output_name)                                            \
 	TEST_CASE("tree iostream - " stringify(full_name)) {                                               \
-		fs_tree_node::type_name test_node{fs_tree_node::integer{2}, fs_tree_node::floating{2}};        \
+		fs_tree_node::type_name test_node{fs_tree_node::integer{2}, fs_tree_node::floating{3}};        \
                                                                                                        \
 		std::ostringstream output;                                                                     \
                                                                                                        \
@@ -33,7 +33,7 @@ namespace fs_tree_node = parsers::function_scripts::tree_types;
 		CHECK_EQ(output.str(),                                                                       \
 		         stringify(output_name) "\n"                                                         \
 		         "| 2\n"                                                                             \
-		         "| 2\n"); \
+		         "| 3\n"); \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
@@ -46,24 +46,74 @@ BINARY_TREE_TEST(binary or, binary_or, OR)
 BINARY_TREE_TEST(binary equal, binary_eq, EQ)
 BINARY_TREE_TEST(binary not equal, binary_not_eq, NEQ)
 BINARY_TREE_TEST(binary less, binary_less, LESS)
-BINARY_TREE_TEST(binary greater, binary_add, ADD)
-BINARY_TREE_TEST(binary less or equal, binary_add, ADD)
-BINARY_TREE_TEST(binary greater or equal, binary_add, ADD)
+BINARY_TREE_TEST(binary greater, binary_greater, GREATER)
+BINARY_TREE_TEST(binary less or equal, binary_less_eq, LESS_EQ)
+BINARY_TREE_TEST(binary greater or equal, binary_greater_eq, GREATER_EQ)
 BINARY_TREE_TEST(binary add, binary_add, ADD)
 BINARY_TREE_TEST(binary subtract, binary_subtract, SUB)
 BINARY_TREE_TEST(binary multiply, binary_multiply, MULTIPLY)
 BINARY_TREE_TEST(binary divide, binary_divide, DIVIDE)
 
-TEST_CASE("tree iostream - function call single arg") {
-	fs_tree_node::function_call test_node{{"sin"s}, {fs_tree_node::integer{2}}};
+TEST_CASE("tree iostream - function call 1 arg") {
+	fs_tree_node::function_call test_node{{"max"s}, {fs_tree_node::integer{2}}};
 
 	std::ostringstream output;
 
 	output << test_node;
 
 	CHECK_EQ(output.str(),
-	         "FUNC_CALL: sin\n"
+	         "FUNC_CALL: max\n"
 	         "| 2\n");
+}
+
+TEST_CASE("tree iostream - function call 2 args") {
+	fs_tree_node::function_call test_node{{"max"s},
+	                                      {fs_tree_node::integer{2}, fs_tree_node::integer{3}}};
+
+	std::ostringstream output;
+
+	output << test_node;
+
+	CHECK_EQ(output.str(),
+	         "FUNC_CALL: max\n"
+	         "| 2\n"
+	         "| 3\n");
+}
+
+TEST_CASE("tree iostream - function call 3 args") {
+	fs_tree_node::function_call test_node{{"max"s},
+	                                      {fs_tree_node::integer{2}, fs_tree_node::integer{3},
+	                                       fs_tree_node::integer{4}}};
+
+	std::ostringstream output;
+
+	output << test_node;
+
+	CHECK_EQ(output.str(),
+	         "FUNC_CALL: max\n"
+	         "| 2\n"
+	         "| 3\n"
+	         "| 4\n");
+}
+
+TEST_CASE("tree iostream - variable") {
+	fs_tree_node::name test_node{"odometer"s};
+
+	std::ostringstream output;
+
+	output << test_node;
+
+	CHECK_EQ(output.str(), "VARIABLE: odometer\n");
+}
+
+TEST_CASE("tree iostream - none") {
+	fs_tree_node::none test_node{};
+
+	std::ostringstream output;
+
+	output << test_node;
+
+	CHECK_EQ(output.str(), "NONE\n");
 }
 
 TEST_SUITE_END();
