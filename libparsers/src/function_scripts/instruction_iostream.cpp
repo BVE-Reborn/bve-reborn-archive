@@ -100,6 +100,8 @@ namespace function_scripts {
 					return "Klaxon"s;
 				case instructions::variable::PrimaryKlaxon:
 					return "PrimaryKlaxon"s;
+				case instructions::variable::SecondaryKlaxon:
+					return "SecondaryKlaxon"s;
 				case instructions::variable::MusicKlaxon:
 					return "MusicKlaxon"s;
 				case instructions::variable::section:
@@ -152,6 +154,8 @@ namespace function_scripts {
 					return "RearAxleCurveRadius"s;
 				case instructions::indexed_variable::CurveCant:
 					return "CurveCant"s;
+				case instructions::indexed_variable::Odometer:
+					return "Odometer"s;
 			}
 		}
 	} // namespace
@@ -362,7 +366,7 @@ namespace function_scripts {
 		void operator()(const instructions::func_power& inst) {
 			std::ostringstream name;
 			name << "FUNC_POWER" << inst.count;
-			print_variatic_expr(name.str(), "^", inst.count);
+			print_variatic_expr(name.str(), "**", inst.count);
 		}
 		void operator()(const instructions::func_quotient& inst) {
 			(void) inst;
@@ -408,7 +412,7 @@ namespace function_scripts {
 		}
 		void operator()(const instructions::func_randomInt& inst) {
 			(void) inst;
-			print_function("FUNC_RANDOMINT"s, "RoundInt", 2);
+			print_function("FUNC_RANDOMINT"s, "RandomInt", 2);
 		}
 		void operator()(const instructions::func_exp& inst) {
 			(void) inst;
