@@ -139,6 +139,15 @@ format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 add_sanitizers(test_parsers)
 cotire(test_parsers)
 
+if (OPENBVE2_WITH_FUZZING)
+    add_executable(fuzz_libparsers_function_scripts tests/function_scripts/fuzzer.cpp)
+    target_compile_options(fuzz_libparsers_function_scripts PRIVATE -fsanitize=fuzzer)
+    target_link_libraries(fuzz_libparsers_function_scripts PRIVATE parsers options::iterator_debug_level_1 -fsanitize=fuzzer)
+    lint(FILES tests/function_scripts/fuzzer.cpp)
+    format(FILES tests/function_scripts/fuzzer.cpp)
+    add_sanitizers(fuzz_libparsers_function_scripts)
+endif()
+
 #######################
 # simple_parsers_test #
 #######################

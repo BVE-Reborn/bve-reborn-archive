@@ -59,40 +59,42 @@ static std::string canonicalize(std::string str) {
 		         "2\t" rep " -> 0\n");                                                             \
 	}
 
-#define REGULAR_VARIABLE_TEST(name)                                                                \
-	TEST_CASE("instruction_iostream - unindexed " stringify(name)) {                               \
-		parsers::function_scripts::instruction_list                                                \
-		    test_list{{},                                                                          \
-		              {},                                                                          \
-		              {fs_instruction::op_variable_lookup{                                         \
-		                  parsers::function_scripts::instructions::variable::name}},               \
-		              {}};                                                                         \
-                                                                                                   \
-		std::ostringstream output;                                                                 \
-                                                                                                   \
-		output << test_list;                                                                       \
-                                                                                                   \
-		CHECK_EQ(canonicalize(output.str()),                                                       \
-		         "0\tOP_VARIABLE_LOOKUP: " stringify(name) " " stringify(name) " -> 0\n");         \
+#define REGULAR_VARIABLE_TEST(name)                                                                    \
+	TEST_CASE("instruction_iostream - unindexed " stringify(name)) {                                   \
+		parsers::function_scripts::instruction_list                                                    \
+		    test_list{{parsers::function_scripts::instructions::variable::name},                       \
+		              {},                                                                              \
+		              {fs_instruction::op_variable_lookup{                                             \
+		                  parsers::function_scripts::instructions::variable::name}},                   \
+		              {}};                                                                             \
+                                                                                                       \
+		std::ostringstream output;                                                                     \
+                                                                                                       \
+		output << test_list;                                                                           \
+                                                                                                       \
+		CHECK_EQ(canonicalize(output.str()),                                                         \
+		         "Variables Used: " stringify(name) "\n"                                             \
+                 "0\tOP_VARIABLE_LOOKUP: " stringify(name) " " stringify(name) " -> 0\n"); \
 	}
 
-#define INDEXED_VARIABLE_TEST(name)                                                                \
-	TEST_CASE("instruction_iostream - index " stringify(name)) {                                   \
-		parsers::function_scripts::instruction_list                                                \
-		    test_list{{},                                                                          \
-		              {},                                                                          \
-		              {fs_instruction::stack_push{2},                                              \
-		               fs_instruction::op_variable_indexed{                                        \
-		                   parsers::function_scripts::instructions::indexed_variable::name}},      \
-		              {}};                                                                         \
-                                                                                                   \
-		std::ostringstream output;                                                                 \
-                                                                                                   \
-		output << test_list;                                                                       \
-                                                                                                   \
-		CHECK_EQ(canonicalize(output.str()),                                                       \
-		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                      \
-		         "1\tOP_VARIABLE_INDEXED: " stringify(name) " " stringify(name) "[0] -> 0\n");     \
+#define INDEXED_VARIABLE_TEST(name)                                                                    \
+	TEST_CASE("instruction_iostream - index " stringify(name)) {                                       \
+		parsers::function_scripts::instruction_list                                                    \
+		    test_list{{},                                                                              \
+		              {parsers::function_scripts::instructions::indexed_variable::name},               \
+		              {fs_instruction::stack_push{2},                                                  \
+		               fs_instruction::op_variable_indexed{                                            \
+		                   parsers::function_scripts::instructions::indexed_variable::name}},          \
+		              {}};                                                                             \
+                                                                                                       \
+		std::ostringstream output;                                                                     \
+                                                                                                       \
+		output << test_list;                                                                           \
+                                                                                                       \
+		CHECK_EQ(canonicalize(output.str()),                                                         \
+		         "Index Variables Used: " stringify(name) "\n"                                       \
+		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                        \
+		         "1\tOP_VARIABLE_INDEXED: " stringify(name) " " stringify(name) "[0] -> 0\n"); \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
@@ -175,6 +177,7 @@ REGULAR_VARIABLE_TEST(distance)
 REGULAR_VARIABLE_TEST(trackDistance)
 REGULAR_VARIABLE_TEST(mainReservoir)
 REGULAR_VARIABLE_TEST(emergencyReservoir)
+REGULAR_VARIABLE_TEST(brakePipe)
 REGULAR_VARIABLE_TEST(brakeCylinder)
 REGULAR_VARIABLE_TEST(straightAirPipe)
 REGULAR_VARIABLE_TEST(doors)
@@ -205,6 +208,7 @@ REGULAR_VARIABLE_TEST(SecondaryKlaxon)
 REGULAR_VARIABLE_TEST(MusicKlaxon)
 REGULAR_VARIABLE_TEST(section)
 
+INDEXED_VARIABLE_TEST(none)
 INDEXED_VARIABLE_TEST(speed)
 INDEXED_VARIABLE_TEST(speedometer)
 INDEXED_VARIABLE_TEST(acceleration)

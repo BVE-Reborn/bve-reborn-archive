@@ -235,6 +235,34 @@ TEST_CASE("errors - 1 missing variatic function argument") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], function, count);
 }
 
+TEST_CASE("errors - missing unary variable index argument") {
+	parsers::function_scripts::instruction_list result;
+
+	result = parsers::function_scripts::parse("Odometer[]");
+	REQUIRE_EQ(result.instructions.size(), 2);
+	REQUIRE_EQ(result.used_indexed_variables.size(), 1);
+	REQUIRE_GE(result.errors.size(), 1);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1],
+	                             fs_inst::op_variable_indexed{fs_inst::indexed_variable::Odometer},
+	                             name);
+	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::indexed_variable::Odometer);
+}
+
+TEST_CASE("errors - too many unary variable index argument") {
+	parsers::function_scripts::instruction_list result;
+
+	result = parsers::function_scripts::parse("Odometer[1, 2, 3]");
+	REQUIRE_EQ(result.instructions.size(), 2);
+	REQUIRE_EQ(result.used_indexed_variables.size(), 1);
+	REQUIRE_GE(result.errors.size(), 1);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{1}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1],
+	                             fs_inst::op_variable_indexed{fs_inst::indexed_variable::Odometer},
+	                             name);
+	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::indexed_variable::Odometer);
+}
+
 TEST_CASE("errors - Single equals") {
 	parsers::function_scripts::instruction_list result;
 
