@@ -7,7 +7,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-TEST_CASE("lexer - integer") {
+TEST_CASE("libparsers - function scripts - lexer - integer") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("2");
@@ -16,7 +16,7 @@ TEST_CASE("lexer - integer") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
 }
 
-TEST_CASE("lexer - negative integer") {
+TEST_CASE("libparsers - function scripts - lexer - negative integer") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("-2");
@@ -26,7 +26,7 @@ TEST_CASE("lexer - negative integer") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
 }
 
-TEST_CASE("lexer - float") {
+TEST_CASE("libparsers - function scripts - lexer - float") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("2.2");
@@ -35,7 +35,7 @@ TEST_CASE("lexer - float") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2.2f}, value);
 }
 
-TEST_CASE("lexer - negative float") {
+TEST_CASE("libparsers - function scripts - lexer - negative float") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("-2.2");
@@ -45,7 +45,7 @@ TEST_CASE("lexer - negative float") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
 }
 
-TEST_CASE("lexer - float no decimal") {
+TEST_CASE("libparsers - function scripts - lexer - float no decimal") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("2.");
@@ -54,7 +54,7 @@ TEST_CASE("lexer - float no decimal") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
 }
 
-TEST_CASE("lexer - negative float no decimal") {
+TEST_CASE("libparsers - function scripts - lexer - negative float no decimal") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("-2.");
@@ -64,7 +64,7 @@ TEST_CASE("lexer - negative float no decimal") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
 }
 
-TEST_CASE("lexer - subtraction over unary minus") {
+TEST_CASE("libparsers - function scripts - lexer - subtraction over unary minus") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("2-2");

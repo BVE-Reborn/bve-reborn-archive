@@ -7,7 +7,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-TEST_CASE("functions - reciprocal") {
+TEST_CASE("libparsers - function scripts - functions - reciprocal") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("reciprocal[2]");
@@ -17,7 +17,7 @@ TEST_CASE("functions - reciprocal") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_reciprocal{});
 }
 
-TEST_CASE("functions - power2") {
+TEST_CASE("libparsers - function scripts - functions - power2") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("power[2, 3]");
@@ -31,7 +31,7 @@ TEST_CASE("functions - power2") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], function, count);
 }
 
-TEST_CASE("functions - power3") {
+TEST_CASE("libparsers - function scripts - functions - power3") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("power[2, 3, 4]");
@@ -46,7 +46,7 @@ TEST_CASE("functions - power3") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[3], function, count);
 }
 
-TEST_CASE("functions - quotient") {
+TEST_CASE("libparsers - function scripts - functions - quotient") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("quotient[2, 3]");
@@ -57,7 +57,7 @@ TEST_CASE("functions - quotient") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_quotient{});
 }
 
-TEST_CASE("functions - mod") {
+TEST_CASE("libparsers - function scripts - functions - mod") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("mod[2, 3]");
@@ -68,7 +68,7 @@ TEST_CASE("functions - mod") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_mod{});
 }
 
-TEST_CASE("functions - min2") {
+TEST_CASE("libparsers - function scripts - functions - min2") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("min[2, 3]");
@@ -82,7 +82,7 @@ TEST_CASE("functions - min2") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], function, count);
 }
 
-TEST_CASE("functions - min3") {
+TEST_CASE("libparsers - function scripts - functions - min3") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("min[2, 3, 4]");
@@ -97,7 +97,7 @@ TEST_CASE("functions - min3") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[3], function, count);
 }
 
-TEST_CASE("functions - max2") {
+TEST_CASE("libparsers - function scripts - functions - max2") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("max[2, 3]");
@@ -111,7 +111,7 @@ TEST_CASE("functions - max2") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], function, count);
 }
 
-TEST_CASE("functions - max3") {
+TEST_CASE("libparsers - function scripts - functions - max3") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("max[2, 3, 4]");
@@ -126,7 +126,7 @@ TEST_CASE("functions - max3") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[3], function, count);
 }
 
-TEST_CASE("functions - abs") {
+TEST_CASE("libparsers - function scripts - functions - abs") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("abs[2]");
@@ -136,7 +136,7 @@ TEST_CASE("functions - abs") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_abs{});
 }
 
-TEST_CASE("functions - sign") {
+TEST_CASE("libparsers - function scripts - functions - sign") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sign[2]");
@@ -146,7 +146,7 @@ TEST_CASE("functions - sign") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sign{});
 }
 
-TEST_CASE("functions - floor") {
+TEST_CASE("libparsers - function scripts - functions - floor") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("floor[2]");
@@ -156,7 +156,7 @@ TEST_CASE("functions - floor") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_floor{});
 }
 
-TEST_CASE("functions - ceiling") {
+TEST_CASE("libparsers - function scripts - functions - ceiling") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("ceiling[2]");
@@ -166,7 +166,7 @@ TEST_CASE("functions - ceiling") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_ceiling{});
 }
 
-TEST_CASE("functions - round") {
+TEST_CASE("libparsers - function scripts - functions - round") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("round[2]");
@@ -176,7 +176,7 @@ TEST_CASE("functions - round") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_round{});
 }
 
-TEST_CASE("functions - random") {
+TEST_CASE("libparsers - function scripts - functions - random") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("random[2, 3]");
@@ -187,7 +187,7 @@ TEST_CASE("functions - random") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_random{});
 }
 
-TEST_CASE("functions - randomInt") {
+TEST_CASE("libparsers - function scripts - functions - randomInt") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("randomint[2, 3]");
@@ -198,7 +198,7 @@ TEST_CASE("functions - randomInt") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_randomInt{});
 }
 
-TEST_CASE("functions - exp") {
+TEST_CASE("libparsers - function scripts - functions - exp") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("exp[2]");
@@ -208,7 +208,7 @@ TEST_CASE("functions - exp") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_exp{});
 }
 
-TEST_CASE("functions - log") {
+TEST_CASE("libparsers - function scripts - functions - log") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("log[2]");
@@ -218,7 +218,7 @@ TEST_CASE("functions - log") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_log{});
 }
 
-TEST_CASE("functions - sqrt") {
+TEST_CASE("libparsers - function scripts - functions - sqrt") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sqrt[2]");
@@ -228,7 +228,7 @@ TEST_CASE("functions - sqrt") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sqrt{});
 }
 
-TEST_CASE("functions - sin") {
+TEST_CASE("libparsers - function scripts - functions - sin") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin[2]");
@@ -238,7 +238,7 @@ TEST_CASE("functions - sin") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
 }
 
-TEST_CASE("functions - cos") {
+TEST_CASE("libparsers - function scripts - functions - cos") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("cos[2]");
@@ -248,7 +248,7 @@ TEST_CASE("functions - cos") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_cos{});
 }
 
-TEST_CASE("functions - tan") {
+TEST_CASE("libparsers - function scripts - functions - tan") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("tan[2]");
@@ -258,7 +258,7 @@ TEST_CASE("functions - tan") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_tan{});
 }
 
-TEST_CASE("functions - arctan") {
+TEST_CASE("libparsers - function scripts - functions - arctan") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("arctan[2]");
@@ -268,7 +268,7 @@ TEST_CASE("functions - arctan") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_arctan{});
 }
 
-TEST_CASE("functions - if") {
+TEST_CASE("libparsers - function scripts - functions - if") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("if[2, 3, 4]");

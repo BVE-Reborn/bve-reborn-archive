@@ -7,7 +7,8 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 #define str(a) #a
 #define CREATE_OOO_DIFFERENT_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)   \
-	TEST_CASE("order-of-operations - " str(name1) " > " str(name2)) {                              \
+	TEST_CASE(                                                                                     \
+	    "libparsers - function scripts - order-of-operations - " str(name1) " > " str(name2)) {    \
 		auto function1 = fs_inst::instr_name1{};                                                   \
 		auto function2 = fs_inst::instr_name2{};                                                   \
 		auto result = parsers::function_scripts::parse("2 " str(symbol1) " 3 " str(symbol2) " 4"); \
@@ -21,7 +22,8 @@ namespace fs_inst = parsers::function_scripts::instructions;
 	}
 
 #define CREATE_OOO_SAME_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)        \
-	TEST_CASE("order-of-operations - " str(name1) " = " str(name2)) {                              \
+	TEST_CASE(                                                                                     \
+	    "libparsers - function scripts - order-of-operations - " str(name1) " = " str(name2)) {    \
 		auto front_function1 = fs_inst::instr_name1{};                                             \
 		auto front_function2 = fs_inst::instr_name2{};                                             \
 		auto front_result =                                                                        \
@@ -48,7 +50,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 	}
 
 #define UNARY_NOT_TEST(name, instr_name, symbol)                                                   \
-	TEST_CASE("order-of-operations - " str(name) " > unary not") {                                 \
+	TEST_CASE("libparsers - function scripts - order-of-operations - " str(name) " > unary not") { \
 		auto function1 = fs_inst::op_unary_not{};                                                  \
 		auto function2 = fs_inst::instr_name{};                                                    \
 		auto result = parsers::function_scripts::parse("!2 " str(symbol) " 3");                    \
@@ -68,7 +70,7 @@ CREATE_OOO_DIFFERENT_TEST_CASE(binary xor, binary or, op_xor, op_or, ^, |)
 CREATE_OOO_DIFFERENT_TEST_CASE(binary and, binary xor, op_and, op_xor, &, ^)
 
 // !
-TEST_CASE("order-of-operations - unary not > binary and") {
+TEST_CASE("libparsers - function scripts - order-of-operations - unary not > binary and") {
 	auto function1 = fs_inst::op_unary_not{};
 	auto function2 = fs_inst::op_and{};
 	auto result = parsers::function_scripts::parse("!2 & 3");
@@ -141,7 +143,7 @@ CREATE_OOO_DIFFERENT_TEST_CASE(multiply, subtract, op_multiply, op_subtract, *, 
 CREATE_OOO_DIFFERENT_TEST_CASE(divide, multiply, op_divide, op_multiply, /, *)
 
 // - (unary)
-TEST_CASE("order-of-operations - unary minus > divide") {
+TEST_CASE("libparsers - function scripts - order-of-operations - unary minus > divide") {
 	auto function1 = fs_inst::op_unary_minus{};
 	auto function2 = fs_inst::op_divide{};
 	auto result = parsers::function_scripts::parse("- 2 / 3");
@@ -154,7 +156,7 @@ TEST_CASE("order-of-operations - unary minus > divide") {
 }
 
 // a[]
-TEST_CASE("order-of-operations - function > unary minus") {
+TEST_CASE("libparsers - function scripts - order-of-operations - function > unary minus") {
 	auto function1 = fs_inst::op_unary_minus{};
 	auto function2 = fs_inst::func_sin{};
 	auto result = parsers::function_scripts::parse("sin[- 2]");

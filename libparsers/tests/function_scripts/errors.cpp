@@ -8,7 +8,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-TEST_CASE("errors - invalid function") {
+TEST_CASE("libparsers - function scripts - errors - invalid function") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("lookatme[2, 3]");
@@ -17,7 +17,7 @@ TEST_CASE("errors - invalid function") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
 }
 
-TEST_CASE("errors - invalid variable") {
+TEST_CASE("libparsers - function scripts - errors - invalid variable") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("lookatme");
@@ -26,7 +26,7 @@ TEST_CASE("errors - invalid variable") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
 }
 
-TEST_CASE("errors - missing unary operand") {
+TEST_CASE("libparsers - function scripts - errors - missing unary operand") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("-");
@@ -36,7 +36,7 @@ TEST_CASE("errors - missing unary operand") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
 }
 
-TEST_CASE("errors - missing unary operand inside function") {
+TEST_CASE("libparsers - function scripts - errors - missing unary operand inside function") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin[-]");
@@ -47,7 +47,7 @@ TEST_CASE("errors - missing unary operand inside function") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_sin{});
 }
 
-TEST_CASE("errors - single dot") {
+TEST_CASE("libparsers - function scripts - errors - single dot") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse(".");
@@ -56,7 +56,7 @@ TEST_CASE("errors - single dot") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
 }
 
-TEST_CASE("errors - single dot inside function") {
+TEST_CASE("libparsers - function scripts - errors - single dot inside function") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin[.]");
@@ -66,7 +66,7 @@ TEST_CASE("errors - single dot inside function") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
 }
 
-TEST_CASE("errors - malformed variable") {
+TEST_CASE("libparsers - function scripts - errors - malformed variable") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("absjs211");
@@ -75,7 +75,7 @@ TEST_CASE("errors - malformed variable") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
 }
 
-TEST_CASE("errors - malformed number") {
+TEST_CASE("libparsers - function scripts - errors - malformed number") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("12131asj");
@@ -84,7 +84,7 @@ TEST_CASE("errors - malformed number") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{12131}, value);
 }
 
-TEST_CASE("errors - missing left bracket") {
+TEST_CASE("libparsers - function scripts - errors - missing left bracket") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin odometer]");
@@ -93,7 +93,7 @@ TEST_CASE("errors - missing left bracket") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
 }
 
-TEST_CASE("errors - missing right bracket") {
+TEST_CASE("libparsers - function scripts - errors - missing right bracket") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin [odometer");
@@ -103,7 +103,7 @@ TEST_CASE("errors - missing right bracket") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
 }
 
-TEST_CASE("errors - missing left parenthesis") {
+TEST_CASE("libparsers - function scripts - errors - missing left parenthesis") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("5)");
@@ -112,7 +112,7 @@ TEST_CASE("errors - missing left parenthesis") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{5}, value);
 }
 
-TEST_CASE("errors - missing right parenthesis") {
+TEST_CASE("libparsers - function scripts - errors - missing right parenthesis") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("(5");
@@ -121,7 +121,7 @@ TEST_CASE("errors - missing right parenthesis") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{5}, value);
 }
 
-TEST_CASE("errors - missing unary function argument") {
+TEST_CASE("libparsers - function scripts - errors - missing unary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin[]");
@@ -131,7 +131,7 @@ TEST_CASE("errors - missing unary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
 }
 
-TEST_CASE("errors - too many unary function arguments") {
+TEST_CASE("libparsers - function scripts - errors - too many unary function arguments") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("sin[1, 2, 3]");
@@ -141,7 +141,7 @@ TEST_CASE("errors - too many unary function arguments") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
 }
 
-TEST_CASE("errors - 2 missing binary function argument") {
+TEST_CASE("libparsers - function scripts - errors - 2 missing binary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("randomInt[]");
@@ -152,7 +152,7 @@ TEST_CASE("errors - 2 missing binary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_randomInt{});
 }
 
-TEST_CASE("errors - 1 missing binary function argument") {
+TEST_CASE("libparsers - function scripts - errors - 1 missing binary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("randomInt[1]");
@@ -163,7 +163,7 @@ TEST_CASE("errors - 1 missing binary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_randomInt{});
 }
 
-TEST_CASE("errors - too many binary function argument") {
+TEST_CASE("libparsers - function scripts - errors - too many binary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("randomInt[1, 2, 3]");
@@ -174,7 +174,7 @@ TEST_CASE("errors - too many binary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_randomInt{});
 }
 
-TEST_CASE("errors - 3 missing ternary function argument") {
+TEST_CASE("libparsers - function scripts - errors - 3 missing ternary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("if[]");
@@ -186,7 +186,7 @@ TEST_CASE("errors - 3 missing ternary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
 }
 
-TEST_CASE("errors - 2 missing ternary function argument") {
+TEST_CASE("libparsers - function scripts - errors - 2 missing ternary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("if[2]");
@@ -198,7 +198,7 @@ TEST_CASE("errors - 2 missing ternary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
 }
 
-TEST_CASE("errors - 1 missing ternary function argument") {
+TEST_CASE("libparsers - function scripts - errors - 1 missing ternary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("if[2, 3]");
@@ -210,7 +210,7 @@ TEST_CASE("errors - 1 missing ternary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
 }
 
-TEST_CASE("errors - too many ternary function argument") {
+TEST_CASE("libparsers - function scripts - errors - too many ternary function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("if[2, 3, 4, 5]");
@@ -222,7 +222,7 @@ TEST_CASE("errors - too many ternary function argument") {
 	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
 }
 
-TEST_CASE("errors - 1 missing variatic function argument") {
+TEST_CASE("libparsers - function scripts - errors - 1 missing variatic function argument") {
 	parsers::function_scripts::instruction_list result;
 
 	auto function = fs_inst::func_max{};
@@ -235,7 +235,7 @@ TEST_CASE("errors - 1 missing variatic function argument") {
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], function, count);
 }
 
-TEST_CASE("errors - missing unary variable index argument") {
+TEST_CASE("libparsers - function scripts - errors - missing unary variable index argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("Odometer[]");
@@ -249,7 +249,7 @@ TEST_CASE("errors - missing unary variable index argument") {
 	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::indexed_variable::Odometer);
 }
 
-TEST_CASE("errors - too many unary variable index argument") {
+TEST_CASE("libparsers - function scripts - errors - too many unary variable index argument") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("Odometer[1, 2, 3]");
@@ -263,7 +263,7 @@ TEST_CASE("errors - too many unary variable index argument") {
 	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::indexed_variable::Odometer);
 }
 
-TEST_CASE("errors - Single equals") {
+TEST_CASE("libparsers - function scripts - errors - Single equals") {
 	parsers::function_scripts::instruction_list result;
 
 	result = parsers::function_scripts::parse("2 = 3");

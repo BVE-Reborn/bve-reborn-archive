@@ -7,7 +7,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-TEST_CASE("operators - logical or") {
+TEST_CASE("libparsers - function scripts - operators - logical or") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -23,7 +23,7 @@ TEST_CASE("operators - logical or") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_or{});
 }
 
-TEST_CASE("operators - logical xor") {
+TEST_CASE("libparsers - function scripts - operators - logical xor") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -39,7 +39,7 @@ TEST_CASE("operators - logical xor") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_xor{});
 }
 
-TEST_CASE("operators - logical and") {
+TEST_CASE("libparsers - function scripts - operators - logical and") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -55,7 +55,7 @@ TEST_CASE("operators - logical and") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_and{});
 }
 
-TEST_CASE("operators - logical not") {
+TEST_CASE("libparsers - function scripts - operators - logical not") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -70,7 +70,7 @@ TEST_CASE("operators - logical not") {
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_not{});
 }
 
-TEST_CASE("operators - equals") {
+TEST_CASE("libparsers - function scripts - operators - equals") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -86,7 +86,7 @@ TEST_CASE("operators - equals") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_equal{});
 }
 
-TEST_CASE("operators - not equals") {
+TEST_CASE("libparsers - function scripts - operators - not equals") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -102,7 +102,7 @@ TEST_CASE("operators - not equals") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_unequal{});
 }
 
-TEST_CASE("operators - less") {
+TEST_CASE("libparsers - function scripts - operators - less") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -118,7 +118,7 @@ TEST_CASE("operators - less") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_less{});
 }
 
-TEST_CASE("operators - greater") {
+TEST_CASE("libparsers - function scripts - operators - greater") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -134,7 +134,7 @@ TEST_CASE("operators - greater") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_greater{});
 }
 
-TEST_CASE("operators - less equal") {
+TEST_CASE("libparsers - function scripts - operators - less equal") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -150,7 +150,7 @@ TEST_CASE("operators - less equal") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_less_equal{});
 }
 
-TEST_CASE("operators - greater equal") {
+TEST_CASE("libparsers - function scripts - operators - greater equal") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -166,7 +166,7 @@ TEST_CASE("operators - greater equal") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_greater_equal{});
 }
 
-TEST_CASE("operators - plus") {
+TEST_CASE("libparsers - function scripts - operators - plus") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -182,7 +182,7 @@ TEST_CASE("operators - plus") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_add{});
 }
 
-TEST_CASE("operators - subtract") {
+TEST_CASE("libparsers - function scripts - operators - subtract") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -198,7 +198,7 @@ TEST_CASE("operators - subtract") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_subtract{});
 }
 
-TEST_CASE("operators - times") {
+TEST_CASE("libparsers - function scripts - operators - times") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -214,7 +214,7 @@ TEST_CASE("operators - times") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_multiply{});
 }
 
-TEST_CASE("operators - divide") {
+TEST_CASE("libparsers - function scripts - operators - divide") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
@@ -230,7 +230,7 @@ TEST_CASE("operators - divide") {
 	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_divide{});
 }
 
-TEST_CASE("operators - unary minus") {
+TEST_CASE("libparsers - function scripts - operators - unary minus") {
 	parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {

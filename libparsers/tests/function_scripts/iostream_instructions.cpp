@@ -24,7 +24,7 @@ static std::string canonicalize(std::string str) {
 
 #define stringify(a) #a
 #define UNARY_OP_TEST(rep, name, type_name)                                                        \
-	TEST_CASE("instruction iostream - " stringify(name)) {                                         \
+	TEST_CASE("libparsers - function scripts - instruction iostream - " stringify(name)) {         \
 		parsers::function_scripts::instruction_list test_list{{},                                  \
 		                                                      {},                                  \
 		                                                      {fs_instruction::stack_push{2},      \
@@ -41,7 +41,7 @@ static std::string canonicalize(std::string str) {
 	}
 
 #define BINARY_OP_TEST(rep, name, type_name)                                                       \
-	TEST_CASE("instruction iostream - " stringify(name)) {                                         \
+	TEST_CASE("libparsers - function scripts - instruction iostream - " stringify(name)) {         \
 		parsers::function_scripts::instruction_list test_list{{},                                  \
 		                                                      {},                                  \
 		                                                      {fs_instruction::stack_push{2},      \
@@ -60,7 +60,8 @@ static std::string canonicalize(std::string str) {
 	}
 
 #define REGULAR_VARIABLE_TEST(name)                                                                    \
-	TEST_CASE("instruction_iostream - unindexed " stringify(name)) {                                   \
+	TEST_CASE(                                                                                         \
+	    "libparsers - function scripts - instruction_iostream - unindexed " stringify(name)) {         \
 		parsers::function_scripts::instruction_list                                                    \
 		    test_list{{parsers::function_scripts::instructions::variable::name},                       \
 		              {},                                                                              \
@@ -78,7 +79,7 @@ static std::string canonicalize(std::string str) {
 	}
 
 #define INDEXED_VARIABLE_TEST(name)                                                                    \
-	TEST_CASE("instruction_iostream - index " stringify(name)) {                                       \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - index " stringify(name)) {       \
 		parsers::function_scripts::instruction_list                                                    \
 		    test_list{{},                                                                              \
 		              {parsers::function_scripts::instructions::indexed_variable::name},               \
@@ -138,7 +139,7 @@ UNARY_OP_TEST("FUNC_COS Cos[0]", cos, func_cos)
 UNARY_OP_TEST("FUNC_TAN Tan[0]", tan, func_tan)
 UNARY_OP_TEST("FUNC_ARCTAN Arctan[0]", arctan, func_arctan)
 
-TEST_CASE("instruction iostream - if") {
+TEST_CASE("libparsers - function scripts - instruction iostream - if") {
 	
 		parsers::function_scripts::instruction_list test_list{ 
 			{},

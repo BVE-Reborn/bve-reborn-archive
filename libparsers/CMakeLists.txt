@@ -112,6 +112,8 @@ cotire(parsers)
 ###################
 
 set(TEST_SOURCES
+                 tests/core_ini/parse.cpp
+                 tests/core_ini/iostream.cpp
                  tests/errors/add_error.cpp
                  tests/errors/iostream.cpp
                  tests/function_scripts/errors.cpp

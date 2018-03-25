@@ -7,7 +7,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 #define str(a) #a
 #define CREATE_VARIABLE_TEST_CASE(variable_name)                                                   \
-	TEST_CASE("variables - " str(variable_name)) {                                                 \
+	TEST_CASE("libparsers - function scripts - variables - " str(variable_name)) {                 \
 		auto variable = fs_inst::op_variable_lookup{};                                             \
 		variable.name = fs_inst::variable::variable_name;                                          \
 		auto result = parsers::function_scripts::parse(str(variable_name));                        \

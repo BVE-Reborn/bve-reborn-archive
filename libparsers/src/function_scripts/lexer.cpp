@@ -76,7 +76,8 @@ namespace function_scripts {
 					lt = lexer_types::floating{f};
 					auto chars_used =
 					    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
-                                            std::max(std::ptrdiff_t{0}, std::distance(start_ptr, const_cast<const char*>(str_end - 1)));
+					    std::max(std::ptrdiff_t{0},
+					             std::distance(start_ptr, const_cast<const char*>(str_end - 1)));
 					i += chars_used;
 				}
 				// parsing int

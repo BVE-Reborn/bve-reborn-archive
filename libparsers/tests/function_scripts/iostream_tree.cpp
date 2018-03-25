@@ -10,7 +10,7 @@ namespace fs_tree_node = parsers::function_scripts::tree_types;
 #define stringify(n) #n
 
 #define UNARY_TREE_TEST(full_name, type_name, output_name)                                             \
-	TEST_CASE("tree iostream - " stringify(full_name)) {                                               \
+	TEST_CASE("libparsers - function scripts - tree iostream - " stringify(full_name)) {               \
 		fs_tree_node::type_name test_node{fs_tree_node::integer{2}};                                   \
                                                                                                        \
 		std::ostringstream output;                                                                     \
@@ -23,7 +23,7 @@ namespace fs_tree_node = parsers::function_scripts::tree_types;
 	}
 
 #define BINARY_TREE_TEST(full_name, type_name, output_name)                                            \
-	TEST_CASE("tree iostream - " stringify(full_name)) {                                               \
+	TEST_CASE("libparsers - function scripts - tree iostream - " stringify(full_name)) {               \
 		fs_tree_node::type_name test_node{fs_tree_node::integer{2}, fs_tree_node::floating{3}};        \
                                                                                                        \
 		std::ostringstream output;                                                                     \
@@ -54,7 +54,7 @@ BINARY_TREE_TEST(binary subtract, binary_subtract, SUB)
 BINARY_TREE_TEST(binary multiply, binary_multiply, MULTIPLY)
 BINARY_TREE_TEST(binary divide, binary_divide, DIVIDE)
 
-TEST_CASE("tree iostream - function call 1 arg") {
+TEST_CASE("libparsers - function scripts - tree iostream - function call 1 arg") {
 	fs_tree_node::function_call test_node{{"max"s}, {fs_tree_node::integer{2}}};
 
 	std::ostringstream output;
@@ -66,7 +66,7 @@ TEST_CASE("tree iostream - function call 1 arg") {
 	         "| 2\n");
 }
 
-TEST_CASE("tree iostream - function call 2 args") {
+TEST_CASE("libparsers - function scripts - tree iostream - function call 2 args") {
 	fs_tree_node::function_call test_node{{"max"s},
 	                                      {fs_tree_node::integer{2}, fs_tree_node::integer{3}}};
 
@@ -80,7 +80,7 @@ TEST_CASE("tree iostream - function call 2 args") {
 	         "| 3\n");
 }
 
-TEST_CASE("tree iostream - function call 3 args") {
+TEST_CASE("libparsers - function scripts - tree iostream - function call 3 args") {
 	fs_tree_node::function_call test_node{{"max"s},
 	                                      {fs_tree_node::integer{2}, fs_tree_node::integer{3},
 	                                       fs_tree_node::integer{4}}};
@@ -96,7 +96,7 @@ TEST_CASE("tree iostream - function call 3 args") {
 	         "| 4\n");
 }
 
-TEST_CASE("tree iostream - variable") {
+TEST_CASE("libparsers - function scripts - tree iostream - variable") {
 	fs_tree_node::name test_node{"odometer"s};
 
 	std::ostringstream output;
@@ -106,7 +106,7 @@ TEST_CASE("tree iostream - variable") {
 	CHECK_EQ(output.str(), "VARIABLE: odometer\n");
 }
 
-TEST_CASE("tree iostream - none") {
+TEST_CASE("libparsers - function scripts - tree iostream - none") {
 	fs_tree_node::none test_node{};
 
 	std::ostringstream output;
