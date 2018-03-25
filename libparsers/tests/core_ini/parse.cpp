@@ -1,5 +1,4 @@
 #include "ini.hpp"
-#include "variant_compare.hpp"
 #include <doctest.h>
 
 using namespace std::string_literals;

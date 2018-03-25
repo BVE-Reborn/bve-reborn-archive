@@ -126,6 +126,10 @@ set(TEST_SOURCES
                  tests/function_scripts/order_of_operations.cpp
                  tests/function_scripts/variables.cpp
                  tests/function_scripts/variables_indexed.cpp
+                 tests/util/parse_color.cpp
+                 tests/util/parse_loose_integer.cpp
+                 tests/util/parse_loose_float.cpp
+                 tests/util/parse_time.cpp
     )
 
 set(TEST_HEADERS

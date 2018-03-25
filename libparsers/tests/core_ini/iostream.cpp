@@ -1,7 +1,5 @@
 #include "ini.hpp"
-#include "variant_compare.hpp"
 #include <doctest.h>
-#include <iostream>
 #include <sstream>
 
 using namespace std::string_literals;
