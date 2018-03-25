@@ -286,10 +286,10 @@ namespace b3d_csv_object {
 			switch (arguments.size()) {
 				default:
 				case 4:
-					if (util::match_text(arguments[3].text, "divideexponent4")) {
+					if (util::match_against_lower(arguments[3].text, "divideexponent4")) {
 						sbm.GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent4;
 					}
-					else if (util::match_text(arguments[3].text, "divideexponent2")) {
+					else if (util::match_against_lower(arguments[3].text, "divideexponent2")) {
 						sbm.GlowAttenuationMode = mesh_t::GlowAttenuationMode_t::DivideExponent2;
 					}
 					// fall through
@@ -299,10 +299,10 @@ namespace b3d_csv_object {
 					                          4095));
 					// fall through
 				case 2:
-					if (util::match_text(arguments[1].text, "normal")) {
+					if (util::match_against_lower(arguments[1].text, "normal")) {
 						sbm.BlendMode = mesh_t::BlendMode_t::Normal;
 					}
-					else if (util::match_text(arguments[1].text, "additive")) {
+					else if (util::match_against_lower(arguments[1].text, "additive")) {
 						sbm.BlendMode = mesh_t::BlendMode_t::Additive;
 					}
 					// fall through
@@ -425,10 +425,10 @@ namespace b3d_csv_object {
 			if (row.empty() || row[0].text.empty()) {
 				continue;
 			}
-			if (ft == file_type::b3d && util::match_text(row[0].text, "[texture]")) {
+			if (ft == file_type::b3d && util::match_against_lower(row[0].text, "[texture]")) {
 				continue;
 			}
-			if (ft == file_type::csv && util::match_text(row[0].text, "generatenormals")) {
+			if (ft == file_type::csv && util::match_against_lower(row[0].text, "generatenormals")) {
 				continue;
 			}
 

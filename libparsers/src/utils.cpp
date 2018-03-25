@@ -4,9 +4,11 @@
 #include <cctype>
 #include <cstring>
 #include <fstream>
+#include <iostream>
 #include <iterator>
 #include <sstream>
 #include <string>
+#include <typeinfo>
 #include <utility>
 
 using namespace std::string_literals;
@@ -205,13 +207,22 @@ namespace util {
 				vec.emplace_back(begin, next_delim);
 			}
 
-			begin = next_delim == end ? end : next_delim + 1;
+			if (next_delim == end) {
+				begin = end;
+			}
+			else {
+				begin = next_delim + 1;
+				// generate empty string if comma at end of the string.
+				if (begin == end) {
+					vec.emplace_back();
+				}
+			}
 		}
 
 		return vec;
 	}
 
-	bool match_text(const std::string& text, const char* match) {
+	bool match_against_lower(const std::string& text, const char* match) {
 		auto text_len = text.size();
 		auto match_len = std::strlen(match);
 
@@ -234,15 +245,10 @@ namespace util {
 		auto first_char = text.find_first_not_of(characters);
 		auto last_char = text.find_last_not_of(characters);
 
+		// These will only both happen, or neither will happen
 		if (first_char == std::string::npos && last_char == std::string::npos) {
 			text = "";
 			return;
-		}
-		if (first_char == std::string::npos) {
-			first_char = 0;
-		}
-		if (last_char == std::string::npos) {
-			last_char = text.size() - 1;
 		}
 
 		std::size_t i = 0;
@@ -283,6 +289,10 @@ namespace util {
 			throw std::invalid_argument("file "s + filename + " not found"s);
 		}
 
+		return load_from_file_utf8_bom(file);
+	}
+
+	std::string load_from_file_utf8_bom(std::istream& file) {
 		// check for bom
 		std::array<unsigned char, 3> bom = {};
 		std::size_t i = 0;
@@ -294,13 +304,17 @@ namespace util {
 		               && std::get<2>(bom) == 0xBF;
 		std::size_t start_of_file = has_bom ? 3 : 0;
 
-		// get file length
-		file.seekg(0, std::ifstream::end);
-		auto length = std::size_t(file.tellg()) - start_of_file;
-		file.seekg(start_of_file, std::ifstream::beg);
-
 		std::string contents;
-		contents.reserve(length);
+
+		// get file length
+		if (typeid(file) == typeid(std::ifstream)) {
+			file.seekg(0, std::istream::end);
+			auto length = std::size_t(file.tellg()) - start_of_file;
+
+			contents.reserve(length);
+		}
+
+		file.seekg(start_of_file, std::istream::beg);
 
 		// extract file combining \r\n into \n
 		std::array<char, 4096> buf{};

@@ -221,10 +221,10 @@ namespace animated_object {
 		}
 
 		void parse_texture_override(parsed_animated_object& pso, const ini::kvp_t& section) {
-			if (util::match_text(section.value, "timetable")) {
+			if (util::match_against_lower(section.value, "timetable")) {
 				pso.subobjects.back().timetable_override = true;
 			}
-			else if (util::match_text(section.value, "none")) {
+			else if (util::match_against_lower(section.value, "none")) {
 				pso.subobjects.back().timetable_override = false;
 			}
 			else {
@@ -299,7 +299,7 @@ namespace animated_object {
 		}
 
 		for (auto& kvp : section.key_value_pairs) {
-			if (util::match_text(kvp.key, "position")) {
+			if (util::match_against_lower(kvp.key, "position")) {
 				auto split = util::split_text(kvp.value, ',');
 
 				if (split.size() != 3) {
@@ -360,12 +360,12 @@ namespace animated_object {
 			}
 
 			// all includes to the file
-			else if (util::match_text(section.name, "includes")) {
+			else if (util::match_against_lower(section.name, "includes")) {
 				parse_include_section(pao, section);
 			}
 
 			// add object
-			else if (util::match_text(section.name, "object")) {
+			else if (util::match_against_lower(section.name, "object")) {
 				parse_object_section(pao, section);
 			}
 			else {

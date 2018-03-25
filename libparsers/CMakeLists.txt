@@ -126,10 +126,15 @@ set(TEST_SOURCES
                  tests/function_scripts/order_of_operations.cpp
                  tests/function_scripts/variables.cpp
                  tests/function_scripts/variables_indexed.cpp
+                 tests/util/load_from_file_utf8_bom.cpp
+                 tests/util/strip_text.cpp
+                 tests/util/remove_comments.cpp
+                 tests/util/match_against_lower.cpp
                  tests/util/parse_color.cpp
                  tests/util/parse_loose_integer.cpp
                  tests/util/parse_loose_float.cpp
                  tests/util/parse_time.cpp
+                 tests/util/split_text.cpp
     )
 
 set(TEST_HEADERS
@@ -138,7 +143,7 @@ set(TEST_HEADERS
 
 add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})
 target_include_directories(test_parsers PRIVATE tests src)
-target_link_libraries(test_parsers PRIVATE test_main parsers doctest::doctest
+target_link_libraries(test_parsers PRIVATE test_main parsers doctest::doctest Boost::filesystem
                                            options::iterator_debug_level_1)
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
