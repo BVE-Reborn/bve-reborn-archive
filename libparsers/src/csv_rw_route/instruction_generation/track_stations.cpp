@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 using namespace std::string_literals;
 
@@ -13,7 +14,8 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 12:
-					s.timetable_index = std::size_t(util::parse_loose_integer(inst.args[11], 0));
+					s.timetable_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[11], 0));
 					// fall through
 				case 11:
 					s.departure_sound = inst.args[10];
@@ -209,7 +211,7 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 4:
-					s.cars = std::size_t(util::parse_loose_integer(inst.args[3], 0));
+					s.cars = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3], 0));
 					// fall through
 				case 3:
 					s.forwards_tolerance = util::parse_loose_float(inst.args[2], 5);
@@ -250,11 +252,11 @@ namespace csv_rw_route {
 				default:
 				case 4:
 					f.form_structure_index =
-					    std::size_t(util::parse_loose_integer(inst.args[3], 0));
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3], 0));
 					// fall through
 				case 3:
 					f.roof_structure_index =
-					    std::size_t(util::parse_loose_integer(inst.args[2], 0));
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
 					// fall through
 				case 2:
 					if (!inst.args[1].empty()) {
@@ -268,8 +270,8 @@ namespace csv_rw_route {
 								f.placement = instructions::track::Form::Right;
 								break;
 							default:
-								f.rail_index_2 =
-								    std::size_t(util::parse_loose_integer(inst.args[1], 0));
+								f.rail_index_2 = gsl::narrow<std::size_t>(
+								    util::parse_loose_integer(inst.args[1], 0));
 								f.placement = instructions::track::Form::RailIndex;
 								break;
 						}
@@ -280,7 +282,8 @@ namespace csv_rw_route {
 					}
 					// fall through
 				case 1:
-					f.rail_index_1 = std::size_t(util::parse_loose_integer(inst.args[0]));
+					f.rail_index_1 =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					// fall through
 				case 0:
 					break;

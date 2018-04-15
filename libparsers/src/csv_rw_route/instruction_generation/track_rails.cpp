@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -13,7 +14,8 @@ namespace csv_rw_route {
 				default:
 				case 4:
 					try {
-						rs.rail_type = std::size_t(util::parse_loose_integer(inst.args[3]));
+						rs.rail_type =
+						    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3]));
 					}
 					catch (const std::invalid_argument&) {
 					}
@@ -33,7 +35,8 @@ namespace csv_rw_route {
 					}
 					// fall through
 				case 1:
-					rs.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+					rs.rail_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					break;
 				case 0:
 					// Make GCC happy
@@ -53,7 +56,8 @@ namespace csv_rw_route {
 				default:
 				case 4:
 					try {
-						r.rail_type = std::size_t(util::parse_loose_integer(inst.args[3]));
+						r.rail_type =
+						    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3]));
 					}
 					catch (const std::invalid_argument&) {
 					}
@@ -73,7 +77,8 @@ namespace csv_rw_route {
 					}
 					// fall through
 				case 1:
-					r.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+					r.rail_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					break;
 				case 0:
 					// Make GCC happy
@@ -91,10 +96,12 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 2:
-					rt.rail_type = std::size_t(util::parse_loose_integer(inst.args[1], 0));
+					rt.rail_type =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
-					rt.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+					rt.rail_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -125,7 +132,8 @@ namespace csv_rw_route {
 					};
 					// fall through
 				case 1:
-					re.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+					re.rail_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					break;
 				case 0:
 					// Make GCC happy

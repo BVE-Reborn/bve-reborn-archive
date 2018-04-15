@@ -8,10 +8,11 @@ namespace csv_rw_route {
 
 			instructions::track::Beacon b;
 
-			b.type = std::size_t(util::parse_loose_integer(inst.args[0]));
-			b.beacon_structure_index = std::size_t(util::parse_loose_integer(inst.args[1]));
-			b.section = std::size_t(util::parse_loose_integer(inst.args[2]));
-			b.data = std::size_t(util::parse_loose_integer(inst.args[3]));
+			b.type = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+			b.beacon_structure_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1]));
+			b.section = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2]));
+			b.data = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3]));
 
 			set_positions<4>(b, inst);
 
@@ -28,7 +29,7 @@ namespace csv_rw_route {
 					t.switch_system = util::parse_loose_integer(inst.args[2], 0) == 0;
 					// fall through
 				case 2:
-					t.signal = std::size_t(util::parse_loose_integer(inst.args[1], 0));
+					t.signal = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1: {
 					auto type_num = util::parse_loose_integer(inst.args[0], 0);

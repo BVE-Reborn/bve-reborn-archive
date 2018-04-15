@@ -8,8 +8,8 @@ namespace csv_rw_route {
 			return;
 		}
 
-		for (auto pos = std::size_t(state.position_last_updated); pos < std::size_t(position);
-		     pos += 25) {
+		for (auto pos = static_cast<std::size_t>(state.position_last_updated);
+		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto track_position = track_position_at(float(pos));
 			auto object_location =
 			    openbve2::math::position_from_offsets(track_position.position,
@@ -18,7 +18,8 @@ namespace csv_rw_route {
 
 			auto filename_iter_optional =
 			    get_cycle_filename_index(cycle_rail_mapping, object_rail_mapping,
-			                             state.rail_structure_index, std::size_t(position));
+			                             state.rail_structure_index,
+			                             static_cast<std::size_t>(position));
 
 			if (!filename_iter_optional) {
 				return;

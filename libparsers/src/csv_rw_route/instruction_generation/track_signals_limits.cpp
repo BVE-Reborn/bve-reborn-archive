@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -60,7 +61,7 @@ namespace csv_rw_route {
 
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(s.a_term),
 			               [](const std::string& val) {
-				               return std::size_t(util::parse_loose_integer(val, 0));
+				               return gsl::narrow<std::size_t>(util::parse_loose_integer(val, 0));
 			               });
 
 			return s;
@@ -71,8 +72,8 @@ namespace csv_rw_route {
 
 			instructions::track::SigF sf;
 
-			sf.signal_index = std::size_t(util::parse_loose_integer(inst.args[0]));
-			sf.section = std::size_t(util::parse_loose_integer(inst.args[1]));
+			sf.signal_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+			sf.section = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1]));
 			set_positions<2>(sf, inst);
 
 			return sf;

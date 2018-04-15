@@ -63,7 +63,8 @@ namespace csv_rw_route {
 		// state variables
 		std::vector<float> units_of_length = {1, 1};
 		float unit_of_speed = 1;
-		decltype(instructions::options::SectionBehavior::mode) section_behavior;
+		decltype(instructions::options::SectionBehavior::mode) section_behavior =
+		    instructions::options::SectionBehavior::Default;
 
 		// rall state
 		std::unordered_map<std::size_t, rail_state> current_rail_state = {

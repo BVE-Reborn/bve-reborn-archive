@@ -1,5 +1,6 @@
 #include "csv_rw_route.hpp"
 #include <boost/optional/optional_io.hpp>
+#include <gsl/gsl_util>
 #include <iomanip>
 #include <ostream>
 
@@ -7,7 +8,7 @@
 #define EXPAND(x) x
 
 #define PRINT_VALUE(name) _os << ", " #name " = " << inst.name;
-#define PRINT_BYTE(name) _os << ", " #name " = " << int(inst.name);
+#define PRINT_BYTE(name) _os << ", " #name " = " << gsl::narrow<int>(inst.name);
 #define PRINT_VECTOR(name)                                                                         \
 	_os << ", " #name " = ";                                                                       \
 	print_vector(inst.name);
@@ -17,8 +18,8 @@
 	    << std::setfill('0') << (inst.name % 60);
 #define PRINT_COLOR(name)                                                                          \
 	_os << ", " #name " = "                                                                        \
-	    << "(r = " << int(inst.name.r) << ", g = " << int(inst.name.g)                             \
-	    << ", b = " << int(inst.name.b) << ')';
+	    << "(r = " << static_cast<int>(inst.name.r) << ", g = " << static_cast<int>(inst.name.g)   \
+	    << ", b = " << static_cast<int>(inst.name.b) << ')';
 
 #define PRINT_ENUM1(name, nsp, value1)                                                             \
 	if (inst.name == instructions::nsp::value1)                                                    \

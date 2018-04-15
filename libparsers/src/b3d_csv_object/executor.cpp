@@ -315,14 +315,22 @@ namespace b3d_csv_object {
 		// Add vertices
 		for (std::size_t i = 0; i < n; ++i) {
 			vertices.emplace_back(
-			    vertex_t{glm::vec3{std::cos(2 * float(M_PI) * float(i) / float(n)) * r1, //
-			                       h / 2,                                                //
-			                       std::sin(2 * float(M_PI) * float(i) / float(n)) * r1}});
+			    vertex_t{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
+			                                / static_cast<float>(n))
+			                           * r1, //
+			                       h / 2,    //
+			                       std::sin(2 * static_cast<float>(M_PI) * static_cast<float>(i)
+			                                / static_cast<float>(n))
+			                           * r1}});
 
 			vertices.emplace_back(
-			    vertex_t{glm::vec3{std::cos(2 * float(M_PI) * float(i) / float(n)) * r2, //
-			                       -h / 2,                                               //
-			                       std::sin(2 * float(M_PI) * float(i) / float(n)) * r2}});
+			    vertex_t{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
+			                                / static_cast<float>(n))
+			                           * r2, //
+			                       -h / 2,   //
+			                       std::sin(2 * static_cast<float>(M_PI) * static_cast<float>(i)
+			                                / static_cast<float>(n))
+			                           * r2}});
 		}
 
 		// Add Faces

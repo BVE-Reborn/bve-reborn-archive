@@ -81,7 +81,7 @@ namespace csv_rw_route {
 		// Capture group 2 is position offset
 		// Capture group 3 is everything after the first filename
 		boost::regex include_finder(
-		    "\\$Include\\(([\\w\\-. \\\\/]+\\s*)(?::\\s*(\\d+))*([\\w\\s;]*)\\)",
+		    R"(\$Include\(([\w\-. \\/]+\s*)(?::\s*(\d+))*([\w\s;]*)\))",
 		    boost::regex_constants::icase | boost::regex_constants::ECMAScript
 		        | boost::regex_constants::optimize);
 	} // namespace

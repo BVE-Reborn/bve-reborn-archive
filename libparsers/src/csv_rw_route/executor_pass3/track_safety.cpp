@@ -1,4 +1,5 @@
 #include "executor_pass3.hpp"
+#include <limits>
 #include <sstream>
 
 using namespace std::string_literals;
@@ -15,7 +16,7 @@ namespace csv_rw_route {
 
 		_route_data.beacons.emplace_back(std::move(bi));
 
-		if (inst.beacon_structure_index != std::size_t(-1)) {
+		if (inst.beacon_structure_index != std::numeric_limits<std::size_t>::max()) {
 			return;
 		}
 

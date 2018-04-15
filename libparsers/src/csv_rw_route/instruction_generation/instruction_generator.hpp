@@ -2,6 +2,7 @@
 
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
+#include <gsl/gsl_util>
 #include <map>
 #include <sstream>
 
@@ -76,7 +77,7 @@ namespace csv_rw_route {
 		    const char* name) {
 			args_at_least(inst, 1, name);
 
-			return T{std::size_t(util::parse_loose_integer(inst.args[0]))};
+			return T{gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]))};
 		}
 
 		template <class T>
@@ -87,7 +88,7 @@ namespace csv_rw_route {
 			(void) name;
 
 			if (!inst.args.empty()) {
-				return T{std::size_t(util::parse_loose_integer(inst.args[0], def))};
+				return T{gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], def))};
 			}
 
 			return T{def};

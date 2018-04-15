@@ -87,7 +87,7 @@ namespace csv_rw_route {
 			try {
 				i = func_iter->second(parsed);
 			}
-			catch (const std::invalid_argument& e) {
+			catch (const std::exception& e) {
 				errors::add_error(errors, lines.filenames[line.filename_index], line.line,
 				                  e.what());
 				return instructions::naked::None{};

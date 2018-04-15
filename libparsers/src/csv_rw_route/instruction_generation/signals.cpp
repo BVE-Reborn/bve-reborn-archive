@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -7,7 +8,8 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Signal");
 			args_at_least(inst, 1, "Signal");
 
-			auto signal_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			auto signal_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 
 			// Signal File version
 			if (inst.args.size() >= 2) {

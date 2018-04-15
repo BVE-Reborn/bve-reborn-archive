@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -14,8 +15,9 @@ namespace csv_rw_route {
 
 			instructions::train::Rail r;
 
-			r.rail_type_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
-			r.run_sound_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+			r.rail_type_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+			r.run_sound_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 
 			return r;
 		}
@@ -26,8 +28,10 @@ namespace csv_rw_route {
 
 			instructions::train::Flange f;
 
-			f.rail_type_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
-			f.flange_sound_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+			f.rail_type_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+			f.flange_sound_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 
 			return f;
 		}
@@ -39,7 +43,8 @@ namespace csv_rw_route {
 
 			instructions::train::Timetable tt;
 
-			tt.timetable_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			tt.timetable_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 			tt.filename = inst.args[0];
 
 			auto suffixes = util::split_text(inst.suffix, '.');

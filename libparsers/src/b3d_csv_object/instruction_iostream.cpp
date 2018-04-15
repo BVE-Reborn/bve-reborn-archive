@@ -92,18 +92,18 @@ namespace b3d_csv_object {
 
 		std::ostream& operator<<(std::ostream& os, const SetColor& rhs) {
 			os << "(SetColor, line = " << rhs.line << ", " //
-			   << "Red = " << int(rhs.Red) << ", "
-			   << "Green = " << int(rhs.Green) << ", "
-			   << "Blue = " << int(rhs.Blue) << ", "
-			   << "Alpha = " << int(rhs.Alpha) << ")";
+			   << "Red = " << static_cast<int>(rhs.Red) << ", "
+			   << "Green = " << static_cast<int>(rhs.Green) << ", "
+			   << "Blue = " << static_cast<int>(rhs.Blue) << ", "
+			   << "Alpha = " << static_cast<int>(rhs.Alpha) << ")";
 			return os;
 		}
 
 		std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs) {
 			os << "(SetEmissiveColor, line = " << rhs.line << ", " //
-			   << "Red = " << int(rhs.Red) << ", "
-			   << "Green = " << int(rhs.Green) << ", "
-			   << "Blue = " << int(rhs.Blue) << ")";
+			   << "Red = " << static_cast<int>(rhs.Red) << ", "
+			   << "Green = " << static_cast<int>(rhs.Green) << ", "
+			   << "Blue = " << static_cast<int>(rhs.Blue) << ")";
 			return os;
 		}
 
@@ -129,9 +129,9 @@ namespace b3d_csv_object {
 
 		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs) {
 			os << "(SetDecalTransparentColor, line = " << rhs.line << ", " //
-			   << "Red = " << int(rhs.Red) << ", "
-			   << "Green = " << int(rhs.Green) << ", "
-			   << "Blue = " << int(rhs.Blue) << ")";
+			   << "Red = " << static_cast<int>(rhs.Red) << ", "
+			   << "Green = " << static_cast<int>(rhs.Green) << ", "
+			   << "Blue = " << static_cast<int>(rhs.Blue) << ")";
 			return os;
 		}
 

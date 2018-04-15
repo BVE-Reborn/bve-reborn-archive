@@ -1,6 +1,7 @@
 #include "csv.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <gsl/gsl_util>
 #include <iostream>
 
 namespace parsers {
@@ -33,8 +34,9 @@ namespace csv {
 			util::strip_text(s);
 
 			csv_token token{std::move(s), current_line, current_line,
-			                std::size_t(std::distance(last_newline_iterator, begin)),
-			                std::size_t(std::distance(last_newline_iterator, next_delim))};
+			                gsl::narrow<std::size_t>(std::distance(last_newline_iterator, begin)),
+			                gsl::narrow<std::size_t>(
+			                    std::distance(last_newline_iterator, next_delim))};
 
 			token_list.back().emplace_back(std::move(token));
 

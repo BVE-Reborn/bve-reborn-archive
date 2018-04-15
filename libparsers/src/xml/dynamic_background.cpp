@@ -1,5 +1,6 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "utils.hpp"
+#include <gsl/gsl_util>
 #include <rapidxml/rapidxml.hpp>
 #include <sstream>
 #include <string>
@@ -59,7 +60,7 @@ namespace xml {
 
 				if (repetitions != nullptr) {
 					try {
-						tbi.repetitions = std::size_t(util::parse_loose_integer(
+						tbi.repetitions = gsl::narrow<std::size_t>(util::parse_loose_integer(
 						    std::string(repetitions->value(), repetitions->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
@@ -90,7 +91,7 @@ namespace xml {
 
 				if (transition_time != nullptr) {
 					try {
-						tbi.transition_time = std::size_t(util::parse_loose_integer(
+						tbi.transition_time = gsl::narrow<std::size_t>(util::parse_loose_integer(
 						    std::string(transition_time->value(), transition_time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
@@ -100,7 +101,7 @@ namespace xml {
 
 				if (time != nullptr) {
 					try {
-						tbi.time = std::size_t(
+						tbi.time = gsl::narrow<std::size_t>(
 						    util::parse_time(std::string(time->value(), time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {

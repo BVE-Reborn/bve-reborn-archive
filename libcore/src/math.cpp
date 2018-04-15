@@ -66,18 +66,18 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	// get angle of input
 	float atan = std::atan2(xy.y, xy.x);
 	if (xy.y < 0) {
-		atan += float(M_PI * 2);
+		atan += static_cast<float>(M_PI * 2);
 	}
 
 	// flip the result of arctan so the angles are going clockwise, not counter
-	float input_angle = float(M_PI * 2) - atan;
+	float input_angle = static_cast<float>(M_PI * 2) - atan;
 
 	// compute fraction of circle traveled
-	float circumference = 2 * float(M_PI) * radius;
+	float circumference = 2 * static_cast<float>(M_PI) * radius;
 	float frac_traveled = horizontal_movement / circumference;
 
 	// get angle traveled in radians
-	float travel_angle = frac_traveled * float(M_PI * 2);
+	float travel_angle = frac_traveled * static_cast<float>(M_PI * 2);
 
 	// make sure the ending angle includes the starting angle
 	travel_angle += input_angle;

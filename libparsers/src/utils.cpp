@@ -4,6 +4,7 @@
 #include <cctype>
 #include <cstring>
 #include <fstream>
+#include <gsl/gsl_util>
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -181,7 +182,7 @@ namespace util {
 
 	void lower(std::string& text) {
 		for (auto& c : text) {
-			c = char(std::tolower(c));
+			c = gsl::narrow<char>(std::tolower(c));
 		}
 	}
 
@@ -309,7 +310,7 @@ namespace util {
 		// get file length
 		if (typeid(file) == typeid(std::ifstream)) {
 			file.seekg(0, std::istream::end);
-			auto length = std::size_t(file.tellg()) - start_of_file;
+			auto length = gsl::narrow<std::size_t>(file.tellg()) - start_of_file;
 
 			contents.reserve(length);
 		}
@@ -321,7 +322,7 @@ namespace util {
 		bool last_char_r = false;
 		while (true) {
 			file.read(buf.data(), buf.size());
-			auto chars_read = std::size_t(file.gcount());
+			auto chars_read = gsl::narrow<std::size_t>(file.gcount());
 			for (std::size_t j = 0; j < chars_read; ++j) {
 				if (last_char_r && buf[j] == '\n') {
 					contents.back() = '\n';

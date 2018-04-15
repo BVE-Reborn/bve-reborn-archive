@@ -96,7 +96,7 @@ add_library(parsers SHARED ${SOURCES} ${HEADERS})
 target_compile_features(parsers PUBLIC cxx_std_14)
 
 target_include_directories(parsers PUBLIC include)
-target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant)
+target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant gsl::gsl)
 
 target_include_directories(parsers PRIVATE src)
 target_link_libraries(parsers PUBLIC Boost::boost Boost::regex
@@ -112,6 +112,8 @@ cotire(parsers)
 ###################
 
 set(TEST_SOURCES
+                 tests/core_csv/parse.cpp
+                 tests/core_csv/iostream.cpp
                  tests/core_ini/parse.cpp
                  tests/core_ini/iostream.cpp
                  tests/errors/add_error.cpp

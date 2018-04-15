@@ -6,9 +6,7 @@ namespace csv_rw_route {
 		if (index == std::numeric_limits<std::size_t>::max()) {
 			return current_rail_state[0];
 		}
-		else {
-			return current_rail_state[index];
-		}
+		return current_rail_state[index];
 	}
 
 	float pass3_executor::ground_height_at(float position) {
@@ -86,7 +84,7 @@ namespace csv_rw_route {
 		                                          track_state_iter->second.x_offset + x_offset,
 		                                          track_state_iter->second.y_offset + y_offset);
 
-		if (max == true) {
+		if (max) {
 			ret_val.y -= ground_height_at(position);
 		}
 

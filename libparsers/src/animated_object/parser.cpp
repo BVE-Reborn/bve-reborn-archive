@@ -3,6 +3,8 @@
 #include "parsers/animated.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <core/gsl_string_span_iostream.hpp>
+#include <gsl/string_span>
 #include <iterator>
 #include <map>
 #include <sstream>
@@ -16,9 +18,9 @@ namespace animated_object {
 		// Helper functions //
 		//////////////////////
 		glm::vec2 parse_2_argument_list(parsed_animated_object& pso,
-		                                const char* const value_name,
-		                                const std::size_t line_number,
-		                                const std::string& list) {
+		                                gsl::cstring_span<> const value_name,
+		                                std::size_t const line_number,
+		                                std::string const& list) {
 			auto split_list = util::split_text(list, ',');
 
 			if (split_list.size() != 2) {
@@ -45,9 +47,9 @@ namespace animated_object {
 		}
 
 		glm::vec3 parse_3_argument_list(parsed_animated_object& pso,
-		                                const char* const value_name,
-		                                const std::size_t line_number,
-		                                const std::string& list) {
+		                                gsl::cstring_span<> const value_name,
+		                                std::size_t const line_number,
+		                                std::string const& list) {
 			auto split_list = util::split_text(list, ',');
 
 			if (split_list.size() != 3) {
@@ -77,10 +79,10 @@ namespace animated_object {
 		}
 
 		function_script parse_function_script(parsed_animated_object& pso,
-		                                      const std::string& function,
+		                                      gsl::cstring_span<> const function,
 		                                      std::size_t line) {
 			(void) pso;
-			auto instructions = function_scripts::parse(function);
+			auto instructions = function_scripts::parse(gsl::to_string(function));
 			std::for_each(instructions.errors.begin(), instructions.errors.end(),
 			              [&line](errors::error_t& e) { e.line = line; });
 			std::copy(instructions.errors.begin(), instructions.errors.end(),
@@ -92,12 +94,12 @@ namespace animated_object {
 		// Value parsing functions //
 		/////////////////////////////
 
-		void parse_position(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_position(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().position =
 			    parse_3_argument_list(pso, "Position", section.line, section.value);
 		}
 
-		void parse_states(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_states(parsed_animated_object& pso, ini::kvp_t const& section) {
 			auto states = util::split_text(section.value, ',');
 
 			for (auto& state : states) {
@@ -107,68 +109,68 @@ namespace animated_object {
 			pso.subobjects.back().states = states;
 		}
 
-		void parse_state_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_state_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().state_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_translate_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_translate_x_direction(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().translate_x_direction =
 			    parse_3_argument_list(pso, "TranslateXDirection", section.line, section.value);
 		}
-		void parse_translate_y_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_translate_y_direction(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().translate_y_direction =
 			    parse_3_argument_list(pso, "TranslateYDirection", section.line, section.value);
 		}
-		void parse_translate_z_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_translate_z_direction(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().translate_z_direction =
 			    parse_3_argument_list(pso, "TranslateZDirection", section.line, section.value);
 		}
 
-		void parse_translate_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_translate_x_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().translate_x_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_translate_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_translate_y_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().translate_y_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_translate_z_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_translate_z_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().translate_z_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_x_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_x_direction(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().rotate_x_direction =
 			    parse_3_argument_list(pso, "RotateXDirection", section.line, section.value);
 		}
-		void parse_rotate_y_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_y_direction(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().rotate_y_direction =
 			    parse_3_argument_list(pso, "RotateYDirection", section.line, section.value);
 		}
-		void parse_rotate_z_direction(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_z_direction(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().rotate_z_direction =
 			    parse_3_argument_list(pso, "RotateZDirection", section.line, section.value);
 		}
 
-		void parse_rotate_x_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_x_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().rotate_x_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_y_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_y_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().rotate_y_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_z_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_z_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().rotate_z_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_x_damping(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_x_damping(parsed_animated_object& pso, ini::kvp_t const& section) {
 			auto list = parse_2_argument_list(pso, "RotateXDamping", section.line, section.value);
 
 			auto& damping = pso.subobjects.back().rotate_x_damping;
@@ -176,7 +178,7 @@ namespace animated_object {
 			damping.ratio = list.y;
 		}
 
-		void parse_rotate_y_damping(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_y_damping(parsed_animated_object& pso, ini::kvp_t const& section) {
 			auto list = parse_2_argument_list(pso, "RotateYDamping", section.line, section.value);
 
 			auto& damping = pso.subobjects.back().rotate_y_damping;
@@ -184,7 +186,7 @@ namespace animated_object {
 			damping.ratio = list.y;
 		}
 
-		void parse_rotate_z_damping(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_rotate_z_damping(parsed_animated_object& pso, ini::kvp_t const& section) {
 			auto list = parse_2_argument_list(pso, "RotateZDamping", section.line, section.value);
 
 			auto& damping = pso.subobjects.back().rotate_z_damping;
@@ -193,34 +195,34 @@ namespace animated_object {
 		}
 
 		void parse_texture_shift_x_direction(parsed_animated_object& pso,
-		                                     const ini::kvp_t& section) {
+		                                     ini::kvp_t const& section) {
 			pso.subobjects.back().texture_shift_x_direction =
 			    parse_2_argument_list(pso, "TextureShiftXDirection", section.line, section.value);
 		}
 
 		void parse_texture_shift_y_direction(parsed_animated_object& pso,
-		                                     const ini::kvp_t& section) {
+		                                     ini::kvp_t const& section) {
 			pso.subobjects.back().texture_shift_y_direction =
 			    parse_2_argument_list(pso, "TextureShiftYDirection", section.line, section.value);
 		}
 
 		void parse_texture_shift_x_function(parsed_animated_object& pso,
-		                                    const ini::kvp_t& section) {
+		                                    ini::kvp_t const& section) {
 			pso.subobjects.back().texture_shift_x_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 		void parse_texture_shift_y_function(parsed_animated_object& pso,
-		                                    const ini::kvp_t& section) {
+		                                    ini::kvp_t const& section) {
 			pso.subobjects.back().texture_shift_y_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_track_follower_function(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_track_follower_function(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().track_follower_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_texture_override(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_texture_override(parsed_animated_object& pso, ini::kvp_t const& section) {
 			if (util::match_against_lower(section.value, "timetable")) {
 				pso.subobjects.back().timetable_override = true;
 			}
@@ -234,11 +236,11 @@ namespace animated_object {
 			}
 		}
 
-		void parse_refresh_rate(parsed_animated_object& pso, const ini::kvp_t& section) {
+		void parse_refresh_rate(parsed_animated_object& pso, ini::kvp_t const& section) {
 			pso.subobjects.back().refresh_rate = util::parse_loose_float(section.value);
 		}
 
-		std::map<std::string, void (*)(parsed_animated_object&, const ini::kvp_t&)>
+		std::map<std::string, void (*)(parsed_animated_object&, ini::kvp_t const&)>
 		    function_mapping = {
 		        {"position"s, &parse_position},
 		        {"states"s, &parse_states},
@@ -266,93 +268,91 @@ namespace animated_object {
 		        {"textureoverride"s, &parse_texture_override},
 		        {"refreshrate"s, &parse_refresh_rate},
 		};
-	} // namespace
 
-	static void parse_object_section(parsed_animated_object& pso,
-	                                 const ini::ini_section_t& section) {
-		pso.subobjects.emplace_back();
+		void parse_object_section(parsed_animated_object& pso, ini::ini_section_t const& section) {
+			pso.subobjects.emplace_back();
 
-		for (auto& assignment : section.key_value_pairs) {
-			auto found_func = function_mapping.find(util::lower_copy(assignment.key));
-			if (found_func == function_mapping.end()) {
-				errors::add_error(pso.errors, assignment.line,
-				                  "Member " + assignment.key + " not found");
-			}
-			else {
-				try {
-					(found_func->second)(pso, assignment);
+			for (auto const& assignment : section.key_value_pairs) {
+				auto found_func = function_mapping.find(util::lower_copy(assignment.key));
+				if (found_func == function_mapping.end()) {
+					errors::add_error(pso.errors, assignment.line,
+					                  "Member " + assignment.key + " not found");
 				}
-				catch (const std::invalid_argument& e) {
-					errors::add_error(pso.errors, assignment.line, e.what());
-				}
-			}
-		}
-	} // namespace animated_object
-
-	static void parse_include_section(parsed_animated_object& pso,
-	                                  const ini::ini_section_t& section) {
-		std::vector<std::string> files;
-		glm::vec3 position = glm::vec3(0);
-
-		for (auto& file : section.values) {
-			files.emplace_back(file.value);
-		}
-
-		for (auto& kvp : section.key_value_pairs) {
-			if (util::match_against_lower(kvp.key, "position")) {
-				auto split = util::split_text(kvp.value, ',');
-
-				if (split.size() != 3) {
-					errors::add_error(pso.errors, kvp.line, "position must have 3 arguments");
-				}
-
-				try {
-					switch (split.size()) {
-						default:
-						case 3:
-							position.z = util::parse_loose_float(split[2]);
-							// fall through
-						case 2:
-							position.y = util::parse_loose_float(split[1]);
-							// fall through
-						case 1:
-							position.x = util::parse_loose_float(split[0]);
-							// fall through
-						case 0:
-							break;
+				else {
+					try {
+						(found_func->second)(pso, assignment);
+					}
+					catch (const std::invalid_argument& e) {
+						errors::add_error(pso.errors, assignment.line, e.what());
 					}
 				}
-				catch (const std::invalid_argument& e) {
-					errors::add_error(pso.errors, kvp.line, e.what());
+			}
+		}
+
+		void parse_include_section(parsed_animated_object& pso, ini::ini_section_t const& section) {
+			std::vector<std::string> files;
+			glm::vec3 position = glm::vec3(0);
+
+			for (auto const& file : section.values) {
+				files.emplace_back(file.value);
+			}
+
+			for (auto const& kvp : section.key_value_pairs) {
+				if (util::match_against_lower(kvp.key, "position")) {
+					auto const split = util::split_text(kvp.value, ',');
+
+					if (split.size() != 3) {
+						errors::add_error(pso.errors, kvp.line, "position must have 3 arguments");
+					}
+
+					try {
+						switch (split.size()) {
+							default:
+							case 3:
+								position.z = util::parse_loose_float(split[2]);
+								// fall through
+							case 2:
+								position.y = util::parse_loose_float(split[1]);
+								// fall through
+							case 1:
+								position.x = util::parse_loose_float(split[0]);
+								// fall through
+							case 0:
+								break;
+						}
+					}
+					catch (const std::invalid_argument& e) {
+						errors::add_error(pso.errors, kvp.line, e.what());
+					}
+				}
+				else {
+					errors::add_error(pso.errors, kvp.line,
+					                  "No other key may be set besides position "
+					                  "inside an include section");
 				}
 			}
-			else {
-				errors::add_error(pso.errors, kvp.line,
-				                  "No other key may be set besides position "
-				                  "inside an include section");
+
+			for (auto const& file : files) {
+				pso.includes.emplace_back(animated_include{file, position});
 			}
 		}
+	} // namespace
 
-		for (auto& file : files) {
-			pso.includes.emplace_back(animated_include{file, position});
-		}
-	}
-
-	parsed_animated_object parse(const std::string& file) {
+	parsed_animated_object parse(std::string const& file) {
 		parsed_animated_object pao;
 
-		auto ini = ini::parse(file);
+		auto const ini = ini::parse(file);
 
-		for (auto& section : ini) {
+		for (auto const& section : ini) {
 			// "" section is before any named section
 			if (section.name.empty()) {
-				for (auto& value : section.values) {
+				for (auto const& value : section.values) {
 					add_error(pao.errors, value.line,
 					          "Animated files must have all commands within "
 					          "sections");
 				}
 
-				for (auto& kvp : section.key_value_pairs) {
+				for (auto const& kvp : section.key_value_pairs) {
 					add_error(pao.errors, kvp.line,
 					          "Animated files must have all commands within "
 					          "sections");
@@ -360,7 +360,7 @@ namespace animated_object {
 			}
 
 			// all includes to the file
-			else if (util::match_against_lower(section.name, "includes")) {
+			else if (util::match_against_lower(section.name, "include")) {
 				parse_include_section(pao, section);
 			}
 

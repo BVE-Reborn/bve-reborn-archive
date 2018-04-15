@@ -23,6 +23,12 @@ set_target_properties(doctest::doctest PROPERTIES
 	INTERFACE_COMPILE_FEATURES cxx_std_11
 )
 
+add_library(gsl::gsl INTERFACE IMPORTED)
+set_target_properties(gsl::gsl PROPERTIES
+	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/cpp_guidelines_support_library/include"
+	INTERFACE_COMPILE_FEATURES cxx_std_14
+)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 
 find_package(Sanitizers)

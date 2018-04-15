@@ -2,6 +2,7 @@
 #include "core/math.hpp"
 #include "csv.hpp"
 #include "utils.hpp"
+#include <gsl/gsl_util>
 #include <iostream>
 #include <map>
 #include <stdexcept>
@@ -55,7 +56,7 @@ namespace b3d_csv_object {
 			for (std::size_t i = 1; i < arguments.size(); ++i) {
 				try {
 					af.vertices.emplace_back(
-					    std::size_t(util::parse_loose_integer(arguments[i].text)));
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(arguments[i].text)));
 				}
 				catch (std::invalid_argument& e) {
 					if (af.vertices.size() < 3) {
@@ -91,7 +92,7 @@ namespace b3d_csv_object {
 				throw std::invalid_argument("Creation of instruction cylinder");
 			}
 			instructions::Cylinder cy{};
-			cy.sides = std::size_t(util::parse_loose_integer(arguments[1].text));
+			cy.sides = gsl::narrow<std::size_t>(util::parse_loose_integer(arguments[1].text));
 			cy.UpperRadius = util::parse_loose_float(arguments[2].text);
 			cy.LowerRadius = util::parse_loose_float(arguments[3].text);
 			cy.Height = util::parse_loose_float(arguments[4].text);
@@ -359,7 +360,8 @@ namespace b3d_csv_object {
 				throw std::invalid_argument("Creation of instruction settexturecoordinates");
 			}
 			instructions::SetTextureCoordinates stc{};
-			stc.VertexIndex = std::size_t(util::parse_loose_integer(arguments[1].text));
+			stc.VertexIndex =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(arguments[1].text));
 			stc.X = util::parse_loose_float(arguments[2].text);
 			stc.Y = util::parse_loose_float(arguments[3].text);
 			return stc;

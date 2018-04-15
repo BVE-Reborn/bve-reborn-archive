@@ -4,7 +4,6 @@
 #include <sstream>
 
 using namespace std::string_literals;
-namespace fs_lex_token = parsers::function_scripts::lexer_types;
 namespace fs_tree_node = parsers::function_scripts::tree_types;
 
 #define stringify(n) #n

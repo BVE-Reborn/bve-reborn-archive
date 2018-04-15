@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -13,13 +14,16 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 5:
-					f.color.b = std::uint8_t(util::parse_loose_integer(inst.args[4], 128));
+					f.color.b =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[4], 128));
 					// fall through
 				case 4:
-					f.color.g = std::uint8_t(util::parse_loose_integer(inst.args[3], 128));
+					f.color.g =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[3], 128));
 					// fall through
 				case 3:
-					f.color.r = std::uint8_t(util::parse_loose_integer(inst.args[2], 128));
+					f.color.r =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[2], 128));
 					// fall through
 				case 2:
 					f.ending_distance = util::parse_loose_float(inst.args[1], 0);
@@ -39,7 +43,7 @@ namespace csv_rw_route {
 			instructions::track::Brightness b;
 
 			if (!inst.args.empty()) {
-				b.value = std::uint8_t(util::parse_loose_integer(inst.args[0], 255));
+				b.value = gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[0], 255));
 			}
 
 			return b;
@@ -118,7 +122,7 @@ namespace csv_rw_route {
 
 			instructions::track::PointOfInterest poi;
 
-			poi.rail_index = std::size_t(util::parse_loose_integer(inst.args[0]));
+			poi.rail_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 			set_positions<1>(poi, inst);
 			if (inst.args.size() >= 7) {
 				poi.text = inst.args[6];

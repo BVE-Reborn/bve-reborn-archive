@@ -83,7 +83,8 @@ namespace csv_rw_route {
 			return;
 		}
 
-		for (auto pos = std::size_t(*last_updated); pos < std::size_t(position); pos += 25) {
+		for (auto pos = static_cast<std::size_t>(*last_updated);
+		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto track_position = track_position_at(float(pos));
 			auto object_location =
 			    openbve2::math::position_from_offsets(track_position.position,
@@ -250,8 +251,8 @@ namespace csv_rw_route {
 			return;
 		}
 
-		for (auto pos = std::size_t(state.position_pole_updated); pos < std::size_t(position);
-		     pos += 25) {
+		for (auto pos = static_cast<std::size_t>(state.position_pole_updated);
+		     pos < static_cast<std::size_t>(position); pos += 25) {
 			bool add_object = pos % state.pole_interval == 0;
 
 			if (!add_object) {
@@ -270,8 +271,9 @@ namespace csv_rw_route {
 				object_location = position_relative_to_rail(rail_number, position, 0, 0);
 			}
 			else {
-				object_location = position_relative_to_rail(rail_number, position,
-				                                            float(state.pole_location) * 3.8f, 0);
+				object_location =
+				    position_relative_to_rail(rail_number, position,
+				                              static_cast<float>(state.pole_location) * 3.8f, 0);
 			}
 
 			i.filename = object_mapping_iter->second;
@@ -337,8 +339,8 @@ namespace csv_rw_route {
 	}
 
 	void pass3_executor::add_ground_objects_up_to_position(rail_state& state, float position) {
-		for (auto pos = std::size_t(state.position_ground_updated); pos < std::size_t(position);
-		     pos += 25) {
+		for (auto pos = static_cast<std::size_t>(state.position_ground_updated);
+		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto track_location = track_position_at(float(pos));
 			auto ground_height = ground_height_at(float(pos));
 

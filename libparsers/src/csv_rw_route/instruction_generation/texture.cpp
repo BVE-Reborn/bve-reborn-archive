@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -8,7 +9,8 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Texture.Background");
 			args_at_least(inst, 1, "Texture.Background");
 
-			auto background_texture_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			auto background_texture_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 
 			if (inst.suffix.empty() || inst.suffix == "load") {
 				instructions::texture::Background_Load bl;
@@ -17,7 +19,7 @@ namespace csv_rw_route {
 				return bl;
 			}
 
-			auto number = std::size_t(util::parse_loose_integer(inst.args[0]));
+			auto number = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 
 			if (inst.suffix == "x") {
 				instructions::texture::Background_X x;

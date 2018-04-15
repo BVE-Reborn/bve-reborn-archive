@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -12,7 +13,8 @@ namespace csv_rw_route {
 
 			c.command = command_type_mapping.find(inst.name)->second;
 
-			c.structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			c.structure_index =
+			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 			c.filename = inst.args[0];
 
 			return c;
@@ -27,11 +29,14 @@ namespace csv_rw_route {
 
 			if (inst.indices.size() == 1) {
 				p.additional_rails = 0;
-				p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+				p.pole_structure_index =
+				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 			}
 			else {
-				p.additional_rails = std::size_t(util::parse_loose_integer(inst.indices[0]));
-				p.pole_structure_index = std::size_t(util::parse_loose_integer(inst.indices[1]));
+				p.additional_rails =
+				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+				p.pole_structure_index =
+				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[1]));
 			}
 			p.filename = inst.args[0];
 

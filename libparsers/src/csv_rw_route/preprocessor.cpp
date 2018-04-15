@@ -1,6 +1,7 @@
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <gsl/gsl_util>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -32,7 +33,7 @@ namespace csv_rw_route {
 
 	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set,
 	                             const std::string& parens) {
-		auto index = std::size_t(util::parse_loose_integer(parens));
+		auto index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
 
 		return variable_set[index];
 	}
@@ -41,7 +42,7 @@ namespace csv_rw_route {
 	    std::unordered_map<std::size_t, std::string>& variable_set,
 	    const std::string& parens,
 	    std::string after_equals) {
-		auto index = std::size_t(util::parse_loose_integer(parens));
+		auto index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
 		variable_set[index] = std::move(after_equals);
 
 		return ""s;
@@ -66,7 +67,7 @@ namespace csv_rw_route {
 		auto val = util::parse_loose_integer(arg);
 
 		if (val == 10 || val == 13 || (val >= 20 && val <= 127)) {
-			return std::string(1, char(val));
+			return std::string(1, gsl::narrow<char>(val));
 		}
 
 		return ""s;
@@ -151,19 +152,19 @@ namespace csv_rw_route {
 				auto enabled = parse_if(inside_value);
 				inside_value = "";
 				if_conditions = {enabled ? if_status::IF_TRUE : if_status::IF_FALSE,
-				                 std::size_t(std::distance(arg_begin, next_money))};
+				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "else") {
 				inside_value = "";
 				if_conditions = {if_status::ELSE,
-				                 std::size_t(std::distance(arg_begin, next_money))};
+				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "endif") {
 				inside_value = "";
 				if_conditions = {if_status::ENDIF,
-				                 std::size_t(std::distance(arg_begin, next_money))};
+				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 

@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -13,10 +14,11 @@ namespace csv_rw_route {
 					// fall through
 				case 2:
 					fobj.free_obj_structure_index =
-					    std::size_t(util::parse_loose_integer(inst.args[1], 0));
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
-					fobj.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+					fobj.rail_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -30,10 +32,11 @@ namespace csv_rw_route {
 
 			instructions::track::Wall w;
 
-			w.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+			w.rail_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 			auto direction_num = util::parse_loose_integer(inst.args[1]);
 			if (inst.args.size() >= 3) {
-				w.wall_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
+				w.wall_structure_index =
+				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
 			}
 
 			switch (direction_num) {
@@ -62,10 +65,11 @@ namespace csv_rw_route {
 
 			instructions::track::Dike d;
 
-			d.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+			d.rail_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 			auto direction_num = util::parse_loose_integer(inst.args[1]);
 			if (inst.args.size() >= 3) {
-				d.dike_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
+				d.dike_structure_index =
+				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
 			}
 
 			switch (direction_num) {
@@ -96,7 +100,7 @@ namespace csv_rw_route {
 				default:
 				case 5:
 					p.pole_structure_index =
-					    std::size_t(util::parse_loose_integer(inst.args[4], 0));
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[4], 0));
 					// fall through
 				case 4:
 					p.interval = util::parse_loose_integer(inst.args[3], 1);
@@ -105,10 +109,12 @@ namespace csv_rw_route {
 					p.location = util::parse_loose_integer(inst.args[2], 0);
 					// fall through
 				case 2:
-					p.additional_rails = std::size_t(util::parse_loose_integer(inst.args[1], 0));
+					p.additional_rails =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
-					p.rail_index = std::size_t(util::parse_loose_integer(inst.args[0], 0));
+					p.rail_index =
+					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -127,10 +133,11 @@ namespace csv_rw_route {
 
 			instructions::track::Crack c;
 
-			c.rail_index_1 = std::size_t(util::parse_loose_integer(inst.args[0]));
-			c.rail_index_2 = std::size_t(util::parse_loose_integer(inst.args[1]));
+			c.rail_index_1 = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+			c.rail_index_2 = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1]));
 			if (inst.args.size() >= 3) {
-				c.crack_structure_index = std::size_t(util::parse_loose_integer(inst.args[2], 0));
+				c.crack_structure_index =
+				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
 			}
 
 			return c;

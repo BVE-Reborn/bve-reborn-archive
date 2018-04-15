@@ -74,10 +74,11 @@ namespace function_scripts {
 					float f = std::strtof(start_ptr, &str_end);
 
 					lt = lexer_types::floating{f};
-					auto chars_used =
-					    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					    std::max(std::ptrdiff_t{0},
-					             std::distance(start_ptr, const_cast<const char*>(str_end - 1)));
+					auto chars_used = std::max<std::ptrdiff_t>(
+					    0, std::distance<const char*>(
+					           start_ptr,
+					           // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+					           str_end - 1));
 					i += chars_used;
 				}
 				// parsing int
@@ -88,9 +89,8 @@ namespace function_scripts {
 					auto integer = std::strtoll(start_ptr, &str_end, 10);
 
 					lt = lexer_types::integer{integer};
-					auto chars_used =
-					    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast, cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					    std::distance(start_ptr, const_cast<const char*>(str_end - 1));
+					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+					auto chars_used = std::distance<const char*>(start_ptr, str_end - 1);
 					i += chars_used;
 				}
 				// Raw dash/dot

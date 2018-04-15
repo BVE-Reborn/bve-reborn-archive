@@ -1,4 +1,5 @@
 #include "instruction_generator.hpp"
+#include <gsl/gsl_util>
 
 namespace parsers {
 namespace csv_rw_route {
@@ -56,7 +57,7 @@ namespace csv_rw_route {
 
 			instructions::route::Signal s;
 
-			s.aspect_index = std::size_t(util::parse_loose_integer(inst.indices[0]));
+			s.aspect_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 			s.speed = util::parse_loose_float(inst.args[0]);
 
 			return s;
@@ -149,13 +150,16 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 3:
-					al.color.b = std::uint8_t(util::parse_loose_integer(inst.args[2], 160));
+					al.color.b =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[2], 160));
 					// fall through
 				case 2:
-					al.color.g = std::uint8_t(util::parse_loose_integer(inst.args[1], 160));
+					al.color.g =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[1], 160));
 					// fall through
 				case 1:
-					al.color.r = std::uint8_t(util::parse_loose_integer(inst.args[0], 160));
+					al.color.r =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[0], 160));
 					// fall through
 				case 0:
 					break;
@@ -171,13 +175,16 @@ namespace csv_rw_route {
 			switch (inst.args.size()) {
 				default:
 				case 3:
-					dl.color.b = std::uint8_t(util::parse_loose_integer(inst.args[2], 160));
+					dl.color.b =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[2], 160));
 					// fall through
 				case 2:
-					dl.color.g = std::uint8_t(util::parse_loose_integer(inst.args[1], 160));
+					dl.color.g =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[1], 160));
 					// fall through
 				case 1:
-					dl.color.r = std::uint8_t(util::parse_loose_integer(inst.args[0], 160));
+					dl.color.r =
+					    gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[0], 160));
 					// fall through
 				case 0:
 					break;
