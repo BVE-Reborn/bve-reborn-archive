@@ -36,7 +36,7 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					rs.rail_index =
-					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+					    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					break;
 				case 0:
 					// Make GCC happy
@@ -78,7 +78,7 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					r.rail_index =
-					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+					    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					break;
 				case 0:
 					// Make GCC happy
@@ -101,7 +101,7 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					rt.rail_index =
-					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
+					    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 					// fall through
 				case 0:
 					break;
@@ -133,7 +133,7 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					re.rail_index =
-					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+					    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					break;
 				case 0:
 					// Make GCC happy

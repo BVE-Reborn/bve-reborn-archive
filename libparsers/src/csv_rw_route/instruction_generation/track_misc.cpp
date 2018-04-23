@@ -122,7 +122,7 @@ namespace csv_rw_route {
 
 			instructions::track::PointOfInterest poi;
 
-			poi.rail_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+			poi.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 			set_positions<1>(poi, inst);
 			if (inst.args.size() >= 7) {
 				poi.text = inst.args[6];

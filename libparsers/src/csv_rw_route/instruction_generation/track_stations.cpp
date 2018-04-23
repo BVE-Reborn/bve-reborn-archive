@@ -270,7 +270,7 @@ namespace csv_rw_route {
 								f.placement = instructions::track::Form::Right;
 								break;
 							default:
-								f.rail_index_2 = gsl::narrow<std::size_t>(
+								f.rail_index_2 = gsl::narrow_cast<std::size_t>(
 								    util::parse_loose_integer(inst.args[1], 0));
 								f.placement = instructions::track::Form::RailIndex;
 								break;
@@ -283,7 +283,7 @@ namespace csv_rw_route {
 					// fall through
 				case 1:
 					f.rail_index_1 =
-					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+					    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 					// fall through
 				case 0:
 					break;
