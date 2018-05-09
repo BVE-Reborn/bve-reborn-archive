@@ -40,7 +40,7 @@ include(targets)
 include(warnings)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
-set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD TRUE)
 
 #################
 # Global Config #

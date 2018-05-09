@@ -112,6 +112,7 @@ cotire(parsers)
 ###################
 
 set(TEST_SOURCES
+                 tests/animated_object/parser.cpp
                  tests/core_csv/parse.cpp
                  tests/core_csv/iostream.cpp
                  tests/core_ini/parse.cpp
@@ -198,3 +199,5 @@ target_link_libraries(simple_parsers_test PRIVATE core parsers
                                            )
 add_sanitizers(simple_parsers_test)
 cotire(simple_parsers_test)
+
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS} ${TEST_HEADERS} ${TEST_SOURCES})

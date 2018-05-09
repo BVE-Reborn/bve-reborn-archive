@@ -13,7 +13,7 @@ set (HEADERS
     )
 
 lint(FILES ${SOURCES})
-format(FILES ${SOURCES})
+format(FILES ${HEADERS} ${SOURCES})
 
 add_library(core SHARED ${SOURCES} ${HEADERS})
 target_compile_features(core PUBLIC cxx_std_14)
@@ -24,3 +24,5 @@ target_link_libraries(core PRIVATE options::fast_math options::iterator_debug_le
                                    )
 add_sanitizers(core)
 cotire(core)
+
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})

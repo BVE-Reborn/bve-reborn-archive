@@ -4,3 +4,5 @@ lint(FILES main.cpp)
 format(FILES main.cpp)
 add_sanitizers(test_main)
 cotire(test_main)
+
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES main.cpp)
