@@ -36,7 +36,7 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 
 	auto original_input_direction = input_direction;
 	assert(input_direction != glm::vec3(0));
-	input_direction = glm::normalize(input_direction);
+	input_direction = normalize(input_direction);
 
 	if (radius == 0) {
 		input_position += input_direction * distance;
@@ -99,11 +99,11 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	if (flipped_radius) {
 		radius_line.y *= -1;
 		// Counterclockwise tangent vector
-		tangent_line = glm::normalize(glm::vec2(-radius_line.y, radius_line.x));
+		tangent_line = normalize(glm::vec2(-radius_line.y, radius_line.x));
 	}
 	else {
 		// Clockwise tangent vector
-		tangent_line = glm::normalize(glm::vec2(radius_line.y, -radius_line.x));
+		tangent_line = normalize(glm::vec2(radius_line.y, -radius_line.x));
 	}
 
 	// add the offset to make the vector start at the input angle
@@ -123,13 +123,13 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	glm::vec3 gamespace_offset(-travel_y, vertical_movement, travel_x);
 	tangent_line *= horizontal_movement;
 	glm::vec3 tangent_3d(-tangent_line.y, vertical_movement, tangent_line.x);
-	tangent_3d = glm::normalize(tangent_3d);
-	tangent_3d *= glm::length(original_input_direction);
+	tangent_3d = normalize(tangent_3d);
+	tangent_3d *= length(original_input_direction);
 
 	// add to the position
 	input_position += gamespace_offset;
 
-	return openbve2::math::evaulate_curve_t{input_position, tangent_3d};
+	return evaulate_curve_t{input_position, tangent_3d};
 }
 
 glm::vec3 openbve2::math::position_from_offsets(glm::vec3 input_position,
@@ -138,7 +138,7 @@ glm::vec3 openbve2::math::position_from_offsets(glm::vec3 input_position,
                                                 float y_offset) {
 	assert(input_tangent != glm::vec3(0));
 
-	auto x_z = glm::normalize(glm::vec2(input_tangent.x, input_tangent.z));
+	auto x_z = normalize(glm::vec2(input_tangent.x, input_tangent.z));
 
 	// rotate 270 degrees
 	glm::vec2 normal(x_z.y, -x_z.x);

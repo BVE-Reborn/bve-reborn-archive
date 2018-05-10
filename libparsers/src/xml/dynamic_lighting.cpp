@@ -38,7 +38,7 @@ namespace xml {
 						info.time = util::parse_time(time->value());
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(errors, filename, 0, e.what());
+						add_error(errors, filename, 0, e.what());
 					}
 				}
 
@@ -51,12 +51,12 @@ namespace xml {
 							info.ambient.b = uint8_t(util::parse_loose_integer(pairs[2]));
 						}
 						catch (const std::invalid_argument& e) {
-							errors::add_error(errors, filename, 0, e.what());
+							add_error(errors, filename, 0, e.what());
 						}
 					}
 					if (pairs.size() != 3) {
-						errors::add_error(errors, filename, 0,
-						                  "<AmbientLight> must have exactly 3 arguments");
+						add_error(errors, filename, 0,
+						          "<AmbientLight> must have exactly 3 arguments");
 					}
 				}
 
@@ -72,14 +72,14 @@ namespace xml {
 							    uint8_t(util::parse_loose_integer(pairs[2]));
 						}
 						catch (const std::invalid_argument& e) {
-							errors::add_error(errors, filename, 0, e.what());
+							add_error(errors, filename, 0, e.what());
 						}
 					}
 					if (pairs.size() != 3) {
-						errors::add_error(errors, filename, 0,
-						                  "<DirectionalLight> must have "
-						                  "exactly 3 "
-						                  "arguments");
+						add_error(errors, filename, 0,
+						          "<DirectionalLight> must have "
+						          "exactly 3 "
+						          "arguments");
 					}
 				}
 
@@ -92,12 +92,12 @@ namespace xml {
 							info.light_direction.z = util::parse_loose_float(pairs[2]);
 						}
 						catch (const std::invalid_argument& e) {
-							errors::add_error(errors, filename, 0, e.what());
+							add_error(errors, filename, 0, e.what());
 						}
 					}
 					if (pairs.size() != 3) {
-						errors::add_error(errors, filename, 0,
-						                  "<LightDirection> must have exactly 3 arguments");
+						add_error(errors, filename, 0,
+						          "<LightDirection> must have exactly 3 arguments");
 					}
 				}
 
@@ -107,7 +107,7 @@ namespace xml {
 						    uint8_t(util::parse_loose_integer(cab_lighting->value()));
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(errors, filename, 0, e.what());
+						add_error(errors, filename, 0, e.what());
 					}
 				}
 

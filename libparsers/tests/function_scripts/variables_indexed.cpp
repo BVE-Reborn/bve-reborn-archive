@@ -5,12 +5,12 @@
 using namespace std::string_literals;
 namespace fs_inst = parsers::function_scripts::instructions;
 
-#define str(a) #a
-#define CREATE_INDEXED_VARIABLE_TEST_CASE(variable_name)                                           \
-	TEST_CASE("libparsers - function scripts - indexed variables - " str(variable_name)) {         \
+#define STR(a) #a
+#define CREATE_INDEXED_VARIABLE_TEST_CASE(script_name, variable_name)                              \
+	TEST_CASE("libparsers - function scripts - indexed variables - " STR(variable_name)) {         \
 		auto variable = fs_inst::op_variable_indexed{};                                            \
 		variable.name = fs_inst::indexed_variable::variable_name;                                  \
-		auto result = parsers::function_scripts::parse(str(variable_name) "[2]");                  \
+		auto result = parsers::function_scripts::parse(script_name "[2]");                         \
                                                                                                    \
 		REQUIRE_EQ(result.instructions.size(), 2);                                                 \
 		REQUIRE_EQ(result.used_indexed_variables.size(), 1);                                       \
@@ -21,26 +21,26 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-CREATE_INDEXED_VARIABLE_TEST_CASE(speed)
-CREATE_INDEXED_VARIABLE_TEST_CASE(speedometer)
-CREATE_INDEXED_VARIABLE_TEST_CASE(acceleration)
-CREATE_INDEXED_VARIABLE_TEST_CASE(accelerationMotor)
-CREATE_INDEXED_VARIABLE_TEST_CASE(distance)
-CREATE_INDEXED_VARIABLE_TEST_CASE(trackDistance)
-CREATE_INDEXED_VARIABLE_TEST_CASE(mainReservoir)
-CREATE_INDEXED_VARIABLE_TEST_CASE(emergencyReservoir)
-CREATE_INDEXED_VARIABLE_TEST_CASE(brakePipe)
-CREATE_INDEXED_VARIABLE_TEST_CASE(brakeCylinder)
-CREATE_INDEXED_VARIABLE_TEST_CASE(straightAirPipe)
-CREATE_INDEXED_VARIABLE_TEST_CASE(doors)
-CREATE_INDEXED_VARIABLE_TEST_CASE(leftDoors)
-CREATE_INDEXED_VARIABLE_TEST_CASE(rightDoors)
-CREATE_INDEXED_VARIABLE_TEST_CASE(leftDoorsTarget)
-CREATE_INDEXED_VARIABLE_TEST_CASE(rightDoorsTarget)
-CREATE_INDEXED_VARIABLE_TEST_CASE(pluginState)
-CREATE_INDEXED_VARIABLE_TEST_CASE(FrontAxleCurveRadius)
-CREATE_INDEXED_VARIABLE_TEST_CASE(RearAxleCurveRadius)
-CREATE_INDEXED_VARIABLE_TEST_CASE(CurveCant)
-CREATE_INDEXED_VARIABLE_TEST_CASE(Odometer)
+CREATE_INDEXED_VARIABLE_TEST_CASE("speed", speed)
+CREATE_INDEXED_VARIABLE_TEST_CASE("speedometer", speedometer)
+CREATE_INDEXED_VARIABLE_TEST_CASE("acceleration", acceleration)
+CREATE_INDEXED_VARIABLE_TEST_CASE("accelerationMotor", acceleration_motor)
+CREATE_INDEXED_VARIABLE_TEST_CASE("distance", distance)
+CREATE_INDEXED_VARIABLE_TEST_CASE("trackDistance", track_distance)
+CREATE_INDEXED_VARIABLE_TEST_CASE("mainReservoir", main_reservoir)
+CREATE_INDEXED_VARIABLE_TEST_CASE("emergencyReservoir", emergency_reservoir)
+CREATE_INDEXED_VARIABLE_TEST_CASE("brakePipe", brake_pipe)
+CREATE_INDEXED_VARIABLE_TEST_CASE("brakeCylinder", brake_cylinder)
+CREATE_INDEXED_VARIABLE_TEST_CASE("straightAirPipe", straight_air_pipe)
+CREATE_INDEXED_VARIABLE_TEST_CASE("doors", doors)
+CREATE_INDEXED_VARIABLE_TEST_CASE("leftDoors", left_doors)
+CREATE_INDEXED_VARIABLE_TEST_CASE("rightDoors", right_doors)
+CREATE_INDEXED_VARIABLE_TEST_CASE("leftDoorsTarget", left_doors_target)
+CREATE_INDEXED_VARIABLE_TEST_CASE("rightDoorsTarget", right_doors_target)
+CREATE_INDEXED_VARIABLE_TEST_CASE("pluginState", plugin_state)
+CREATE_INDEXED_VARIABLE_TEST_CASE("frontAxleCurveRadius", front_axle_curve_radius)
+CREATE_INDEXED_VARIABLE_TEST_CASE("rearAxleCurveRadius", rear_axle_curve_radius)
+CREATE_INDEXED_VARIABLE_TEST_CASE("curveCant", curve_cant)
+CREATE_INDEXED_VARIABLE_TEST_CASE("odometer", odometer)
 
 TEST_SUITE_END();

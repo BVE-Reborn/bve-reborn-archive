@@ -6,7 +6,7 @@ namespace parsers {
 namespace ini {
 	parsed_ini_object parse(const std::string& file) {
 		auto begin = file.begin();
-		auto end = file.end();
+		auto const end = file.end();
 
 		parsed_ini_object pio;
 		pio.emplace_back();
@@ -14,7 +14,7 @@ namespace ini {
 		std::size_t line_number = 1;
 
 		while (begin != end) {
-			auto next_newline = std::find(begin, end, '\n');
+			auto const next_newline = std::find(begin, end, '\n');
 
 			auto line = std::string(begin, next_newline);
 			util::strip_text(line);
@@ -22,7 +22,7 @@ namespace ini {
 			if (!line.empty()) {
 				// parse section header
 				if (line[0] == '[') {
-					auto end_section_header = std::find(line.begin() + 1, line.end(), ']');
+					auto const end_section_header = std::find(line.begin() + 1, line.end(), ']');
 					ini_section_t sec;
 					sec.name = std::string(line.begin() + 1, end_section_header);
 					sec.line = line_number;
@@ -30,7 +30,7 @@ namespace ini {
 				}
 				// parse other property declarations
 				else {
-					auto equals_iter = std::find(line.begin(), line.end(), '=');
+					auto const equals_iter = std::find(line.begin(), line.end(), '=');
 					// Non equals declaration
 					if (equals_iter == line.end()) {
 						pio.back().values.emplace_back(value_t{line, line_number});

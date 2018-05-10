@@ -2,7 +2,6 @@
 #include "utils.hpp"
 #include <algorithm>
 #include <gsl/gsl_util>
-#include <iostream>
 
 namespace parsers {
 namespace csv {
@@ -11,25 +10,24 @@ namespace csv {
 		std::vector<std::vector<csv_token>> token_list{1, std::vector<csv_token>{}};
 
 		auto begin = file.begin();
-		auto end = file.end();
+		auto const end = file.end();
 
-		std::string::const_iterator last_newline_iterator = begin;
+		auto last_newline_iterator = begin;
 		std::size_t current_line = 1;
 
-		bool last_loop = false;
-		bool newline = true;
+		auto last_loop = false;
+		auto newline = true;
 
 		while (!last_loop) {
 			// find next comma/newline
-			auto next_delim = std::find_if(begin, end, [&](char c) {
-				return ((sfc == split_first_column::yes && newline) ? c == split_char : false)
+			auto const next_delim = std::find_if(begin, end, [&](char const c) {
+				return (sfc == split_first_column::yes && newline ? c == split_char : false)
 				       || c == delim || c == '\n';
 			});
 
 			newline = false;
 
-			std::string s;
-			s = std::string{begin, next_delim};
+			auto s = std::string{begin, next_delim};
 
 			util::strip_text(s);
 

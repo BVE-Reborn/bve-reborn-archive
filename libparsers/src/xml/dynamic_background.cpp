@@ -32,14 +32,14 @@ namespace xml {
 			}
 
 			for (; current_section != nullptr;
-			     current_section->next_sibling("background", 0, false)) {
+			     current_section = current_section->next_sibling("background", 0, false)) {
 				auto* object = current_section->first_node("object", 0, false);
 
 				// Only one object background allowed, and it takes priority
 				if (object != nullptr) {
-					std::string object_filename(object->value(), object->value_size());
+					std::string const object_filename(object->value(), object->value_size());
 
-					auto absolute = get_relative_file(filename, object_filename);
+					auto const absolute = get_relative_file(filename, object_filename);
 
 					return object_background_info{absolute};
 				}
@@ -53,7 +53,7 @@ namespace xml {
 				auto* time = current_section->first_node("time", 0, false);
 
 				if (texture != nullptr) {
-					std::string texture_filename(texture->value(), texture->value_size());
+					std::string const texture_filename(texture->value(), texture->value_size());
 
 					tbi.filename = get_relative_file(filename, texture_filename);
 				}
@@ -64,28 +64,28 @@ namespace xml {
 						    std::string(repetitions->value(), repetitions->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(errors, filename, 0, e.what());
+						add_error(errors, filename, 0, e.what());
 					}
 				}
 
 				if (mode != nullptr) {
-					std::string mode_text =
+					auto const mode_text =
 					    util::lower_copy(std::string(mode->value(), mode->value_size()));
 
 					if (mode_text == "fadein"s) {
-						tbi.transition_mode = texture_background_info::FadeIn;
+						tbi.transition_mode = texture_background_info::fade_in;
 					}
 					else if (mode_text == "fadeout"s) {
-						tbi.transition_mode = texture_background_info::FadeOut;
+						tbi.transition_mode = texture_background_info::fade_out;
 					}
 					else {
 						if (mode_text != "none"s) {
 							std::ostringstream err;
 							err << "Unrecognized texture mode: \"" << mode->value()
 							    << R"(" assuming "None")";
-							errors::add_error(errors, filename, 0, err.str());
+							add_error(errors, filename, 0, err.str());
 						}
-						tbi.transition_mode = texture_background_info::None;
+						tbi.transition_mode = texture_background_info::none;
 					}
 				}
 
@@ -95,7 +95,7 @@ namespace xml {
 						    std::string(transition_time->value(), transition_time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(errors, filename, 0, e.what());
+						add_error(errors, filename, 0, e.what());
 					}
 				}
 
@@ -105,7 +105,7 @@ namespace xml {
 						    util::parse_time(std::string(time->value(), time->value_size())));
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(errors, filename, 0, e.what());
+						add_error(errors, filename, 0, e.what());
 					}
 				}
 

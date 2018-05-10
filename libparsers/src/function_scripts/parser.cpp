@@ -22,7 +22,7 @@ namespace function_scripts {
 			auto left = parse_xor_expression(list);
 
 			if (list.skip_next_token<lexer_types::bar>()) {
-				auto right = parse_expression(list);
+				auto const right = parse_expression(list);
 
 				return tree_types::binary_or{left, right};
 			}
@@ -34,7 +34,7 @@ namespace function_scripts {
 			auto left = parse_and_expression(list);
 
 			if (list.skip_next_token<lexer_types::carret>()) {
-				auto right = parse_xor_expression(list);
+				auto const right = parse_xor_expression(list);
 
 				return tree_types::binary_xor{left, right};
 			}
@@ -46,7 +46,7 @@ namespace function_scripts {
 			auto left = parse_not_expression(list);
 
 			if (list.skip_next_token<lexer_types::ampersand>()) {
-				auto right = parse_and_expression(list);
+				auto const right = parse_and_expression(list);
 
 				return tree_types::binary_and{left, right};
 			}
@@ -56,7 +56,7 @@ namespace function_scripts {
 
 		tree_node parse_not_expression(lexer_token_container& list) {
 			if (list.skip_next_token<lexer_types::bang>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::unary_not{right};
 			}
@@ -68,32 +68,32 @@ namespace function_scripts {
 			auto left = parse_plus_expression(list);
 
 			if (list.skip_next_token<lexer_types::double_eq>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::binary_eq{left, right};
 			}
 			if (list.skip_next_token<lexer_types::un_eq>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::binary_not_eq{left, right};
 			}
 			if (list.skip_next_token<lexer_types::less>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::binary_less{left, right};
 			}
 			if (list.skip_next_token<lexer_types::greater>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::binary_greater{left, right};
 			}
 			if (list.skip_next_token<lexer_types::less_eq>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::binary_less_eq{left, right};
 			}
 			if (list.skip_next_token<lexer_types::greater_eq>()) {
-				auto right = parse_equal_expression(list);
+				auto const right = parse_equal_expression(list);
 
 				return tree_types::binary_greater_eq{left, right};
 			}
@@ -105,12 +105,12 @@ namespace function_scripts {
 			auto left = parse_times_expression(list);
 
 			if (list.skip_next_token<lexer_types::plus>()) {
-				auto right = parse_plus_expression(list);
+				auto const right = parse_plus_expression(list);
 
 				return tree_types::binary_add{left, right};
 			}
 			if (list.skip_next_token<lexer_types::minus>()) {
-				auto right = parse_plus_expression(list);
+				auto const right = parse_plus_expression(list);
 
 				return tree_types::binary_subtract{left, right};
 			}
@@ -122,7 +122,7 @@ namespace function_scripts {
 			auto left = parse_divide_expression(list);
 
 			if (list.skip_next_token<lexer_types::star>()) {
-				auto right = parse_times_expression(list);
+				auto const right = parse_times_expression(list);
 
 				return tree_types::binary_multiply{left, right};
 			}
@@ -134,7 +134,7 @@ namespace function_scripts {
 			auto left = parse_minus_expression(list);
 
 			if (list.skip_next_token<lexer_types::slash>()) {
-				auto right = parse_divide_expression(list);
+				auto const right = parse_divide_expression(list);
 
 				return tree_types::binary_divide{left, right};
 			}
@@ -144,7 +144,7 @@ namespace function_scripts {
 
 		tree_node parse_minus_expression(lexer_token_container& list) {
 			if (list.skip_next_token<lexer_types::minus>()) {
-				auto right = parse_function_call_expression(list);
+				auto const right = parse_function_call_expression(list);
 
 				return tree_types::unary_minus{right};
 			}
@@ -220,7 +220,7 @@ namespace function_scripts {
 			std::ostringstream err;
 
 			::operator<<(err << "Unexpected ", *next_token) << ", expected end of function script";
-			errors::add_error(errors, 0, err);
+			add_error(errors, 0, err);
 
 			container.advance_one_token();
 		}

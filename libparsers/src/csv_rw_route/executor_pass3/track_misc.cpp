@@ -3,42 +3,42 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::Back& inst) {
-		auto background_iterator = background_mapping.find(inst.background_texture_index);
+	void pass3_executor::operator()(const instructions::track::back& inst) {
+		auto const background_iterator = background_mapping_.find(inst.background_texture_index);
 
-		if (background_iterator == background_mapping.end()) {
+		if (background_iterator == background_mapping_.end()) {
 			std::ostringstream err;
 
 			err << "Background index " << inst.background_texture_index
 			    << " has not been used. Please use Texture.Background to add "
 			       "one. Ignoring.";
 
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err.str());
+			add_error(errors_, get_filename(inst.file_index), inst.line, err.str());
 
 			return;
 		}
 
-		_route_data.backgrounds.emplace_back<background_info>(
+		route_data_.backgrounds.emplace_back<background_info>(
 		    {inst.absolute_position, background_iterator->second});
 	}
 
-	void pass3_executor::operator()(const instructions::track::Fog& inst) {
+	void pass3_executor::operator()(const instructions::track::fog& inst) {
 		fog_info fi;
 
 		fi.position = inst.absolute_position;
-		fi.starting_distance = inst.starting_distance * units_of_length[1];
-		fi.ending_distance = inst.ending_distance * units_of_length[1];
+		fi.starting_distance = inst.starting_distance * units_of_length_[1];
+		fi.ending_distance = inst.ending_distance * units_of_length_[1];
 		fi.color = inst.color;
 
-		_route_data.fog.emplace_back(std::move(fi));
+		route_data_.fog.emplace_back(std::move(fi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Brightness& inst) {
-		_route_data.brightness_levels.emplace_back<brightness_level_info>(
+	void pass3_executor::operator()(const instructions::track::brightness& inst) const {
+		route_data_.brightness_levels.emplace_back<brightness_level_info>(
 		    {inst.absolute_position, inst.value});
 	}
 
-	void pass3_executor::operator()(const instructions::track::Marker& inst) {
+	void pass3_executor::operator()(const instructions::track::marker& inst) const {
 		xml::route_marker::image_marker im;
 
 		im.on_time_filename = inst.filename;
@@ -54,10 +54,10 @@ namespace csv_rw_route {
 			mi.start = inst.absolute_position - inst.distance;
 			mi.end = inst.absolute_position;
 		}
-		_route_data.markers.emplace_back(mi);
+		route_data_.markers.emplace_back(mi);
 	}
 
-	void pass3_executor::operator()(const instructions::track::TextMarker& inst) {
+	void pass3_executor::operator()(const instructions::track::text_marker& inst) const {
 		xml::route_marker::text_marker tm;
 
 		tm.on_time_text = inst.text;
@@ -65,29 +65,29 @@ namespace csv_rw_route {
 
 		switch (inst.font_color) {
 			default:
-			case instructions::track::TextMarker::Black:
-				tm.on_time_color = xml::route_marker::text_marker::color::Black;
+			case instructions::track::text_marker::black:
+				tm.on_time_color = xml::route_marker::text_marker::color::black;
 				break;
-			case instructions::track::TextMarker::Gray:
-				tm.on_time_color = xml::route_marker::text_marker::color::Gray;
+			case instructions::track::text_marker::gray:
+				tm.on_time_color = xml::route_marker::text_marker::color::gray;
 				break;
-			case instructions::track::TextMarker::White:
-				tm.on_time_color = xml::route_marker::text_marker::color::White;
+			case instructions::track::text_marker::white:
+				tm.on_time_color = xml::route_marker::text_marker::color::white;
 				break;
-			case instructions::track::TextMarker::Red:
-				tm.on_time_color = xml::route_marker::text_marker::color::Red;
+			case instructions::track::text_marker::red:
+				tm.on_time_color = xml::route_marker::text_marker::color::red;
 				break;
-			case instructions::track::TextMarker::Orange:
-				tm.on_time_color = xml::route_marker::text_marker::color::Orange;
+			case instructions::track::text_marker::orange:
+				tm.on_time_color = xml::route_marker::text_marker::color::orange;
 				break;
-			case instructions::track::TextMarker::Green:
-				tm.on_time_color = xml::route_marker::text_marker::color::Green;
+			case instructions::track::text_marker::green:
+				tm.on_time_color = xml::route_marker::text_marker::color::green;
 				break;
-			case instructions::track::TextMarker::Blue:
-				tm.on_time_color = xml::route_marker::text_marker::color::Blue;
+			case instructions::track::text_marker::blue:
+				tm.on_time_color = xml::route_marker::text_marker::color::blue;
 				break;
-			case instructions::track::TextMarker::Magenta:
-				tm.on_time_color = xml::route_marker::text_marker::color::Magenta;
+			case instructions::track::text_marker::magenta:
+				tm.on_time_color = xml::route_marker::text_marker::color::magenta;
 				break;
 		}
 
@@ -101,27 +101,26 @@ namespace csv_rw_route {
 			mi.start = inst.absolute_position - inst.distance;
 			mi.end = inst.absolute_position;
 		}
-		_route_data.markers.emplace_back(mi);
+		route_data_.markers.emplace_back(mi);
 	}
 
-	void pass3_executor::operator()(const instructions::track::MarkerXML& inst) {
-		auto issuer_filename = get_filename(inst.file_index);
+	void pass3_executor::operator()(const instructions::track::marker_xml& inst) const {
+		auto const issuer_filename = get_filename(inst.file_index);
 
 		marker_info mi;
 
-		auto filename = _get_relative_file(issuer_filename, inst.filename);
+		auto const filename = get_relative_file_(issuer_filename, inst.filename);
 
 		try {
 			auto str = util::load_from_file_utf8_bom(filename);
-			mi.marker = xml::route_marker::parse(filename, std::move(str), _get_relative_file);
+			mi.marker = xml::route_marker::parse(filename, std::move(str), get_relative_file_);
 		}
 		catch (std::invalid_argument& e) {
-			errors::add_error(_errors, issuer_filename, inst.line, e.what());
+			add_error(errors_, issuer_filename, inst.line, e.what());
 		}
 
-		float distance =
-		    mapbox::util::apply_visitor([](const auto& m) -> float { return m.distance; },
-		                                mi.marker);
+		auto const distance =
+		    apply_visitor([](const auto& m) -> float { return m.distance; }, mi.marker);
 
 		if (distance < 0) {
 			mi.start = inst.absolute_position;
@@ -131,10 +130,10 @@ namespace csv_rw_route {
 			mi.start = inst.absolute_position - distance;
 			mi.end = inst.absolute_position;
 		}
-		_route_data.markers.emplace_back(mi);
+		route_data_.markers.emplace_back(mi);
 	}
 
-	void pass3_executor::operator()(const instructions::track::PointOfInterest& inst) {
+	void pass3_executor::operator()(const instructions::track::point_of_interest& inst) {
 		point_of_interest_info poii;
 
 		if (!get_rail_state(inst.rail_index).active) {
@@ -143,29 +142,29 @@ namespace csv_rw_route {
 			err << "Track Index " << inst.rail_index
 			    << " is not activated. Please use Track.RailStart or Track.Rail to activate";
 
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 			return;
 		}
 
-		auto location = position_relative_to_rail(inst.rail_index, inst.absolute_position,
-		                                          inst.x_offset, inst.y_offset);
+		auto const location = position_relative_to_rail(inst.rail_index, inst.absolute_position,
+		                                                inst.x_offset, inst.y_offset);
 
 		poii.position = location;
 		// TODO(sirflankalot): Rotation
 		poii.text = inst.text;
 	}
 
-	void pass3_executor::operator()(const instructions::track::PreTrain& inst) {
-		if (!_route_data.pretrain_points.empty()
-		    && _route_data.pretrain_points.back().value > inst.time) {
+	void pass3_executor::operator()(const instructions::track::pre_train& inst) const {
+		if (!route_data_.pretrain_points.empty()
+		    && route_data_.pretrain_points.back().value > inst.time) {
 			std::ostringstream err;
 
-			err << "Pretrain point at location " << _route_data.pretrain_points.back().position
-			    << " has a later time " << _route_data.pretrain_points.back().value
+			err << "Pretrain point at location " << route_data_.pretrain_points.back().position
+			    << " has a later time " << route_data_.pretrain_points.back().value
 			    << " than current point at " << inst.absolute_position << " and time " << inst.time
 			    << ". Ignoring.";
 
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 
 		pretrain_info pti;
@@ -173,31 +172,31 @@ namespace csv_rw_route {
 		pti.position = inst.absolute_position;
 		pti.value = inst.time;
 
-		_route_data.pretrain_points.emplace_back(std::move(pti));
+		route_data_.pretrain_points.emplace_back(std::move(pti));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Announce& inst) {
+	void pass3_executor::operator()(const instructions::track::announce& inst) const {
 		announcement_info ai;
 
 		ai.filename = add_sound_filename(inst.filename);
 		ai.position = inst.absolute_position;
-		ai.speed = inst.speed * unit_of_speed;
+		ai.speed = inst.speed * unit_of_speed_;
 
-		_route_data.announcments.emplace_back(std::move(ai));
+		route_data_.announcments.emplace_back(std::move(ai));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Doppler& inst) {
+	void pass3_executor::operator()(const instructions::track::doppler& inst) {
 		sound_info si;
 
 		si.position =
 		    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		si.filename = add_sound_filename(inst.filename);
 
-		_route_data.sounds.emplace_back(std::move(si));
+		route_data_.sounds.emplace_back(std::move(si));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Buffer& inst) {
-		_route_data.bumpers.emplace_back(inst.absolute_position);
+	void pass3_executor::operator()(const instructions::track::buffer& inst) const {
+		route_data_.bumpers.emplace_back(inst.absolute_position);
 	}
 } // namespace csv_rw_route
 } // namespace parsers

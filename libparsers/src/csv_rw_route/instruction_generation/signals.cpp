@@ -8,12 +8,12 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Signal");
 			args_at_least(inst, 1, "Signal");
 
-			auto signal_index =
+			auto const signal_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 
 			// Signal File version
 			if (inst.args.size() >= 2) {
-				instructions::naked::Signal s;
+				instructions::naked::signal s;
 				s.signal_index = signal_index;
 				s.signal_filename = inst.args[0];
 				s.glow_filename = inst.args[1];
@@ -21,7 +21,7 @@ namespace csv_rw_route {
 			}
 
 			// Animated File version
-			instructions::naked::SignalAnimated sa;
+			instructions::naked::signal_animated sa;
 			sa.signal_index = signal_index;
 			sa.filename = inst.args[0];
 			return sa;

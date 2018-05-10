@@ -11,15 +11,15 @@ using namespace std::string_literals;
 
 namespace parsers {
 namespace csv_rw_route {
-	static std::string::const_iterator find_matching_parens(std::string::const_iterator begin,
-	                                                        std::string::const_iterator end) {
+	static std::string::const_iterator find_matching_parens(std::string::const_iterator const begin,
+	                                                        std::string::const_iterator const end) {
 		std::size_t level = 0;
-		std::string::const_iterator end_paren = end;
+		auto end_paren = end;
 		for (auto i = begin; i != end; ++i) {
 			if (*i == '(') {
 				level++;
 			}
-			if (*i == ')' && (level != 0u)) {
+			if (*i == ')' && level != 0u) {
 				level--;
 				if (level == 0) {
 					end_paren = i;
@@ -33,7 +33,7 @@ namespace csv_rw_route {
 
 	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set,
 	                             const std::string& parens) {
-		auto index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
+		auto const index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
 
 		return variable_set[index];
 	}
@@ -42,7 +42,7 @@ namespace csv_rw_route {
 	    std::unordered_map<std::size_t, std::string>& variable_set,
 	    const std::string& parens,
 	    std::string after_equals) {
-		auto index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
+		auto const index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
 		variable_set[index] = std::move(after_equals);
 
 		return ""s;
@@ -55,16 +55,17 @@ namespace csv_rw_route {
 			throw std::invalid_argument("$Rnd takes two arguments");
 		}
 
-		auto start = util::parse_loose_integer(split[0]);
-		auto end = util::parse_loose_integer(split[1]);
+		auto const start = util::parse_loose_integer(split[0]);
+		auto const end = util::parse_loose_integer(split[1]);
 
+		// ReSharper disable once CppLocalVariableMayBeConst
 		std::uniform_int_distribution<std::intmax_t> dist(start, end);
 
 		return std::to_string(dist(rng));
 	}
 
 	static std::string parse_char(const std::string& arg) {
-		auto val = util::parse_loose_integer(arg);
+		auto const val = util::parse_loose_integer(arg);
 
 		if (val == 10 || val == 13 || (val >= 20 && val <= 127)) {
 			return std::string(1, gsl::narrow<char>(val));
@@ -74,13 +75,14 @@ namespace csv_rw_route {
 	}
 
 	static bool parse_if(const std::string& arg) {
-		auto val = util::parse_loose_integer(arg);
+		auto const val = util::parse_loose_integer(arg);
 
 		return val != 0;
 	}
 
 	struct if_status {
-		enum type_t { IF_TRUE, IF_FALSE, ELSE, ENDIF, NONE } type = NONE;
+		// ReSharper disable once CppInconsistentNaming
+		enum type_t { if_true, if_false, else_, endif, none } type = none;
 		std::size_t char_start{};
 	};
 
@@ -89,27 +91,27 @@ namespace csv_rw_route {
 	    if_status& if_conditions,
 	    openbve2::datatypes::rng& rng,
 	    std::string::const_iterator& last_used,
-	    std::string::const_iterator arg_begin,
-	    std::string::const_iterator arg_end,
-	    std::string::const_iterator line_end) {
+	    std::string::const_iterator const arg_begin,
+	    std::string::const_iterator const arg_end,
+	    std::string::const_iterator const line_end) {
 		auto begin = arg_begin;
-		auto end = arg_end;
+		auto const end = arg_end;
 
 		std::string return_value;
 
 		while (begin != end) {
-			auto next_money = std::find(begin, end, '$');
+			auto const next_money = std::find(begin, end, '$');
 			if (next_money == end) {
 				// Prevent commas from beign dragged into the contents of a
 				// preprocessing statement
-				auto comma_iter = std::find(begin, end, ',');
+				auto const comma_iter = std::find(begin, end, ',');
 				return_value += std::string(begin, comma_iter);
 				break;
 			}
-			auto next_parens = std::find(next_money, end, '(');
+			auto const next_parens = std::find(next_money, end, '(');
 
 			// find the matching parenthesis
-			auto matched_rparens = find_matching_parens(next_parens, end);
+			auto const matched_rparens = find_matching_parens(next_parens, end);
 
 			auto inside_value =
 			    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
@@ -123,9 +125,9 @@ namespace csv_rw_route {
 
 			if (command_text == "sub") {
 				// check for an assignment
-				auto equals = std::find(matched_rparens, line_end, '=');
+				auto const equals = std::find(matched_rparens, line_end, '=');
 				if (end != line_end && equals != line_end) {
-					auto after_equals =
+					auto const after_equals =
 					    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
 					                             equals + 1, line_end, line_end);
 					parse_sub_equality(variable_set, inside_value, after_equals);
@@ -149,21 +151,21 @@ namespace csv_rw_route {
 				last_used = matched_rparens;
 			}
 			else if (command_text == "if") {
-				auto enabled = parse_if(inside_value);
+				auto const enabled = parse_if(inside_value);
 				inside_value = "";
-				if_conditions = {enabled ? if_status::IF_TRUE : if_status::IF_FALSE,
+				if_conditions = {enabled ? if_status::if_true : if_status::if_false,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "else") {
 				inside_value = "";
-				if_conditions = {if_status::ELSE,
+				if_conditions = {if_status::else_,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "endif") {
 				inside_value = "";
-				if_conditions = {if_status::ENDIF,
+				if_conditions = {if_status::endif,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
@@ -188,13 +190,13 @@ namespace csv_rw_route {
 			std::string processed_line;
 
 			auto begin = line.contents.cbegin();
-			auto end = line.contents.cend();
+			auto const end = line.contents.cend();
 
 			while (begin != end) {
-				auto next_money = std::find(begin, end, '$');
-				auto next_parens = std::find(next_money, end, '(');
+				auto const next_money = std::find(begin, end, '$');
+				auto const next_parens = std::find(next_money, end, '(');
 
-				auto matched_rparens = find_matching_parens(next_parens, end);
+				auto const matched_rparens = find_matching_parens(next_parens, end);
 
 				// pre-directive characters
 				if (if_condition_stack.back()) {
@@ -214,21 +216,20 @@ namespace csv_rw_route {
 					                             next_money, matched_rparens + 1, end);
 				}
 				catch (const std::invalid_argument& e) {
-					errors::add_error(errors, lines.filenames[line.filename_index], line.line,
-					                  e.what());
+					add_error(errors, lines.filenames[line.filename_index], line.line, e.what());
 					continue;
 				}
 
-				if (if_condition.type == if_status::IF_TRUE) {
+				if (if_condition.type == if_status::if_true) {
 					if_condition_stack.emplace_back(true);
 				}
-				else if (if_condition.type == if_status::IF_FALSE) {
+				else if (if_condition.type == if_status::if_false) {
 					if_condition_stack.emplace_back(true);
 				}
-				else if (if_condition.type == if_status::ELSE) {
+				else if (if_condition.type == if_status::else_) {
 					if_condition_stack.back() = !if_condition_stack.back();
 				}
-				else if (if_condition.type == if_status::ENDIF) {
+				else if (if_condition.type == if_status::endif) {
 					if (if_condition_stack.size() == 1) {
 						// error
 						throw std::invalid_argument("preprocessing wtf");
@@ -256,7 +257,7 @@ namespace csv_rw_route {
 		}
 	}
 
-	static void split_on_char(preprocessed_lines& lines, file_type ft) {
+	static void split_on_char(preprocessed_lines& lines, file_type const ft) {
 		preprocessed_lines fixed;
 
 		char c;
@@ -286,7 +287,7 @@ namespace csv_rw_route {
 	void preprocess_file(preprocessed_lines& lines,
 	                     openbve2::datatypes::rng& rng,
 	                     errors::multi_error_t& errors,
-	                     file_type ft) {
+	                     file_type const ft) {
 		preprocess_pass(lines, rng, errors);
 
 		// remove comments that have been added by preprocessing

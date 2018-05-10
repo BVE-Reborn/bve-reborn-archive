@@ -1,7 +1,6 @@
 #pragma once
 
 #include "parsers/b3d_csv.hpp"
-#include <cinttypes>
 #include <iosfwd>
 #include <mapbox/variant.hpp>
 #include <string>
@@ -9,6 +8,7 @@
 #include <vector>
 
 namespace parsers {
+// ReSharper disable once CppInconsistentNaming
 namespace b3d_csv_object {
 	namespace instructions {
 		/*
@@ -39,133 +39,133 @@ namespace b3d_csv_object {
 			std::size_t line;
 		};
 
-		struct Error : public base_instruction {
+		struct error : base_instruction {
 			std::string cause;
-			Error() = default;
-			explicit Error(std::string desc) : cause(std::move(desc)){};
+			error() = default;
+			explicit error(std::string desc) : cause(std::move(desc)) {}
 		};
 
-		struct CreateMeshBuilder : public base_instruction {};
+		struct create_mesh_builder : base_instruction {};
 
-		struct AddVertex : public base_instruction {
-			float vX = 0;
-			float vY = 0;
-			float vZ = 0;
-			float nX = 0;
-			float nY = 0;
-			float nZ = 0;
+		struct add_vertex : base_instruction {
+			float v_x = 0;
+			float v_y = 0;
+			float v_z = 0;
+			float n_x = 0;
+			float n_y = 0;
+			float n_z = 0;
 		};
 
 		// AddFace and AddFace2
-		struct AddFace : public base_instruction {
+		struct add_face : base_instruction {
 			std::vector<std::size_t> vertices;
 			bool two;
 		};
 
-		struct Cube : public base_instruction {
-			float HalfWidth;
-			float HalfHeight;
-			float HalfDepth;
+		struct cube : base_instruction {
+			float half_width;
+			float half_height;
+			float half_depth;
 		};
 
-		struct Cylinder : public base_instruction {
+		struct cylinder : base_instruction {
 			std::size_t sides;
-			float UpperRadius;
-			float LowerRadius;
-			float Height;
+			float upper_radius;
+			float lower_radius;
+			float height;
 		};
 
 		// Translate and TranslateAll
-		struct Translate : public base_instruction {
-			float X = 0;
-			float Y = 0;
-			float Z = 0;
+		struct translate : base_instruction {
+			float x = 0;
+			float y = 0;
+			float z = 0;
 			bool all;
 		};
 
 		// Scale and ScaleAll
-		struct Scale : public base_instruction {
-			float X = 1;
-			float Y = 1;
-			float Z = 1;
+		struct scale : base_instruction {
+			float x = 1;
+			float y = 1;
+			float z = 1;
 			bool all;
 		};
 
 		// Rotate and RotateAll
-		struct Rotate : public base_instruction {
-			float X = 0;
-			float Y = 0;
-			float Z = 0;
-			float Angle = 0;
+		struct rotate : base_instruction {
+			float x = 0;
+			float y = 0;
+			float z = 0;
+			float angle = 0;
 			bool all;
 		};
 
 		// Shear and ShearAll
-		struct Shear : public base_instruction {
-			float dX = 0;
-			float dY = 0;
-			float dZ = 0;
-			float sX = 0;
-			float sY = 0;
-			float sZ = 0;
+		struct shear : base_instruction {
+			float d_x = 0;
+			float d_y = 0;
+			float d_z = 0;
+			float s_x = 0;
+			float s_y = 0;
+			float s_z = 0;
 			float r = 0;
 			bool all;
 		};
 
-		struct SetColor : public base_instruction {
-			uint8_t Red = 255;
-			uint8_t Green = 255;
-			uint8_t Blue = 255;
-			uint8_t Alpha = 255;
+		struct set_color : base_instruction {
+			uint8_t red = 255;
+			uint8_t green = 255;
+			uint8_t blue = 255;
+			uint8_t alpha = 255;
 		};
 
-		struct SetEmissiveColor : public base_instruction {
-			uint8_t Red = 0;
-			uint8_t Green = 0;
-			uint8_t Blue = 0;
+		struct set_emissive_color : base_instruction {
+			uint8_t red = 0;
+			uint8_t green = 0;
+			uint8_t blue = 0;
 		};
 
-		struct SetBlendMode : public base_instruction {
-			mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;
-			uint16_t GlowHalfDistance = 0;
-			mesh_t::GlowAttenuationMode_t GlowAttenuationMode =
-			    mesh_t::GlowAttenuationMode_t::DivideExponent4;
+		struct set_blend_mode : base_instruction {
+			mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;
+			std::uint16_t glow_half_distance = 0;
+			mesh_t::glow_attenuation_mode_t glow_attenuation_mode =
+			    mesh_t::glow_attenuation_mode_t::divide_exponent4;
 		};
 
-		struct LoadTexture : public base_instruction {
-			std::string DaytimeTexture;
-			std::string NighttimeTexture;
+		struct load_texture : base_instruction {
+			std::string daytime_texture;
+			std::string nighttime_texture;
 		};
 
-		struct SetDecalTransparentColor : public base_instruction {
-			uint8_t Red;
-			uint8_t Green;
-			uint8_t Blue;
+		struct set_decal_transparent_color : base_instruction {
+			uint8_t red;
+			uint8_t green;
+			uint8_t blue;
 		};
 
-		struct SetTextureCoordinates : public base_instruction {
-			std::size_t VertexIndex;
-			float X;
-			float Y;
+		struct set_texture_coordinates : base_instruction {
+			std::size_t vertex_index;
+			float x;
+			float y;
 		};
 
 		// Defined in csv_object_instruction_iostream.cpp
-		std::ostream& operator<<(std::ostream& os, const Error& rhs);
-		std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs);
-		std::ostream& operator<<(std::ostream& os, const AddVertex& rhs);
-		std::ostream& operator<<(std::ostream& os, const AddFace& rhs);
-		std::ostream& operator<<(std::ostream& os, const Cube& rhs);
-		std::ostream& operator<<(std::ostream& os, const Cylinder& rhs);
-		std::ostream& operator<<(std::ostream& os, const Translate& rhs);
-		std::ostream& operator<<(std::ostream& os, const Scale& rhs);
-		std::ostream& operator<<(std::ostream& os, const Rotate& rhs);
-		std::ostream& operator<<(std::ostream& os, const Shear& rhs);
-		std::ostream& operator<<(std::ostream& os, const SetColor& rhs);
-		std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs);
-		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs);
-		std::ostream& operator<<(std::ostream& os, const LoadTexture& rhs);
-		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs);
-		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs);
+		std::ostream& operator<<(std::ostream& os, const error& rhs);
+		std::ostream& operator<<(std::ostream& os, const create_mesh_builder& rhs);
+		std::ostream& operator<<(std::ostream& os, const add_vertex& rhs);
+		std::ostream& operator<<(std::ostream& os, const add_face& rhs);
+		std::ostream& operator<<(std::ostream& os, const cube& rhs);
+		std::ostream& operator<<(std::ostream& os, const cylinder& rhs);
+		std::ostream& operator<<(std::ostream& os, const translate& rhs);
+		std::ostream& operator<<(std::ostream& os, const scale& rhs);
+		std::ostream& operator<<(std::ostream& os, const rotate& rhs);
+		std::ostream& operator<<(std::ostream& os, const shear& rhs);
+		std::ostream& operator<<(std::ostream& os, const set_color& rhs);
+		std::ostream& operator<<(std::ostream& os, const set_emissive_color& rhs);
+		std::ostream& operator<<(std::ostream& os, const set_blend_mode& rhs);
+		std::ostream& operator<<(std::ostream& os, const load_texture& rhs);
+		std::ostream& operator<<(std::ostream& os, const set_decal_transparent_color& rhs);
+		std::ostream& operator<<(std::ostream& os, const set_texture_coordinates& rhs);
 
 		struct parsed_csv_object_builder {
 			parsed_b3d_csv_object_t pso;
@@ -179,10 +179,10 @@ namespace b3d_csv_object {
 				openbve2::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
-				mesh_t::BlendMode_t BlendMode = mesh_t::BlendMode_t::Normal;
-				mesh_t::GlowAttenuationMode_t GlowAttenuationMode =
-				    mesh_t::GlowAttenuationMode_t::DivideExponent4;
-				uint16_t GlowHalfDistance = 0;
+				mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;
+				mesh_t::glow_attenuation_mode_t glow_attenuation_mode =
+				    mesh_t::glow_attenuation_mode_t::divide_exponent4;
+				uint16_t glow_half_distance = 0;
 
 				bool back_visible = false;
 			};
@@ -197,44 +197,45 @@ namespace b3d_csv_object {
 
 			void add_mesh_builder();
 
-			void operator()(const Error& arg);
-			void operator()(const CreateMeshBuilder& arg);
-			void operator()(const AddVertex& arg);
-			void operator()(const AddFace& arg);
-			void operator()(const Cube& arg);
-			void operator()(const Cylinder& arg);
-			void operator()(const Translate& arg);
-			void operator()(const Scale& arg);
-			void operator()(const Rotate& arg);
-			void operator()(const Shear& arg);
-			void operator()(const SetColor& arg);
-			void operator()(const SetEmissiveColor& arg);
-			void operator()(const SetBlendMode& arg);
-			void operator()(const LoadTexture& arg);
-			void operator()(const SetDecalTransparentColor& arg);
-			void operator()(const SetTextureCoordinates& arg);
+			void operator()(const error& arg);
+			void operator()(const create_mesh_builder& arg);
+			void operator()(const add_vertex& arg);
+			void operator()(const add_face& arg);
+			void operator()(const cube& arg);
+			void operator()(const cylinder& arg);
+			void operator()(const translate& arg);
+			void operator()(const scale& arg);
+			void operator()(const rotate& arg);
+			void operator()(const shear& arg);
+			void operator()(const set_color& arg);
+			void operator()(const set_emissive_color& arg);
+			void operator()(const set_blend_mode& arg);
+			void operator()(const load_texture& arg);
+			void operator()(const set_decal_transparent_color& arg);
+			void operator()(const set_texture_coordinates& arg);
 		};
 
 	} // namespace instructions
-	using instruction = mapbox::util::variant<instructions::Error,
-	                                          instructions::CreateMeshBuilder,
-	                                          instructions::AddVertex,
-	                                          instructions::AddFace,
-	                                          instructions::Cube,
-	                                          instructions::Cylinder,
-	                                          instructions::Translate,
-	                                          instructions::Scale,
-	                                          instructions::Rotate,
-	                                          instructions::Shear,
-	                                          instructions::SetColor,
-	                                          instructions::SetEmissiveColor,
-	                                          instructions::SetBlendMode,
-	                                          instructions::LoadTexture,
-	                                          instructions::SetDecalTransparentColor,
-	                                          instructions::SetTextureCoordinates>;
+	using instruction = mapbox::util::variant<instructions::error,
+	                                          instructions::create_mesh_builder,
+	                                          instructions::add_vertex,
+	                                          instructions::add_face,
+	                                          instructions::cube,
+	                                          instructions::cylinder,
+	                                          instructions::translate,
+	                                          instructions::scale,
+	                                          instructions::rotate,
+	                                          instructions::shear,
+	                                          instructions::set_color,
+	                                          instructions::set_emissive_color,
+	                                          instructions::set_blend_mode,
+	                                          instructions::load_texture,
+	                                          instructions::set_decal_transparent_color,
+	                                          instructions::set_texture_coordinates>;
 
 	using instruction_list = std::vector<instruction>;
 
+	// ReSharper disable once CppInconsistentNaming
 	enum class file_type { b3d, csv };
 
 	// Defined in csv_object_instruction_generator.cpp

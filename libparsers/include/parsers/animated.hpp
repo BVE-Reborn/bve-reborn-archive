@@ -2,8 +2,6 @@
 
 #include "parsers/dependencies.hpp"
 #include "parsers/function_scripts.hpp"
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
 #include <string>
 #include <vector>
 

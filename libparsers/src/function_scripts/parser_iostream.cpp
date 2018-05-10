@@ -5,25 +5,25 @@ namespace parsers {
 namespace function_scripts {
 	class function_script_parse_tree_printer {
 	  private:
-		std::ostream& _os;
-		std::size_t depth = 0;
+		std::ostream& os_;
+		std::size_t depth_ = 0;
 
-		void start_print() {
-			for (std::size_t i = 0; i < depth; ++i) {
-				_os << "| ";
+		void start_print() const {
+			for (std::size_t i = 0; i < depth_; ++i) {
+				os_ << "| ";
 			}
 		}
 
 		void print_next_node(const tree_node& next) {
-			depth += 1;
-			mapbox::util::apply_visitor(*this, next);
-			depth -= 1;
+			depth_ += 1;
+			apply_visitor(*this, next);
+			depth_ -= 1;
 		}
 
 		template <class T>
 		void print_binary(const T& node, const char* name) {
 			start_print();
-			_os << name << '\n';
+			os_ << name << '\n';
 			print_next_node(node.left);
 			print_next_node(node.right);
 		}
@@ -31,12 +31,12 @@ namespace function_scripts {
 		template <class T>
 		void print_unary(const T& node, const char* name) {
 			start_print();
-			_os << name << '\n';
+			os_ << name << '\n';
 			print_next_node(node.child);
 		}
 
 	  public:
-		explicit function_script_parse_tree_printer(std::ostream& os) : _os(os){};
+		explicit function_script_parse_tree_printer(std::ostream& os) : os_(os) {}
 
 		void operator()(const tree_types::binary_and& node) {
 			print_binary(node, "AND");
@@ -100,30 +100,30 @@ namespace function_scripts {
 
 		void operator()(const tree_types::function_call& node) {
 			start_print();
-			_os << "FUNC_CALL: " << node.name.val << '\n';
+			os_ << "FUNC_CALL: " << node.name.val << '\n';
 			for (auto& n : node.args) {
 				print_next_node(n);
 			}
 		}
-		void operator()(const tree_types::integer& node) {
+		void operator()(const tree_types::integer& node) const {
 			start_print();
-			_os << node.num << '\n';
+			os_ << node.num << '\n';
 		}
 
-		void operator()(const tree_types::floating& node) {
+		void operator()(const tree_types::floating& node) const {
 			start_print();
-			_os << node.num << '\n';
+			os_ << node.num << '\n';
 		}
 
-		void operator()(const tree_types::name& node) {
+		void operator()(const tree_types::name& node) const {
 			start_print();
-			_os << "VARIABLE: " << node.val << '\n';
+			os_ << "VARIABLE: " << node.val << '\n';
 		}
 
-		void operator()(const tree_types::none& node) {
+		void operator()(const tree_types::none& node) const {
 			(void) node;
 			start_print();
-			_os << "NONE\n";
+			os_ << "NONE\n";
 		}
 	};
 } // namespace function_scripts
@@ -132,7 +132,7 @@ namespace function_scripts {
 std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::tree_node& node) {
 	parsers::function_scripts::function_script_parse_tree_printer fsptp{os};
 
-	mapbox::util::apply_visitor(fsptp, node);
+	apply_visitor(fsptp, node);
 
 	return os;
 }

@@ -4,10 +4,13 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <sstream>
 
+// ReSharper disable CppInconsistentNaming
 #define _USE_MATH_DEFINES
+// ReSharper restore CppInconsistentNaming
 #include <math.h> // NOLINT
 
 namespace parsers {
+// ReSharper disable once CppInconsistentNaming
 namespace b3d_csv_object {
 	namespace {
 		// Following
@@ -29,9 +32,9 @@ namespace b3d_csv_object {
 
 			// Need to create an order, though the order doesn't matter as long
 			// as they are not equal
-			auto dtc_equal = data1.decal_transparent_color == data2.decal_transparent_color;
-			auto dtca = glm::compAdd(data1.decal_transparent_color);
-			auto dtcb = glm::compAdd(data2.decal_transparent_color);
+			auto const dtc_equal = data1.decal_transparent_color == data2.decal_transparent_color;
+			auto const dtca = compAdd(data1.decal_transparent_color);
+			auto const dtcb = compAdd(data2.decal_transparent_color);
 			if (!dtc_equal && dtca < dtcb) {
 				return true;
 			}
@@ -49,8 +52,10 @@ namespace b3d_csv_object {
 			}
 
 			// blend mode integer
-			auto bmia = std::underlying_type<decltype(data1.BlendMode)>::type(data1.BlendMode);
-			auto bmib = std::underlying_type<decltype(data2.BlendMode)>::type(data2.BlendMode);
+			auto const bmia =
+			    std::underlying_type<decltype(data1.blend_mode)>::type(data1.blend_mode);
+			auto const bmib =
+			    std::underlying_type<decltype(data2.blend_mode)>::type(data2.blend_mode);
 			if (bmia < bmib) {
 				return true;
 			}
@@ -59,10 +64,10 @@ namespace b3d_csv_object {
 			}
 
 			// glow attenuation mode integer
-			auto gama = std::underlying_type<decltype(data1.GlowAttenuationMode)>::type(
-			    data1.GlowAttenuationMode);
-			auto gamb = std::underlying_type<decltype(data2.GlowAttenuationMode)>::type(
-			    data2.GlowAttenuationMode);
+			auto const gama = std::underlying_type<decltype(data1.glow_attenuation_mode)>::type(
+			    data1.glow_attenuation_mode);
+			auto const gamb = std::underlying_type<decltype(data2.glow_attenuation_mode)>::type(
+			    data2.glow_attenuation_mode);
 			if (gama < gamb) {
 				return true;
 			}
@@ -70,10 +75,10 @@ namespace b3d_csv_object {
 				return false;
 			}
 
-			if (data1.GlowHalfDistance < data2.GlowHalfDistance) {
+			if (data1.glow_half_distance < data2.glow_half_distance) {
 				return true;
 			}
-			if (data2.GlowHalfDistance < data1.GlowHalfDistance) {
+			if (data2.glow_half_distance < data1.glow_half_distance) {
 				return false;
 			}
 
@@ -86,15 +91,15 @@ namespace b3d_csv_object {
 			}
 
 			for (std::size_t i = 0; i < mesh.indices.size(); i += 3) {
-				auto a = mesh.indices[i + 0];
-				auto b = mesh.indices[i + 1];
-				auto c = mesh.indices[i + 2];
+				auto const a = mesh.indices[i + 0];
+				auto const b = mesh.indices[i + 1];
+				auto const c = mesh.indices[i + 2];
 
 				auto& avert = mesh.verts[a];
 				auto& bvert = mesh.verts[b];
 				auto& cvert = mesh.verts[c];
 
-				auto normal = glm::cross(avert.normal - bvert.normal, cvert.normal - bvert.normal);
+				auto const normal = cross(avert.normal - bvert.normal, cvert.normal - bvert.normal);
 
 				avert.normal += normal;
 				bvert.normal += normal;
@@ -102,19 +107,19 @@ namespace b3d_csv_object {
 			}
 
 			for (auto& vert : mesh.verts) {
-				vert.normal = glm::normalize(vert.normal);
+				vert.normal = normalize(vert.normal);
 			}
 		}
 
 		std::size_t triangulate_faces(std::vector<std::size_t>& output_list,
 		                              const std::vector<std::size_t>& input_face,
-		                              bool two_sided) {
+		                              bool const two_sided) {
 			if (input_face.size() < 3) {
 				return 0;
 			}
 
-			auto face_count = (input_face.size() - 2) * (two_sided ? 2 : 1);
-			auto index_count = face_count * 3;
+			auto const face_count = (input_face.size() - 2) * (two_sided ? 2 : 1);
+			auto const index_count = face_count * 3;
 
 			output_list.reserve(output_list.size() + index_count);
 
@@ -176,22 +181,24 @@ namespace b3d_csv_object {
 		// find the next mesh with different traits
 		// then copy turn all the inbetween meshes into internal format
 		auto begin = untriangulated_faces.begin();
-		auto end = untriangulated_faces.end();
+		auto const end = untriangulated_faces.end();
 		while (true) {
-			auto cmp_func = [&begin](const untriangulated_face_t& face) -> bool {
-				bool tex_same = begin->data.texture == face.data.texture;
-				bool dtc_same =
+			auto const cmp_func = [&begin](const untriangulated_face_t& face) -> bool {
+				auto const tex_same = begin->data.texture == face.data.texture;
+				auto const dtc_same =
 				    begin->data.decal_transparent_color == face.data.decal_transparent_color;
-				bool hdtc_same = begin->data.has_decal_transparent_color
-				                 == face.data.has_decal_transparent_color;
-				bool blend_same = begin->data.BlendMode == face.data.BlendMode;
-				bool glow_same = begin->data.GlowAttenuationMode == face.data.GlowAttenuationMode;
-				bool glow_half = begin->data.GlowHalfDistance == face.data.GlowHalfDistance;
+				auto const hdtc_same = begin->data.has_decal_transparent_color
+				                       == face.data.has_decal_transparent_color;
+				auto const blend_same = begin->data.blend_mode == face.data.blend_mode;
+				auto const glow_same =
+				    begin->data.glow_attenuation_mode == face.data.glow_attenuation_mode;
+				auto const glow_half =
+				    begin->data.glow_half_distance == face.data.glow_half_distance;
 
 				return !(tex_same && dtc_same && hdtc_same && blend_same && glow_same && glow_half);
 			};
 
-			auto next_face = std::find_if(begin, end, cmp_func);
+			auto const next_face = std::find_if(begin, end, cmp_func);
 
 			mesh_t mesh;
 			dependencies::texture_t tex;
@@ -204,14 +211,15 @@ namespace b3d_csv_object {
 			// properties that must be the same for all faces in an internal
 			// mesh
 			mesh.texture = tex;
-			mesh.BlendMode = begin->data.BlendMode;
-			mesh.GlowAttenuationMode = begin->data.GlowAttenuationMode;
-			mesh.GlowHalfDistance = begin->data.GlowHalfDistance;
+			mesh.blend_mode = begin->data.blend_mode;
+			mesh.glow_attenuation_mode = begin->data.glow_attenuation_mode;
+			mesh.glow_half_distance = begin->data.glow_half_distance;
 			mesh.texture = tex;
 
 			// Add faces and apply properties that can change per face
 			std::for_each(begin, next_face, [&mesh](untriangulated_face_t& face) {
-				auto count = triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
+				auto const count =
+				    triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
 				for (std::size_t i = 0; i < count; ++i) {
 					mesh.face_data.emplace_back(
 					    face_data_t{face.data.color, face.data.emissive_color});
@@ -239,21 +247,21 @@ namespace b3d_csv_object {
 		untriangulated_faces.clear();
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Error& arg) {
-		errors::add_error(pso.errors, arg.line, arg.cause);
+	void instructions::parsed_csv_object_builder::operator()(const error& arg) {
+		add_error(pso.errors, arg.line, arg.cause);
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const CreateMeshBuilder& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const create_mesh_builder& arg) {
 		(void) arg;
 		add_mesh_builder();
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const AddVertex& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const add_vertex& arg) {
 		vertices.emplace_back(
-		    vertex_t{glm::vec3{arg.vX, arg.vY, arg.vZ}, glm::vec3{arg.nX, arg.nY, arg.nZ}});
+		    vertex_t{glm::vec3{arg.v_x, arg.v_y, arg.v_z}, glm::vec3{arg.n_x, arg.n_y, arg.n_z}});
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const AddFace& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const add_face& arg) {
 		// Create the face
 		untriangulated_faces.emplace_back();
 		for (auto& vert : arg.vertices) {
@@ -261,7 +269,7 @@ namespace b3d_csv_object {
 				std::ostringstream error_msg;
 				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, "
 				          << vertices.size() - 1 << "]";
-				errors::add_error(pso.errors, arg.line, error_msg.str());
+				add_error(pso.errors, arg.line, error_msg.str());
 			}
 			else {
 				untriangulated_faces.back().indices.emplace_back(vert);
@@ -270,20 +278,27 @@ namespace b3d_csv_object {
 		untriangulated_faces.back().data.back_visible = arg.two;
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Cube& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const cube& arg) {
 		// http://openbve-project.net/documentation/HTML/object_cubecylinder.html
 		// Pre cube size
-		auto v = vertices.size();
+		auto const v = vertices.size();
 
 		// Create vertices
-		vertices.emplace_back(vertex_t{glm::vec3(arg.HalfWidth, arg.HalfHeight, -arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(arg.HalfWidth, -arg.HalfHeight, -arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(-arg.HalfWidth, -arg.HalfHeight, -arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(-arg.HalfWidth, arg.HalfHeight, -arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(arg.HalfWidth, arg.HalfHeight, arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(arg.HalfWidth, -arg.HalfHeight, arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(-arg.HalfWidth, -arg.HalfHeight, arg.HalfDepth)});
-		vertices.emplace_back(vertex_t{glm::vec3(-arg.HalfWidth, arg.HalfHeight, arg.HalfDepth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(arg.half_width, arg.half_height, -arg.half_depth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(arg.half_width, -arg.half_height, -arg.half_depth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(-arg.half_width, -arg.half_height, -arg.half_depth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(-arg.half_width, arg.half_height, -arg.half_depth)});
+		vertices.emplace_back(vertex_t{glm::vec3(arg.half_width, arg.half_height, arg.half_depth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(arg.half_width, -arg.half_height, arg.half_depth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(-arg.half_width, -arg.half_height, arg.half_depth)});
+		vertices.emplace_back(
+		    vertex_t{glm::vec3(-arg.half_width, arg.half_height, arg.half_depth)});
 
 		// Create faces
 		untriangulated_faces.emplace_back(
@@ -300,17 +315,17 @@ namespace b3d_csv_object {
 		    untriangulated_face_t{std::vector<std::size_t>{v + 6, v + 2, v + 1, v + 5}, {}});
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Cylinder& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const cylinder& arg) {
 		// http://openbve-project.net/documentation/HTML/object_cubecylinder.html
 
 		// Pre Cylinder size
-		auto v = vertices.size();
+		auto const v = vertices.size();
 
 		// convert args to format used in above documentation
 		auto& n = arg.sides;
-		auto& r1 = arg.UpperRadius;
-		auto& r2 = arg.LowerRadius;
-		auto& h = arg.Height;
+		auto& r1 = arg.upper_radius;
+		auto& r2 = arg.lower_radius;
+		auto& h = arg.height;
 
 		// Add vertices
 		for (std::size_t i = 0; i < n; ++i) {
@@ -351,8 +366,8 @@ namespace b3d_csv_object {
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Translate& arg) {
-		glm::vec3 direction = glm::vec3(arg.X, arg.Y, arg.Z);
+	void instructions::parsed_csv_object_builder::operator()(const translate& arg) {
+		auto const direction = glm::vec3(arg.x, arg.y, arg.z);
 		for (auto& vertex : vertices) {
 			vertex.position += direction;
 		}
@@ -367,8 +382,8 @@ namespace b3d_csv_object {
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Scale& arg) {
-		glm::vec3 factor = glm::vec3(arg.X, arg.Y, arg.Z);
+	void instructions::parsed_csv_object_builder::operator()(const scale& arg) {
+		auto const factor = glm::vec3(arg.x, arg.y, arg.z);
 		for (auto& vertex : vertices) {
 			vertex.position *= factor;
 		}
@@ -383,33 +398,33 @@ namespace b3d_csv_object {
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Rotate& arg) {
-		glm::vec3 axis = glm::vec3(arg.X, arg.Y, arg.Z);
+	void instructions::parsed_csv_object_builder::operator()(const rotate& arg) {
+		auto axis = glm::vec3(arg.x, arg.y, arg.z);
 		if (axis == glm::vec3(0)) {
 			axis = glm::vec3(1, 0, 0);
 		}
-		axis = glm::normalize(axis);
+		axis = normalize(axis);
 
 		for (auto& vertex : vertices) {
-			vertex.position = glm::rotate(vertex.position, arg.Angle, axis);
+			vertex.position = glm::rotate(vertex.position, arg.angle, axis);
 		}
 
 		// apply to all previous vertices
 		if (arg.all) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
-					vertex.position = glm::rotate(vertex.position, arg.Angle, axis);
+					vertex.position = glm::rotate(vertex.position, arg.angle, axis);
 				}
 			}
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const Shear& arg) {
-		glm::vec3 daxis = glm::vec3(arg.dX, arg.dY, arg.dZ);
-		glm::vec3 saxis = glm::vec3(arg.sX, arg.sY, arg.sZ);
+	void instructions::parsed_csv_object_builder::operator()(const shear& arg) {
+		auto const daxis = glm::vec3(arg.d_x, arg.d_y, arg.d_z);
+		auto const saxis = glm::vec3(arg.s_x, arg.s_y, arg.s_z);
 
 		for (auto& vertex : vertices) {
-			auto scale = arg.r * glm::compAdd(daxis * vertex.position);
+			auto const scale = arg.r * compAdd(daxis * vertex.position);
 			vertex.position += saxis * scale;
 		}
 
@@ -417,63 +432,64 @@ namespace b3d_csv_object {
 		if (arg.all) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
-					auto scale = arg.r * glm::compAdd(daxis * vertex.position);
+					auto const scale = arg.r * compAdd(daxis * vertex.position);
 					vertex.position += saxis * scale;
 				}
 			}
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const SetColor& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const set_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.color =
-			    openbve2::datatypes::color8_rgba{arg.Red, arg.Green, arg.Blue, arg.Alpha};
+			    openbve2::datatypes::color8_rgba{arg.red, arg.green, arg.blue, arg.alpha};
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const SetEmissiveColor& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const set_emissive_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.emissive_color =
-			    openbve2::datatypes::color8_rgb{arg.Red, arg.Green, arg.Blue};
+			    openbve2::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const SetBlendMode& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const set_blend_mode& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.BlendMode = arg.BlendMode;
-			face.data.GlowHalfDistance = arg.GlowHalfDistance;
-			face.data.GlowAttenuationMode = arg.GlowAttenuationMode;
+			face.data.blend_mode = arg.blend_mode;
+			face.data.glow_half_distance = arg.glow_half_distance;
+			face.data.glow_attenuation_mode = arg.glow_attenuation_mode;
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const LoadTexture& arg) {
+	void instructions::parsed_csv_object_builder::operator()(const load_texture& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.texture = arg.DaytimeTexture;
+			face.data.texture = arg.daytime_texture;
 		}
 	}
 
-	void instructions::parsed_csv_object_builder::operator()(const SetDecalTransparentColor& arg) {
+	void instructions::parsed_csv_object_builder::operator()(
+	    const set_decal_transparent_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.decal_transparent_color =
-			    openbve2::datatypes::color8_rgb{arg.Red, arg.Green, arg.Blue};
+			    openbve2::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
 		}
 	}
-	void instructions::parsed_csv_object_builder::operator()(const SetTextureCoordinates& arg) {
-		if (arg.VertexIndex >= vertices.size()) {
+	void instructions::parsed_csv_object_builder::operator()(const set_texture_coordinates& arg) {
+		if (arg.vertex_index >= vertices.size()) {
 			std::ostringstream error_msg;
-			error_msg << "SetTextureCoordinates index " << arg.VertexIndex
+			error_msg << "SetTextureCoordinates index " << arg.vertex_index
 			          << " is larger than the valid range: [0, " << vertices.size() - 1 << "]";
-			errors::add_error(pso.errors, arg.line, error_msg.str());
+			add_error(pso.errors, arg.line, error_msg.str());
 		}
 		else {
-			vertices[arg.VertexIndex].texture_coord = glm::vec2{arg.X, arg.Y};
+			vertices[arg.vertex_index].texture_coord = glm::vec2{arg.x, arg.y};
 		}
 	}
 
 	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& ilist) {
 		instructions::parsed_csv_object_builder pcsvob;
 		for (auto& inst : ilist) {
-			mapbox::util::apply_visitor(pcsvob, inst);
+			apply_visitor(pcsvob, inst);
 		}
 		// Add final mesh builder
 		pcsvob.add_mesh_builder();

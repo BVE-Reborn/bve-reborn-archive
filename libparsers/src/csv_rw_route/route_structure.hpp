@@ -3,7 +3,6 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "parsers/xml/dynamic_lighting.hpp"
 #include "parsers/xml/route_marker.hpp"
-#include <glm/vec3.hpp>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -54,24 +53,24 @@ namespace csv_rw_route {
 	using signal_info = mapbox::util::variant<animated_signal, traditional_signal>;
 
 	// More compatibility levels to come in the future
-	struct CompatibilityModes {
+	struct compatibility_modes {
 		bool bve2_4_transparancy : 1;
 		bool bve2_4_content : 1;
 	};
 
-	enum class SaftySystemStatus {
-		SaftyActiviatedServiceBrakes,
-		SaftyActiviatedEmergencyBrakes,
-		SaftyDeactivatedEmergencyBrakes
+	enum class safty_system_status {
+		safty_activiated_service_brakes,
+		safty_activiated_emergency_brakes,
+		safty_deactivated_emergency_brakes
 	};
 
-	enum class Direction { Left, None, Right };
+	enum class direction { left, none, right };
 
-	enum class BiDirection { Left, Both, Right };
+	enum class bi_direction { left, both, right };
 
 	struct rail_station_stop_info {
 		float position;
-		Direction direction;
+		direction direction;
 		float backward_tolerance;
 		float forward_tolerance;
 		std::size_t car_count;
@@ -90,23 +89,23 @@ namespace csv_rw_route {
 		bool pass_alarm = false;
 		bool force_red = false;
 		bool system = false;
-		enum class ArrivalTime_t : uint8_t {
-			Time,
-			AnyTime,
-			AllPass,
-			PlayerPass,
-			PlayerStop,
-			AllStop
-		} arrival_tag = ArrivalTime_t::AnyTime;
-		enum class DepartureTime_t : uint8_t {
-			Time,
-			AnyTime,
-			Terminal,
-			TerminalTime,
-			ChangeEnds,
-			ChangeEndsTime
-		} departure_tag = DepartureTime_t::AnyTime;
-		enum class Doors_t : uint8_t { Left, None, Right, Both } doors = Doors_t::None;
+		enum class arrival_time_t : uint8_t {
+			time,
+			any_time,
+			all_pass,
+			player_pass,
+			player_stop,
+			all_stop
+		} arrival_tag = arrival_time_t::any_time;
+		enum class departure_time_t : uint8_t {
+			time,
+			any_time,
+			terminal,
+			terminal_time,
+			change_ends,
+			change_ends_time
+		} departure_tag = departure_time_t::any_time;
+		enum class doors_t : uint8_t { left, none, right, both } doors = doors_t::none;
 	};
 
 	struct beacon_info {
@@ -152,10 +151,10 @@ namespace csv_rw_route {
 		filename_set_iterator filename;
 	};
 
-	template <class T, std::intmax_t def>
+	template <class T, std::intmax_t Def>
 	struct position_data_pair_default {
 		float position = 0;
-		T value = def;
+		T value = Def;
 	};
 
 	template <class T>
@@ -212,10 +211,10 @@ namespace csv_rw_route {
 		std::vector<float> ai_train_start_intervals;
 		float ai_max_speed = 0;
 
-		CompatibilityModes compatibility;
+		compatibility_modes compatibility;
 
 		// Start Conditions
-		SaftySystemStatus safty_system_status;
+		safty_system_status safty_system_status;
 		openbve2::datatypes::time game_start_time = -1;
 
 		// Sound indices

@@ -9,7 +9,7 @@ void test_animated() {
 
 	parsers::util::remove_comments(text);
 
-	auto parsed = parsers::ini::parse(text);
+	auto const parsed = parsers::ini::parse(text);
 
 	std::cout << parsed << '\n';
 

@@ -3,14 +3,14 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::operator()(const instructions::naked::SignalAnimated& inst) {
+	void pass3_executor::operator()(const instructions::naked::signal_animated& inst) {
 		auto this_signal = animated_signal{inst.filename};
 		auto insert_pair = std::make_pair(inst.signal_index, this_signal);
 
-		auto insert_ret = signal_mapping.insert(insert_pair);
+		auto const insert_ret = signal_mapping_.insert(insert_pair);
 
 		auto iterator = insert_ret.first;
-		bool inserted = insert_ret.second;
+		auto const inserted = insert_ret.second;
 
 		if (!inserted) {
 			auto old_value = iterator->second;
@@ -26,19 +26,19 @@ namespace csv_rw_route {
 				                    << ts.glow_filename << ".{bmp,png,jpg}\")";
 			                });
 			err << ". New Value: \"" << inst.filename << "\".";
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::naked::Signal& inst) {
+	void pass3_executor::operator()(const instructions::naked::signal& inst) {
 		auto this_signal = traditional_signal{inst.signal_filename, inst.glow_filename};
 
 		auto insert_pair = std::make_pair(inst.signal_index, this_signal);
 
-		auto insert_ret = signal_mapping.insert(insert_pair);
+		auto const insert_ret = signal_mapping_.insert(insert_pair);
 
 		auto iterator = insert_ret.first;
-		bool inserted = insert_ret.second;
+		auto const inserted = insert_ret.second;
 
 		if (!inserted) {
 			auto old_value = iterator->second;
@@ -60,7 +60,7 @@ namespace csv_rw_route {
 			err << "New Value: ";
 			print_traditional_tuple(this_signal);
 			err << ".";
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace csv_rw_route

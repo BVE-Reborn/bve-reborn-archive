@@ -7,135 +7,137 @@
 // MSVC doesn't expand __VA_ARGS__ right, this is a workaround
 #define EXPAND(x) x
 
-#define PRINT_VALUE(name) _os << ", " #name " = " << inst.name;
-#define PRINT_BYTE(name) _os << ", " #name " = " << gsl::narrow<int>(inst.name);
+#define PRINT_VALUE(name) os_ << ", " #name " = " << inst.name;
+#define PRINT_BYTE(name) os_ << ", " #name " = " << gsl::narrow<int>(inst.name);
 #define PRINT_VECTOR(name)                                                                         \
-	_os << ", " #name " = ";                                                                       \
+	os_ << ", " #name " = ";                                                                       \
 	print_vector(inst.name);
 #define PRINT_TIME(name)                                                                           \
-	_os << ", " #name " = " << std::setw(2) << std::setfill('0') << (inst.name / 3600) << ':'      \
+	os_ << ", " #name " = " << std::setw(2) << std::setfill('0') << (inst.name / 3600) << ':'      \
 	    << std::setw(2) << std::setfill('0') << ((inst.name / 60) % 60) << ':' << std::setw(2)     \
 	    << std::setfill('0') << (inst.name % 60);
 #define PRINT_COLOR(name)                                                                          \
-	_os << ", " #name " = "                                                                        \
+	os_ << ", " #name " = "                                                                        \
 	    << "(r = " << static_cast<int>(inst.name.r) << ", g = " << static_cast<int>(inst.name.g)   \
 	    << ", b = " << static_cast<int>(inst.name.b) << ')';
 
 #define PRINT_ENUM1(name, nsp, value1)                                                             \
 	if (inst.name == instructions::nsp::value1)                                                    \
-		_os << ", " #name " = " #value1;
+		os_ << ", " #name " = " #value1;
 #define PRINT_ENUM2(name, nsp, value2, ...)                                                        \
 	if (inst.name == instructions::nsp::value2)                                                    \
-		_os << ", " #name " = " #value2;                                                           \
+		os_ << ", " #name " = " #value2;                                                           \
 	EXPAND(PRINT_ENUM1(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM3(name, nsp, value3, ...)                                                        \
 	if (inst.name == instructions::nsp::value3)                                                    \
-		_os << ", " #name " = " #value3;                                                           \
+		os_ << ", " #name " = " #value3;                                                           \
 	EXPAND(PRINT_ENUM2(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM4(name, nsp, value4, ...)                                                        \
 	if (inst.name == instructions::nsp::value4)                                                    \
-		_os << ", " #name " = " #value4;                                                           \
+		os_ << ", " #name " = " #value4;                                                           \
 	EXPAND(PRINT_ENUM3(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM5(name, nsp, value5, ...)                                                        \
 	if (inst.name == instructions::nsp::value5)                                                    \
-		_os << ", " #name " = " #value5;                                                           \
+		os_ << ", " #name " = " #value5;                                                           \
 	EXPAND(PRINT_ENUM4(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM6(name, nsp, value6, ...)                                                        \
 	if (inst.name == instructions::nsp::value6)                                                    \
-		_os << ", " #name " = " #value6;                                                           \
+		os_ << ", " #name " = " #value6;                                                           \
 	EXPAND(PRINT_ENUM5(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM7(name, nsp, value7, ...)                                                        \
 	if (inst.name == instructions::nsp::value7)                                                    \
-		_os << ", " #name " = " #value7;                                                           \
+		os_ << ", " #name " = " #value7;                                                           \
 	EXPAND(PRINT_ENUM6(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM8(name, nsp, value8, ...)                                                        \
 	if (inst.name == instructions::nsp::value8)                                                    \
-		_os << ", " #name " = " #value8;                                                           \
+		os_ << ", " #name " = " #value8;                                                           \
 	EXPAND(PRINT_ENUM7(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM9(name, nsp, value9, ...)                                                        \
 	if (inst.name == instructions::nsp::value9)                                                    \
-		_os << ", " #name " = " #value9;                                                           \
+		os_ << ", " #name " = " #value9;                                                           \
 	EXPAND(PRINT_ENUM8(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM10(name, nsp, value10, ...)                                                      \
 	if (inst.name == instructions::nsp::value10)                                                   \
-		_os << ", " #name " = " #value10;                                                          \
+		os_ << ", " #name " = " #value10;                                                          \
 	EXPAND(PRINT_ENUM9(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM11(name, nsp, value11, ...)                                                      \
 	if (inst.name == instructions::nsp::value11)                                                   \
-		_os << ", " #name " = " #value11;                                                          \
+		os_ << ", " #name " = " #value11;                                                          \
 	EXPAND(PRINT_ENUM10(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM12(name, nsp, value12, ...)                                                      \
 	if (inst.name == instructions::nsp::value12)                                                   \
-		_os << ", " #name " = " #value12;                                                          \
+		os_ << ", " #name " = " #value12;                                                          \
 	EXPAND(PRINT_ENUM11(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM13(name, nsp, value13, ...)                                                      \
 	if (inst.name == instructions::nsp::value13)                                                   \
-		_os << ", " #name " = " #value13;                                                          \
+		os_ << ", " #name " = " #value13;                                                          \
 	EXPAND(PRINT_ENUM12(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM14(name, nsp, value14, ...)                                                      \
 	if (inst.name == instructions::nsp::value14)                                                   \
-		_os << ", " #name " = " #value14;                                                          \
+		os_ << ", " #name " = " #value14;                                                          \
 	EXPAND(PRINT_ENUM13(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM15(name, nsp, value15, ...)                                                      \
 	if (inst.name == instructions::nsp::value15)                                                   \
-		_os << ", " #name " = " #value15;                                                          \
+		os_ << ", " #name " = " #value15;                                                          \
 	EXPAND(PRINT_ENUM14(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM16(name, nsp, value16, ...)                                                      \
 	if (inst.name == instructions::nsp::value16)                                                   \
-		_os << ", " #name " = " #value16;                                                          \
+		os_ << ", " #name " = " #value16;                                                          \
 	EXPAND(PRINT_ENUM15(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM17(name, nsp, value17, ...)                                                      \
 	if (inst.name == instructions::nsp::value17)                                                   \
-		_os << ", " #name " = " #value17;                                                          \
+		os_ << ", " #name " = " #value17;                                                          \
 	EXPAND(PRINT_ENUM16(name, nsp, __VA_ARGS__))
 #define PRINT_ENUM18(name, nsp, value18, ...)                                                      \
 	if (inst.name == instructions::nsp::value18)                                                   \
-		_os << ", " #name " = " #value18;                                                          \
+		os_ << ", " #name " = " #value18;                                                          \
 	EXPAND(PRINT_ENUM17(name, nsp, __VA_ARGS__))
 
 namespace parsers {
 namespace csv_rw_route {
 	namespace {
 		struct csv_rw_route_instruction_io_class {
-			std::ostream& _os;
-			const std::vector<std::string> _filenames;
-			bool has_filenames;
+		  private:
+			std::ostream& os_;
+			const std::vector<std::string> filenames_;
+			bool has_filenames_;
 
+		  public:
 			explicit csv_rw_route_instruction_io_class(std::ostream& os) :
-			    _os(os),
-			    has_filenames(false){};
+			    os_(os),
+			    has_filenames_(false) {}
 			explicit csv_rw_route_instruction_io_class(std::ostream& os,
 			                                           std::vector<std::string> filenames) :
-			    _os(os),
-			    _filenames(std::move(filenames)),
-			    has_filenames(true){};
+			    os_(os),
+			    filenames_(std::move(filenames)),
+			    has_filenames_(true) {}
 
 			template <class T>
 			void print_vector(const std::vector<T>& vec) {
 				std::size_t i = 0;
-				_os << "[";
+				os_ << "[";
 				for (auto& item : vec) {
-					_os << item;
+					os_ << item;
 					if (++i != vec.size()) {
-						_os << ", ";
+						os_ << ", ";
 					}
 				}
-				_os << "]";
+				os_ << "]";
 			}
 
 			template <class T>
 			void start(const T& inst, const char* name) {
-				_os << inst.absolute_position << ", " << name;
-				if (has_filenames) {
-					_os << ", filename = " << _filenames[inst.file_index];
+				os_ << inst.absolute_position << ", " << name;
+				if (has_filenames_) {
+					os_ << ", filename = " << filenames_[inst.file_index];
 				}
 				else {
-					_os << ", file_index = " << inst.file_index;
+					os_ << ", file_index = " << inst.file_index;
 				}
-				_os << ", line = " << inst.line;
+				os_ << ", line = " << inst.line;
 			}
 
-			void end() {}
+			static void end() {}
 
 			void operator()(const instructions::naked::position& inst) {
 				start(inst, "Position");
@@ -144,152 +146,153 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::naked::None& inst) {
+			void operator()(const instructions::naked::none& inst) {
 				start(inst, "None");
 
 				end();
 			}
-			void operator()(const instructions::options::UnitOfLength& inst) {
+			void operator()(const instructions::options::unit_of_length& inst) {
 				start(inst, "Options.UnitOfLength");
 
 				PRINT_VECTOR(factors_in_meters);
 
 				end();
 			}
-			void operator()(const instructions::options::UnitOfSpeed& inst) {
+			void operator()(const instructions::options::unit_of_speed& inst) {
 				start(inst, "Options.UnitOfSpeed");
 
 				PRINT_VALUE(factor_in_kph);
 
 				end();
 			}
-			void operator()(const instructions::options::BlockLength& inst) {
+			void operator()(const instructions::options::block_length& inst) {
 				start(inst, "Options.BlockLength");
 
 				PRINT_VALUE(length);
 
 				end();
 			}
-			void operator()(const instructions::options::ObjectVisibility& inst) {
+			void operator()(const instructions::options::object_visibility& inst) {
 				start(inst, "Options.ObjectVisibility");
 
-				PRINT_ENUM2(mode, options::ObjectVisibility, Legacy, TrackBased);
+				PRINT_ENUM2(mode, options::object_visibility, legacy, track_based);
 
 				end();
 			}
-			void operator()(const instructions::options::SectionBehavior& inst) {
+			void operator()(const instructions::options::section_behavior& inst) {
 				start(inst, "Options.SectionBehavior");
 
-				PRINT_ENUM2(mode, options::SectionBehavior, Default, Simplified);
+				PRINT_ENUM2(mode, options::section_behavior, normal, simplified);
 
 				end();
 			}
-			void operator()(const instructions::options::CantBehavior& inst) {
+			void operator()(const instructions::options::cant_behavior& inst) {
 				start(inst, "Options.CantBehavior");
 
-				PRINT_ENUM2(mode, options::CantBehavior, Unsigned, Signed);
+				PRINT_ENUM2(mode, options::cant_behavior, unsigned_cant, signed_cant);
 
 				end();
 			}
-			void operator()(const instructions::options::FogBehavior& inst) {
+			void operator()(const instructions::options::fog_behavior& inst) {
 				start(inst, "Options.FogBehavior");
 
-				PRINT_ENUM2(mode, options::FogBehavior, BlockBased, Interpolated);
+				PRINT_ENUM2(mode, options::fog_behavior, block_based, interpolated);
 
 				end();
 			}
-			void operator()(const instructions::options::CompatibleTransparencyMode& inst) {
+			void operator()(const instructions::options::compatible_transparency_mode& inst) {
 				start(inst, "Options.CompatibleTransparencyMode");
 
-				PRINT_ENUM2(mode, options::CompatibleTransparencyMode, Off, On);
+				PRINT_ENUM2(mode, options::compatible_transparency_mode, off, on);
 
 				end();
 			}
-			void operator()(const instructions::options::EnableBveTsHacks& inst) {
+			void operator()(const instructions::options::enable_bve_ts_hacks& inst) {
 				start(inst, "Options.EnableBveTsHacks");
 
-				PRINT_ENUM2(mode, options::EnableBveTsHacks, Off, On);
+				PRINT_ENUM2(mode, options::enable_bve_ts_hacks, off, on);
 
 				end();
 			}
-			void operator()(const instructions::route::Comment& inst) {
+			void operator()(const instructions::route::comment& inst) {
 				start(inst, "Route.Comment");
 
 				PRINT_VALUE(text);
 
 				end();
 			}
-			void operator()(const instructions::route::Image& inst) {
+			void operator()(const instructions::route::image& inst) {
 				start(inst, "Route.Image");
 
 				PRINT_VALUE(filename);
 
 				end();
 			}
-			void operator()(const instructions::route::Timetable& inst) {
+			void operator()(const instructions::route::timetable& inst) {
 				start(inst, "Route.Timetable");
 
 				PRINT_VALUE(text);
 
 				end();
 			}
-			void operator()(const instructions::route::Change& inst) {
+			void operator()(const instructions::route::change& inst) {
 				start(inst, "Route.Change");
-				PRINT_ENUM3(mode, route::Change, SaftyActiviatedServiceBrakes,
-				            SaftyActiviatedEmergencyBrakes, SaftyDeactivatedEmergencyBrakes);
+
+				PRINT_ENUM3(mode, route::change, safty_activiated_service_brakes,
+				            safty_activiated_emergency_brakes, safty_deactivated_emergency_brakes);
 
 				end();
 			}
-			void operator()(const instructions::route::Guage& inst) {
+			void operator()(const instructions::route::guage& inst) {
 				start(inst, "Route.Guage");
 
-				PRINT_VALUE(guage);
+				PRINT_VALUE(width);
 
 				end();
 			}
-			void operator()(const instructions::route::Signal& inst) {
+			void operator()(const instructions::route::signal& inst) {
 				start(inst, "Route.Signal");
 
 				PRINT_VALUE(aspect_index);
 
 				end();
 			}
-			void operator()(const instructions::route::RunInterval& inst) {
+			void operator()(const instructions::route::run_interval& inst) {
 				start(inst, "Route.RunInterval");
 
 				PRINT_VECTOR(time_interval);
 
 				end();
 			}
-			void operator()(const instructions::route::AccelerationDueToGravity& inst) {
+			void operator()(const instructions::route::acceleration_due_to_gravity& inst) {
 				start(inst, "Route.AccelerationDueToGravity");
 
 				PRINT_VALUE(value);
 
 				end();
 			}
-			void operator()(const instructions::route::Elevation& inst) {
+			void operator()(const instructions::route::elevation& inst) {
 				start(inst, "Route.Elevation");
 
 				PRINT_VALUE(height);
 
 				end();
 			}
-			void operator()(const instructions::route::Temperature& inst) {
+			void operator()(const instructions::route::temperature& inst) {
 				start(inst, "Route.Temperature");
 
 				PRINT_VALUE(celcius);
 
 				end();
 			}
-			void operator()(const instructions::route::Pressure& inst) {
+			void operator()(const instructions::route::pressure& inst) {
 				start(inst, "Route.Pressure");
 
-				PRINT_VALUE(kPa);
+				PRINT_VALUE(kpa);
 
 				end();
 			}
-			void operator()(const instructions::route::DisplaySpeed& inst) {
+			void operator()(const instructions::route::display_speed& inst) {
 				start(inst, "Route.DisplaySpeed");
 
 				PRINT_VALUE(unit_string);
@@ -297,42 +300,42 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::route::LoadingScreen& inst) {
+			void operator()(const instructions::route::loading_screen& inst) {
 				start(inst, "Route.LoadingScreen");
 
 				PRINT_VALUE(filename);
 
 				end();
 			}
-			void operator()(const instructions::route::StartTime& inst) {
+			void operator()(const instructions::route::start_time& inst) {
 				start(inst, "Route.StartTime");
 
 				PRINT_TIME(time);
 
 				end();
 			}
-			void operator()(const instructions::route::DynamicLight& inst) {
+			void operator()(const instructions::route::dynamic_light& inst) {
 				start(inst, "Route.DynamicLight");
 
 				PRINT_VALUE(filename);
 
 				end();
 			}
-			void operator()(const instructions::route::AmbiantLight& inst) {
+			void operator()(const instructions::route::ambiant_light& inst) {
 				start(inst, "Route.AmbiantLight");
 
 				PRINT_COLOR(color);
 
 				end();
 			}
-			void operator()(const instructions::route::DirectionalLight& inst) {
+			void operator()(const instructions::route::directional_light& inst) {
 				start(inst, "Route.DirectionalLight");
 
 				PRINT_COLOR(color);
 
 				end();
 			}
-			void operator()(const instructions::route::LightDirection& inst) {
+			void operator()(const instructions::route::light_direction& inst) {
 				start(inst, "Route.LightDirection");
 
 				PRINT_VALUE(theta);
@@ -340,14 +343,14 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::train::Folder& inst) {
+			void operator()(const instructions::train::folder& inst) {
 				start(inst, "Train.Folder");
 
 				PRINT_VALUE(filepath);
 
 				end();
 			}
-			void operator()(const instructions::train::Rail& inst) {
+			void operator()(const instructions::train::rail& inst) {
 				start(inst, "Train.Rail");
 
 				PRINT_VALUE(rail_type_index);
@@ -355,7 +358,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::train::Flange& inst) {
+			void operator()(const instructions::train::flange& inst) {
 				start(inst, "Train.Flange");
 
 				PRINT_VALUE(rail_type_index);
@@ -363,7 +366,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::train::Timetable& inst) {
+			void operator()(const instructions::train::timetable& inst) {
 				start(inst, "Train.Timetable");
 
 				PRINT_VALUE(timetable_index);
@@ -371,26 +374,26 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::train::Velocity& inst) {
+			void operator()(const instructions::train::velocity& inst) {
 				start(inst, "Train.Velocity");
 
 				PRINT_VALUE(speed);
 
 				end();
 			}
-			void operator()(const instructions::structure::Command& inst) {
+			void operator()(const instructions::structure::command& inst) {
 				start(inst, "Structure.Command");
 
-				PRINT_ENUM18(command, structure::Command, Ground, Rail, WallL, WallR, DikeL, DikeR,
-				             FormL, FormR, FormCL, FormCR, RoofL, RoofR, RoofCL, RoofCR, CrackL,
-				             CrackR, FreeObj, Beacon);
+				PRINT_ENUM18(command_type, structure::command, ground, rail, wall_l, wall_r, dike_l,
+				             dike_r, form_l, form_r, form_cl, form_cr, roof_l, form_r, form_cl,
+				             form_cr, crack_l, crack_r, free_obj, beacon);
 
 				PRINT_VALUE(structure_index);
 				PRINT_VALUE(filename);
 
 				end();
 			}
-			void operator()(const instructions::structure::Pole& inst) {
+			void operator()(const instructions::structure::pole& inst) {
 				start(inst, "Structure.Pole");
 
 				PRINT_VALUE(additional_rails);
@@ -399,7 +402,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::texture::Background_Load& inst) {
+			void operator()(const instructions::texture::background_load& inst) {
 				start(inst, "Texture.Background_Load");
 
 				PRINT_VALUE(background_texture_index);
@@ -407,7 +410,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::texture::Background_X& inst) {
+			void operator()(const instructions::texture::background_x& inst) {
 				start(inst, "Texture.Background_X");
 
 				PRINT_VALUE(background_texture_index);
@@ -415,15 +418,15 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::texture::Background_Aspect& inst) {
+			void operator()(const instructions::texture::background_aspect& inst) {
 				start(inst, "Texture.Background_Aspect");
 
 				PRINT_VALUE(background_texture_index);
-				PRINT_ENUM2(mode, texture::Background_Aspect, Fixed, Aspect);
+				PRINT_ENUM2(mode, texture::background_aspect, fixed, aspect);
 
 				end();
 			}
-			void operator()(const instructions::cycle::Ground& inst) {
+			void operator()(const instructions::cycle::ground& inst) {
 				start(inst, "Cycle.Ground");
 
 				PRINT_VALUE(cycle_structure_index);
@@ -431,7 +434,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::cycle::Rail& inst) {
+			void operator()(const instructions::cycle::rail& inst) {
 				start(inst, "Cycle.Rail");
 
 				PRINT_VALUE(cycle_structure_index);
@@ -439,7 +442,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::naked::SignalAnimated& inst) {
+			void operator()(const instructions::naked::signal_animated& inst) {
 				start(inst, "SignalAnimated");
 
 				PRINT_VALUE(signal_index);
@@ -447,7 +450,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::naked::Signal& inst) {
+			void operator()(const instructions::naked::signal& inst) {
 				start(inst, "Signal");
 
 				PRINT_VALUE(signal_index);
@@ -456,7 +459,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::RailStart& inst) {
+			void operator()(const instructions::track::rail_start& inst) {
 				start(inst, "Track.RailStart");
 
 				PRINT_VALUE(rail_index);
@@ -466,7 +469,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Rail& inst) {
+			void operator()(const instructions::track::rail& inst) {
 				start(inst, "Track.Rail");
 
 				PRINT_VALUE(rail_index);
@@ -476,15 +479,15 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::RailType& inst) {
+			void operator()(const instructions::track::rail_type& inst) {
 				start(inst, "Track.RailType");
 
 				PRINT_VALUE(rail_index);
-				PRINT_VALUE(rail_type);
+				PRINT_VALUE(rail_type_number);
 
 				end();
 			}
-			void operator()(const instructions::track::RailEnd& inst) {
+			void operator()(const instructions::track::rail_end& inst) {
 				start(inst, "Track.RailEnd");
 
 				PRINT_VALUE(rail_index);
@@ -493,21 +496,21 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Adhesion& inst) {
+			void operator()(const instructions::track::adhesion& inst) {
 				start(inst, "Track.Adhesion");
 
 				PRINT_VALUE(value);
 
 				end();
 			}
-			void operator()(const instructions::track::Pitch& inst) {
+			void operator()(const instructions::track::pitch& inst) {
 				start(inst, "Track.Pitch");
 
 				PRINT_VALUE(rate);
 
 				end();
 			}
-			void operator()(const instructions::track::Curve& inst) {
+			void operator()(const instructions::track::curve& inst) {
 				start(inst, "Track.Curve");
 
 				PRINT_VALUE(radius);
@@ -515,21 +518,21 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Turn& inst) {
+			void operator()(const instructions::track::turn& inst) {
 				start(inst, "Track.Turn");
 
 				PRINT_VALUE(ratio);
 
 				end();
 			}
-			void operator()(const instructions::track::Height& inst) {
+			void operator()(const instructions::track::height& inst) {
 				start(inst, "Track.Height");
 
 				PRINT_VALUE(y);
 
 				end();
 			}
-			void operator()(const instructions::track::FreeObj& inst) {
+			void operator()(const instructions::track::free_obj& inst) {
 				start(inst, "Track.FreeObj");
 
 				PRINT_VALUE(rail_index);
@@ -542,39 +545,39 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Wall& inst) {
+			void operator()(const instructions::track::wall& inst) {
 				start(inst, "Track.Wall");
 
 				PRINT_VALUE(rail_index);
-				PRINT_ENUM3(direction, track::Wall, Left, Both, Right);
+				PRINT_ENUM3(direction, track::wall, left, both, right);
 				PRINT_VALUE(wall_structure_index);
 
 				end();
 			}
-			void operator()(const instructions::track::WallEnd& inst) {
+			void operator()(const instructions::track::wall_end& inst) {
 				start(inst, "Track.WallEnd");
 
 				PRINT_VALUE(rail_index);
 
 				end();
 			}
-			void operator()(const instructions::track::Dike& inst) {
+			void operator()(const instructions::track::dike& inst) {
 				start(inst, "Track.Dike");
 
 				PRINT_VALUE(rail_index);
-				PRINT_ENUM3(direction, track::Dike, Left, Both, Right);
+				PRINT_ENUM3(direction, track::dike, left, both, right);
 				PRINT_VALUE(dike_structure_index);
 
 				end();
 			}
-			void operator()(const instructions::track::DikeEnd& inst) {
+			void operator()(const instructions::track::dike_end& inst) {
 				start(inst, "Track.DikeEnd");
 
 				PRINT_VALUE(rail_index);
 
 				end();
 			}
-			void operator()(const instructions::track::Pole& inst) {
+			void operator()(const instructions::track::pole& inst) {
 				start(inst, "Track.Pole");
 
 				PRINT_VALUE(rail_index);
@@ -585,14 +588,14 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::PoleEnd& inst) {
+			void operator()(const instructions::track::pole_end& inst) {
 				start(inst, "Track.PoleEnd");
 
 				PRINT_VALUE(rail_index);
 
 				end();
 			}
-			void operator()(const instructions::track::Crack& inst) {
+			void operator()(const instructions::track::crack& inst) {
 				start(inst, "Track.Crack");
 
 				PRINT_VALUE(rail_index_1);
@@ -601,25 +604,25 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Ground& inst) {
+			void operator()(const instructions::track::ground& inst) {
 				start(inst, "Track.Ground");
 
 				PRINT_VALUE(ground_structure_index);
 
 				end();
 			}
-			void operator()(const instructions::track::Sta& inst) {
+			void operator()(const instructions::track::sta& inst) {
 				start(inst, "Track.Sta");
 
 				PRINT_VALUE(name);
 				PRINT_TIME(arrival);
-				PRINT_ENUM6(arrival_tag, track::Sta::ArrivalTime_t, Time, AnyTime, AllPass,
-				            PlayerPass, PlayerStop, AllStop);
+				PRINT_ENUM6(arrival_tag, track::sta::arrival_time_t, time, any_time, all_pass,
+				            player_pass, player_stop, all_stop);
 				PRINT_TIME(departure);
-				PRINT_ENUM6(departure_tag, track::Sta::DepartureTime_t, Time, AnyTime, Terminal,
-				            TerminalTime, ChangeEnds, ChangeEndsTime);
+				PRINT_ENUM6(departure_tag, track::sta::departure_time_t, time, any_time, terminal,
+				            terminal_time, change_ends, change_ends_time);
 				PRINT_VALUE(pass_alarm);
-				PRINT_ENUM4(doors, track::Sta::Doors_t, Left, None, Right, Both);
+				PRINT_ENUM4(doors, track::sta::doors_t, left, none, right, both);
 				PRINT_VALUE(force_red);
 				PRINT_VALUE(system);
 				PRINT_VALUE(arrival_sound);
@@ -630,17 +633,17 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Stop& inst) {
+			void operator()(const instructions::track::stop& inst) {
 				start(inst, "Track.Stop");
 
-				PRINT_ENUM3(stop_post, track::Stop::Stop_Post_t, Left, None, Right);
+				PRINT_ENUM3(stop_post, track::stop::stop_post_t, left, none, right);
 				PRINT_VALUE(forwards_tolerance);
 				PRINT_VALUE(backwards_tolerance);
 				PRINT_VALUE(cars);
 
 				end();
 			}
-			void operator()(const instructions::track::Form& inst) {
+			void operator()(const instructions::track::form& inst) {
 				start(inst, "Track.Form");
 
 				PRINT_VALUE(rail_index_1);
@@ -650,23 +653,23 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Limit& inst) {
+			void operator()(const instructions::track::limit& inst) {
 				start(inst, "Track.Limit");
 
 				PRINT_VALUE(speed);
-				PRINT_ENUM3(post, track::Limit::Post_t, Left, None, Right);
-				PRINT_ENUM3(cource, track::Limit::Cource_t, Left, None, Right);
+				PRINT_ENUM3(post, track::limit::post_t, left, none, right);
+				PRINT_ENUM3(cource, track::limit::cource_t, left, none, right);
 
 				end();
 			}
-			void operator()(const instructions::track::Section& inst) {
+			void operator()(const instructions::track::section& inst) {
 				start(inst, "Track.Section");
 
 				PRINT_VECTOR(a_term);
 
 				end();
 			}
-			void operator()(const instructions::track::SigF& inst) {
+			void operator()(const instructions::track::sig_f& inst) {
 				start(inst, "Track.SigF");
 
 				PRINT_VALUE(signal_index);
@@ -679,11 +682,11 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Signal& inst) {
+			void operator()(const instructions::track::signal& inst) {
 				start(inst, "Track.Signal");
 
-				PRINT_ENUM8(type, track::Signal, R_Y, R_G, R_Y_G, R_YY_Y_G, R_Y_YG_G, R_YY_Y_YG_G,
-				            R_Y_YG_G_GG, R_YY_Y_YG_G_GG);
+				PRINT_ENUM8(type, track::signal, r_y, r_g, r_y_g, r_yy_y_g, r_y_yg_g, r_yy_y_yg_g,
+				            r_y_yg_g_gg, r_yy_y_yg_g_gg);
 				PRINT_VALUE(x_offset);
 				PRINT_VALUE(y_offset);
 				PRINT_VALUE(yaw);
@@ -692,7 +695,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Relay& inst) {
+			void operator()(const instructions::track::relay& inst) {
 				start(inst, "Track.Relay");
 
 				PRINT_VALUE(x_offset);
@@ -703,7 +706,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Beacon& inst) {
+			void operator()(const instructions::track::beacon& inst) {
 				start(inst, "Track.Beacon");
 
 				PRINT_VALUE(type);
@@ -718,11 +721,11 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Transponder& inst) {
+			void operator()(const instructions::track::transponder& inst) {
 				start(inst, "Track.Transponder");
 
-				PRINT_ENUM5(type, track::Transponder, S_type, SN_type, Departure, ATS_P_RENEWAL,
-				            ATS_P_STOP);
+				PRINT_ENUM5(type, track::transponder, s_type, sn_type, departure, ats_p_renewal,
+				            ats_p_stop);
 				PRINT_VALUE(signal);
 				PRINT_VALUE(switch_system);
 				PRINT_VALUE(x_offset);
@@ -733,22 +736,22 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Pattern& inst) {
+			void operator()(const instructions::track::pattern& inst) {
 				start(inst, "Track.Pattern");
 
-				PRINT_ENUM2(type, track::Pattern, Temporary, Permanent);
+				PRINT_ENUM2(type, track::pattern, temporary, permanent);
 				PRINT_VALUE(speed);
 
 				end();
 			}
-			void operator()(const instructions::track::Back& inst) {
+			void operator()(const instructions::track::back& inst) {
 				start(inst, "Track.Back");
 
 				PRINT_VALUE(background_texture_index);
 
 				end();
 			}
-			void operator()(const instructions::track::Fog& inst) {
+			void operator()(const instructions::track::fog& inst) {
 				start(inst, "Track.Fog");
 
 				PRINT_VALUE(starting_distance);
@@ -757,14 +760,14 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Brightness& inst) {
+			void operator()(const instructions::track::brightness& inst) {
 				start(inst, "Track.Brightness");
 
 				PRINT_BYTE(value);
 
 				end();
 			}
-			void operator()(const instructions::track::Marker& inst) {
+			void operator()(const instructions::track::marker& inst) {
 				start(inst, "Track.Marker");
 
 				PRINT_VALUE(filename);
@@ -772,24 +775,24 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::MarkerXML& inst) {
+			void operator()(const instructions::track::marker_xml& inst) {
 				start(inst, "Track.MarkerXML");
 
 				PRINT_VALUE(filename);
 
 				end();
 			}
-			void operator()(const instructions::track::TextMarker& inst) {
+			void operator()(const instructions::track::text_marker& inst) {
 				start(inst, "Track.TextMarker");
 
 				PRINT_VALUE(text);
 				PRINT_VALUE(distance);
-				PRINT_ENUM8(font_color, track::TextMarker, Black, Gray, White, Red, Orange, Green,
-				            Blue, Magenta);
+				PRINT_ENUM8(font_color, track::text_marker, black, gray, white, red, orange, green,
+				            blue, magenta);
 
 				end();
 			}
-			void operator()(const instructions::track::PointOfInterest& inst) {
+			void operator()(const instructions::track::point_of_interest& inst) {
 				start(inst, "Track.PointOfInterest");
 
 				PRINT_VALUE(rail_index);
@@ -802,14 +805,14 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::PreTrain& inst) {
+			void operator()(const instructions::track::pre_train& inst) {
 				start(inst, "Track.PreTrain");
 
 				PRINT_TIME(time)
 
 				end();
 			}
-			void operator()(const instructions::track::Announce& inst) {
+			void operator()(const instructions::track::announce& inst) {
 				start(inst, "Track.Announce");
 
 				PRINT_VALUE(filename);
@@ -817,7 +820,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Doppler& inst) {
+			void operator()(const instructions::track::doppler& inst) {
 				start(inst, "Track.Doppler");
 
 				PRINT_VALUE(filename);
@@ -826,7 +829,7 @@ namespace csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::Buffer& inst) {
+			void operator()(const instructions::track::buffer& inst) {
 				start(inst, "Track.Buffer");
 
 				end();
@@ -841,7 +844,7 @@ std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruct
 
 	parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os);
 
-	mapbox::util::apply_visitor(crriic, i);
+	apply_visitor(crriic, i);
 
 	return os;
 }
@@ -857,7 +860,7 @@ std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruct
 
 		parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os, list.filenames);
 
-		mapbox::util::apply_visitor(crriic, i);
+		apply_visitor(crriic, i);
 
 		os << "\n";
 	}

@@ -4,119 +4,122 @@
 namespace parsers {
 namespace function_scripts {
 	struct function_script_lexer_token_io_class {
-		std::ostream& _os;
-		explicit function_script_lexer_token_io_class(std::ostream& os) : _os(os){};
+	  private:
+		std::ostream& os_;
 
-		void operator()(const lexer_types::plus& arg) {
+	  public:
+		explicit function_script_lexer_token_io_class(std::ostream& os) : os_(os) {}
+
+		void operator()(const lexer_types::plus& arg) const {
 			(void) arg;
-			_os << "\"+\"";
+			os_ << "\"+\"";
 		}
 
-		void operator()(const lexer_types::minus& arg) {
+		void operator()(const lexer_types::minus& arg) const {
 			(void) arg;
-			_os << "\"-\"";
+			os_ << "\"-\"";
 		}
 
-		void operator()(const lexer_types::star& arg) {
+		void operator()(const lexer_types::star& arg) const {
 			(void) arg;
-			_os << "\"*\"";
+			os_ << "\"*\"";
 		}
 
-		void operator()(const lexer_types::slash& arg) {
+		void operator()(const lexer_types::slash& arg) const {
 			(void) arg;
-			_os << "\"/\"";
+			os_ << "\"/\"";
 		}
 
-		void operator()(const lexer_types::double_eq& arg) {
+		void operator()(const lexer_types::double_eq& arg) const {
 			(void) arg;
-			_os << "\"==\"";
+			os_ << "\"==\"";
 		}
 
-		void operator()(const lexer_types::un_eq& arg) {
+		void operator()(const lexer_types::un_eq& arg) const {
 			(void) arg;
-			_os << "\"!=\"";
+			os_ << "\"!=\"";
 		}
 
-		void operator()(const lexer_types::less& arg) {
+		void operator()(const lexer_types::less& arg) const {
 			(void) arg;
-			_os << "\"<\"";
+			os_ << "\"<\"";
 		}
 
-		void operator()(const lexer_types::greater& arg) {
+		void operator()(const lexer_types::greater& arg) const {
 			(void) arg;
-			_os << "\">\"";
+			os_ << "\">\"";
 		}
 
-		void operator()(const lexer_types::less_eq& arg) {
+		void operator()(const lexer_types::less_eq& arg) const {
 			(void) arg;
-			_os << "\"<=\"";
+			os_ << "\"<=\"";
 		}
 
-		void operator()(const lexer_types::greater_eq& arg) {
+		void operator()(const lexer_types::greater_eq& arg) const {
 			(void) arg;
-			_os << "\">=\"";
+			os_ << "\">=\"";
 		}
 
-		void operator()(const lexer_types::bang& arg) {
+		void operator()(const lexer_types::bang& arg) const {
 			(void) arg;
-			_os << "\"!\"";
+			os_ << "\"!\"";
 		}
 
-		void operator()(const lexer_types::ampersand& arg) {
+		void operator()(const lexer_types::ampersand& arg) const {
 			(void) arg;
-			_os << "\"&\"";
+			os_ << "\"&\"";
 		}
 
-		void operator()(const lexer_types::bar& arg) {
+		void operator()(const lexer_types::bar& arg) const {
 			(void) arg;
-			_os << "\"|\"";
+			os_ << "\"|\"";
 		}
 
-		void operator()(const lexer_types::carret& arg) {
+		void operator()(const lexer_types::carret& arg) const {
 			(void) arg;
-			_os << "\"^\"";
+			os_ << "\"^\"";
 		}
 
-		void operator()(const lexer_types::l_paren& arg) {
+		void operator()(const lexer_types::l_paren& arg) const {
 			(void) arg;
-			_os << "\"(\"";
+			os_ << "\"(\"";
 		}
 
-		void operator()(const lexer_types::r_paren& arg) {
+		void operator()(const lexer_types::r_paren& arg) const {
 			(void) arg;
-			_os << "\")\"";
+			os_ << "\")\"";
 		}
 
-		void operator()(const lexer_types::l_bracket& arg) {
+		void operator()(const lexer_types::l_bracket& arg) const {
 			(void) arg;
-			_os << "\"[\"";
+			os_ << "\"[\"";
 		}
 
-		void operator()(const lexer_types::r_bracket& arg) {
+		void operator()(const lexer_types::r_bracket& arg) const {
 			(void) arg;
-			_os << "\"]\"";
+			os_ << "\"]\"";
 		}
 
-		void operator()(const lexer_types::comma& arg) {
+		void operator()(const lexer_types::comma& arg) const {
 			(void) arg;
-			_os << "\",\"";
+			os_ << "\",\"";
 		}
 
-		void operator()(const lexer_types::dot& arg) {
+		void operator()(const lexer_types::dot& arg) const {
 			(void) arg;
-			_os << "\".\"";
+			os_ << "\".\"";
 		}
 
-		void operator()(const lexer_types::variable& arg) {
-			_os << "(variable, \"" << arg.name << "\")";
+		void operator()(const lexer_types::variable& arg) const {
+			os_ << "(variable, \"" << arg.name << "\")";
 		}
 
-		void operator()(const lexer_types::integer& arg) {
-			_os << "(int, \"" << arg.val << "\")";
+		void operator()(const lexer_types::integer& arg) const {
+			os_ << "(int, \"" << arg.val << "\")";
 		}
 
-		void operator()(const lexer_types::floating& arg) {
-			_os << "(float, \"" << arg.val << "\")";
+		void operator()(const lexer_types::floating& arg) const {
+			os_ << "(float, \"" << arg.val << "\")";
 		}
 	};
 } // namespace function_scripts
@@ -124,7 +127,7 @@ namespace function_scripts {
 
 std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token& lt) {
 	parsers::function_scripts::function_script_lexer_token_io_class fsic{os};
-	mapbox::util::apply_visitor(fsic, lt);
+	apply_visitor(fsic, lt);
 	return os;
 }
 

@@ -195,7 +195,7 @@ TEST_CASE("libparsers - function scripts - functions - randomInt") {
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_randomInt{});
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_random_int{});
 }
 
 TEST_CASE("libparsers - function scripts - functions - exp") {

@@ -26,7 +26,7 @@ namespace animated_object {
 			if (split_list.size() != 2) {
 				std::ostringstream oss;
 				oss << value_name << " must take 2 arguments\n";
-				errors::add_error(pso.errors, line_number, oss.str());
+				add_error(pso.errors, line_number, oss.str());
 			}
 
 			glm::vec2 value;
@@ -55,7 +55,7 @@ namespace animated_object {
 			if (split_list.size() != 3) {
 				std::ostringstream oss;
 				oss << value_name << " must take 3 arguments\n";
-				errors::add_error(pso.errors, line_number, oss.str());
+				add_error(pso.errors, line_number, oss.str());
 			}
 
 			glm::vec3 value;
@@ -82,7 +82,7 @@ namespace animated_object {
 		                                      gsl::cstring_span<> const function,
 		                                      std::size_t line) {
 			(void) pso;
-			auto instructions = function_scripts::parse(gsl::to_string(function));
+			auto instructions = function_scripts::parse(to_string(function));
 			std::for_each(instructions.errors.begin(), instructions.errors.end(),
 			              [&line](errors::error_t& e) { e.line = line; });
 			std::copy(instructions.errors.begin(), instructions.errors.end(),
@@ -171,7 +171,8 @@ namespace animated_object {
 		}
 
 		void parse_rotate_x_damping(parsed_animated_object& pso, ini::kvp_t const& section) {
-			auto list = parse_2_argument_list(pso, "RotateXDamping", section.line, section.value);
+			auto const list =
+			    parse_2_argument_list(pso, "RotateXDamping", section.line, section.value);
 
 			auto& damping = pso.subobjects.back().rotate_x_damping;
 			damping.frequency = list.x;
@@ -179,7 +180,8 @@ namespace animated_object {
 		}
 
 		void parse_rotate_y_damping(parsed_animated_object& pso, ini::kvp_t const& section) {
-			auto list = parse_2_argument_list(pso, "RotateYDamping", section.line, section.value);
+			auto const list =
+			    parse_2_argument_list(pso, "RotateYDamping", section.line, section.value);
 
 			auto& damping = pso.subobjects.back().rotate_y_damping;
 			damping.frequency = list.x;
@@ -187,7 +189,8 @@ namespace animated_object {
 		}
 
 		void parse_rotate_z_damping(parsed_animated_object& pso, ini::kvp_t const& section) {
-			auto list = parse_2_argument_list(pso, "RotateZDamping", section.line, section.value);
+			auto const list =
+			    parse_2_argument_list(pso, "RotateZDamping", section.line, section.value);
 
 			auto& damping = pso.subobjects.back().rotate_z_damping;
 			damping.frequency = list.x;
@@ -232,7 +235,7 @@ namespace animated_object {
 			else {
 				std::ostringstream oss;
 				oss << section.value << " is not a valid value for TextureOverride";
-				errors::add_error(pso.errors, section.line, oss);
+				add_error(pso.errors, section.line, oss);
 			}
 		}
 
@@ -273,17 +276,17 @@ namespace animated_object {
 			pso.subobjects.emplace_back();
 
 			for (auto const& assignment : section.key_value_pairs) {
-				auto found_func = function_mapping.find(util::lower_copy(assignment.key));
+				auto const found_func = function_mapping.find(util::lower_copy(assignment.key));
 				if (found_func == function_mapping.end()) {
-					errors::add_error(pso.errors, assignment.line,
-					                  "Member " + assignment.key + " not found");
+					add_error(pso.errors, assignment.line,
+					          "Member " + assignment.key + " not found");
 				}
 				else {
 					try {
-						(found_func->second)(pso, assignment);
+						found_func->second(pso, assignment);
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(pso.errors, assignment.line, e.what());
+						add_error(pso.errors, assignment.line, e.what());
 					}
 				}
 			}
@@ -291,7 +294,7 @@ namespace animated_object {
 
 		void parse_include_section(parsed_animated_object& pso, ini::ini_section_t const& section) {
 			std::vector<std::string> files;
-			glm::vec3 position = glm::vec3(0);
+			auto position = glm::vec3(0);
 
 			for (auto const& file : section.values) {
 				files.emplace_back(file.value);
@@ -302,7 +305,7 @@ namespace animated_object {
 					auto const split = util::split_text(kvp.value, ',');
 
 					if (split.size() != 3) {
-						errors::add_error(pso.errors, kvp.line, "position must have 3 arguments");
+						add_error(pso.errors, kvp.line, "position must have 3 arguments");
 					}
 
 					try {
@@ -322,13 +325,13 @@ namespace animated_object {
 						}
 					}
 					catch (const std::invalid_argument& e) {
-						errors::add_error(pso.errors, kvp.line, e.what());
+						add_error(pso.errors, kvp.line, e.what());
 					}
 				}
 				else {
-					errors::add_error(pso.errors, kvp.line,
-					                  "No other key may be set besides position "
-					                  "inside an include section");
+					add_error(pso.errors, kvp.line,
+					          "No other key may be set besides position "
+					          "inside an include section");
 				}
 			}
 

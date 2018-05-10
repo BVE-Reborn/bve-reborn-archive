@@ -32,32 +32,25 @@ void test_csv_route() {
 		std::string new_file = file;
 		std::replace(new_file.begin(), new_file.end(), '\\', '/');
 		auto file_path = boost::filesystem::path(base_file); //
-		auto new_file_path = boost::filesystem::absolute(new_file, file_path.parent_path());
-		new_file_path =
-		    boost::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
+		auto new_file_path = absolute(new_file, file_path.parent_path());
+		new_file_path = canonical(new_file_path.parent_path()) / new_file_path.filename();
 		return new_file_path.string();
 	};
 
 	auto vals =
-	    parsers::csv_rw_route::process_include_directives(boost::filesystem::canonical(
-	                                                          file_location)
-	                                                          .string(),
-	                                                      eng, me,
-	                                                      parsers::csv_rw_route::file_type::csv,
-	                                                      get_abs_path);
+	    process_include_directives(boost::filesystem::canonical(file_location).string(), eng, me,
+	                               parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';
 
-	parsers::csv_rw_route::preprocess_file(vals, eng, me, parsers::csv_rw_route::file_type::csv);
+	preprocess_file(vals, eng, me, parsers::csv_rw_route::file_type::csv);
 
-	auto instructions =
-	    parsers::csv_rw_route::generate_instructions(vals, me,
-	                                                 parsers::csv_rw_route::file_type::csv);
+	auto instructions = generate_instructions(vals, me, parsers::csv_rw_route::file_type::csv);
 
-	parsers::csv_rw_route::execute_instructions_pass1(instructions, me);
-	auto route_data = parsers::csv_rw_route::execute_instructions_pass2(instructions, me);
-	parsers::csv_rw_route::execute_instructions_pass3(route_data, instructions, me, get_abs_path);
+	execute_instructions_pass1(instructions, me);
+	auto route_data = execute_instructions_pass2(instructions, me);
+	execute_instructions_pass3(route_data, instructions, me, get_abs_path);
 
 	std::cout << instructions;
 	std::cout << me;

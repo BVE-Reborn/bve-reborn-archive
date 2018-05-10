@@ -5,7 +5,7 @@ namespace parsers {
 namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction create_instruction_track_freeobj(const line_splitting::instruction_info& inst) {
-			instructions::track::FreeObj fobj;
+			instructions::track::free_obj fobj;
 
 			switch (inst.args.size()) {
 				default:
@@ -30,11 +30,11 @@ namespace csv_rw_route {
 		instruction create_instruction_track_wall(const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 2, "Track.Wall");
 
-			instructions::track::Wall w;
+			instructions::track::wall w;
 
 			w.rail_index =
 			    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
-			auto direction_num = util::parse_loose_integer(inst.args[1]);
+			auto const direction_num = util::parse_loose_integer(inst.args[1]);
 			if (inst.args.size() >= 3) {
 				w.wall_structure_index =
 				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
@@ -42,14 +42,14 @@ namespace csv_rw_route {
 
 			switch (direction_num) {
 				case -1:
-					w.direction = instructions::track::Wall::Left;
+					w.direction = instructions::track::wall::left;
 					break;
 				default:
 				case 0:
-					w.direction = instructions::track::Wall::Both;
+					w.direction = instructions::track::wall::both;
 					break;
 				case 1:
-					w.direction = instructions::track::Wall::Right;
+					w.direction = instructions::track::wall::right;
 					break;
 			}
 
@@ -57,18 +57,18 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_wallend(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::WallEnd>(inst,
-			                                                                     "Track.WallEnd");
+			return create_single_sizet_instruction<instructions::track::wall_end>(inst,
+			                                                                      "Track.WallEnd");
 		}
 
 		instruction create_instruction_track_dike(const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 2, "Track.Dike");
 
-			instructions::track::Dike d;
+			instructions::track::dike d;
 
 			d.rail_index =
 			    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
-			auto direction_num = util::parse_loose_integer(inst.args[1]);
+			auto const direction_num = util::parse_loose_integer(inst.args[1]);
 			if (inst.args.size() >= 3) {
 				d.dike_structure_index =
 				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
@@ -76,14 +76,14 @@ namespace csv_rw_route {
 
 			switch (direction_num) {
 				case -1:
-					d.direction = instructions::track::Dike::Left;
+					d.direction = instructions::track::dike::left;
 					break;
 				default:
 				case 0:
-					d.direction = instructions::track::Dike::Both;
+					d.direction = instructions::track::dike::both;
 					break;
 				case 1:
-					d.direction = instructions::track::Dike::Right;
+					d.direction = instructions::track::dike::right;
 					break;
 			}
 
@@ -91,12 +91,12 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_dikeend(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::DikeEnd>(inst,
-			                                                                     "Track.DikeEnd");
+			return create_single_sizet_instruction<instructions::track::dike_end>(inst,
+			                                                                      "Track.DikeEnd");
 		}
 
 		instruction create_instruction_track_pole(const line_splitting::instruction_info& inst) {
-			instructions::track::Pole p;
+			instructions::track::pole p;
 
 			switch (inst.args.size()) {
 				default:
@@ -126,14 +126,14 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_poleend(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::PoleEnd>(inst,
-			                                                                     "Track.PoleEnd");
+			return create_single_sizet_instruction<instructions::track::pole_end>(inst,
+			                                                                      "Track.PoleEnd");
 		}
 
 		instruction create_instruction_track_crack(const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 2, "Track.Crack");
 
-			instructions::track::Crack c;
+			instructions::track::crack c;
 
 			c.rail_index_1 = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 			c.rail_index_2 = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[1]));
@@ -146,7 +146,7 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_ground(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::Ground>(inst,
+			return create_single_sizet_instruction<instructions::track::ground>(inst,
 			                                                                    "Track.Ground");
 		}
 	} // namespace instruction_generation

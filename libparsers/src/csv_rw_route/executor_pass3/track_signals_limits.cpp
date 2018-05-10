@@ -4,18 +4,18 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::Limit& inst) {
+	void pass3_executor::operator()(const instructions::track::limit& inst) const {
 		track_limit_info tli;
 		tli.position = inst.absolute_position;
 		tli.value = inst.speed;
-		_route_data.limits.emplace_back(std::move(tli));
+		route_data_.limits.emplace_back(std::move(tli));
 
-		if (inst.post != instructions::track::Limit::Post_t::None) {
+		if (inst.post != instructions::track::limit::post_t::none) {
 			std::ostringstream obj_name;
 			obj_name << "\034compat\034/limit/";
 
 			if (inst.speed != 0) {
-				if (inst.post == instructions::track::Limit::Post_t::Left) {
+				if (inst.post == instructions::track::limit::post_t::left) {
 					obj_name << "left-side/";
 				}
 				else {
@@ -23,14 +23,14 @@ namespace csv_rw_route {
 				}
 
 				switch (inst.cource) {
-					case instructions::track::Limit::Cource_t::Left:
+					case instructions::track::limit::cource_t::left:
 						obj_name << "left_bound";
 						break;
 					default:
-					case instructions::track::Limit::Cource_t::None:
+					case instructions::track::limit::cource_t::none:
 						obj_name << "no_bound";
 						break;
-					case instructions::track::Limit::Cource_t::Right:
+					case instructions::track::limit::cource_t::right:
 						obj_name << "right_bound";
 						break;
 				}
@@ -43,20 +43,20 @@ namespace csv_rw_route {
 			roi.filename = add_object_filename(obj_name.str());
 			roi.position = track_position_at(inst.absolute_position).position;
 			roi.rotation = glm::vec3(0);
-			_route_data.objects.emplace_back(std::move(roi));
+			route_data_.objects.emplace_back(std::move(roi));
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::Section& inst) {
+	void pass3_executor::operator()(const instructions::track::section& inst) const {
 		section_info si;
-		if (section_behavior == instructions::options::SectionBehavior::Default) {
+		if (section_behavior_ == instructions::options::section_behavior::normal) {
 			si.position = inst.absolute_position;
 			si.value = inst.a_term;
 		}
 		else {
 			si.position = inst.absolute_position;
 
-			std::vector<std::size_t> tmp = inst.a_term;
+			auto tmp = inst.a_term;
 
 			std::sort(tmp.begin(), tmp.end());
 			tmp.erase(std::unique(tmp.begin(), tmp.end()), tmp.end());
@@ -69,14 +69,14 @@ namespace csv_rw_route {
 			}
 			si.value.emplace_back(tmp.back());
 		}
-		_route_data.sections.emplace_back(std::move(si));
+		route_data_.sections.emplace_back(std::move(si));
 	}
 
-	void pass3_executor::operator()(const instructions::track::SigF& inst) {
-		auto signal_info_iter = signal_mapping.find(inst.signal_index);
+	void pass3_executor::operator()(const instructions::track::sig_f& inst) {
+		auto signal_info_iter = signal_mapping_.find(inst.signal_index);
 
 		std::ostringstream name;
-		if (signal_info_iter == signal_mapping.end()) {
+		if (signal_info_iter == signal_mapping_.end()) {
 			switch (inst.signal_index) {
 				default:
 				case 3:
@@ -114,51 +114,51 @@ namespace csv_rw_route {
 		}
 		roi.rotation = glm::vec3(0);
 
-		_route_data.objects.emplace_back(std::move(roi));
+		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Signal& inst) {
+	void pass3_executor::operator()(const instructions::track::signal& inst) {
 		section_info si;
 		si.position = inst.absolute_position;
 
 		std::ostringstream name;
 		switch (inst.type) {
-			case instructions::track::Signal::R_Y:
+			case instructions::track::signal::r_y:
 				name << "\034compat\034/signal/2a";
 				si.value = {0, 1};
 				break;
 			default:
-			case instructions::track::Signal::R_G:
+			case instructions::track::signal::r_g:
 				name << "\034compat\034/signal/2b";
 				si.value = {0, 1};
 				break;
-			case instructions::track::Signal::R_Y_G:
+			case instructions::track::signal::r_y_g:
 				name << "\034compat\034/signal/3";
 				si.value = {0, 1, 2};
 				break;
-			case instructions::track::Signal::R_YY_Y_G:
+			case instructions::track::signal::r_yy_y_g:
 				name << "\034compat\034/signal/4a";
 				si.value = {0, 1, 2, 3};
 				break;
-			case instructions::track::Signal::R_Y_YG_G:
+			case instructions::track::signal::r_y_yg_g:
 				name << "\034compat\034/signal/4b";
 				si.value = {0, 1, 2, 3};
 				break;
-			case instructions::track::Signal::R_YY_Y_YG_G:
+			case instructions::track::signal::r_yy_y_yg_g:
 				name << "\034compat\034/signal/5a";
 				si.value = {0, 1, 2, 3, 4};
 				break;
-			case instructions::track::Signal::R_Y_YG_G_GG:
+			case instructions::track::signal::r_y_yg_g_gg:
 				name << "\034compat\034/signal/5b";
 				si.value = {0, 1, 2, 3, 4};
 				break;
-			case instructions::track::Signal::R_YY_Y_YG_G_GG:
+			case instructions::track::signal::r_yy_y_yg_g_gg:
 				name << "\034compat\034/signal/6";
 				si.value = {0, 1, 2, 3, 4, 5};
 				break;
 		}
 
-		_route_data.sections.emplace_back(std::move(si));
+		route_data_.sections.emplace_back(std::move(si));
 
 		if (inst.x_offset == 0) {
 			return;
@@ -178,7 +178,7 @@ namespace csv_rw_route {
 		roi.rotation = glm::vec3(0);
 	}
 
-	void pass3_executor::operator()(const instructions::track::Relay& inst) {
+	void pass3_executor::operator()(const instructions::track::relay& inst) {
 		if (inst.x_offset == 0) {
 			return;
 		}

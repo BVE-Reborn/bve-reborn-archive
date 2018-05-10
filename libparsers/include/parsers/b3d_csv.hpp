@@ -3,11 +3,10 @@
 #include "core/datatypes.hpp"
 #include "parsers/dependencies.hpp"
 #include "parsers/errors.hpp"
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
 #include <vector>
 
 namespace parsers {
+// ReSharper disable once CppInconsistentNaming
 namespace b3d_csv_object {
 	struct vertex_t {
 		glm::vec3 position = glm::vec3(0);
@@ -25,11 +24,12 @@ namespace b3d_csv_object {
 		std::vector<std::size_t> indices;
 		std::vector<face_data_t> face_data;
 		dependencies::texture_t texture;
-		enum BlendMode_t { Normal, Additive } BlendMode;
-		enum GlowAttenuationMode_t { DivideExponent2, DivideExponent4 } GlowAttenuationMode;
-		uint16_t GlowHalfDistance = 0;
+		enum blend_mode_t { normal, additive } blend_mode;
+		enum glow_attenuation_mode_t { divide_exponent2, divide_exponent4 } glow_attenuation_mode;
+		uint16_t glow_half_distance = 0;
 	};
 
+	// ReSharper disable once CppInconsistentNaming
 	struct parsed_b3d_csv_object_t {
 		std::vector<mesh_t> meshes;
 		dependencies::dependencies_t dependencies;
@@ -37,6 +37,7 @@ namespace b3d_csv_object {
 	};
 
 	// defined in b3d_csv_object/parse.cpp
+	// ReSharper disable once CppInconsistentNaming
 	parsed_b3d_csv_object_t parse_b3d(std::string& filename);
 	parsed_b3d_csv_object_t parse_csv(std::string& filename);
 } // namespace b3d_csv_object

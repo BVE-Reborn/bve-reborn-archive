@@ -4,7 +4,7 @@ namespace parsers {
 namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction create_instruction_track_curve(const line_splitting::instruction_info& inst) {
-			instructions::track::Curve c;
+			instructions::track::curve c;
 
 			switch (inst.args.size()) {
 				default:
@@ -22,12 +22,12 @@ namespace csv_rw_route {
 		}
 
 		instruction create_instruction_track_turn(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Turn>(inst, "Track.Turn",
+			return create_single_float_instruction<instructions::track::turn>(inst, "Track.Turn",
 			                                                                  0);
 		}
 
 		instruction create_instruction_track_height(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Height>(inst,
+			return create_single_float_instruction<instructions::track::height>(inst,
 			                                                                    "Track.Height");
 		}
 	} // namespace instruction_generation

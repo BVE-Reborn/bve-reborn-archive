@@ -78,20 +78,20 @@ namespace function_scripts {
 
 	class lexer_token_container {
 	  private:
-		const lexer_token_list& list;
-		errors::errors_t& err;
-		std::size_t index = 0;
+		const lexer_token_list& list_;
+		errors::errors_t& err_;
+		std::size_t index_ = 0;
 
 	  public:
 		lexer_token_container(const lexer_token_list& contains, errors::errors_t& errors) :
-		    list(contains),
-		    err(errors){};
+		    list_(contains),
+		    err_(errors) {}
 
 		template <class T>
 		boost::optional<T> get_next_token() {
-			if (index < list.size() && list[index].is<T>()) {
-				auto ret = list[index].get<T>();
-				index += 1;
+			if (index_ < list_.size() && list_[index_].is<T>()) {
+				auto ret = list_[index_].get<T>();
+				index_ += 1;
 				return ret;
 			}
 			return boost::none;
@@ -99,30 +99,30 @@ namespace function_scripts {
 
 		template <class T>
 		bool skip_next_token() {
-			if (index < list.size() && list[index].is<T>()) {
-				index += 1;
+			if (index_ < list_.size() && list_[index_].is<T>()) {
+				index_ += 1;
 				return true;
 			}
 			return false;
 		}
 
 		template <class T>
-		bool is_next_token() {
-			return index < list.size() && list[index].is<T>();
+		bool is_next_token() const {
+			return index_ < list_.size() && list_[index_].is<T>();
 		}
 
 		void advance_one_token() {
-			if (index < list.size()) {
-				index += 1;
+			if (index_ < list_.size()) {
+				index_ += 1;
 			}
 		}
 
-		boost::optional<lexer_token> peak_next_token() {
-			return index < list.size() ? boost::make_optional(list[index]) : boost::none;
+		boost::optional<lexer_token> peak_next_token() const {
+			return index_ < list_.size() ? boost::make_optional(list_[index_]) : boost::none;
 		}
 
-		void add_error(const errors::error_t& error) {
-			err.emplace_back(error);
+		void add_error(const errors::error_t& error) const {
+			err_.emplace_back(error);
 		}
 	};
 
@@ -254,7 +254,7 @@ namespace function_scripts {
 		};
 
 		struct function_call {
-			tree_types::name name;
+			name name;
 			std::vector<tree_node> args;
 		};
 	} // namespace tree_types

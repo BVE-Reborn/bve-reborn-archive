@@ -5,7 +5,6 @@
 #include <cstring>
 #include <fstream>
 #include <gsl/gsl_util>
-#include <iostream>
 #include <iterator>
 #include <sstream>
 #include <string>
@@ -16,16 +15,16 @@ using namespace std::string_literals;
 
 namespace parsers {
 namespace util {
-	static std::intmax_t _parse_loose_integer_impl(std::string text);
-	static float _parse_loose_float_impl(std::string text);
-	static std::intmax_t _parse_time_impl(std::string text);
-	static openbve2::datatypes::color8_rgba _parse_color_impl(std::string text);
+	static std::intmax_t parse_loose_integer_impl(std::string text);
+	static float parse_loose_float_impl(std::string text);
+	static std::intmax_t parse_time_impl(std::string text);
+	static openbve2::datatypes::color8_rgba parse_color_impl(std::string text);
 
 	/////////////////
 	// Int Parsing //
 	/////////////////
 
-	static std::intmax_t _parse_loose_integer_impl(std::string text) {
+	static std::intmax_t parse_loose_integer_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -35,7 +34,7 @@ namespace util {
 
 	std::intmax_t parse_loose_integer(const std::string& text) {
 		try {
-			return _parse_loose_integer_impl(text);
+			return parse_loose_integer_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			std::ostringstream error_msg;
@@ -44,9 +43,9 @@ namespace util {
 		}
 	}
 
-	std::intmax_t parse_loose_integer(std::string text, std::intmax_t default_value) {
+	std::intmax_t parse_loose_integer(std::string text, std::intmax_t const default_value) {
 		try {
-			return _parse_loose_integer_impl(std::move(text));
+			return parse_loose_integer_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -57,7 +56,7 @@ namespace util {
 	// Float Parsing //
 	///////////////////
 
-	static float _parse_loose_float_impl(std::string text) {
+	static float parse_loose_float_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -66,7 +65,7 @@ namespace util {
 
 	float parse_loose_float(const std::string& text) {
 		try {
-			return _parse_loose_float_impl(text);
+			return parse_loose_float_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			std::ostringstream error_msg;
@@ -75,9 +74,9 @@ namespace util {
 		}
 	}
 
-	float parse_loose_float(std::string text, float default_value) {
+	float parse_loose_float(std::string text, float const default_value) {
 		try {
-			return _parse_loose_float_impl(std::move(text));
+			return parse_loose_float_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -85,15 +84,15 @@ namespace util {
 	}
 
 	//////////////////
-	// Time Parsing //
+	// time Parsing //
 	//////////////////
 
-	static openbve2::datatypes::time _parse_time_impl(std::string text) {
+	static openbve2::datatypes::time parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
-		auto dot = std::find(text.begin(), text.end(), '.');
-		auto right_hand_size = std::distance(dot, text.end()) - 1;
+		auto const dot = std::find(text.begin(), text.end(), '.');
+		auto const right_hand_size = std::distance(dot, text.end()) - 1;
 
 		// no dot, only hh
 		if (dot == text.end() || right_hand_size <= 0) {
@@ -118,7 +117,7 @@ namespace util {
 
 	openbve2::datatypes::time parse_time(const std::string& text) {
 		try {
-			return _parse_time_impl(text);
+			return parse_time_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			std::ostringstream error_msg;
@@ -127,9 +126,9 @@ namespace util {
 		}
 	}
 
-	openbve2::datatypes::time parse_time(std::string text, std::intmax_t default_value) {
+	openbve2::datatypes::time parse_time(std::string text, std::intmax_t const default_value) {
 		try {
-			return _parse_time_impl(std::move(text));
+			return parse_time_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -140,18 +139,16 @@ namespace util {
 	// Color Parsing //
 	///////////////////
 
-	static openbve2::datatypes::color8_rgba _parse_color_impl(std::string text) {
+	static openbve2::datatypes::color8_rgba parse_color_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		if (text.size() == 7) {
-			auto value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
+			auto const value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
 
-			openbve2::datatypes::color8_rgba color{};
-			color.r = uint8_t((value & 0xFF0000) >> 16);
-			color.g = uint8_t((value & 0xFF00) >> 8);
-			color.b = uint8_t((value & 0xFF) >> 0);
-			color.a = uint8_t(255);
+			openbve2::datatypes::color8_rgba color{uint8_t((value & 0xFF0000) >> 16),
+			                                       uint8_t((value & 0xFF00) >> 8),
+			                                       uint8_t((value & 0xFF) >> 0), uint8_t(255)};
 
 			return color;
 		}
@@ -161,7 +158,7 @@ namespace util {
 
 	openbve2::datatypes::color8_rgba parse_color(const std::string& text) {
 		try {
-			return _parse_color_impl(text);
+			return parse_color_impl(text);
 		}
 		catch (const std::invalid_argument&) {
 			std::ostringstream error_msg;
@@ -173,7 +170,7 @@ namespace util {
 	openbve2::datatypes::color8_rgba parse_color(std::string text,
 	                                             openbve2::datatypes::color8_rgba default_value) {
 		try {
-			return _parse_color_impl(std::move(text));
+			return parse_color_impl(std::move(text));
 		}
 		catch (const std::invalid_argument&) {
 			return default_value;
@@ -191,11 +188,13 @@ namespace util {
 		return text;
 	}
 
-	std::vector<std::string> split_text(const std::string& text, char delim, bool remove_blanks) {
+	std::vector<std::string> split_text(const std::string& text,
+	                                    char const delim,
+	                                    bool const remove_blanks) {
 		std::vector<std::string> vec;
 
 		auto begin = text.begin();
-		auto end = text.end();
+		auto const end = text.end();
 
 		while (begin != end) {
 			auto next_delim = std::find(begin, end, delim);
@@ -224,10 +223,10 @@ namespace util {
 	}
 
 	bool match_against_lower(const std::string& text, const char* match) {
-		auto text_len = text.size();
-		auto match_len = std::strlen(match);
+		auto const text_len = text.size();
+		auto const match_len = std::strlen(match);
 
-		auto min_len = std::min(text_len, match_len);
+		auto const min_len = std::min(text_len, match_len);
 
 		for (std::size_t i = 0; i < min_len; ++i) {
 			// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
@@ -255,7 +254,7 @@ namespace util {
 		std::size_t i = 0;
 		text.erase(std::remove_if(text.begin(), text.end(),
 		                          [&i, &first_char, &last_char](char) {
-			                          bool in_range = first_char <= i && i <= last_char;
+			                          auto const in_range = first_char <= i && i <= last_char;
 			                          ++i;
 			                          return !in_range;
 		                          }),
@@ -263,9 +262,9 @@ namespace util {
 	}
 
 	void remove_comments(std::string& text, char comment, bool first_in_line) {
-		bool removing = false;
-		bool newline = true;
-		auto remove_func = [&](const char& c) {
+		auto removing = false;
+		auto newline = true;
+		auto const remove_func = [&](const char& c) {
 			if (c == comment && (first_in_line ? newline : true)) {
 				removing = true;
 			}
@@ -298,19 +297,18 @@ namespace util {
 		std::array<unsigned char, 3> bom = {};
 		std::size_t i = 0;
 		for (; i < 3 && file >> bom[i]; ++i) {
-			;
 		}
 
-		bool has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB
-		               && std::get<2>(bom) == 0xBF;
-		std::size_t start_of_file = has_bom ? 3 : 0;
+		auto const has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB
+		                     && std::get<2>(bom) == 0xBF;
+		std::size_t const start_of_file = has_bom ? 3 : 0;
 
 		std::string contents;
 
 		// get file length
 		if (typeid(file) == typeid(std::ifstream)) {
 			file.seekg(0, std::istream::end);
-			auto length = gsl::narrow<std::size_t>(file.tellg()) - start_of_file;
+			auto const length = gsl::narrow<std::size_t>(file.tellg()) - start_of_file;
 
 			contents.reserve(length);
 		}
@@ -319,10 +317,10 @@ namespace util {
 
 		// extract file combining \r\n into \n
 		std::array<char, 4096> buf{};
-		bool last_char_r = false;
+		auto last_char_r = false;
 		while (true) {
 			file.read(buf.data(), buf.size());
-			auto chars_read = gsl::narrow<std::size_t>(file.gcount());
+			auto const chars_read = gsl::narrow<std::size_t>(file.gcount());
 			for (std::size_t j = 0; j < chars_read; ++j) {
 				if (last_char_r && buf[j] == '\n') {
 					contents.back() = '\n';

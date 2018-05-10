@@ -1,8 +1,9 @@
 #pragma once
 
-#include "boost/optional.hpp"
 #include "core/datatypes.hpp"
 #include "route_structure.hpp"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <boost/optional.hpp>
 #include <cstddef>
 #include <string>
 #include <vector>
@@ -18,28 +19,28 @@ namespace csv_rw_route {
 		};
 
 		namespace naked {
-			struct position : public instruction_base {
+			struct position : instruction_base {
 				// UnitOfLength
 				std::vector<float> distances;
 			};
 
 			// for ignored instructions
-			struct None : public instruction_base {};
+			struct none : instruction_base {};
 		} // namespace naked
 
 		namespace options {
-			struct UnitOfLength : public instruction_base {
+			struct unit_of_length : instruction_base {
 				std::vector<float> factors_in_meters;
 			};
 
-			struct UnitOfSpeed {
+			struct unit_of_speed {
 				float factor_in_kph;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct BlockLength {
+			struct block_length {
 				// UnitOfLength
 				float length;
 				std::size_t file_index = 0;
@@ -47,83 +48,83 @@ namespace csv_rw_route {
 				float absolute_position = -1;
 			};
 
-			struct ObjectVisibility : public instruction_base {
-				enum { Legacy, TrackBased } mode = Legacy;
+			struct object_visibility : instruction_base {
+				enum { legacy, track_based } mode = legacy;
 			};
 
-			struct SectionBehavior : public instruction_base {
-				enum { Default, Simplified } mode = Default;
+			struct section_behavior : instruction_base {
+				enum { normal, simplified } mode = normal;
 			};
 
-			struct CantBehavior : public instruction_base {
-				enum { Unsigned, Signed } mode = Unsigned;
+			struct cant_behavior : instruction_base {
+				enum { unsigned_cant, signed_cant } mode = unsigned_cant;
 			};
 
-			struct FogBehavior : public instruction_base {
-				enum { BlockBased, Interpolated } mode = BlockBased;
+			struct fog_behavior : instruction_base {
+				enum { block_based, interpolated } mode = block_based;
 			};
 
-			struct CompatibleTransparencyMode : public instruction_base {
-				enum { Off, On } mode = Off;
+			struct compatible_transparency_mode : instruction_base {
+				enum { off, on } mode = off;
 			};
 
-			struct EnableBveTsHacks : public instruction_base {
-				enum { Off, On } mode = Off;
+			struct enable_bve_ts_hacks : instruction_base {
+				enum { off, on } mode = off;
 			};
 		} // namespace options
 
 		namespace route {
-			struct Comment {
+			struct comment {
 				std::string text;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Image {
+			struct image {
 				std::string filename;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Timetable {
+			struct timetable {
 				std::string text;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Change : public instruction_base {
+			struct change : instruction_base {
 				enum {
-					SaftyActiviatedServiceBrakes,
-					SaftyActiviatedEmergencyBrakes,
-					SaftyDeactivatedEmergencyBrakes
-				} mode = SaftyActiviatedServiceBrakes;
+					safty_activiated_service_brakes,
+					safty_activiated_emergency_brakes,
+					safty_deactivated_emergency_brakes
+				} mode = safty_activiated_service_brakes;
 			};
 
-			struct Guage {
+			struct guage {
 				// millimeters
-				float guage = 1435;
+				float width = 1435;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Signal : public instruction_base {
+			struct signal : instruction_base {
 				std::size_t aspect_index;
 				// UnitOfSpeed
 				float speed;
 				float absolute_position = -1;
 			};
 
-			struct RunInterval : public instruction_base {
+			struct run_interval : instruction_base {
 				// seconds
 				std::vector<float> time_interval;
 				float absolute_position = -1;
 			};
 
-			struct AccelerationDueToGravity {
+			struct acceleration_due_to_gravity {
 				// m / s^2
 				float value;
 				std::size_t file_index = 0;
@@ -131,7 +132,7 @@ namespace csv_rw_route {
 				float absolute_position = -1;
 			};
 
-			struct Elevation {
+			struct elevation {
 				// UnitOfLength
 				float height = 0;
 				std::size_t file_index = 0;
@@ -139,7 +140,7 @@ namespace csv_rw_route {
 				float absolute_position = -1;
 			};
 
-			struct Temperature {
+			struct temperature {
 				// celcius
 				float celcius;
 				std::size_t file_index = 0;
@@ -147,50 +148,50 @@ namespace csv_rw_route {
 				float absolute_position = -1;
 			};
 
-			struct Pressure {
-				// kPa
-				float kPa = 101.325f;
+			struct pressure {
+				// kpa
+				float kpa = 101.325f;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct DisplaySpeed : public instruction_base {
+			struct display_speed : instruction_base {
 				std::string unit_string;
 				// relative to kph
 				float conversion_factor;
 			};
 
-			struct LoadingScreen {
+			struct loading_screen {
 				std::string filename;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct StartTime {
+			struct start_time {
 				openbve2::datatypes::time time;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct DynamicLight {
+			struct dynamic_light {
 				std::string filename;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct AmbiantLight : public instruction_base {
+			struct ambiant_light : instruction_base {
 				openbve2::datatypes::color8_rgb color = {160, 160, 160};
 			};
 
-			struct DirectionalLight : public instruction_base {
+			struct directional_light : instruction_base {
 				openbve2::datatypes::color8_rgb color = {160, 160, 160};
 			};
 
-			struct LightDirection : public instruction_base {
+			struct light_direction : instruction_base {
 				// degrees
 				float theta = 60.0f;
 				// degrees
@@ -201,7 +202,7 @@ namespace csv_rw_route {
 		namespace train {
 			// Train.Folder
 			// Train.File
-			struct Folder {
+			struct folder {
 				std::string filepath;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
@@ -210,27 +211,27 @@ namespace csv_rw_route {
 
 			// Train.Run
 			// Train.Rail
-			struct Rail : public instruction_base {
+			struct rail : instruction_base {
 				std::size_t rail_type_index;
 				std::size_t run_sound_index;
 			};
 
-			struct Flange : public instruction_base {
+			struct flange : instruction_base {
 				std::size_t rail_type_index;
 				std::size_t flange_sound_index;
 			};
 
-			struct Timetable : public instruction_base {
+			struct timetable : instruction_base {
 				bool day;
 				std::size_t timetable_index;
 				std::string filename;
 			};
 
-			using Guage = route::Guage;
+			using guage = route::guage;
 
-			using Interval = route::RunInterval;
+			using interval = route::run_interval;
 
-			struct Velocity {
+			struct velocity {
 				// UnitOfSpeed
 				float speed;
 				std::size_t file_index = 0;
@@ -240,34 +241,34 @@ namespace csv_rw_route {
 		} // namespace train
 
 		namespace structure {
-			struct Command : public instruction_base {
+			struct command : instruction_base {
 				enum : uint8_t {
-					Ground,
-					Rail,
-					WallL,
-					WallR,
-					DikeL,
-					DikeR,
-					FormL,
-					FormR,
-					FormCL,
-					FormCR,
-					RoofL,
-					RoofR,
-					RoofCL,
-					RoofCR,
-					CrackL,
-					CrackR,
-					FreeObj,
-					Beacon
-				} command;
+					ground,
+					rail,
+					wall_l,
+					wall_r,
+					dike_l,
+					dike_r,
+					form_l,
+					form_r,
+					form_cl,
+					form_cr,
+					roof_l,
+					roof_r,
+					roof_cl,
+					roof_cr,
+					crack_l,
+					crack_r,
+					free_obj,
+					beacon
+				} command_type;
 
 				std::size_t structure_index;
 
 				std::string filename;
 			};
 
-			struct Pole : public instruction_base {
+			struct pole : instruction_base {
 				std::size_t additional_rails;
 				std::size_t pole_structure_index;
 				std::string filename;
@@ -275,40 +276,41 @@ namespace csv_rw_route {
 		} // namespace structure
 
 		namespace texture {
-			struct Background_Load : public instruction_base {
+			struct background_load : instruction_base {
 				std::size_t background_texture_index;
 				std::string filename;
 			};
-			struct Background_X : public instruction_base {
+
+			struct background_x : instruction_base {
 				std::size_t background_texture_index;
 				std::size_t repetition_count;
 			};
 
-			struct Background_Aspect : public instruction_base {
+			struct background_aspect : instruction_base {
 				std::size_t background_texture_index;
-				enum : uint8_t { Fixed, Aspect } mode = Fixed;
+				enum : uint8_t { fixed, aspect } mode = fixed;
 			};
 		} // namespace texture
 
 		namespace cycle {
-			struct Ground : public instruction_base {
+			struct ground : instruction_base {
 				std::size_t cycle_structure_index;
 				std::vector<std::size_t> input_indices;
 			};
 
-			struct Rail : public instruction_base {
+			struct rail : instruction_base {
 				std::size_t cycle_structure_index;
 				std::vector<std::size_t> input_indices;
 			};
 		} // namespace cycle
 
 		namespace naked {
-			struct SignalAnimated : public instruction_base {
+			struct signal_animated : instruction_base {
 				std::size_t signal_index;
 				std::string filename;
 			};
 
-			struct Signal : public instruction_base {
+			struct signal : instruction_base {
 				std::size_t signal_index;
 				// Without file extant
 				std::string signal_filename;
@@ -318,7 +320,7 @@ namespace csv_rw_route {
 		} // namespace naked
 
 		namespace track {
-			struct RailStart : public instruction_base {
+			struct rail_start : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
 				boost::optional<float> x_offset;
@@ -327,7 +329,7 @@ namespace csv_rw_route {
 				boost::optional<std::size_t> rail_type;
 			};
 
-			struct Rail : public instruction_base {
+			struct rail : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
 				boost::optional<float> x_offset;
@@ -336,12 +338,12 @@ namespace csv_rw_route {
 				boost::optional<std::size_t> rail_type;
 			};
 
-			struct RailType : public instruction_base {
-				std::size_t rail_index;
-				std::size_t rail_type;
+			struct rail_type : instruction_base {
+				std::size_t rail_index = 0;
+				std::size_t rail_type_number = 0;
 			};
 
-			struct RailEnd : public instruction_base {
+			struct rail_end : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
 				boost::optional<float> x_offset;
@@ -349,14 +351,14 @@ namespace csv_rw_route {
 				boost::optional<float> y_offset;
 			};
 
-			struct Adhesion {
+			struct adhesion {
 				float value = 100;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Pitch {
+			struct pitch {
 				// Per thousands
 				float rate = 0;
 				std::size_t file_index = 0;
@@ -364,21 +366,21 @@ namespace csv_rw_route {
 				float absolute_position = -1;
 			};
 
-			struct Curve : public instruction_base {
+			struct curve : instruction_base {
 				// UnitOfLength
 				float radius = 0;
 				// Millimeters
 				float cant = 0;
 			};
 
-			struct Turn {
+			struct turn {
 				float ratio = 0;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Height {
+			struct height {
 				// UnitOfLength
 				float y;
 				std::size_t file_index = 0;
@@ -386,7 +388,7 @@ namespace csv_rw_route {
 				float absolute_position = -1;
 			};
 
-			struct FreeObj : public instruction_base {
+			struct free_obj : instruction_base {
 				std::size_t rail_index = 0;
 				std::size_t free_obj_structure_index = 0;
 				// UnitOfLength
@@ -401,33 +403,33 @@ namespace csv_rw_route {
 				float roll = 0;
 			};
 
-			struct Wall : public instruction_base {
+			struct wall : instruction_base {
 				std::size_t rail_index;
-				enum : uint8_t { Left, Both, Right } direction = Both;
+				enum : uint8_t { left, both, right } direction = both;
 				std::size_t wall_structure_index = 0;
 			};
 
-			struct WallEnd {
+			struct wall_end {
 				std::size_t rail_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Dike : public instruction_base {
+			struct dike : instruction_base {
 				std::size_t rail_index;
-				enum : uint8_t { Left, Both, Right } direction = Both;
-				std::size_t dike_structure_index;
+				enum : uint8_t { left, both, right } direction = both;
+				std::size_t dike_structure_index = 0;
 			};
 
-			struct DikeEnd {
+			struct dike_end {
 				std::size_t rail_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Pole : public instruction_base {
+			struct pole : instruction_base {
 				std::size_t rail_index = 0;
 				std::size_t additional_rails = 0;
 				std::intmax_t location = 0;
@@ -436,75 +438,75 @@ namespace csv_rw_route {
 				std::size_t pole_structure_index = 0;
 			};
 
-			struct PoleEnd {
+			struct pole_end {
 				std::size_t rail_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Crack : public instruction_base {
+			struct crack : instruction_base {
 				std::size_t rail_index_1;
 				std::size_t rail_index_2;
 				std::size_t crack_structure_index = 0;
 			};
 
-			struct Ground {
+			struct ground {
 				std::size_t ground_structure_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Sta : public instruction_base {
+			struct sta : instruction_base {
 				std::string name;
 				std::string arrival_sound;
 				std::string departure_sound;
 				std::size_t timetable_index = 0;
-				openbve2::datatypes::time arrival;
-				openbve2::datatypes::time departure;
+				openbve2::datatypes::time arrival = 0;
+				openbve2::datatypes::time departure = 0;
 				float stop_duration = 15;
 				float passenger_ratio = 100;
 				bool pass_alarm = false;
 				bool force_red = false;
 				bool system = false;
-				using ArrivalTime_t = rail_station_info::ArrivalTime_t;
-				ArrivalTime_t arrival_tag = ArrivalTime_t::AnyTime;
-				using DepartureTime_t = rail_station_info::DepartureTime_t;
-				DepartureTime_t departure_tag = DepartureTime_t::AnyTime;
-				using Doors_t = rail_station_info::Doors_t;
-				Doors_t doors = Doors_t::None;
+				using arrival_time_t = rail_station_info::arrival_time_t;
+				arrival_time_t arrival_tag = arrival_time_t::any_time;
+				using departure_time_t = rail_station_info::departure_time_t;
+				departure_time_t departure_tag = departure_time_t::any_time;
+				using doors_t = rail_station_info::doors_t;
+				doors_t doors = doors_t::none;
 			};
 
-			struct Stop : public instruction_base {
-				using Stop_Post_t = Direction;
-				Stop_Post_t stop_post = Stop_Post_t::None;
+			struct stop : instruction_base {
+				using stop_post_t = direction;
+				stop_post_t stop_post = stop_post_t::none;
 
 				float forwards_tolerance = 5;
 				float backwards_tolerance = 5;
 				std::size_t cars = 0;
 			};
 
-			struct Form : public instruction_base {
+			struct form : instruction_base {
 				std::size_t rail_index_1;
 				std::size_t rail_index_2 = 0;
 				std::size_t roof_structure_index = 0;
 				std::size_t form_structure_index = 0;
-				enum { Left, Right, RailIndex } placement = RailIndex;
+				enum { left, right, rail_index } placement = rail_index;
 			};
 
-			struct Limit : public instruction_base {
+			struct limit : instruction_base {
 				// Unit of speed
 				float speed = 0;
-				enum class Post_t { Left, None, Right } post = Post_t::None;
-				enum class Cource_t { Left, None, Right } cource = Cource_t::None;
+				enum class post_t { left, none, right } post = post_t::none;
+				enum class cource_t { left, none, right } cource = cource_t::none;
 			};
 
-			struct Section : public instruction_base {
+			struct section : instruction_base {
 				std::vector<std::size_t> a_term;
 			};
 
-			struct SigF : public instruction_base {
+			struct sig_f : instruction_base {
 				std::size_t signal_index;
 				std::size_t section;
 				// UnitOfLength
@@ -521,17 +523,17 @@ namespace csv_rw_route {
 
 			// Track.Signal
 			// Track.Sig
-			struct Signal : public instruction_base {
+			struct signal : instruction_base {
 				enum : uint8_t {
-					R_Y,
-					R_G,
-					R_Y_G,
-					R_YY_Y_G,
-					R_Y_YG_G,
-					R_YY_Y_YG_G,
-					R_Y_YG_G_GG,
-					R_YY_Y_YG_G_GG
-				} type = R_G;
+					r_y,
+					r_g,
+					r_y_g,
+					r_yy_y_g,
+					r_y_yg_g,
+					r_yy_y_yg_g,
+					r_y_yg_g_gg,
+					r_yy_y_yg_g_gg
+				} type = r_g;
 				// UnitOfLength
 				float x_offset = 0;
 				// UnitOfLength
@@ -544,7 +546,7 @@ namespace csv_rw_route {
 				float roll = 0;
 			};
 
-			struct Relay : public instruction_base {
+			struct relay : instruction_base {
 				// UnitOfLength
 				float x_offset = 0;
 				// UnitOfLength
@@ -557,7 +559,7 @@ namespace csv_rw_route {
 				float roll = 0;
 			};
 
-			struct Beacon : public instruction_base {
+			struct beacon : instruction_base {
 				std::size_t type;
 				std::size_t beacon_structure_index;
 				std::intmax_t section;
@@ -578,14 +580,14 @@ namespace csv_rw_route {
 			// Track.Tr
 			// Track.AtsSn
 			// Track.AtsP
-			struct Transponder : public instruction_base {
+			struct transponder : instruction_base {
 				enum : uint8_t {
-					S_type = 0,
-					SN_type = 1,
-					Departure = 2,
-					ATS_P_RENEWAL = 3,
-					ATS_P_STOP = 4
-				} type = S_type;
+					s_type = 0,
+					sn_type = 1,
+					departure = 2,
+					ats_p_renewal = 3,
+					ats_p_stop = 4
+				} type = s_type;
 				std::size_t signal = 0;
 				bool switch_system = true;
 				// UnitOfLength
@@ -600,49 +602,49 @@ namespace csv_rw_route {
 				float roll = 0;
 			};
 
-			struct Pattern : public instruction_base {
-				enum : bool { Temporary, Permanent } type = Temporary;
+			struct pattern : instruction_base {
+				enum : bool { temporary, permanent } type = temporary;
 				// UnitOfSpeed
 				float speed;
 			};
 
-			struct Back {
+			struct back {
 				std::size_t background_texture_index;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
 			};
 
-			struct Fog : public instruction_base {
+			struct fog : instruction_base {
 				// UnitOfLength
-				float starting_distance;
+				float starting_distance = 0;
 				// UnitOfLength
-				float ending_distance;
+				float ending_distance = 0;
 				openbve2::datatypes::color8_rgb color = {128, 128, 128};
 			};
 
-			struct Brightness : public instruction_base {
+			struct brightness : instruction_base {
 				std::uint8_t value = 255;
 			};
 
-			struct Marker : public instruction_base {
+			struct marker : instruction_base {
 				std::string filename;
 				// UnitOfLength
 				float distance;
 			};
 
-			struct MarkerXML : public instruction_base {
+			struct marker_xml : instruction_base {
 				std::string filename;
 			};
 
-			struct TextMarker : public instruction_base {
+			struct text_marker : instruction_base {
 				std::string text;
 				// UnitOfLength
 				float distance;
-				enum : uint8_t { Black, Gray, White, Red, Orange, Green, Blue, Magenta } font_color;
+				enum : uint8_t { black, gray, white, red, orange, green, blue, magenta } font_color;
 			};
 
-			struct PointOfInterest : public instruction_base {
+			struct point_of_interest : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
 				float x_offset = 0;
@@ -657,17 +659,17 @@ namespace csv_rw_route {
 				std::string text;
 			};
 
-			struct PreTrain : public instruction_base {
+			struct pre_train : instruction_base {
 				openbve2::datatypes::time time;
 			};
 
-			struct Announce : public instruction_base {
+			struct announce : instruction_base {
 				std::string filename;
 				// UnitOfSpeed
-				float speed;
+				float speed = 0;
 			};
 
-			struct Doppler : public instruction_base {
+			struct doppler : instruction_base {
 				std::string filename;
 				// UnitOfLength
 				float x_offset = 0;
@@ -675,7 +677,7 @@ namespace csv_rw_route {
 				float y_offset = 0;
 			};
 
-			struct Buffer : public instruction_base {};
+			struct buffer : instruction_base {};
 		} // namespace track
 	}     // namespace instructions
 } // namespace csv_rw_route

@@ -2,8 +2,8 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::finalize(float max_position) {
-		for (auto& state : current_rail_state) {
+	void pass3_executor::finalize(float const max_position) {
+		for (auto& state : current_rail_state_) {
 			auto& rail_num = state.first;
 			auto& state_val = state.second;
 

@@ -3,8 +3,8 @@
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::operator()(const instructions::structure::Command& inst) {
-		auto add_and_warn = [&](auto& container, const char* command_name) {
+	void pass3_executor::operator()(const instructions::structure::command& inst) {
+		auto const add_and_warn = [&](auto& container, const char* command_name) {
 			auto filename_iter = add_object_filename(inst.filename);
 
 			auto insert_pair =
@@ -21,11 +21,11 @@ namespace csv_rw_route {
 				    << ". Old Filename: \"" << previous_filename << "\". Current Filename: \""
 				    << *filename_iter << "\".";
 
-				errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+				add_error(errors_, get_filename(inst.file_index), inst.line, err);
 			}
 		};
 
-		auto add_and_warn_cycle = [&](auto& container, const char* command_name) {
+		auto const add_and_warn_cycle = [&](auto& container, const char* command_name) {
 			auto filename_iter = add_object_filename(inst.filename);
 
 			auto insert_pair =
@@ -44,77 +44,77 @@ namespace csv_rw_route {
 				    << ". Old Filename: \"" << *old_value << "\". Current Filename: \""
 				    << *filename_iter << "\".";
 
-				errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+				add_error(errors_, get_filename(inst.file_index), inst.line, err);
 			}
 		};
 
-		switch (inst.command) {
-			case instructions::structure::Command::Ground:
-				add_and_warn_cycle(object_ground_mapping, "Structure.Ground");
+		switch (inst.command_type) {
+			case instructions::structure::command::ground:
+				add_and_warn_cycle(object_ground_mapping_, "Structure.Ground");
 				break;
-			case instructions::structure::Command::Rail:
-				add_and_warn_cycle(object_rail_mapping, "Structure.Rail");
+			case instructions::structure::command::rail:
+				add_and_warn_cycle(object_rail_mapping_, "Structure.Rail");
 				break;
-			case instructions::structure::Command::WallL:
-				add_and_warn(object_wallL_mapping, "Structure.WallL");
+			case instructions::structure::command::wall_l:
+				add_and_warn(object_wall_l_mapping_, "Structure.WallL");
 				break;
-			case instructions::structure::Command::WallR:
-				add_and_warn(object_wallR_mapping, "Structure.WallR");
+			case instructions::structure::command::wall_r:
+				add_and_warn(object_wall_r_mapping_, "Structure.WallR");
 				break;
-			case instructions::structure::Command::DikeL:
-				add_and_warn(object_dikeL_mapping, "Structure.DikeL");
+			case instructions::structure::command::dike_l:
+				add_and_warn(object_dike_l_mapping_, "Structure.DikeL");
 				break;
-			case instructions::structure::Command::DikeR:
-				add_and_warn(object_dikeR_mapping, "Structure.DikeR");
+			case instructions::structure::command::dike_r:
+				add_and_warn(object_dike_r_mapping_, "Structure.DikeR");
 				break;
-			case instructions::structure::Command::FormL:
-				add_and_warn(object_formL_mapping, "Structure.FormL");
+			case instructions::structure::command::form_l:
+				add_and_warn(object_form_l_mapping_, "Structure.FormL");
 				break;
-			case instructions::structure::Command::FormR:
-				add_and_warn(object_formR_mapping, "Structure.FormR");
+			case instructions::structure::command::form_r:
+				add_and_warn(object_form_r_mapping_, "Structure.FormR");
 				break;
-			case instructions::structure::Command::FormCL:
-				add_and_warn(object_formCL_mapping, "Structure.FormCL");
+			case instructions::structure::command::form_cl:
+				add_and_warn(object_form_cl_mapping_, "Structure.FormCL");
 				break;
-			case instructions::structure::Command::FormCR:
-				add_and_warn(object_formCR_mapping, "Structure.FormCR");
+			case instructions::structure::command::form_cr:
+				add_and_warn(object_form_cr_mapping_, "Structure.FormCR");
 				break;
-			case instructions::structure::Command::RoofL:
-				add_and_warn(object_roofL_mapping, "Structure.RoofL");
+			case instructions::structure::command::roof_l:
+				add_and_warn(object_roof_l_mapping_, "Structure.RoofL");
 				break;
-			case instructions::structure::Command::RoofR:
-				add_and_warn(object_roofR_mapping, "Structure.RoofR");
+			case instructions::structure::command::roof_r:
+				add_and_warn(object_roof_r_mapping_, "Structure.RoofR");
 				break;
-			case instructions::structure::Command::RoofCL:
-				add_and_warn(object_roofCL_mapping, "Structure.RoofCL");
+			case instructions::structure::command::roof_cl:
+				add_and_warn(object_roof_cl_mapping_, "Structure.RoofCL");
 				break;
-			case instructions::structure::Command::RoofCR:
-				add_and_warn(object_roofCR_mapping, "Structure.RoofCR");
+			case instructions::structure::command::roof_cr:
+				add_and_warn(object_roof_cr_mapping_, "Structure.RoofCR");
 				break;
-			case instructions::structure::Command::CrackL:
-				add_and_warn(object_crackL_mapping, "Structure.CrackL");
+			case instructions::structure::command::crack_l:
+				add_and_warn(object_crack_l_mapping_, "Structure.CrackL");
 				break;
-			case instructions::structure::Command::CrackR:
-				add_and_warn(object_crackR_mapping, "Structure.CrackR");
+			case instructions::structure::command::crack_r:
+				add_and_warn(object_crack_r_mapping_, "Structure.CrackR");
 				break;
-			case instructions::structure::Command::FreeObj:
-				add_and_warn(object_freeobj_mapping, "Structure.Freeobj");
+			case instructions::structure::command::free_obj:
+				add_and_warn(object_freeobj_mapping_, "Structure.Freeobj");
 				break;
-			case instructions::structure::Command::Beacon:
-				add_and_warn(object_beacon_mapping, "Structure.Beacon");
+			case instructions::structure::command::beacon:
+				add_and_warn(object_beacon_mapping_, "Structure.Beacon");
 				break;
 			default:
 				break;
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::structure::Pole& inst) {
+	void pass3_executor::operator()(const instructions::structure::pole& inst) {
 		auto filename_iter = add_object_filename(inst.filename);
 
 		auto value =
 		    std::make_pair(std::make_pair(inst.additional_rails, inst.pole_structure_index),
 		                   filename_iter);
-		auto insert_pair = object_pole_mapping.insert(value);
+		auto insert_pair = object_pole_mapping_.insert(value);
 
 		auto& iterator = insert_pair.first;
 		auto& inserted = insert_pair.second;
@@ -127,7 +127,7 @@ namespace csv_rw_route {
 			    << inst.pole_structure_index << "). Old Pair: \"" << previous_filename
 			    << "\". Current Filename: \"" << *filename_iter << "\".";
 
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace csv_rw_route

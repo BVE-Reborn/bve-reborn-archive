@@ -8,7 +8,7 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "RailStart");
 
-			instructions::track::RailStart rs;
+			instructions::track::rail_start rs;
 
 			switch (inst.args.size()) {
 				default:
@@ -40,17 +40,17 @@ namespace csv_rw_route {
 					break;
 				case 0:
 					// Make GCC happy
-					std::abort();
-					break;
+					assert(false);
 			}
 
+			// ReSharper disable once CppSomeObjectMembersMightNotBeInitialized
 			return rs;
 		}
 
 		instruction create_instruction_track_rail(const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Rail");
 
-			instructions::track::Rail r;
+			instructions::track::rail r;
 
 			switch (inst.args.size()) {
 				default:
@@ -83,7 +83,6 @@ namespace csv_rw_route {
 				case 0:
 					// Make GCC happy
 					std::abort();
-					break;
 			}
 
 			return r;
@@ -91,12 +90,12 @@ namespace csv_rw_route {
 
 		instruction create_instruction_track_railtype(
 		    const line_splitting::instruction_info& inst) {
-			instructions::track::RailType rt;
+			instructions::track::rail_type rt;
 
 			switch (inst.args.size()) {
 				default:
 				case 2:
-					rt.rail_type =
+					rt.rail_type_number =
 					    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
 					// fall through
 				case 1:
@@ -113,7 +112,7 @@ namespace csv_rw_route {
 		instruction create_instruction_track_railend(const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "RailEnd");
 
-			instructions::track::RailEnd re;
+			instructions::track::rail_end re;
 
 			switch (inst.args.size()) {
 				default:
@@ -122,14 +121,14 @@ namespace csv_rw_route {
 						re.y_offset = util::parse_loose_float(inst.args[2]);
 					}
 					catch (const std::invalid_argument&) {
-					};
+					}
 					// fall through
 				case 2:
 					try {
 						re.x_offset = util::parse_loose_float(inst.args[1]);
 					}
 					catch (const std::invalid_argument&) {
-					};
+					}
 					// fall through
 				case 1:
 					re.rail_index =
@@ -138,7 +137,6 @@ namespace csv_rw_route {
 				case 0:
 					// Make GCC happy
 					std::abort();
-					break;
 			}
 
 			return re;
@@ -148,17 +146,17 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			// Ignored instruction
 			(void) inst;
-			return instructions::naked::None{};
+			return instructions::naked::none{};
 		}
 
 		instruction create_instruction_track_adhesion(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Adhesion>(inst,
+			return create_single_float_instruction<instructions::track::adhesion>(inst,
 			                                                                      "Track.Adhesion");
 		}
 
 		instruction create_instruction_track_pitch(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::track::Pitch>(inst, "Track.Pitch");
+			return create_single_float_instruction<instructions::track::pitch>(inst, "Track.Pitch");
 		}
 	} // namespace instruction_generation
 } // namespace csv_rw_route

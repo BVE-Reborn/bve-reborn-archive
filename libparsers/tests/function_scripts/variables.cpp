@@ -5,12 +5,12 @@
 using namespace std::string_literals;
 namespace fs_inst = parsers::function_scripts::instructions;
 
-#define str(a) #a
-#define CREATE_VARIABLE_TEST_CASE(variable_name)                                                   \
-	TEST_CASE("libparsers - function scripts - variables - " str(variable_name)) {                 \
+#define STR(a) #a
+#define CREATE_VARIABLE_TEST_CASE(script_name, variable_name)                                      \
+	TEST_CASE("libparsers - function scripts - variables - " STR(variable_name)) {                 \
 		auto variable = fs_inst::op_variable_lookup{};                                             \
 		variable.name = fs_inst::variable::variable_name;                                          \
-		auto result = parsers::function_scripts::parse(str(variable_name));                        \
+		auto result = parsers::function_scripts::parse(script_name);                               \
                                                                                                    \
 		REQUIRE_EQ(result.instructions.size(), 1);                                                 \
 		REQUIRE_EQ(result.used_variables.size(), 1);                                               \
@@ -20,49 +20,49 @@ namespace fs_inst = parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-CREATE_VARIABLE_TEST_CASE(value)
-CREATE_VARIABLE_TEST_CASE(delta)
-CREATE_VARIABLE_TEST_CASE(currentState)
-CREATE_VARIABLE_TEST_CASE(time)
-CREATE_VARIABLE_TEST_CASE(cameraDistance)
-CREATE_VARIABLE_TEST_CASE(cameraMode)
-CREATE_VARIABLE_TEST_CASE(cars)
-CREATE_VARIABLE_TEST_CASE(speed)
-CREATE_VARIABLE_TEST_CASE(speedometer)
-CREATE_VARIABLE_TEST_CASE(acceleration)
-CREATE_VARIABLE_TEST_CASE(accelerationMotor)
-CREATE_VARIABLE_TEST_CASE(distance)
-CREATE_VARIABLE_TEST_CASE(trackDistance)
-CREATE_VARIABLE_TEST_CASE(mainReservoir)
-CREATE_VARIABLE_TEST_CASE(emergencyReservoir)
-CREATE_VARIABLE_TEST_CASE(brakeCylinder)
-CREATE_VARIABLE_TEST_CASE(straightAirPipe)
-CREATE_VARIABLE_TEST_CASE(doors)
-CREATE_VARIABLE_TEST_CASE(leftDoors)
-CREATE_VARIABLE_TEST_CASE(rightDoors)
-CREATE_VARIABLE_TEST_CASE(leftDoorsTarget)
-CREATE_VARIABLE_TEST_CASE(rightDoorsTarget)
-CREATE_VARIABLE_TEST_CASE(leftDoorsButton)
-CREATE_VARIABLE_TEST_CASE(rightDoorsButton)
-CREATE_VARIABLE_TEST_CASE(reverserNotch)
-CREATE_VARIABLE_TEST_CASE(powerNotch)
-CREATE_VARIABLE_TEST_CASE(powerNotches)
-CREATE_VARIABLE_TEST_CASE(brakeNotch)
-CREATE_VARIABLE_TEST_CASE(brakeNotches)
-CREATE_VARIABLE_TEST_CASE(brakeNotchLinear)
-CREATE_VARIABLE_TEST_CASE(brakeNotchesLinear)
-CREATE_VARIABLE_TEST_CASE(emergencyBrake)
-CREATE_VARIABLE_TEST_CASE(hasAirBrake)
-CREATE_VARIABLE_TEST_CASE(holdBrake)
-CREATE_VARIABLE_TEST_CASE(hasHoldBrake)
-CREATE_VARIABLE_TEST_CASE(constSpeed)
-CREATE_VARIABLE_TEST_CASE(hasConstSpeed)
-CREATE_VARIABLE_TEST_CASE(hasPlugin)
-CREATE_VARIABLE_TEST_CASE(Odometer)
-CREATE_VARIABLE_TEST_CASE(Klaxon)
-CREATE_VARIABLE_TEST_CASE(PrimaryKlaxon)
-CREATE_VARIABLE_TEST_CASE(SecondaryKlaxon)
-CREATE_VARIABLE_TEST_CASE(MusicKlaxon)
-CREATE_VARIABLE_TEST_CASE(section)
+CREATE_VARIABLE_TEST_CASE("value", value)
+CREATE_VARIABLE_TEST_CASE("delta", delta)
+CREATE_VARIABLE_TEST_CASE("currentState", current_state)
+CREATE_VARIABLE_TEST_CASE("time", time)
+CREATE_VARIABLE_TEST_CASE("cameraDistance", camera_distance)
+CREATE_VARIABLE_TEST_CASE("cameraMode", camera_mode)
+CREATE_VARIABLE_TEST_CASE("cars", cars)
+CREATE_VARIABLE_TEST_CASE("speed", speed)
+CREATE_VARIABLE_TEST_CASE("speedometer", speedometer)
+CREATE_VARIABLE_TEST_CASE("acceleration", acceleration)
+CREATE_VARIABLE_TEST_CASE("accelerationMotor", acceleration_motor)
+CREATE_VARIABLE_TEST_CASE("distance", distance)
+CREATE_VARIABLE_TEST_CASE("trackDistance", track_distance)
+CREATE_VARIABLE_TEST_CASE("mainReservoir", main_reservoir)
+CREATE_VARIABLE_TEST_CASE("emergencyReservoir", emergency_reservoir)
+CREATE_VARIABLE_TEST_CASE("brakeCylinder", brake_cylinder)
+CREATE_VARIABLE_TEST_CASE("straightAirPipe", straight_air_pipe)
+CREATE_VARIABLE_TEST_CASE("doors", doors)
+CREATE_VARIABLE_TEST_CASE("leftDoors", left_doors)
+CREATE_VARIABLE_TEST_CASE("rightDoors", right_doors)
+CREATE_VARIABLE_TEST_CASE("leftDoorsTarget", left_doors_target)
+CREATE_VARIABLE_TEST_CASE("rightDoorsTarget", right_doors_target)
+CREATE_VARIABLE_TEST_CASE("leftDoorsButton", left_doors_button)
+CREATE_VARIABLE_TEST_CASE("rightDoorsButton", right_doors_button)
+CREATE_VARIABLE_TEST_CASE("reverserNotch", reverser_notch)
+CREATE_VARIABLE_TEST_CASE("powerNotch", power_notch)
+CREATE_VARIABLE_TEST_CASE("powerNotches", power_notches)
+CREATE_VARIABLE_TEST_CASE("brakeNotch", brake_notch)
+CREATE_VARIABLE_TEST_CASE("brakeNotches", brake_notches)
+CREATE_VARIABLE_TEST_CASE("brakeNotchLinear", brake_notch_linear)
+CREATE_VARIABLE_TEST_CASE("brakeNotchesLinear", brake_notches_linear)
+CREATE_VARIABLE_TEST_CASE("emergencyBrake", emergency_brake)
+CREATE_VARIABLE_TEST_CASE("hasAirBrake", has_air_brake)
+CREATE_VARIABLE_TEST_CASE("holdBrake", hold_brake)
+CREATE_VARIABLE_TEST_CASE("hasHoldBrake", has_hold_brake)
+CREATE_VARIABLE_TEST_CASE("constSpeed", const_speed)
+CREATE_VARIABLE_TEST_CASE("hasConstSpeed", has_const_speed)
+CREATE_VARIABLE_TEST_CASE("hasPlugin", has_plugin)
+CREATE_VARIABLE_TEST_CASE("odometer", odometer)
+CREATE_VARIABLE_TEST_CASE("klaxon", klaxon)
+CREATE_VARIABLE_TEST_CASE("primaryKlaxon", primary_klaxon)
+CREATE_VARIABLE_TEST_CASE("secondaryKlaxon", secondary_klaxon)
+CREATE_VARIABLE_TEST_CASE("musicKlaxon", music_klaxon)
+CREATE_VARIABLE_TEST_CASE("section", section)
 
 TEST_SUITE_END();

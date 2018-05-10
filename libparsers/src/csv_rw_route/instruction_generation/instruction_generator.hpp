@@ -14,8 +14,8 @@ namespace csv_rw_route {
 		/////////////////////////////////////////////
 
 		inline void args_at_least(const line_splitting::instruction_info& inst,
-		                          std::size_t num,
-		                          const char* name) {
+		                          std::size_t const num,
+		                          const char* const name) {
 			if (inst.args.size() < num) {
 				std::ostringstream oss;
 				oss << name << " must have at least " << num << " argument"
@@ -25,8 +25,8 @@ namespace csv_rw_route {
 		}
 
 		inline void indices_at_least(const line_splitting::instruction_info& inst,
-		                             std::size_t num,
-		                             const char* name) {
+		                             std::size_t const num,
+		                             const char* const name) {
 			if (inst.indices.size() < num) {
 				std::ostringstream oss;
 				oss << name << " must have at least " << num << " ind"
@@ -103,27 +103,27 @@ namespace csv_rw_route {
 			return T{util::parse_time(inst.args[0])};
 		}
 
-		template <std::size_t offset, class T>
+		template <std::size_t Offset, class T>
 		static void set_positions(T& inst, const line_splitting::instruction_info& instr_info) {
-			if (instr_info.args.size() > offset) {
+			if (instr_info.args.size() > Offset) {
 				switch (instr_info.args.size()) {
 					default:
-					case offset + 5:
-						inst.roll = util::parse_loose_float(instr_info.args[offset + 4], 0);
+					case Offset + 5:
+						inst.roll = util::parse_loose_float(instr_info.args[Offset + 4], 0);
 						// fall through
-					case offset + 4:
-						inst.pitch = util::parse_loose_float(instr_info.args[offset + 3], 0);
+					case Offset + 4:
+						inst.pitch = util::parse_loose_float(instr_info.args[Offset + 3], 0);
 						// fall through
-					case offset + 3:
-						inst.yaw = util::parse_loose_float(instr_info.args[offset + 2], 0);
+					case Offset + 3:
+						inst.yaw = util::parse_loose_float(instr_info.args[Offset + 2], 0);
 						// fall through
-					case offset + 2:
-						inst.y_offset = util::parse_loose_float(instr_info.args[offset + 1], 0);
+					case Offset + 2:
+						inst.y_offset = util::parse_loose_float(instr_info.args[Offset + 1], 0);
 						// fall through
-					case offset + 1:
-						inst.x_offset = util::parse_loose_float(instr_info.args[offset + 0], 0);
+					case Offset + 1:
+						inst.x_offset = util::parse_loose_float(instr_info.args[Offset + 0], 0);
 						// fall through
-					case offset:
+					case Offset:
 						break;
 				}
 			}
@@ -133,7 +133,7 @@ namespace csv_rw_route {
 
 		// string_instruction_mapping.cpp
 		extern const std::map<std::string, instruction (*)(const inst_info& inst)> function_mapping;
-		extern const std::map<std::string, decltype(instructions::structure::Command::command)>
+		extern const std::map<std::string, decltype(instructions::structure::command::command_type)>
 		    command_type_mapping;
 
 		// location_statement.cpp

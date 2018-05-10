@@ -5,7 +5,7 @@ namespace parsers {
 namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction create_instruction_train_folder(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::train::Folder>(inst,
+			return create_single_string_instruction<instructions::train::folder>(inst,
 			                                                                     "Train.Folder");
 		}
 
@@ -13,7 +13,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Train.Run");
 			args_at_least(inst, 1, "Train.Run");
 
-			instructions::train::Rail r;
+			instructions::train::rail r;
 
 			r.rail_type_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
@@ -26,7 +26,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Train.Flange");
 			args_at_least(inst, 1, "Train.Flange");
 
-			instructions::train::Flange f;
+			instructions::train::flange f;
 
 			f.rail_type_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
@@ -41,7 +41,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Train.Timetable");
 			args_at_least(inst, 1, "Train.Timetable");
 
-			instructions::train::Timetable tt;
+			instructions::train::timetable tt;
 
 			tt.timetable_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
@@ -62,7 +62,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_train_velocity(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::train::Velocity>(inst,
+			return create_single_float_instruction<instructions::train::velocity>(inst,
 			                                                                      "Train.Velocity",
 			                                                                      0);
 		}

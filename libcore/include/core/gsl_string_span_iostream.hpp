@@ -2,7 +2,6 @@
 
 #include <gsl/string_span>
 #include <ostream>
-#include <type_traits>
 
 template <class CharT, std::ptrdiff_t Extant>
 auto& operator<<(std::basic_ostream<std::remove_const_t<CharT>>& os,

@@ -12,12 +12,12 @@ namespace xml {
 	namespace dynamic_background {
 		struct texture_background_info {
 			openbve2::datatypes::time time = 0;
-			enum { FadeIn, FadeOut, None } transition_mode = None;
+			enum { fade_in, fade_out, none } transition_mode = none;
 			std::size_t repetitions = 6;
 			std::string filename;
 			std::size_t transition_time = 10;
 			bool preserve_aspect = false;
-			bool fromXML = true;
+			bool from_xml = true;
 		};
 
 		struct object_background_info {

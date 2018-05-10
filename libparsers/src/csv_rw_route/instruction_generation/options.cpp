@@ -5,7 +5,7 @@ namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction create_instruction_options_unitoflength(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::UnitOfLength uol;
+			instructions::options::unit_of_length uol;
 			uol.factors_in_meters.reserve(std::max(std::size_t(2), inst.args.size() + 1));
 			uol.factors_in_meters.emplace_back(1.0f);
 			if (!inst.args.empty()) {
@@ -24,27 +24,27 @@ namespace csv_rw_route {
 		instruction create_instruction_options_unitofspeed(
 		    const line_splitting::instruction_info& inst) {
 			return create_single_float_instruction<
-			    instructions::options::UnitOfSpeed>(inst, "Options.UnitOfSpeed", 1);
+			    instructions::options::unit_of_speed>(inst, "Options.UnitOfSpeed", 1);
 		}
 
 		instruction create_instruction_options_blocklength(
 		    const line_splitting::instruction_info& inst) {
 			return create_single_float_instruction<
-			    instructions::options::BlockLength>(inst, "Options.BlockLength", 25);
+			    instructions::options::block_length>(inst, "Options.BlockLength", 25);
 		}
 
 		instruction create_instruction_options_objectvisibility(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::ObjectVisibility ov;
+			instructions::options::object_visibility ov;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], 0);
+				auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-				ov.mode = value == 0 ? instructions::options::ObjectVisibility::Legacy
-				                     : instructions::options::ObjectVisibility::TrackBased;
+				ov.mode = value == 0 ? instructions::options::object_visibility::legacy
+				                     : instructions::options::object_visibility::track_based;
 			}
 			else {
-				ov.mode = instructions::options::ObjectVisibility::Legacy;
+				ov.mode = instructions::options::object_visibility::legacy;
 			}
 
 			return ov;
@@ -52,16 +52,16 @@ namespace csv_rw_route {
 
 		instruction create_instruction_options_sectionbehavior(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::SectionBehavior sb;
+			instructions::options::section_behavior sb;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], 0);
+				auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-				sb.mode = value == 0 ? instructions::options::SectionBehavior::Default
-				                     : instructions::options::SectionBehavior::Simplified;
+				sb.mode = value == 0 ? instructions::options::section_behavior::normal
+				                     : instructions::options::section_behavior::simplified;
 			}
 			else {
-				sb.mode = instructions::options::SectionBehavior::Default;
+				sb.mode = instructions::options::section_behavior::normal;
 			}
 
 			return sb;
@@ -69,16 +69,16 @@ namespace csv_rw_route {
 
 		instruction create_instruction_options_cantbehavior(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::CantBehavior cb;
+			instructions::options::cant_behavior cb;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], 0);
+				auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-				cb.mode = value == 0 ? instructions::options::CantBehavior::Unsigned
-				                     : instructions::options::CantBehavior::Signed;
+				cb.mode = value == 0 ? instructions::options::cant_behavior::unsigned_cant
+				                     : instructions::options::cant_behavior::signed_cant;
 			}
 			else {
-				cb.mode = instructions::options::CantBehavior::Unsigned;
+				cb.mode = instructions::options::cant_behavior::unsigned_cant;
 			}
 
 			return cb;
@@ -86,16 +86,16 @@ namespace csv_rw_route {
 
 		instruction create_instruction_options_fogbehavior(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::FogBehavior fb;
+			instructions::options::fog_behavior fb;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], 0);
+				auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-				fb.mode = value == 0 ? instructions::options::FogBehavior::BlockBased
-				                     : instructions::options::FogBehavior::Interpolated;
+				fb.mode = value == 0 ? instructions::options::fog_behavior::block_based
+				                     : instructions::options::fog_behavior::interpolated;
 			}
 			else {
-				fb.mode = instructions::options::FogBehavior::BlockBased;
+				fb.mode = instructions::options::fog_behavior::block_based;
 			}
 
 			return fb;
@@ -103,16 +103,16 @@ namespace csv_rw_route {
 
 		instruction create_instruction_options_compatibletransparencymode(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::CompatibleTransparencyMode ctm;
+			instructions::options::compatible_transparency_mode ctm;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], 0);
+				auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-				ctm.mode = value == 0 ? instructions::options::CompatibleTransparencyMode::Off
-				                      : instructions::options::CompatibleTransparencyMode::On;
+				ctm.mode = value == 0 ? instructions::options::compatible_transparency_mode::off
+				                      : instructions::options::compatible_transparency_mode::on;
 			}
 			else {
-				ctm.mode = instructions::options::CompatibleTransparencyMode::Off;
+				ctm.mode = instructions::options::compatible_transparency_mode::off;
 			}
 
 			return ctm;
@@ -120,16 +120,16 @@ namespace csv_rw_route {
 
 		instruction create_instruction_options_enablebvetshacks(
 		    const line_splitting::instruction_info& inst) {
-			instructions::options::EnableBveTsHacks ebth;
+			instructions::options::enable_bve_ts_hacks ebth;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], 0);
+				auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-				ebth.mode = value == 0 ? instructions::options::EnableBveTsHacks::Off
-				                       : instructions::options::EnableBveTsHacks::On;
+				ebth.mode = value == 0 ? instructions::options::enable_bve_ts_hacks::off
+				                       : instructions::options::enable_bve_ts_hacks::on;
 			}
 			else {
-				ebth.mode = instructions::options::EnableBveTsHacks::Off;
+				ebth.mode = instructions::options::enable_bve_ts_hacks::off;
 			}
 
 			return ebth;

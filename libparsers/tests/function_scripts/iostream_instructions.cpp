@@ -1,4 +1,3 @@
-#include "variant_compare.hpp"
 #include <algorithm>
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
@@ -59,39 +58,39 @@ static std::string canonicalize(std::string str) {
 		         "2\t" rep " -> 0\n");                                                             \
 	}
 
-#define REGULAR_VARIABLE_TEST(name)                                                                    \
-	TEST_CASE(                                                                                         \
-	    "libparsers - function scripts - instruction_iostream - unindexed " stringify(name)) {         \
-		parsers::function_scripts::instruction_list                                                    \
-		    test_list{{parsers::function_scripts::instructions::variable::name},                       \
-		              {},                                                                              \
-		              {fs_instruction::op_variable_lookup{                                             \
-		                  parsers::function_scripts::instructions::variable::name}},                   \
-		              {}};                                                                             \
-                                                                                                       \
-		std::ostringstream output;                                                                     \
-                                                                                                       \
-		output << test_list;                                                                           \
-                                                                                                       \
+#define REGULAR_VARIABLE_TEST(name)                                                                     \
+	TEST_CASE(                                                                                          \
+	    "libparsers - function scripts - instruction_iostream - unindexed " stringify(name)) {          \
+		parsers::function_scripts::instruction_list                                                     \
+		    test_list{{parsers::function_scripts::instructions::variable::name},                        \
+		              {},                                                                               \
+		              {fs_instruction::op_variable_lookup{                                              \
+		                  parsers::function_scripts::instructions::variable::name}},                    \
+		              {}};                                                                              \
+                                                                                                        \
+		std::ostringstream output;                                                                      \
+                                                                                                        \
+		output << test_list;                                                                            \
+                                                                                                        \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Variables Used: " stringify(name) "\n"                                             \
                  "0\tOP_VARIABLE_LOOKUP: " stringify(name) " " stringify(name) " -> 0\n"); \
 	}
 
-#define INDEXED_VARIABLE_TEST(name)                                                                    \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - index " stringify(name)) {       \
-		parsers::function_scripts::instruction_list                                                    \
-		    test_list{{},                                                                              \
-		              {parsers::function_scripts::instructions::indexed_variable::name},               \
-		              {fs_instruction::stack_push{2},                                                  \
-		               fs_instruction::op_variable_indexed{                                            \
-		                   parsers::function_scripts::instructions::indexed_variable::name}},          \
-		              {}};                                                                             \
-                                                                                                       \
-		std::ostringstream output;                                                                     \
-                                                                                                       \
-		output << test_list;                                                                           \
-                                                                                                       \
+#define INDEXED_VARIABLE_TEST(name)                                                                     \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - index " stringify(name)) {        \
+		parsers::function_scripts::instruction_list                                                     \
+		    test_list{{},                                                                               \
+		              {parsers::function_scripts::instructions::indexed_variable::name},                \
+		              {fs_instruction::stack_push{2},                                                   \
+		               fs_instruction::op_variable_indexed{                                             \
+		                   parsers::function_scripts::instructions::indexed_variable::name}},           \
+		              {}};                                                                              \
+                                                                                                        \
+		std::ostringstream output;                                                                      \
+                                                                                                        \
+		output << test_list;                                                                            \
+                                                                                                        \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Index Variables Used: " stringify(name) "\n"                                       \
 		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                        \
@@ -130,7 +129,7 @@ UNARY_OP_TEST("FUNC_FLOOR Floor[0]", floor, func_floor)
 UNARY_OP_TEST("FUNC_CEILING Ceiling[0]", ceiling, func_ceiling)
 UNARY_OP_TEST("FUNC_ROUND Round[0]", round, func_round)
 BINARY_OP_TEST("FUNC_RANDOM Random[0, 1]", random, func_random)
-BINARY_OP_TEST("FUNC_RANDOMINT RandomInt[0, 1]", random, func_randomInt)
+BINARY_OP_TEST("FUNC_RANDOMINT RandomInt[0, 1]", random, func_random_int)
 UNARY_OP_TEST("FUNC_EXP Exp[0]", exp, func_exp)
 UNARY_OP_TEST("FUNC_LOG Log[0]", log, func_log)
 UNARY_OP_TEST("FUNC_SQRT Sqrt[0]", sqrt, func_sqrt)
@@ -165,75 +164,77 @@ TEST_CASE("libparsers - function scripts - instruction_iostream - if") {
 REGULAR_VARIABLE_TEST(none)
 REGULAR_VARIABLE_TEST(value)
 REGULAR_VARIABLE_TEST(delta)
-REGULAR_VARIABLE_TEST(currentState)
+REGULAR_VARIABLE_TEST(current_state)
 REGULAR_VARIABLE_TEST(time)
-REGULAR_VARIABLE_TEST(cameraDistance)
-REGULAR_VARIABLE_TEST(cameraMode)
+REGULAR_VARIABLE_TEST(camera_distance)
+REGULAR_VARIABLE_TEST(camera_mode)
 REGULAR_VARIABLE_TEST(cars)
 REGULAR_VARIABLE_TEST(speed)
 REGULAR_VARIABLE_TEST(speedometer)
 REGULAR_VARIABLE_TEST(acceleration)
-REGULAR_VARIABLE_TEST(accelerationMotor)
+REGULAR_VARIABLE_TEST(acceleration_motor)
 REGULAR_VARIABLE_TEST(distance)
-REGULAR_VARIABLE_TEST(trackDistance)
-REGULAR_VARIABLE_TEST(mainReservoir)
-REGULAR_VARIABLE_TEST(emergencyReservoir)
-REGULAR_VARIABLE_TEST(brakePipe)
-REGULAR_VARIABLE_TEST(brakeCylinder)
-REGULAR_VARIABLE_TEST(straightAirPipe)
+REGULAR_VARIABLE_TEST(track_distance)
+REGULAR_VARIABLE_TEST(main_reservoir)
+REGULAR_VARIABLE_TEST(emergency_reservoir)
+REGULAR_VARIABLE_TEST(brake_pipe)
+REGULAR_VARIABLE_TEST(brake_cylinder)
+REGULAR_VARIABLE_TEST(straight_air_pipe)
 REGULAR_VARIABLE_TEST(doors)
-REGULAR_VARIABLE_TEST(leftDoors)
-REGULAR_VARIABLE_TEST(rightDoors)
-REGULAR_VARIABLE_TEST(leftDoorsTarget)
-REGULAR_VARIABLE_TEST(rightDoorsTarget)
-REGULAR_VARIABLE_TEST(leftDoorsButton)
-REGULAR_VARIABLE_TEST(rightDoorsButton)
-REGULAR_VARIABLE_TEST(reverserNotch)
-REGULAR_VARIABLE_TEST(powerNotch)
-REGULAR_VARIABLE_TEST(powerNotches)
-REGULAR_VARIABLE_TEST(brakeNotch)
-REGULAR_VARIABLE_TEST(brakeNotches)
-REGULAR_VARIABLE_TEST(brakeNotchLinear)
-REGULAR_VARIABLE_TEST(brakeNotchesLinear)
-REGULAR_VARIABLE_TEST(emergencyBrake)
-REGULAR_VARIABLE_TEST(hasAirBrake)
-REGULAR_VARIABLE_TEST(holdBrake)
-REGULAR_VARIABLE_TEST(hasHoldBrake)
-REGULAR_VARIABLE_TEST(constSpeed)
-REGULAR_VARIABLE_TEST(hasConstSpeed)
-REGULAR_VARIABLE_TEST(hasPlugin)
-REGULAR_VARIABLE_TEST(Odometer)
-REGULAR_VARIABLE_TEST(Klaxon)
-REGULAR_VARIABLE_TEST(PrimaryKlaxon)
-REGULAR_VARIABLE_TEST(SecondaryKlaxon)
-REGULAR_VARIABLE_TEST(MusicKlaxon)
+REGULAR_VARIABLE_TEST(left_doors)
+REGULAR_VARIABLE_TEST(right_doors)
+REGULAR_VARIABLE_TEST(left_doors_target)
+REGULAR_VARIABLE_TEST(right_doors_target)
+REGULAR_VARIABLE_TEST(left_doors_button)
+REGULAR_VARIABLE_TEST(right_doors_button)
+REGULAR_VARIABLE_TEST(reverser_notch)
+REGULAR_VARIABLE_TEST(power_notch)
+REGULAR_VARIABLE_TEST(power_notches)
+REGULAR_VARIABLE_TEST(brake_notch)
+REGULAR_VARIABLE_TEST(brake_notches)
+REGULAR_VARIABLE_TEST(brake_notch_linear)
+REGULAR_VARIABLE_TEST(brake_notches_linear)
+REGULAR_VARIABLE_TEST(emergency_brake)
+REGULAR_VARIABLE_TEST(has_air_brake)
+REGULAR_VARIABLE_TEST(hold_brake)
+REGULAR_VARIABLE_TEST(has_hold_brake)
+REGULAR_VARIABLE_TEST(const_speed)
+REGULAR_VARIABLE_TEST(has_const_speed)
+REGULAR_VARIABLE_TEST(has_plugin)
+REGULAR_VARIABLE_TEST(odometer)
+REGULAR_VARIABLE_TEST(klaxon)
+REGULAR_VARIABLE_TEST(primary_klaxon)
+REGULAR_VARIABLE_TEST(secondary_klaxon)
+REGULAR_VARIABLE_TEST(music_klaxon)
 REGULAR_VARIABLE_TEST(section)
 
 INDEXED_VARIABLE_TEST(none)
 INDEXED_VARIABLE_TEST(speed)
 INDEXED_VARIABLE_TEST(speedometer)
 INDEXED_VARIABLE_TEST(acceleration)
-INDEXED_VARIABLE_TEST(accelerationMotor)
+INDEXED_VARIABLE_TEST(acceleration_motor)
 INDEXED_VARIABLE_TEST(distance)
-INDEXED_VARIABLE_TEST(trackDistance)
-INDEXED_VARIABLE_TEST(mainReservoir)
-INDEXED_VARIABLE_TEST(emergencyReservoir)
-INDEXED_VARIABLE_TEST(brakePipe)
-INDEXED_VARIABLE_TEST(brakeCylinder)
-INDEXED_VARIABLE_TEST(straightAirPipe)
+INDEXED_VARIABLE_TEST(track_distance)
+INDEXED_VARIABLE_TEST(main_reservoir)
+INDEXED_VARIABLE_TEST(emergency_reservoir)
+INDEXED_VARIABLE_TEST(brake_pipe)
+INDEXED_VARIABLE_TEST(brake_cylinder)
+INDEXED_VARIABLE_TEST(straight_air_pipe)
 INDEXED_VARIABLE_TEST(doors)
-INDEXED_VARIABLE_TEST(leftDoors)
-INDEXED_VARIABLE_TEST(rightDoors)
-INDEXED_VARIABLE_TEST(leftDoorsTarget)
-INDEXED_VARIABLE_TEST(rightDoorsTarget)
-INDEXED_VARIABLE_TEST(pluginState)
-INDEXED_VARIABLE_TEST(FrontAxleCurveRadius)
-INDEXED_VARIABLE_TEST(RearAxleCurveRadius)
-INDEXED_VARIABLE_TEST(CurveCant)
-INDEXED_VARIABLE_TEST(Odometer)
+INDEXED_VARIABLE_TEST(left_doors)
+INDEXED_VARIABLE_TEST(right_doors)
+INDEXED_VARIABLE_TEST(left_doors_target)
+INDEXED_VARIABLE_TEST(right_doors_target)
+INDEXED_VARIABLE_TEST(plugin_state)
+INDEXED_VARIABLE_TEST(front_axle_curve_radius)
+INDEXED_VARIABLE_TEST(rear_axle_curve_radius)
+INDEXED_VARIABLE_TEST(curve_cant)
+INDEXED_VARIABLE_TEST(odometer)
 
 //clang-format on
 
 TEST_SUITE_END();
+
+
 
 

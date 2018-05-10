@@ -5,7 +5,7 @@
 namespace parsers {
 namespace function_scripts {
 	namespace {
-		bool is_special_symbol(char c) {
+		bool is_special_symbol(char const c) {
 			switch (c) {
 				case '+':
 				case '-':
@@ -29,33 +29,34 @@ namespace function_scripts {
 			}
 		}
 
-		bool is_number(char c) {
-			return ('0' <= c && c <= '9');
+		bool is_number(char const c) {
+			return '0' <= c && c <= '9';
 		}
 
-		bool is_start_of_number(char c) {
-			return (is_number(c) || c == '.');
+		bool is_start_of_number(char const c) {
+			return is_number(c) || c == '.';
 		}
 
-		bool is_part_of_variable(char c) {
-			return !is_special_symbol(c) && (std::isspace(c) == 0);
+		bool is_part_of_variable(char const c) {
+			return !is_special_symbol(c) && std::isspace(c) == 0;
 		}
 	} // namespace
 
+	// ReSharper disable once CyclomaticComplexity
 	lexer_token_list lex(const std::string& text, errors::errors_t& errors) {
 		lexer_token_list ltl;
 
 		for (std::size_t i = 0; i < text.size(); ++i) {
 			lexer_token lt;
 
-			bool has_another_character = i + 1 < text.size();
+			auto const has_another_character = i + 1 < text.size();
 
 			// parsing number
 			if (is_start_of_number(text[i])) {
-				bool has_dot = false;
+				auto has_dot = false;
 
 				// find if the number has a . in it
-				std::find_if(text.begin() + i, text.end(), [&has_dot](char c) {
+				std::find_if(text.begin() + i, text.end(), [&has_dot](char const c) {
 					if (c == '.') {
 						has_dot = true;
 						return true;
@@ -63,18 +64,18 @@ namespace function_scripts {
 					return !is_number(c);
 				});
 
-				bool has_another_number_character =
+				auto const has_another_number_character =
 				    has_another_character && (is_number(text[i + 1]) || text[i + 1] == '.');
 
 				// parsing float
 				if (has_dot && has_another_number_character) {
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					const char* start_ptr = text.c_str() + i;
+					auto const start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
-					float f = std::strtof(start_ptr, &str_end);
+					auto const f = std::strtof(start_ptr, &str_end);
 
 					lt = lexer_types::floating{f};
-					auto chars_used = std::max<std::ptrdiff_t>(
+					auto const chars_used = std::max<std::ptrdiff_t>(
 					    0, std::distance<const char*>(
 					           start_ptr,
 					           // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
@@ -84,13 +85,13 @@ namespace function_scripts {
 				// parsing int
 				else if (!(has_dot && !has_another_number_character)) {
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					const char* start_ptr = text.c_str() + i;
+					auto const start_ptr = text.c_str() + i;
 					char* str_end = nullptr;
-					auto integer = std::strtoll(start_ptr, &str_end, 10);
+					auto const integer = std::strtoll(start_ptr, &str_end, 10);
 
 					lt = lexer_types::integer{integer};
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					auto chars_used = std::distance<const char*>(start_ptr, str_end - 1);
+					auto const chars_used = std::distance<const char*>(start_ptr, str_end - 1);
 					i += chars_used;
 				}
 				// Raw dash/dot
@@ -180,9 +181,8 @@ namespace function_scripts {
 			// parsing variable
 			else if (std::isspace(text[i]) == 0) {
 				// Find end of variable
-				std::size_t i2 = i;
+				auto i2 = i;
 				for (; i2 < text.size() && is_part_of_variable(text[i2]); ++i2) {
-					;
 				}
 
 				std::string var{text.begin() + i, text.begin() + i2};

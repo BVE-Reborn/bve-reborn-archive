@@ -1,33 +1,33 @@
 #include "b3d_csv_object.hpp"
-#include <iostream>
 
 using namespace std::string_literals;
 
 namespace parsers {
+// ReSharper disable once CppInconsistentNaming
 namespace b3d_csv_object {
 	namespace instructions {
-		std::ostream& operator<<(std::ostream& os, const Error& rhs) {
+		std::ostream& operator<<(std::ostream& os, const error& rhs) {
 			os << "(ERROR, line = " << rhs.line << ", cause = " << rhs.cause << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs) {
+		std::ostream& operator<<(std::ostream& os, const create_mesh_builder& rhs) {
 			os << "(CreateMeshBuilder, line = " << rhs.line << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const AddVertex& rhs) {
+		std::ostream& operator<<(std::ostream& os, const add_vertex& rhs) {
 			os << "(AddVertex, line = " << rhs.line << ", "
-			   << "vX = " << rhs.vX << ", "
-			   << "vY = " << rhs.vY << ", "
-			   << "vZ = " << rhs.vZ << ", "
-			   << "nX = " << rhs.nX << ", "
-			   << "nY = " << rhs.nY << ", "
-			   << "nZ = " << rhs.nZ << ")";
+			   << "vX = " << rhs.v_x << ", "
+			   << "vY = " << rhs.v_y << ", "
+			   << "vZ = " << rhs.v_z << ", "
+			   << "nX = " << rhs.n_x << ", "
+			   << "nY = " << rhs.n_y << ", "
+			   << "nZ = " << rhs.n_z << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const AddFace& rhs) {
+		std::ostream& operator<<(std::ostream& os, const add_face& rhs) {
 			os << (rhs.two ? "(AddFace2" : "(AddFace");
 			for (auto& vertex_num : rhs.vertices) {
 				os << ", " << vertex_num;
@@ -36,110 +36,110 @@ namespace b3d_csv_object {
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const Cube& rhs) {
+		std::ostream& operator<<(std::ostream& os, const cube& rhs) {
 			os << "(Cube, "
-			   << "HalfWidth = " << rhs.HalfWidth << ", "
-			   << "HalfHeight = " << rhs.HalfHeight << ", "
-			   << "HalfDepth = " << rhs.HalfDepth << ")";
+			   << "HalfWidth = " << rhs.half_width << ", "
+			   << "HalfHeight = " << rhs.half_height << ", "
+			   << "HalfDepth = " << rhs.half_depth << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const Cylinder& rhs) {
+		std::ostream& operator<<(std::ostream& os, const cylinder& rhs) {
 			os << "(Cylinder, "
 			   << "sides = " << rhs.sides << ", "
-			   << "UpperRadius = " << rhs.UpperRadius << ", "
-			   << "LowerRadius = " << rhs.LowerRadius << ", "
-			   << "Height = " << rhs.Height << ")";
+			   << "UpperRadius = " << rhs.upper_radius << ", "
+			   << "LowerRadius = " << rhs.lower_radius << ", "
+			   << "Height = " << rhs.height << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const Translate& rhs) {
+		std::ostream& operator<<(std::ostream& os, const translate& rhs) {
 			os << (rhs.all ? "(TranslateAll, " : "(Translate, ") //
-			   << "X = " << rhs.X << ", "
-			   << "Y = " << rhs.Y << ", "
-			   << "Z = " << rhs.Z << ")";
+			   << "X = " << rhs.x << ", "
+			   << "Y = " << rhs.y << ", "
+			   << "Z = " << rhs.z << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const Scale& rhs) {
+		std::ostream& operator<<(std::ostream& os, const scale& rhs) {
 			os << (rhs.all ? "(ScaleAll, " : "(Scale, ") //
-			   << "X = " << rhs.X << ", "
-			   << "Y = " << rhs.Y << ", "
-			   << "Z = " << rhs.Z << ")";
+			   << "X = " << rhs.x << ", "
+			   << "Y = " << rhs.y << ", "
+			   << "Z = " << rhs.z << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const Rotate& rhs) {
+		std::ostream& operator<<(std::ostream& os, const rotate& rhs) {
 			os << (rhs.all ? "(RotateAll, " : "(Rotate, ") //
-			   << "X = " << rhs.X << ", "
-			   << "Y = " << rhs.Y << ", "
-			   << "Z = " << rhs.Z << ", "
-			   << "Angle = " << rhs.Angle << ")";
+			   << "X = " << rhs.x << ", "
+			   << "Y = " << rhs.y << ", "
+			   << "Z = " << rhs.z << ", "
+			   << "Angle = " << rhs.angle << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const Shear& rhs) {
+		std::ostream& operator<<(std::ostream& os, const shear& rhs) {
 			os << (rhs.all ? "(ShearAll, " : "(Shear, ") //
-			   << "dX = " << rhs.dX << ", "
-			   << "dY = " << rhs.dY << ", "
-			   << "dZ = " << rhs.dZ << ", "
-			   << "sX = " << rhs.sX << ", "
-			   << "sY = " << rhs.sY << ", "
-			   << "sZ = " << rhs.sZ << ", "
+			   << "dX = " << rhs.d_x << ", "
+			   << "dY = " << rhs.d_y << ", "
+			   << "dZ = " << rhs.d_z << ", "
+			   << "sX = " << rhs.s_x << ", "
+			   << "sY = " << rhs.s_y << ", "
+			   << "sZ = " << rhs.s_z << ", "
 			   << "r = " << rhs.r << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const SetColor& rhs) {
+		std::ostream& operator<<(std::ostream& os, const set_color& rhs) {
 			os << "(SetColor, line = " << rhs.line << ", " //
-			   << "Red = " << static_cast<int>(rhs.Red) << ", "
-			   << "Green = " << static_cast<int>(rhs.Green) << ", "
-			   << "Blue = " << static_cast<int>(rhs.Blue) << ", "
-			   << "Alpha = " << static_cast<int>(rhs.Alpha) << ")";
+			   << "Red = " << static_cast<int>(rhs.red) << ", "
+			   << "Green = " << static_cast<int>(rhs.green) << ", "
+			   << "Blue = " << static_cast<int>(rhs.blue) << ", "
+			   << "Alpha = " << static_cast<int>(rhs.alpha) << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs) {
+		std::ostream& operator<<(std::ostream& os, const set_emissive_color& rhs) {
 			os << "(SetEmissiveColor, line = " << rhs.line << ", " //
-			   << "Red = " << static_cast<int>(rhs.Red) << ", "
-			   << "Green = " << static_cast<int>(rhs.Green) << ", "
-			   << "Blue = " << static_cast<int>(rhs.Blue) << ")";
+			   << "Red = " << static_cast<int>(rhs.red) << ", "
+			   << "Green = " << static_cast<int>(rhs.green) << ", "
+			   << "Blue = " << static_cast<int>(rhs.blue) << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs) {
+		std::ostream& operator<<(std::ostream& os, const set_blend_mode& rhs) {
 			os << "(SetBlendMode, line = " << rhs.line << ", " //
 			   << "BlendMode = "
-			   << (rhs.BlendMode == mesh_t::BlendMode_t::Normal ? "Normal"s : "Additive"s) << ", "
-			   << "GlowHalfDistance = " << rhs.GlowHalfDistance << ", "
+			   << (rhs.blend_mode == mesh_t::blend_mode_t::normal ? "Normal"s : "Additive"s) << ", "
+			   << "GlowHalfDistance = " << rhs.glow_half_distance << ", "
 			   << "GlowAttenuationMode = "
-			   << (rhs.GlowAttenuationMode == mesh_t::GlowAttenuationMode_t::DivideExponent2
+			   << (rhs.glow_attenuation_mode == mesh_t::glow_attenuation_mode_t::divide_exponent2
 			           ? "DivideExponent2"s
 			           : "DivideExponent4"s)
 			   << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const LoadTexture& rhs) {
+		std::ostream& operator<<(std::ostream& os, const load_texture& rhs) {
 			os << "(LoadTexture, line = " << rhs.line << ", "
-			   << "DaytimeTexture = \"" << rhs.DaytimeTexture << "\", "
-			   << "NighttimeTexture = \"" << rhs.NighttimeTexture << "\")";
+			   << "DaytimeTexture = \"" << rhs.daytime_texture << "\", "
+			   << "NighttimeTexture = \"" << rhs.nighttime_texture << "\")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs) {
+		std::ostream& operator<<(std::ostream& os, const set_decal_transparent_color& rhs) {
 			os << "(SetDecalTransparentColor, line = " << rhs.line << ", " //
-			   << "Red = " << static_cast<int>(rhs.Red) << ", "
-			   << "Green = " << static_cast<int>(rhs.Green) << ", "
-			   << "Blue = " << static_cast<int>(rhs.Blue) << ")";
+			   << "Red = " << static_cast<int>(rhs.red) << ", "
+			   << "Green = " << static_cast<int>(rhs.green) << ", "
+			   << "Blue = " << static_cast<int>(rhs.blue) << ")";
 			return os;
 		}
 
-		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs) {
+		std::ostream& operator<<(std::ostream& os, const set_texture_coordinates& rhs) {
 			os << "(SetTextureCoordinates, line = " << rhs.line << ", " //
-			   << "VertexIndex = " << rhs.VertexIndex << ", "
-			   << "X = " << rhs.X << ", "
-			   << "Y = " << rhs.Y << ")";
+			   << "VertexIndex = " << rhs.vertex_index << ", "
+			   << "X = " << rhs.x << ", "
+			   << "Y = " << rhs.y << ")";
 			return os;
 		}
 	} // namespace instructions

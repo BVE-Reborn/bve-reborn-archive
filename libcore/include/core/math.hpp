@@ -11,15 +11,15 @@ namespace math {
 	}
 
 	template <class R = void, class A, class B>
-	inline auto max(A a, B b) ->
-	    typename std::conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
+	inline auto max(A a, B b) -> typename std::
+	    conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) > t(b) ? t(a) : t(b);
 	}
 
 	template <class R = void, class A, class B>
-	inline auto min(A a, B b) ->
-	    typename std::conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
+	inline auto min(A a, B b) -> typename std::
+	    conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) < t(b) ? t(a) : t(b);
 	}
@@ -37,8 +37,14 @@ namespace math {
 		glm::vec3 tangent;
 	};
 
-	evaulate_curve_t evaluate_curve(glm::vec3 input_position, glm::vec3 input_direction, float distance, float radius);
+	evaulate_curve_t evaluate_curve(glm::vec3 input_position,
+	                                glm::vec3 input_direction,
+	                                float distance,
+	                                float radius);
 
-	glm::vec3 position_from_offsets(glm::vec3 input_position, glm::vec3 input_tangent, float x_offset, float y_offset);
+	glm::vec3 position_from_offsets(glm::vec3 input_position,
+	                                glm::vec3 input_tangent,
+	                                float x_offset,
+	                                float y_offset);
 } // namespace math
 } // namespace openbve2

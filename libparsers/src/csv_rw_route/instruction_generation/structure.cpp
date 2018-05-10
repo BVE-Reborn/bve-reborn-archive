@@ -9,9 +9,9 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Structure.Command");
 			args_at_least(inst, 1, "Structure.Command");
 
-			instructions::structure::Command c;
+			instructions::structure::command c;
 
-			c.command = command_type_mapping.find(inst.name)->second;
+			c.command_type = command_type_mapping.find(inst.name)->second;
 
 			c.structure_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
@@ -25,7 +25,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Structure.Pole");
 			args_at_least(inst, 1, "Structure.Pole");
 
-			instructions::structure::Pole p;
+			instructions::structure::pole p;
 
 			if (inst.indices.size() == 1) {
 				p.additional_rails = 0;

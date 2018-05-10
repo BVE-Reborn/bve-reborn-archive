@@ -7,15 +7,16 @@ namespace csv_rw_route {
 	namespace {
 		struct pass2_executor {
 		  public:
-			parsed_route_data rd;
+			parsed_route_data rd = {};
 			float first_factor_uod = 1;
 			float block_size = 25;
 
 		  private:
-			errors::multi_error_t& _errors;
-			const std::vector<std::string>& _filenames;
+			errors::multi_error_t& errors_;
+			const std::vector<std::string>& filenames_;
 
-			decltype(instructions::options::CantBehavior::mode) cant_behavior;
+			decltype(instructions::options::cant_behavior::mode) cant_behavior_ =
+			    instructions::options::cant_behavior::unsigned_cant;
 
 			rail_block_info& make_new_block(float position) {
 				position = openbve2::math::max<float>(0, position);
@@ -26,7 +27,7 @@ namespace csv_rw_route {
 					}
 					else {
 						rd.blocks.emplace_back();
-						rail_block_info& rbi = rd.blocks.back();
+						auto& rbi = rd.blocks.back();
 						rbi.position = position;
 						rbi.cache.direction = glm::vec3(0, 0, 1);
 						return rbi;
@@ -48,12 +49,13 @@ namespace csv_rw_route {
 					rd.blocks.emplace_back(last_block);
 					// emplacement may invalidate reference
 				}
-				rail_block_info& rbi = rd.blocks.back();
+				auto& rbi = rd.blocks.back();
 				rbi.position = position;
 				return rbi;
 			}
 
-			void calculate_cache_impl(rail_block_info& last_block, rail_block_info& current_block) {
+			static void calculate_cache_impl(rail_block_info& last_block,
+			                                 rail_block_info& current_block) {
 				// Only update the cache if it hasn't been updated before
 				// any changes are made to the current block, the last block
 				// will not change
@@ -67,7 +69,7 @@ namespace csv_rw_route {
 					// with a vector of (0, 0, 1) this way we can directly set
 					// the y component in order to get the proper angle
 					last_block.cache.direction.y = last_block.pitch;
-					auto curve_results =
+					auto const curve_results =
 					    openbve2::math::evaluate_curve(last_block.cache.location,
 					                                   last_block.cache.direction,
 					                                   last_block.length, last_block.radius);
@@ -104,48 +106,48 @@ namespace csv_rw_route {
 
 		  public:
 			pass2_executor(errors::multi_error_t& e, const std::vector<std::string>& f) :
-			    _errors(e),
-			    _filenames(f){};
+			    errors_(e),
+			    filenames_(f) {}
 
-			void operator()(const instructions::options::UnitOfLength& inst) {
+			void operator()(const instructions::options::unit_of_length& inst) {
 				// verification of argument count has already happened
 				// first element is the factor used by include offsets (always
 				// one) the first user defined factor is the second element
 				first_factor_uod = inst.factors_in_meters[1];
 			}
 
-			void operator()(const instructions::options::BlockLength& inst) {
+			void operator()(const instructions::options::block_length& inst) {
 				block_size = first_factor_uod * inst.length;
 			}
 
-			void operator()(const instructions::options::CantBehavior& inst) {
-				cant_behavior = inst.mode;
+			void operator()(const instructions::options::cant_behavior& inst) {
+				cant_behavior_ = inst.mode;
 			}
 
-			void operator()(const instructions::track::Pitch& inst) {
+			void operator()(const instructions::track::pitch& inst) {
 				auto& block = make_new_block(inst.absolute_position);
 				block.pitch = inst.rate / 1000;
 				calculate_cache();
 			}
 
-			void operator()(const instructions::track::Curve& inst) {
+			void operator()(const instructions::track::curve& inst) {
 				auto& block = make_new_block(inst.absolute_position);
 				block.radius = inst.radius;
-				if (inst.cant == decltype(cant_behavior)::Unsigned) {
+				if (inst.cant == decltype(cant_behavior_)::unsigned_cant) {
 					block.cant = block.radius != 0 ? std::abs(inst.cant) : 0;
 				}
 				else {
-					block.cant = block.cant;
+					block.cant = inst.cant;
 				}
 				calculate_cache();
 			}
 
-			void operator()(const instructions::track::Turn& inst) {
+			void operator()(const instructions::track::turn& inst) {
 				auto& block = make_new_block(inst.absolute_position);
 
 				if (inst.ratio != 0) {
-					auto x = inst.ratio * block_size;
-					auto z = x / inst.ratio;
+					auto const x = inst.ratio * block_size;
+					auto const z = x / inst.ratio;
 
 					block.radius = openbve2::math::radius_from_distances(z, x);
 				}
@@ -156,28 +158,28 @@ namespace csv_rw_route {
 				calculate_cache();
 			}
 
-			void operator()(const instructions::track::Height& inst) {
+			void operator()(const instructions::track::height& inst) {
 				rd.ground_height.emplace_back(ground_height_info{inst.absolute_position, inst.y});
 			}
 
 			template <class T>
 			void operator()(const T& /*unused*/) {
 				// Might need error handling later.
-				(void) _errors;
-				(void) _filenames;
+				(void) errors_;
+				(void) filenames_;
 			}
 		};
 	} // namespace
 
 	parsed_route_data execute_instructions_pass2(instruction_list& list,
 	                                             errors::multi_error_t& errors) {
-		pass2_executor p2e(errors, list.filenames);
+		pass2_executor p2_e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {
-			mapbox::util::apply_visitor(p2e, i);
+			apply_visitor(p2_e, i);
 		}
 
-		return p2e.rd;
+		return p2_e.rd;
 	}
 } // namespace csv_rw_route
 } // namespace parsers

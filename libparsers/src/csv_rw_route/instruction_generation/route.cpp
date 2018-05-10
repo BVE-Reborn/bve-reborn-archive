@@ -5,49 +5,51 @@ namespace parsers {
 namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction create_instruction_route_comment(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::Comment>(inst,
+			return create_single_string_instruction<instructions::route::comment>(inst,
 			                                                                      "Route.Comment");
 		}
 
 		instruction create_instruction_route_image(const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::Image>(inst,
+			return create_single_string_instruction<instructions::route::image>(inst,
 			                                                                    "Route.Image");
 		}
 
 		instruction create_instruction_route_timetable(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::Timetable>(inst,
+			return create_single_string_instruction<instructions::route::timetable>(inst,
 			                                                                        "Route."
 			                                                                        "Timetable");
 		}
 
 		instruction create_instruction_route_change(const line_splitting::instruction_info& inst) {
-			instructions::route::Change change;
+			instructions::route::change change;
 
 			if (!inst.args.empty()) {
-				auto value = util::parse_loose_integer(inst.args[0], -1);
+				auto const value = util::parse_loose_integer(inst.args[0], -1);
 				switch (value) {
 					default:
 					case -1:
-						change.mode = instructions::route::Change::SaftyActiviatedServiceBrakes;
+						change.mode = instructions::route::change::safty_activiated_service_brakes;
 						break;
 					case 0:
-						change.mode = instructions::route::Change::SaftyActiviatedEmergencyBrakes;
+						change.mode =
+						    instructions::route::change::safty_activiated_emergency_brakes;
 						break;
 					case 1:
-						change.mode = instructions::route::Change::SaftyDeactivatedEmergencyBrakes;
+						change.mode =
+						    instructions::route::change::safty_deactivated_emergency_brakes;
 						break;
 				}
 			}
 			else {
-				change.mode = instructions::route::Change::SaftyActiviatedServiceBrakes;
+				change.mode = instructions::route::change::safty_activiated_service_brakes;
 			}
 
 			return change;
 		}
 
 		instruction create_instruction_route_gauge(const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Guage>(inst, "Route.Guage",
+			return create_single_float_instruction<instructions::route::guage>(inst, "Route.Guage",
 			                                                                   1435);
 		}
 
@@ -55,7 +57,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Route.Signal");
 			args_at_least(inst, 1, "Route.Signal");
 
-			instructions::route::Signal s;
+			instructions::route::signal s;
 
 			s.aspect_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 			s.speed = util::parse_loose_float(inst.args[0]);
@@ -67,7 +69,7 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Route.RunInterval");
 
-			instructions::route::RunInterval ri;
+			instructions::route::run_interval ri;
 			ri.time_interval.reserve(inst.args.size());
 			std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(ri.time_interval),
 			               [](const std::string& s) { return util::parse_loose_float(s); });
@@ -78,16 +80,16 @@ namespace csv_rw_route {
 		instruction create_instruction_route_accelerationduetogravity(
 		    const line_splitting::instruction_info& inst) {
 			return create_single_float_instruction<
-			    instructions::route::AccelerationDueToGravity>(inst,
-			                                                   "Route."
-			                                                   "AccelerationDue"
-			                                                   "ToGravity",
-			                                                   9.80665f);
+			    instructions::route::acceleration_due_to_gravity>(inst,
+			                                                      "Route."
+			                                                      "AccelerationDue"
+			                                                      "ToGravity",
+			                                                      9.80665f);
 		}
 
 		instruction create_instruction_route_elevation(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Elevation>(inst,
+			return create_single_float_instruction<instructions::route::elevation>(inst,
 			                                                                       "Route."
 			                                                                       "Elevation",
 			                                                                       0);
@@ -95,7 +97,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_route_temperature(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Temperature>(inst,
+			return create_single_float_instruction<instructions::route::temperature>(inst,
 			                                                                         "Route."
 			                                                                         "Temperature",
 			                                                                         20);
@@ -103,7 +105,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_route_pressure(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_float_instruction<instructions::route::Pressure>(inst,
+			return create_single_float_instruction<instructions::route::pressure>(inst,
 			                                                                      "Route.Pressure",
 			                                                                      101.325f);
 		}
@@ -112,7 +114,7 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 2, "Route.DisplaySpeed");
 
-			instructions::route::DisplaySpeed ds;
+			instructions::route::display_speed ds;
 
 			ds.unit_string = inst.args[0];
 			ds.conversion_factor = util::parse_loose_float(inst.args[1]);
@@ -122,30 +124,32 @@ namespace csv_rw_route {
 
 		instruction create_instruction_route_loadingscreen(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::LoadingScreen>(inst,
-			                                                                            "Route."
-			                                                                            "LoadingScr"
-			                                                                            "een");
+			return create_single_string_instruction<instructions::route::loading_screen>(inst,
+			                                                                             "Route."
+			                                                                             "LoadingSc"
+			                                                                             "r"
+			                                                                             "een");
 		}
 
 		instruction create_instruction_route_starttime(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_time_instruction<instructions::route::StartTime>(inst,
-			                                                                      "Route."
-			                                                                      "StartTime");
+			return create_single_time_instruction<instructions::route::start_time>(inst,
+			                                                                       "Route."
+			                                                                       "StartTime");
 		}
 
 		instruction create_instruction_route_dynamiclight(
 		    const line_splitting::instruction_info& inst) {
-			return create_single_string_instruction<instructions::route::DynamicLight>(inst,
-			                                                                           "Route."
-			                                                                           "DynamicLigh"
-			                                                                           "t");
+			return create_single_string_instruction<instructions::route::dynamic_light>(inst,
+			                                                                            "Route."
+			                                                                            "DynamicLig"
+			                                                                            "h"
+			                                                                            "t");
 		}
 
 		instruction create_instruction_route_ambientlight(
 		    const line_splitting::instruction_info& inst) {
-			instructions::route::AmbiantLight al;
+			instructions::route::ambiant_light al;
 
 			switch (inst.args.size()) {
 				default:
@@ -170,7 +174,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_route_directionallight(
 		    const line_splitting::instruction_info& inst) {
-			instructions::route::DirectionalLight dl;
+			instructions::route::directional_light dl;
 
 			switch (inst.args.size()) {
 				default:
@@ -195,7 +199,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_route_lightdirection(
 		    const line_splitting::instruction_info& inst) {
-			instructions::route::LightDirection ld;
+			instructions::route::light_direction ld;
 
 			switch (inst.args.size()) {
 				default:

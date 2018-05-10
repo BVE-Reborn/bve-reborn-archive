@@ -8,17 +8,17 @@ namespace csv_rw_route {
 	                                instruction_list& list,
 	                                errors::multi_error_t& errors,
 	                                const find_relative_file_func& get_abs_path) {
-		pass3_executor p3e(rd, errors, list.filenames, get_abs_path);
+		pass3_executor p3_e(rd, errors, list.filenames, get_abs_path);
 
 		for (auto& inst : list.instructions) {
-			mapbox::util::apply_visitor(p3e, inst);
+			apply_visitor(p3_e, inst);
 		}
 
-		float largest_position =
-		    mapbox::util::apply_visitor([](auto& inst) -> float { return inst.absolute_position; },
-		                                list.instructions.back());
+		auto const largest_position =
+		    apply_visitor([](auto& inst) -> float { return inst.absolute_position; },
+		                  list.instructions.back());
 
-		p3e.finalize(largest_position);
+		p3_e.finalize(largest_position);
 	}
 } // namespace csv_rw_route
 } // namespace parsers

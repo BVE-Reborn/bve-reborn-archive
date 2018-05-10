@@ -6,39 +6,39 @@ namespace csv_rw_route {
 	namespace {
 		class pass1_executor {
 		  private:
-			errors::multi_error_t& _errors;
-			const std::vector<std::string>& _filenames;
-			float current_position = -1;
-			std::vector<float> current_unitoflength = {1, 1};
+			errors::multi_error_t& errors_;
+			const std::vector<std::string>& filenames_;
+			float current_position_ = -1;
+			std::vector<float> current_unitoflength_ = {1, 1};
 
 		  public:
 			pass1_executor(errors::multi_error_t& e, const std::vector<std::string>& f) :
-			    _errors(e),
-			    _filenames(f){};
+			    errors_(e),
+			    filenames_(f) {}
 
 			void operator()(instructions::naked::position& p) {
-				if (p.distances.size() > current_unitoflength.size()) {
-					add_error(_errors, _filenames[p.file_index], p.line,
+				if (p.distances.size() > current_unitoflength_.size()) {
+					add_error(errors_, filenames_[p.file_index], p.line,
 					          "Position has more arguments than UnitOfLength, "
 					          "assuming 0 factors for missing Units.");
 				}
 				// Dot product
-				current_position = 0;
+				current_position_ = 0;
 				for (std::size_t i = 0;
-				     i < std::min(current_unitoflength.size(), p.distances.size()); ++i) {
-					current_position += current_unitoflength[i] * p.distances[i];
+				     i < std::min(current_unitoflength_.size(), p.distances.size()); ++i) {
+					current_position_ += current_unitoflength_[i] * p.distances[i];
 				}
-				p.absolute_position = current_position;
+				p.absolute_position = current_position_;
 			}
 
-			void operator()(instructions::options::UnitOfLength& u) {
-				current_unitoflength = u.factors_in_meters;
-				u.absolute_position = current_position;
+			void operator()(instructions::options::unit_of_length& u) {
+				current_unitoflength_ = u.factors_in_meters;
+				u.absolute_position = current_position_;
 			}
 
 			template <class T>
 			void operator()(T& value) {
-				value.absolute_position = current_position;
+				value.absolute_position = current_position_;
 			}
 		};
 	} // namespace
@@ -47,7 +47,7 @@ namespace csv_rw_route {
 		pass1_executor e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {
-			mapbox::util::apply_visitor(e, i);
+			apply_visitor(e, i);
 		}
 
 		std::stable_sort(list.instructions.begin(), list.instructions.end(),
@@ -55,8 +55,7 @@ namespace csv_rw_route {
 			                 auto position = [](auto& val) -> float {
 				                 return val.absolute_position;
 			                 };
-			                 return mapbox::util::apply_visitor(position, a)
-			                        < mapbox::util::apply_visitor(position, b);
+			                 return apply_visitor(position, a) < apply_visitor(position, b);
 		                 });
 	}
 } // namespace csv_rw_route

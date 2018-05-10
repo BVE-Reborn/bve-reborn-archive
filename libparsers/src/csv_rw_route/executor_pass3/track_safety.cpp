@@ -6,7 +6,7 @@ using namespace std::string_literals;
 
 namespace parsers {
 namespace csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::Beacon& inst) {
+	void pass3_executor::operator()(const instructions::track::beacon& inst) {
 		beacon_info bi;
 
 		bi.position = inst.absolute_position;
@@ -14,7 +14,7 @@ namespace csv_rw_route {
 		bi.beacon_data = inst.data;
 		bi.section_offset = inst.section;
 
-		_route_data.beacons.emplace_back(std::move(bi));
+		route_data_.beacons.emplace_back(std::move(bi));
 
 		if (inst.beacon_structure_index != std::numeric_limits<std::size_t>::max()) {
 			return;
@@ -22,15 +22,15 @@ namespace csv_rw_route {
 
 		rail_object_info roi;
 
-		auto file_iter = object_beacon_mapping.find(inst.beacon_structure_index);
+		auto const file_iter = object_beacon_mapping_.find(inst.beacon_structure_index);
 
-		if (file_iter == object_beacon_mapping.end()) {
+		if (file_iter == object_beacon_mapping_.end()) {
 			std::ostringstream oss;
 
 			oss << "Beacon Structure #" << inst.beacon_structure_index
 			    << " isn't mapped. Use Structure.Beacon to declare it.";
 
-			errors::add_error(_errors, get_filename(inst.file_index), inst.line, oss);
+			add_error(errors_, get_filename(inst.file_index), inst.line, oss);
 		}
 
 		roi.filename = file_iter->second;
@@ -39,10 +39,10 @@ namespace csv_rw_route {
 		// TODO(sirflankalot): convert PYR to angle vector
 		/* roi.rotation = */
 
-		_route_data.objects.emplace_back(std::move(roi));
+		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Transponder& inst) {
+	void pass3_executor::operator()(const instructions::track::transponder& inst) {
 		beacon_info bi;
 
 		bi.position = inst.absolute_position;
@@ -55,7 +55,7 @@ namespace csv_rw_route {
 		}
 		bi.section_offset = inst.signal;
 
-		_route_data.beacons.emplace_back(std::move(bi));
+		route_data_.beacons.emplace_back(std::move(bi));
 
 		rail_object_info roi;
 
@@ -85,17 +85,17 @@ namespace csv_rw_route {
 		// TODO(sirflankalot): convert PYR to angle vector
 		/* roi.rotation = */
 
-		_route_data.objects.emplace_back(std::move(roi));
+		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Pattern& inst) {
+	void pass3_executor::operator()(const instructions::track::pattern& inst) const {
 		atsp_section_info asi;
 
 		asi.position = inst.absolute_position;
-		asi.permanent = bool(inst.type) ? bool(inst.Permanent) : bool(inst.Temporary);
+		asi.permanent = bool(inst.type) ? bool(inst.permanent) : bool(inst.temporary);
 		asi.speed = inst.speed;
 
-		_route_data.patterns.emplace_back(std::move(asi));
+		route_data_.patterns.emplace_back(std::move(asi));
 	}
 } // namespace csv_rw_route
 } // namespace parsers

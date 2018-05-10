@@ -8,7 +8,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Cycle.Ground");
 			args_at_least(inst, 1, "Cycle.Ground");
 
-			instructions::cycle::Ground g;
+			instructions::cycle::ground g;
 
 			g.cycle_structure_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
@@ -26,7 +26,7 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Cycle.Rail");
 			args_at_least(inst, 1, "Cycle.Rail");
 
-			instructions::cycle::Rail r;
+			instructions::cycle::rail r;
 
 			r.cycle_structure_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));

@@ -1,4 +1,3 @@
-#include "variant_compare.hpp"
 #include <doctest.h>
 #include <parsers/errors.hpp>
 #include <sstream>
@@ -11,7 +10,7 @@ TEST_CASE("libparsers - errors - errors::errors_t - add single error") {
 	constexpr std::intmax_t line = 59;
 
 	SUBCASE("String") {
-		parsers::errors::add_error(error_list, line, "Hello");
+		add_error(error_list, line, "Hello");
 
 		REQUIRE_EQ(error_list.size(), 1);
 		CHECK_EQ(error_list[0].line, line);
@@ -23,7 +22,7 @@ TEST_CASE("libparsers - errors - errors::errors_t - add single error") {
 
 		oss << "Hello";
 
-		parsers::errors::add_error(error_list, line, oss);
+		add_error(error_list, line, oss);
 
 		REQUIRE_EQ(error_list.size(), 1);
 		CHECK_EQ(error_list[0].line, line);
@@ -38,7 +37,7 @@ TEST_CASE("libparsers - errors - errors::multi_error_t - add single error") {
 	constexpr std::intmax_t line = 59;
 
 	SUBCASE("String") {
-		parsers::errors::add_error(error_list, filename, line, "Hello");
+		add_error(error_list, filename, line, "Hello");
 
 		REQUIRE_EQ(error_list.size(), 1);
 		REQUIRE_EQ(error_list.count(filename), 1);
@@ -52,7 +51,7 @@ TEST_CASE("libparsers - errors - errors::multi_error_t - add single error") {
 
 		oss << "Hello";
 
-		parsers::errors::add_error(error_list, filename, line, oss);
+		add_error(error_list, filename, line, oss);
 
 		REQUIRE_EQ(error_list.size(), 1);
 		REQUIRE_EQ(error_list.count(filename), 1);

@@ -1,5 +1,6 @@
 #include "utils.hpp"
 #include <doctest.h>
+#include <stdexcept>
 
 using namespace std::string_literals;
 using color = openbve2::datatypes::color8_rgba;

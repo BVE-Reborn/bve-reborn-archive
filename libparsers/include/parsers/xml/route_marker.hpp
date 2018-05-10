@@ -15,37 +15,37 @@ namespace xml {
 			std::string early_filename;
 			std::string on_time_filename;
 			std::string late_filename;
-			openbve2::datatypes::time early_time;
-			openbve2::datatypes::time late_time;
+			openbve2::datatypes::time early_time = 0;
+			openbve2::datatypes::time late_time = 0;
 			std::intmax_t timeout = 0;
-			float distance;
+			float distance = 0;
 			bool using_early = false;
 			bool using_late = false;
 		};
 
 		struct text_marker {
 			enum class color : std::uint8_t {
-				Black,
-				Gray,
-				White,
-				Red,
-				Orange,
-				Green,
-				Blue,
-				Magenta
+				black,
+				gray,
+				white,
+				red,
+				orange,
+				green,
+				blue,
+				magenta
 			};
 
 			std::vector<std::string> allowed_trains;
 			std::string early_text;
 			std::string on_time_text;
 			std::string late_text;
-			openbve2::datatypes::time early_time;
-			openbve2::datatypes::time late_time;
+			openbve2::datatypes::time early_time = 0;
+			openbve2::datatypes::time late_time = 0;
 			std::intmax_t timeout = 0;
-			float distance;
-			color early_color = color::White;
-			color on_time_color = color::White;
-			color late_color = color::White;
+			float distance = 0;
+			color early_color = color::white;
+			color on_time_color = color::white;
+			color late_color = color::white;
 			bool using_early = false;
 			bool using_late = false;
 		};

@@ -1,5 +1,6 @@
 #include "utils.hpp"
 #include <doctest.h>
+#include <stdexcept>
 
 using namespace std::string_literals;
 
@@ -11,7 +12,7 @@ using namespace std::string_literals;
 
 TEST_SUITE_BEGIN("libparsers - util");
 
-// NOLINTNEXTLINE(google-readability-function-size)
+// NOLINTNEXTLINE(google-readability-function-size,readability-function-size)
 TEST_CASE("libparsers - util - parse_time") {
 	CHECK_EQ(parsers::util::parse_time("0"), 0 * 3600);
 	CHECK_EQ(parsers::util::parse_time("5"), 5 * 3600);

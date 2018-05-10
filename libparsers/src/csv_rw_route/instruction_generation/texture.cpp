@@ -9,31 +9,31 @@ namespace csv_rw_route {
 			indices_at_least(inst, 1, "Texture.Background");
 			args_at_least(inst, 1, "Texture.Background");
 
-			auto background_texture_index =
+			auto const background_texture_index =
 			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 
 			if (inst.suffix.empty() || inst.suffix == "load") {
-				instructions::texture::Background_Load bl;
+				instructions::texture::background_load bl;
 				bl.background_texture_index = background_texture_index;
 				bl.filename = inst.args[0];
 				return bl;
 			}
 
-			auto number = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+			auto const number = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 
 			if (inst.suffix == "x") {
-				instructions::texture::Background_X x;
+				instructions::texture::background_x x;
 				x.background_texture_index = background_texture_index;
 				x.repetition_count = number;
 				return x;
 			}
 
 			if (inst.suffix == "aspect") {
-				instructions::texture::Background_Aspect ba;
+				instructions::texture::background_aspect ba;
 
 				ba.background_texture_index = background_texture_index;
-				ba.mode = number != 0 ? instructions::texture::Background_Aspect::Aspect
-				                      : instructions::texture::Background_Aspect::Fixed;
+				ba.mode = number != 0 ? instructions::texture::background_aspect::aspect
+				                      : instructions::texture::background_aspect::fixed;
 
 				return ba;
 			}

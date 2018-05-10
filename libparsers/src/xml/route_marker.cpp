@@ -18,37 +18,37 @@ namespace xml {
 			text_marker::color parse_text_color(rapidxml::xml_node<char>* test_color_node) {
 				static std::map<std::string, text_marker::color> text_mapping{
 				    //
-				    {"black", text_marker::color::Black},    {"gray", text_marker::color::Gray},
-				    {"grey", text_marker::color::Gray},      {"white", text_marker::color::White},
-				    {"red", text_marker::color::Red},        {"orange", text_marker::color::Orange},
-				    {"green", text_marker::color::Green},    {"blue", text_marker::color::Blue},
-				    {"magenta", text_marker::color::Magenta}
+				    {"black", text_marker::color::black},    {"gray", text_marker::color::gray},
+				    {"grey", text_marker::color::gray},      {"white", text_marker::color::white},
+				    {"red", text_marker::color::red},        {"orange", text_marker::color::orange},
+				    {"green", text_marker::color::green},    {"blue", text_marker::color::blue},
+				    {"magenta", text_marker::color::magenta}
 				    //
 				};
 
-				auto find_mapping_iter = text_mapping.find(util::lower_copy(
+				auto const find_mapping_iter = text_mapping.find(util::lower_copy(
 				    std::string(test_color_node->value(), test_color_node->value_size())));
 				if (find_mapping_iter != text_mapping.end()) {
 					return find_mapping_iter->second;
 				}
 
-				return text_marker::color::Black;
+				return text_marker::color::black;
 			}
 
 			//////////////////////////////
 			// Parsing Early/Late Nodes //
 			//////////////////////////////
 
-			template <bool early, bool text>
+			template <bool Early, bool Text>
 			auto parse_early_late_impl(rapidxml::xml_node<char>* start_node) {
 				auto* time_node = start_node->first_node("time", 0, false);
-				auto* data_node =
-				    start_node->first_node((text ? "text"s : "image"s).c_str(), 0, false);
+				auto data_node =
+				    start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 				if (time_node == nullptr || data_node == nullptr) {
 					std::string err;
-					if (early) {
-						if (text) {
+					if (Early) {
+						if (Text) {
 							err = "XML node <Early> must have a <Time> AND a <Text> node."s;
 						}
 						else {
@@ -56,7 +56,7 @@ namespace xml {
 						}
 					}
 					else {
-						if (text) {
+						if (Text) {
 							err = "XML node <Late> must have a <Time> AND a <Text> node."s;
 						}
 						else {
@@ -67,7 +67,7 @@ namespace xml {
 					throw std::invalid_argument(err);
 				}
 
-				if (text) {
+				if (Text) {
 					auto* text_color_node = start_node->first_node("color", 0, false);
 
 					if (text_color_node != nullptr) {
@@ -78,11 +78,11 @@ namespace xml {
 					}
 					return std::make_tuple(util::parse_time(time_node->value()),
 					                       std::string(data_node->name(), data_node->name_size()),
-					                       text_marker::color::Black);
+					                       text_marker::color::black);
 				}
 				return std::make_tuple(util::parse_time(time_node->value()),
 				                       std::string(data_node->name(), data_node->name_size()),
-				                       text_marker::color::Black);
+				                       text_marker::color::black);
 			}
 
 			auto parse_text_early(rapidxml::xml_node<char>* start_node) {
@@ -103,15 +103,15 @@ namespace xml {
 			// Parsing OnTime Nodes //
 			//////////////////////////
 
-			template <bool text>
+			template <bool Text>
 			std::string parse_on_time_impl(rapidxml::xml_node<char>* on_time_node) {
-				auto* data_node =
-				    on_time_node->first_node((text ? "text"s : "image"s).c_str(), 0, false);
+				auto data_node =
+				    on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 				if (data_node == nullptr) {
 					std::string err;
 
-					if (text) {
+					if (Text) {
 						err = "XML node <OnTime> must have a <Text> node."s;
 					}
 					else {
@@ -140,8 +140,8 @@ namespace xml {
 					return util::parse_loose_float(
 					    std::string(distance_node->value(), distance_node->value_size()));
 				}
-				catch (const std::invalid_argument& e) {
-					throw e;
+				catch (const std::invalid_argument&) {
+					throw;
 				}
 			}
 
@@ -154,8 +154,8 @@ namespace xml {
 					return util::parse_loose_integer(
 					    std::string(timeout_node->value(), timeout_node->value_size()));
 				}
-				catch (const std::invalid_argument& e) {
-					throw e;
+				catch (const std::invalid_argument&) {
+					throw;
 				}
 			}
 
@@ -194,7 +194,7 @@ namespace xml {
 					marker.early_filename = get_relative_file(filename, std::get<1>(tuple));
 				}
 				if (on_time_node != nullptr) {
-					auto val = parse_image_on_time(on_time_node);
+					auto const val = parse_image_on_time(on_time_node);
 					marker.on_time_filename = get_relative_file(filename, val);
 				}
 				if (late_node != nullptr) {
@@ -243,7 +243,7 @@ namespace xml {
 					marker.early_color = std::get<2>(tuple);
 				}
 				if (on_time_node != nullptr) {
-					auto val = parse_text_on_time(on_time_node);
+					auto const val = parse_text_on_time(on_time_node);
 					marker.on_time_text = get_relative_file(filename, val);
 				}
 				if (late_node != nullptr) {
@@ -283,11 +283,12 @@ namespace xml {
 				primary_node = doc.first_node();
 			}
 
-			auto primary_node_name = std::string(primary_node->name(), primary_node->name_size());
+			auto const primary_node_name =
+			    std::string(primary_node->name(), primary_node->name_size());
 			auto primary_node_name_lower = util::lower_copy(primary_node_name);
 
-			bool is_image_marker = primary_node_name == "imagemarker"s;
-			bool is_text_marker = primary_node_name == "textmarker"s;
+			auto const is_image_marker = primary_node_name == "imagemarker"s;
+			auto const is_text_marker = primary_node_name == "textmarker"s;
 
 			if (!is_image_marker || !is_text_marker) {
 				std::ostringstream err;

@@ -5,11 +5,11 @@ namespace parsers {
 namespace csv_rw_route {
 	namespace instruction_generation {
 		instruction create_instruction_track_back(const line_splitting::instruction_info& inst) {
-			return create_single_sizet_instruction<instructions::track::Back>(inst, "Track.Back");
+			return create_single_sizet_instruction<instructions::track::back>(inst, "Track.Back");
 		}
 
 		instruction create_instruction_track_fog(const line_splitting::instruction_info& inst) {
-			instructions::track::Fog f;
+			instructions::track::fog f;
 
 			switch (inst.args.size()) {
 				default:
@@ -40,7 +40,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_track_brightness(
 		    const line_splitting::instruction_info& inst) {
-			instructions::track::Brightness b;
+			instructions::track::brightness b;
 
 			if (!inst.args.empty()) {
 				b.value = gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[0], 255));
@@ -53,7 +53,7 @@ namespace csv_rw_route {
 			args_at_least(inst, 1, "Track.Marker");
 
 			if (inst.args.size() >= 2) {
-				instructions::track::Marker m;
+				instructions::track::marker m;
 
 				m.filename = inst.args[0];
 				m.distance = util::parse_loose_float(inst.args[1]);
@@ -61,7 +61,7 @@ namespace csv_rw_route {
 				return m;
 			}
 
-			instructions::track::MarkerXML mxml;
+			instructions::track::marker_xml mxml;
 
 			mxml.filename = inst.args[0];
 
@@ -73,7 +73,7 @@ namespace csv_rw_route {
 			args_at_least(inst, 1, "Track.TextMarker");
 
 			if (inst.args.size() >= 2) {
-				instructions::track::TextMarker m;
+				instructions::track::text_marker m;
 
 				m.text = inst.args[0];
 				m.distance = util::parse_loose_float(inst.args[1]);
@@ -81,35 +81,36 @@ namespace csv_rw_route {
 				if (inst.args.size() >= 3) {
 					static std::map<std::string, decltype(decltype(m)::font_color)> text_mapping{
 					    //
-					    {"black", instructions::track::TextMarker::Black},
-					    {"gray", instructions::track::TextMarker::Gray},
-					    {"grey", instructions::track::TextMarker::Gray},
-					    {"white", instructions::track::TextMarker::White},
-					    {"red", instructions::track::TextMarker::Red},
-					    {"orange", instructions::track::TextMarker::Orange},
-					    {"green", instructions::track::TextMarker::Green},
-					    {"blue", instructions::track::TextMarker::Blue},
-					    {"magenta", instructions::track::TextMarker::Magenta}
+					    {"black", instructions::track::text_marker::black},
+					    {"gray", instructions::track::text_marker::gray},
+					    {"grey", instructions::track::text_marker::gray},
+					    {"white", instructions::track::text_marker::white},
+					    {"red", instructions::track::text_marker::red},
+					    {"orange", instructions::track::text_marker::orange},
+					    {"green", instructions::track::text_marker::green},
+					    {"blue", instructions::track::text_marker::blue},
+					    {"magenta", instructions::track::text_marker::magenta}
 					    //
 					};
 
-					auto text_mapping_iter = text_mapping.find(util::lower_copy(inst.args[2]));
+					auto const text_mapping_iter =
+					    text_mapping.find(util::lower_copy(inst.args[2]));
 
 					if (text_mapping_iter != text_mapping.end()) {
 						m.font_color = text_mapping_iter->second;
 					}
 					else {
-						m.font_color = instructions::track::TextMarker::Black;
+						m.font_color = instructions::track::text_marker::black;
 					}
 				}
 				else {
-					m.font_color = instructions::track::TextMarker::Black;
+					m.font_color = instructions::track::text_marker::black;
 				}
 
 				return m;
 			}
 
-			instructions::track::MarkerXML mxml;
+			instructions::track::marker_xml mxml;
 
 			mxml.filename = inst.args[0];
 
@@ -120,7 +121,7 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.PointOfInterest");
 
-			instructions::track::PointOfInterest poi;
+			instructions::track::point_of_interest poi;
 
 			poi.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 			set_positions<1>(poi, inst);
@@ -135,7 +136,7 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.PreTrain");
 
-			instructions::track::PreTrain pt;
+			instructions::track::pre_train pt;
 
 			pt.time = util::parse_time(inst.args[0]);
 
@@ -146,7 +147,7 @@ namespace csv_rw_route {
 		    const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.Announce");
 
-			instructions::track::Announce a;
+			instructions::track::announce a;
 
 			a.filename = inst.args[0];
 			if (inst.args.size() >= 2) {
@@ -159,7 +160,7 @@ namespace csv_rw_route {
 		instruction create_instruction_track_doppler(const line_splitting::instruction_info& inst) {
 			args_at_least(inst, 1, "Track.Doppler");
 
-			instructions::track::Doppler d;
+			instructions::track::doppler d;
 
 			d.filename = inst.args[0];
 			switch (inst.args.size()) {
@@ -179,7 +180,7 @@ namespace csv_rw_route {
 
 		instruction create_instruction_track_buffer(const line_splitting::instruction_info& inst) {
 			(void) inst;
-			return instructions::track::Buffer{};
+			return instructions::track::buffer{};
 		}
 	} // namespace instruction_generation
 } // namespace csv_rw_route

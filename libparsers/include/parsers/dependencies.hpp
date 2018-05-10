@@ -3,6 +3,7 @@
 #include "core/datatypes.hpp"
 #include <set>
 #include <string>
+#include <tuple>
 
 namespace parsers {
 namespace dependencies {
@@ -13,16 +14,12 @@ namespace dependencies {
 
 		// less than operator for use in std::set
 		friend bool operator<(const texture_t& lhs, const texture_t& rhs) {
-			auto lhs_dtc_val = uint32_t(lhs.decal_transparent_color.r) << 16
-			                   & uint32_t(lhs.decal_transparent_color.g) << 8
-			                   & lhs.decal_transparent_color.r;
-			auto rhs_dtc_val = uint32_t(rhs.decal_transparent_color.r) << 16
-			                   & uint32_t(rhs.decal_transparent_color.g) << 8
-			                   & rhs.decal_transparent_color.r;
-
-			return lhs.file < rhs.file && lhs_dtc_val < rhs_dtc_val
-			       && static_cast<int>(lhs.has_transparent_color)
-			              < static_cast<int>(rhs.has_transparent_color);
+			return std::make_tuple(lhs.file, lhs.decal_transparent_color.x,
+			                       lhs.decal_transparent_color.y, lhs.decal_transparent_color.z,
+			                       lhs.has_transparent_color)
+			       < std::make_tuple(rhs.file, rhs.decal_transparent_color.x,
+			                         rhs.decal_transparent_color.y, rhs.decal_transparent_color.z,
+			                         rhs.has_transparent_color);
 		}
 	};
 

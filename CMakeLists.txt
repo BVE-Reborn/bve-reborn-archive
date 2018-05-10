@@ -46,6 +46,8 @@ set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD TRUE)
 # Global Config #
 #################
 
+file(COPY OpenBVE2.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
+
 if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (OPENBVE2_CODE_COVERAGE))
     message(STATUS "Compiling with CodeCoverage")
     include(CodeCoverage)
