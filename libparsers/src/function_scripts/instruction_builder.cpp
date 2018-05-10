@@ -204,7 +204,7 @@ namespace function_scripts {
 			list.instructions.emplace_back<instructions::stack_push>({0});
 		}
 
-		void operator()(const tree_types::name& node) {
+		void operator()(const tree_types::identifier& node) {
 			auto const lower_name = util::lower_copy(node.val);
 
 			auto const iter = naked_variables.find(lower_name);

@@ -2,7 +2,7 @@
 #include <iostream>
 
 void test_csv() {
-	const char* test_csv_ptr =
+	auto const test_csv_ptr =
 	    "CreateMeshBuilder,,,,, \n"
 	    "AddVertex, vX, vY, vZ, nX, nY, nZ\n"
 	    "AddFace, v1, v2, v3, ..., vn\n"
@@ -25,9 +25,9 @@ void test_csv() {
 	    "SetDecalTransparentColor, Red, Green, Blue\n"
 	    "SetTextureCoordinates, VertexIndex, X, Y\n";
 
-	std::string test_csv(test_csv_ptr);
+	std::string const test_csv(test_csv_ptr);
 
-	auto result = parsers::csv::parse(test_csv);
+	auto const result = parsers::csv::parse(test_csv);
 
 	std::cout << result;
 }

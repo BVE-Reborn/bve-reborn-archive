@@ -23,15 +23,15 @@ namespace csv_rw_route {
 		switch (inst.mode) {
 			case instructions::route::change::safty_activiated_emergency_brakes:
 				route_data_.safty_system_status =
-				    safty_system_status::safty_activiated_emergency_brakes;
+				    safty_system_status_t::safty_activiated_emergency_brakes;
 				break;
 			case instructions::route::change::safty_activiated_service_brakes:
 				route_data_.safty_system_status =
-				    safty_system_status::safty_activiated_service_brakes;
+				    safty_system_status_t::safty_activiated_service_brakes;
 				break;
 			case instructions::route::change::safty_deactivated_emergency_brakes:
 				route_data_.safty_system_status =
-				    safty_system_status::safty_deactivated_emergency_brakes;
+				    safty_system_status_t::safty_deactivated_emergency_brakes;
 				break;
 			default:
 				break;

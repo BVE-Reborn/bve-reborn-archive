@@ -6,7 +6,7 @@ using namespace std::string_literals;
 TEST_SUITE_BEGIN("libparsers - core_ini");
 
 TEST_CASE("libparsers - core_ini - empty file") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse("");
+	auto parsed = parsers::ini::parse("");
 
 	REQUIRE_EQ(parsed.size(), 1);
 	CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
@@ -16,7 +16,7 @@ TEST_CASE("libparsers - core_ini - empty file") {
 }
 
 TEST_CASE("libparsers - core_ini - single value") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse("val");
+	auto parsed = parsers::ini::parse("val");
 
 	REQUIRE_EQ(parsed.size(), 1);
 	CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
@@ -29,7 +29,7 @@ TEST_CASE("libparsers - core_ini - single value") {
 }
 
 TEST_CASE("libparsers - core_ini - single key value pair") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse("key = value");
+	auto parsed = parsers::ini::parse("key = value");
 
 	REQUIRE_EQ(parsed.size(), 1);
 	REQUIRE_EQ(parsed[0].key_value_pairs.size(), 1);
@@ -43,7 +43,7 @@ TEST_CASE("libparsers - core_ini - single key value pair") {
 }
 
 TEST_CASE("libparsers - core_ini - empty section") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse("[sec1]");
+	auto parsed = parsers::ini::parse("[sec1]");
 
 	REQUIRE_EQ(parsed.size(), 2);
 	CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
@@ -58,7 +58,7 @@ TEST_CASE("libparsers - core_ini - empty section") {
 }
 
 TEST_CASE("libparsers - core_ini - single value inside section") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse(
+	auto parsed = parsers::ini::parse(
 	    "[sec1]\n"
 	    "val");
 
@@ -78,7 +78,7 @@ TEST_CASE("libparsers - core_ini - single value inside section") {
 }
 
 TEST_CASE("libparsers - core_ini - single key value pair inside section") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse(
+	auto parsed = parsers::ini::parse(
 	    "[sec1]\n"
 	    "key = value");
 
@@ -99,7 +99,7 @@ TEST_CASE("libparsers - core_ini - single key value pair inside section") {
 }
 
 TEST_CASE("libparsers - core_ini - single value before section") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse(
+	auto parsed = parsers::ini::parse(
 	    "val\n"
 	    "[sec1]");
 
@@ -119,7 +119,7 @@ TEST_CASE("libparsers - core_ini - single value before section") {
 }
 
 TEST_CASE("libparsers - core_ini - single key value pair before section") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse(
+	auto parsed = parsers::ini::parse(
 	    "key = value\n"
 	    "[sec1]");
 
@@ -140,7 +140,7 @@ TEST_CASE("libparsers - core_ini - single key value pair before section") {
 }
 
 TEST_CASE("libparsers - core_ini - single key value pair with second equals") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse("key = value = 2\n");
+	auto parsed = parsers::ini::parse("key = value = 2\n");
 
 	REQUIRE_EQ(parsed.size(), 1);
 	REQUIRE_EQ(parsed[0].key_value_pairs.size(), 1);
@@ -154,7 +154,7 @@ TEST_CASE("libparsers - core_ini - single key value pair with second equals") {
 }
 
 TEST_CASE("libparsers - core_ini - missing right bracket") {
-	parsers::ini::parsed_ini_object parsed = parsers::ini::parse("[sec1\n");
+	auto parsed = parsers::ini::parse("[sec1\n");
 
 	REQUIRE_EQ(parsed.size(), 2);
 	CHECK_EQ(parsed[0].key_value_pairs.size(), 0);

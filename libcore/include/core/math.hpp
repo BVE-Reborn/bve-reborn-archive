@@ -6,26 +6,26 @@
 namespace openbve2 {
 namespace math {
 	template <class T, class A, class B>
-	inline T clamp(T value, A min, B max) {
+	T clamp(T value, A min, B max) {
 		return value > max ? T(max) : (value < min ? T(min) : value);
 	}
 
 	template <class R = void, class A, class B>
-	inline auto max(A a, B b) -> typename std::
+	auto max(A a, B b) -> typename std::
 	    conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) > t(b) ? t(a) : t(b);
 	}
 
 	template <class R = void, class A, class B>
-	inline auto min(A a, B b) -> typename std::
+	auto min(A a, B b) -> typename std::
 	    conditional<std::is_same<R, void>::value, typename std::common_type<A, B>::type, R>::type {
 		using t = decltype(max<R, A, B>(std::declval<A>(), std::declval<B>()));
 		return t(a) < t(b) ? t(a) : t(b);
 	}
 
 	template <class A, class B, class C>
-	inline auto lerp(A v0, B v1, C t) {
+	auto lerp(A v0, B v1, C t) {
 		using common = typename std::common_type<A, B, C>::type;
 		return common(v0) + common(t) * (common(v1) - common(v0));
 	}

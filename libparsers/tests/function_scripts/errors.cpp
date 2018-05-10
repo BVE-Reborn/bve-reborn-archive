@@ -1,4 +1,4 @@
-#include "variant_compare.hpp"
+#include "test_macro_util.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
 
@@ -201,8 +201,7 @@ TEST_CASE("libparsers - function scripts - errors - too many ternary function ar
 }
 
 TEST_CASE("libparsers - function scripts - errors - 1 missing variatic function argument") {
-	auto function = fs_inst::func_max{};
-	function.count = 1;
+	auto function = fs_inst::func_max{1};
 
 	auto result = parsers::function_scripts::parse("max[]");
 

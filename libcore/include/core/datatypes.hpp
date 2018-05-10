@@ -19,10 +19,10 @@ namespace datatypes {
 	using color16_rgb = glm::u16vec3;
 	using color16_rgba = glm::u16vec4;
 
-	using colorF_r = glm::highp_vec1;
-	using colorF_rg = glm::vec2;
-	using colorF_rgb = glm::vec3;
-	using colorF_rgba = glm::vec4;
+	using colorf_r = glm::highp_vec1;
+	using colorf_rg = glm::vec2;
+	using colorf_rgb = glm::vec3;
+	using colorf_rgba = glm::vec4;
 
 	using rng = std::mt19937;
 

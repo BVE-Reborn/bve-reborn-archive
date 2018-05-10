@@ -3,6 +3,7 @@
 #include <cmath>
 #include <glm/geometric.hpp>
 
+// ReSharper disable once CppInconsistentNaming
 #define _USE_MATH_DEFINES
 #include <math.h> // NOLINT Also include overloads of std::*
 
@@ -16,25 +17,25 @@ float openbve2::math::radius_from_distances(float deltax, float deltay) {
 	auto& x1 = deltax;
 	auto& y1 = deltay;
 
-	auto angle = std::atan2(y1, x1);
+	auto const angle = std::atan2(y1, x1);
 
-	auto num = std::sqrt(y1 * y1 + x1 * x1) * std::sin(float(M_PI_2) - angle);
-	auto denom = std::sin(float(M_PI) - 2 * (float(M_PI_2) - angle));
+	auto const num = std::sqrt(y1 * y1 + x1 * x1) * std::sin(float(M_PI_2) - angle);
+	auto const denom = std::sin(float(M_PI) - 2 * (float(M_PI_2) - angle));
 
-	auto radius = num / denom;
+	auto const radius = num / denom;
 
 	return radius;
 }
 
 openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_position,
                                                                 glm::vec3 input_direction,
-                                                                float distance,
+                                                                float const distance,
                                                                 float radius) {
 	if (distance == 0) {
 		return {input_position, input_direction};
 	}
 
-	auto original_input_direction = input_direction;
+	auto const original_input_direction = input_direction;
 	assert(input_direction != glm::vec3(0));
 	input_direction = normalize(input_direction);
 
@@ -43,13 +44,13 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 		return {input_position, original_input_direction};
 	}
 
-	float vertical_movement = input_direction.y * distance;
+	auto const vertical_movement = input_direction.y * distance;
 
 	// non-vertical movement we are allowed
-	float horizontal_movement =
+	auto const horizontal_movement =
 	    std::sqrt(distance * distance - vertical_movement * vertical_movement);
 
-	bool flipped_radius = radius < 0;
+	auto const flipped_radius = radius < 0;
 	radius = std::abs(radius);
 
 	// convert from game direction coordinates to 2d cartisian plane
@@ -64,20 +65,20 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	}
 
 	// get angle of input
-	float atan = std::atan2(xy.y, xy.x);
+	auto atan = std::atan2(xy.y, xy.x);
 	if (xy.y < 0) {
 		atan += static_cast<float>(M_PI * 2);
 	}
 
 	// flip the result of arctan so the angles are going clockwise, not counter
-	float input_angle = static_cast<float>(M_PI * 2) - atan;
+	auto const input_angle = static_cast<float>(M_PI * 2) - atan;
 
 	// compute fraction of circle traveled
-	float circumference = 2 * static_cast<float>(M_PI) * radius;
-	float frac_traveled = horizontal_movement / circumference;
+	auto const circumference = 2 * static_cast<float>(M_PI) * radius;
+	auto const frac_traveled = horizontal_movement / circumference;
 
 	// get angle traveled in radians
-	float travel_angle = frac_traveled * static_cast<float>(M_PI * 2);
+	auto travel_angle = frac_traveled * static_cast<float>(M_PI * 2);
 
 	// make sure the ending angle includes the starting angle
 	travel_angle += input_angle;
@@ -90,8 +91,8 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	// the track is comming in at (0,0)
 	// right on the coordinate plane is moving forward (+z in game world)
 	// down on the coordinate plane is turning right (+x in the game world)
-	float travel_x = std::sin(travel_angle);
-	float travel_y = std::cos(travel_angle);
+	auto travel_x = std::sin(travel_angle);
+	auto travel_y = std::cos(travel_angle);
 
 	// Get tangent at ending point
 	auto radius_line = glm::vec2(travel_x, travel_y) - glm::vec2(0, 0);
@@ -120,8 +121,9 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	}
 
 	// convert to game space
-	glm::vec3 gamespace_offset(-travel_y, vertical_movement, travel_x);
+	glm::vec3 const gamespace_offset(-travel_y, vertical_movement, travel_x);
 	tangent_line *= horizontal_movement;
+	// ReSharper disable once CppInconsistentNaming
 	glm::vec3 tangent_3d(-tangent_line.y, vertical_movement, tangent_line.x);
 	tangent_3d = normalize(tangent_3d);
 	tangent_3d *= length(original_input_direction);
@@ -132,13 +134,13 @@ openbve2::math::evaulate_curve_t openbve2::math::evaluate_curve(glm::vec3 input_
 	return evaulate_curve_t{input_position, tangent_3d};
 }
 
-glm::vec3 openbve2::math::position_from_offsets(glm::vec3 input_position,
-                                                glm::vec3 input_tangent,
-                                                float x_offset,
-                                                float y_offset) {
+glm::vec3 openbve2::math::position_from_offsets(glm::vec3 const input_position,
+                                                glm::vec3 const input_tangent,
+                                                float const x_offset,
+                                                float const y_offset) {
 	assert(input_tangent != glm::vec3(0));
 
-	auto x_z = normalize(glm::vec2(input_tangent.x, input_tangent.z));
+	auto const x_z = normalize(glm::vec2(input_tangent.x, input_tangent.z));
 
 	// rotate 270 degrees
 	glm::vec2 normal(x_z.y, -x_z.x);

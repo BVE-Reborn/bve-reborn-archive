@@ -155,7 +155,7 @@ namespace function_scripts {
 		tree_node parse_function_call_expression(lexer_token_container& list) {
 			auto variable = list.get_next_token<lexer_types::variable>();
 			if (variable) {
-				tree_types::name name_node{variable->name};
+				tree_types::identifier name_node{variable->name};
 				if (list.skip_next_token<lexer_types::l_bracket>()) {
 					tree_types::function_call func_node{name_node, {}};
 					while (true) {

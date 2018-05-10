@@ -1,4 +1,6 @@
 #include "b3d_csv_object.hpp"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <iostream>
 
 using namespace std::string_literals;
 

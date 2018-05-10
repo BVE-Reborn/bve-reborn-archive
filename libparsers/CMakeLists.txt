@@ -141,7 +141,7 @@ set(TEST_SOURCES
     )
 
 set(TEST_HEADERS
-                 tests/variant_compare.hpp
+                 tests/test_macro_util.hpp
     )
 
 add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})

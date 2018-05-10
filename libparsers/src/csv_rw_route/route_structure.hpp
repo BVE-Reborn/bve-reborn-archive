@@ -58,19 +58,19 @@ namespace csv_rw_route {
 		bool bve2_4_content : 1;
 	};
 
-	enum class safty_system_status {
+	enum class safty_system_status_t {
 		safty_activiated_service_brakes,
 		safty_activiated_emergency_brakes,
 		safty_deactivated_emergency_brakes
 	};
 
-	enum class direction { left, none, right };
+	enum class direction_t { left, none, right };
 
-	enum class bi_direction { left, both, right };
+	enum class bi_direction_t { left, both, right };
 
 	struct rail_station_stop_info {
 		float position;
-		direction direction;
+		direction_t direction;
 		float backward_tolerance;
 		float forward_tolerance;
 		std::size_t car_count;
@@ -214,7 +214,7 @@ namespace csv_rw_route {
 		compatibility_modes compatibility;
 
 		// Start Conditions
-		safty_system_status safty_system_status;
+		safty_system_status_t safty_system_status;
 		openbve2::datatypes::time game_start_time = -1;
 
 		// Sound indices

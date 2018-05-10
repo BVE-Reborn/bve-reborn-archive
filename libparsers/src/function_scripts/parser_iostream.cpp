@@ -115,7 +115,7 @@ namespace function_scripts {
 			os_ << node.num << '\n';
 		}
 
-		void operator()(const tree_types::name& node) const {
+		void operator()(const tree_types::identifier& node) const {
 			start_print();
 			os_ << "VARIABLE: " << node.val << '\n';
 		}

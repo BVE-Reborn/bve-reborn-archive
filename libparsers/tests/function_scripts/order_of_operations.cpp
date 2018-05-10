@@ -1,4 +1,4 @@
-#include "variant_compare.hpp"
+#include "test_macro_util.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
 

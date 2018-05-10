@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-int main(int argc, char** argv) {
+int main(int const argc, char** argv) {
 	if (argc != 2) {
 		std::cout << "First argument must be test mode\n";
 		return 1;

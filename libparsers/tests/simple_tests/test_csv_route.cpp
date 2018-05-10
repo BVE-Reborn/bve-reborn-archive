@@ -22,14 +22,14 @@ void test_csv_route() {
 	// auto file_location = DIRECTORY
 	//     "../libparsers/tests/test_files/plymouth/1980s/HST (Non-Stopping) - "
 	//     "Liskeard [c].csv";
-	auto file_location =
+	auto const file_location =
 	    DIRECTORY "../libparsers/tests/test_files/NYCT- R [Astoria to 95 St - 4th Av].csv"s;
 	//	auto file_location = DIRECTORY "../libparsers/tests/Xmasmonorail.csv";
 	// Bridge NTT [v1.0].csv";
 	auto used_file = boost::filesystem::path(file_location);
 
-	auto get_abs_path = [&](const std::string& base_file, const std::string& file) {
-		std::string new_file = file;
+	auto const get_abs_path = [&](const std::string& base_file, const std::string& file) {
+		auto new_file = file;
 		std::replace(new_file.begin(), new_file.end(), '\\', '/');
 		auto file_path = boost::filesystem::path(base_file); //
 		auto new_file_path = absolute(new_file, file_path.parent_path());

@@ -479,7 +479,7 @@ namespace csv_rw_route {
 			};
 
 			struct stop : instruction_base {
-				using stop_post_t = direction;
+				using stop_post_t = direction_t;
 				stop_post_t stop_post = stop_post_t::none;
 
 				float forwards_tolerance = 5;

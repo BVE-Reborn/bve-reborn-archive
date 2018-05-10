@@ -151,7 +151,7 @@ namespace function_scripts {
 		struct floating {
 			float num;
 		};
-		struct name {
+		struct identifier {
 			std::string val;
 		};
 
@@ -177,7 +177,7 @@ namespace function_scripts {
 	                          mapbox::util::recursive_wrapper<tree_types::function_call>,
 	                          tree_types::integer,
 	                          tree_types::floating,
-	                          tree_types::name,
+	                          tree_types::identifier,
 	                          tree_types::none>;
 
 	namespace tree_types {
@@ -254,7 +254,7 @@ namespace function_scripts {
 		};
 
 		struct function_call {
-			name name;
+			identifier name;
 			std::vector<tree_node> args;
 		};
 	} // namespace tree_types
