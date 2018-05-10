@@ -9,6 +9,10 @@ platform:
 environment:
   BOOST_ROOT: C:\Libraries\boost_1_64_0
 
+clone_folder: c:\projects\openbve2
+clone_depth: 1
+skip_tags: true
+
 init:
   - cmd: cmake --version
   - cmd: msbuild /version
@@ -27,7 +31,7 @@ before_build:
   - cmd: if "%platform%"=="x64" cmake .. -G "Visual Studio 15 2017 Win64" -DOPENBVE2_ON_TRAVIS=On -DBOOST_ROOT="%BOOST_ROOT%"
 
 build:
-  project: %APPVEYOR_BUILD_FOLDER%\build\openbve2.sln
+  project: C:\projects\openbve2\build\openbve2.sln
 
 test_script:
-  - cmd: %APPVEYOR_BUILD_FOLDER%\build\bin\%CONFIGURATION%\test_parsers.exe
+  - cmd: C:\projects\openbve2\build\bin\%CONFIGURATION%\test_parsers.exe
