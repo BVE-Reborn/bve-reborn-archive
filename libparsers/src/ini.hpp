@@ -27,6 +27,6 @@ namespace ini {
 	using parsed_ini_object = std::vector<ini_section_t>;
 	std::ostream& operator<<(std::ostream& os, const parsed_ini_object& rhs);
 
-	parsed_ini_object parse(const std::string& file);
+	parsed_ini_object parse(const std::string& file_string);
 } // namespace ini
 } // namespace parsers

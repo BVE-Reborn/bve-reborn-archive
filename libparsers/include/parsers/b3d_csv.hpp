@@ -38,7 +38,7 @@ namespace b3d_csv_object {
 
 	// defined in b3d_csv_object/parse.cpp
 	// ReSharper disable once CppInconsistentNaming
-	parsed_b3d_csv_object_t parse_b3d(std::string& filename);
-	parsed_b3d_csv_object_t parse_csv(std::string& filename);
+	parsed_b3d_csv_object_t parse_b3d(std::string& file_contents);
+	parsed_b3d_csv_object_t parse_csv(std::string& file_contents);
 } // namespace b3d_csv_object
 } // namespace parsers

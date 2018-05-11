@@ -4,9 +4,9 @@
 
 namespace parsers {
 namespace ini {
-	parsed_ini_object parse(const std::string& file) {
-		auto begin = file.begin();
-		auto const end = file.end();
+	parsed_ini_object parse(const std::string& file_string) {
+		auto begin = file_string.begin();
+		auto const end = file_string.end();
 
 		parsed_ini_object pio;
 		pio.emplace_back();

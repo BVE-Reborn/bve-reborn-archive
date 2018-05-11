@@ -113,6 +113,7 @@ cotire(parsers)
 
 set(TEST_SOURCES
                  tests/animated_object/parser.cpp
+                 tests/b3d_csv_object/commands.cpp
                  tests/core_csv/parse.cpp
                  tests/core_csv/iostream.cpp
                  tests/core_ini/parse.cpp
@@ -138,7 +139,7 @@ set(TEST_SOURCES
                  tests/util/parse_loose_float.cpp
                  tests/util/parse_time.cpp
                  tests/util/split_text.cpp
-    )
+        )
 
 set(TEST_HEADERS
                  tests/test_macro_util.hpp

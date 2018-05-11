@@ -60,6 +60,6 @@ namespace animated_object {
 		errors::errors_t errors;
 	};
 
-	parsed_animated_object parse(const std::string& file);
+	parsed_animated_object parse(const std::string& file_string);
 } // namespace animated_object
 } // namespace parsers

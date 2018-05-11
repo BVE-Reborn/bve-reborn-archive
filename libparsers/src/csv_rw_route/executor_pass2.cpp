@@ -15,7 +15,7 @@ namespace csv_rw_route {
 			errors::multi_error_t& errors_;
 			const std::vector<std::string>& filenames_;
 
-			decltype(instructions::options::cant_behavior::mode) cant_behavior_ =
+			decltype(instructions::options::cant_behavior::signed_cant) cant_behavior_ =
 			    instructions::options::cant_behavior::unsigned_cant;
 
 			rail_block_info& make_new_block(float position) {
@@ -176,7 +176,7 @@ namespace csv_rw_route {
 		pass2_executor p2_e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {
-			apply_visitor(p2_e, i);
+			mapbox::util::apply_visitor(p2_e, i);
 		}
 
 		return p2_e.rd;
