@@ -112,6 +112,14 @@ namespace b3d_csv_object {
 			bool all;
 		};
 
+		// Mirror and MirrorAll
+		struct mirror : base_instruction {
+			bool x = false;
+			bool y = false;
+			bool z = false;
+			bool all;
+		};
+
 		struct set_color : base_instruction {
 			uint8_t red = 255;
 			uint8_t green = 255;
@@ -160,6 +168,7 @@ namespace b3d_csv_object {
 		std::ostream& operator<<(std::ostream& os, const scale& rhs);
 		std::ostream& operator<<(std::ostream& os, const rotate& rhs);
 		std::ostream& operator<<(std::ostream& os, const shear& rhs);
+		std::ostream& operator<<(std::ostream& os, const mirror& rhs);
 		std::ostream& operator<<(std::ostream& os, const set_color& rhs);
 		std::ostream& operator<<(std::ostream& os, const set_emissive_color& rhs);
 		std::ostream& operator<<(std::ostream& os, const set_blend_mode& rhs);
@@ -207,6 +216,7 @@ namespace b3d_csv_object {
 			void operator()(const scale& arg);
 			void operator()(const rotate& arg);
 			void operator()(const shear& arg);
+			void operator()(const mirror& arg);
 			void operator()(const set_color& arg);
 			void operator()(const set_emissive_color& arg);
 			void operator()(const set_blend_mode& arg);
@@ -226,6 +236,7 @@ namespace b3d_csv_object {
 	                                          instructions::scale,
 	                                          instructions::rotate,
 	                                          instructions::shear,
+	                                          instructions::mirror,
 	                                          instructions::set_color,
 	                                          instructions::set_emissive_color,
 	                                          instructions::set_blend_mode,

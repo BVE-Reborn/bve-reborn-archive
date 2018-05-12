@@ -439,6 +439,23 @@ namespace b3d_csv_object {
 		}
 	}
 
+	void instructions::parsed_csv_object_builder::operator()(mirror const& arg) {
+		auto const factor = glm::vec3(arg.x ? -1 : 1, arg.y ? -1 : 1, arg.z ? -1 : 1);
+
+		for (auto& vertex : vertices) {
+			vertex.position *= factor;
+		}
+
+		// apply to all previous vertices
+		if (arg.all) {
+			for (auto& mesh : pso.meshes) {
+				for (auto& vertex : mesh.verts) {
+					vertex.position *= factor;
+				}
+			}
+		}
+	}
+
 	void instructions::parsed_csv_object_builder::operator()(const set_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.color =

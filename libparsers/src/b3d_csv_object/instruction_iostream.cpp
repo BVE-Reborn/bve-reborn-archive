@@ -92,6 +92,15 @@ namespace b3d_csv_object {
 			return os;
 		}
 
+		std::ostream& operator<<(std::ostream& os, const mirror& rhs) {
+			os << (rhs.all ? "(MirrorAll, " : "(Mirror, ") //
+			   << std::boolalpha                           //
+			   << "x = " << rhs.x << ", "
+			   << "y = " << rhs.y << ", "
+			   << "z = " << rhs.z << ", ";
+			return os;
+		}
+
 		std::ostream& operator<<(std::ostream& os, const set_color& rhs) {
 			os << "(SetColor, line = " << rhs.line << ", " //
 			   << "Red = " << static_cast<int>(rhs.red) << ", "

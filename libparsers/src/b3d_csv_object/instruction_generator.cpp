@@ -226,6 +226,34 @@ namespace b3d_csv_object {
 			return create_instruction_shear_impl(arguments, true);
 		}
 
+		instruction create_instruction_mirror_impl(const std::vector<csv::csv_token>& arguments,
+		                                           bool const all) {
+			instructions::mirror mirror{};
+			switch (arguments.size()) {
+				default:
+				case 4:
+					mirror.z = util::parse_loose_integer(arguments[3].text, 0) != 0;
+					// fall through
+				case 3:
+					mirror.y = util::parse_loose_integer(arguments[2].text, 0) != 0;
+					// fall through
+				case 2:
+					mirror.x = util::parse_loose_integer(arguments[1].text, 0) != 0;
+					// fall through
+				case 1:
+					break;
+			}
+			mirror.all = all;
+			return mirror;
+		}
+
+		instruction create_instruction_mirror(const std::vector<csv::csv_token>& arguments) {
+			return create_instruction_mirror_impl(arguments, false);
+		}
+		instruction create_instruction_mirrorall(const std::vector<csv::csv_token>& arguments) {
+			return create_instruction_mirror_impl(arguments, true);
+		}
+
 		instruction create_instruction_setcolor(const std::vector<csv::csv_token>& arguments) {
 			instructions::set_color sc{};
 			switch (arguments.size()) {
@@ -386,6 +414,8 @@ namespace b3d_csv_object {
 		        {"rotateall"s, &create_instruction_rotateall},
 		        {"shear"s, &create_instruction_shear},
 		        {"shearall"s, &create_instruction_shearall},
+		        {"mirror"s, &create_instruction_mirror},
+		        {"mirrorall"s, &create_instruction_mirrorall},
 		        {"setcolor"s, &create_instruction_setcolor},
 		        {"setemissivecolor"s, &create_instruction_setemissivecolor},
 		        {"setblendmode"s, &create_instruction_setblendmode},
@@ -408,6 +438,8 @@ namespace b3d_csv_object {
 		        {"rotateall"s, &create_instruction_rotateall},
 		        {"shear"s, &create_instruction_shear},
 		        {"shearall"s, &create_instruction_shearall},
+		        {"mirror"s, &create_instruction_mirror},
+		        {"mirrorall"s, &create_instruction_mirrorall},
 		        {"color"s, &create_instruction_setcolor},
 		        {"emissivecolor"s, &create_instruction_setemissivecolor},
 		        {"blendmode"s, &create_instruction_setblendmode},
