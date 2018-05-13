@@ -113,7 +113,7 @@ cotire(parsers)
 
 set(TEST_SOURCES
                  tests/animated_object/parser.cpp
-                 tests/b3d_csv_object/commands.cpp
+                 tests/b3d_csv_object/command_parsing.cpp
                  tests/core_csv/parse.cpp
                  tests/core_csv/iostream.cpp
                  tests/core_ini/parse.cpp

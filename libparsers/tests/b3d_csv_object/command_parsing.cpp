@@ -81,6 +81,58 @@ TEST_CASE("libparsers - b3d_csv_object - commands - face2") {
 	COMPARE_VARIANT_NODES_MEMBER(result[0], face, two);
 }
 
+TEST_CASE("libparsers - b3d_csv_object - commands - cube") {
+	b3d::instruction_list result;
+	SUBCASE("b3d") {
+		result = b3d::create_instructions("Cube 1, 2, 3", b3d::file_type::b3d);
+	}
+	SUBCASE("csv") {
+		result = b3d::create_instructions("Cube, 1, 2, 3", b3d::file_type::csv);
+	}
+
+	REQUIRE_EQ(result.size(), 1);
+	b3d::instructions::cube cube;
+	cube.half_width = 1;
+	cube.half_height = 2;
+	cube.half_depth = 3;
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cube, half_width);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cube, half_height);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cube, half_depth);
+}
+
+TEST_CASE("libparsers - b3d_csv_object - commands - cylinder") {
+	b3d::instruction_list result;
+	SUBCASE("b3d") {
+		result = b3d::create_instructions("Cylinder 1, 2, 3, 4", b3d::file_type::b3d);
+	}
+	SUBCASE("csv") {
+		result = b3d::create_instructions("Cylinder, 1, 2, 3, 4", b3d::file_type::csv);
+	}
+
+	REQUIRE_EQ(result.size(), 1);
+	b3d::instructions::cylinder cylinder;
+	cylinder.sides = 1;
+	cylinder.upper_radius = 2;
+	cylinder.lower_radius = 3;
+	cylinder.height = 4;
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cylinder, sides);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cylinder, upper_radius);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cylinder, lower_radius);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], cylinder, height);
+}
+
+TEST_CASE("libparsers - b3d_csv_object - commands - generate normals") {
+	b3d::instruction_list result = b3d::create_instructions("generatenormals", b3d::file_type::csv);
+
+	REQUIRE_EQ(result.size(), 0);
+}
+
+TEST_CASE("libparsers - b3d_csv_object - commands - texture") {
+	b3d::instruction_list result = b3d::create_instructions("[texture]", b3d::file_type::b3d);
+
+	REQUIRE_EQ(result.size(), 0);
+}
+
 TEST_CASE("libparsers - b3d_csv_object - commands - translate") {
 	b3d::instruction_list result;
 	bool all = false;
