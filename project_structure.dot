@@ -1,0 +1,41 @@
+digraph project_structure {
+	"libcore" [style=filled, fillcolor=lightblue]
+	"libcore_tests" [style=filled, fillcolor=orange]
+
+	"libparsers" [style=filled, fillcolor=lightblue]
+	"libparsers_tests" [style=filled, fillcolor=orange]
+
+	"libload" [style=filled, fillcolor=lightblue]
+	"libload_tests" [style=filled, fillcolor=orange]
+
+	"liblog" [style=filled, fillcolor=lightblue]
+	"liblog_tests" [style=filled, fillcolor=orange]
+
+	"librender" [style=filled, fillcolor=lightblue]
+	"librender_tests" [style=filled, fillcolor=orange]
+
+	"simple_parsers_test" [style=filled, fillcolor=green]
+	"test_main" [style=filled, fillcolor=green]
+
+	"boost" [style=filled, fillcolor=yellow]
+
+	"libcore_tests" -> "libcore"
+	"libload_tests" -> "libload"
+	"liblog_tests" -> "liblog"
+	"libparsers_tests" -> "libparsers"
+	"librender_tests" -> "librender"
+
+	"libcore" -> "liblog"
+	"libload" -> "liblog"
+	"libparsers" -> "liblog"
+	"librender" -> "liblog"
+
+	"simple_parsers_test" -> "boost"
+	"simple_parsers_test" -> "libparsers"
+
+	"test_main" -> "libcore_tests"
+	"test_main" -> "libload_tests"
+	"test_main" -> "liblog_tests"
+	"test_main" -> "libparsers_tests"
+	"test_main" -> "librender_tests"
+}

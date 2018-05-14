@@ -114,6 +114,7 @@ cotire(parsers)
 set(TEST_SOURCES
                  tests/animated_object/parser.cpp
                  tests/b3d_csv_object/command_parsing.cpp
+                 tests/b3d_csv_object/command_execution.cpp
                  tests/core_csv/parse.cpp
                  tests/core_csv/iostream.cpp
                  tests/core_ini/parse.cpp
@@ -145,14 +146,14 @@ set(TEST_HEADERS
                  tests/test_macro_util.hpp
     )
 
-add_executable(test_parsers ${TEST_SOURCES} ${TEST_HEADERS})
-target_include_directories(test_parsers PRIVATE tests src)
-target_link_libraries(test_parsers PRIVATE test_main parsers doctest::doctest Boost::filesystem
-                                           options::iterator_debug_level_1)
+add_library(parsers_tests SHARED ${TEST_SOURCES} ${TEST_HEADERS})
+target_include_directories(parsers_tests PRIVATE tests src)
+target_link_libraries(parsers_tests PRIVATE parsers doctest::doctest Boost::filesystem
+                                            options::iterator_debug_level_1)
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
-add_sanitizers(test_parsers)
-cotire(test_parsers)
+add_sanitizers(parsers_tests)
+cotire(parsers_tests)
 
 if (OPENBVE2_WITH_FUZZING)
     add_executable(fuzz_libparsers_function_scripts tests/function_scripts/fuzzer.cpp)

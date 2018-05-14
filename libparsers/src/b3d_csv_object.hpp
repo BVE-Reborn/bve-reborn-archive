@@ -35,73 +35,90 @@ namespace b3d_csv_object {
 		SetTextureCoordinates, VertexIndex, X, Y
 		*/
 
-		struct base_instruction {
-			std::size_t line;
-		};
+		enum class sides { one, two };
 
-		struct error : base_instruction {
+		enum class apply_to { single_mesh, all_meshes };
+
+		struct error {
 			std::string cause;
+			std::size_t line = 0;
 			error() = default;
 			explicit error(std::string desc) : cause(std::move(desc)) {}
 		};
 
-		struct create_mesh_builder : base_instruction {};
+		struct create_mesh_builder {
+			std::size_t line = 0;
+		};
 
-		struct add_vertex : base_instruction {
+		struct add_vertex {
 			float v_x = 0;
 			float v_y = 0;
 			float v_z = 0;
 			float n_x = 0;
 			float n_y = 0;
 			float n_z = 0;
+
+			std::size_t line = 0;
 		};
 
 		// AddFace and AddFace2
-		struct add_face : base_instruction {
+		struct add_face {
 			std::vector<std::size_t> vertices;
-			bool two;
+			sides side_count;
+
+			std::size_t line = 0;
 		};
 
-		struct cube : base_instruction {
+		struct cube {
 			float half_width;
 			float half_height;
 			float half_depth;
+
+			std::size_t line = 0;
 		};
 
-		struct cylinder : base_instruction {
+		struct cylinder {
 			std::size_t sides;
 			float upper_radius;
 			float lower_radius;
 			float height;
+
+			std::size_t line = 0;
 		};
 
 		// Translate and TranslateAll
-		struct translate : base_instruction {
+		struct translate {
 			float x = 0;
 			float y = 0;
 			float z = 0;
-			bool all;
+			apply_to applies_to;
+
+			std::size_t line = 0;
 		};
 
 		// Scale and ScaleAll
-		struct scale : base_instruction {
+		struct scale {
 			float x = 1;
 			float y = 1;
 			float z = 1;
-			bool all;
+			apply_to applies_to;
+
+			std::size_t line = 0;
 		};
 
 		// Rotate and RotateAll
-		struct rotate : base_instruction {
+		struct rotate {
 			float x = 0;
 			float y = 0;
 			float z = 0;
 			float angle = 0;
-			bool all;
+			apply_to applies_to;
+
+			std::size_t line = 0;
 		};
 
 		// Shear and ShearAll
-		struct shear : base_instruction {
+		struct shear {
 			float d_x = 0;
 			float d_y = 0;
 			float d_z = 0;
@@ -109,52 +126,68 @@ namespace b3d_csv_object {
 			float s_y = 0;
 			float s_z = 0;
 			float r = 0;
-			bool all;
+			apply_to applies_to;
+
+			std::size_t line = 0;
 		};
 
 		// Mirror and MirrorAll
-		struct mirror : base_instruction {
+		struct mirror {
 			bool x = false;
 			bool y = false;
 			bool z = false;
-			bool all;
+			apply_to applies_to;
+
+			std::size_t line = 0;
 		};
 
-		struct set_color : base_instruction {
+		struct set_color {
 			uint8_t red = 255;
 			uint8_t green = 255;
 			uint8_t blue = 255;
 			uint8_t alpha = 255;
+
+			std::size_t line = 0;
 		};
 
-		struct set_emissive_color : base_instruction {
+		struct set_emissive_color {
 			uint8_t red = 0;
 			uint8_t green = 0;
 			uint8_t blue = 0;
+
+			std::size_t line = 0;
 		};
 
-		struct set_blend_mode : base_instruction {
+		struct set_blend_mode {
 			mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;
 			std::uint16_t glow_half_distance = 0;
 			mesh_t::glow_attenuation_mode_t glow_attenuation_mode =
 			    mesh_t::glow_attenuation_mode_t::divide_exponent4;
+
+			std::size_t line = 0;
 		};
 
-		struct load_texture : base_instruction {
+		struct load_texture {
 			std::string daytime_texture;
 			std::string nighttime_texture;
+
+			std::size_t line = 0;
 		};
 
-		struct set_decal_transparent_color : base_instruction {
+		struct set_decal_transparent_color {
 			uint8_t red;
 			uint8_t green;
 			uint8_t blue;
+
+			std::size_t line = 0;
 		};
 
-		struct set_texture_coordinates : base_instruction {
+		struct set_texture_coordinates {
 			std::size_t vertex_index;
 			float x;
 			float y;
+
+			std::size_t line = 0;
 		};
 
 		// Defined in csv_object_instruction_iostream.cpp

@@ -30,7 +30,7 @@ namespace b3d_csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const add_face& rhs) {
-			os << (rhs.two ? "(AddFace2" : "(AddFace");
+			os << (rhs.side_count == sides::two ? "(AddFace2" : "(AddFace");
 			for (auto& vertex_num : rhs.vertices) {
 				os << ", " << vertex_num;
 			}
@@ -48,7 +48,7 @@ namespace b3d_csv_object {
 
 		std::ostream& operator<<(std::ostream& os, const cylinder& rhs) {
 			os << "(Cylinder, "
-			   << "sides = " << rhs.sides << ", "
+			   << "side_count = " << rhs.sides << ", "
 			   << "UpperRadius = " << rhs.upper_radius << ", "
 			   << "LowerRadius = " << rhs.lower_radius << ", "
 			   << "Height = " << rhs.height << ")";
@@ -56,7 +56,7 @@ namespace b3d_csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const translate& rhs) {
-			os << (rhs.all ? "(TranslateAll, " : "(Translate, ") //
+			os << (rhs.applies_to == apply_to::all_meshes ? "(TranslateAll, " : "(Translate, ") //
 			   << "X = " << rhs.x << ", "
 			   << "Y = " << rhs.y << ", "
 			   << "Z = " << rhs.z << ")";
@@ -64,7 +64,7 @@ namespace b3d_csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const scale& rhs) {
-			os << (rhs.all ? "(ScaleAll, " : "(Scale, ") //
+			os << (rhs.applies_to == apply_to::all_meshes ? "(ScaleAll, " : "(Scale, ") //
 			   << "X = " << rhs.x << ", "
 			   << "Y = " << rhs.y << ", "
 			   << "Z = " << rhs.z << ")";
@@ -72,7 +72,7 @@ namespace b3d_csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const rotate& rhs) {
-			os << (rhs.all ? "(RotateAll, " : "(Rotate, ") //
+			os << (rhs.applies_to == apply_to::all_meshes ? "(RotateAll, " : "(Rotate, ") //
 			   << "X = " << rhs.x << ", "
 			   << "Y = " << rhs.y << ", "
 			   << "Z = " << rhs.z << ", "
@@ -81,7 +81,7 @@ namespace b3d_csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const shear& rhs) {
-			os << (rhs.all ? "(ShearAll, " : "(Shear, ") //
+			os << (rhs.applies_to == apply_to::all_meshes ? "(ShearAll, " : "(Shear, ") //
 			   << "dX = " << rhs.d_x << ", "
 			   << "dY = " << rhs.d_y << ", "
 			   << "dZ = " << rhs.d_z << ", "
@@ -93,8 +93,8 @@ namespace b3d_csv_object {
 		}
 
 		std::ostream& operator<<(std::ostream& os, const mirror& rhs) {
-			os << (rhs.all ? "(MirrorAll, " : "(Mirror, ") //
-			   << std::boolalpha                           //
+			os << (rhs.applies_to == apply_to::all_meshes ? "(MirrorAll, " : "(Mirror, ") //
+			   << std::boolalpha                                                          //
 			   << "x = " << rhs.x << ", "
 			   << "y = " << rhs.y << ", "
 			   << "z = " << rhs.z << ", ";

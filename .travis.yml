@@ -214,4 +214,4 @@ matrix:
 
 script:
   - ninja
-  - bin/test_parsers
+  - bin/test_main

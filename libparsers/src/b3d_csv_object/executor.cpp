@@ -99,7 +99,8 @@ namespace b3d_csv_object {
 				auto& bvert = mesh.verts[b];
 				auto& cvert = mesh.verts[c];
 
-				auto const normal = cross(avert.normal - bvert.normal, cvert.normal - bvert.normal);
+				auto const normal =
+				    cross(avert.position - bvert.position, cvert.position - bvert.position);
 
 				avert.normal += normal;
 				bvert.normal += normal;
@@ -275,7 +276,7 @@ namespace b3d_csv_object {
 				untriangulated_faces.back().indices.emplace_back(vert);
 			}
 		}
-		untriangulated_faces.back().data.back_visible = arg.two;
+		untriangulated_faces.back().data.back_visible = arg.side_count == sides::two;
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const cube& arg) {
@@ -373,7 +374,7 @@ namespace b3d_csv_object {
 		}
 
 		// apply to all previous vertices
-		if (arg.all) {
+		if (arg.applies_to == apply_to::all_meshes) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
 					vertex.position += direction;
@@ -389,7 +390,7 @@ namespace b3d_csv_object {
 		}
 
 		// apply to all previous vertices
-		if (arg.all) {
+		if (arg.applies_to == apply_to::all_meshes) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
 					vertex.position *= factor;
@@ -410,7 +411,7 @@ namespace b3d_csv_object {
 		}
 
 		// apply to all previous vertices
-		if (arg.all) {
+		if (arg.applies_to == apply_to::all_meshes) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
 					vertex.position = glm::rotate(vertex.position, arg.angle, axis);
@@ -429,7 +430,7 @@ namespace b3d_csv_object {
 		}
 
 		// apply to all previous vertices
-		if (arg.all) {
+		if (arg.applies_to == apply_to::all_meshes) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
 					auto const scale = arg.r * compAdd(daxis * vertex.position);
@@ -447,7 +448,7 @@ namespace b3d_csv_object {
 		}
 
 		// apply to all previous vertices
-		if (arg.all) {
+		if (arg.applies_to == apply_to::all_meshes) {
 			for (auto& mesh : pso.meshes) {
 				for (auto& vertex : mesh.verts) {
 					vertex.position *= factor;

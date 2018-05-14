@@ -48,7 +48,7 @@ namespace b3d_csv_object {
 		}
 
 		instruction create_instruction_addface_impl(const std::vector<csv::csv_token>& arguments,
-		                                            bool const two) {
+		                                            instructions::sides const sides) {
 			if (arguments.size() < 4) {
 				throw std::invalid_argument("Creation of instruction addface");
 			}
@@ -64,16 +64,16 @@ namespace b3d_csv_object {
 					}
 				}
 			}
-			af.two = two;
+			af.side_count = sides;
 			return af;
 		}
 
 		instruction create_instruction_addface(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_addface_impl(arguments, false);
+			return create_instruction_addface_impl(arguments, instructions::sides::one);
 		}
 
 		instruction create_instruction_addface2(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_addface_impl(arguments, true);
+			return create_instruction_addface_impl(arguments, instructions::sides::two);
 		}
 
 		instruction create_instruction_cube(const std::vector<csv::csv_token>& arguments) {
@@ -100,7 +100,7 @@ namespace b3d_csv_object {
 		}
 
 		instruction create_instruction_translate_impl(const std::vector<csv::csv_token>& arguments,
-		                                              bool const all) {
+		                                              instructions::apply_to const applies_to) {
 			instructions::translate tl{};
 			switch (arguments.size()) {
 				default:
@@ -116,19 +116,20 @@ namespace b3d_csv_object {
 				case 1:
 					break;
 			}
-			tl.all = all;
+			tl.applies_to = applies_to;
 			return tl;
 		}
 
 		instruction create_instruction_translate(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_translate_impl(arguments, false);
+			return create_instruction_translate_impl(arguments,
+			                                         instructions::apply_to::single_mesh);
 		}
 		instruction create_instruction_translateall(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_translate_impl(arguments, true);
+			return create_instruction_translate_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
 		instruction create_instruction_scale_impl(const std::vector<csv::csv_token>& arguments,
-		                                          bool const all) {
+		                                          instructions::apply_to const applies_to) {
 			instructions::scale sc{};
 			switch (arguments.size()) {
 				default:
@@ -144,19 +145,19 @@ namespace b3d_csv_object {
 				case 1:
 					break;
 			}
-			sc.all = all;
+			sc.applies_to = applies_to;
 			return sc;
 		}
 
 		instruction create_instruction_scale(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_scale_impl(arguments, false);
+			return create_instruction_scale_impl(arguments, instructions::apply_to::single_mesh);
 		}
 		instruction create_instruction_scaleall(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_scale_impl(arguments, true);
+			return create_instruction_scale_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
 		instruction create_instruction_rotate_impl(const std::vector<csv::csv_token>& arguments,
-		                                           bool const all) {
+		                                           instructions::apply_to const applies_to) {
 			instructions::rotate ro{};
 			switch (arguments.size()) {
 				default:
@@ -175,19 +176,19 @@ namespace b3d_csv_object {
 				case 1:
 					break;
 			}
-			ro.all = all;
+			ro.applies_to = applies_to;
 			return ro;
 		}
 
 		instruction create_instruction_rotate(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_rotate_impl(arguments, false);
+			return create_instruction_rotate_impl(arguments, instructions::apply_to::single_mesh);
 		}
 		instruction create_instruction_rotateall(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_rotate_impl(arguments, true);
+			return create_instruction_rotate_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
 		instruction create_instruction_shear_impl(const std::vector<csv::csv_token>& arguments,
-		                                          bool const all) {
+		                                          instructions::apply_to const applies_to) {
 			instructions::shear sh{};
 			switch (arguments.size()) {
 				default:
@@ -215,19 +216,19 @@ namespace b3d_csv_object {
 				case 1:
 					break;
 			}
-			sh.all = all;
+			sh.applies_to = applies_to;
 			return sh;
 		}
 
 		instruction create_instruction_shear(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_shear_impl(arguments, false);
+			return create_instruction_shear_impl(arguments, instructions::apply_to::single_mesh);
 		}
 		instruction create_instruction_shearall(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_shear_impl(arguments, true);
+			return create_instruction_shear_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
 		instruction create_instruction_mirror_impl(const std::vector<csv::csv_token>& arguments,
-		                                           bool const all) {
+		                                           instructions::apply_to const applies_to) {
 			instructions::mirror mirror{};
 			switch (arguments.size()) {
 				default:
@@ -243,15 +244,15 @@ namespace b3d_csv_object {
 				case 1:
 					break;
 			}
-			mirror.all = all;
+			mirror.applies_to = applies_to;
 			return mirror;
 		}
 
 		instruction create_instruction_mirror(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_mirror_impl(arguments, false);
+			return create_instruction_mirror_impl(arguments, instructions::apply_to::single_mesh);
 		}
 		instruction create_instruction_mirrorall(const std::vector<csv::csv_token>& arguments) {
-			return create_instruction_mirror_impl(arguments, true);
+			return create_instruction_mirror_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
 		instruction create_instruction_setcolor(const std::vector<csv::csv_token>& arguments) {

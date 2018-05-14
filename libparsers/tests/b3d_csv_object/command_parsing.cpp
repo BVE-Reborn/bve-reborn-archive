@@ -59,9 +59,9 @@ TEST_CASE("libparsers - b3d_csv_object - commands - face") {
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::add_face face;
 	face.vertices = {1, 2, 3};
-	face.two = false;
+	face.side_count = b3d::instructions::sides::one;
 	COMPARE_VARIANT_NODES_MEMBER(result[0], face, vertices);
-	COMPARE_VARIANT_NODES_MEMBER(result[0], face, two);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], face, side_count);
 }
 
 TEST_CASE("libparsers - b3d_csv_object - commands - face2") {
@@ -76,9 +76,9 @@ TEST_CASE("libparsers - b3d_csv_object - commands - face2") {
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::add_face face;
 	face.vertices = {1, 2, 3};
-	face.two = true;
+	face.side_count = b3d::instructions::sides::two;
 	COMPARE_VARIANT_NODES_MEMBER(result[0], face, vertices);
-	COMPARE_VARIANT_NODES_MEMBER(result[0], face, two);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], face, side_count);
 }
 
 TEST_CASE("libparsers - b3d_csv_object - commands - cube") {
@@ -135,7 +135,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - texture") {
 
 TEST_CASE("libparsers - b3d_csv_object - commands - translate") {
 	b3d::instruction_list result;
-	bool all = false;
+	auto applies_to = b3d::instructions::apply_to::single_mesh;
 	SUBCASE("regular") {
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("Translate 1, 2, 3", b3d::file_type::b3d);
@@ -145,7 +145,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - translate") {
 		}
 	}
 	SUBCASE("all") {
-		all = true;
+		applies_to = b3d::instructions::apply_to::all_meshes;
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("TranslateAll 1, 2, 3", b3d::file_type::b3d);
 		}
@@ -156,11 +156,11 @@ TEST_CASE("libparsers - b3d_csv_object - commands - translate") {
 
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::translate translate;
-	translate.all = all;
+	translate.applies_to = applies_to;
 	translate.x = 1;
 	translate.y = 2;
 	translate.z = 3;
-	COMPARE_VARIANT_NODES_MEMBER(result[0], translate, all);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], translate, applies_to);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], translate, x);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], translate, y);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], translate, z);
@@ -168,7 +168,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - translate") {
 
 TEST_CASE("libparsers - b3d_csv_object - commands - scale") {
 	b3d::instruction_list result;
-	bool all = false;
+	auto applies_to = b3d::instructions::apply_to::single_mesh;
 	SUBCASE("regular") {
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("Scale 1, 2, 3", b3d::file_type::b3d);
@@ -178,7 +178,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - scale") {
 		}
 	}
 	SUBCASE("all") {
-		all = true;
+		applies_to = b3d::instructions::apply_to::all_meshes;
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("ScaleAll 1, 2, 3", b3d::file_type::b3d);
 		}
@@ -189,11 +189,11 @@ TEST_CASE("libparsers - b3d_csv_object - commands - scale") {
 
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::scale scale;
-	scale.all = all;
+	scale.applies_to = applies_to;
 	scale.x = 1;
 	scale.y = 2;
 	scale.z = 3;
-	COMPARE_VARIANT_NODES_MEMBER(result[0], scale, all);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], scale, applies_to);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], scale, x);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], scale, y);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], scale, z);
@@ -201,7 +201,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - scale") {
 
 TEST_CASE("libparsers - b3d_csv_object - commands - rotate") {
 	b3d::instruction_list result;
-	bool all = false;
+	auto applies_to = b3d::instructions::apply_to::single_mesh;
 	SUBCASE("regular") {
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("Rotate 1, 2, 3, 4", b3d::file_type::b3d);
@@ -211,7 +211,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - rotate") {
 		}
 	}
 	SUBCASE("all") {
-		all = true;
+		applies_to = b3d::instructions::apply_to::all_meshes;
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("RotateAll 1, 2, 3, 4", b3d::file_type::b3d);
 		}
@@ -222,12 +222,12 @@ TEST_CASE("libparsers - b3d_csv_object - commands - rotate") {
 
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::rotate rotate;
-	rotate.all = all;
+	rotate.applies_to = applies_to;
 	rotate.x = 1;
 	rotate.y = 2;
 	rotate.z = 3;
 	rotate.angle = 4;
-	COMPARE_VARIANT_NODES_MEMBER(result[0], rotate, all);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], rotate, applies_to);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], rotate, x);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], rotate, y);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], rotate, z);
@@ -236,7 +236,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - rotate") {
 
 TEST_CASE("libparsers - b3d_csv_object - commands - shear") {
 	b3d::instruction_list result;
-	bool all = false;
+	auto applies_to = b3d::instructions::apply_to::single_mesh;
 	SUBCASE("regular") {
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("Shear 1, 2, 3, 4, 5, 6, 7", b3d::file_type::b3d);
@@ -246,7 +246,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - shear") {
 		}
 	}
 	SUBCASE("all") {
-		all = true;
+		applies_to = b3d::instructions::apply_to::all_meshes;
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("ShearAll 1, 2, 3, 4, 5, 6, 7", b3d::file_type::b3d);
 		}
@@ -257,7 +257,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - shear") {
 
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::shear shear;
-	shear.all = all;
+	shear.applies_to = applies_to;
 	shear.d_x = 1;
 	shear.d_y = 2;
 	shear.d_z = 3;
@@ -265,7 +265,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - shear") {
 	shear.s_y = 5;
 	shear.s_z = 6;
 	shear.r = 7;
-	COMPARE_VARIANT_NODES_MEMBER(result[0], shear, all);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], shear, applies_to);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], shear, d_x);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], shear, d_y);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], shear, d_z);
@@ -277,7 +277,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - shear") {
 
 TEST_CASE("libparsers - b3d_csv_object - commands - mirror") {
 	b3d::instruction_list result;
-	bool all = false;
+	auto applies_to = b3d::instructions::apply_to::single_mesh;
 	SUBCASE("regular") {
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("Mirror 1, 2, 3", b3d::file_type::b3d);
@@ -287,7 +287,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - mirror") {
 		}
 	}
 	SUBCASE("all") {
-		all = true;
+		applies_to = b3d::instructions::apply_to::all_meshes;
 		SUBCASE("b3d") {
 			result = b3d::create_instructions("MirrorAll 1, 2, 3", b3d::file_type::b3d);
 		}
@@ -298,11 +298,11 @@ TEST_CASE("libparsers - b3d_csv_object - commands - mirror") {
 
 	REQUIRE_EQ(result.size(), 1);
 	b3d::instructions::mirror mirror;
-	mirror.all = all;
+	mirror.applies_to = applies_to;
 	mirror.x = true;
 	mirror.y = true;
 	mirror.z = true;
-	COMPARE_VARIANT_NODES_MEMBER(result[0], mirror, all);
+	COMPARE_VARIANT_NODES_MEMBER(result[0], mirror, applies_to);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], mirror, x);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], mirror, y);
 	COMPARE_VARIANT_NODES_MEMBER(result[0], mirror, z);
