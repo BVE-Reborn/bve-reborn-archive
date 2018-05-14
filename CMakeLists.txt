@@ -14,7 +14,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 configure_file(.clang-tidy-manager .clang-tidy-manager COPYONLY)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS False)
 
@@ -42,6 +42,12 @@ include(warnings)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD TRUE)
 
+define_property(GLOBAL PROPERTY OPENBVE2_TEST_FILE_LIST
+    BRIEF_DOCS "List of all test files"
+    FULL_DOCS "List of all test files")
+# Initialize property
+set_property(GLOBAL PROPERTY OPENBVE2_TEST_FILE_LIST "")
+
 #################
 # Global Config #
 #################
@@ -64,6 +70,7 @@ add_warnings()
 
 add_linted_subdirectory(libcore)
 add_linted_subdirectory(libparsers)
+
 add_linted_subdirectory(test_main)
 
 configure_linter()

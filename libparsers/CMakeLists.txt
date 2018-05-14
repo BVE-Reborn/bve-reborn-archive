@@ -112,48 +112,45 @@ cotire(parsers)
 ###################
 
 set(TEST_SOURCES
-                 tests/animated_object/parser.cpp
-                 tests/b3d_csv_object/command_parsing.cpp
-                 tests/b3d_csv_object/command_execution.cpp
-                 tests/core_csv/parse.cpp
-                 tests/core_csv/iostream.cpp
-                 tests/core_ini/parse.cpp
-                 tests/core_ini/iostream.cpp
-                 tests/errors/add_error.cpp
-                 tests/errors/iostream.cpp
-                 tests/function_scripts/errors.cpp
-                 tests/function_scripts/functions.cpp
-                 tests/function_scripts/iostream_lexer.cpp
-                 tests/function_scripts/iostream_tree.cpp
-                 tests/function_scripts/iostream_instructions.cpp
-                 tests/function_scripts/lexer.cpp
-                 tests/function_scripts/operators.cpp
-                 tests/function_scripts/order_of_operations.cpp
-                 tests/function_scripts/variables.cpp
-                 tests/function_scripts/variables_indexed.cpp
-                 tests/util/load_from_file_utf8_bom.cpp
-                 tests/util/strip_text.cpp
-                 tests/util/remove_comments.cpp
-                 tests/util/match_against_lower.cpp
-                 tests/util/parse_color.cpp
-                 tests/util/parse_loose_integer.cpp
-                 tests/util/parse_loose_float.cpp
-                 tests/util/parse_time.cpp
-                 tests/util/split_text.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/animated_object/parser.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/b3d_csv_object/command_parsing.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/b3d_csv_object/command_execution.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/core_csv/parse.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/core_csv/iostream.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/core_ini/parse.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/core_ini/iostream.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/errors/add_error.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/errors/iostream.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/errors.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/functions.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/iostream_lexer.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/iostream_tree.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/iostream_instructions.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/lexer.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/operators.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/order_of_operations.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/variables.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/function_scripts/variables_indexed.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/load_from_file_utf8_bom.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/strip_text.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/remove_comments.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/match_against_lower.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_color.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_loose_integer.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_loose_float.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
         )
 
 set(TEST_HEADERS
-                 tests/test_macro_util.hpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_macro_util.hpp
     )
 
-add_library(parsers_tests SHARED ${TEST_SOURCES} ${TEST_HEADERS})
-target_include_directories(parsers_tests PRIVATE tests src)
-target_link_libraries(parsers_tests PRIVATE parsers doctest::doctest Boost::filesystem
-                                            options::iterator_debug_level_1)
+set_property(GLOBAL APPEND PROPERTY OPENBVE2_TEST_FILE_LIST "${TEST_SOURCES};${TEST_HEADERS}")
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
-add_sanitizers(parsers_tests)
-cotire(parsers_tests)
+#add_sanitizers(parsers_tests)
+#cotire(parsers_tests)
 
 if (OPENBVE2_WITH_FUZZING)
     add_executable(fuzz_libparsers_function_scripts tests/function_scripts/fuzzer.cpp)
