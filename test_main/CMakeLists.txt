@@ -19,4 +19,4 @@ format(FILES main.cpp)
 add_sanitizers(test_main)
 cotire(test_main)
 
-source_group(TREE ${CMAKE_SOURCE_DIR} FILES main.cpp)
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES main.cpp ${all_test_files})

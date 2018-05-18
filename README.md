@@ -1,4 +1,4 @@
-# openbve2
+#openbve2
 
 |             |  Master  |   Dev  |
 |:------------|:---------|:-------|
@@ -6,7 +6,7 @@
 | Mac & Linux | [![Build Status](https://travis-ci.org/cwfitzgerald/openbve2.svg?branch=master)](https://travis-ci.org/cwfitzgerald/openbve2) | [![Build Status](https://travis-ci.org/cwfitzgerald/openbve2.svg?branch=dev)](https://travis-ci.org/cwfitzgerald/openbve2)                                                                                |
 | Coverage    | [![Coverage Status](https://coveralls.io/repos/github/cwfitzgerald/openbve2/badge.svg?branch=master)](https://coveralls.io/github/cwfitzgerald/openbve2?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/cwfitzgerald/openbve2/badge.svg?branch=dev)](https://coveralls.io/github/cwfitzgerald/openbve2?branch=dev) |
 
-# Building
+#Building
 
 ## Linux
 
@@ -39,7 +39,7 @@ Building on windows is similar to building via script on linux, but there is one
 
 First download boost 1.64.0 from [here](https://dl.bintray.com/boostorg/release/1.64.0/source/) into the folder dependencies/binary/downloads. Extract the result into dependencies/binary/src/boost/. This will create a subfolder called boost_1_64_0. Then open a command line tool and run build-deps-win.bat. This will go through the process of building boost. After that you may open up the project using VS's cmake integration, or use CMAKE-GUI to turn the project into a visual studio solution. Whichever is better for you.
 
-# Project Structure
+#Project Structure
 
 ![](project_structure.png)
 
@@ -65,6 +65,6 @@ There are three parts to the description of this project's structure. First is t
  - [libparsers](libparsers) - Parses all formats dealt with in the program, contains some helper features for file manipulation.
  - test_main - Main entry point to all the tests throughout the program.
 
- # TODO
+#TODO
 
  See [TODO.md](TODO.md)
