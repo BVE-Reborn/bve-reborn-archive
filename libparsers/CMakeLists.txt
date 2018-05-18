@@ -140,6 +140,7 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_loose_float.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_lighting.cpp
         )
 
 set(TEST_HEADERS
@@ -183,8 +184,8 @@ lint(FILES ${SIMPLE_TEST_SOURCES})
 format(FILES ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS})
 
 if(NOT OPENBVE2_ON_TRAVIS)
-    file(COPY tests/simple_tests/test_files
-         DESTINATION tests/)
+    # file(COPY tests/simple_tests/test_files
+    #      DESTINATION tests/)
 endif()
 
 add_executable(simple_parsers_test ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS})
