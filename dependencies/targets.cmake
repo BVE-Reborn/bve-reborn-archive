@@ -13,7 +13,7 @@ set_target_properties(mapbox::variant PROPERTIES
 
 add_library(rapidxml::rapidxml INTERFACE IMPORTED)
 set_target_properties(rapidxml::rapidxml PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/rapidxml/include"
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/rapidxml_ns"
 	INTERFACE_COMPILE_FEATURES cxx_std_11
 )
 

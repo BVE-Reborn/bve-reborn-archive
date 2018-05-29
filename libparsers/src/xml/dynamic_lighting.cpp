@@ -1,6 +1,6 @@
 #include "parsers/xml/dynamic_lighting.hpp"
 #include "utils.hpp"
-#include <rapidxml/rapidxml.hpp>
+#include <rapidxml_ns.hpp>
 
 namespace parsers {
 namespace xml {
@@ -10,12 +10,12 @@ namespace xml {
 		                                 errors::multi_error_t& errors) {
 			std::vector<lighting_info> retvalue;
 
-			rapidxml::xml_document<> doc;
-			doc.parse<rapidxml::parse_default>(&input_string[0]);
+			rapidxml_ns::xml_document<> doc;
+			doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
 
 			// OpenBVE Node is Optional
 			auto* openbve_node = doc.first_node("openbve", 0, false);
-			rapidxml::xml_node<char>* current_section;
+			rapidxml_ns::xml_node<char>* current_section;
 			if (openbve_node != nullptr) {
 				current_section = openbve_node->first_node("brightness", 0, false);
 			}
