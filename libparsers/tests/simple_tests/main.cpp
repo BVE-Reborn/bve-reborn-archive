@@ -1,6 +1,7 @@
 #include "tests.hpp"
 #include <iostream>
 #include <string>
+#include "simple_tests_config.hpp"
 
 int main(int const argc, char** argv) {
 	if (argc != 2) {
@@ -11,24 +12,34 @@ int main(int const argc, char** argv) {
 	auto const val = std::stoll(argv[1]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
 	switch (val) {
-		default:
 		case 1:
 			test_csv();
 			break;
+#ifdef OPENBVE2_WITH_SIMPLE_TESTS
 		case 2:
 			test_csv_obj();
 			break;
 		case 3:
 			test_animated();
 			break;
+#endif
 		case 4:
 			test_fs();
 			break;
+#ifdef OPENBVE2_WITH_SIMPLE_TESTS
 		case 5:
 			test_csv_route();
 			break;
+#endif
 		case 6:
 			test_math();
 			break;
+		default:
+			std::cout << "Not a valid test number. Try: ";
+#ifdef OPENBVE2_WITH_SIMPLE_TESTS
+			std::cout << "1, 2, 3, 4, 5, 6\n";
+#else
+			std::cout << "1, 4, 6\n";
+#endif
 	}
 }
