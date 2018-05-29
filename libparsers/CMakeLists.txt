@@ -182,10 +182,15 @@ set(SIMPLE_TEST_HEADERS
 lint(FILES ${SIMPLE_TEST_SOURCES})
 format(FILES ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS})
 
-if(NOT OPENBVE2_ON_TRAVIS)
+if(OPENBVE2_WITH_SIMPLE_TESTS)
     file(COPY tests/simple_tests/test_files
          DESTINATION tests/)
 endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests/simple_tests/simple_tests_config.hpp.in
+               simple_tests_config.hpp)
+
+set(CMAKE_INCLUDE_CURRENT_DIR True)
 
 add_executable(simple_parsers_test ${SIMPLE_TEST_SOURCES} ${SIMPLE_TEST_HEADERS})
 target_compile_features(simple_parsers_test PRIVATE cxx_std_14)
