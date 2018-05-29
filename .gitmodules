@@ -22,3 +22,6 @@
 [submodule "dependencies/cpp_guidelines_support_library"]
 	path = dependencies/cpp_guidelines_support_library
 	url = https://github.com/Microsoft/GSL.git
+[submodule "dependencies/rapidxml_ns"]
+	path = dependencies/rapidxml_ns
+	url = https://github.com/svgpp/rapidxml_ns.git

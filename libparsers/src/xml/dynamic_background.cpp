@@ -1,7 +1,7 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "utils.hpp"
 #include <gsl/gsl_util>
-#include <rapidxml/rapidxml.hpp>
+#include <rapidxml_ns.hpp>
 #include <sstream>
 #include <string>
 
@@ -18,12 +18,12 @@ namespace xml {
 			// shortcircuts this variable and returns a newly constructed object
 			parsed_dynamic_background db = std::vector<texture_background_info>{};
 
-			rapidxml::xml_document<> doc;
-			doc.parse<rapidxml::parse_default>(&input_string[0]);
+			rapidxml_ns::xml_document<> doc;
+			doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
 
 			// OpenBVE Node is Optional
 			auto* openbve_node = doc.first_node("openbve", 0, false);
-			rapidxml::xml_node<char>* current_section;
+			rapidxml_ns::xml_node<char>* current_section;
 			if (openbve_node != nullptr) {
 				current_section = openbve_node->first_node("background", 0, false);
 			}

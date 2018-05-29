@@ -1,7 +1,7 @@
 #include "parsers/xml/route_marker.hpp"
 #include "utils.hpp"
 #include <map>
-#include <rapidxml/rapidxml.hpp>
+#include <rapidxml_ns.hpp>
 #include <sstream>
 #include <string>
 
@@ -15,7 +15,7 @@ namespace xml {
 			// Parsing a Text Color Node //
 			///////////////////////////////
 
-			text_marker::color parse_text_color(rapidxml::xml_node<char>* test_color_node) {
+			text_marker::color parse_text_color(rapidxml_ns::xml_node<char>* test_color_node) {
 				static std::map<std::string, text_marker::color> text_mapping{
 				    //
 				    {"black", text_marker::color::black},    {"gray", text_marker::color::gray},
@@ -40,7 +40,7 @@ namespace xml {
 			//////////////////////////////
 
 			template <bool Early, bool Text>
-			auto parse_early_late_impl(rapidxml::xml_node<char>* start_node) {
+			auto parse_early_late_impl(rapidxml_ns::xml_node<char>* start_node) {
 				auto* time_node = start_node->first_node("time", 0, false);
 				auto data_node =
 				    start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
@@ -85,17 +85,17 @@ namespace xml {
 				                       text_marker::color::black);
 			}
 
-			auto parse_text_early(rapidxml::xml_node<char>* start_node) {
+			auto parse_text_early(rapidxml_ns::xml_node<char>* start_node) {
 				return parse_early_late_impl<true, true>(start_node);
 			}
-			auto parse_text_late(rapidxml::xml_node<char>* start_node) {
+			auto parse_text_late(rapidxml_ns::xml_node<char>* start_node) {
 				return parse_early_late_impl<false, true>(start_node);
 			}
 
-			auto parse_image_early(rapidxml::xml_node<char>* start_node) {
+			auto parse_image_early(rapidxml_ns::xml_node<char>* start_node) {
 				return parse_early_late_impl<true, false>(start_node);
 			}
-			auto parse_image_late(rapidxml::xml_node<char>* start_node) {
+			auto parse_image_late(rapidxml_ns::xml_node<char>* start_node) {
 				return parse_early_late_impl<false, false>(start_node);
 			}
 
@@ -104,7 +104,7 @@ namespace xml {
 			//////////////////////////
 
 			template <bool Text>
-			std::string parse_on_time_impl(rapidxml::xml_node<char>* on_time_node) {
+			std::string parse_on_time_impl(rapidxml_ns::xml_node<char>* on_time_node) {
 				auto data_node =
 				    on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
@@ -124,10 +124,10 @@ namespace xml {
 				return std::string(data_node->value(), data_node->value_size());
 			}
 
-			std::string parse_text_on_time(rapidxml::xml_node<char>* on_time_node) {
+			std::string parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node) {
 				return parse_on_time_impl<true>(on_time_node);
 			}
-			std::string parse_image_on_time(rapidxml::xml_node<char>* on_time_node) {
+			std::string parse_image_on_time(rapidxml_ns::xml_node<char>* on_time_node) {
 				return parse_on_time_impl<false>(on_time_node);
 			}
 
@@ -135,7 +135,7 @@ namespace xml {
 			// Parsing Distance Nodes //
 			////////////////////////////
 
-			float parse_distance(rapidxml::xml_node<char>* distance_node) {
+			float parse_distance(rapidxml_ns::xml_node<char>* distance_node) {
 				try {
 					return util::parse_loose_float(
 					    std::string(distance_node->value(), distance_node->value_size()));
@@ -149,7 +149,7 @@ namespace xml {
 			// Parsing Timeout Nodes //
 			///////////////////////////
 
-			std::intmax_t parse_timeout(rapidxml::xml_node<char>* timeout_node) {
+			std::intmax_t parse_timeout(rapidxml_ns::xml_node<char>* timeout_node) {
 				try {
 					return util::parse_loose_integer(
 					    std::string(timeout_node->value(), timeout_node->value_size()));
@@ -163,13 +163,13 @@ namespace xml {
 			// Parsing Train Nodes //
 			/////////////////////////
 
-			std::vector<std::string> parse_trains(rapidxml::xml_node<char>* train_node) {
+			std::vector<std::string> parse_trains(rapidxml_ns::xml_node<char>* train_node) {
 				return util::split_text(std::string(train_node->value(), train_node->value_size()),
 				                        ';', true);
 			}
 
 			image_marker parse_image_marker(const std::string& filename,
-			                                rapidxml::xml_node<char>* start_node,
+			                                rapidxml_ns::xml_node<char>* start_node,
 			                                const find_relative_file_func& get_relative_file) {
 				image_marker marker;
 
@@ -217,7 +217,7 @@ namespace xml {
 			}
 
 			text_marker parse_text_marker(const std::string& filename,
-			                              rapidxml::xml_node<char>* start_node,
+			                              rapidxml_ns::xml_node<char>* start_node,
 			                              const find_relative_file_func& get_relative_file) {
 				text_marker marker;
 
@@ -270,12 +270,12 @@ namespace xml {
 		parsed_route_marker parse(const std::string& filename,
 		                          std::string input_string,
 		                          const find_relative_file_func& get_relative_file) {
-			rapidxml::xml_document<> doc;
-			doc.parse<rapidxml::parse_default>(&input_string[0]);
+			rapidxml_ns::xml_document<> doc;
+			doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
 
 			// OpenBVE Node is Optional
 			auto* openbve_node = doc.first_node("openbve", 0, false);
-			rapidxml::xml_node<char>* primary_node;
+			rapidxml_ns::xml_node<char>* primary_node;
 			if (openbve_node != nullptr) {
 				primary_node = openbve_node->first_node();
 			}
