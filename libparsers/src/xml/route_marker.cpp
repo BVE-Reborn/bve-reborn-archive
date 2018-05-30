@@ -4,7 +4,6 @@
 #include <rapidxml_ns.hpp>
 #include <sstream>
 #include <string>
-
 using namespace std::string_literals;
 
 namespace parsers {
@@ -72,16 +71,16 @@ namespace xml {
 
 					if (text_color_node != nullptr) {
 						return std::make_tuple(util::parse_time(time_node->value()),
-						                       std::string(data_node->name(),
-						                                   data_node->name_size()),
+						                       std::string(data_node->value(),
+						                                   data_node->value_size()),
 						                       parse_text_color(text_color_node));
 					}
 					return std::make_tuple(util::parse_time(time_node->value()),
-					                       std::string(data_node->name(), data_node->name_size()),
+					                       std::string(data_node->value(), data_node->value_size()),
 					                       text_marker::color::black);
 				}
 				return std::make_tuple(util::parse_time(time_node->value()),
-				                       std::string(data_node->name(), data_node->name_size()),
+				                       std::string(data_node->value(), data_node->value_size()),
 				                       text_marker::color::black);
 			}
 
@@ -287,10 +286,10 @@ namespace xml {
 			    std::string(primary_node->name(), primary_node->name_size());
 			auto primary_node_name_lower = util::lower_copy(primary_node_name);
 
-			auto const is_image_marker = primary_node_name == "imagemarker"s;
-			auto const is_text_marker = primary_node_name == "textmarker"s;
+			auto const is_image_marker = primary_node_name_lower == "imagemarker"s;
+			auto const is_text_marker = primary_node_name_lower == "textmarker"s;
 
-			if (!is_image_marker || !is_text_marker) {
+			if (!is_image_marker && !is_text_marker) {
 				std::ostringstream err;
 
 				err << "XML node named: " << primary_node_name << " is not a valid XML marker tag.";

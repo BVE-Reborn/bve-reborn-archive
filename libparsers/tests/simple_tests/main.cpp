@@ -1,7 +1,7 @@
+#include "simple_tests_config.hpp"
 #include "tests.hpp"
 #include <iostream>
 #include <string>
-#include "simple_tests_config.hpp"
 
 int main(int const argc, char** argv) {
 	if (argc != 2) {
