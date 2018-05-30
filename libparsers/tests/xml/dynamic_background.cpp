@@ -35,7 +35,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
 
 	REQUIRE(output.is<std::vector<db::texture_background_info>>());
 	auto const& background = output.get_unchecked<std::vector<db::texture_background_info>>();
-	REQUIRE_EQ(background.size(), 1);
+	CHECK_EQ(background.size(), 1);
 
 	CHECK_EQ(background[0].time, 0);
 	CHECK_EQ(background[0].repetitions, 6);
@@ -43,7 +43,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
 	CHECK_EQ(background[0].filename, "some_file.xml/Cloudy.png"s);
 }
 
-TEST_CASE("libparser - xml - dynamic_background - multiple backgound") {
+TEST_CASE("libparser - xml - dynamic_background - multiple backgounds") {
 	// clang-format off
     std::string const test_multiple_backgrounds = 
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -74,7 +74,7 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgound") {
 	if (!output_errors.empty()) {
 		std::cout << output_errors;
 	}
-	REQUIRE(output_errors.empty());
+	CHECK(output_errors.empty());
 
 	// Parsed values should match.
 	REQUIRE(output.is<std::vector<db::texture_background_info>>());
@@ -86,7 +86,7 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgound") {
 	CHECK_EQ(vec[0].transition_mode, db::texture_background_info::fade_in);
 	CHECK_EQ(vec[0].filename, "some_file.xml/Cloudy.png"s);
 
-	CHECK_EQ(vec[1].time, parsers::util::parse_time("10.00"s));
+	CHECK_EQ(vec[1].time, 36000);
 	CHECK_EQ(vec[1].repetitions, 6);
 	CHECK_EQ(vec[1].transition_mode, db::texture_background_info::fade_out);
 	CHECK_EQ(vec[1].filename, "some_file.xml/Sunny.png"s);
@@ -114,7 +114,7 @@ TEST_CASE("libparser - xml - dynamic_background - object_background") {
 	if (!output_errors.empty()) {
 		std::cout << output_errors;
 	}
-	REQUIRE(output_errors.empty());
+	CHECK(output_errors.empty());
 
 	REQUIRE(output.is<db::object_background_info>());
 	auto const& object_background = output.get_unchecked<db::object_background_info>();
@@ -143,11 +143,11 @@ TEST_CASE("libparser - xml - dynamic_background - should allow only one object_b
 	auto const output =
 	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
 
-	REQUIRE(!output_errors.empty());
-	REQUIRE_EQ(output_errors.size(), 1);
+	CHECK(!output_errors.empty());
+	CHECK_EQ(output_errors.size(), 1);
 }
 
-TEST_CASE("libparser - xml - dynamic_background - OpenBve node should be optional") {
+TEST_CASE("libparser - xml - dynamic_background - openbve node should be optional") {
 	// clang-format off
     std::string const test_single_background = 
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -165,10 +165,10 @@ TEST_CASE("libparser - xml - dynamic_background - OpenBve node should be optiona
 	};
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
-	REQUIRE(output_errors.empty());
+	CHECK(output_errors.empty());
 }
 
-TEST_CASE("libparsers - xml - dynamic_background - Unrecognized mode should add an error") {
+TEST_CASE("libparsers - xml - dynamic_background - unrecognized mode should add an error") {
 	// clang-format off
     std::string const test_single_background = 
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -186,6 +186,6 @@ TEST_CASE("libparsers - xml - dynamic_background - Unrecognized mode should add 
 	};
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
-	REQUIRE(!output_errors.empty());
-	REQUIRE_EQ(output_errors.size(), 1);
+	CHECK(!output_errors.empty());
+	CHECK_EQ(output_errors.size(), 1);
 }

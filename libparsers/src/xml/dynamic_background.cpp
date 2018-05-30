@@ -44,13 +44,9 @@ namespace xml {
 					current_section = current_section->next_sibling();
 					// If multiple object_backgrounds specified add an error.
 					if (current_section != nullptr) {
-						auto const* const is_second_object =
-						    current_section->first_node("object", 0, false);
-						if (is_second_object != nullptr) {
-							add_error(
-							    errors, filename, 0,
-							    "Multiple Object backgrounds: only one object background is allowed."s);
-						}
+						add_error(
+						    errors, filename, 0,
+						    "Multiple Object backgrounds: only one object background is allowed."s);
 					}
 					return object_background_info{absolute};
 				}
