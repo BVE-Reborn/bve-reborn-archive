@@ -70,7 +70,7 @@ namespace xml {
 						tbi.repetitions = gsl::narrow<std::size_t>(util::parse_loose_integer(
 						    std::string(repetitions->value(), repetitions->value_size())));
 					}
-					catch (const std::invalid_argument& e) {
+					catch (const std::exception& e) {
 						add_error(errors, filename, 0, e.what());
 					}
 				}

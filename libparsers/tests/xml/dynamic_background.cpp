@@ -35,7 +35,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
 
 	REQUIRE(output.is<std::vector<db::texture_background_info>>());
 	auto const& background = output.get_unchecked<std::vector<db::texture_background_info>>();
-	CHECK_EQ(background.size(), 1);
+	REQUIRE_EQ(background.size(), 1);
 
 	CHECK_EQ(background[0].time, 0);
 	CHECK_EQ(background[0].repetitions, 6);
@@ -96,12 +96,12 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgounds") {
 TEST_CASE("libparser - xml - dynamic_background - object_background") {
 	// clang-format off
     std::string const test_object_background =
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            "<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-                "<Background>"
-                    "<Object>Background.csv</Object>"
-                "</Background>"
-            "</openBVE>"s;
+		"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+		"<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+			"<Background>"
+				"<Object>Background.csv</Object>"
+			"</Background>"
+		"</openBVE>"s;
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
@@ -125,15 +125,15 @@ TEST_CASE("libparser - xml - dynamic_background - object_background") {
 TEST_CASE("libparser - xml - dynamic_background - should allow only one object_background") {
 	// clang-format off
     std::string const test_object_background =
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            "<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-                "<Background>"
-                    "<Object>Background.csv</Object>"
-                "</Background>"
-                "<Background>"
-                    "<Object>Background2.csv</Object>"
-                "</Background>"
-            "</openBVE>"s;
+		"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+		"<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+			"<Background>"
+				"<Object>Background.csv</Object>"
+			"</Background>"
+			"<Background>"
+				"<Object>Background2.csv</Object>"
+			"</Background>"
+		"</openBVE>"s;
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
@@ -150,13 +150,13 @@ TEST_CASE("libparser - xml - dynamic_background - should allow only one object_b
 TEST_CASE("libparser - xml - dynamic_background - openbve node should be optional") {
 	// clang-format off
     std::string const test_single_background = 
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            "<Background>"
-                "<Time>00.00</Time>"
-                "<Mode>FadeIn</Mode>"
-                "<Repetitions>6</Repetitions>"
-                "<Texture>Cloudy.png</Texture>"
-            "</Background>"s;
+		"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+		"<Background>"
+			"<Time>00.00</Time>"
+			"<Mode>FadeIn</Mode>"
+			"<Repetitions>6</Repetitions>"
+			"<Texture>Cloudy.png</Texture>"
+		"</Background>"s;
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
@@ -168,16 +168,16 @@ TEST_CASE("libparser - xml - dynamic_background - openbve node should be optiona
 	CHECK(output_errors.empty());
 }
 
-TEST_CASE("libparsers - xml - dynamic_background - unrecognized mode should add an error") {
+TEST_CASE("libparsers - xml - dynamic_background - improper values should add an errors") {
 	// clang-format off
     std::string const test_single_background = 
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            "<Background>"
-                "<Time>00.00</Time>"
-                "<Mode>THIS ISNT A PROPER MODE</Mode>"
-                "<Repetitions>6</Repetitions>"
-                "<Texture>Cloudy.png</Texture>"
-            "</Background>"s;
+		"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+		"<Background>"
+			"<Time>ABC</Time>"// Not a proper Time value
+			"<Mode>THIS ISNT A PROPER MODE</Mode>"// Only FadeIn and FadeOut modes supported
+			"<Repetitions>-1</Repetitions>"// Repetitions should be positive
+			"<Texture>Cloudy.png</Texture>"
+		"</Background>"s;
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
@@ -187,5 +187,5 @@ TEST_CASE("libparsers - xml - dynamic_background - unrecognized mode should add 
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
-	CHECK_EQ(output_errors.size(), 1);
+	CHECK_EQ(output_errors.at("some_file.xml"s).size(), 3);
 }
