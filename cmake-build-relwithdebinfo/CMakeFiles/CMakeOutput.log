@@ -1,0 +1,939 @@
+The system is: Linux - 4.15.0-22-generic - x86_64
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/3.10.3/CompilerIdCXX/a.out"
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6b087/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6b087.dir/build.make CMakeFiles/cmTC_6b087.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6b087.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_6b087.dir/testCXXCompiler.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_6b087
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6b087.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_6b087.dir/testCXXCompiler.cxx.o  -o cmTC_6b087 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e7411/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e7411.dir/build.make CMakeFiles/cmTC_e7411.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o -c /home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_e7411
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7411.dir/link.txt --verbose=1
+/usr/bin/c++      -v CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_e7411 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/c++
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.3.0-16ubuntu3' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --with-as=/usr/bin/x86_64-linux-gnu-as --with-ld=/usr/bin/x86_64-linux-gnu-ld --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 7.3.0 (Ubuntu 7.3.0-16ubuntu3) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e7411' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccrcj7uU.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_e7411 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e7411' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_e7411/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_e7411.dir/build.make CMakeFiles/cmTC_e7411.dir/build]
+  ignore line: [make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o -c /home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_e7411]
+  ignore line: [/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7411.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_e7411 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/c++]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.3.0-16ubuntu3' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --with-as=/usr/bin/x86_64-linux-gnu-as --with-ld=/usr/bin/x86_64-linux-gnu-ld --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.3.0 (Ubuntu 7.3.0-16ubuntu3) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e7411' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccrcj7uU.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_e7411 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccrcj7uU.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--sysroot=/] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_e7411] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o] ==> ignore
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/7] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..]
+    arg [CMakeFiles/cmTC_e7411.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o] ==> ignore
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/7] ==> [/usr/lib/gcc/x86_64-linux-gnu/7]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> [/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/7;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_68985/fast"
+/usr/bin/make -f CMakeFiles/cmTC_68985.dir/build.make CMakeFiles/cmTC_68985.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_68985.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_68985.dir/feature_tests.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_68985
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_68985.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_68985.dir/feature_tests.cxx.o  -o cmTC_68985 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_85175/fast"
+/usr/bin/make -f CMakeFiles/cmTC_85175.dir/build.make CMakeFiles/cmTC_85175.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_85175.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_85175.dir/feature_tests.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_85175
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85175.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_85175.dir/feature_tests.cxx.o  -o cmTC_85175 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d5fda/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d5fda.dir/build.make CMakeFiles/cmTC_d5fda.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_d5fda.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_d5fda.dir/feature_tests.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_d5fda
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d5fda.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_d5fda.dir/feature_tests.cxx.o  -o cmTC_d5fda 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_3b407/fast"
+/usr/bin/make -f CMakeFiles/cmTC_3b407.dir/build.make CMakeFiles/cmTC_3b407.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_3b407.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_3b407.dir/feature_tests.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_3b407
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3b407.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_3b407.dir/feature_tests.cxx.o  -o cmTC_3b407 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0dd19/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0dd19.dir/build.make CMakeFiles/cmTC_0dd19.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_0dd19.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_0dd19.dir/CheckIncludeFile.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTC_0dd19
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0dd19.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_0dd19.dir/CheckIncludeFile.cxx.o  -o cmTC_0dd19 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a5d51/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a5d51.dir/build.make CMakeFiles/cmTC_a5d51.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_a5d51.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -std=c++14 -o CMakeFiles/cmTC_a5d51.dir/CheckFunctionExists.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_a5d51
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a5d51.dir/link.txt --verbose=1
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_a5d51.dir/CheckFunctionExists.cxx.o  -o cmTC_a5d51 -lpthread 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+
+Performing C++ SOURCE FILE Test ld_lld succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_187e1/fast"
+/usr/bin/make -f CMakeFiles/cmTC_187e1.dir/build.make CMakeFiles/cmTC_187e1.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_187e1.dir/src.cxx.o
+/usr/bin/c++    -Dld_lld   -fuse-ld=lld -std=c++14 -o CMakeFiles/cmTC_187e1.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_187e1
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_187e1.dir/link.txt --verbose=1
+/usr/bin/c++   -Dld_lld    CMakeFiles/cmTC_187e1.dir/src.cxx.o  -o cmTC_187e1 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test fdiagnostics_color succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_20521/fast"
+/usr/bin/make -f CMakeFiles/cmTC_20521.dir/build.make CMakeFiles/cmTC_20521.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_20521.dir/src.cxx.o
+/usr/bin/c++    -Dfdiagnostics_color   -fdiagnostics-color=always -std=c++14 -o CMakeFiles/cmTC_20521.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_20521
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_20521.dir/link.txt --verbose=1
+/usr/bin/c++   -Dfdiagnostics_color    CMakeFiles/cmTC_20521.dir/src.cxx.o  -o cmTC_20521 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wall succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d07af/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d07af.dir/build.make CMakeFiles/cmTC_d07af.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_d07af.dir/src.cxx.o
+/usr/bin/c++    -DWall   -Wall -std=c++14 -o CMakeFiles/cmTC_d07af.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_d07af
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d07af.dir/link.txt --verbose=1
+/usr/bin/c++   -DWall    CMakeFiles/cmTC_d07af.dir/src.cxx.o  -o cmTC_d07af 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wcast_align succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_41d8f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_41d8f.dir/build.make CMakeFiles/cmTC_41d8f.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_41d8f.dir/src.cxx.o
+/usr/bin/c++    -DWcast_align   -Wcast-align -std=c++14 -o CMakeFiles/cmTC_41d8f.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_41d8f
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_41d8f.dir/link.txt --verbose=1
+/usr/bin/c++   -DWcast_align    CMakeFiles/cmTC_41d8f.dir/src.cxx.o  -o cmTC_41d8f 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wcast_qual succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_da7da/fast"
+/usr/bin/make -f CMakeFiles/cmTC_da7da.dir/build.make CMakeFiles/cmTC_da7da.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_da7da.dir/src.cxx.o
+/usr/bin/c++    -DWcast_qual   -Wcast-qual -std=c++14 -o CMakeFiles/cmTC_da7da.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_da7da
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_da7da.dir/link.txt --verbose=1
+/usr/bin/c++   -DWcast_qual    CMakeFiles/cmTC_da7da.dir/src.cxx.o  -o cmTC_da7da 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wconversion succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e2746/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e2746.dir/build.make CMakeFiles/cmTC_e2746.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e2746.dir/src.cxx.o
+/usr/bin/c++    -DWconversion   -Wconversion -std=c++14 -o CMakeFiles/cmTC_e2746.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_e2746
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e2746.dir/link.txt --verbose=1
+/usr/bin/c++   -DWconversion    CMakeFiles/cmTC_e2746.dir/src.cxx.o  -o cmTC_e2746 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wctor_dtor_privacy succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b01d6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b01d6.dir/build.make CMakeFiles/cmTC_b01d6.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b01d6.dir/src.cxx.o
+/usr/bin/c++    -DWctor_dtor_privacy   -Wctor-dtor-privacy -std=c++14 -o CMakeFiles/cmTC_b01d6.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_b01d6
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b01d6.dir/link.txt --verbose=1
+/usr/bin/c++   -DWctor_dtor_privacy    CMakeFiles/cmTC_b01d6.dir/src.cxx.o  -o cmTC_b01d6 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wdisabled_optimization succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7cc13/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7cc13.dir/build.make CMakeFiles/cmTC_7cc13.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7cc13.dir/src.cxx.o
+/usr/bin/c++    -DWdisabled_optimization   -Wdisabled-optimization -std=c++14 -o CMakeFiles/cmTC_7cc13.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_7cc13
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7cc13.dir/link.txt --verbose=1
+/usr/bin/c++   -DWdisabled_optimization    CMakeFiles/cmTC_7cc13.dir/src.cxx.o  -o cmTC_7cc13 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wdouble_promotion succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_61c17/fast"
+/usr/bin/make -f CMakeFiles/cmTC_61c17.dir/build.make CMakeFiles/cmTC_61c17.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_61c17.dir/src.cxx.o
+/usr/bin/c++    -DWdouble_promotion   -Wdouble-promotion -std=c++14 -o CMakeFiles/cmTC_61c17.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_61c17
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_61c17.dir/link.txt --verbose=1
+/usr/bin/c++   -DWdouble_promotion    CMakeFiles/cmTC_61c17.dir/src.cxx.o  -o cmTC_61c17 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wduplicated_branches succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1746f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1746f.dir/build.make CMakeFiles/cmTC_1746f.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_1746f.dir/src.cxx.o
+/usr/bin/c++    -DWduplicated_branches   -Wduplicated-branches -std=c++14 -o CMakeFiles/cmTC_1746f.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_1746f
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1746f.dir/link.txt --verbose=1
+/usr/bin/c++   -DWduplicated_branches    CMakeFiles/cmTC_1746f.dir/src.cxx.o  -o cmTC_1746f 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wduplicated_cond succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ae468/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ae468.dir/build.make CMakeFiles/cmTC_ae468.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ae468.dir/src.cxx.o
+/usr/bin/c++    -DWduplicated_cond   -Wduplicated-cond -std=c++14 -o CMakeFiles/cmTC_ae468.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ae468
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ae468.dir/link.txt --verbose=1
+/usr/bin/c++   -DWduplicated_cond    CMakeFiles/cmTC_ae468.dir/src.cxx.o  -o cmTC_ae468 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wextra succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ae936/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ae936.dir/build.make CMakeFiles/cmTC_ae936.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ae936.dir/src.cxx.o
+/usr/bin/c++    -DWextra   -Wextra -std=c++14 -o CMakeFiles/cmTC_ae936.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ae936
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ae936.dir/link.txt --verbose=1
+/usr/bin/c++   -DWextra    CMakeFiles/cmTC_ae936.dir/src.cxx.o  -o cmTC_ae936 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wformat succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_641ca/fast"
+/usr/bin/make -f CMakeFiles/cmTC_641ca.dir/build.make CMakeFiles/cmTC_641ca.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_641ca.dir/src.cxx.o
+/usr/bin/c++    -DWformat   -Wformat=2 -std=c++14 -o CMakeFiles/cmTC_641ca.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_641ca
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_641ca.dir/link.txt --verbose=1
+/usr/bin/c++   -DWformat    CMakeFiles/cmTC_641ca.dir/src.cxx.o  -o cmTC_641ca 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Winit_self succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_eb767/fast"
+/usr/bin/make -f CMakeFiles/cmTC_eb767.dir/build.make CMakeFiles/cmTC_eb767.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_eb767.dir/src.cxx.o
+/usr/bin/c++    -DWinit_self   -Winit-self -std=c++14 -o CMakeFiles/cmTC_eb767.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_eb767
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eb767.dir/link.txt --verbose=1
+/usr/bin/c++   -DWinit_self    CMakeFiles/cmTC_eb767.dir/src.cxx.o  -o cmTC_eb767 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wlogical_op succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_964a8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_964a8.dir/build.make CMakeFiles/cmTC_964a8.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_964a8.dir/src.cxx.o
+/usr/bin/c++    -DWlogical_op   -Wlogical-op -std=c++14 -o CMakeFiles/cmTC_964a8.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_964a8
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_964a8.dir/link.txt --verbose=1
+/usr/bin/c++   -DWlogical_op    CMakeFiles/cmTC_964a8.dir/src.cxx.o  -o cmTC_964a8 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wno_gnu_zero_variadic_macro_arguments succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_786f4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_786f4.dir/build.make CMakeFiles/cmTC_786f4.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_786f4.dir/src.cxx.o
+/usr/bin/c++    -DWno_gnu_zero_variadic_macro_arguments   -Wno-gnu-zero-variadic-macro-arguments -std=c++14 -o CMakeFiles/cmTC_786f4.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_786f4
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_786f4.dir/link.txt --verbose=1
+/usr/bin/c++   -DWno_gnu_zero_variadic_macro_arguments    CMakeFiles/cmTC_786f4.dir/src.cxx.o  -o cmTC_786f4 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wmissing_include_dirs succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_80e41/fast"
+/usr/bin/make -f CMakeFiles/cmTC_80e41.dir/build.make CMakeFiles/cmTC_80e41.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_80e41.dir/src.cxx.o
+/usr/bin/c++    -DWmissing_include_dirs   -Wmissing-include-dirs -std=c++14 -o CMakeFiles/cmTC_80e41.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_80e41
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_80e41.dir/link.txt --verbose=1
+/usr/bin/c++   -DWmissing_include_dirs    CMakeFiles/cmTC_80e41.dir/src.cxx.o  -o cmTC_80e41 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wno_sign_conversion succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_cd442/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cd442.dir/build.make CMakeFiles/cmTC_cd442.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cd442.dir/src.cxx.o
+/usr/bin/c++    -DWno_sign_conversion   -Wno-sign-conversion -std=c++14 -o CMakeFiles/cmTC_cd442.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_cd442
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cd442.dir/link.txt --verbose=1
+/usr/bin/c++   -DWno_sign_conversion    CMakeFiles/cmTC_cd442.dir/src.cxx.o  -o cmTC_cd442 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wnoexcept succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e1160/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e1160.dir/build.make CMakeFiles/cmTC_e1160.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e1160.dir/src.cxx.o
+/usr/bin/c++    -DWnoexcept   -Wnoexcept -std=c++14 -o CMakeFiles/cmTC_e1160.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_e1160
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e1160.dir/link.txt --verbose=1
+/usr/bin/c++   -DWnoexcept    CMakeFiles/cmTC_e1160.dir/src.cxx.o  -o cmTC_e1160 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wnull_dereference succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5798a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5798a.dir/build.make CMakeFiles/cmTC_5798a.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5798a.dir/src.cxx.o
+/usr/bin/c++    -DWnull_dereference   -Wnull-dereference -std=c++14 -o CMakeFiles/cmTC_5798a.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_5798a
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5798a.dir/link.txt --verbose=1
+/usr/bin/c++   -DWnull_dereference    CMakeFiles/cmTC_5798a.dir/src.cxx.o  -o cmTC_5798a 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wold_style_cast succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b4a40/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b4a40.dir/build.make CMakeFiles/cmTC_b4a40.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b4a40.dir/src.cxx.o
+/usr/bin/c++    -DWold_style_cast   -Wold-style-cast -std=c++14 -o CMakeFiles/cmTC_b4a40.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_b4a40
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b4a40.dir/link.txt --verbose=1
+/usr/bin/c++   -DWold_style_cast    CMakeFiles/cmTC_b4a40.dir/src.cxx.o  -o cmTC_b4a40 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Woverloaded_virtual succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_71424/fast"
+/usr/bin/make -f CMakeFiles/cmTC_71424.dir/build.make CMakeFiles/cmTC_71424.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_71424.dir/src.cxx.o
+/usr/bin/c++    -DWoverloaded_virtual   -Woverloaded-virtual -std=c++14 -o CMakeFiles/cmTC_71424.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_71424
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_71424.dir/link.txt --verbose=1
+/usr/bin/c++   -DWoverloaded_virtual    CMakeFiles/cmTC_71424.dir/src.cxx.o  -o cmTC_71424 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wpedantic succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5bacd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5bacd.dir/build.make CMakeFiles/cmTC_5bacd.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5bacd.dir/src.cxx.o
+/usr/bin/c++    -DWpedantic   -Wpedantic -std=c++14 -o CMakeFiles/cmTC_5bacd.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_5bacd
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5bacd.dir/link.txt --verbose=1
+/usr/bin/c++   -DWpedantic    CMakeFiles/cmTC_5bacd.dir/src.cxx.o  -o cmTC_5bacd 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wrestrict succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_165b0/fast"
+/usr/bin/make -f CMakeFiles/cmTC_165b0.dir/build.make CMakeFiles/cmTC_165b0.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_165b0.dir/src.cxx.o
+/usr/bin/c++    -DWrestrict   -Wrestrict -std=c++14 -o CMakeFiles/cmTC_165b0.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_165b0
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_165b0.dir/link.txt --verbose=1
+/usr/bin/c++   -DWrestrict    CMakeFiles/cmTC_165b0.dir/src.cxx.o  -o cmTC_165b0 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wshadow succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1704e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1704e.dir/build.make CMakeFiles/cmTC_1704e.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_1704e.dir/src.cxx.o
+/usr/bin/c++    -DWshadow   -Wshadow -std=c++14 -o CMakeFiles/cmTC_1704e.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_1704e
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1704e.dir/link.txt --verbose=1
+/usr/bin/c++   -DWshadow    CMakeFiles/cmTC_1704e.dir/src.cxx.o  -o cmTC_1704e 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wstrict_aliasing succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4b351/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4b351.dir/build.make CMakeFiles/cmTC_4b351.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4b351.dir/src.cxx.o
+/usr/bin/c++    -DWstrict_aliasing   -Wstrict-aliasing=1 -std=c++14 -o CMakeFiles/cmTC_4b351.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_4b351
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4b351.dir/link.txt --verbose=1
+/usr/bin/c++   -DWstrict_aliasing    CMakeFiles/cmTC_4b351.dir/src.cxx.o  -o cmTC_4b351 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wstrict_null_sentinel succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ebe89/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ebe89.dir/build.make CMakeFiles/cmTC_ebe89.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ebe89.dir/src.cxx.o
+/usr/bin/c++    -DWstrict_null_sentinel   -Wstrict-null-sentinel -std=c++14 -o CMakeFiles/cmTC_ebe89.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ebe89
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ebe89.dir/link.txt --verbose=1
+/usr/bin/c++   -DWstrict_null_sentinel    CMakeFiles/cmTC_ebe89.dir/src.cxx.o  -o cmTC_ebe89 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wstrict_overflow succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2a18f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2a18f.dir/build.make CMakeFiles/cmTC_2a18f.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_2a18f.dir/src.cxx.o
+/usr/bin/c++    -DWstrict_overflow   -Wstrict-overflow=2 -std=c++14 -o CMakeFiles/cmTC_2a18f.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_2a18f
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2a18f.dir/link.txt --verbose=1
+/usr/bin/c++   -DWstrict_overflow    CMakeFiles/cmTC_2a18f.dir/src.cxx.o  -o cmTC_2a18f 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wswitch_default succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ba50d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ba50d.dir/build.make CMakeFiles/cmTC_ba50d.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ba50d.dir/src.cxx.o
+/usr/bin/c++    -DWswitch_default   -Wswitch-default -std=c++14 -o CMakeFiles/cmTC_ba50d.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ba50d
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba50d.dir/link.txt --verbose=1
+/usr/bin/c++   -DWswitch_default    CMakeFiles/cmTC_ba50d.dir/src.cxx.o  -o cmTC_ba50d 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wundef succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a40db/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a40db.dir/build.make CMakeFiles/cmTC_a40db.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_a40db.dir/src.cxx.o
+/usr/bin/c++    -DWundef   -Wundef -std=c++14 -o CMakeFiles/cmTC_a40db.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_a40db
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a40db.dir/link.txt --verbose=1
+/usr/bin/c++   -DWundef    CMakeFiles/cmTC_a40db.dir/src.cxx.o  -o cmTC_a40db 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wno_unknown_pragmas succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ad333/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ad333.dir/build.make CMakeFiles/cmTC_ad333.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ad333.dir/src.cxx.o
+/usr/bin/c++    -DWno_unknown_pragmas   -Wno-unknown-pragmas -std=c++14 -o CMakeFiles/cmTC_ad333.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ad333
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad333.dir/link.txt --verbose=1
+/usr/bin/c++   -DWno_unknown_pragmas    CMakeFiles/cmTC_ad333.dir/src.cxx.o  -o cmTC_ad333 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test Wuseless_cast succeeded with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ba930/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ba930.dir/build.make CMakeFiles/cmTC_ba930.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ba930.dir/src.cxx.o
+/usr/bin/c++    -DWuseless_cast   -Wuseless-cast -std=c++14 -o CMakeFiles/cmTC_ba930.dir/src.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ba930
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba930.dir/link.txt --verbose=1
+/usr/bin/c++   -DWuseless_cast    CMakeFiles/cmTC_ba930.dir/src.cxx.o  -o cmTC_ba930 
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }

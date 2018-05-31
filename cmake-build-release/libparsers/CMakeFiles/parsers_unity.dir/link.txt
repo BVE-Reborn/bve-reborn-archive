@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libparsers.so -o ../bin/libparsers.so CMakeFiles/parsers_unity.dir/cotire/parsers_CXX_unity.cxx.o -Wl,-rpath,/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/bin ../bin/libcore.so /usr/lib/x86_64-linux-gnu/libboost_regex.so 

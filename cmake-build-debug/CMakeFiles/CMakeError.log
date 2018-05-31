@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d86cf/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d86cf.dir/build.make CMakeFiles/cmTC_d86cf.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_d86cf.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_d86cf.dir/CheckSymbolExists.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_d86cf
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d86cf.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_d86cf.dir/CheckSymbolExists.cxx.o  -o cmTC_d86cf 
+CMakeFiles/cmTC_d86cf.dir/CheckSymbolExists.cxx.o: In function `main':
+CheckSymbolExists.cxx:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_d86cf.dir/build.make:97: recipe for target 'cmTC_d86cf' failed
+make[1]: *** [cmTC_d86cf] Error 1
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d86cf/fast' failed
+make: *** [cmTC_d86cf/fast] Error 2
+
+File /home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9724b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_9724b.dir/build.make CMakeFiles/cmTC_9724b.dir/build
+make[1]: Entering directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9724b.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -std=c++14 -o CMakeFiles/cmTC_9724b.dir/CheckFunctionExists.cxx.o -c /home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_9724b
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9724b.dir/link.txt --verbose=1
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_9724b.dir/CheckFunctionExists.cxx.o  -o cmTC_9724b -lpthreads 
+/usr/bin/x86_64-linux-gnu-ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_9724b.dir/build.make:97: recipe for target 'cmTC_9724b' failed
+make[1]: *** [cmTC_9724b] Error 1
+make[1]: Leaving directory '/home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_9724b/fast' failed
+make: *** [cmTC_9724b/fast] Error 2
+
+

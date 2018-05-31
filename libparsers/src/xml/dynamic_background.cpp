@@ -41,6 +41,7 @@ namespace xml {
 
 					auto const absolute = get_relative_file(filename, object_filename);
 
+<<<<<<< HEAD
 					current_section = current_section->next_sibling("background", 0, false);
 					// If multiple object_backgrounds specified add an error.
 					if (current_section != nullptr) {
@@ -51,6 +52,14 @@ namespace xml {
 							       "allowed.";
 							add_error(errors, filename, 0, err.str());
 						}
+=======
+					current_section = current_section->next_sibling();
+					// If multiple object_backgrounds specified add an error.
+					if (current_section != nullptr) {
+						add_error(
+						    errors, filename, 0,
+						    "Multiple Object backgrounds: only one object background is allowed."s);
+>>>>>>> Added test cases for libparsers::xml::dynamic_background (#8)
 					}
 					return object_background_info{absolute};
 				}
@@ -74,7 +83,7 @@ namespace xml {
 						tbi.repetitions = gsl::narrow<std::size_t>(util::parse_loose_integer(
 						    std::string(repetitions->value(), repetitions->value_size())));
 					}
-					catch (const std::invalid_argument& e) {
+					catch (const std::exception& e) {
 						add_error(errors, filename, 0, e.what());
 					}
 				}

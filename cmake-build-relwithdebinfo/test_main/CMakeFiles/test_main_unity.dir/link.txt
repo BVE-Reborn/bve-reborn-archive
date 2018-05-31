@@ -1,0 +1,1 @@
+/usr/bin/c++  -O2 -g -DNDEBUG   CMakeFiles/test_main_unity.dir/cotire/test_main_CXX_unity.cxx.o  -o ../bin/test_main -Wl,-rpath,/home/kevincybura/Desktop/c++/openbve2/cmake-build-relwithdebinfo/bin ../bin/libparsers.so ../bin/libcore.so /usr/lib/x86_64-linux-gnu/libboost_regex.so 

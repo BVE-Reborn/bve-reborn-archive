@@ -1,0 +1,336 @@
+/home/kevincybura/Desktop/clion-2018.1.3/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" /home/kevincybura/Desktop/c++/openbve2
+-- The CXX compiler identification is GNU 7.3.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Boost version: 1.65.1
+-- Found the following Boost libraries:
+--   filesystem
+--   regex
+--   system
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- clang-format found: /usr/bin/clang-format-6.0
+-- cotire 1.8.0 loaded.
+-- Performing Test ld_lld
+-- Performing Test ld_lld - Success
+-- run-clang-tidy found: /usr/bin/clang-tidy-6.0
+-- Compiling without CodeCoverage
+-- Performing Test fdiagnostics_color
+-- Performing Test fdiagnostics_color - Success
+-- Performing Test Wall
+-- Performing Test Wall - Success
+-- Performing Test Wcast_align
+-- Performing Test Wcast_align - Success
+-- Performing Test Wcast_qual
+-- Performing Test Wcast_qual - Success
+-- Performing Test Wconversion
+-- Performing Test Wconversion - Success
+-- Performing Test Wctor_dtor_privacy
+-- Performing Test Wctor_dtor_privacy - Success
+-- Performing Test Wdisabled_optimization
+-- Performing Test Wdisabled_optimization - Success
+-- Performing Test Wdouble_promotion
+-- Performing Test Wdouble_promotion - Success
+-- Performing Test Wduplicated_branches
+-- Performing Test Wduplicated_branches - Success
+-- Performing Test Wduplicated_cond
+-- Performing Test Wduplicated_cond - Success
+-- Performing Test Wextra
+-- Performing Test Wextra - Success
+-- Performing Test Wformat
+-- Performing Test Wformat - Success
+-- Performing Test Winit_self
+-- Performing Test Winit_self - Success
+-- Performing Test Wlogical_op
+-- Performing Test Wlogical_op - Success
+-- Performing Test Wno_gnu_zero_variadic_macro_arguments
+-- Performing Test Wno_gnu_zero_variadic_macro_arguments - Success
+-- Performing Test Wmissing_include_dirs
+-- Performing Test Wmissing_include_dirs - Success
+-- Performing Test Wno_sign_conversion
+-- Performing Test Wno_sign_conversion - Success
+-- Performing Test Wnoexcept
+-- Performing Test Wnoexcept - Success
+-- Performing Test Wnull_dereference
+-- Performing Test Wnull_dereference - Success
+-- Performing Test Wold_style_cast
+-- Performing Test Wold_style_cast - Success
+-- Performing Test Woverloaded_virtual
+-- Performing Test Woverloaded_virtual - Success
+-- Performing Test Wpedantic
+-- Performing Test Wpedantic - Success
+-- Performing Test Wrestrict
+-- Performing Test Wrestrict - Success
+-- Performing Test Wshadow
+-- Performing Test Wshadow - Success
+-- Performing Test Wstrict_aliasing
+-- Performing Test Wstrict_aliasing - Success
+-- Performing Test Wstrict_null_sentinel
+-- Performing Test Wstrict_null_sentinel - Success
+-- Performing Test Wstrict_overflow
+-- Performing Test Wstrict_overflow - Success
+-- Performing Test Wswitch_default
+-- Performing Test Wswitch_default - Success
+-- Performing Test Wundef
+-- Performing Test Wundef - Success
+-- Performing Test Wno_unknown_pragmas
+-- Performing Test Wno_unknown_pragmas - Success
+-- Performing Test Wuseless_cast
+-- Performing Test Wuseless_cast - Success
+-- /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/datatypes.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/math.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/gsl_string_span_iostream.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/variant_util.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libcore/src/math.cpp
+-- CXX target core cotired without precompiled header. Too few applicable sources.
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/animated_object/parser.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/executor.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/instruction_generator.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/instruction_iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/parse.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_csv/iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_csv/parser.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_ini/iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_ini/parser.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/command_spliter.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass1.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass2.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/cycle.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/finalize.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/options.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/route.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/signals.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/structure.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/texture.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_misc.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_objects.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_rails.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_safety.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_signals_limits.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_stations.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/train.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/util.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/cycles.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/location_statement.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/options.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/route.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/signals.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/string_instruction_mapping.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/structure.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/texture.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_geometry.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_misc.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_objects.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_rails.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_safety.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_signals_limits.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_stations.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/train.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generator.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/preprocessor.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/process_includes.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/errors/add_error.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/errors/iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/instruction_builder.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/instruction_iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/lexer.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/lexer_iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parsefunc.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parser.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parser_iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/utils.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/dynamic_background.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/dynamic_lighting.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/route_marker.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/animated.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/b3d_csv.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/dependencies.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/errors.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/find_relative_file.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/function_scripts.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/parsers.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/xml/dynamic_background.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/xml/dynamic_lighting.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/xml/route_marker.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/executor_pass3.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/instruction_generator.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instructions.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/route_structure.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/src/ini.hpp
+-- CXX target parsers cotired.
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/animated_object/parser.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/b3d_csv_object/command_parsing.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/b3d_csv_object/command_execution.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/core_csv/parse.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/core_csv/iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/core_ini/parse.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/core_ini/iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/errors/add_error.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/errors/iostream.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/errors.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/functions.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/iostream_lexer.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/iostream_tree.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/iostream_instructions.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/lexer.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/operators.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/order_of_operations.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/variables.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/function_scripts/variables_indexed.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/load_from_file_utf8_bom.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/strip_text.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/remove_comments.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/match_against_lower.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/parse_color.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/parse_loose_integer.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/parse_loose_float.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/parse_time.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/util/split_text.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/xml/dynamic_background.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/xml/route_marker.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/test_macro_util.hpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/main.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/test_animated.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/test_csv.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/test_csv_obj.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/test_csv_route.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/test_fs.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/test_math.cpp
+-- /home/kevincybura/Desktop/c++/openbve2/libparsers/tests/simple_tests/tests.hpp
+-- CXX target simple_parsers_test cotired.
+-- /home/kevincybura/Desktop/c++/openbve2/test_main/main.cpp
+-- CXX target test_main cotired.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/kevincybura/Desktop/c++/openbve2/cmake-build-release
+
+Cannot get compiler information:
+	Compiler exited with error code 1: /usr/bin/c++ -xc++ -DGLM_ENABLE_EXPERIMENTAL -DGSL_THROW_ON_CONTRACT_VIOLATION -Dparsers_EXPORTS -I/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers -I/home/kevincybura/Desktop/c++/openbve2/libparsers -I/home/kevincybura/Desktop/c++/openbve2/libparsers/include -I/home/kevincybura/Desktop/c++/openbve2/libparsers/src -I/home/kevincybura/Desktop/c++/openbve2/libcore/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/glm -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/rapidxml_ns -O3 -DNDEBUG -fPIC -fdiagnostics-color=always -Wall -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra -Wformat=2 -Winit-self -Wlogical-op -Wno-gnu-zero-variadic-macro-arguments -Wmissing-include-dirs -Wno-sign-conversion -Wnoexcept -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wrestrict -Wshadow -Wstrict-aliasing=1 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unknown-pragmas -Wuseless-cast -Winvalid-pch -include /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/parsers_CXX_prefix.hxx -ffast-math -std=c++14 -fpch-preprocess -v -dD -E
+	Using built-in specs.
+	COLLECT_GCC=/usr/bin/c++
+	OFFLOAD_TARGET_NAMES=nvptx-none
+	OFFLOAD_TARGET_DEFAULT=1
+	Target: x86_64-linux-gnu
+	Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.3.0-16ubuntu3' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --with-as=/usr/bin/x86_64-linux-gnu-as --with-ld=/usr/bin/x86_64-linux-gnu-ld --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+	Thread model: posix
+	gcc version 7.3.0 (Ubuntu 7.3.0-16ubuntu3) 
+	COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-D' 'GLM_ENABLE_EXPERIMENTAL' '-D' 'GSL_THROW_ON_CONTRACT_VIOLATION' '-D' 'parsers_EXPORTS' '-I' '/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/include' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/src' '-I' '/home/kevincybura/Desktop/c++/openbve2/libcore/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/glm' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/rapidxml_ns' '-O3' '-D' 'NDEBUG' '-fPIC' '-Wall' '-Wcast-align' '-Wcast-qual' '-Wconversion' '-Wctor-dtor-privacy' '-Wdisabled-optimization' '-Wdouble-promotion' '-Wduplicated-branches' '-Wduplicated-cond' '-Wextra' '-Wformat=2' '-Winit-self' '-Wlogical-op' '-Wno-gnu-zero-variadic-macro-arguments' '-Wmissing-include-dirs' '-Wno-sign-conversion' '-Wnoexcept' '-Wnull-dereference' '-Wold-style-cast' '-Woverloaded-virtual' '-Wpedantic' '-Wrestrict' '-Wshadow' '-Wstrict-aliasing=1' '-Wstrict-null-sentinel' '-Wstrict-overflow=2' '-Wswitch-default' '-Wundef' '-Wno-unknown-pragmas' '-Wuseless-cast' '-Winvalid-pch' '-include' '/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/parsers_CXX_prefix.hxx' '-ffast-math' '-std=c++14' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+	 /usr/lib/gcc/x86_64-linux-gnu/7/cc1plus -E -quiet -v -I /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers -I /home/kevincybura/Desktop/c++/openbve2/libparsers -I /home/kevincybura/Desktop/c++/openbve2/libparsers/include -I /home/kevincybura/Desktop/c++/openbve2/libparsers/src -I /home/kevincybura/Desktop/c++/openbve2/libcore/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D GLM_ENABLE_EXPERIMENTAL -D GSL_THROW_ON_CONTRACT_VIOLATION -D parsers_EXPORTS -D NDEBUG -D ___CIDR_DEFINITIONS_END -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/glm -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/rapidxml_ns -include /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/parsers_CXX_prefix.hxx /tmp/compiler-file -mtune=generic -march=x86-64 -std=c++14 -Wall -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra -Wformat=2 -Winit-self -Wlogical-op -Wno-gnu-zero-variadic-macro-arguments -Wmissing-include-dirs -Wno-sign-conversion -Wnoexcept -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wrestrict -Wshadow -Wstrict-aliasing=1 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unknown-pragmas -Wuseless-cast -Winvalid-pch -fdiagnostics-color=always -fPIC -ffast-math -fpch-preprocess -O3 -fstack-protector-strong -dD
+	ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/7"
+	ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+	ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/include"
+	#include "..." search starts here:
+	#include <...> search starts here:
+	 /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/include
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/src
+	 /home/kevincybura/Desktop/c++/openbve2/libcore/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/glm
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/rapidxml_ns
+	 /usr/include/c++/7
+	 /usr/include/x86_64-linux-gnu/c++/7
+	 /usr/include/c++/7/backward
+	 /usr/lib/gcc/x86_64-linux-gnu/7/include
+	 /usr/local/include
+	 /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed
+	 /usr/include/x86_64-linux-gnu
+	 /usr/include
+	End of search list.
+	[01m[Kcc1plus:[m[K [01;31m[Kfatal error: [m[K/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/parsers_CXX_prefix.hxx: No such file or directory
+	compilation terminated.
+	
+	
+	Compiler exited with error code 1: /usr/bin/c++ -xc++ -DGLM_ENABLE_EXPERIMENTAL -DGSL_THROW_ON_CONTRACT_VIOLATION -I/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers -I/home/kevincybura/Desktop/c++/openbve2/libparsers -I/home/kevincybura/Desktop/c++/openbve2/libparsers/src -I/home/kevincybura/Desktop/c++/openbve2/libcore/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/glm -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include -I/home/kevincybura/Desktop/c++/openbve2/libparsers/include -O3 -DNDEBUG -fdiagnostics-color=always -Wall -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra -Wformat=2 -Winit-self -Wlogical-op -Wno-gnu-zero-variadic-macro-arguments -Wmissing-include-dirs -Wno-sign-conversion -Wnoexcept -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wrestrict -Wshadow -Wstrict-aliasing=1 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unknown-pragmas -Wuseless-cast -Winvalid-pch -include /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/simple_parsers_test_CXX_prefix.hxx -ffast-math -std=c++14 -fpch-preprocess -v -dD -E
+	Using built-in specs.
+	COLLECT_GCC=/usr/bin/c++
+	OFFLOAD_TARGET_NAMES=nvptx-none
+	OFFLOAD_TARGET_DEFAULT=1
+	Target: x86_64-linux-gnu
+	Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.3.0-16ubuntu3' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --with-as=/usr/bin/x86_64-linux-gnu-as --with-ld=/usr/bin/x86_64-linux-gnu-ld --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+	Thread model: posix
+	gcc version 7.3.0 (Ubuntu 7.3.0-16ubuntu3) 
+	COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-D' 'GLM_ENABLE_EXPERIMENTAL' '-D' 'GSL_THROW_ON_CONTRACT_VIOLATION' '-I' '/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/src' '-I' '/home/kevincybura/Desktop/c++/openbve2/libcore/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/glm' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/include' '-O3' '-D' 'NDEBUG' '-Wall' '-Wcast-align' '-Wcast-qual' '-Wconversion' '-Wctor-dtor-privacy' '-Wdisabled-optimization' '-Wdouble-promotion' '-Wduplicated-branches' '-Wduplicated-cond' '-Wextra' '-Wformat=2' '-Winit-self' '-Wlogical-op' '-Wno-gnu-zero-variadic-macro-arguments' '-Wmissing-include-dirs' '-Wno-sign-conversion' '-Wnoexcept' '-Wnull-dereference' '-Wold-style-cast' '-Woverloaded-virtual' '-Wpedantic' '-Wrestrict' '-Wshadow' '-Wstrict-aliasing=1' '-Wstrict-null-sentinel' '-Wstrict-overflow=2' '-Wswitch-default' '-Wundef' '-Wno-unknown-pragmas' '-Wuseless-cast' '-Winvalid-pch' '-include' '/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/simple_parsers_test_CXX_prefix.hxx' '-ffast-math' '-std=c++14' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+	 /usr/lib/gcc/x86_64-linux-gnu/7/cc1plus -E -quiet -v -I /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers -I /home/kevincybura/Desktop/c++/openbve2/libparsers -I /home/kevincybura/Desktop/c++/openbve2/libparsers/src -I /home/kevincybura/Desktop/c++/openbve2/libcore/include -I /home/kevincybura/Desktop/c++/openbve2/libparsers/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D GLM_ENABLE_EXPERIMENTAL -D GSL_THROW_ON_CONTRACT_VIOLATION -D NDEBUG -D ___CIDR_DEFINITIONS_END -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/glm -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include -include /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/simple_parsers_test_CXX_prefix.hxx /tmp/compiler-file -mtune=generic -march=x86-64 -std=c++14 -Wall -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra -Wformat=2 -Winit-self -Wlogical-op -Wno-gnu-zero-variadic-macro-arguments -Wmissing-include-dirs -Wno-sign-conversion -Wnoexcept -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wrestrict -Wshadow -Wstrict-aliasing=1 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unknown-pragmas -Wuseless-cast -Winvalid-pch -fdiagnostics-color=always -ffast-math -fpch-preprocess -O3 -fstack-protector-strong -dD
+	ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/7"
+	ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+	ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/include"
+	#include "..." search starts here:
+	#include <...> search starts here:
+	 /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/src
+	 /home/kevincybura/Desktop/c++/openbve2/libcore/include
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/glm
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include
+	 /usr/include/c++/7
+	 /usr/include/x86_64-linux-gnu/c++/7
+	 /usr/include/c++/7/backward
+	 /usr/lib/gcc/x86_64-linux-gnu/7/include
+	 /usr/local/include
+	 /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed
+	 /usr/include/x86_64-linux-gnu
+	 /usr/include
+	End of search list.
+	[01m[Kcc1plus:[m[K [01;31m[Kfatal error: [m[K/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/libparsers/cotire/simple_parsers_test_CXX_prefix.hxx: No such file or directory
+	compilation terminated.
+	
+	
+	Compiler exited with error code 1: /usr/bin/c++ -xc++ -DGLM_ENABLE_EXPERIMENTAL -DGSL_THROW_ON_CONTRACT_VIOLATION -I/home/kevincybura/Desktop/c++/openbve2/libparsers/src -I/home/kevincybura/Desktop/c++/openbve2/libparsers/tests -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/doctest/doctest -I/home/kevincybura/Desktop/c++/openbve2/libparsers/include -I/home/kevincybura/Desktop/c++/openbve2/libcore/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/glm -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include -O3 -DNDEBUG -fdiagnostics-color=always -Wall -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra -Wformat=2 -Winit-self -Wlogical-op -Wno-gnu-zero-variadic-macro-arguments -Wmissing-include-dirs -Wno-sign-conversion -Wnoexcept -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wrestrict -Wshadow -Wstrict-aliasing=1 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unknown-pragmas -Wuseless-cast -Winvalid-pch -include /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/test_main/cotire/test_main_CXX_prefix.hxx -ffast-math -std=c++14 -fpch-preprocess -v -dD -E
+	Using built-in specs.
+	COLLECT_GCC=/usr/bin/c++
+	OFFLOAD_TARGET_NAMES=nvptx-none
+	OFFLOAD_TARGET_DEFAULT=1
+	Target: x86_64-linux-gnu
+	Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.3.0-16ubuntu3' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --with-as=/usr/bin/x86_64-linux-gnu-as --with-ld=/usr/bin/x86_64-linux-gnu-ld --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+	Thread model: posix
+	gcc version 7.3.0 (Ubuntu 7.3.0-16ubuntu3) 
+	COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-D' 'GLM_ENABLE_EXPERIMENTAL' '-D' 'GSL_THROW_ON_CONTRACT_VIOLATION' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/src' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/tests' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/doctest/doctest' '-I' '/home/kevincybura/Desktop/c++/openbve2/libparsers/include' '-I' '/home/kevincybura/Desktop/c++/openbve2/libcore/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/glm' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include' '-isystem' '/home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include' '-O3' '-D' 'NDEBUG' '-Wall' '-Wcast-align' '-Wcast-qual' '-Wconversion' '-Wctor-dtor-privacy' '-Wdisabled-optimization' '-Wdouble-promotion' '-Wduplicated-branches' '-Wduplicated-cond' '-Wextra' '-Wformat=2' '-Winit-self' '-Wlogical-op' '-Wno-gnu-zero-variadic-macro-arguments' '-Wmissing-include-dirs' '-Wno-sign-conversion' '-Wnoexcept' '-Wnull-dereference' '-Wold-style-cast' '-Woverloaded-virtual' '-Wpedantic' '-Wrestrict' '-Wshadow' '-Wstrict-aliasing=1' '-Wstrict-null-sentinel' '-Wstrict-overflow=2' '-Wswitch-default' '-Wundef' '-Wno-unknown-pragmas' '-Wuseless-cast' '-Winvalid-pch' '-include' '/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/test_main/cotire/test_main_CXX_prefix.hxx' '-ffast-math' '-std=c++14' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+	 /usr/lib/gcc/x86_64-linux-gnu/7/cc1plus -E -quiet -v -I /home/kevincybura/Desktop/c++/openbve2/libparsers/src -I /home/kevincybura/Desktop/c++/openbve2/libparsers/tests -I /home/kevincybura/Desktop/c++/openbve2/libparsers/include -I /home/kevincybura/Desktop/c++/openbve2/libcore/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D GLM_ENABLE_EXPERIMENTAL -D GSL_THROW_ON_CONTRACT_VIOLATION -D NDEBUG -D ___CIDR_DEFINITIONS_END -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/doctest/doctest -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/glm -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include -isystem /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include -include /home/kevincybura/Desktop/c++/openbve2/cmake-build-release/test_main/cotire/test_main_CXX_prefix.hxx /tmp/compiler-file -mtune=generic -march=x86-64 -std=c++14 -Wall -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra -Wformat=2 -Winit-self -Wlogical-op -Wno-gnu-zero-variadic-macro-arguments -Wmissing-include-dirs -Wno-sign-conversion -Wnoexcept -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wrestrict -Wshadow -Wstrict-aliasing=1 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unknown-pragmas -Wuseless-cast -Winvalid-pch -fdiagnostics-color=always -ffast-math -fpch-preprocess -O3 -fstack-protector-strong -dD
+	ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/7"
+	ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+	ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/include"
+	#include "..." search starts here:
+	#include <...> search starts here:
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/src
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/tests
+	 /home/kevincybura/Desktop/c++/openbve2/libparsers/include
+	 /home/kevincybura/Desktop/c++/openbve2/libcore/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/doctest/doctest
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/glm
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include
+	 /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include
+	 /usr/include/c++/7
+	 /usr/include/x86_64-linux-gnu/c++/7
+	 /usr/include/c++/7/backward
+	 /usr/lib/gcc/x86_64-linux-gnu/7/include
+	 /usr/local/include
+	 /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed
+	 /usr/include/x86_64-linux-gnu
+	 /usr/include
+	End of search list.
+	[01m[Kcc1plus:[m[K [01;31m[Kfatal error: [m[K/home/kevincybura/Desktop/c++/openbve2/cmake-build-release/test_main/cotire/test_main_CXX_prefix.hxx: No such file or directory
+	compilation terminated.
+	
+	

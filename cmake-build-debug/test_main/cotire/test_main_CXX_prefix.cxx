@@ -1,0 +1,30 @@
+/* cotire.cmake 1.8.0 generated file */
+/* /home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/test_main/cotire/test_main_CXX_prefix.cxx */
+#pragma GCC system_header
+#ifdef __cplusplus
+#include "/usr/include/c++/7/ctime"
+#include "/usr/include/c++/7/cmath"
+#include "/usr/include/c++/7/new"
+#include "/usr/include/c++/7/cstdio"
+#include "/usr/include/c++/7/cstdlib"
+#include "/usr/include/c++/7/cstring"
+#include "/usr/include/c++/7/limits"
+#include "/usr/include/c++/7/utility"
+#include "/usr/include/c++/7/sstream"
+#include "/usr/include/c++/7/iostream"
+#include "/usr/include/c++/7/algorithm"
+#include "/usr/include/c++/7/iomanip"
+#include "/usr/include/c++/7/vector"
+#include "/usr/include/c++/7/set"
+#include "/usr/include/c++/7/csignal"
+#include "/usr/include/c++/7/cfloat"
+#include "/usr/include/c++/7/cctype"
+#include "/usr/include/unistd.h"
+#include "/usr/include/x86_64-linux-gnu/sys/time.h"
+#include "/usr/include/c++/7/cinttypes"
+#include "/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/integer.hpp"
+#include "/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/vec3.hpp"
+#include "/usr/include/c++/7/random"
+#include "/usr/include/c++/7/map"
+#include "/home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include/mapbox/variant.hpp"
+#endif

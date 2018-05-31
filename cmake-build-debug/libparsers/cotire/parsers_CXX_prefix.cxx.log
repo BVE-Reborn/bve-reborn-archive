@@ -1,0 +1,1350 @@
+In file included from [01m[K/home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/function_scripts.hpp:5:0[m[K,
+                 from [01m[K/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts.hpp:4[m[K,
+                 from [01m[K/home/kevincybura/Desktop/c++/openbve2/libparsers/src/animated_object/parser.cpp:1[m[K,
+                 from [01m[K/home/kevincybura/Desktop/c++/openbve2/cmake-build-debug/libparsers/cotire/parsers_CXX_unity.cxx:4[m[K:
+[01m[K/home/kevincybura/Desktop/c++/openbve2/dependencies/mapbox-variant/include/mapbox/variant.hpp:108:5:[m[K [01
+35m[Kwarning: [m[K"__cpp_lib_logical_traits" is not defined, evaluates to 0 [[01
+35m[K-Wundef[m[K]
+ #if [01
+35m[K__cpp_lib_logical_traits[m[K >= 201510L
+     [01
+35m[K^~~~~~~~~~~~~~~~~~~~~~~~[m[K
+.... /usr/include/c++/7/set
+..... /usr/include/c++/7/bits/stl_set.h
+..... /usr/include/c++/7/bits/stl_multiset.h
+... /usr/include/boost/optional/optional.hpp
+.... /usr/include/boost/assert.hpp
+..... /usr/include/assert.h
+.... /usr/include/boost/core/addressof.hpp
+..... /usr/include/boost/config.hpp
+...... /usr/include/boost/config/user.hpp
+...... /usr/include/boost/config/detail/select_compiler_config.hpp
+...... /usr/include/boost/config/compiler/gcc.hpp
+...... /usr/include/boost/config/detail/select_stdlib_config.hpp
+...... /usr/include/boost/config/stdlib/libstdcpp3.hpp
+....... /usr/include/unistd.h
+........ /usr/include/x86_64-linux-gnu/bits/posix_opt.h
+........ /usr/include/x86_64-linux-gnu/bits/environments.h
+......... /usr/include/x86_64-linux-gnu/bits/wordsize.h
+........ /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h
+........ /usr/include/x86_64-linux-gnu/bits/confname.h
+........ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h
+......... /usr/include/x86_64-linux-gnu/bits/getopt_core.h
+...... /usr/include/boost/config/detail/select_platform_config.hpp
+...... /usr/include/boost/config/platform/linux.hpp
+....... /usr/include/c++/7/cstdlib
+....... /usr/include/boost/config/detail/posix_features.hpp
+...... /usr/include/boost/config/detail/suffix.hpp
+.... /usr/include/boost/core/enable_if.hpp
+.... /usr/include/boost/core/explicit_operator_bool.hpp
+.... /usr/include/boost/core/swap.hpp
+..... /usr/include/c++/7/algorithm
+...... /usr/include/c++/7/bits/stl_algo.h
+....... /usr/include/c++/7/cstdlib
+....... /usr/include/c++/7/bits/algorithmfwd.h
+....... /usr/include/c++/7/bits/stl_heap.h
+....... /usr/include/c++/7/bits/stl_tempbuf.h
+....... /usr/include/c++/7/bits/uniform_int_dist.h
+........ /usr/include/c++/7/limits
+.... /usr/include/boost/optional/bad_optional_access.hpp
+.... /usr/include/boost/static_assert.hpp
+..... /usr/include/boost/detail/workaround.hpp
+...... /usr/include/boost/config/workaround.hpp
+.... /usr/include/boost/throw_exception.hpp
+..... /usr/include/boost/exception/exception.hpp
+..... /usr/include/boost/current_function.hpp
+.... /usr/include/boost/type.hpp
+.... /usr/include/boost/type_traits/alignment_of.hpp
+..... /usr/include/boost/type_traits/intrinsics.hpp
+...... /usr/include/boost/type_traits/detail/config.hpp
+....... /usr/include/boost/version.hpp
+..... /usr/include/boost/type_traits/integral_constant.hpp
+.... /usr/include/boost/type_traits/conditional.hpp
+.... /usr/include/boost/type_traits/has_nothrow_constructor.hpp
+..... /usr/include/boost/type_traits/is_default_constructible.hpp
+...... /usr/include/boost/type_traits/detail/yes_no_type.hpp
+.... /usr/include/boost/type_traits/type_with_alignment.hpp
+..... /usr/include/boost/type_traits/is_pod.hpp
+...... /usr/include/boost/type_traits/is_void.hpp
+...... /usr/include/boost/type_traits/is_scalar.hpp
+....... /usr/include/boost/type_traits/is_arithmetic.hpp
+........ /usr/include/boost/type_traits/is_integral.hpp
+........ /usr/include/boost/type_traits/is_floating_point.hpp
+....... /usr/include/boost/type_traits/is_enum.hpp
+....... /usr/include/boost/type_traits/is_pointer.hpp
+....... /usr/include/boost/type_traits/is_member_pointer.hpp
+........ /usr/include/boost/type_traits/is_member_function_pointer.hpp
+......... /usr/include/boost/type_traits/detail/is_mem_fun_pointer_impl.hpp
+......... /usr/include/boost/type_traits/remove_cv.hpp
+.... /usr/include/boost/type_traits/remove_const.hpp
+.... /usr/include/boost/type_traits/remove_reference.hpp
+.... /usr/include/boost/type_traits/decay.hpp
+..... /usr/include/boost/type_traits/is_array.hpp
+..... /usr/include/boost/type_traits/is_function.hpp
+...... /usr/include/boost/type_traits/is_reference.hpp
+....... /usr/include/boost/type_traits/is_lvalue_reference.hpp
+....... /usr/include/boost/type_traits/is_rvalue_reference.hpp
+...... /usr/include/boost/type_traits/detail/is_function_ptr_helper.hpp
+..... /usr/include/boost/type_traits/remove_bounds.hpp
+...... /usr/include/boost/type_traits/remove_extent.hpp
+..... /usr/include/boost/type_traits/add_pointer.hpp
+.... /usr/include/boost/type_traits/is_base_of.hpp
+..... /usr/include/boost/type_traits/is_base_and_derived.hpp
+...... /usr/include/boost/type_traits/is_same.hpp
+..... /usr/include/boost/type_traits/is_class.hpp
+.... /usr/include/boost/type_traits/is_constructible.hpp
+..... /usr/include/boost/type_traits/is_destructible.hpp
+...... /usr/include/boost/type_traits/declval.hpp
+....... /usr/include/boost/type_traits/add_rvalue_reference.hpp
+.... /usr/include/boost/type_traits/is_nothrow_move_assignable.hpp
+..... /usr/include/boost/type_traits/has_trivial_move_assign.hpp
+...... /usr/include/boost/type_traits/is_assignable.hpp
+...... /usr/include/boost/type_traits/is_volatile.hpp
+..... /usr/include/boost/type_traits/has_nothrow_assign.hpp
+...... /usr/include/boost/type_traits/is_const.hpp
+..... /usr/include/boost/utility/enable_if.hpp
+.... /usr/include/boost/type_traits/is_nothrow_move_constructible.hpp
+.... /usr/include/boost/move/utility.hpp
+..... /usr/include/boost/move/detail/config_begin.hpp
+..... /usr/include/boost/move/detail/workaround.hpp
+..... /usr/include/boost/move/utility_core.hpp
+...... /usr/include/boost/move/detail/config_begin.hpp
+...... /usr/include/boost/move/core.hpp
+....... /usr/include/boost/move/detail/config_begin.hpp
+....... /usr/include/boost/move/detail/config_end.hpp
+...... /usr/include/boost/move/detail/meta_utils.hpp
+....... /usr/include/boost/move/detail/config_begin.hpp
+....... /usr/include/boost/move/detail/meta_utils_core.hpp
+....... /usr/include/boost/move/detail/config_end.hpp
+...... /usr/include/boost/move/detail/config_end.hpp
+..... /usr/include/boost/move/traits.hpp
+...... /usr/include/boost/move/detail/config_begin.hpp
+...... /usr/include/boost/move/detail/type_traits.hpp
+....... /usr/include/boost/move/detail/config_begin.hpp
+....... /usr/include/boost/assert.hpp
+........ /usr/include/assert.h
+....... /usr/include/boost/move/detail/config_end.hpp
+...... /usr/include/boost/move/detail/config_end.hpp
+..... /usr/include/boost/move/detail/config_end.hpp
+.... /usr/include/boost/none.hpp
+..... /usr/include/boost/none_t.hpp
+.... /usr/include/boost/utility/compare_pointees.hpp
+.... /usr/include/boost/optional/optional_fwd.hpp
+.... /usr/include/boost/optional/detail/optional_config.hpp
+.... /usr/include/boost/optional/detail/optional_factory_support.hpp
+.... /usr/include/boost/optional/detail/optional_aligned_storage.hpp
+.... /usr/include/boost/optional/detail/optional_reference_spec.hpp
+.... /usr/include/boost/optional/detail/optional_relops.hpp
+.... /usr/include/boost/optional/detail/optional_swap.hpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/ini.hpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/animated.hpp
+... /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/dependencies.hpp
+.... /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/datatypes.hpp
+..... /usr/include/c++/7/cinttypes
+...... /usr/include/inttypes.h
+..... /usr/include/c++/7/cmath
+...... /usr/include/math.h
+....... /usr/include/x86_64-linux-gnu/bits/libc-header-start.h
+....... /usr/include/x86_64-linux-gnu/bits/math-vector.h
+........ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h
+....... /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h
+....... /usr/include/x86_64-linux-gnu/bits/fp-logb.h
+....... /usr/include/x86_64-linux-gnu/bits/fp-fast.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+....... /usr/include/x86_64-linux-gnu/bits/iscanonical.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+....... /usr/include/x86_64-linux-gnu/bits/math-finite.h
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/integer.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/setup.hpp
+....... /usr/include/c++/7/cassert
+........ /usr/include/assert.h
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../simd/platform.h
+........ /usr/lib/gcc/x86_64-linux-gnu/7/include/emmintrin.h
+......... /usr/lib/gcc/x86_64-linux-gnu/7/include/xmmintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/mmintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/mm_malloc.h
+........... /usr/include/c++/7/stdlib.h
+............ /usr/include/c++/7/cstdlib
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/emmintrin.h
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/qualifier.hpp
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/setup.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/common.hpp
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/setup.hpp
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_int.hpp
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/setup.hpp
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/_fixes.hpp
+........ /usr/include/c++/7/cmath
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_common.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../vector_relational.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/func_vector_relational.inl
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/compute_vector_relational.hpp
+........... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/setup.hpp
+........... /usr/include/c++/7/cstring
+............ /usr/include/string.h
+............. /usr/include/x86_64-linux-gnu/bits/libc-header-start.h
+............. /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h
+............. /usr/include/strings.h
+.............. /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/func_vector_relational_simd.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec2.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec2.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec3.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec3.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec4.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec4.inl
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec4_simd.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/_vectorize.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec1.hpp
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_common_simd.inl
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../simd/common.h
+......... /usr/lib/gcc/x86_64-linux-gnu/7/include/immintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/pmmintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/tmmintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/smmintrin.h
+........... /usr/lib/gcc/x86_64-linux-gnu/7/include/popcntintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/wmmintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avxintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx2intrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512fintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512erintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512pfintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512cdintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vlintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512bwintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512dqintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vlbwintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vldqintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512ifmaintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512ifmavlintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vbmiintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vbmivlintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx5124fmapsintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx5124vnniwintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vpopcntdqintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/shaintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/lzcntintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/bmiintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/bmi2intrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/fmaintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/f16cintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/rtmintrin.h
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include/xtestintrin.h
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_integer.inl
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/vec1.hpp
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../fwd.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../detail/type_float.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../detail/type_mat.hpp
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../detail/type_vec1.inl
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_integer_simd.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../simd/integer.h
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/vec3.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/setup.hpp
+..... /usr/include/c++/7/random
+...... /usr/include/c++/7/cmath
+...... /usr/include/c++/7/cstdlib
+...... /usr/include/c++/7/bits/random.h
+...... /usr/include/x86_64-linux-gnu/c++/7/bits/opt_random.h
+...... /usr/include/c++/7/bits/random.tcc
+....... /usr/include/c++/7/numeric
+........ /usr/include/c++/7/bits/stl_numeric.h
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/utils.hpp
+.. /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/gsl_string_span_iostream.hpp
+... /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include/gsl/string_span
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include/gsl/gsl_assert
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include/gsl/gsl_util
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include/gsl/span
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/cpp_guidelines_support_library/include/gsl/gsl_byte
+..... /usr/include/c++/7/iterator
+...... /usr/include/c++/7/ostream
+....... /usr/include/c++/7/ios
+........ /usr/include/c++/7/bits/ios_base.h
+......... /usr/include/c++/7/bits/locale_classes.h
+.......... /usr/include/c++/7/bits/locale_classes.tcc
+......... /usr/include/c++/7/system_error
+.......... /usr/include/x86_64-linux-gnu/c++/7/bits/error_constants.h
+........... /usr/include/c++/7/cerrno
+........ /usr/include/c++/7/streambuf
+......... /usr/include/c++/7/bits/streambuf.tcc
+........ /usr/include/c++/7/bits/basic_ios.h
+......... /usr/include/c++/7/bits/locale_facets.h
+.......... /usr/include/c++/7/cwctype
+........... /usr/include/wctype.h
+............ /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h
+.......... /usr/include/c++/7/cctype
+.......... /usr/include/x86_64-linux-gnu/c++/7/bits/ctype_base.h
+.......... /usr/include/c++/7/bits/streambuf_iterator.h
+.......... /usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h
+.......... /usr/include/c++/7/bits/locale_facets.tcc
+......... /usr/include/c++/7/bits/basic_ios.tcc
+....... /usr/include/c++/7/bits/ostream.tcc
+...... /usr/include/c++/7/istream
+....... /usr/include/c++/7/bits/istream.tcc
+...... /usr/include/c++/7/bits/stream_iterator.h
+.... /usr/include/c++/7/cstring
+.. /usr/include/c++/7/sstream
+... /usr/include/c++/7/bits/sstream.tcc
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/executor.cpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object.hpp
+... /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/b3d_csv.hpp
+.. /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/component_wise.hpp
+... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/component_wise.inl
+.. /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/rotate_vector.hpp
+... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../glm.hpp
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/_fixes.hpp
+..... /usr/include/c++/7/cmath
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+.... /usr/include/c++/7/cmath
+.... /usr/include/c++/7/climits
+..... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+...... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/syslimits.h
+....... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+........ /usr/include/limits.h
+......... /usr/include/x86_64-linux-gnu/bits/libc-header-start.h
+......... /usr/include/x86_64-linux-gnu/bits/posix1_lim.h
+.......... /usr/include/x86_64-linux-gnu/bits/local_lim.h
+........... /usr/include/linux/limits.h
+......... /usr/include/x86_64-linux-gnu/bits/posix2_lim.h
+......... /usr/include/x86_64-linux-gnu/bits/xopen_lim.h
+.......... /usr/include/x86_64-linux-gnu/bits/uio_lim.h
+.... /usr/include/c++/7/cfloat
+..... /usr/lib/gcc/x86_64-linux-gnu/7/include/float.h
+.... /usr/include/c++/7/cassert
+..... /usr/include/assert.h
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../vec2.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../vec4.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../mat2x2.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/type_mat2x2.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/type_mat2x2.inl
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../matrix.hpp
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat2x3.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat2x3.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat2x3.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat2x4.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat2x4.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat2x4.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat3x2.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x2.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x2.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat3x3.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x3.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x3.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat3x4.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x4.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x4.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat4x2.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x2.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x2.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat4x3.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x3.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x3.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../mat4x4.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/setup.hpp
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x4.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x4.inl
+........... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x4_simd.inl
+........ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/func_matrix.inl
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../geometric.hpp
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/func_geometric.inl
+........... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../exponential.hpp
+............ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/type_vec1.hpp
+............ /usr/include/c++/7/cmath
+............ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/func_exponential.inl
+............. /usr/include/c++/7/cmath
+............. /usr/include/c++/7/cassert
+.............. /usr/include/assert.h
+............. /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/func_exponential_simd.inl
+.............. /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/../simd/exponential.h
+........... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/func_geometric_simd.inl
+............ /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../simd/geometric.h
+......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/func_matrix_simd.inl
+.......... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../simd/matrix.h
+.......... /usr/include/c++/7/cstring
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../trigonometric.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_trigonometric.inl
+...... /usr/include/c++/7/cmath
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_trigonometric_simd.inl
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../packing.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_packing.inl
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/type_half.hpp
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+....... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/type_half.inl
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_packing_simd.inl
+... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/transform.hpp
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/matrix_transform.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/../gtc/constants.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/../gtc/../detail/setup.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/../gtc/constants.inl
+..... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/matrix_transform.inl
+.... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/transform.inl
+... /home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/rotate_vector.inl
+.. /usr/include/c++/7/math.h
+... /usr/include/c++/7/cmath
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/instruction_generator.cpp
+.. /home/kevincybura/Desktop/c++/openbve2/libcore/include/core/math.hpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv.hpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/instruction_iostream.cpp
+.. /usr/include/c++/7/iostream
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/parse.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_csv/iostream.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_csv/parser.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_ini/iostream.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_ini/parser.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/command_spliter.cpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route.hpp
+... /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instructions.hpp
+.... /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/route_structure.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/xml/dynamic_background.hpp
+...... /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/find_relative_file.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/xml/dynamic_lighting.hpp
+..... /home/kevincybura/Desktop/c++/openbve2/libparsers/include/parsers/xml/route_marker.hpp
+..... /usr/include/c++/7/unordered_map
+...... /usr/include/c++/7/bits/hashtable.h
+....... /usr/include/c++/7/bits/hashtable_policy.h
+...... /usr/include/c++/7/bits/unordered_map.h
+.... /usr/include/boost/optional.hpp
+.. /usr/include/c++/7/cctype
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass1.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass2.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3.cpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/executor_pass3.hpp
+... /usr/include/boost/functional/hash.hpp
+.... /usr/include/boost/functional/hash/hash.hpp
+..... /usr/include/boost/functional/hash/hash_fwd.hpp
+..... /usr/include/boost/functional/hash/detail/hash_float.hpp
+...... /usr/include/boost/functional/hash/detail/float_functions.hpp
+....... /usr/include/boost/config/no_tr1/cmath.hpp
+........ /usr/include/c++/7/cmath
+...... /usr/include/boost/functional/hash/detail/limits.hpp
+....... /usr/include/boost/limits.hpp
+...... /usr/include/boost/integer/static_log2.hpp
+....... /usr/include/boost/integer_fwd.hpp
+........ /usr/include/c++/7/climits
+......... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+........ /usr/include/boost/cstdint.hpp
+...... /usr/include/boost/cstdint.hpp
+...... /usr/include/boost/assert.hpp
+....... /usr/include/assert.h
+...... /usr/include/c++/7/cstring
+..... /usr/include/boost/cstdint.hpp
+..... /usr/include/c++/7/typeindex
+..... /usr/include/boost/functional/hash/extensions.hpp
+...... /usr/include/boost/functional/hash/hash.hpp
+...... /usr/include/boost/detail/container_fwd.hpp
+....... /usr/include/c++/7/deque
+........ /usr/include/c++/7/bits/stl_deque.h
+........ /usr/include/c++/7/bits/deque.tcc
+....... /usr/include/c++/7/list
+........ /usr/include/c++/7/bits/stl_list.h
+......... /usr/include/c++/7/bits/allocated_ptr.h
+........ /usr/include/c++/7/bits/list.tcc
+....... /usr/include/c++/7/bitset
+....... /usr/include/c++/7/complex
+........ /usr/include/c++/7/cmath
+...... /usr/include/boost/preprocessor/repetition/repeat_from_to.hpp
+....... /usr/include/boost/preprocessor/arithmetic/add.hpp
+........ /usr/include/boost/preprocessor/arithmetic/dec.hpp
+......... /usr/include/boost/preprocessor/config/config.hpp
+........ /usr/include/boost/preprocessor/arithmetic/inc.hpp
+........ /usr/include/boost/preprocessor/control/while.hpp
+......... /usr/include/boost/preprocessor/cat.hpp
+......... /usr/include/boost/preprocessor/debug/error.hpp
+......... /usr/include/boost/preprocessor/detail/auto_rec.hpp
+.......... /usr/include/boost/preprocessor/control/iif.hpp
+......... /usr/include/boost/preprocessor/list/fold_left.hpp
+.......... /usr/include/boost/preprocessor/control/while.hpp
+.......... /usr/include/boost/preprocessor/detail/auto_rec.hpp
+.......... /usr/include/boost/preprocessor/list/detail/fold_left.hpp
+........... /usr/include/boost/preprocessor/control/expr_iif.hpp
+........... /usr/include/boost/preprocessor/list/adt.hpp
+............ /usr/include/boost/preprocessor/detail/is_binary.hpp
+............. /usr/include/boost/preprocessor/detail/check.hpp
+............ /usr/include/boost/preprocessor/logical/compl.hpp
+............ /usr/include/boost/preprocessor/tuple/eat.hpp
+......... /usr/include/boost/preprocessor/list/fold_right.hpp
+.......... /usr/include/boost/preprocessor/detail/auto_rec.hpp
+.......... /usr/include/boost/preprocessor/list/detail/fold_right.hpp
+........... /usr/include/boost/preprocessor/list/reverse.hpp
+......... /usr/include/boost/preprocessor/logical/bitand.hpp
+......... /usr/include/boost/preprocessor/control/detail/while.hpp
+.......... /usr/include/boost/preprocessor/logical/bool.hpp
+........ /usr/include/boost/preprocessor/tuple/elem.hpp
+......... /usr/include/boost/preprocessor/facilities/expand.hpp
+......... /usr/include/boost/preprocessor/facilities/overload.hpp
+.......... /usr/include/boost/preprocessor/variadic/size.hpp
+......... /usr/include/boost/preprocessor/tuple/rem.hpp
+.......... /usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp
+......... /usr/include/boost/preprocessor/variadic/elem.hpp
+....... /usr/include/boost/preprocessor/arithmetic/sub.hpp
+....... /usr/include/boost/preprocessor/detail/auto_rec.hpp
+....... /usr/include/boost/preprocessor/repetition/repeat.hpp
+........ /usr/include/boost/preprocessor/detail/auto_rec.hpp
+...... /usr/include/boost/preprocessor/repetition/enum_params.hpp
+....... /usr/include/boost/preprocessor/punctuation/comma_if.hpp
+........ /usr/include/boost/preprocessor/control/if.hpp
+........ /usr/include/boost/preprocessor/facilities/empty.hpp
+........ /usr/include/boost/preprocessor/punctuation/comma.hpp
+...... /usr/include/c++/7/memory
+....... /usr/include/c++/7/bits/stl_raw_storage_iter.h
+....... /usr/include/c++/7/ext/concurrence.h
+....... /usr/include/c++/7/bits/unique_ptr.h
+....... /usr/include/c++/7/bits/shared_ptr.h
+........ /usr/include/c++/7/bits/shared_ptr_base.h
+....... /usr/include/c++/7/bits/shared_ptr_atomic.h
+........ /usr/include/c++/7/bits/atomic_base.h
+......... /usr/include/c++/7/bits/atomic_lockfree_defines.h
+....... /usr/include/c++/7/backward/auto_ptr.h
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/cycle.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/finalize.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/options.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/route.cpp
+.. /usr/include/c++/7/cmath
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/signals.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/structure.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/texture.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_misc.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_objects.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_rails.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_safety.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_signals_limits.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_stations.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/train.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/util.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/cycles.cpp
+.. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/instruction_generator.hpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/location_statement.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/options.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/route.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/signals.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/string_instruction_mapping.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/structure.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/texture.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_geometry.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_misc.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_objects.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_rails.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_safety.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_signals_limits.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_stations.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/train.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generator.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_iostream.cpp
+.. /usr/include/boost/optional/optional_io.hpp
+.. /usr/include/c++/7/iomanip
+... /usr/include/c++/7/locale
+.... /usr/include/c++/7/bits/locale_facets_nonio.h
+..... /usr/include/c++/7/ctime
+..... /usr/include/x86_64-linux-gnu/c++/7/bits/time_members.h
+..... /usr/include/x86_64-linux-gnu/c++/7/bits/messages_members.h
+...... /usr/include/libintl.h
+..... /usr/include/c++/7/bits/codecvt.h
+..... /usr/include/c++/7/bits/locale_facets_nonio.tcc
+.... /usr/include/c++/7/bits/locale_conv.h
+..... /usr/include/c++/7/bits/stringfwd.h
+..... /usr/include/c++/7/bits/allocator.h
+..... /usr/include/c++/7/bits/codecvt.h
+..... /usr/include/c++/7/bits/unique_ptr.h
+... /usr/include/c++/7/bits/quoted_string.h
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/preprocessor.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/process_includes.cpp
+.. /usr/include/boost/regex.hpp
+... /usr/include/boost/regex/config.hpp
+.... /usr/include/boost/regex/user.hpp
+.... /usr/include/boost/predef.h
+..... /usr/include/boost/predef/language.h
+...... /usr/include/boost/predef/language/stdc.h
+....... /usr/include/boost/predef/version_number.h
+....... /usr/include/boost/predef/make.h
+........ /usr/include/boost/predef/detail/test.h
+...... /usr/include/boost/predef/language/stdcpp.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/language/objc.h
+....... /usr/include/boost/predef/make.h
+..... /usr/include/boost/predef/architecture.h
+...... /usr/include/boost/predef/architecture/alpha.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/arm.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/blackfin.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/convex.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/ia64.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/m68k.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/mips.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/parisc.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/ppc.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/pyramid.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/rs6k.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/sparc.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/superh.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/sys370.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/sys390.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/architecture/x86.h
+....... /usr/include/boost/predef/architecture/x86/32.h
+........ /usr/include/boost/predef/make.h
+........ /usr/include/boost/predef/architecture/x86.h
+......... /usr/include/boost/predef/architecture/x86/32.h
+......... /usr/include/boost/predef/architecture/x86/64.h
+.......... /usr/include/boost/predef/make.h
+.......... /usr/include/boost/predef/architecture/x86.h
+........... /usr/include/boost/predef/architecture/x86/32.h
+........... /usr/include/boost/predef/architecture/x86/64.h
+....... /usr/include/boost/predef/architecture/x86/64.h
+...... /usr/include/boost/predef/architecture/z.h
+....... /usr/include/boost/predef/make.h
+..... /usr/include/boost/predef/compiler.h
+...... /usr/include/boost/predef/compiler/borland.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/clang.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/comeau.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/compaq.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/diab.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/digitalmars.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/dignus.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/edg.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/ekopath.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/gcc_xml.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/gcc.h
+....... /usr/include/boost/predef/compiler/clang.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/detail/comp_detected.h
+...... /usr/include/boost/predef/compiler/greenhills.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/hp_acc.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/iar.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/ibm.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/intel.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/kai.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/llvm.h
+....... /usr/include/boost/predef/compiler/clang.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/metaware.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/metrowerks.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/microtec.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/mpw.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/palm.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/pgi.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/sgi_mipspro.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/sunpro.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/tendra.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/visualc.h
+....... /usr/include/boost/predef/compiler/clang.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/compiler/watcom.h
+....... /usr/include/boost/predef/make.h
+..... /usr/include/boost/predef/library.h
+...... /usr/include/boost/predef/library/c.h
+....... /usr/include/boost/predef/library/c/_prefix.h
+........ /usr/include/boost/predef/detail/_cassert.h
+......... /usr/include/c++/7/cassert
+.......... /usr/include/assert.h
+....... /usr/include/boost/predef/library/c/gnu.h
+........ /usr/include/boost/predef/make.h
+........ /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h
+....... /usr/include/boost/predef/library/c/uc.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/c/vms.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/c/zos.h
+........ /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/library/std.h
+....... /usr/include/boost/predef/library/std/_prefix.h
+........ /usr/include/boost/predef/detail/_exception.h
+....... /usr/include/boost/predef/library/std/cxx.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/dinkumware.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/libcomo.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/modena.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/msl.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/roguewave.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/sgi.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/stdcpp3.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/stlport.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/std/vacpp.h
+........ /usr/include/boost/predef/make.h
+..... /usr/include/boost/predef/os.h
+...... /usr/include/boost/predef/os/aix.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/amigaos.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/android.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/beos.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/bsd.h
+....... /usr/include/boost/predef/os/macos.h
+........ /usr/include/boost/predef/os/ios.h
+......... /usr/include/boost/predef/make.h
+........ /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/os/bsd/bsdi.h
+........ /usr/include/boost/predef/os/bsd.h
+......... /usr/include/boost/predef/os/bsd/bsdi.h
+......... /usr/include/boost/predef/os/bsd/dragonfly.h
+.......... /usr/include/boost/predef/os/bsd.h
+........... /usr/include/boost/predef/os/bsd/bsdi.h
+........... /usr/include/boost/predef/os/bsd/dragonfly.h
+........... /usr/include/boost/predef/os/bsd/free.h
+............ /usr/include/boost/predef/os/bsd.h
+............. /usr/include/boost/predef/os/bsd/bsdi.h
+............. /usr/include/boost/predef/os/bsd/dragonfly.h
+............. /usr/include/boost/predef/os/bsd/free.h
+............. /usr/include/boost/predef/os/bsd/open.h
+.............. /usr/include/boost/predef/os/bsd.h
+............... /usr/include/boost/predef/os/bsd/bsdi.h
+............... /usr/include/boost/predef/os/bsd/dragonfly.h
+............... /usr/include/boost/predef/os/bsd/free.h
+............... /usr/include/boost/predef/os/bsd/open.h
+............... /usr/include/boost/predef/os/bsd/net.h
+................ /usr/include/boost/predef/os/bsd.h
+................. /usr/include/boost/predef/os/bsd/bsdi.h
+................. /usr/include/boost/predef/os/bsd/dragonfly.h
+................. /usr/include/boost/predef/os/bsd/free.h
+................. /usr/include/boost/predef/os/bsd/open.h
+................. /usr/include/boost/predef/os/bsd/net.h
+............. /usr/include/boost/predef/os/bsd/net.h
+........... /usr/include/boost/predef/os/bsd/open.h
+........... /usr/include/boost/predef/os/bsd/net.h
+......... /usr/include/boost/predef/os/bsd/free.h
+......... /usr/include/boost/predef/os/bsd/open.h
+......... /usr/include/boost/predef/os/bsd/net.h
+....... /usr/include/boost/predef/os/bsd/dragonfly.h
+....... /usr/include/boost/predef/os/bsd/free.h
+....... /usr/include/boost/predef/os/bsd/open.h
+....... /usr/include/boost/predef/os/bsd/net.h
+...... /usr/include/boost/predef/os/cygwin.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/haiku.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/hpux.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/irix.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/ios.h
+...... /usr/include/boost/predef/os/linux.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/detail/os_detected.h
+...... /usr/include/boost/predef/os/macos.h
+...... /usr/include/boost/predef/os/os400.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/qnxnto.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/solaris.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/unix.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/vms.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/os/windows.h
+....... /usr/include/boost/predef/make.h
+..... /usr/include/boost/predef/other.h
+...... /usr/include/boost/predef/other/endian.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/library/c/gnu.h
+....... /usr/include/boost/predef/os/macos.h
+....... /usr/include/boost/predef/os/bsd.h
+........ /usr/include/boost/predef/os/bsd/bsdi.h
+........ /usr/include/boost/predef/os/bsd/dragonfly.h
+........ /usr/include/boost/predef/os/bsd/free.h
+........ /usr/include/boost/predef/os/bsd/open.h
+........ /usr/include/boost/predef/os/bsd/net.h
+....... /usr/include/boost/predef/os/android.h
+..... /usr/include/boost/predef/platform.h
+...... /usr/include/boost/predef/platform/mingw.h
+....... /usr/include/boost/predef/make.h
+...... /usr/include/boost/predef/platform/windows_desktop.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/os/windows.h
+...... /usr/include/boost/predef/platform/windows_store.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/os/windows.h
+...... /usr/include/boost/predef/platform/windows_phone.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/os/windows.h
+...... /usr/include/boost/predef/platform/windows_runtime.h
+....... /usr/include/boost/predef/make.h
+....... /usr/include/boost/predef/os/windows.h
+...... /usr/include/boost/predef/platform/ios.h
+....... /usr/include/boost/predef/os/ios.h
+..... /usr/include/boost/predef/hardware.h
+...... /usr/include/boost/predef/hardware/simd.h
+....... /usr/include/boost/predef/hardware/simd/x86.h
+........ /usr/include/boost/predef/hardware/simd/x86/versions.h
+....... /usr/include/boost/predef/hardware/simd/x86_amd.h
+........ /usr/include/boost/predef/hardware/simd/x86_amd/versions.h
+....... /usr/include/boost/predef/hardware/simd/arm.h
+........ /usr/include/boost/predef/hardware/simd/arm/versions.h
+....... /usr/include/boost/predef/hardware/simd/ppc.h
+........ /usr/include/boost/predef/hardware/simd/ppc/versions.h
+..... /usr/include/boost/predef/version.h
+.... /usr/include/boost/regex/config/cwchar.hpp
+..... /usr/include/c++/7/cwchar
+..... /usr/include/c++/7/cwctype
+.... /usr/include/boost/config/auto_link.hpp
+... /usr/include/boost/regex/v4/regex.hpp
+.... /usr/include/boost/regex/v4/regex_workaround.hpp
+..... /usr/include/c++/7/cstring
+..... /usr/include/c++/7/cstdlib
+..... /usr/include/c++/7/cassert
+...... /usr/include/assert.h
+..... /usr/include/c++/7/cstdio
+..... /usr/include/c++/7/climits
+...... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+..... /usr/include/boost/assert.hpp
+...... /usr/include/assert.h
+..... /usr/include/boost/cstdint.hpp
+..... /usr/include/boost/scoped_ptr.hpp
+...... /usr/include/boost/smart_ptr/scoped_ptr.hpp
+....... /usr/include/boost/assert.hpp
+........ /usr/include/assert.h
+....... /usr/include/boost/checked_delete.hpp
+........ /usr/include/boost/core/checked_delete.hpp
+....... /usr/include/boost/smart_ptr/detail/sp_nullptr_t.hpp
+....... /usr/include/boost/smart_ptr/detail/sp_disable_deprecated.hpp
+....... /usr/include/boost/smart_ptr/detail/sp_noexcept.hpp
+....... /usr/include/boost/smart_ptr/detail/operator_bool.hpp
+..... /usr/include/boost/scoped_array.hpp
+...... /usr/include/boost/smart_ptr/scoped_array.hpp
+....... /usr/include/boost/assert.hpp
+........ /usr/include/assert.h
+....... /usr/include/boost/smart_ptr/detail/operator_bool.hpp
+..... /usr/include/boost/shared_ptr.hpp
+...... /usr/include/boost/smart_ptr/shared_ptr.hpp
+....... /usr/include/boost/config/no_tr1/memory.hpp
+....... /usr/include/boost/assert.hpp
+........ /usr/include/assert.h
+....... /usr/include/boost/smart_ptr/detail/shared_count.hpp
+........ /usr/include/boost/smart_ptr/bad_weak_ptr.hpp
+........ /usr/include/boost/smart_ptr/detail/sp_counted_base.hpp
+......... /usr/include/boost/smart_ptr/detail/sp_has_sync.hpp
+......... /usr/include/boost/smart_ptr/detail/sp_counted_base_std_atomic.hpp
+.......... /usr/include/boost/detail/sp_typeinfo.hpp
+........... /usr/include/boost/core/typeinfo.hpp
+............ /usr/include/boost/core/demangle.hpp
+............. /usr/include/c++/7/cxxabi.h
+.............. /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h
+.............. /usr/include/x86_64-linux-gnu/c++/7/bits/cxxabi_tweaks.h
+............. /usr/include/c++/7/cstdlib
+.......... /usr/include/c++/7/atomic
+........ /usr/include/boost/smart_ptr/detail/sp_counted_impl.hpp
+....... /usr/include/boost/smart_ptr/detail/sp_convertible.hpp
+....... /usr/include/boost/smart_ptr/detail/spinlock_pool.hpp
+........ /usr/include/boost/smart_ptr/detail/spinlock.hpp
+......... /usr/include/boost/smart_ptr/detail/spinlock_std_atomic.hpp
+.......... /usr/include/boost/smart_ptr/detail/yield_k.hpp
+........... /usr/include/boost/predef.h
+....... /usr/include/boost/smart_ptr/detail/operator_bool.hpp
+....... /usr/include/boost/smart_ptr/detail/local_sp_deleter.hpp
+........ /usr/include/boost/smart_ptr/detail/local_counted_base.hpp
+..... /usr/include/boost/mpl/bool_fwd.hpp
+...... /usr/include/boost/mpl/aux_/adl_barrier.hpp
+....... /usr/include/boost/mpl/aux_/config/adl.hpp
+........ /usr/include/boost/mpl/aux_/config/msvc.hpp
+........ /usr/include/boost/mpl/aux_/config/intel.hpp
+........ /usr/include/boost/mpl/aux_/config/gcc.hpp
+........ /usr/include/boost/mpl/aux_/config/workaround.hpp
+.... /usr/include/boost/regex_fwd.hpp
+..... /usr/include/boost/regex/v4/regex_fwd.hpp
+.... /usr/include/boost/regex/regex_traits.hpp
+..... /usr/include/boost/regex/v4/regex_traits.hpp
+...... /usr/include/boost/regex/v4/syntax_type.hpp
+...... /usr/include/boost/regex/v4/error_type.hpp
+...... /usr/include/boost/regex/v4/regex_traits_defaults.hpp
+....... /usr/include/boost/type_traits/make_unsigned.hpp
+........ /usr/include/boost/type_traits/is_signed.hpp
+......... /usr/include/c++/7/climits
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+........ /usr/include/boost/type_traits/is_unsigned.hpp
+......... /usr/include/c++/7/climits
+.......... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+........ /usr/include/boost/type_traits/add_const.hpp
+........ /usr/include/boost/type_traits/add_volatile.hpp
+...... /usr/include/boost/regex/v4/cpp_regex_traits.hpp
+....... /usr/include/boost/integer.hpp
+........ /usr/include/boost/integer_traits.hpp
+......... /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+........ /usr/include/boost/cstdint.hpp
+....... /usr/include/boost/regex/pattern_except.hpp
+....... /usr/include/boost/regex/pending/static_mutex.hpp
+....... /usr/include/boost/regex/v4/primary_transform.hpp
+....... /usr/include/boost/regex/pending/object_cache.hpp
+....... /usr/include/c++/7/climits
+........ /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h
+...... /usr/include/boost/regex/v4/c_regex_traits.hpp
+....... /usr/include/c++/7/cctype
+...... /usr/include/boost/mpl/has_xxx.hpp
+....... /usr/include/boost/mpl/bool.hpp
+........ /usr/include/boost/mpl/integral_c_tag.hpp
+......... /usr/include/boost/mpl/aux_/config/static_constant.hpp
+....... /usr/include/boost/mpl/aux_/na_spec.hpp
+........ /usr/include/boost/mpl/lambda_fwd.hpp
+......... /usr/include/boost/mpl/void_fwd.hpp
+......... /usr/include/boost/mpl/aux_/na.hpp
+.......... /usr/include/boost/mpl/aux_/na_fwd.hpp
+.......... /usr/include/boost/mpl/aux_/config/ctps.hpp
+......... /usr/include/boost/mpl/aux_/config/lambda.hpp
+.......... /usr/include/boost/mpl/aux_/config/ttp.hpp
+......... /usr/include/boost/mpl/int.hpp
+.......... /usr/include/boost/mpl/int_fwd.hpp
+........... /usr/include/boost/mpl/aux_/nttp_decl.hpp
+............ /usr/include/boost/mpl/aux_/config/nttp.hpp
+.......... /usr/include/boost/mpl/aux_/integral_wrapper.hpp
+........... /usr/include/boost/mpl/aux_/static_cast.hpp
+......... /usr/include/boost/mpl/aux_/lambda_arity_param.hpp
+......... /usr/include/boost/mpl/aux_/template_arity_fwd.hpp
+........ /usr/include/boost/mpl/aux_/arity.hpp
+......... /usr/include/boost/mpl/aux_/config/dtp.hpp
+........ /usr/include/boost/mpl/aux_/preprocessor/params.hpp
+......... /usr/include/boost/mpl/aux_/config/preprocessor.hpp
+......... /usr/include/boost/preprocessor/comma_if.hpp
+......... /usr/include/boost/preprocessor/repeat.hpp
+......... /usr/include/boost/preprocessor/inc.hpp
+........ /usr/include/boost/mpl/aux_/preprocessor/enum.hpp
+........ /usr/include/boost/mpl/aux_/preprocessor/def_params_tail.hpp
+......... /usr/include/boost/mpl/limits/arity.hpp
+......... /usr/include/boost/preprocessor/logical/and.hpp
+......... /usr/include/boost/preprocessor/identity.hpp
+.......... /usr/include/boost/preprocessor/facilities/identity.hpp
+......... /usr/include/boost/preprocessor/empty.hpp
+........ /usr/include/boost/mpl/aux_/config/eti.hpp
+........ /usr/include/boost/mpl/aux_/config/overload_resolution.hpp
+....... /usr/include/boost/mpl/aux_/type_wrapper.hpp
+....... /usr/include/boost/mpl/aux_/yes_no.hpp
+........ /usr/include/boost/mpl/aux_/config/arrays.hpp
+....... /usr/include/boost/mpl/aux_/config/has_xxx.hpp
+....... /usr/include/boost/mpl/aux_/config/msvc_typename.hpp
+....... /usr/include/boost/preprocessor/array/elem.hpp
+........ /usr/include/boost/preprocessor/array/data.hpp
+........ /usr/include/boost/preprocessor/array/size.hpp
+....... /usr/include/boost/preprocessor/repetition/enum_trailing_params.hpp
+.... /usr/include/boost/regex/v4/match_flags.hpp
+..... /usr/include/boost/cstdint.hpp
+.... /usr/include/boost/regex/v4/regex_raw_buffer.hpp
+.... /usr/include/boost/regex/v4/char_regex_traits.hpp
+.... /usr/include/boost/regex/v4/states.hpp
+.... /usr/include/boost/regex/v4/regbase.hpp
+.... /usr/include/boost/regex/v4/iterator_traits.hpp
+.... /usr/include/boost/regex/v4/basic_regex.hpp
+..... /usr/include/boost/functional/hash.hpp
+...... /usr/include/boost/functional/hash/hash.hpp
+.... /usr/include/boost/regex/v4/basic_regex_creator.hpp
+.... /usr/include/boost/regex/v4/basic_regex_parser.hpp
+.... /usr/include/boost/regex/v4/sub_match.hpp
+.... /usr/include/boost/regex/v4/regex_format.hpp
+..... /usr/include/boost/type_traits/is_convertible.hpp
+...... /usr/include/boost/type_traits/is_abstract.hpp
+...... /usr/include/boost/type_traits/add_lvalue_reference.hpp
+....... /usr/include/boost/type_traits/add_reference.hpp
+..... /usr/include/boost/type_traits/remove_pointer.hpp
+..... /usr/include/boost/mpl/if.hpp
+...... /usr/include/boost/mpl/aux_/value_wknd.hpp
+....... /usr/include/boost/mpl/aux_/config/integral.hpp
+...... /usr/include/boost/mpl/aux_/lambda_support.hpp
+..... /usr/include/boost/mpl/and.hpp
+...... /usr/include/boost/mpl/aux_/config/use_preprocessed.hpp
+...... /usr/include/boost/mpl/aux_/nested_type_wknd.hpp
+...... /usr/include/boost/mpl/aux_/include_preprocessed.hpp
+....... /usr/include/boost/mpl/aux_/config/compiler.hpp
+....... /usr/include/boost/preprocessor/stringize.hpp
+....... /usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp
+..... /usr/include/boost/mpl/not.hpp
+..... /usr/include/boost/ref.hpp
+...... /usr/include/boost/core/ref.hpp
+.... /usr/include/boost/regex/v4/match_results.hpp
+.... /usr/include/boost/regex/v4/protected_call.hpp
+.... /usr/include/boost/regex/v4/perl_matcher.hpp
+..... /usr/include/boost/regex/v4/iterator_category.hpp
+..... /usr/include/boost/regex/v4/perl_matcher_non_recursive.hpp
+..... /usr/include/boost/regex/v4/perl_matcher_common.hpp
+.... /usr/include/boost/regex/v4/instances.hpp
+.... /usr/include/boost/regex/v4/instances.hpp
+.... /usr/include/boost/regex/v4/regex_match.hpp
+.... /usr/include/boost/regex/v4/regex_search.hpp
+.... /usr/include/boost/regex/v4/regex_iterator.hpp
+.... /usr/include/boost/regex/v4/regex_token_iterator.hpp
+.... /usr/include/boost/regex/v4/regex_grep.hpp
+.... /usr/include/boost/regex/v4/regex_replace.hpp
+.... /usr/include/boost/regex/v4/regex_merge.hpp
+.... /usr/include/boost/regex/v4/regex_split.hpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/errors/add_error.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/errors/iostream.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/instruction_builder.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/instruction_iostream.cpp
+.. /usr/include/c++/7/cmath
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/lexer.cpp
+.. /usr/include/c++/7/cctype
+.. /usr/include/c++/7/cstdlib
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/lexer_iostream.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parsefunc.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parser.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parser_iostream.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/utils.cpp
+.. /usr/include/c++/7/cctype
+.. /usr/include/c++/7/cstring
+.. /usr/include/c++/7/fstream
+... /usr/include/c++/7/cstdio
+... /usr/include/x86_64-linux-gnu/c++/7/bits/basic_file.h
+.... /usr/include/x86_64-linux-gnu/c++/7/bits/c++io.h
+..... /usr/include/c++/7/cstdio
+... /usr/include/c++/7/bits/fstream.tcc
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/dynamic_background.cpp
+.. /home/kevincybura/Desktop/c++/openbve2/dependencies/rapidxml_ns/rapidxml_ns.hpp
+... /usr/include/c++/7/cstdlib
+... /usr/include/c++/7/cassert
+.... /usr/include/assert.h
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/dynamic_lighting.cpp
+. /home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/route_marker.cpp
+Multiple include guards may be useful for:
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/func_vector_relational.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../detail/func_vector_relational_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/../ext/../detail/type_vec1.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_common.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_common_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_integer.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/func_integer_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec1.hpp
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec2.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec3.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec4.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/detail/type_vec4_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/func_exponential.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/func_exponential_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/../detail/type_vec1.hpp
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/func_geometric.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/../detail/func_geometric_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/func_matrix.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/func_matrix_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat2x3.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat2x4.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x2.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x3.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat3x4.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x2.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x3.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x4.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/../detail/type_mat4x4_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/_fixes.hpp
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_packing.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_packing_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_trigonometric.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/func_trigonometric_simd.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/setup.hpp
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/type_half.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../detail/type_mat2x2.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/../gtc/../detail/setup.hpp
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/../gtc/constants.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/../gtc/matrix_transform.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/../gtx/transform.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/component_wise.inl
+/home/kevincybura/Desktop/c++/openbve2/dependencies/glm/glm/gtx/rotate_vector.inl
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/animated_object/parser.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/executor.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/instruction_generator.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/instruction_iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/b3d_csv_object/parse.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_csv/iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_csv/parser.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_ini/iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/core_ini/parser.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/command_spliter.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass1.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass2.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/cycle.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/finalize.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/options.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/route.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/signals.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/structure.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/texture.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_misc.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_objects.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_rails.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_safety.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_signals_limits.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/track_stations.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/train.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/executor_pass3/util.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/cycles.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/location_statement.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/options.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/route.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/signals.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/string_instruction_mapping.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/structure.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/texture.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_geometry.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_misc.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_objects.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_rails.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_safety.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_signals_limits.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/track_stations.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generation/train.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_generator.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/instruction_iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/preprocessor.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/csv_rw_route/process_includes.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/errors/add_error.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/errors/iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/instruction_builder.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/instruction_iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/lexer.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/lexer_iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parsefunc.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parser.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/function_scripts/parser_iostream.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/utils.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/dynamic_background.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/dynamic_lighting.cpp
+/home/kevincybura/Desktop/c++/openbve2/libparsers/src/xml/route_marker.cpp
+/usr/include/boost/config/auto_link.hpp
+/usr/include/boost/config/compiler/gcc.hpp
+/usr/include/boost/config/detail/posix_features.hpp
+/usr/include/boost/config/detail/select_compiler_config.hpp
+/usr/include/boost/config/detail/select_platform_config.hpp
+/usr/include/boost/config/detail/select_stdlib_config.hpp
+/usr/include/boost/config/platform/linux.hpp
+/usr/include/boost/config/stdlib/libstdcpp3.hpp
+/usr/include/boost/config/user.hpp
+/usr/include/boost/mpl/aux_/include_preprocessed.hpp
+/usr/include/boost/mpl/aux_/integral_wrapper.hpp
+/usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp
+/usr/include/boost/predef/architecture.h
+/usr/include/boost/predef/architecture/alpha.h
+/usr/include/boost/predef/architecture/arm.h
+/usr/include/boost/predef/architecture/blackfin.h
+/usr/include/boost/predef/architecture/convex.h
+/usr/include/boost/predef/architecture/ia64.h
+/usr/include/boost/predef/architecture/m68k.h
+/usr/include/boost/predef/architecture/mips.h
+/usr/include/boost/predef/architecture/parisc.h
+/usr/include/boost/predef/architecture/ppc.h
+/usr/include/boost/predef/architecture/pyramid.h
+/usr/include/boost/predef/architecture/rs6k.h
+/usr/include/boost/predef/architecture/sparc.h
+/usr/include/boost/predef/architecture/superh.h
+/usr/include/boost/predef/architecture/sys370.h
+/usr/include/boost/predef/architecture/sys390.h
+/usr/include/boost/predef/architecture/z.h
+/usr/include/boost/predef/compiler.h
+/usr/include/boost/predef/compiler/borland.h
+/usr/include/boost/predef/compiler/comeau.h
+/usr/include/boost/predef/compiler/compaq.h
+/usr/include/boost/predef/compiler/diab.h
+/usr/include/boost/predef/compiler/digitalmars.h
+/usr/include/boost/predef/compiler/dignus.h
+/usr/include/boost/predef/compiler/edg.h
+/usr/include/boost/predef/compiler/ekopath.h
+/usr/include/boost/predef/compiler/gcc.h
+/usr/include/boost/predef/compiler/gcc_xml.h
+/usr/include/boost/predef/compiler/greenhills.h
+/usr/include/boost/predef/compiler/hp_acc.h
+/usr/include/boost/predef/compiler/iar.h
+/usr/include/boost/predef/compiler/ibm.h
+/usr/include/boost/predef/compiler/intel.h
+/usr/include/boost/predef/compiler/kai.h
+/usr/include/boost/predef/compiler/llvm.h
+/usr/include/boost/predef/compiler/metaware.h
+/usr/include/boost/predef/compiler/metrowerks.h
+/usr/include/boost/predef/compiler/microtec.h
+/usr/include/boost/predef/compiler/mpw.h
+/usr/include/boost/predef/compiler/palm.h
+/usr/include/boost/predef/compiler/pgi.h
+/usr/include/boost/predef/compiler/sgi_mipspro.h
+/usr/include/boost/predef/compiler/sunpro.h
+/usr/include/boost/predef/compiler/tendra.h
+/usr/include/boost/predef/compiler/visualc.h
+/usr/include/boost/predef/compiler/watcom.h
+/usr/include/boost/predef/hardware.h
+/usr/include/boost/predef/hardware/simd.h
+/usr/include/boost/predef/hardware/simd/arm.h
+/usr/include/boost/predef/hardware/simd/ppc.h
+/usr/include/boost/predef/hardware/simd/x86.h
+/usr/include/boost/predef/hardware/simd/x86_amd.h
+/usr/include/boost/predef/language.h
+/usr/include/boost/predef/language/objc.h
+/usr/include/boost/predef/language/stdc.h
+/usr/include/boost/predef/language/stdcpp.h
+/usr/include/boost/predef/library.h
+/usr/include/boost/predef/library/c.h
+/usr/include/boost/predef/library/c/uc.h
+/usr/include/boost/predef/library/c/vms.h
+/usr/include/boost/predef/library/c/zos.h
+/usr/include/boost/predef/library/std.h
+/usr/include/boost/predef/library/std/cxx.h
+/usr/include/boost/predef/library/std/dinkumware.h
+/usr/include/boost/predef/library/std/libcomo.h
+/usr/include/boost/predef/library/std/modena.h
+/usr/include/boost/predef/library/std/msl.h
+/usr/include/boost/predef/library/std/roguewave.h
+/usr/include/boost/predef/library/std/sgi.h
+/usr/include/boost/predef/library/std/stdcpp3.h
+/usr/include/boost/predef/library/std/stlport.h
+/usr/include/boost/predef/library/std/vacpp.h
+/usr/include/boost/predef/os.h
+/usr/include/boost/predef/os/aix.h
+/usr/include/boost/predef/os/amigaos.h
+/usr/include/boost/predef/os/beos.h
+/usr/include/boost/predef/os/cygwin.h
+/usr/include/boost/predef/os/haiku.h
+/usr/include/boost/predef/os/hpux.h
+/usr/include/boost/predef/os/irix.h
+/usr/include/boost/predef/os/linux.h
+/usr/include/boost/predef/os/os400.h
+/usr/include/boost/predef/os/qnxnto.h
+/usr/include/boost/predef/os/solaris.h
+/usr/include/boost/predef/os/unix.h
+/usr/include/boost/predef/os/vms.h
+/usr/include/boost/predef/other.h
+/usr/include/boost/predef/other/endian.h
+/usr/include/boost/predef/platform.h
+/usr/include/boost/predef/platform/ios.h
+/usr/include/boost/predef/platform/mingw.h
+/usr/include/boost/predef/platform/windows_desktop.h
+/usr/include/boost/predef/platform/windows_phone.h
+/usr/include/boost/predef/platform/windows_runtime.h
+/usr/include/boost/predef/platform/windows_store.h
+/usr/include/boost/regex/user.hpp
+/usr/include/boost/type_traits/detail/is_function_ptr_helper.hpp
+/usr/include/boost/type_traits/detail/is_mem_fun_pointer_impl.hpp
+/usr/include/c++/7/cfloat
+/usr/include/c++/7/clocale
+/usr/include/c++/7/ctime
+/usr/include/c++/7/math.h
+/usr/include/c++/7/stdlib.h
+/usr/include/limits.h
+/usr/include/linux/errno.h
+/usr/include/x86_64-linux-gnu/asm/errno.h
+/usr/include/x86_64-linux-gnu/bits/byteswap-16.h
+/usr/include/x86_64-linux-gnu/bits/byteswap.h
+/usr/include/x86_64-linux-gnu/bits/confname.h
+/usr/include/x86_64-linux-gnu/bits/endian.h
+/usr/include/x86_64-linux-gnu/bits/environments.h
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h
+/usr/include/x86_64-linux-gnu/bits/iscanonical.h
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h
+/usr/include/x86_64-linux-gnu/bits/local_lim.h
+/usr/include/x86_64-linux-gnu/bits/locale.h
+/usr/include/x86_64-linux-gnu/bits/math-vector.h
+/usr/include/x86_64-linux-gnu/bits/select.h
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h
+/usr/include/x86_64-linux-gnu/bits/typesizes.h
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h
+/usr/include/x86_64-linux-gnu/bits/waitflags.h
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h
+/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_base.h
+/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h
+/usr/include/x86_64-linux-gnu/c++/7/bits/messages_members.h
+/usr/include/x86_64-linux-gnu/c++/7/bits/time_members.h
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h
+/usr/include/x86_64-linux-gnu/gnu/stubs.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/syslimits.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx2intrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx5124fmapsintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx5124vnniwintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512bwintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512cdintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512dqintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512erintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512fintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512ifmaintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512ifmavlintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512pfintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vbmiintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vbmivlintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vlbwintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vldqintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vlintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vpopcntdqintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/avxintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/bmi2intrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/bmiintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/f16cintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/fmaintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/lzcntintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/rtmintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/shaintrin.h
+/usr/lib/gcc/x86_64-linux-gnu/7/include/xtestintrin.h
+[01m[Kcc1plus:[m[K [01
+35m[Kwarning: [m[Kunrecognized command line option ‘[01m[K-Wno-gnu-zero-variadic-macro-arguments[m[K’
+
