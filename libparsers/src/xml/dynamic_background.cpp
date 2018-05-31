@@ -41,6 +41,13 @@ namespace xml {
 
 					auto const absolute = get_relative_file(filename, object_filename);
 
+					current_section = current_section->next_sibling();
+					// If multiple object_backgrounds specified add an error.
+					if (current_section != nullptr) {
+						add_error(
+						    errors, filename, 0,
+						    "Multiple Object backgrounds: only one object background is allowed."s);
+					}
 					return object_background_info{absolute};
 				}
 
@@ -63,7 +70,7 @@ namespace xml {
 						tbi.repetitions = gsl::narrow<std::size_t>(util::parse_loose_integer(
 						    std::string(repetitions->value(), repetitions->value_size())));
 					}
-					catch (const std::invalid_argument& e) {
+					catch (const std::exception& e) {
 						add_error(errors, filename, 0, e.what());
 					}
 				}

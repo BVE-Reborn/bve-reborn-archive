@@ -140,6 +140,7 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_loose_float.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_background.cpp
         )
 
 set(TEST_HEADERS
