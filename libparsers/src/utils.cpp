@@ -92,24 +92,26 @@ namespace util {
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		auto const dot = std::find(text.begin(), text.end(), '.');
-		auto const right_hand_size = std::distance(dot, text.end()) - 1;
+		auto const colon = std::find(text.begin(), text.end(), ':');
+		auto const dilim = dot == text.end() ? colon : dot;
 
-		// no dot, only hh
-		if (dot == text.end() || right_hand_size <= 0) {
+		auto const right_hand_size = std::distance(dilim, text.end()) - 1;
+		// no dilim, only hh
+		if (dilim == text.end() || right_hand_size <= 0) {
 			return std::stoll(text) * 3600;
 		}
 
 		// only hh.mm
 		if (0 < right_hand_size && right_hand_size <= 2) {
 			return std::stoll(text) * 3600 + //
-			       std::stoll(std::string(dot + 1, dot + 1 + right_hand_size)) * 60;
+			       std::stoll(std::string(dilim + 1, dilim + 1 + right_hand_size)) * 60;
 		}
 
 		// hh.mmss
 		if (right_hand_size <= 4) {
 			return std::stoll(text) * 3600 + //
-			       std::stoll(std::string(dot + 1, dot + 3)) * 60
-			       + std::stoll(std::string(dot + 3, dot + 1 + right_hand_size));
+			       std::stoll(std::string(dilim + 1, dilim + 3)) * 60
+			       + std::stoll(std::string(dilim + 3, dilim + 1 + right_hand_size));
 		}
 
 		throw std::invalid_argument("");
