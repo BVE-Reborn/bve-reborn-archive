@@ -141,10 +141,12 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_background.cpp
-<<<<<<< HEAD
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/route_marker.cpp
+<<<<<<< HEAD
 =======
 >>>>>>> Added test cases for libparsers::xml::dynamic_background (#8)
+=======
+>>>>>>> 06/1/208 feature-libparsers-xml-route_markers-test: Ready for pull request
         )
 
 set(TEST_HEADERS

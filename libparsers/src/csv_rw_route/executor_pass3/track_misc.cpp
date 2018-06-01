@@ -113,7 +113,8 @@ namespace csv_rw_route {
 
 		try {
 			auto str = util::load_from_file_utf8_bom(filename);
-			mi.marker = xml::route_marker::parse(filename, std::move(str), get_relative_file_);
+			mi.marker =
+			    xml::route_marker::parse(filename, std::move(str), errors_, get_relative_file_);
 		}
 		catch (std::invalid_argument& e) {
 			add_error(errors_, issuer_filename, inst.line, e.what());
