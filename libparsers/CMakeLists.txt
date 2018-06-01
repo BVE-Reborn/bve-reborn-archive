@@ -141,10 +141,7 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_background.cpp
-<<<<<<< HEAD
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/route_marker.cpp
-=======
->>>>>>> 998cf3ef5be7d6ca66c60e58d6e8d851f25427b9
         )
 
 set(TEST_HEADERS

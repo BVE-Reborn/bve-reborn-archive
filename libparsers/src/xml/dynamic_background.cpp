@@ -41,25 +41,12 @@ namespace xml {
 
 					auto const absolute = get_relative_file(filename, object_filename);
 
-<<<<<<< HEAD
-					current_section = current_section->next_sibling("background", 0, false);
-					// If multiple object_backgrounds specified add an error.
-					if (current_section != nullptr) {
-						auto* is_second_object = current_section->first_node("object", 0, false);
-						if (is_second_object != nullptr) {
-							std::ostringstream err;
-							err << "Multiple Object backgrounds: only one object background is "
-							       "allowed.";
-							add_error(errors, filename, 0, err.str());
-						}
-=======
 					current_section = current_section->next_sibling();
 					// If multiple object_backgrounds specified add an error.
 					if (current_section != nullptr) {
 						add_error(
 						    errors, filename, 0,
 						    "Multiple Object backgrounds: only one object background is allowed."s);
->>>>>>> 998cf3ef5be7d6ca66c60e58d6e8d851f25427b9
 					}
 					return object_background_info{absolute};
 				}
