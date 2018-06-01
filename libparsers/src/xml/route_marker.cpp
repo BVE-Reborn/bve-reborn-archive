@@ -65,7 +65,8 @@ namespace xml {
 						}
 					}
 					add_error(errors, 0, err);
-					return std::make_tuple(openbve2::datatypes::time{0},""s,text_marker::color::black, false);
+					return std::make_tuple(openbve2::datatypes::time{0}, ""s,
+					                       text_marker::color::black, false);
 				}
 				openbve2::datatypes::time time_parsed;
 				bool using_early_late = true;
@@ -84,7 +85,8 @@ namespace xml {
 						return std::make_tuple(time_parsed,
 						                       std::string(data_node->value(),
 						                                   data_node->value_size()),
-						                       parse_text_color(text_color_node, errors),using_early_late);
+						                       parse_text_color(text_color_node, errors),
+						                       using_early_late);
 					}
 					return std::make_tuple(time_parsed,
 					                       std::string(data_node->value(), data_node->value_size()),
@@ -119,7 +121,7 @@ namespace xml {
 
 			template <bool Text>
 			auto parse_on_time_impl(rapidxml_ns::xml_node<char>* on_time_node,
-			                               errors::errors_t& errors) {
+			                        errors::errors_t& errors) {
 				auto data_node =
 				    on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
@@ -136,15 +138,16 @@ namespace xml {
 					return std::make_tuple(std::string{}, false);
 				}
 
-				return std::make_tuple(std::string(data_node->value(), data_node->value_size()),true);
+				return std::make_tuple(std::string(data_node->value(), data_node->value_size()),
+				                       true);
 			}
 
 			auto parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node,
-			                               errors::errors_t& errors) {
+			                        errors::errors_t& errors) {
 				return parse_on_time_impl<true>(on_time_node, errors);
 			}
 			auto parse_image_on_time(rapidxml_ns::xml_node<char>* on_time_node,
-			                                errors::errors_t& errors) {
+			                         errors::errors_t& errors) {
 				return parse_on_time_impl<false>(on_time_node, errors);
 			}
 
@@ -215,7 +218,7 @@ namespace xml {
 					auto tuple = parse_image_early(early_node, err);
 					marker.early_time = std::get<0>(tuple);
 					marker.early_filename = get_relative_file(filename, std::get<1>(tuple));
-                    marker.using_early = std::get<3>(tuple);
+					marker.using_early = std::get<3>(tuple);
 				}
 				if (on_time_node != nullptr) {
 					auto const tuple = parse_image_on_time(on_time_node, err);
@@ -226,7 +229,7 @@ namespace xml {
 					auto tuple = parse_image_late(late_node, err);
 					marker.late_time = std::get<0>(tuple);
 					marker.late_filename = get_relative_file(filename, std::get<1>(tuple));
-                    marker.using_late = std::get<3>(tuple);
+					marker.using_late = std::get<3>(tuple);
 				}
 				if (distance_node != nullptr) {
 					marker.distance = parse_distance(distance_node, err);
