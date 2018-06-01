@@ -166,13 +166,15 @@ TEST_CASE("libparsers - xml - router_marker - text base marker"){
 	CHECK_EQ(text_marker.late_time, 43800);
 	CHECK_EQ(text_marker.late_text, "Late..."s);
 	CHECK_EQ(text_marker.distance, 200);
-    CHECK(text_marker.using_early);
-    CHECK(text_marker.using_ontime);
-    CHECK(text_marker.using_late);
+	CHECK(text_marker.using_early);
+	CHECK(text_marker.using_ontime);
+	CHECK(text_marker.using_late);
 }
 
-TEST_CASE("libparsers - xml - router_marker - early/late nodes reuqire time and text nodes, ontime nodes require a text node"){
-    // clang-format off
+TEST_CASE(
+    "libparsers - xml - router_marker - early/late nodes reuqire time and text nodes, ontime nodes "
+    "require a text node") {
+	// clang-format off
     std::string const text_based_marker =
             "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
             "<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
@@ -187,24 +189,24 @@ TEST_CASE("libparsers - xml - router_marker - early/late nodes reuqire time and 
                     "<trains></trains>"
                 "</TextMarker>"
             "</openBVE>"s;
-    // clang-format on
-    auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
-    parsers::errors::multi_error_t output_errors;
-    auto const output =
-            rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
-            REQUIRE(output.is<rm::text_marker>());
-    auto& text_marker = output.get_unchecked<rm::text_marker>();
-    CHECK(!output_errors.empty());
-    CHECK_EQ(output_errors["some_file.xml"].size(), 3);
-    CHECK(!output_errors.empty());
-    CHECK_EQ(output_errors["some_file.xml"].size(), 3);
-    CHECK_EQ(text_marker.early_time, 0);
-    CHECK_EQ(text_marker.early_text,""s);
-    CHECK_EQ(text_marker.on_time_text,""s);
-    CHECK_EQ(text_marker.late_time, 0);
-    CHECK_EQ(text_marker.late_text, ""s);
-    CHECK_EQ(text_marker.allowed_trains.size(), 0);
-    CHECK(!text_marker.using_early);
-    CHECK(!text_marker.using_ontime);
-    CHECK(!text_marker.using_late);
+	// clang-format on
+	auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
+	parsers::errors::multi_error_t output_errors;
+	auto const output =
+	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
+	REQUIRE(output.is<rm::text_marker>());
+	auto& text_marker = output.get_unchecked<rm::text_marker>();
+	CHECK(!output_errors.empty());
+	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
+	CHECK(!output_errors.empty());
+	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
+	CHECK_EQ(text_marker.early_time, 0);
+	CHECK_EQ(text_marker.early_text, ""s);
+	CHECK_EQ(text_marker.on_time_text, ""s);
+	CHECK_EQ(text_marker.late_time, 0);
+	CHECK_EQ(text_marker.late_text, ""s);
+	CHECK_EQ(text_marker.allowed_trains.size(), 0);
+	CHECK(!text_marker.using_early);
+	CHECK(!text_marker.using_ontime);
+	CHECK(!text_marker.using_late);
 }
