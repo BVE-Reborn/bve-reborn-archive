@@ -29,7 +29,7 @@ TEST_CASE("libparsers - xml - route_marker - image based marker") {
                     "<trains>81xx_2DCab</trains>"
             "</ImageMarker>"
         "</openBVE>"s;
-    // clang-format off
+    // clang-format on
     auto rel_file_func = [](std::string base, std::string rel){ return base + "/" + rel;}; 
 	parsers::errors::multi_error_t output_errors;
     auto const output = rm::parse("some_file.xml"s, image_based_marker, output_errors,rel_file_func);
@@ -47,7 +47,7 @@ TEST_CASE("libparsers - xml - route_marker - image based marker") {
     CHECK_EQ(image_marker.distance, 200);
     CHECK_EQ(image_marker.timeout, 12);
 
-    CHECK(!image_marker.allowed_trains.empty());
+    REQUIRE(!image_marker.allowed_trains.empty());
     CHECK_EQ(image_marker.allowed_trains[0],"81xx_2DCab"s);
     CHECK(image_marker.using_early);
     CHECK(image_marker.using_ontime);
@@ -76,7 +76,7 @@ TEST_CASE("libparsers - xml - router_marker - incorrect inputs to image based ma
                     "<trains></trains>"
             "</ImageMarker>"
         "</openBVE>"s;
-    // clang-format off
+    // clang-format on
     auto rel_file_func = [](std::string base, std::string rel){ return base + "/" + rel;}; 
 	parsers::errors::multi_error_t output_errors;
     auto const output = rm::parse("some_file.xml"s, image_based_marker, output_errors,rel_file_func);
@@ -85,7 +85,7 @@ TEST_CASE("libparsers - xml - router_marker - incorrect inputs to image based ma
 	    output.get_unchecked<rm::image_marker>();
 	CHECK_EQ(image_marker.early_time, 0);
     CHECK(!output_errors.empty());
-    CHECK_EQ(output_errors["some_file.xml"].size(), 2);
+    CHECK_EQ(output_errors["some_file.xml"].size(), 4);
     CHECK(!image_marker.using_early);
     CHECK(image_marker.using_ontime);
     CHECK(!image_marker.using_late);
@@ -112,7 +112,7 @@ TEST_CASE("libparsers - xml - router_marker - early/late nodes reuqire time and 
                     "<trains></trains>"
                 "</ImageMarker>"
             "</openBVE>"s;
-    // clang-format off
+    // clang-format on
     auto rel_file_func = [](std::string base, std::string rel){ return base + "/" + rel;};
     parsers::errors::multi_error_t output_errors;
     auto const output = rm::parse("some_file.xml"s, image_based_marker, output_errors,rel_file_func);
@@ -120,12 +120,9 @@ TEST_CASE("libparsers - xml - router_marker - early/late nodes reuqire time and 
     auto& image_marker =
             output.get_unchecked<rm::image_marker>();
     CHECK(!output_errors.empty());
-    CHECK_EQ(output_errors["some_file.xml"].size(), 3);
+    CHECK_EQ(output_errors["some_file.xml"].size(), 5);
     CHECK_EQ(image_marker.early_time, 0);
-    CHECK_EQ(image_marker.early_filename,"some_file.xml/"s);
-    CHECK_EQ(image_marker.on_time_filename,"some_file.xml/"s);
     CHECK_EQ(image_marker.late_time, 0);
-    CHECK_EQ(image_marker.late_filename, "some_file.xml/"s);
     CHECK_EQ(image_marker.allowed_trains.size(), 0);
     CHECK(!image_marker.using_early);
     CHECK(!image_marker.using_ontime);
@@ -151,6 +148,7 @@ TEST_CASE("libparsers - xml - router_marker - text base marker"){
                 "</Late>"
                 "<Distance>200</Distance>"
                 "<trains>81xx_2DCab</trains>"
+                "<Color>White</Color>"
             "</TextMarker>"
         "</openBVE>"s;
 	// clang-format on
@@ -159,7 +157,7 @@ TEST_CASE("libparsers - xml - router_marker - text base marker"){
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::text_marker>());
-	auto& text_marker = output.get_unchecked<rm::text_marker>();
+	auto const&  text_marker = output.get_unchecked<rm::text_marker>();
 	CHECK_EQ(text_marker.early_time, 43200);
 	CHECK_EQ(text_marker.early_text, "Early!"s);
 	CHECK_EQ(text_marker.on_time_text, "On Time."s);
@@ -187,6 +185,7 @@ TEST_CASE(
                     "</Late>"
                     "<Distance>200</Distance>"
                     "<trains></trains>"
+                    "<Color>K</Color>"
                 "</TextMarker>"
             "</openBVE>"s;
 	// clang-format on
@@ -195,16 +194,11 @@ TEST_CASE(
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::text_marker>());
-	auto& text_marker = output.get_unchecked<rm::text_marker>();
-	CHECK(!output_errors.empty());
-	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
+	auto const& text_marker = output.get_unchecked<rm::text_marker>();
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
 	CHECK_EQ(text_marker.early_time, 0);
-	CHECK_EQ(text_marker.early_text, ""s);
-	CHECK_EQ(text_marker.on_time_text, ""s);
 	CHECK_EQ(text_marker.late_time, 0);
-	CHECK_EQ(text_marker.late_text, ""s);
 	CHECK_EQ(text_marker.allowed_trains.size(), 0);
 	CHECK(!text_marker.using_early);
 	CHECK(!text_marker.using_ontime);
