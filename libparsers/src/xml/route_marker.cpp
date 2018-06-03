@@ -71,7 +71,8 @@ namespace xml {
 				openbve2::datatypes::time time_parsed;
 				bool using_early_late = true;
 				try {
-					time_parsed = util::parse_time(std::string(time_node->value(), time_node->value_size()));
+					time_parsed =
+					    util::parse_time(std::string(time_node->value(), time_node->value_size()));
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -158,16 +159,8 @@ namespace xml {
 			float parse_distance(rapidxml_ns::xml_node<char>* distance_node,
 			                     errors::errors_t& errors) {
 				try {
-
 					auto const time = util::parse_loose_float(
 					    std::string(distance_node->value(), distance_node->value_size()));
-					if(time < 0){
-						add_error(errors, 0,"Distance node should not have a negative distatnce"s);
-						return 0;
-					} else{
-						return time;
-					}
-
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -184,13 +177,12 @@ namespace xml {
 				try {
 					auto const time = util::parse_loose_integer(
 					    std::string(timeout_node->value(), timeout_node->value_size()));
-					if(time < 0){
+					if (time < 0) {
 						add_error(errors, 0, "Timeout node should not have a negative time"s);
 						return 0;
 					}
-					else{
-						return time;
-					}
+					return time;
+
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -314,7 +306,7 @@ namespace xml {
 		} // namespace
 
 		parsed_route_marker parse(const std::string& filename,
-		                          std::string input_string,
+		                          std::string input_string, // NOLINT(performance-unnecessary-value-param)
 		                          errors::multi_error_t& errors,
 		                          const find_relative_file_func& get_relative_file) {
 			rapidxml_ns::xml_document<> doc;
