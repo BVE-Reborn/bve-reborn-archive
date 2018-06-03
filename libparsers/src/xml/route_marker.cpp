@@ -159,7 +159,7 @@ namespace xml {
 			float parse_distance(rapidxml_ns::xml_node<char>* distance_node,
 			                     errors::errors_t& errors) {
 				try {
-					auto const time = util::parse_loose_float(
+					return util::parse_loose_float(
 					    std::string(distance_node->value(), distance_node->value_size()));
 				}
 				catch (const std::exception& e) {
