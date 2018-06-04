@@ -141,6 +141,7 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_background.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_lighting.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/route_marker.cpp
         )
 
