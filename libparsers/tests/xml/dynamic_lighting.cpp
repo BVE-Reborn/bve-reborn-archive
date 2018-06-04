@@ -7,7 +7,6 @@ using namespace std::string_literals;
 TEST_SUITE_BEGIN("libparsers - xml - dynamic_lighting");
 
 TEST_CASE("libparsers - xml - dynamic_lighting - test") {
-	// clang-format off
 	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf - 8\"?>"
 	    "<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd="
@@ -27,7 +26,6 @@ TEST_CASE("libparsers - xml - dynamic_lighting - test") {
 	    "		<CabLighting>255</CabLighting>"
 	    "	</Brightness>"
 	    "</openBVE>";
-	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
@@ -54,25 +52,23 @@ TEST_CASE("libparsers - xml - dynamic_lighting - test") {
 }
 
 TEST_CASE("libparsers - xml - dynamic_lighting - no_parent_node_test") {
-	// clang-format off
 	std::string const test_value =
-		"<?xml version=\"1.0\" encoding=\"utf - 8\"?>"
-		"<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd="
-		"\"http://www.w3.org/2001/XMLSchema\">"
-		"	<Time>10.00</Time>"
-		"	<AmbientLight>1, 1, 1</AmbientLight>"
-		"	<DirectionalLight>1, 1, 1</DirectionalLight>"
-		"	<LightDirection>1.0, 1.0, 1.0</LightDirection>"
-		"	<CabLighting>80</CabLighting>"
-		"</Brightness>"
-		"<Brightness>"
-		"	<Time>12.00</Time>"
-		"	<AmbientLight>160, 160, 160</AmbientLight>"
-		"	<DirectionalLight>160, 160, 160</DirectionalLight>"
-		"	<LightDirection>-0.5, -0.5, -0.5</LightDirection>"
-		"	<CabLighting>255</CabLighting>"
-		"</openBVE>";
-	// clang-format on
+	    "<?xml version=\"1.0\" encoding=\"utf - 8\"?>"
+	    "<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd="
+	    "\"http://www.w3.org/2001/XMLSchema\">"
+	    "	<Time>10.00</Time>"
+	    "	<AmbientLight>1, 1, 1</AmbientLight>"
+	    "	<DirectionalLight>1, 1, 1</DirectionalLight>"
+	    "	<LightDirection>1.0, 1.0, 1.0</LightDirection>"
+	    "	<CabLighting>80</CabLighting>"
+	    "</Brightness>"
+	    "<Brightness>"
+	    "	<Time>12.00</Time>"
+	    "	<AmbientLight>160, 160, 160</AmbientLight>"
+	    "	<DirectionalLight>160, 160, 160</DirectionalLight>"
+	    "	<LightDirection>-0.5, -0.5, -0.5</LightDirection>"
+	    "	<CabLighting>255</CabLighting>"
+	    "</openBVE>";
 
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
@@ -99,7 +95,6 @@ TEST_CASE("libparsers - xml - dynamic_lighting - no_parent_node_test") {
 }
 
 TEST_CASE("libparsers - xml - dynamic_lighting - insane_values") {
-	// clang-format off
 	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf - 8\"?>"
 	    "<openBVE xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
@@ -122,7 +117,6 @@ TEST_CASE("libparsers - xml - dynamic_lighting - insane_values") {
 	    "	<UselessTag>someuselessvalue</UselessTag>"
 	    "</Brightness>"
 	    "</openBVE>";
-	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
