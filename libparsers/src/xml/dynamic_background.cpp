@@ -11,7 +11,7 @@ namespace parsers {
 namespace xml {
 	namespace dynamic_background {
 		parsed_dynamic_background parse(const std::string& filename,
-		                                std::string input_string,
+		                                std::string input_string, // NOLINT(performance-unnecessary-value-param)
 		                                errors::multi_error_t& errors,
 		                                const find_relative_file_func& get_relative_file) {
 			// This is always an vector of texture backgrounds, the object code
@@ -41,6 +41,13 @@ namespace xml {
 
 					auto const absolute = get_relative_file(filename, object_filename);
 
+					current_section = current_section->next_sibling();
+					// If multiple object_backgrounds specified add an error.
+					if (current_section != nullptr) {
+						add_error(
+						    errors, filename, 0,
+						    "Multiple Object backgrounds: only one object background is allowed."s);
+					}
 					return object_background_info{absolute};
 				}
 
@@ -63,7 +70,7 @@ namespace xml {
 						tbi.repetitions = gsl::narrow<std::size_t>(util::parse_loose_integer(
 						    std::string(repetitions->value(), repetitions->value_size())));
 					}
-					catch (const std::invalid_argument& e) {
+					catch (const std::exception& e) {
 						add_error(errors, filename, 0, e.what());
 					}
 				}
