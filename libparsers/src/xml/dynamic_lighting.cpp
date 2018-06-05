@@ -6,7 +6,7 @@ namespace parsers {
 namespace xml {
 	namespace dynamic_lighting {
 		std::vector<lighting_info> parse(const std::string& filename,
-		                                 std::string input_string,
+		                                 std::string input_string, // NOLINT(performance-unnecessary-value-param)
 		                                 errors::multi_error_t& errors) {
 			std::vector<lighting_info> retvalue;
 

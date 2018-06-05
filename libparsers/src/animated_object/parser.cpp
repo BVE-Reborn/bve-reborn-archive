@@ -341,10 +341,10 @@ namespace animated_object {
 		}
 	} // namespace
 
-	parsed_animated_object parse(std::string const& file) {
+	parsed_animated_object parse(std::string const& file_string) {
 		parsed_animated_object pao;
 
-		auto const ini = ini::parse(file);
+		auto const ini = ini::parse(file_string);
 
 		for (auto const& section : ini) {
 			// "" section is before any named section
