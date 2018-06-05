@@ -12,7 +12,9 @@ namespace parsers {
 namespace xml {
 	namespace stations_and_stops {
 		namespace {
-			station_marker::doors parse_doors_text(std::string const& filename, rapidxml_ns::xml_node<char>* doors_node, errors::multi_error_t& errors) {
+			station_marker::doors parse_doors_text(std::string const& filename,
+			                                       rapidxml_ns::xml_node<char>* doors_node,
+			                                       errors::multi_error_t& errors) {
 				static std::unordered_map<std::string, station_marker::doors> text_mapping{
 				    //
 				    {"left", station_marker::doors::left},
@@ -21,16 +23,15 @@ namespace xml {
 				    //
 				};
 				std::string door;
-				try{
+				try {
 					door = doors_node->value();
 					util::lower(door);
 				}
-				catch (std::exception const& e){
-					add_error(errors, filename, 0 , e.what());
+				catch (std::exception const& e) {
+					add_error(errors, filename, 0, e.what());
 					door = "none";
 				}
-				auto const parsed_doors =
-				    text_mapping.find(door);
+				auto const parsed_doors = text_mapping.find(door);
 
 				if (parsed_doors != text_mapping.end())
 					return parsed_doors->second;
@@ -38,17 +39,19 @@ namespace xml {
 				add_error(errors, filename, 0, "Error: <Doors> given and invalid option");
 				return station_marker::doors::none;
 			}
-			request_stop_marker::behaviour parse_ai_behaviour( std::string const& filename,
-			    rapidxml_ns::xml_node<char>* ai_behaviour_node, errors::multi_error_t& errors) {
+			request_stop_marker::behaviour parse_ai_behaviour(
+			    std::string const& filename,
+			    rapidxml_ns::xml_node<char>* ai_behaviour_node,
+			    errors::multi_error_t& errors) {
 				static std::unordered_map<std::string, request_stop_marker::behaviour>
 				    text_mapping{{"fullspeed", request_stop_marker::behaviour::fullspeed},
 				                 {"normalbrake", request_stop_marker::behaviour::normalbrake}};
 				std::string behaviour;
-				try{
+				try {
 					behaviour = ai_behaviour_node->value();
 					util::lower(behaviour);
 				}
-				catch (std::exception const& e){
+				catch (std::exception const& e) {
 					add_error(errors, filename, 0, e.what());
 					behaviour = "normalbrake"s;
 				}
@@ -57,138 +60,139 @@ namespace xml {
 				if (parsed_behaviour != text_mapping.end())
 					return parsed_behaviour->second;
 
-				add_error(errors, filename, 0 , "Error: <AIBehaviour> given invalid behaviour");
+				add_error(errors, filename, 0, "Error: <AIBehaviour> given invalid behaviour");
 				return request_stop_marker::behaviour::normalbrake;
 			}
 
-			sub_message parse_sub_messages_nodes(rapidxml_ns::xml_node<char>* parent_node){
+			sub_message parse_sub_messages_nodes(rapidxml_ns::xml_node<char>* parent_node) {
 				auto* early_node = parent_node->first_node("early", 0, false);
 				auto* on_time_node = parent_node->first_node("ontime", 0, false);
 				auto* late_node = parent_node->first_node("late", 0, false);
 				sub_message sub_nodes;
 
 				// There are no sub nodes so return a struct with values of "parent_node".
-				if(early_node == nullptr && on_time_node == nullptr && late_node == nullptr){
+				if (early_node == nullptr && on_time_node == nullptr && late_node == nullptr) {
 					sub_nodes.early = parent_node->value();
 					sub_nodes.ontime = parent_node->value();
 					sub_nodes.late = parent_node->value();
 					return sub_nodes;
 				}
 
-				if(early_node != nullptr){
+				if (early_node != nullptr) {
 					sub_nodes.early = early_node->value();
 				}
-				else{
+				else {
 					sub_nodes.early = std::string{};
 				}
 
-				if(on_time_node != nullptr){
+				if (on_time_node != nullptr) {
 					sub_nodes.ontime = on_time_node->value();
 				}
-				else{
+				else {
 					sub_nodes.ontime = std::string{};
 				}
 
-				if(late_node != nullptr){
+				if (late_node != nullptr) {
 					sub_nodes.late = late_node->value();
 				}
-				else{
+				else {
 					sub_nodes.late = std::string{};
 				}
 
 				return sub_nodes;
 			}
 
-			probabilities parse_probabilities_nodes(std::string const& filename, rapidxml_ns::xml_node<char>* parent_node, errors::multi_error_t& errors){
+			probabilities parse_probabilities_nodes(std::string const& filename,
+			                                        rapidxml_ns::xml_node<char>* parent_node,
+			                                        errors::multi_error_t& errors) {
 				auto* early_node = parent_node->first_node("early", 0, false);
 				auto* on_time_node = parent_node->first_node("ontime", 0, false);
 				auto* late_node = parent_node->first_node("late", 0, false);
 				probabilities sub_nodes;
 
 				// There are no sub nodes so return a struct with values of "parent_node".
-				if(early_node == nullptr && on_time_node == nullptr && late_node == nullptr){
-
+				if (early_node == nullptr && on_time_node == nullptr && late_node == nullptr) {
 					std::intmax_t no_sub_values;
-					try{
+					try {
 						no_sub_values = util::parse_loose_integer(parent_node->value());
-
 					}
-					catch (std::exception const& e){
+					catch (std::exception const& e) {
 						no_sub_values = 0;
-						add_error(errors,filename, 0, e.what());
+						add_error(errors, filename, 0, e.what());
 					}
-					if (no_sub_values< 0 || no_sub_values > 100) {
+					if (no_sub_values < 0 || no_sub_values > 100) {
 						add_error(errors, filename, 0,
-								  "<Probability> has to be between 0 and 100 but found" + no_sub_values);
+						          "<Probability> has to be between 0 and 100 but found"
+						              + no_sub_values);
 						no_sub_values = 0;
 					}
-					sub_nodes.early = gsl::narrow<std::uint8_t >(no_sub_values);
-					sub_nodes.ontime = gsl::narrow<std::uint8_t >(no_sub_values);
-					sub_nodes.late = gsl::narrow<std::uint8_t >(no_sub_values);
+					sub_nodes.early = gsl::narrow<std::uint8_t>(no_sub_values);
+					sub_nodes.ontime = gsl::narrow<std::uint8_t>(no_sub_values);
+					sub_nodes.late = gsl::narrow<std::uint8_t>(no_sub_values);
 					return sub_nodes;
 				}
 
-				if(early_node != nullptr){
-				    std::intmax_t prob;
+				if (early_node != nullptr) {
+					std::intmax_t prob;
 					try {
 						prob = util::parse_loose_integer(early_node->value());
 					}
-					catch (std::exception const& e){
+					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
 						prob = 0;
 					}
 
 					if (prob < 0 || prob > 100) {
 						add_error(errors, filename, 0,
-								  "<Probability> has to be between 0 and 100 but found" + prob);
+						          "<Probability> has to be between 0 and 100 but found" + prob);
 						prob = 0;
 					}
-					sub_nodes.early = gsl::narrow<std::uint8_t >(prob);
+					sub_nodes.early = gsl::narrow<std::uint8_t>(prob);
 				}
-				else{
+				else {
 					sub_nodes.early = std::uint8_t{};
 				}
 
-				if(on_time_node != nullptr){
+				if (on_time_node != nullptr) {
 					std::intmax_t prob;
 					try {
 						prob = util::parse_loose_integer(on_time_node->value());
 					}
-					catch (std::exception const& e){
+					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
 						prob = 0;
 					}
 
 					if (prob < 0 || prob > 100) {
 						add_error(errors, filename, 0,
-								  "<Probability> has to be between 0 and 100 but found" + prob);
+						          "<Probability> has to be between 0 and 100 but found" + prob);
 						prob = 0;
 					}
-					sub_nodes.ontime = gsl::narrow<std::uint8_t >(prob);
+					sub_nodes.ontime = gsl::narrow<std::uint8_t>(prob);
 				}
-				else{
-					sub_nodes.ontime = std::uint8_t {};
+				else {
+					sub_nodes.ontime = std::uint8_t{};
 				}
 
-				if(late_node != nullptr){
+				if (late_node != nullptr) {
 					std::intmax_t prob;
 					try {
 						prob = util::parse_loose_integer(late_node->value());
 					}
-					catch (std::exception const& e){
+					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
 						prob = 0;
 					}
 
 					if (prob < 0 || prob > 100) {
 						add_error(errors, filename, 0,
-								  "<Probability> has to be between 0 and 100 but found" + prob);
+						          "<Probability> has to be between 0 and 100 but found" + prob);
 						prob = 0;
 					}
-					sub_nodes.late = gsl::narrow<std::uint8_t >(prob);
+					sub_nodes.late = gsl::narrow<std::uint8_t>(prob);
 				}
-				else{
-					sub_nodes.late = std::uint8_t {};
+				else {
+					sub_nodes.late = std::uint8_t{};
 				}
 
 				return sub_nodes;
@@ -197,10 +201,10 @@ namespace xml {
 			////PARSE REQUEST STOP MARKER////
 			//////////////////////////////////
 			request_stop_marker parse_request_stop_marker(
-					const std::string filename,
-					rapidxml_ns::xml_node<char>* start_node,
-					errors::multi_error_t& errors,
-					const find_relative_file_func& /*get_relative_file*/) {
+			    const std::string filename,
+			    rapidxml_ns::xml_node<char>* start_node,
+			    errors::multi_error_t& errors,
+			    const find_relative_file_func& /*get_relative_file*/) {
 				request_stop_marker rs;
 
 				auto* early_time_node = start_node->first_node("earlytime", 0, false);
@@ -257,12 +261,12 @@ namespace xml {
 				if (max_cars_node != nullptr) {
 					try {
 						auto cars = util::parse_loose_integer(max_cars_node->value());
-						if(cars < 0){
-							add_error(errors, filename, 0 ,"Error: <MaxCars> should have be a non negative intger");
+						if (cars < 0) {
+							add_error(errors, filename, 0,
+							          "Error: <MaxCars> should have be a non negative intger");
 							cars = 0;
 						}
 						rs.max_cars = cars;
-
 					}
 					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
@@ -277,112 +281,114 @@ namespace xml {
 			}
 		} // namespace
 
-			/////////////////////////////
-			//// PARSE STATION MARKER////
-			/////////////////////////////
-			parsed_station_marker parse_station_marker(
-			    const std::string filename,
-			    rapidxml_ns::xml_node<char>* start_node,
-			    errors::multi_error_t& errors,
-			    const find_relative_file_func& get_relative_file) {
-				station_marker sm;
-				auto* name_node = start_node->first_node("name", 0, false);
-				auto* arrival_time_node = start_node->first_node("arrivaltime", 0, false);
-				auto* departure_time_node = start_node->first_node("departuretime", 0, false);
-				auto* doors_node = start_node->first_node("doors", 0, false);
-				auto* red_signal_node = start_node->first_node("forcedredsignal",0,false);
-				auto* passenger_ratio_node = start_node->first_node("passengerratio", 0, false);
-				auto* arrival_sound_node = start_node->first_node("arrivalsound", 0, false);
-				auto* departure_sound_node = start_node->first_node("depaturesound", 0, false);
-				auto* stop_duration_node = start_node->first_node("stopduration", 0, false);
-				auto* time_table_index_node = start_node->first_node("timetableindex", 0, false);
-				auto* request_stop_node = start_node->first_node("requeststop", 0, false);
+		/////////////////////////////
+		//// PARSE STATION MARKER////
+		/////////////////////////////
+		parsed_station_marker parse_station_marker(
+		    const std::string filename,
+		    rapidxml_ns::xml_node<char>* start_node,
+		    errors::multi_error_t& errors,
+		    const find_relative_file_func& get_relative_file) {
+			station_marker sm;
+			auto* name_node = start_node->first_node("name", 0, false);
+			auto* arrival_time_node = start_node->first_node("arrivaltime", 0, false);
+			auto* departure_time_node = start_node->first_node("departuretime", 0, false);
+			auto* doors_node = start_node->first_node("doors", 0, false);
+			auto* red_signal_node = start_node->first_node("forcedredsignal", 0, false);
+			auto* passenger_ratio_node = start_node->first_node("passengerratio", 0, false);
+			auto* arrival_sound_node = start_node->first_node("arrivalsound", 0, false);
+			auto* departure_sound_node = start_node->first_node("depaturesound", 0, false);
+			auto* stop_duration_node = start_node->first_node("stopduration", 0, false);
+			auto* time_table_index_node = start_node->first_node("timetableindex", 0, false);
+			auto* request_stop_node = start_node->first_node("requeststop", 0, false);
 
-				if (name_node != nullptr) {
-					sm.station_name = std::string(name_node->value(), name_node->value_size());
-				}
-
-				if (arrival_time_node != nullptr) {
-					try {
-						sm.arrival_time = util::parse_time(arrival_time_node->value());
-					}
-					catch (std::exception const& e) {
-						sm.arrival_time = 0;
-						add_error(errors, filename, 0, e.what());
-					}
-				}
-
-				if (departure_time_node != nullptr) {
-					try {
-						sm.departure_time = util::parse_time(departure_time_node->value());
-					}
-					catch (std::exception const& e) {
-						sm.departure_time = 0;
-						add_error(errors, filename, 0, e.what());
-					}
-				}
-
-				if (doors_node != nullptr) {
-					sm.door = parse_doors_text(filename, doors_node, errors);
-				}
-
-				if(red_signal_node != nullptr){
-					std::string red_signal = red_signal_node->value();
-					util::lower(red_signal);
-					sm.force_red_signal = "true"s == red_signal;
-				}
-
-				if (passenger_ratio_node != nullptr) {
-					try {
-						auto ratio = util::parse_loose_integer(passenger_ratio_node->value());
-						if(ratio < 0 || ratio > 250){
-							add_error(errors, filename, 0, "Out of bounds Error: PassengerRatio has to be a integer between 0 and 250.");
-							ratio = 0;
-						}
-						sm.passenger_ratio = gsl::narrow<std::uint8_t>(ratio);
-					}
-					catch (std::exception const& e) {
-						sm.passenger_ratio = 0;
-						add_error(errors, filename, 0, e.what());
-					}
-				}
-
-				if (arrival_sound_node != nullptr) {
-					sm.arrival_sound_file =
-					    get_relative_file(filename, arrival_sound_node->value());
-				}
-
-				if (departure_sound_node != nullptr) {
-					sm.departure_sound_file =
-					    get_relative_file(filename, departure_sound_node->value());
-				}
-
-				if (stop_duration_node != nullptr) {
-					try {
-						sm.stop_duration =
-						    util::parse_loose_integer(stop_duration_node->value(), 15);
-					}
-					catch (std::exception const& e) {
-						sm.stop_duration = 0;
-						add_error(errors, filename, 0, e.what());
-					}
-				}
-				if (time_table_index_node != nullptr) {
-					auto index = util::parse_loose_integer((time_table_index_node->value()));
-					if (index < 0) {
-						add_error(errors, filename, 0,
-						          "<TimeTableIndex> should have non negative values"s);
-						index = 0;
-					}
-
-					sm.time_table_index = gsl::narrow<std::uintmax_t>(index);
-				}
-				if(request_stop_node != nullptr){
-					stations_and_stops::request_stop_marker rs = parse_request_stop_marker(filename, request_stop_node, errors, get_relative_file);
-					sm.request_stop = rs;
-				}
-				return sm;
+			if (name_node != nullptr) {
+				sm.station_name = std::string(name_node->value(), name_node->value_size());
 			}
+
+			if (arrival_time_node != nullptr) {
+				try {
+					sm.arrival_time = util::parse_time(arrival_time_node->value());
+				}
+				catch (std::exception const& e) {
+					sm.arrival_time = 0;
+					add_error(errors, filename, 0, e.what());
+				}
+			}
+
+			if (departure_time_node != nullptr) {
+				try {
+					sm.departure_time = util::parse_time(departure_time_node->value());
+				}
+				catch (std::exception const& e) {
+					sm.departure_time = 0;
+					add_error(errors, filename, 0, e.what());
+				}
+			}
+
+			if (doors_node != nullptr) {
+				sm.door = parse_doors_text(filename, doors_node, errors);
+			}
+
+			if (red_signal_node != nullptr) {
+				std::string red_signal = red_signal_node->value();
+				util::lower(red_signal);
+				sm.force_red_signal = "true"s == red_signal;
+			}
+
+			if (passenger_ratio_node != nullptr) {
+				try {
+					auto ratio = util::parse_loose_integer(passenger_ratio_node->value());
+					if (ratio < 0 || ratio > 250) {
+						add_error(errors, filename, 0,
+						          "Out of bounds Error: PassengerRatio has to be a integer between "
+						          "0 and 250.");
+						ratio = 0;
+					}
+					sm.passenger_ratio = gsl::narrow<std::uint8_t>(ratio);
+				}
+				catch (std::exception const& e) {
+					sm.passenger_ratio = 0;
+					add_error(errors, filename, 0, e.what());
+				}
+			}
+
+			if (arrival_sound_node != nullptr) {
+				sm.arrival_sound_file = get_relative_file(filename, arrival_sound_node->value());
+			}
+
+			if (departure_sound_node != nullptr) {
+				sm.departure_sound_file =
+				    get_relative_file(filename, departure_sound_node->value());
+			}
+
+			if (stop_duration_node != nullptr) {
+				try {
+					sm.stop_duration = util::parse_loose_integer(stop_duration_node->value(), 15);
+				}
+				catch (std::exception const& e) {
+					sm.stop_duration = 0;
+					add_error(errors, filename, 0, e.what());
+				}
+			}
+			if (time_table_index_node != nullptr) {
+				auto index = util::parse_loose_integer((time_table_index_node->value()));
+				if (index < 0) {
+					add_error(errors, filename, 0,
+					          "<TimeTableIndex> should have non negative values"s);
+					index = 0;
+				}
+
+				sm.time_table_index = gsl::narrow<std::uintmax_t>(index);
+			}
+			if (request_stop_node != nullptr) {
+				stations_and_stops::request_stop_marker rs =
+				    parse_request_stop_marker(filename, request_stop_node, errors,
+				                              get_relative_file);
+				sm.request_stop = rs;
+			}
+			return sm;
+		}
 		// Main parse function
 		parsed_station_marker parse(const std::string& filename,
 		                            std::string& input_string,

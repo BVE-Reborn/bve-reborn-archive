@@ -36,8 +36,8 @@ TEST_CASE("libparsers - xml - dynamic_lighting - test") {
 	if (!output_errors.empty()) {
 		std::cout << output_errors;
 	}
-	CHECK(output_errors.empty());
-
+	REQUIRE(output_errors.empty());
+	REQUIRE_EQ(output.size(), 2);
 	CHECK_EQ(output[0].ambient, openbve2::datatypes::color8_rgb{1, 1, 1});
 	CHECK_EQ(output[0].cablighting, 80);
 	CHECK_EQ(output[0].directional_lighting, openbve2::datatypes::color8_rgb{1, 1, 1});
@@ -80,7 +80,7 @@ TEST_CASE("libparsers - xml - dynamic_lighting - no_parent_node_test") {
 		std::cout << output_errors;
 	}
 	CHECK(output_errors.empty());
-
+	REQUIRE_EQ(output.size(), 2);
 	CHECK_EQ(output[0].ambient, openbve2::datatypes::color8_rgb{1, 1, 1});
 	CHECK_EQ(output[0].cablighting, 80);
 	CHECK_EQ(output[0].directional_lighting, openbve2::datatypes::color8_rgb{1, 1, 1});
@@ -121,9 +121,9 @@ TEST_CASE("libparsers - xml - dynamic_lighting - insane_values") {
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
 	    parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
-
+	REQUIRE(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 4);
-
+	REQUIRE_EQ(output.size(), 1);
 	CHECK_EQ(output[0].ambient, openbve2::datatypes::color8_rgb{160, 160, 160});
 	CHECK_EQ(output[0].cablighting, 0);
 	CHECK_EQ(output[0].directional_lighting, openbve2::datatypes::color8_rgb{160, 160, 160});

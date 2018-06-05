@@ -12,15 +12,15 @@ namespace parsers {
 namespace xml {
 	namespace stations_and_stops {
 
-		struct sub_message{
-		    std::string early;
-		    std::string ontime;
-		    std::string late;
+		struct sub_message {
+			std::string early;
+			std::string ontime;
+			std::string late;
 		};
-		struct probabilities{
+		struct probabilities {
 			std::uint8_t early = 0;
-			std::uint8_t  ontime = 0;
-			std::uint8_t  late = 0;
+			std::uint8_t ontime = 0;
+			std::uint8_t late = 0;
 		};
 		struct request_stop_marker {
 			enum class behaviour : std::uint8_t { fullspeed, normalbrake };
@@ -50,9 +50,9 @@ namespace xml {
 		using parsed_station_marker = mapbox::util::variant<station_marker, request_stop_marker>;
 
 		parsed_station_marker parse(const std::string& filename,
-									std::string& input_string,
-									errors::multi_error_t& errors,
-									const find_relative_file_func& get_relative_file);
+		                            std::string& input_string,
+		                            errors::multi_error_t& errors,
+		                            const find_relative_file_func& get_relative_file);
 	} // namespace stations_and_stops
 } // namespace xml
 } // namespace parsers
