@@ -64,7 +64,7 @@ set(SOURCES
             src/xml/dynamic_background.cpp
             src/xml/dynamic_lighting.cpp
             src/xml/route_marker.cpp
-            src/xml/stations_and_request_stops.cpp
+        src/xml/stations.cpp
     )
 
 set(HEADERS
@@ -78,7 +78,7 @@ set(HEADERS
             include/parsers/xml/dynamic_background.hpp
             include/parsers/xml/dynamic_lighting.hpp
             include/parsers/xml/route_marker.hpp
-            include/parsers/xml/stations_and_request_stops.hpp
+        include/parsers/xml/stations.hpp
             src/b3d_csv_object.hpp
             src/csv.hpp
             src/csv_rw_route.hpp
@@ -143,7 +143,7 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/parse_time.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/util/split_text.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_background.cpp
-                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/stations_and_request_stops.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/stations.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_lighting.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/route_marker.cpp
         )

@@ -9,3 +9,4 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "parsers/xml/dynamic_lighting.hpp"
 #include "parsers/xml/route_marker.hpp"
+#include "parsers/xml/stations_and_request_stops.hpp"
