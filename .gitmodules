@@ -25,3 +25,6 @@
 [submodule "dependencies/rapidxml_ns"]
 	path = dependencies/rapidxml_ns
 	url = https://github.com/svgpp/rapidxml_ns.git
+[submodule "fmt"]
+	path = dependencies/fmt
+	url = https://github.com/fmtlib/fmt.git
