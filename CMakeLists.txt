@@ -69,6 +69,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_warnings()
 
 add_linted_subdirectory(libcore)
+add_linted_subdirectory(liblog)
 add_linted_subdirectory(libparsers)
 
 add_linted_subdirectory(test_main)
