@@ -34,7 +34,7 @@ namespace xml {
 			message stop_message;
 			message pass_message;
 			probabilities probability;
-			std::uint8_t max_cars = 0;
+			std::uintmax_t max_cars = 0;
 			behaviour ai_behaviour = behaviour::fullspeed;
 		};
 

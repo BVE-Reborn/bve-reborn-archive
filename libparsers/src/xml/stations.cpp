@@ -243,7 +243,7 @@ namespace xml {
 							          "Error: <MaxCars> should have be a non negative intger");
 							cars = 0;
 						}
-						rs.max_cars = gsl::narrow<std::uint8_t>(cars);
+						rs.max_cars = gsl::narrow<std::uintmax_t>(cars);
 					}
 					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
