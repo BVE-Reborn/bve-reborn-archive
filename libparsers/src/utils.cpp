@@ -91,11 +91,10 @@ namespace util {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
-		auto const dot = std::find(text.begin(), text.end(), '.');
-		auto const colon = std::find(text.begin(), text.end(), ':');
-		auto const dilim = dot == text.end() ? colon : dot;
-
+		auto const dilim =
+		    std::find_if(text.begin(), text.end(), [](char c) { return c == '.' || c == ':'; });
 		auto const right_hand_size = std::distance(dilim, text.end()) - 1;
+
 		// no dilim, only hh
 		if (dilim == text.end() || right_hand_size <= 0) {
 			return std::stoll(text) * 3600;

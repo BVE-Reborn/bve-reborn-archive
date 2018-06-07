@@ -1,5 +1,6 @@
 #include "parsers/xml/route_marker.hpp"
 #include "utils.hpp"
+#include "xml_node_helpers.hpp"
 #include <map>
 #include <rapidxml_ns.hpp>
 #include <sstream>
@@ -26,8 +27,8 @@ namespace xml {
 				    //
 				};
 
-				auto const find_mapping_iter = text_mapping.find(util::lower_copy(
-				    std::string(test_color_node->value(), test_color_node->value_size())));
+				auto const find_mapping_iter =
+				    text_mapping.find(util::lower_copy(get_node_value(test_color_node)));
 				if (find_mapping_iter != text_mapping.end()) {
 					return find_mapping_iter->second;
 				}
@@ -71,8 +72,7 @@ namespace xml {
 				openbve2::datatypes::time time_parsed;
 				bool using_early_late = true;
 				try {
-					time_parsed =
-					    util::parse_time(std::string(time_node->value(), time_node->value_size()));
+					time_parsed = util::parse_time(get_node_value(time_node));
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -83,18 +83,14 @@ namespace xml {
 					auto* text_color_node = start_node->first_node("color", 0, false);
 
 					if (text_color_node != nullptr) {
-						return std::make_tuple(time_parsed,
-						                       std::string(data_node->value(),
-						                                   data_node->value_size()),
+						return std::make_tuple(time_parsed, get_node_value(data_node),
 						                       parse_text_color(text_color_node, errors),
 						                       using_early_late);
 					}
-					return std::make_tuple(time_parsed,
-					                       std::string(data_node->value(), data_node->value_size()),
+					return std::make_tuple(time_parsed, get_node_value(data_node),
 					                       text_marker::color::black, using_early_late);
 				}
-				return std::make_tuple(time_parsed,
-				                       std::string(data_node->value(), data_node->value_size()),
+				return std::make_tuple(time_parsed, get_node_value(data_node),
 				                       text_marker::color::black, using_early_late);
 			}
 
@@ -139,8 +135,7 @@ namespace xml {
 					return std::make_tuple(std::string{}, false);
 				}
 
-				return std::make_tuple(std::string(data_node->value(), data_node->value_size()),
-				                       true);
+				return std::make_tuple(get_node_value(data_node), true);
 			}
 
 			auto parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node,
@@ -159,8 +154,7 @@ namespace xml {
 			float parse_distance(rapidxml_ns::xml_node<char>* distance_node,
 			                     errors::errors_t& errors) {
 				try {
-					return util::parse_loose_float(
-					    std::string(distance_node->value(), distance_node->value_size()));
+					return util::parse_loose_float(get_node_value(distance_node));
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -175,14 +169,12 @@ namespace xml {
 			std::intmax_t parse_timeout(rapidxml_ns::xml_node<char>* timeout_node,
 			                            errors::errors_t& errors) {
 				try {
-					auto const time = util::parse_loose_integer(
-					    std::string(timeout_node->value(), timeout_node->value_size()));
+					auto const time = util::parse_loose_integer(get_node_value(timeout_node));
 					if (time < 0) {
 						add_error(errors, 0, "Timeout node should not have a negative time"s);
 						return 0;
 					}
 					return time;
-
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -196,8 +188,7 @@ namespace xml {
 
 			std::vector<std::string> parse_trains(rapidxml_ns::xml_node<char>* train_node,
 			                                      errors::errors_t& /*errors*/) {
-				return util::split_text(std::string(train_node->value(), train_node->value_size()),
-				                        ';', true);
+				return util::split_text(get_node_value(train_node), ';', true);
 			}
 
 			image_marker parse_image_marker(const std::string& filename,
@@ -305,10 +296,11 @@ namespace xml {
 			}
 		} // namespace
 
-		parsed_route_marker parse(const std::string& filename,
-		                          std::string input_string, // NOLINT(performance-unnecessary-value-param)
-		                          errors::multi_error_t& errors,
-		                          const find_relative_file_func& get_relative_file) {
+		parsed_route_marker parse(
+		    const std::string& filename,
+		    std::string input_string, // NOLINT(performance-unnecessary-value-param)
+		    errors::multi_error_t& errors,
+		    const find_relative_file_func& get_relative_file) {
 			rapidxml_ns::xml_document<> doc;
 			doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
 
@@ -322,8 +314,7 @@ namespace xml {
 				primary_node = doc.first_node();
 			}
 
-			auto const primary_node_name =
-			    std::string(primary_node->name(), primary_node->name_size());
+			auto const primary_node_name = get_node_name(primary_node);
 			auto primary_node_name_lower = util::lower_copy(primary_node_name);
 
 			auto const is_image_marker = primary_node_name_lower == "imagemarker"s;
