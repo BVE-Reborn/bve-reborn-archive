@@ -294,7 +294,7 @@ namespace xml {
 			if (arrival_time_node != nullptr) {
 				try {
 					sm.arrival_time = util::parse_time(
-					    std::string(arrival_time_node->value(), arrival_sound_node->value_size()));
+					    std::string(arrival_time_node->value(), arrival_time_node->value_size()));
 				}
 				catch (std::exception const& e) {
 					sm.arrival_time = 0;
@@ -306,7 +306,7 @@ namespace xml {
 				try {
 					sm.departure_time =
 					    util::parse_time(std::string(departure_time_node->value(),
-					                                 departure_sound_node->value_size()));
+					                                 departure_time_node->value_size()));
 				}
 				catch (std::exception const& e) {
 					sm.departure_time = 0;
