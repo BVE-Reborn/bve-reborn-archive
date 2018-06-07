@@ -182,7 +182,6 @@ namespace xml {
 						return 0;
 					}
 					return time;
-
 				}
 				catch (const std::exception& e) {
 					add_error(errors, 0, e.what());
@@ -305,10 +304,11 @@ namespace xml {
 			}
 		} // namespace
 
-		parsed_route_marker parse(const std::string& filename,
-		                          std::string input_string, // NOLINT(performance-unnecessary-value-param)
-		                          errors::multi_error_t& errors,
-		                          const find_relative_file_func& get_relative_file) {
+		parsed_route_marker parse(
+		    const std::string& filename,
+		    std::string input_string, // NOLINT(performance-unnecessary-value-param)
+		    errors::multi_error_t& errors,
+		    const find_relative_file_func& get_relative_file) {
 			rapidxml_ns::xml_document<> doc;
 			doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
 
