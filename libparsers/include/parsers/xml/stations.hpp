@@ -54,7 +54,7 @@ namespace xml {
 		};
 
 		parsed_station_marker parse(const std::string& filename,
-		                            std::string& input_string,
+		                            std::string input_string,
 		                            errors::multi_error_t& errors,
 		                            const find_relative_file_func& get_relative_file);
 	} // namespace stations
