@@ -1,11 +1,10 @@
 #pragma once
-#include "time.h"
 #include <chrono>
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <memory>
 #include <type_traits>
-namespace log {
+namespace logger {
 
 enum class severity { debug, info, note, warning, error, fatal_error };
 
@@ -16,9 +15,9 @@ namespace detail {
 		int month;
 		int day;
 		int hour;
-		int minuete;
+		int minute;
 		int second;
-		int milisecond;
+		int millisecond;
 	};
 	current_time get_time();
 } // namespace detail
@@ -31,7 +30,6 @@ class current_severity_container {
 	void set(severity new_sev) {
 		current_sev_ = new_sev;
 	}
-
   private:
 	severity current_sev_ = severity::note;
 };
