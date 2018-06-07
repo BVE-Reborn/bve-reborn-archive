@@ -1,5 +1,6 @@
 #include "parsers/xml/stations.hpp"
 #include "utils.hpp"
+#include "xml_node_helpers.hpp"
 #include <gsl/gsl_util>
 #include <rapidxml_ns.hpp>
 #include <sstream>
@@ -24,8 +25,7 @@ namespace xml {
 				};
 				std::string door;
 				try {
-					door = util::lower_copy(
-					    std::string(doors_node->value(), doors_node->value_size()));
+					door = util::lower_copy(get_node_value(doors_node));
 				}
 				catch (std::exception const& e) {
 					add_error(errors, filename, 0, e.what());
@@ -52,8 +52,7 @@ namespace xml {
 				};
 				std::string behaviour;
 				try {
-					behaviour = util::lower_copy(
-					    std::string(ai_behaviour_node->value(), ai_behaviour_node->value_size()));
+					behaviour = util::lower_copy(get_node_value(ai_behaviour_node));
 				}
 				catch (std::exception const& e) {
 					add_error(errors, filename, 0, e.what());
@@ -77,29 +76,28 @@ namespace xml {
 
 				// There are no sub nodes so return a struct with values of "parent_node".
 				if (early_node == nullptr && on_time_node == nullptr && late_node == nullptr) {
-					sub_nodes.early = std::string(parent_node->value(), parent_node->value_size());
-					sub_nodes.ontime = std::string(parent_node->value(), parent_node->value_size());
-					sub_nodes.late = std::string(parent_node->value(), parent_node->value_size());
+					sub_nodes.early = get_node_value(parent_node);
+					sub_nodes.ontime = get_node_value(parent_node);
+					sub_nodes.late = get_node_value(parent_node);
 					return sub_nodes;
 				}
 
 				if (early_node != nullptr) {
-					sub_nodes.early = std::string(early_node->value(), early_node->value_size());
+					sub_nodes.early = get_node_value(early_node);
 				}
 				else {
 					sub_nodes.early = std::string{};
 				}
 
 				if (on_time_node != nullptr) {
-					sub_nodes.ontime =
-					    std::string(on_time_node->value(), on_time_node->value_size());
+					sub_nodes.ontime = get_node_value(on_time_node);
 				}
 				else {
 					sub_nodes.ontime = std::string{};
 				}
 
 				if (late_node != nullptr) {
-					sub_nodes.late = std::string(late_node->value(), late_node->value_size());
+					sub_nodes.late = get_node_value(late_node);
 				}
 				else {
 					sub_nodes.late = std::string{};
@@ -120,8 +118,7 @@ namespace xml {
 				if (early_node == nullptr && on_time_node == nullptr && late_node == nullptr) {
 					std::intmax_t no_sub_values;
 					try {
-						no_sub_values = util::parse_loose_integer(
-						    std::string(parent_node->value(), parent_node->value_size()));
+						no_sub_values = util::parse_loose_integer(get_node_value(parent_node));
 					}
 					catch (std::exception const& e) {
 						no_sub_values = 0;
@@ -146,8 +143,7 @@ namespace xml {
 					if (node != nullptr) {
 						std::intmax_t temp_prob;
 						try {
-							temp_prob = util::parse_loose_integer(
-							    std::string(node->value(), node->value_size()));
+							temp_prob = util::parse_loose_integer(get_node_value(node));
 						}
 						catch (std::exception const& e) {
 							add_error(errors, filename, 0, e.what());
@@ -195,8 +191,7 @@ namespace xml {
 
 				if (early_time_node != nullptr) {
 					try {
-						rs.early_time = util::parse_time(
-						    std::string(early_time_node->value(), early_time_node->value_size()));
+						rs.early_time = util::parse_time(get_node_value(early_time_node));
 						rs.using_early = true;
 					}
 					catch (std::exception const& e) {
@@ -208,8 +203,7 @@ namespace xml {
 
 				if (late_time_node != nullptr) {
 					try {
-						rs.late_time = util::parse_time(
-						    std::string(late_time_node->value(), late_time_node->value_size()));
+						rs.late_time = util::parse_time(get_node_value(late_time_node));
 						rs.using_late = true;
 					}
 					catch (std::exception const& e) {
@@ -221,8 +215,7 @@ namespace xml {
 
 				if (distance_node != nullptr) {
 					try {
-						rs.distance = util::parse_loose_float(
-						    std::string(distance_node->value(), distance_node->value_size()));
+						rs.distance = util::parse_loose_float(get_node_value(distance_node));
 					}
 					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
@@ -244,8 +237,7 @@ namespace xml {
 
 				if (max_cars_node != nullptr) {
 					try {
-						auto cars = util::parse_loose_integer(
-						    std::string(max_cars_node->value(), max_cars_node->value_size()));
+						auto cars = util::parse_loose_integer(get_node_value(max_cars_node));
 						if (cars < 0) {
 							add_error(errors, filename, 0,
 							          "Error: <MaxCars> should have be a non negative intger");
@@ -288,14 +280,13 @@ namespace xml {
 			auto* request_stop_node = start_node->first_node("requeststop", 0, false);
 
 			if (name_node != nullptr) {
-				sm.station_name = std::string(name_node->value(), name_node->value_size());
+				sm.station_name = get_node_value(name_node);
 			}
 
 			if (arrival_time_node != nullptr) {
 				try {
-					sm.arrival_time = util::parse_time(
-					    std::string(arrival_time_node->value(), arrival_time_node->value_size()));
 					sm.using_arrival = true;
+					sm.arrival_time = util::parse_time(get_node_value(arrival_time_node));
 				}
 				catch (std::exception const& e) {
 					sm.arrival_time = 0;
@@ -306,10 +297,8 @@ namespace xml {
 
 			if (departure_time_node != nullptr) {
 				try {
-					sm.departure_time =
-					    util::parse_time(std::string(departure_time_node->value(),
-					                                 departure_time_node->value_size()));
 					sm.using_departure = true;
+					sm.departure_time = util::parse_time(get_node_value(departure_time_node));
 				}
 				catch (std::exception const& e) {
 					sm.departure_time = 0;
@@ -323,15 +312,13 @@ namespace xml {
 			}
 
 			if (red_signal_node != nullptr) {
-				std::string red_signal = util::lower_copy(red_signal_node->value());
+				std::string red_signal = util::lower_copy(get_node_value(red_signal_node));
 				sm.force_red_signal = "true"s == red_signal;
 			}
 
 			if (passenger_ratio_node != nullptr) {
 				try {
-					auto ratio =
-					    util::parse_loose_integer(std::string(passenger_ratio_node->value(),
-					                                          passenger_ratio_node->value_size()));
+					auto ratio = util::parse_loose_integer(get_node_value(passenger_ratio_node));
 					if (ratio < 0 || ratio > 250) {
 						add_error(
 						    errors, filename, 0,
@@ -348,22 +335,18 @@ namespace xml {
 
 			if (arrival_sound_node != nullptr) {
 				sm.arrival_sound_file =
-				    get_relative_file(filename, std::string(arrival_sound_node->value(),
-				                                            arrival_sound_node->value_size()));
+				    get_relative_file(filename, get_node_value(arrival_sound_node));
 			}
 
 			if (departure_sound_node != nullptr) {
 				sm.departure_sound_file =
-				    get_relative_file(filename, std::string(departure_sound_node->value(),
-				                                            departure_sound_node->value_size()));
+				    get_relative_file(filename, get_node_value(departure_sound_node));
 			}
 
 			if (stop_duration_node != nullptr) {
 				try {
 					auto duration =
-					    util::parse_loose_integer(std::string(stop_duration_node->value(),
-					                                          stop_duration_node->value_size()),
-					                              15);
+					    util::parse_loose_integer(get_node_value(stop_duration_node), 15);
 					sm.stop_duration = gsl::narrow<std::uintmax_t>(duration);
 				}
 				catch (std::exception const& e) {
@@ -372,9 +355,7 @@ namespace xml {
 				}
 			}
 			if (time_table_index_node != nullptr) {
-				auto index =
-				    util::parse_loose_integer(std::string(time_table_index_node->value(),
-				                                          time_table_index_node->value_size()));
+				auto index = util::parse_loose_integer(get_node_value(time_table_index_node));
 				if (index < 0) {
 					add_error(errors, filename, 0,
 					          "<TimeTableIndex> should have non negative values"s);
@@ -394,7 +375,7 @@ namespace xml {
 
 		// Main parse function
 		parsed_station_marker parse(std::string const& filename,
-		                            std::string& input_string,
+		                            std::string input_string,
 		                            errors::multi_error_t& errors,
 		                            find_relative_file_func const& get_relative_file) {
 			rapidxml_ns::xml_document<> doc;
@@ -410,12 +391,13 @@ namespace xml {
 				primary_node = doc.first_node();
 			}
 
-			if (primary_node->name() == "Station"s) {
+			if (get_node_name(primary_node) == "Station"s) {
 				return parse_station_marker(filename, primary_node, errors, get_relative_file);
 			}
 			std::ostringstream err;
 
-			err << "XML node named: " << primary_node->value() << " is not a valid XML marker tag.";
+			err << "XML node named: " << get_node_value(primary_node)
+			    << " is not a valid XML marker tag.";
 			add_error(errors, filename, 0, err.str());
 			return parsed_station_marker{};
 		}
