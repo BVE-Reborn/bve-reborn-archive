@@ -1,5 +1,6 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "utils.hpp"
+#include "xml_node_helpers.hpp"
 #include <gsl/gsl_util>
 #include <rapidxml_ns.hpp>
 #include <sstream>
@@ -38,7 +39,7 @@ namespace xml {
 
 				// Only one object background allowed, and it takes priority
 				if (object != nullptr) {
-					std::string const object_filename(object->value(), object->value_size());
+					auto const object_filename = get_node_value(object);
 
 					auto const absolute = get_relative_file(filename, object_filename);
 
@@ -61,15 +62,15 @@ namespace xml {
 				auto* time = current_section->first_node("time", 0, false);
 
 				if (texture != nullptr) {
-					std::string const texture_filename(texture->value(), texture->value_size());
+					auto const texture_filename = get_node_value(texture);
 
 					tbi.filename = get_relative_file(filename, texture_filename);
 				}
 
 				if (repetitions != nullptr) {
 					try {
-						tbi.repetitions = gsl::narrow<std::size_t>(util::parse_loose_integer(
-						    std::string(repetitions->value(), repetitions->value_size())));
+						tbi.repetitions = gsl::narrow<std::size_t>(
+						    util::parse_loose_integer(get_node_value(repetitions)));
 					}
 					catch (const std::exception& e) {
 						add_error(errors, filename, 0, e.what());
@@ -77,8 +78,7 @@ namespace xml {
 				}
 
 				if (mode != nullptr) {
-					auto const mode_text =
-					    util::lower_copy(std::string(mode->value(), mode->value_size()));
+					auto const mode_text = util::lower_copy(get_node_value(mode));
 
 					if (mode_text == "fadein"s) {
 						tbi.transition_mode = texture_background_info::fade_in;
@@ -89,7 +89,7 @@ namespace xml {
 					else {
 						if (mode_text != "none"s) {
 							std::ostringstream err;
-							err << "Unrecognized texture mode: \"" << mode->value()
+							err << "Unrecognized texture mode: \"" << get_node_value(mode)
 							    << R"(" assuming "None")";
 							add_error(errors, filename, 0, err.str());
 						}
@@ -99,8 +99,8 @@ namespace xml {
 
 				if (transition_time != nullptr) {
 					try {
-						tbi.transition_time = gsl::narrow<std::size_t>(util::parse_loose_integer(
-						    std::string(transition_time->value(), transition_time->value_size())));
+						tbi.transition_time = gsl::narrow<std::size_t>(
+						    util::parse_loose_integer(get_node_value(transition_time)));
 					}
 					catch (const std::invalid_argument& e) {
 						add_error(errors, filename, 0, e.what());
@@ -109,8 +109,7 @@ namespace xml {
 
 				if (time != nullptr) {
 					try {
-						tbi.time = gsl::narrow<std::size_t>(
-						    util::parse_time(std::string(time->value(), time->value_size())));
+						tbi.time = gsl::narrow<std::size_t>(util::parse_time(get_node_value(time)));
 					}
 					catch (const std::invalid_argument& e) {
 						add_error(errors, filename, 0, e.what());

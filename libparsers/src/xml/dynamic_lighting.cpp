@@ -1,5 +1,6 @@
 #include "parsers/xml/dynamic_lighting.hpp"
 #include "utils.hpp"
+#include "xml_node_helpers.hpp"
 #include <rapidxml_ns.hpp>
 
 namespace parsers {
@@ -36,7 +37,7 @@ namespace xml {
 
 				if (time != nullptr) {
 					try {
-						info.time = util::parse_time(time->value());
+						info.time = util::parse_time(get_node_value(time));
 					}
 					catch (const std::invalid_argument& e) {
 						add_error(errors, filename, 0, e.what());
@@ -44,7 +45,7 @@ namespace xml {
 				}
 
 				if (ambient_light != nullptr) {
-					auto pairs = util::split_text(ambient_light->value());
+					auto pairs = util::split_text(get_node_value(ambient_light));
 					if (pairs.size() >= 3) {
 						try {
 							info.ambient.r = uint8_t(util::parse_loose_integer(pairs[0]));
@@ -62,7 +63,7 @@ namespace xml {
 				}
 
 				if (directional_light != nullptr) {
-					auto pairs = util::split_text(directional_light->value());
+					auto pairs = util::split_text(get_node_value(directional_light));
 					if (pairs.size() >= 3) {
 						try {
 							info.directional_lighting.r =
@@ -85,7 +86,7 @@ namespace xml {
 				}
 
 				if (light_direction != nullptr) {
-					auto pairs = util::split_text(light_direction->value());
+					auto pairs = util::split_text(get_node_value(light_direction));
 					if (pairs.size() >= 3) {
 						try {
 							info.light_direction.x = util::parse_loose_float(pairs[0]);
@@ -105,7 +106,7 @@ namespace xml {
 				if (cab_lighting != nullptr) {
 					try {
 						info.cablighting =
-						    uint8_t(util::parse_loose_integer(cab_lighting->value()));
+						    uint8_t(util::parse_loose_integer(get_node_value(cab_lighting)));
 					}
 					catch (const std::invalid_argument& e) {
 						add_error(errors, filename, 0, e.what());
