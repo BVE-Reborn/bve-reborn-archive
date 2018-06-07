@@ -40,8 +40,10 @@ TEST_CASE("libparsers - xml - stations and request stops - parse station marker"
 	CHECK_EQ(output_errors.size(), 0);
 
 	CHECK_EQ(station_marker.arrival_time, 45090);
+	CHECK(station_marker.using_arrival);
 	CHECK_EQ(station_marker.arrival_sound_file, "some_file.xml/ding.wav"s);
 	CHECK_EQ(station_marker.departure_time, 45110);
+	CHECK(station_marker.using_departure);
 	CHECK_EQ(station_marker.departure_sound_file, "some_file.xml/dong.wav"s);
 	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::left);
 	CHECK_EQ(station_marker.force_red_signal, false);
@@ -77,7 +79,9 @@ TEST_CASE("libparsers -xml - stations and request stops - stations should add er
 	CHECK_EQ(output_errors["some_file.xml"].size(), 5);
 
 	CHECK_EQ(station_marker.arrival_time, 0);
+	CHECK(!station_marker.using_arrival);
 	CHECK_EQ(station_marker.departure_time, 0);
+	CHECK(!station_marker.using_departure);
 	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::none);
 	CHECK_EQ(station_marker.stop_duration, 15);
 }
@@ -261,8 +265,10 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	CHECK(output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 0);
 	CHECK_EQ(station_marker.arrival_time, 45090);
+	CHECK(station_marker.using_arrival);
 	CHECK_EQ(station_marker.arrival_sound_file, "some_file.xml/ding.wav"s);
 	CHECK_EQ(station_marker.departure_time, 45110);
+	CHECK(station_marker.using_departure);
 	CHECK_EQ(station_marker.departure_sound_file, "some_file.xml/dong.wav"s);
 	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::left);
 	CHECK_EQ(station_marker.force_red_signal, false);
@@ -318,7 +324,9 @@ TEST_CASE(
 	CHECK_EQ(output_errors["some_file.xml"].size(), 9);
 
 	CHECK_EQ(station_marker.arrival_time, 0);
+	CHECK(!station_marker.using_arrival);
 	CHECK_EQ(station_marker.departure_time, 0);
+	CHECK(!station_marker.using_departure);
 	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::none);
 	CHECK_EQ(station_marker.stop_duration, 15);
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 0);

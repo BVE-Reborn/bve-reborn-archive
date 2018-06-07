@@ -42,7 +42,9 @@ namespace xml {
 			enum class doors : std::int8_t { left = -1, right = 1, none = 0 };
 			std::string station_name;
 			openbve2::datatypes::time arrival_time = 0;
+			bool using_arrival = false;
 			openbve2::datatypes::time departure_time = 0;
+			bool using_departure = false;
 			doors door = doors::none;
 			bool force_red_signal = false;
 			std::uint8_t passenger_ratio = 100;

@@ -295,9 +295,11 @@ namespace xml {
 				try {
 					sm.arrival_time = util::parse_time(
 					    std::string(arrival_time_node->value(), arrival_time_node->value_size()));
+					sm.using_arrival = true;
 				}
 				catch (std::exception const& e) {
 					sm.arrival_time = 0;
+					sm.using_arrival = false;
 					add_error(errors, filename, 0, e.what());
 				}
 			}
@@ -307,9 +309,11 @@ namespace xml {
 					sm.departure_time =
 					    util::parse_time(std::string(departure_time_node->value(),
 					                                 departure_time_node->value_size()));
+					sm.using_departure = true;
 				}
 				catch (std::exception const& e) {
 					sm.departure_time = 0;
+					sm.using_departure = false;
 					add_error(errors, filename, 0, e.what());
 				}
 			}
