@@ -14,6 +14,9 @@ target_include_directories(test_main PUBLIC ${CMAKE_SOURCE_DIR}/libparsers/src)
 target_include_directories(test_main PUBLIC ${CMAKE_SOURCE_DIR}/libparsers/tests)
 target_link_libraries(test_main PUBLIC parsers)
 
+# liblog
+target_link_libraries(test_main PUBLIC log)
+
 lint(FILES main.cpp)
 format(FILES main.cpp)
 add_sanitizers(test_main)

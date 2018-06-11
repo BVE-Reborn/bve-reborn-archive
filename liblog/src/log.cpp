@@ -1,6 +1,9 @@
+#define LIBLOG_DEBUG
 #include "log.hpp"
 #include <fstream>
 #include <gsl/gsl_util>
+#include <mutex>
+#include <vector>
 logger::current_severity_container logger::current_severity;
 
 logger::detail::current_time logger::detail::get_time() {
@@ -25,21 +28,32 @@ logger::detail::current_time logger::detail::get_time() {
 	current.second = sec;
 	current.millisecond = gsl::narrow_cast<int>(milli.count());
 	return current;
-
 }
 
-class Log{
-public:
-    void log(std::string const& fmt_str){
-        std::ofstream file(output_location_.c_str(), std::ios::app);
-        file.write(fmt_str.c_str(), fmt_str.size());
-        file.close();
-    }
-    void set_output_location(std::string const& location){
-        output_location_ = location;
-    }
-
-private:
-    std::string output_location_ = "Errors.txt";
+struct Log {
+	std::mutex file_lock_;
+	std::unique_ptr<std::ostream> file_;
 };
 
+static Log log_impl;
+
+void logger::to_log(std::string const& fmt_str) {
+	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
+	*log_impl.file_ << fmt_str;
+}
+void logger::set_output_location(std::string const& name) {
+	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
+	log_impl.file_ = std::make_unique<std::ofstream>(name, std::ios::app);
+}
+void logger::set_output_location(std::unique_ptr<std::ostream> name) {
+	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
+	log_impl.file_ = std::move(name);
+}
+
+std::unique_ptr<std::ostream> get_output_stream() {
+	return std::move(log_impl.file_);
+}
+
+void func() {
+	LOG(fatal_error, "{}", "hello");
+}

@@ -24,3 +24,17 @@ add_sanitizers(log)
 cotire(log)
 
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})
+
+
+
+set(TEST_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/log.cpp
+        )
+
+set(TEST_HEADERS
+        )
+
+set_property(GLOBAL APPEND PROPERTY OPENBVE2_TEST_FILE_LIST "${TEST_SOURCES};${TEST_HEADERS}")
+lint(FILES ${TEST_SOURCES})
+format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
