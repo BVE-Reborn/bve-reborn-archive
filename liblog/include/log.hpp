@@ -50,13 +50,15 @@ std::shared_ptr<std::ostream> get_output_stream();
 
 #ifdef LIBLOG_DEBUG
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {s}: {s}:{d}:" fmt_str, time.year, time.month,        \
-		            time.day, time.hour, time.minute, time.second, time.millisecond, #ser,         \
-		            __FILE__, __LINE__, __VA_ARGS__)
+		fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "           \
+		                "{:s}:{:d}: " fmt_str),                                                      \
+		            time.year, time.month, time.day, time.hour, time.minute, time.second,          \
+		            time.millisecond, #ser, __FILE__, __LINE__, __VA_ARGS__)
 #else
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {s}: " fmt_str, time.year, time.month, time.day,    \
-		            time.hour, time.minute, time.second, time.millisecond, #ser, __VA_ARGS__)
+		fmt::format(("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: " fmt_str), \
+		            time.year, time.month, time.day, time.hour, time.minute, time.second,          \
+		            time.millisecond, #ser, __VA_ARGS__)
 #endif
 
 #define LIBLOG_LOG_SEVERITY_IMPL(ser, fmt_str, ...)                                                \
@@ -76,27 +78,27 @@ std::shared_ptr<std::ostream> get_output_stream();
 #endif
 #define LIBLOG_LOG_SEVERITY_info(...)                                                              \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    == static_cast<::logger::detail::severity_int_type>(::logger::severity::info)) {           \
+	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::info)) {           \
 		LIBLOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__)                                                \
 	}
 #define LIBLOG_LOG_SEVERITY_note(...)                                                              \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    == static_cast<::logger::detail::severity_int_type>(::logger::severity::note)) {           \
+	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::note)) {           \
 		LIBLOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__)                                                \
 	}
 #define LIBLOG_LOG_SEVERITY_warning(...)                                                           \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    == static_cast<::logger::detail::severity_int_type>(::logger::severity::warning)) {        \
+	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::warning)) {        \
 		LIBLOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__)                                             \
 	}
 #define LIBLOG_LOG_SEVERITY_error(...)                                                             \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    == static_cast<::logger::detail::severity_int_type>(::logger::severity::error)) {          \
+	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::error)) {          \
 		LIBLOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__)                                               \
 	}
 #define LIBLOG_LOG_SEVERITY_fatal_error(...)                                                       \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    == static_cast<::logger::detail::severity_int_type>(::logger::severity::fatal_error)) {    \
+	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::fatal_error)) {    \
 		LIBLOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__)                                         \
 	}
 #define LIBLOG_LOG(sev, ...) LIBLOG_LOG_SEVERITY_##sev(__VA_ARGS__)
