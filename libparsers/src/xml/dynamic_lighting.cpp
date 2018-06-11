@@ -3,6 +3,8 @@
 #include "xml_node_helpers.hpp"
 #include <rapidxml_ns.hpp>
 
+using namespace std::string_literals;
+
 namespace parsers {
 namespace xml {
 	namespace dynamic_lighting {
@@ -114,6 +116,10 @@ namespace xml {
 				}
 
 				retvalue.emplace_back(std::move(info));
+			}
+
+			if (retvalue.size() == 0) {
+				add_error(errors, filename, 0, "XML dynamic lighting must have at least one <brightness> node."s);
 			}
 
 			return retvalue;
