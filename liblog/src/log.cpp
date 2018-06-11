@@ -32,7 +32,7 @@ logger::detail::current_time logger::detail::get_time() {
 
 struct Log {
 	std::mutex file_lock_;
-	std::unique_ptr<std::ostream> file_;
+	std::shared_ptr<std::ostream> file_;
 };
 
 static Log log_impl;
@@ -43,14 +43,14 @@ void logger::to_log(std::string const& fmt_str) {
 }
 void logger::set_output_location(std::string const& name) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
-	log_impl.file_ = std::make_unique<std::ofstream>(name, std::ios::app);
+	log_impl.file_ = std::make_shared<std::ofstream>(name, std::ios::app);
 }
-void logger::set_output_location(std::unique_ptr<std::ostream> name) {
+void logger::set_output_location(std::shared_ptr<std::ostream> name) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
 	log_impl.file_ = std::move(name);
 }
 
-std::unique_ptr<std::ostream> get_output_stream() {
+std::shared_ptr<std::ostream> logger::get_output_stream() {
 	return std::move(log_impl.file_);
 }
 

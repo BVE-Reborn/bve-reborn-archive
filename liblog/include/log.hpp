@@ -43,19 +43,19 @@ void to_log(std::string const& s);
 
 void set_output_location(std::string const& name);
 
-void set_output_location(std::unique_ptr<std::ostream> name);
+void set_output_location(std::shared_ptr<std::ostream> name);
 
-std::unique_ptr<std::ostream> get_output_stream();
+std::shared_ptr<std::ostream> get_output_stream();
 } // namespace logger
 
 #ifdef LIBLOG_DEBUG
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format(fmt("{}.{}.{} {}:{}:{}.{}: {}: {}:{}:" fmt_str), time.year, time.month,        \
+		fmt::format("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {s}: {s}:{d}:" fmt_str, time.year, time.month,        \
 		            time.day, time.hour, time.minute, time.second, time.millisecond, #ser,         \
 		            __FILE__, __LINE__, __VA_ARGS__)
 #else
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format(fmt("{}.{}.{} {}:{}:{}.{}: {}: " fmt_str), time.year, time.month, time.day,    \
+		fmt::format("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {s}: " fmt_str, time.year, time.month, time.day,    \
 		            time.hour, time.minute, time.second, time.millisecond, #ser, __VA_ARGS__)
 #endif
 
