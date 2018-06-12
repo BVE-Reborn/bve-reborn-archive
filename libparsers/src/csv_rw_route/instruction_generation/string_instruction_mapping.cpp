@@ -115,6 +115,7 @@ namespace csv_rw_route {
 
 		        // Stations
 		        {"track.sta"s, &create_instruction_track_sta},
+		        {"track.stationxml"s, &create_instruction_track_station_xml},
 		        {"track.station"s, &create_instruction_track_station},
 		        {"track.stop"s, &create_instruction_track_stop},
 		        {"track.form"s, &create_instruction_track_form},

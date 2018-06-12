@@ -119,7 +119,8 @@ namespace xml {
 			}
 
 			if (retvalue.size() == 0) {
-				add_error(errors, filename, 0, "XML dynamic lighting must have at least one <brightness> node."s);
+				add_error(errors, filename, 0,
+				          "XML dynamic lighting must have at least one <brightness> node."s);
 			}
 
 			return retvalue;

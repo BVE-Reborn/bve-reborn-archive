@@ -219,6 +219,7 @@ namespace csv_rw_route {
 
 		// track_stations.cpp
 		instruction create_instruction_track_sta(const inst_info& /*inst*/);
+		instruction create_instruction_track_station_xml(const inst_info& /*inst*/);
 		instruction create_instruction_track_station(const inst_info& /*inst*/);
 		instruction create_instruction_track_stop(const inst_info& /*inst*/);
 		instruction create_instruction_track_form(const inst_info& /*inst*/);

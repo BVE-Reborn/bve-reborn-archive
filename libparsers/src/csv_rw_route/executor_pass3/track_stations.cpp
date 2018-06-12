@@ -23,6 +23,55 @@ namespace csv_rw_route {
 		route_data_.stations.emplace_back(std::move(rsi));
 	}
 
+	void pass3_executor::operator()(const instructions::track::station_xml& inst) const {
+		rail_station_info rsi;
+
+		auto const xml_file_loc = get_relative_file_(get_filename(inst.file_index), inst.filename);
+
+		auto const file_contents = util::load_from_file_utf8_bom(xml_file_loc);
+
+		auto const parsed_xml =
+		    xml::stations::parse(xml_file_loc, file_contents, errors_, get_relative_file_);
+
+		rsi.arrival = parsed_xml.arrival_time;
+		rsi.arrival_sound = add_sound_filename(parsed_xml.arrival_sound_file);
+		rsi.arrival_tag = [&]() -> rail_station_info::arrival_time_t {
+			if (parsed_xml.using_arrival) {
+				return rail_station_info::arrival_time_t::time;
+			}
+			else {
+				return rail_station_info::arrival_time_t::any_time;
+			}
+		}();
+		rsi.departure = parsed_xml.departure_time;
+		rsi.departure_sound = add_sound_filename(parsed_xml.departure_sound_file);
+		rsi.departure_tag = [&]() -> rail_station_info::departure_time_t {
+			if (parsed_xml.using_departure) {
+				return rail_station_info::departure_time_t::time;
+			}
+			else {
+				return rail_station_info::departure_time_t ::any_time;
+			}
+		}();
+		rsi.doors = [&]() -> rail_station_info::doors_t {
+			switch (parsed_xml.door) {
+				case xml::stations::parsed_station_marker::doors::none:
+					return rail_station_info::doors_t::none;
+				case xml::stations::parsed_station_marker::doors::left:
+					return rail_station_info::doors_t::left;
+				case xml::stations::parsed_station_marker::doors::right:
+					return rail_station_info::doors_t::right;
+			}
+		}();
+		rsi.name = std::move(parsed_xml.station_name);
+		rsi.timetable_index = parsed_xml.time_table_index;
+		rsi.stop_duration = parsed_xml.stop_duration;
+		rsi.force_red = parsed_xml.force_red_signal;
+		rsi.request_stop_info = parsed_xml.request_stop;
+
+		route_data_.stations.emplace_back(std::move(rsi));
+	}
+
 	void pass3_executor::operator()(const instructions::track::stop& inst) const {
 		if (route_data_.stations.empty()) {
 			std::ostringstream err;

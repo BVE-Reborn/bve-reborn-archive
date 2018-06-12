@@ -633,6 +633,13 @@ namespace csv_rw_route {
 
 				end();
 			}
+			void operator()(const instructions::track::station_xml& inst) {
+				start(inst, "Track.StationXML");
+
+				PRINT_VALUE(filename);
+
+				end();
+			}
 			void operator()(const instructions::track::stop& inst) {
 				start(inst, "Track.Stop");
 

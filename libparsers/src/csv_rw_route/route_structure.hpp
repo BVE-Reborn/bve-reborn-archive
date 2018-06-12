@@ -3,6 +3,7 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "parsers/xml/dynamic_lighting.hpp"
 #include "parsers/xml/route_marker.hpp"
+#include "parsers/xml/stations.hpp"
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -77,6 +78,7 @@ namespace csv_rw_route {
 	};
 
 	struct rail_station_info {
+		xml::stations::request_stop_marker request_stop_info;
 		std::string name;
 		filename_set_iterator arrival_sound;
 		filename_set_iterator departure_sound;
@@ -105,7 +107,7 @@ namespace csv_rw_route {
 			change_ends,
 			change_ends_time
 		} departure_tag = departure_time_t::any_time;
-		enum class doors_t : uint8_t { left, none, right, both } doors = doors_t::none;
+		enum class doors_t : std::uint8_t { left, none, right, both } doors = doors_t::none;
 	};
 
 	struct beacon_info {
