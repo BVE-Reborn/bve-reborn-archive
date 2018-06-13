@@ -90,7 +90,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - ninja-build
-            - libstdc++-5-dev
+            - libstdc++-7-dev
             - clang-6.0
 
             - libgl1-mesa-dev
@@ -118,7 +118,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - ninja-build
-            - libstdc++-5-dev
+            - libstdc++-7-dev
             - clang-6.0
 
             - libgl1-mesa-dev
@@ -146,7 +146,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - ninja-build
-            - libstdc++-5-dev
+            - libstdc++-7-dev
             - clang-6.0
             - lld-6.0
 
@@ -183,11 +183,11 @@ before_install:
   # Download GCC 7.1
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      GCC_URL="https://bsfproxy.connorwfitzgerald.com/gcc-7.1-trusty.zip"
+      GCC_URL="https://bsfproxy.connorwfitzgerald.com/bsf/gcc-7.1-trusty.zip"
       cd ${DEPS_DIR}
       mkdir gcc
       cd gcc
-      wget --no-check-certificate --quiet - ${GCC_URL}
+      wget --no-check-certificate - ${GCC_URL}
       unzip -q gcc-7.1-trusty.zip
       export PATH=${DEPS_DIR}/gcc/bin:$PATH
       export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib:$LD_LIBRARY_PATH
@@ -197,11 +197,11 @@ before_install:
   # Download binutils 2.28
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/binutils-2.28-trusty.zip"
+      BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/bsf/binutils-2.28-trusty.zip"
       cd ${DEPS_DIR}
       mkdir binutils
       cd binutils
-      wget --no-check-certificate --quiet - ${BINUTILS_URL}
+      wget --no-check-certificate - ${BINUTILS_URL}
       unzip -q binutils-2.28-trusty.zip
       export PATH=${DEPS_DIR}/binutils/bin:${PATH}
       export LD_LIBRARY_PATH=${DEPS_DIR}/binutils/lib:$LD_LIBRARY_PATH
