@@ -1,9 +1,10 @@
-#define LIBLOG_DEBUG
 #include "log.hpp"
 #include <fstream>
 #include <gsl/gsl_util>
 #include <mutex>
 #include <vector>
+
+// Global severity object
 logger::current_severity_container logger::current_severity;
 
 logger::detail::current_time logger::detail::get_time() {
@@ -51,9 +52,6 @@ void logger::set_output_location(std::shared_ptr<std::ostream> name) {
 }
 
 std::shared_ptr<std::ostream> logger::get_output_stream() {
-	return std::move(log_impl.file_);
+	return log_impl.file_;
 }
 
-void func() {
-	LOG(fatal_error, "{}", "hello");
-}

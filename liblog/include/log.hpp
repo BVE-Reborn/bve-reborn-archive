@@ -27,7 +27,11 @@ class current_severity_container {
   public:
 	current_severity_container() : current_sev_{severity::note} {}
 	severity get() {
+#ifdef LIBLOG_DEBUG
+		return logger::severity::debug;
+#else
 		return current_sev_;
+#endif
 	}
 	void set(severity new_sev) {
 		current_sev_ = new_sev;
@@ -39,7 +43,7 @@ class current_severity_container {
 
 extern current_severity_container current_severity;
 
-void to_log(std::string const& s);
+void to_log(std::string const& fmt_str);
 
 void set_output_location(std::string const& name);
 
@@ -50,13 +54,14 @@ std::shared_ptr<std::ostream> get_output_stream();
 
 #ifdef LIBLOG_DEBUG
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "           \
-		                "{:s}:{:d}: " fmt_str),                                                      \
+		fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "          \
+		                "{:s}:{:d}: " fmt_str "\n"),                                               \
 		            time.year, time.month, time.day, time.hour, time.minute, time.second,          \
 		            time.millisecond, #ser, __FILE__, __LINE__, __VA_ARGS__)
 #else
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format(("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: " fmt_str), \
+		fmt::format(("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: " fmt_str     \
+		             "\n"),                                                                        \
 		            time.year, time.month, time.day, time.hour, time.minute, time.second,          \
 		            time.millisecond, #ser, __VA_ARGS__)
 #endif
@@ -70,7 +75,7 @@ std::shared_ptr<std::ostream> get_output_stream();
 #ifdef LIBLOG_DEBUG
 #	define LIBLOG_LOG_SEVERITY_debug(...)                                                         \
 		if (static_cast<::logger::detail::severity_int_type>(::log::current_severity.get())        \
-		    == static_cast<::logger::detail::severity_int_type>(::log::severity::debug)) {         \
+		    <= static_cast<::logger::detail::severity_int_type>(::log::severity::debug)) {         \
 			LIBLOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__)                                           \
 		}
 #else

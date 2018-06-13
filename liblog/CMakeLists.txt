@@ -29,9 +29,11 @@ source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})
 
 set(TEST_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/log.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/log_debug.cpp
         )
 
 set(TEST_HEADERS
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/log_test.hpp
         )
 
 set_property(GLOBAL APPEND PROPERTY OPENBVE2_TEST_FILE_LIST "${TEST_SOURCES};${TEST_HEADERS}")

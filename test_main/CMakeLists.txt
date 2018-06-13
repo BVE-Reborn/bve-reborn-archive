@@ -16,6 +16,7 @@ target_link_libraries(test_main PUBLIC parsers)
 
 # liblog
 target_link_libraries(test_main PUBLIC log)
+target_link_libraries(test_main PUBLIC Boost::regex Threads::Threads)
 
 lint(FILES main.cpp)
 format(FILES main.cpp)

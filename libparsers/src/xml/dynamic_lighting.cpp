@@ -118,7 +118,7 @@ namespace xml {
 				retvalue.emplace_back(std::move(info));
 			}
 
-			if (retvalue.size() == 0) {
+			if (retvalue.empty()) {
 				add_error(errors, filename, 0, "XML dynamic lighting must have at least one <brightness> node."s);
 			}
 
