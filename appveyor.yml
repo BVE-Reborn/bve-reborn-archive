@@ -3,7 +3,6 @@ version: '0.0.0-{build}'
 image: Visual Studio 2017
 
 platform:
-  - Win32
   - x64
 
 environment:
@@ -27,7 +26,6 @@ before_build:
   - cmd: cd C:\projects\openbve2
   - cmd: md build
   - cmd: cd build
-  - cmd: if "%platform%"=="Win32" cmake .. -G "Visual Studio 15 2017" -DOPENBVE2_ON_TRAVIS=On -DBOOST_ROOT="%BOOST_ROOT%"
   - cmd: if "%platform%"=="x64" cmake .. -G "Visual Studio 15 2017 Win64" -DOPENBVE2_ON_TRAVIS=On -DBOOST_ROOT="%BOOST_ROOT%"
 
 build:
