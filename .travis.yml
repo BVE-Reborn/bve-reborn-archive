@@ -107,7 +107,7 @@ matrix:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin"-GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=gold" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=gold" -GNinja
 
     - os: linux
       dist: trusty
@@ -135,7 +135,7 @@ matrix:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin" -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=gold" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=gold" -GNinja
           
     - os: linux
       dist: trusty
