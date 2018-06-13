@@ -22,7 +22,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
         "</openBVE>"s;
 	// clang-format on
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) -> std::string {
+	auto rel_file_func = [&](std::string const& base, std::string const& relative) -> std::string {
 		return base + "/" + relative;
 	};
 	auto const output =
