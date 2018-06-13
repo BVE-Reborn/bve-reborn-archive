@@ -102,12 +102,13 @@ matrix:
             - libxi-dev
             - uuid-dev
       env:
-        - MATRIX_EVAL="SANITIZE='Asan,UBsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
+        - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Asan,UBsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -GNinja
+        - # cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
 
     - os: linux
       dist: trusty
@@ -130,41 +131,13 @@ matrix:
             - libxi-dev
             - uuid-dev
       env:
-        - MATRIX_EVAL="SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
+        - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -GNinja
-          
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-          packages:
-            - ninja-build
-            - libstdc++-7-dev
-            - clang-6.0
-            - lld-6.0
-
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - mesa-common-dev
-            - libx11-dev
-            - libxcursor-dev
-            - libxrandr-dev
-            - libxi-dev
-            - uuid-dev
-      env:
-        - MATRIX_EVAL="LINKER='LLD' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
-      install:
-        - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps.sh
-        - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' -GNinja
+        - # cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
 
     - os: osx
       osx_image: xcode9.2
