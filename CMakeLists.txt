@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-project(OpenBVE2 CXX)
+project(OpenBVE2 C CXX)
 
 # Allow boost to be built from the binary dir
 if (CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -31,6 +31,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dependencies/coti
                                            ${CMAKE_SOURCE_DIR}/dependencies/cmake-utils/include
                                            ${CMAKE_SOURCE_DIR}/dependencies)
 include(binary)
+include(bsf)
 include(clang_format)
 include(cotire)
 include(linker_support)
@@ -70,7 +71,6 @@ add_warnings()
 
 add_linted_subdirectory(libcore)
 add_linted_subdirectory(libparsers)
-
 add_linted_subdirectory(test_main)
 
 configure_linter()
