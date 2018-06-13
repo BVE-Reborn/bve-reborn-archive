@@ -12,6 +12,15 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
+
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - mesa-common-dev
+            - libx11-dev
+            - libxcursor-dev
+            - libxrandr-dev
+            - libxi-dev
+            - uuid-dev
       env:
         - MATRIX_EVAL="Coverage='On' && CXX='g++' && TYPE='Debug'"
       install:
@@ -30,6 +39,15 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
+
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - mesa-common-dev
+            - libx11-dev
+            - libxcursor-dev
+            - libxrandr-dev
+            - libxi-dev
+            - uuid-dev
       env:
         - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='RelWithDebInfo'"
       install:
@@ -46,6 +64,15 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
+
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - mesa-common-dev
+            - libx11-dev
+            - libxcursor-dev
+            - libxrandr-dev
+            - libxi-dev
+            - uuid-dev
       env:
         - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='Release'"
       install:
@@ -65,6 +92,15 @@ matrix:
             - ninja-build
             - libstdc++-5-dev
             - clang-6.0
+
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - mesa-common-dev
+            - libx11-dev
+            - libxcursor-dev
+            - libxrandr-dev
+            - libxi-dev
+            - uuid-dev
       env:
         - MATRIX_EVAL="SANITIZE='Asan,UBsan' && CXX=clang++-6.0 && TYPE='Debug'"
       install:
@@ -84,6 +120,15 @@ matrix:
             - ninja-build
             - libstdc++-5-dev
             - clang-6.0
+
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - mesa-common-dev
+            - libx11-dev
+            - libxcursor-dev
+            - libxrandr-dev
+            - libxi-dev
+            - uuid-dev
       env:
         - MATRIX_EVAL="SANITIZE='Tsan' && CXX=clang++-6.0 && TYPE='Debug'"
       install:
@@ -104,6 +149,15 @@ matrix:
             - libstdc++-5-dev
             - clang-6.0
             - lld-6.0
+
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - mesa-common-dev
+            - libx11-dev
+            - libxcursor-dev
+            - libxrandr-dev
+            - libxi-dev
+            - uuid-dev
       env:
         - MATRIX_EVAL="LINKER='LLD' && CXX=clang++-6.0 && TYPE='Debug'"
       install:
