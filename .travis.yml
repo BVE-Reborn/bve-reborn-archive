@@ -1,11 +1,6 @@
 language: cpp
 
-sudo: true
-
-cache:
-  directories:
-  - dependencies/binary/
-  - $HOME/binary_root
+sudo: false
 
 matrix:
   include:
@@ -17,71 +12,15 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-            - gcc-7
-            - g++-7
       env:
-        - MATRIX_EVAL="OS='Trusty' && Coverage='On' && CXX='g++-7' && TYPE='Debug'"
-      before_install:
+        - MATRIX_EVAL="Coverage='On' && CXX='g++-7' && TYPE='Debug'"
+      install:
         - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-        - bash ./build-deps-unix.sh
-        - echo $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=$TYPE -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=$Coverage -GNinja
+        - bash ./tools/travis/linux_deps.sh
         - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
-        
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - ninja-build
-            - gcc-7
-            - g++-7
-      env:
-        - MATRIX_EVAL="OS='Trusty' && Sanitize='Asan,UBsan' && CXX='g++-7' && TYPE='Debug'"
-      before_install:
-        - eval "${MATRIX_EVAL}"
-        - pip install --user cpp-coveralls
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-        - bash ./build-deps-unix.sh
-        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja
-
-    - os: linux
-      dist: precise
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - ninja-build
-            - gcc-5
-            - g++-5
-      env:
-        - MATRIX_EVAL="OS='Precise' && LINKER='LD' && CXX=g++-5 && TYPE='Release'"
-      before_install:
-        - eval "${MATRIX_EVAL}"
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-      # Build Boost.... 
-        - bash ./build-deps-unix.sh
-      # Do rest of stuff
-        - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
     - os: linux
       dist: trusty
@@ -91,47 +30,27 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-            - gcc-7
-            - g++-7
       env:
-        - MATRIX_EVAL="OS='Trusty' && LINKER='LD' && CXX=g++-7 && TYPE='Release'"
-      before_install:
+        - MATRIX_EVAL="LINKER='LD' && CXX=g++-7 && TYPE='RelWithDebInfo'"
+      install:
         - eval "${MATRIX_EVAL}"
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-      # Build Boost.... 
-        - bash ./build-deps-unix.sh
-      # Do rest of stuff
+        - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
-
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DOPENBVE2_ON_TRAVIS=True -GNinja
 
     - os: linux
-      dist: precise
+      dist: trusty
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
           packages:
             - ninja-build
-            - libstdc++-5-dev
-            - clang-3.6
       env:
-        - MATRIX_EVAL="OS='Precise' && LINKER='LD' && CXX=clang++-3.6 && TYPE='Release'"
-      before_install:
+        - MATRIX_EVAL="LINKER='LD' && CXX=g++-7 && TYPE='Release'"
+      install:
         - eval "${MATRIX_EVAL}"
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-      # Build Boost.... 
-        - bash ./build-deps-unix.sh
-      # Do rest of stuff
+        - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
         - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
           
@@ -147,19 +66,31 @@ matrix:
             - libstdc++-5-dev
             - clang-6.0
       env:
-        - MATRIX_EVAL="OS='Trusty' && LINKER='LD' && CXX=clang++-6.0 && TYPE='Release'"
-      before_install:
+        - MATRIX_EVAL="SANITIZE='Asan,UBsan' && CXX=clang++-6.0 && TYPE='Debug'"
+      install:
         - eval "${MATRIX_EVAL}"
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-      # Build Boost.... 
-        - bash ./build-deps-unix.sh
-      # Do rest of stuff
+        - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && UBSAN_OPTIONS=print_stacktrace=1 $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja
+
+    - os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+          packages:
+            - ninja-build
+            - libstdc++-5-dev
+            - clang-6.0
+      env:
+        - MATRIX_EVAL="SANITIZE='Tsan' && CXX=clang++-6.0 && TYPE='Debug'"
+      install:
+        - eval "${MATRIX_EVAL}"
+        - bash ./tools/travis/linux_deps.sh
+        - mkdir -p build
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -GNinja
           
     - os: linux
       dist: trusty
@@ -174,43 +105,55 @@ matrix:
             - clang-6.0
             - lld-6.0
       env:
-        - MATRIX_EVAL="OS='Trusty' && LINKER='LLD' && CXX=clang++-6.0 && TYPE='Release'"
-      before_install:
+        - MATRIX_EVAL="LINKER='LLD' && CXX=clang++-6.0 && TYPE='Debug'"
+      install:
         - eval "${MATRIX_EVAL}"
-      # Get Newer CMake
-        - wget https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh
-        - mkdir -p $HOME/binary_root
-        - bash cmake-3.10.1-Linux-x86_64.sh --skip-license --prefix=$HOME/binary_root --exclude-subdir
-        - $HOME/binary_root/bin/cmake --version
-      # Build Boost.... 
-        - bash ./build-deps-unix.sh
-      # Do rest of stuff
+        - bash ./tools/travis/linux_deps.sh
         - mkdir -p build
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' -GNinja
-
-    - os: osx
-      osx_image: xcode6.4
-      before_install:
-        - brew update
-        - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
-        - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
-      # Build Boost.... 
-        - bash ./build-deps-unix.sh
-      # Do rest of stuff
-        - mkdir -p build
-        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' -GNinja
 
     - os: osx
       osx_image: xcode9.2
-      before_install:
+      install:
         - brew update
         - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
         - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
-      # Build Boost.... 
         - bash ./build-deps-unix.sh
-      # Do rest of Stuff
         - mkdir -p build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+
+before_install:
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/Deps"
+  - mkdir ${DEPS_DIR}
+
+  # Download GCC 7.1
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      GCC_URL="https://bsfproxy.connorwfitzgerald.com/gcc-7.1-trusty.zip"
+      cd ${DEPS_DIR}
+      mkdir gcc
+      cd gcc
+      wget --no-check-certificate --quiet - ${GCC_URL}
+      unzip -q gcc-7.1-trusty.zip
+      export PATH=${DEPS_DIR}/gcc/bin:$PATH
+      export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib:$LD_LIBRARY_PATH
+      export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib64:$LD_LIBRARY_PATH
+    fi
+
+  # Download binutils 2.28
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/binutils-2.28-trusty.zip"
+      cd ${DEPS_DIR}
+      mkdir binutils
+      cd binutils
+      wget --no-check-certificate --quiet - ${BINUTILS_URL}
+      unzip -q binutils-2.28-trusty.zip
+      export PATH=${DEPS_DIR}/binutils/bin:${PATH}
+      export LD_LIBRARY_PATH=${DEPS_DIR}/binutils/lib:$LD_LIBRARY_PATH
+    fi
+
+  - cd ${TRAVIS_BUILD_DIR}
 
 script:
   - ninja
