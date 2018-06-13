@@ -13,7 +13,7 @@ matrix:
           packages:
             - ninja-build
       env:
-        - MATRIX_EVAL="Coverage='On' && CXX='g++-7' && TYPE='Debug'"
+        - MATRIX_EVAL="Coverage='On' && CXX='g++' && TYPE='Debug'"
       install:
         - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
@@ -31,7 +31,7 @@ matrix:
           packages:
             - ninja-build
       env:
-        - MATRIX_EVAL="LINKER='LD' && CXX=g++-7 && TYPE='RelWithDebInfo'"
+        - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='RelWithDebInfo'"
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
@@ -47,7 +47,7 @@ matrix:
           packages:
             - ninja-build
       env:
-        - MATRIX_EVAL="LINKER='LD' && CXX=g++-7 && TYPE='Release'"
+        - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='Release'"
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
@@ -117,7 +117,7 @@ matrix:
       install:
         - brew update
         - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
-        - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
+        - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
         - bash ./build-deps-unix.sh
         - mkdir -p build
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
