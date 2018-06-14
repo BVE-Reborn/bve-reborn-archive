@@ -182,9 +182,8 @@ before_install:
     fi
 
   - cd ${TRAVIS_BUILD_DIR}
-  -
+  - echo "function:/usr/bin/../lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0/bits/std_function.h" > ubsan_supps.supp
 
 script:
-  - echo "function:/usr/bin/../lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0/bits/std_function.h" > ubsan_supps.supp
   - ninja -j2
   - UBSAN_OPTIONS=print_stacktrace=1:suppressions=ubsan_supps.supp bin/test_main
