@@ -33,3 +33,4 @@ set_target_properties(gsl::gsl PROPERTIES
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 
 find_package(Sanitizers)
+
