@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <gsl/gsl_util>
 #include <string>
+#include <sstream>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -90,6 +91,8 @@ namespace csv_rw_route {
 	    std::unordered_map<std::size_t, std::string>& variable_set,
 	    if_status& if_conditions,
 	    openbve2::datatypes::rng& rng,
+	    errors::multi_error_t errors,
+	    std::string const& filename,
 	    std::string::const_iterator& last_used,
 	    std::string::const_iterator const arg_begin,
 	    std::string::const_iterator const arg_end,
@@ -114,7 +117,7 @@ namespace csv_rw_route {
 			auto const matched_rparens = find_matching_parens(next_parens, end);
 
 			auto inside_value =
-			    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
+			    preprocess_pass_dispatch(variable_set, if_conditions, rng, errors, filename,last_used,
 			                             next_parens + 1, matched_rparens, matched_rparens);
 			util::strip_text(inside_value);
 
@@ -128,7 +131,7 @@ namespace csv_rw_route {
 				auto const equals = std::find(matched_rparens, line_end, '=');
 				if (end != line_end && equals != line_end) {
 					auto const after_equals =
-					    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
+					    preprocess_pass_dispatch(variable_set, if_conditions, rng, errors, filename, last_used,
 					                             equals + 1, line_end, line_end);
 					parse_sub_equality(variable_set, inside_value, after_equals);
 
@@ -168,6 +171,12 @@ namespace csv_rw_route {
 				if_conditions = {if_status::endif,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
+			}
+			else{
+				std::stringstream err;
+				err << "Error: unknown expression found " << command_text;
+				errors::add_error(errors, filename,0, err.str());
+			    last_used = matched_rparens;
 			}
 
 			return_value += std::string(begin, next_money);
@@ -212,7 +221,7 @@ namespace csv_rw_route {
 				std::string directive_value;
 				try {
 					directive_value =
-					    preprocess_pass_dispatch(variable_storage, if_condition, rng, last_used,
+					    preprocess_pass_dispatch(variable_storage, if_condition, rng, errors,lines.filenames[line.filename_index],last_used,
 					                             next_money, matched_rparens + 1, end);
 				}
 				catch (const std::invalid_argument& e) {

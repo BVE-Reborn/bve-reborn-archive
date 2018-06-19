@@ -147,6 +147,7 @@ set(TEST_SOURCES
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/stations.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/dynamic_lighting.cpp
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml/route_marker.cpp
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/csv_rw_route/preprocessor.cpp
         )
 
 set(TEST_HEADERS
