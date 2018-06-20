@@ -338,5 +338,14 @@ namespace util {
 
 		return contents;
 	}
+
+	bool is_numeric(std::string const& str) {
+		return std::all_of(str.begin(), str.end(), [](char c) {
+			if (c == '-') {
+				return 1;
+			}
+			return std::isdigit(c);
+		});
+	}
 } // namespace util
 } // namespace parsers

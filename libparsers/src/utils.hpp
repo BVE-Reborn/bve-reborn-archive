@@ -32,5 +32,7 @@ namespace util {
 
 	std::string load_from_file_utf8_bom(const std::string& filename);
 	std::string load_from_file_utf8_bom(std::istream& file);
+
+	bool is_numeric(std::string const& str);
 } // namespace util
 } // namespace parsers
