@@ -1,12 +1,12 @@
-#openbve2
+# BVE-Reborn
 
 |             |  Master  |   Dev  |
 |:------------|:---------|:-------|
 | Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/18c36hsil3pnbsje?svg=true)](https://ci.appveyor.com/project/Sirflankalot/openbve2-7dka3) | [![Build status](https://ci.appveyor.com/api/projects/status/18c36hsil3pnbsje/branch/dev?svg=true)](https://ci.appveyor.com/project/Sirflankalot/openbve2-7dka3/branch/dev)       |
-| Mac & Linux | [![Build Status](https://travis-ci.org/cwfitzgerald/openbve2.svg?branch=master)](https://travis-ci.org/cwfitzgerald/openbve2) | [![Build Status](https://travis-ci.org/cwfitzgerald/openbve2.svg?branch=dev)](https://travis-ci.org/cwfitzgerald/openbve2)                                                                                |
-| Coverage    | [![Coverage Status](https://coveralls.io/repos/github/cwfitzgerald/openbve2/badge.svg?branch=master)](https://coveralls.io/github/cwfitzgerald/openbve2?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/cwfitzgerald/openbve2/badge.svg?branch=dev)](https://coveralls.io/github/cwfitzgerald/openbve2?branch=dev) |
+| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/BVE-Reborn.svg?branch=master)](https://travis-ci.org/BVE-Reborn/BVE-Reborn) | [![Build Status](https://travis-ci.org/BVE-Reborn/BVE-Reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/BVE-Reborn)                                                                                |
+| Coverage    | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=master)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=dev)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=dev) |
 
-#Building
+# Building
 
 ## Linux
 
@@ -39,7 +39,7 @@ Building on windows is similar to building via script on linux, but there is one
 
 First download boost 1.64.0 from [here](https://dl.bintray.com/boostorg/release/1.64.0/source/) into the folder dependencies/binary/downloads. Extract the result into dependencies/binary/src/boost/. This will create a subfolder called boost_1_64_0. Then open a command line tool and run build-deps-win.bat. This will go through the process of building boost. After that you may open up the project using VS's cmake integration, or use CMAKE-GUI to turn the project into a visual studio solution. Whichever is better for you.
 
-#Project Structure
+# Project Structure
 
 ![](project_structure.png)
 
@@ -49,6 +49,7 @@ There are three parts to the description of this project's structure. First is t
    - [bin2c](https://github.com/cwfitzgerald/bin2c) - Used for automated conversion between a file and a c/c++ array. This is the only portable way of including binary files within an executable. 
    - binary
      - boost - used for `boost::optional`, `boost::filesystem`, and `boost::regex`. This is the only current binary dependency. 
+   - [bsf framework](https://github.com/GameFoundry/bsf) - Used as the graphics engine and window management.
    - cmake - A single third party cmake file which enables code coverage within builds.
    - [cmake-santiziers](https://github.com/arsenm/sanitizers-cmake/tree/6947cff3a9c9305eb9c16135dd81da3feb4bf87f) - A cmake library which enables use of the the c++ sanitizers.
    - [cmake-utils](https://github.com/cwfitzgerald/cmake-utils/tree/002fbf11a9448bf4c297ac34dd31e277b9f30c1f) - A cmake library which adds a variety of helping features for ease of cmake use.
@@ -61,10 +62,9 @@ There are three parts to the description of this project's structure. First is t
  - [libcore](libcore) - Central support libraries for openbve2. Math functions go in here, as well as other hard to place utility functions.
  - libload - Helps with loading of files which depend on other files.
  - liblog - Thread-safe logging library
- - librender - Rendering library
  - [libparsers](libparsers) - Parses all formats dealt with in the program, contains some helper features for file manipulation.
  - test_main - Main entry point to all the tests throughout the program.
 
-#TODO
+# TODO
 
  See [TODO.md](TODO.md)
