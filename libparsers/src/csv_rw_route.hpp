@@ -107,6 +107,7 @@ namespace csv_rw_route {
 	                                          instructions::track::crack,
 	                                          instructions::track::ground,
 	                                          instructions::track::sta,
+	                                          instructions::track::station_xml,
 	                                          instructions::track::stop,
 	                                          instructions::track::form,
 	                                          instructions::track::limit,

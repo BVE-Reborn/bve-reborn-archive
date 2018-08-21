@@ -22,13 +22,14 @@ else
 	linking=shared
 fi
 
-# Get Newer CMake
+# # Get Newer CMake
 mkdir -p dependencies/binary/{downloads,build_x86,build_x64,src/boost}
-wget -c -nc https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2 -O dependencies/binary/downloads/boost_1_64_0.tar.bz2
+wget -c -nc https://bsfproxy.connorwfitzgerald.com/bver/boost_1_64_0.tar.bz2 -O dependencies/binary/downloads/boost_1_64_0.tar.bz2
 
-# Build Boost.... 
+# # Build Boost.... 
 tar xjf dependencies/binary/downloads/boost_1_64_0.tar.bz2 -C dependencies/binary/src/boost
 cd dependencies/binary/src/boost/boost_1_64_0/
+echo "using gcc : 7.1 : `type -p g++` ; " > tools/build/src/user-config.jam
 ./bootstrap.sh --prefix=$basedir/dependencies/binary/build_x64 --with-libraries=filesystem,system,regex
 ./b2 link=$linking threading=multi variant=release runtime-link=shared install -j$(($(nproc) + 1)) -d0
 cd "${0%/*}"

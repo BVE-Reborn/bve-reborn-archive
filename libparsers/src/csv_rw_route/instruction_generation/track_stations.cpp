@@ -204,7 +204,17 @@ namespace csv_rw_route {
 			ii.args[11] = "0"s;                                       // Timetable Index
 
 			return create_instruction_track_sta(ii);
-		} // namespace
+		}
+
+		instruction create_instruction_track_station_xml(inst_info const& inst) {
+			args_at_least(inst, 1, "Track.StationXML");
+
+			instructions::track::station_xml xml;
+
+			xml.filename = inst.args[0];
+
+			return xml;
+		}
 
 		instruction create_instruction_track_stop(const line_splitting::instruction_info& inst) {
 			instructions::track::stop s;

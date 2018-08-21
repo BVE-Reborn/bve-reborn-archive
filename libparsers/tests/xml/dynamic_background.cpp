@@ -6,6 +6,10 @@
 namespace db = parsers::xml::dynamic_background;
 using namespace std::string_literals;
 
+std::string rel_file_func(std::string const& base, std::string const& rel) {
+	return base + "/" + rel;
+}
+
 TEST_SUITE_BEGIN("libparsers - xml - dynamic_background");
 
 TEST_CASE("libparser - xml - dynamic_background - single backgound") {
@@ -22,9 +26,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
         "</openBVE>"s;
 	// clang-format on
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) {
-		return base + "/" + relative;
-	};
+
 	auto const output =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 
@@ -65,9 +67,7 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgounds") {
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) {
-		return base + "/" + relative;
-	};
+
 	auto const output =
 	    db::parse("some_file.xml"s, test_multiple_backgrounds, output_errors, rel_file_func);
 
@@ -105,9 +105,7 @@ TEST_CASE("libparser - xml - dynamic_background - object_background") {
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) {
-		return base + "/" + relative;
-	};
+
 	auto const output =
 	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
 
@@ -137,9 +135,7 @@ TEST_CASE("libparser - xml - dynamic_background - should allow only one object_b
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) {
-		return base + "/" + relative;
-	};
+
 	auto const output =
 	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
 
@@ -160,9 +156,7 @@ TEST_CASE("libparser - xml - dynamic_background - openbve node should be optiona
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) {
-		return base + "/" + relative;
-	};
+
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -181,9 +175,7 @@ TEST_CASE("libparsers - xml - dynamic_background - improper values should add an
 	// clang-format on
 
 	parsers::errors::multi_error_t output_errors;
-	auto rel_file_func = [](std::string const& base, std::string const& relative) {
-		return base + "/" + relative;
-	};
+
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());

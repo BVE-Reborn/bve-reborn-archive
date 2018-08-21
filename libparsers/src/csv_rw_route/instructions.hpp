@@ -478,6 +478,10 @@ namespace csv_rw_route {
 				doors_t doors = doors_t::none;
 			};
 
+			struct station_xml : instruction_base {
+				std::string filename;
+			};
+
 			struct stop : instruction_base {
 				using stop_post_t = direction_t;
 				stop_post_t stop_post = stop_post_t::none;

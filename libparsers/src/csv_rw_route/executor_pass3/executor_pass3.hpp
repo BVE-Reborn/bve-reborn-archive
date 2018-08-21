@@ -256,6 +256,7 @@ namespace csv_rw_route {
 
 		// defined in executor_pass3/stations.cpp
 		void operator()(const instructions::track::sta& /*inst*/) const;
+		void operator()(const instructions::track::station_xml& /*inst*/) const;
 		void operator()(const instructions::track::stop& /*inst*/) const;
 		void operator()(const instructions::track::form& /*inst*/) const;
 

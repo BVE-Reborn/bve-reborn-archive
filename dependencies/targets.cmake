@@ -35,3 +35,4 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE
 target_compile_options(fmt PRIVATE "-fPIC")
 
 find_package(Sanitizers)
+
