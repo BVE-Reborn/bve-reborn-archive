@@ -144,8 +144,8 @@ matrix:
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
 before_install:
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/Deps"
-  - mkdir ${DEPS_DIR}
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
+  - mkdir -p ${DEPS_DIR}
 
   # Download GCC 7.1
   - |
