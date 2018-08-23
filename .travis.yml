@@ -12,7 +12,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-
+            - gcc-7
             - libgl1-mesa-dev
             - libglu1-mesa-dev
             - mesa-common-dev
@@ -104,8 +104,7 @@ matrix:
         - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Asan,UBsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
       install:
         - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps.sh
-        - # cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -GNinja
+        - bash ./tools/travis/linux_deps_clang.sh
         - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
 
     - os: linux
@@ -132,8 +131,7 @@ matrix:
         - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
       install:
         - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps.sh
-        - # cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -DCMAKE_SHARED_LINKER_FLAGS="-v -B$DEPS_DIR/binutils/bin -gcc-toolchain $DEPS_DIR/gcc" -GNinja
+        - bash ./tools/travis/linux_deps_clang.sh
         - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
 
     - os: osx
@@ -146,8 +144,8 @@ matrix:
         - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
 
 before_install:
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/Deps"
-  - mkdir ${DEPS_DIR}
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
+  - mkdir -p ${DEPS_DIR}
 
   # Download GCC 7.1
   - |
@@ -178,8 +176,7 @@ before_install:
 
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir -p build
-  - echo "function:/usr/bin/../lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0/bits/std_function.h" > build/ubsan_supps.supp
 
 script:
   - ninja -j2
-  - UBSAN_OPTIONS=print_stacktrace=1:suppressions=ubsan_supps.supp bin/test_main
+  - UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/tools/travis/ubsan.supp" LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/tools/travis/lsan.supp" bin/test_main
