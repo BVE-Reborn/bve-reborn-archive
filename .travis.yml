@@ -26,7 +26,7 @@ matrix:
         - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
         - bash ./tools/travis/linux_deps.sh
-        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -BVEREBORN_CODE_COVERAGE=On -GNinja
+        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
