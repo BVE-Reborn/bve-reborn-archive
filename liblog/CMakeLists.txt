@@ -2,12 +2,8 @@
 # liblog #
 ###########
 
-set (SOURCES
-             src/log.cpp
-    )
-set (HEADERS
-             include/log.hpp
-    )
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 
 lint(FILES ${SOURCES})
 format(FILES ${HEADERS} ${SOURCES})
@@ -23,20 +19,23 @@ target_link_libraries(log PUBLIC fmt::fmt)
 add_sanitizers(log)
 cotire(log)
 
+###############
+# liblog_test #
+###############
+
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})
 
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp")
+file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.hpp")
 
+add_library(liblog_test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
+target_include_directories(liblog_test PUBLIC ../libparsers/src)
+target_link_libraries(liblog_test PUBLIC log core)
+target_link_libraries(liblog_test PUBLIC Boost::regex Threads::Threads gsl::gsl doctest::doctest
+                                         options::iterator_debug_level_1)
+add_sanitizers(liblog_test)
+cotire(liblog_test)
 
-set(TEST_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/tests/log.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/tests/log_debug.cpp
-        )
-
-set(TEST_HEADERS
-        ${CMAKE_CURRENT_SOURCE_DIR}/tests/log_test.hpp
-        )
-
-set_property(GLOBAL APPEND PROPERTY OPENBVE2_TEST_FILE_LIST "${TEST_SOURCES};${TEST_HEADERS}")
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
