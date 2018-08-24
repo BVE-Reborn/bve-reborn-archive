@@ -184,3 +184,8 @@ before_install:
 script:
   - ninja -j2
   - UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/tools/travis/ubsan.supp" LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/tools/travis/lsan.supp" bin/test_main
+
+after_success:
+  - bash ./tools/travis/discord_integration.sh success $WEBHOOK_URL
+after_failure:
+  - bash ./tools/travis/discord_integration.sh failure $WEBHOOK_URL
