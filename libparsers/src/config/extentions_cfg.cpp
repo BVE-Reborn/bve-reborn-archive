@@ -2,11 +2,12 @@
 #include "ini.hpp"
 #include <map>
 #include "utils.hpp"
+#include "parsers/errors.hpp"
 
 namespace parsers {
 namespace config {
     namespace extensions_cfg {
-        parsed_extensions_config parse(const std::string& file) {
+        parsed_extensions_config parse(const std::string& file, std::string const& filename, errors::multi_error_t& errors) {
             parsed_extensions_config retval;
             auto parsed_ini = ini::parse(file);
             std::map<std::size_t, car> car_map;
@@ -23,7 +24,15 @@ namespace config {
                     }
                 }
                 else if(util::match_against_lower(section.name.substr(0,3), "car")) {
-                    auto car_number = util::parse_loose_integer(section.name.substr(3));
+                    std::intmax_t car_number;
+                    try {
+                        car_number = util::parse_loose_integer(section.name.substr(3));
+                    }
+                    catch (std::exception const& e) {
+                        errors::add_error(errors, filename, 0, e.what());
+                        errors::add_error(errors, filename, 0, "[Cari] Section given an invalid number");
+                        throw;
+                    }
                     car c;
                     for(auto& kvp : section.key_value_pairs) {
                         if(util::match_against_lower(kvp.key, "object")) {
@@ -46,6 +55,9 @@ namespace config {
                             else if(util::match_against_lower(string, "false")) {
                                 c.reversed = false;
                             }
+                            else {
+                                errors::add_error(errors, filename, 0, "reverse expects true or false");
+                            }
                         }
                     }
                     car_map[car_number] = c;
@@ -56,6 +68,14 @@ namespace config {
                     for(auto& kvp : section.key_value_pairs) {
                         if(util::match_against_lower(kvp.key, "distances")) {
                             auto split = util::split_text(kvp.value);
+                            if(split.size() < 2) {
+                                std::string err = "distance expects two values";
+                                errors::add_error(errors, filename, 0, err);
+                                throw std::invalid_argument(err);
+                            }
+                            else if(split.size() > 2) {
+                                errors::add_error(errors, filename, 0, "distance contains more than two values");
+                            }
                             c.distances.minimum = util::parse_loose_float(split[0]);
                             c.distances.maximum = util::parse_loose_float(split[1]);
                         }
@@ -69,6 +89,7 @@ namespace config {
             for(auto& itr : coupler_map) {
                 retval.couplers = itr.second;
             }
+            return retval;
         }
     }
 }
