@@ -2,8 +2,7 @@
 
 |             |  Master  |   Dev  |
 |:------------|:---------|:-------|
-| Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/18c36hsil3pnbsje?svg=true)](https://ci.appveyor.com/project/Sirflankalot/openbve2-7dka3) | [![Build status](https://ci.appveyor.com/api/projects/status/18c36hsil3pnbsje/branch/dev?svg=true)](https://ci.appveyor.com/project/Sirflankalot/openbve2-7dka3/branch/dev)       |
-| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/BVE-Reborn.svg?branch=master)](https://travis-ci.org/BVE-Reborn/BVE-Reborn) | [![Build Status](https://travis-ci.org/BVE-Reborn/BVE-Reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/BVE-Reborn)                                                                                |
+| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=master)](https://travis-ci.org/BVE-Reborn/bve-reborn) | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                                                                |
 | Coverage    | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=master)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=dev)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=dev) |
 
 # Building
