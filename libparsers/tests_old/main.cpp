@@ -15,7 +15,7 @@ int main(int const argc, char** argv) {
 		case 1:
 			test_csv();
 			break;
-#ifdef OPENBVE2_WITH_SIMPLE_TESTS
+#ifdef BVEREBORN_WITH_OLD_TESTS
 		case 2:
 			test_csv_obj();
 			break;
@@ -26,7 +26,7 @@ int main(int const argc, char** argv) {
 		case 4:
 			test_fs();
 			break;
-#ifdef OPENBVE2_WITH_SIMPLE_TESTS
+#ifdef BVEREBORN_WITH_OLD_TESTS
 		case 5:
 			test_csv_route();
 			break;
@@ -36,7 +36,7 @@ int main(int const argc, char** argv) {
 			break;
 		default:
 			std::cout << "Not a valid test number. Try: ";
-#ifdef OPENBVE2_WITH_SIMPLE_TESTS
+#ifdef BVEREBORN_WITH_OLD_TESTS
 			std::cout << "1, 2, 3, 4, 5, 6\n";
 #else
 			std::cout << "1, 4, 6\n";

@@ -1,3 +1,3 @@
 #pragma once
 
-#cmakedefine OPENBVE2_WITH_OLD_TESTS
+#cmakedefine BVEREBORN_WITH_OLD_TESTS
