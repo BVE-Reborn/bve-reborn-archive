@@ -1,7 +1,0 @@
-#include <parsers/function_scripts.hpp>
-
-extern "C" int LLVMFuzzerTestOneInput(const std::uint8_t* Data, size_t Size) {
-	std::string input(reinterpret_cast<const char*>(Data), Size);
-	parsers::function_scripts::parse(input);
-	return 0;
-}

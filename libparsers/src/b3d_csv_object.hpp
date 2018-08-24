@@ -218,7 +218,7 @@ namespace b3d_csv_object {
 			// based on this data.
 			struct extended_face_data_t : face_data_t {
 				std::string texture;
-				openbve2::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
+				bvereborn::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
 				mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;

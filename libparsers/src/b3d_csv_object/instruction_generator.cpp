@@ -261,23 +261,23 @@ namespace b3d_csv_object {
 				default:
 				case 5:
 					sc.alpha = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[4].text, 255), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[4].text, 255), 0,
+					                           255));
 					// fall through
 				case 4:
 					sc.blue = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[3].text, 255), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[3].text, 255), 0,
+					                           255));
 					// fall through
 				case 3:
 					sc.green = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 255), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[2].text, 255), 0,
+					                           255));
 					// fall through
 				case 2:
 					sc.red = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[1].text, 255), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[1].text, 255), 0,
+					                           255));
 					// fall through
 				case 1:
 					break;
@@ -292,18 +292,18 @@ namespace b3d_csv_object {
 				default:
 				case 4:
 					sec.blue = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0,
+					                           255));
 					// fall through
 				case 3:
 					sec.green = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
+					                           255));
 					// fall through
 				case 2:
 					sec.red = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0,
+					                           255));
 					// fall through
 				case 1:
 					break;
@@ -327,8 +327,8 @@ namespace b3d_csv_object {
 					// fall through
 				case 3:
 					sbm.glow_half_distance = uint16_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
-					                          4095));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
+					                           4095));
 					// fall through
 				case 2:
 					if (util::match_against_lower(arguments[1].text, "normal")) {
@@ -367,18 +367,18 @@ namespace b3d_csv_object {
 				default:
 				case 4:
 					sdtc.blue = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0,
+					                           255));
 					// fall through
 				case 3:
 					sdtc.green = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
+					                           255));
 					// fall through
 				case 2:
 					sdtc.red = uint8_t(
-					    openbve2::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0,
-					                          255));
+					    bvereborn::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0,
+					                           255));
 					// fall through
 				case 1:
 					break;

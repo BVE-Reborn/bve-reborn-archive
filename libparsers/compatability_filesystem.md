@@ -1,6 +1,6 @@
 # Compatibility Filesystem
 
-This is a short reference of the compatability filesystem. They are objects that are included by default within OpenBVE2 and there needs to be some way to reference them, though they most likely won't even be files in the filesystem.
+This is a short reference of the compatability filesystem. They are objects that are included by default within BVE-Reborn and there needs to be some way to reference them, though they most likely won't even be files in the filesystem.
 
 ## Folder Hirearchy
 

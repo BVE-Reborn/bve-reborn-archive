@@ -23,7 +23,7 @@ else
 fi
 
 mkdir -p dependencies/binary/{downloads,build_x86,build_x64,src/boost}
-wget -c -nc https://bsfproxy.connorwfitzgerald.com/bver/boost_1_64_0.tar.bz2 -O dependencies/binary/downloads/boost_1_64_0.tar.bz2
+wget -q -c -nc https://bsfproxy.connorwfitzgerald.com/bver/boost_1_64_0.tar.bz2 -O dependencies/binary/downloads/boost_1_64_0.tar.bz2
 
 # Build Boost.... 
 tar xjf dependencies/binary/downloads/boost_1_64_0.tar.bz2 -C dependencies/binary/src/boost

@@ -88,9 +88,9 @@ namespace csv_rw_route {
 		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_position = track_position_at(float(pos));
 			auto const object_location =
-			    openbve2::math::position_from_offsets(track_position.position,
-			                                          track_position.tangent, state.x_offset,
-			                                          state.y_offset);
+			    bvereborn::math::position_from_offsets(track_position.position,
+			                                           track_position.tangent, state.x_offset,
+			                                           state.y_offset);
 
 			rail_object_info i;
 			i.filename = object_mapping_iter->second;
@@ -357,8 +357,8 @@ namespace csv_rw_route {
 			rail_object_info roi;
 			roi.filename = *filename_iter_optional.get_ptr();
 			roi.position =
-			    openbve2::math::position_from_offsets(track_location.position,
-			                                          track_location.tangent, 0, -ground_height);
+			    bvereborn::math::position_from_offsets(track_location.position,
+			                                           track_location.tangent, 0, -ground_height);
 			roi.rotation = glm::vec3(0);
 			route_data_.objects.emplace_back(roi);
 		}

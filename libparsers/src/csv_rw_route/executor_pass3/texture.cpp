@@ -89,7 +89,7 @@ namespace csv_rw_route {
 		auto issuer_filename = get_filename(inst.file_index);
 
 		// Hacky way to find the file extant of the file in order to determine
-		// if XML. Works due to OpenBVE1's strictness on filenames
+		// if XML. Works due to OpenBVE's strictness on filenames
 		auto const period_index = inst.filename.find_last_of('.');
 
 		// If there is no period, assuming non xml file

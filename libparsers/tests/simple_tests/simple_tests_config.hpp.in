@@ -1,3 +1,0 @@
-#pragma once
-
-#cmakedefine OPENBVE2_WITH_SIMPLE_TESTS

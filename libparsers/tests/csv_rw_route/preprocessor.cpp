@@ -19,7 +19,7 @@ cs::preprocessed_lines setup(std::string const& test,
                              parsers::errors::multi_error_t& output_errors) {
 	write_to_file(test);
 	int const seed = 1;
-	auto rng = openbve2::datatypes::rng{seed};
+	auto rng = bvereborn::datatypes::rng{seed};
 	auto processed = cs::process_include_directives("directive.csv", rng, output_errors,
 	                                                cs::file_type::csv, file_func);
 	cs::preprocess_file(processed, rng, output_errors, cs::file_type::csv);
@@ -27,7 +27,7 @@ cs::preprocessed_lines setup(std::string const& test,
 }
 
 } // namespace
-TEST_SUITE_BEGIN("libparser - csv_rw_route - preprocessor");
+TEST_SUITE_BEGIN("libparsers - csv_rw_route - preprocessor");
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $chr") {
 	std::string test_command =
@@ -137,3 +137,5 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $If mutliple conditionals"
 	}
 	CHECK_EQ(value, "KEV"s);
 }
+
+TEST_SUITE_END();

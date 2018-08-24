@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 using namespace std::string_literals;
-using color = openbve2::datatypes::color8_rgba;
+using color = bvereborn::datatypes::color8_rgba;
 
 #define CHECK_THROWS_AND_DEFAULTS(value)                                                           \
 	CHECK_THROWS_AS(parsers::util::parse_color(value), std::invalid_argument);                     \

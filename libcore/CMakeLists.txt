@@ -2,15 +2,8 @@
 # libcore #
 ###########
 
-set (SOURCES 
-             src/math.cpp
-             )
-set (HEADERS 
-             include/core/datatypes.hpp
-             include/core/math.hpp
-             include/core/gsl_string_span_iostream.hpp
-             include/core/variant_util.hpp
-    )
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 
 lint(FILES ${SOURCES})
 format(FILES ${HEADERS} ${SOURCES})
