@@ -35,12 +35,13 @@ namespace csv_rw_route {
 			start_iter -= 1;
 		}
 
-		return openbve2::math::lerp(start_iter->value, end_iter->value,
-		                            (position - start_iter->position)
-		                                / (end_iter->position - start_iter->position));
+		return bvereborn::math::lerp(start_iter->value, end_iter->value,
+		                             (position - start_iter->position)
+		                                 / (end_iter->position - start_iter->position));
 	}
 
-	openbve2::math::evaulate_curve_t pass3_executor::track_position_at(float const position) const {
+	bvereborn::math::evaulate_curve_t pass3_executor::track_position_at(
+	    float const position) const {
 		decltype(route_data_.blocks)::const_iterator starting_it;
 
 		if (position < route_data_.blocks.front().position) {
@@ -54,10 +55,10 @@ namespace csv_rw_route {
 			starting_it -= 1;
 		}
 
-		return openbve2::math::evaluate_curve(starting_it->cache.location,
-		                                      starting_it->cache.direction,
-		                                      position - starting_it->position,
-		                                      starting_it->radius);
+		return bvereborn::math::evaluate_curve(starting_it->cache.location,
+		                                       starting_it->cache.direction,
+		                                       position - starting_it->position,
+		                                       starting_it->radius);
 	}
 
 	glm::vec3 pass3_executor::position_relative_to_rail(std::size_t rail_num,
@@ -81,9 +82,9 @@ namespace csv_rw_route {
 #endif
 
 		auto ret_val =
-		    openbve2::math::position_from_offsets(track_position.position, track_position.tangent,
-		                                          track_state_iter->second.x_offset + x_offset,
-		                                          track_state_iter->second.y_offset + y_offset);
+		    bvereborn::math::position_from_offsets(track_position.position, track_position.tangent,
+		                                           track_state_iter->second.x_offset + x_offset,
+		                                           track_state_iter->second.y_offset + y_offset);
 
 		if (max) {
 			ret_val.y -= ground_height_at(position);

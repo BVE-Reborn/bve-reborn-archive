@@ -18,7 +18,7 @@ namespace util {
 	static std::intmax_t parse_loose_integer_impl(std::string text);
 	static float parse_loose_float_impl(std::string text);
 	static std::intmax_t parse_time_impl(std::string text);
-	static openbve2::datatypes::color8_rgba parse_color_impl(std::string text);
+	static bvereborn::datatypes::color8_rgba parse_color_impl(std::string text);
 
 	/////////////////
 	// Int Parsing //
@@ -87,7 +87,7 @@ namespace util {
 	// time Parsing //
 	//////////////////
 
-	static openbve2::datatypes::time parse_time_impl(std::string text) {
+	static bvereborn::datatypes::time parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -116,7 +116,7 @@ namespace util {
 		throw std::invalid_argument("");
 	}
 
-	openbve2::datatypes::time parse_time(const std::string& text) {
+	bvereborn::datatypes::time parse_time(const std::string& text) {
 		try {
 			return parse_time_impl(text);
 		}
@@ -127,7 +127,7 @@ namespace util {
 		}
 	}
 
-	openbve2::datatypes::time parse_time(std::string text, std::intmax_t const default_value) {
+	bvereborn::datatypes::time parse_time(std::string text, std::intmax_t const default_value) {
 		try {
 			return parse_time_impl(std::move(text));
 		}
@@ -140,16 +140,16 @@ namespace util {
 	// Color Parsing //
 	///////////////////
 
-	static openbve2::datatypes::color8_rgba parse_color_impl(std::string text) {
+	static bvereborn::datatypes::color8_rgba parse_color_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		if (text.size() == 7) {
 			auto const value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
 
-			openbve2::datatypes::color8_rgba color{uint8_t((value & 0xFF0000) >> 16),
-			                                       uint8_t((value & 0xFF00) >> 8),
-			                                       uint8_t((value & 0xFF) >> 0), uint8_t(255)};
+			bvereborn::datatypes::color8_rgba color{uint8_t((value & 0xFF0000) >> 16),
+			                                        uint8_t((value & 0xFF00) >> 8),
+			                                        uint8_t((value & 0xFF) >> 0), uint8_t(255)};
 
 			return color;
 		}
@@ -157,7 +157,7 @@ namespace util {
 		throw std::invalid_argument("");
 	}
 
-	openbve2::datatypes::color8_rgba parse_color(const std::string& text) {
+	bvereborn::datatypes::color8_rgba parse_color(const std::string& text) {
 		try {
 			return parse_color_impl(text);
 		}
@@ -168,8 +168,8 @@ namespace util {
 		}
 	}
 
-	openbve2::datatypes::color8_rgba parse_color(std::string text,
-	                                             openbve2::datatypes::color8_rgba default_value) {
+	bvereborn::datatypes::color8_rgba parse_color(std::string text,
+	                                              bvereborn::datatypes::color8_rgba default_value) {
 		try {
 			return parse_color_impl(std::move(text));
 		}

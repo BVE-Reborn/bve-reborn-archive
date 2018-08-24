@@ -142,7 +142,7 @@ namespace csv_rw_route {
 		// defined in executor_pass3/util.cpp
 		rail_state& get_rail_state(std::size_t index);
 		float ground_height_at(float position) const;
-		openbve2::math::evaulate_curve_t track_position_at(float position) const;
+		bvereborn::math::evaulate_curve_t track_position_at(float position) const;
 		glm::vec3 position_relative_to_rail(std::size_t rail_num,
 		                                    float position,
 		                                    float x_offset,

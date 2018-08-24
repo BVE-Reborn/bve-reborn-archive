@@ -26,9 +26,9 @@ namespace xml {
 
 		struct request_stop_marker {
 			enum class behaviour : std::uint8_t { fullspeed, normalbrake };
-			openbve2::datatypes::time early_time = 0;
+			bvereborn::datatypes::time early_time = 0;
 			bool using_early = false;
-			openbve2::datatypes::time late_time = 0;
+			bvereborn::datatypes::time late_time = 0;
 			bool using_late = false;
 			float distance = 0;
 			message stop_message;
@@ -41,9 +41,9 @@ namespace xml {
 		struct parsed_station_marker {
 			enum class doors : std::int8_t { left = -1, right = 1, none = 0 };
 			std::string station_name;
-			openbve2::datatypes::time arrival_time = 0;
+			bvereborn::datatypes::time arrival_time = 0;
 			bool using_arrival = false;
-			openbve2::datatypes::time departure_time = 0;
+			bvereborn::datatypes::time departure_time = 0;
 			bool using_departure = false;
 			doors door = doors::none;
 			bool force_red_signal = false;

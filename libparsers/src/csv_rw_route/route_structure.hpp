@@ -84,8 +84,8 @@ namespace csv_rw_route {
 		filename_set_iterator departure_sound;
 		std::size_t timetable_index = 0;
 		std::vector<rail_station_stop_info> stop_points;
-		openbve2::datatypes::time arrival;
-		openbve2::datatypes::time departure;
+		bvereborn::datatypes::time arrival;
+		bvereborn::datatypes::time departure;
 		float stop_duration = 15;
 		float passenger_ratio = 100;
 		bool pass_alarm = false;
@@ -127,7 +127,7 @@ namespace csv_rw_route {
 		float position = 0;
 		float starting_distance = 0;
 		float ending_distance = 0;
-		openbve2::datatypes::color8_rgb color;
+		bvereborn::datatypes::color8_rgb color;
 	};
 
 	struct marker_info {
@@ -171,7 +171,7 @@ namespace csv_rw_route {
 	using section_info = position_data_pair<std::vector<std::size_t>>;
 	using background_info = position_data_pair<xml::dynamic_background::parsed_dynamic_background>;
 	using brightness_level_info = position_data_pair<std::uint8_t>;
-	using pretrain_info = position_data_pair<openbve2::datatypes::time>;
+	using pretrain_info = position_data_pair<bvereborn::datatypes::time>;
 
 	struct parsed_route_data {
 		// Core route info
@@ -217,7 +217,7 @@ namespace csv_rw_route {
 
 		// Start Conditions
 		safty_system_status_t safty_system_status;
-		openbve2::datatypes::time game_start_time = -1;
+		bvereborn::datatypes::time game_start_time = -1;
 
 		// Sound indices
 		std::vector<sound_info> sounds;

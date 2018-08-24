@@ -1,0 +1,3 @@
+#pragma once
+
+#cmakedefine BVEREBORN_WITH_OLD_TESTS

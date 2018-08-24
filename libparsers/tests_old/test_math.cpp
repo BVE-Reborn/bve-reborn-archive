@@ -2,7 +2,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <iostream>
 
-void print_evaluate_curve(const openbve2::math::evaulate_curve_t& val) {
+void print_evaluate_curve(const bvereborn::math::evaulate_curve_t& val) {
 	std::cout << "Position: " << to_string(val.position) << ", Tangent: " << to_string(val.tangent)
 	          << '\n';
 }
@@ -10,11 +10,11 @@ void print_evaluate_curve(const openbve2::math::evaulate_curve_t& val) {
 void test_math() {
 	auto const distance = 12.56637f * (5.0f / 4.0f) * (1.0f / 0.7071067811f);
 	auto const vala =
-	    openbve2::math::evaluate_curve(glm::vec3(0), glm::vec3(0, -1, 1), distance, -10);
-	auto valb = openbve2::math::evaluate_curve(vala.position, vala.tangent, distance, -10);
+	    bvereborn::math::evaluate_curve(glm::vec3(0), glm::vec3(0, -1, 1), distance, -10);
+	auto valb = bvereborn::math::evaluate_curve(vala.position, vala.tangent, distance, -10);
 	valb.tangent.y = 1;
-	auto const valc = openbve2::math::evaluate_curve(valb.position, valb.tangent, distance, -10);
-	auto const vald = openbve2::math::evaluate_curve(valc.position, valc.tangent, distance, -10);
+	auto const valc = bvereborn::math::evaluate_curve(valb.position, valb.tangent, distance, -10);
+	auto const vald = bvereborn::math::evaluate_curve(valc.position, valc.tangent, distance, -10);
 
 	print_evaluate_curve(vala);
 	print_evaluate_curve(valb);

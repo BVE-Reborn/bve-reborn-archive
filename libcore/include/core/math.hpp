@@ -3,7 +3,7 @@
 #include <glm/vec3.hpp>
 #include <type_traits>
 
-namespace openbve2 {
+namespace bvereborn {
 namespace math {
 	template <class T, class A, class B>
 	T clamp(T value, A min, B max) {
@@ -47,4 +47,4 @@ namespace math {
 	                                float x_offset,
 	                                float y_offset);
 } // namespace math
-} // namespace openbve2
+} // namespace bvereborn

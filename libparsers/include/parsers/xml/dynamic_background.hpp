@@ -11,7 +11,7 @@ namespace parsers {
 namespace xml {
 	namespace dynamic_background {
 		struct texture_background_info {
-			openbve2::datatypes::time time = 0;
+			bvereborn::datatypes::time time = 0;
 			enum { fade_in, fade_out, none } transition_mode = none;
 			std::size_t repetitions = 6;
 			std::string filename;

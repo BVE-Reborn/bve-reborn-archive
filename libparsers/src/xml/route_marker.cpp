@@ -66,10 +66,10 @@ namespace xml {
 						}
 					}
 					add_error(errors, 0, err);
-					return std::make_tuple(openbve2::datatypes::time{0}, ""s,
+					return std::make_tuple(bvereborn::datatypes::time{0}, ""s,
 					                       text_marker::color::black, false);
 				}
-				openbve2::datatypes::time time_parsed;
+				bvereborn::datatypes::time time_parsed;
 				bool using_early_late = true;
 				try {
 					time_parsed = util::parse_time(get_node_value(time_node));

@@ -19,7 +19,7 @@ namespace csv_rw_route {
 			    instructions::options::cant_behavior::unsigned_cant;
 
 			rail_block_info& make_new_block(float position) {
-				position = openbve2::math::max<float>(0, position);
+				position = bvereborn::math::max<float>(0, position);
 				if (rd.blocks.empty()) {
 					if (position != 0) {
 						rd.blocks.emplace_back();
@@ -70,9 +70,9 @@ namespace csv_rw_route {
 					// the y component in order to get the proper angle
 					last_block.cache.direction.y = last_block.pitch;
 					auto const curve_results =
-					    openbve2::math::evaluate_curve(last_block.cache.location,
-					                                   last_block.cache.direction,
-					                                   last_block.length, last_block.radius);
+					    bvereborn::math::evaluate_curve(last_block.cache.location,
+					                                    last_block.cache.direction,
+					                                    last_block.length, last_block.radius);
 
 					current_block.cache.location = curve_results.position;
 					current_block.cache.direction = curve_results.tangent;
@@ -149,7 +149,7 @@ namespace csv_rw_route {
 					auto const x = inst.ratio * block_size;
 					auto const z = x / inst.ratio;
 
-					block.radius = openbve2::math::radius_from_distances(z, x);
+					block.radius = bvereborn::math::radius_from_distances(z, x);
 				}
 				else {
 					block.radius = 0;
