@@ -6,7 +6,7 @@
 #	include <cxxabi.h>
 #endif
 
-namespace openbve2 {
+namespace bvereborn {
 namespace variant_util {
 	namespace {
 		template <std::size_t Num, class... Args>
@@ -64,4 +64,4 @@ namespace variant_util {
 		                   - 1>::func(os, typename mapbox::util::variant<Args...>::types{});
 	}
 } // namespace variant_util
-} // namespace openbve2
+} // namespace bvereborn

@@ -8,9 +8,9 @@ namespace parsers {
 namespace xml {
 	namespace dynamic_lighting {
 		struct lighting_info {
-			openbve2::datatypes::time time = 0;
-			openbve2::datatypes::color8_rgb ambient = {160, 160, 160};
-			openbve2::datatypes::color8_rgb directional_lighting = {160, 160, 160};
+			bvereborn::datatypes::time time = 0;
+			bvereborn::datatypes::color8_rgb ambient = {160, 160, 160};
+			bvereborn::datatypes::color8_rgb directional_lighting = {160, 160, 160};
 			glm::vec3 light_direction = {-0.223645424f, -0.866025404f, 0.44719428f};
 			uint8_t cablighting = 255;
 		};

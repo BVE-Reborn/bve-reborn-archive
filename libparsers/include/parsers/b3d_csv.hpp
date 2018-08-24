@@ -15,8 +15,8 @@ namespace b3d_csv_object {
 	};
 
 	struct face_data_t {
-		openbve2::datatypes::color8_rgba color = {255, 255, 255, 255};
-		openbve2::datatypes::color8_rgb emissive_color = {0, 0, 0};
+		bvereborn::datatypes::color8_rgba color = {255, 255, 255, 255};
+		bvereborn::datatypes::color8_rgb emissive_color = {0, 0, 0};
 	};
 
 	struct mesh_t {

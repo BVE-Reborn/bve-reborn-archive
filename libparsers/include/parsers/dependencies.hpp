@@ -9,7 +9,7 @@ namespace parsers {
 namespace dependencies {
 	struct texture_t {
 		std::string file;
-		openbve2::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
+		bvereborn::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 		bool has_transparent_color = false;
 
 		// less than operator for use in std::set

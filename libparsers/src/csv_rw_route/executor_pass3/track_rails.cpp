@@ -13,9 +13,9 @@ namespace csv_rw_route {
 		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_position = track_position_at(float(pos));
 			auto const object_location =
-			    openbve2::math::position_from_offsets(track_position.position,
-			                                          track_position.tangent, state.x_offset,
-			                                          state.y_offset);
+			    bvereborn::math::position_from_offsets(track_position.position,
+			                                           track_position.tangent, state.x_offset,
+			                                           state.y_offset);
 
 			auto filename_iter_optional =
 			    get_cycle_filename_index(cycle_rail_mapping_, object_rail_mapping_,

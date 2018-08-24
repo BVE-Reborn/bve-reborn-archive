@@ -97,7 +97,7 @@ namespace csv_rw_route {
 
 	static include_pos parse_weighted_include(const line_break_list& breaks,
 	                                          const boost::smatch& match,
-	                                          openbve2::datatypes::rng& rng) {
+	                                          bvereborn::datatypes::rng& rng) {
 		auto const string = match[1].str() + match[3].str();
 
 		auto split_includes = util::split_text(string, ';');
@@ -149,7 +149,7 @@ namespace csv_rw_route {
 	}
 
 	static std::vector<include_pos> parse_include_directives(const std::string& contents,
-	                                                         openbve2::datatypes::rng& rng,
+	                                                         bvereborn::datatypes::rng& rng,
 	                                                         errors::errors_t& errors) {
 		std::vector<include_pos> includes;
 
@@ -189,7 +189,7 @@ namespace csv_rw_route {
 	static preprocessed_lines recursive_process_includes(
 	    const std::set<std::string>& past_files,
 	    const std::string& current_filename,
-	    openbve2::datatypes::rng& rng,
+	    bvereborn::datatypes::rng& rng,
 	    errors::multi_error_t& errors,
 	    file_type ft,
 	    const find_relative_file_func& get_abs_path) {
@@ -321,7 +321,7 @@ namespace csv_rw_route {
 	}
 
 	preprocessed_lines process_include_directives(const std::string& filename,
-	                                              openbve2::datatypes::rng& rng,
+	                                              bvereborn::datatypes::rng& rng,
 	                                              errors::multi_error_t& errors,
 	                                              file_type const ft,
 	                                              const find_relative_file_func& get_abs_path) {

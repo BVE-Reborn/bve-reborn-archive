@@ -15,8 +15,8 @@ namespace xml {
 			std::string early_filename;
 			std::string on_time_filename;
 			std::string late_filename;
-			openbve2::datatypes::time early_time = 0;
-			openbve2::datatypes::time late_time = 0;
+			bvereborn::datatypes::time early_time = 0;
+			bvereborn::datatypes::time late_time = 0;
 			std::intmax_t timeout = 0;
 			float distance = 0;
 			bool using_early = false;
@@ -40,8 +40,8 @@ namespace xml {
 			std::string early_text;
 			std::string on_time_text;
 			std::string late_text;
-			openbve2::datatypes::time early_time = 0;
-			openbve2::datatypes::time late_time = 0;
+			bvereborn::datatypes::time early_time = 0;
+			bvereborn::datatypes::time late_time = 0;
 			std::intmax_t timeout = 0;
 			float distance = 0;
 			color early_color = color::white;

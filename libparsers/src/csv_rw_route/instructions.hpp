@@ -170,7 +170,7 @@ namespace csv_rw_route {
 			};
 
 			struct start_time {
-				openbve2::datatypes::time time;
+				bvereborn::datatypes::time time;
 				std::size_t file_index = 0;
 				std::size_t line = 0;
 				float absolute_position = -1;
@@ -184,11 +184,11 @@ namespace csv_rw_route {
 			};
 
 			struct ambiant_light : instruction_base {
-				openbve2::datatypes::color8_rgb color = {160, 160, 160};
+				bvereborn::datatypes::color8_rgb color = {160, 160, 160};
 			};
 
 			struct directional_light : instruction_base {
-				openbve2::datatypes::color8_rgb color = {160, 160, 160};
+				bvereborn::datatypes::color8_rgb color = {160, 160, 160};
 			};
 
 			struct light_direction : instruction_base {
@@ -463,8 +463,8 @@ namespace csv_rw_route {
 				std::string arrival_sound;
 				std::string departure_sound;
 				std::size_t timetable_index = 0;
-				openbve2::datatypes::time arrival = 0;
-				openbve2::datatypes::time departure = 0;
+				bvereborn::datatypes::time arrival = 0;
+				bvereborn::datatypes::time departure = 0;
 				float stop_duration = 15;
 				float passenger_ratio = 100;
 				bool pass_alarm = false;
@@ -624,7 +624,7 @@ namespace csv_rw_route {
 				float starting_distance = 0;
 				// UnitOfLength
 				float ending_distance = 0;
-				openbve2::datatypes::color8_rgb color = {128, 128, 128};
+				bvereborn::datatypes::color8_rgb color = {128, 128, 128};
 			};
 
 			struct brightness : instruction_base {
@@ -664,7 +664,7 @@ namespace csv_rw_route {
 			};
 
 			struct pre_train : instruction_base {
-				openbve2::datatypes::time time;
+				bvereborn::datatypes::time time;
 			};
 
 			struct announce : instruction_base {

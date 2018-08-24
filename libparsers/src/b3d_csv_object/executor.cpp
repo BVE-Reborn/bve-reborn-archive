@@ -460,14 +460,14 @@ namespace b3d_csv_object {
 	void instructions::parsed_csv_object_builder::operator()(const set_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.color =
-			    openbve2::datatypes::color8_rgba{arg.red, arg.green, arg.blue, arg.alpha};
+			    bvereborn::datatypes::color8_rgba{arg.red, arg.green, arg.blue, arg.alpha};
 		}
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const set_emissive_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.emissive_color =
-			    openbve2::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
+			    bvereborn::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
 		}
 	}
 
@@ -489,7 +489,7 @@ namespace b3d_csv_object {
 	    const set_decal_transparent_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.decal_transparent_color =
-			    openbve2::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
+			    bvereborn::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
 		}
 	}
 	void instructions::parsed_csv_object_builder::operator()(const set_texture_coordinates& arg) {

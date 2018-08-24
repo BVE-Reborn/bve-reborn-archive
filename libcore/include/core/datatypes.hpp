@@ -7,7 +7,7 @@
 #include <random>
 #include <type_traits>
 
-namespace openbve2 {
+namespace bvereborn {
 namespace datatypes {
 	using color8_r = glm::u8vec1;
 	using color8_rg = glm::u8vec2;
@@ -77,4 +77,4 @@ namespace datatypes {
 	inline bool operator==(position_value& lhs, const position_value& rhs);
 	inline bool operator!=(position_value& lhs, const position_value& rhs);*/
 } // namespace datatypes
-} // namespace openbve2
+} // namespace bvereborn
