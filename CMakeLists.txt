@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.9)
-project(OpenBVE2 C CXX)
+cmake_minimum_required(VERSION 3.12)
+project(BVE-Reborn C CXX)
 
 # Allow boost to be built from the binary dir
 if (CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS False)
 
-if (OPENBVE2_WITH_FUZZING)
+if (BVEREBORN_WITH_FUZZING)
     add_compile_options(-fsanitize=fuzzer-no-link)
 endif()
 
@@ -43,19 +43,13 @@ include(warnings)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD TRUE)
 
-define_property(GLOBAL PROPERTY OPENBVE2_TEST_FILE_LIST
-    BRIEF_DOCS "List of all test files"
-    FULL_DOCS "List of all test files")
-# Initialize property
-set_property(GLOBAL PROPERTY OPENBVE2_TEST_FILE_LIST "")
-
 #################
 # Global Config #
 #################
 
-file(COPY OpenBVE2.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY BVE-Reborn.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
 
-if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (OPENBVE2_CODE_COVERAGE))
+if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (BVEREBORN_CODE_COVERAGE))
     message(STATUS "Compiling with CodeCoverage")
     include(CodeCoverage)
     APPEND_COVERAGE_COMPILER_FLAGS()

@@ -11,7 +11,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - ninja-build
             - gcc-7
             - libgl1-mesa-dev
             - libglu1-mesa-dev
@@ -27,7 +26,7 @@ matrix:
         - eval "${MATRIX_EVAL}"
         - pip install --user cpp-coveralls
         - bash ./tools/travis/linux_deps.sh
-        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DOPENBVE2_CODE_COVERAGE=On -GNinja
+        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -BVEREBORN_CODE_COVERAGE=On -GNinja
       after_success:
         - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
@@ -38,8 +37,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - ninja-build
-
             - libgl1-mesa-dev
             - libglu1-mesa-dev
             - mesa-common-dev
@@ -53,7 +50,7 @@ matrix:
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja
 
     - os: linux
       dist: trusty
@@ -62,8 +59,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - ninja-build
-
             - libgl1-mesa-dev
             - libglu1-mesa-dev
             - mesa-common-dev
@@ -77,7 +72,7 @@ matrix:
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
           
     - os: linux
       dist: trusty
@@ -88,10 +83,8 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-6.0
           packages:
-            - ninja-build
             - libstdc++-7-dev
             - clang-6.0
-
             - libgl1-mesa-dev
             - libglu1-mesa-dev
             - mesa-common-dev
@@ -105,7 +98,7 @@ matrix:
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps_clang.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
 
     - os: linux
       dist: trusty
@@ -115,10 +108,8 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-6.0
           packages:
-            - ninja-build
             - libstdc++-7-dev
             - clang-6.0
-
             - libgl1-mesa-dev
             - libglu1-mesa-dev
             - mesa-common-dev
@@ -132,7 +123,7 @@ matrix:
       install:
         - eval "${MATRIX_EVAL}"
         - bash ./tools/travis/linux_deps_clang.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DOPENBVE2_ON_TRAVIS=True -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
+        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
 
     - os: osx
       osx_image: xcode9.2
@@ -141,7 +132,7 @@ matrix:
         - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
         - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
         - bash ./build-deps-unix.sh
-        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBVE2_ON_TRAVIS=True -GNinja
+        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
 before_install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
@@ -173,6 +164,19 @@ before_install:
       export PATH=${DEPS_DIR}/binutils/bin:${PATH}
       export LD_LIBRARY_PATH=${DEPS_DIR}/binutils/lib:$LD_LIBRARY_PATH
     fi
+
+  # Download ninja 1.8.2
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip"
+      cd ${DEPS_DIR}
+      mkdir ninja
+      cd ninja
+      wget --no-check-certificate - ${NINJA_URL}
+      unzip -q ninja-linux.zip
+      export PATH=${DEPS_DIR}/ninja:${PATH}
+    fi
+
 
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir -p build

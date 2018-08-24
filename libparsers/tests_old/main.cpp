@@ -1,4 +1,4 @@
-#include "simple_tests_config.hpp"
+#include "old_tests_config.hpp"
 #include "tests.hpp"
 #include <iostream>
 #include <string>
