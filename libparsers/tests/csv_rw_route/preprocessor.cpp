@@ -1,18 +1,22 @@
 #include "csv_rw_route.hpp"
+#include "utils.hpp"
+#include <boost/filesystem/fstream.hpp>
 #include <doctest.h>
-#include <fstream>
 
 using namespace std::string_literals;
+namespace bf = boost::filesystem;
 namespace cs = parsers::csv_rw_route;
+namespace p_util = parsers::util;
 namespace {
+
 std::string file_func(std::string const& base, std::string const& rel) {
 	return base + "/" + rel;
 }
 
 void write_to_file(std::string const& directive) {
-	std::ofstream file;
-	file.open("directive.csv", std::ios::trunc);
-	file.write(directive.c_str(), sizeof(char) * directive.size());
+	bf::path p{"directive.csv"};
+	bf::ofstream ofs{p};
+	ofs << directive;
 }
 
 cs::preprocessed_lines setup(std::string const& test,
@@ -27,6 +31,7 @@ cs::preprocessed_lines setup(std::string const& test,
 }
 
 } // namespace
+
 TEST_SUITE_BEGIN("libparsers - csv_rw_route - preprocessor");
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $chr") {
@@ -43,8 +48,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $chr") {
 }
 
 TEST_CASE(
-    "libparsers - csv_rw_route - preprocessor - incorrect $Chr() expression should return "
-    "nothing") {
+    "libparsers - csv_rw_route - preprocessor - $Chr - incorrect expression returns nothing") {
 	std::string test_command = "$Cr(75),$Ch(69),$Chr(75)"s;
 	parsers::errors::multi_error_t output_errors;
 	auto processed = setup(test_command, output_errors);
@@ -61,16 +65,23 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Rnd") {
 	parsers::errors::multi_error_t output_errors;
 	auto processed = setup(test_command, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 4);
-	CHECK_LE(processed.lines[0].contents, "5"s);
-	CHECK_GE(processed.lines[0].contents, "3"s);
+	CHECK_LE(p_util::parse_loose_integer(processed.lines[0].contents),
+	         p_util::parse_loose_integer("5"s));
+	CHECK_GE(p_util::parse_loose_integer(processed.lines[0].contents),
+	         p_util::parse_loose_integer("3"s));
 
-	CHECK_LE(processed.lines[1].contents, "100"s);
-	CHECK_GE(processed.lines[1].contents, "-100"s);
+	CHECK_LE(p_util::parse_loose_integer(processed.lines[1].contents),
+	         p_util::parse_loose_integer("100"s));
+	CHECK_GE(p_util::parse_loose_integer(processed.lines[1].contents),
+	         p_util::parse_loose_integer("-100"s));
 
-	CHECK_EQ(processed.lines[2].contents, "0"s);
+	CHECK_EQ(p_util::parse_loose_integer(processed.lines[2].contents),
+	         p_util::parse_loose_integer("0"s));
 
-	CHECK_LE(processed.lines[3].contents, "5"s);
-	CHECK_GE(processed.lines[3].contents, "3"s);
+	CHECK_LE(p_util::parse_loose_integer(processed.lines[3].contents),
+	         p_util::parse_loose_integer("5"s));
+	CHECK_GE(p_util::parse_loose_integer(processed.lines[3].contents),
+	         p_util::parse_loose_integer("3"s));
 }
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $Rnd bad inputs should add errors") {
@@ -86,8 +97,10 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Sub") {
 	parsers::errors::multi_error_t output_errors;
 	auto processed = setup(test_command, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 2);
-	CHECK_GE(processed.lines[0].contents, "3"s);
-	CHECK_LE(processed.lines[0].contents, "5"s);
+	CHECK_GE(p_util::parse_loose_integer(processed.lines[0].contents),
+	         p_util::parse_loose_integer("3"s));
+	CHECK_LE(p_util::parse_loose_integer(processed.lines[0].contents),
+	         p_util::parse_loose_integer("5"s));
 
 	CHECK_EQ(processed.lines[1].contents, "K"s);
 }
