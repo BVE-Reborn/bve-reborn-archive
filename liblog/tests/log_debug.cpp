@@ -9,9 +9,9 @@
 
 using namespace std::string_literals;
 
-TEST_SUITE_BEGIN("liblog_debug");
+TEST_SUITE_BEGIN("liblog-debug");
 
-TEST_CASE("liblog_debug - log should write correct output when liblog_debug is defined.") {
+TEST_CASE("liblog-debug - log should write correct output when liblog_debug is defined.") {
 	auto file = std::make_shared<std::ostringstream>();
 	logger::set_output_location(file);
 
@@ -28,7 +28,7 @@ TEST_CASE("liblog_debug - log should write correct output when liblog_debug is d
 }
 
 TEST_CASE(
-    "liblog_debug - log should write correct output to a file when liblog_debug is defined.") {
+    "liblog-debug - log should write correct output to a file when liblog_debug is defined.") {
 	std::string file_name = create_temp_file();
 	logger::set_output_location(file_name);
 	LOG(fatal_error, "{}", "hello");
@@ -46,6 +46,13 @@ TEST_CASE(
 	CHECK_NE(m[2], ""s);
 	CHECK_NE(m[3], ""s);
 	CHECK_EQ(m[4], "hello\n"s);
+}
+
+TEST_CASE("liblog-debug - get_output_stream should return a file") {
+	std::string file_name = create_temp_file();
+	logger::set_output_location(file_name);
+	auto file = logger::get_output_stream();
+	REQUIRE_NE(file.get(), nullptr);
 }
 
 #undef LIBLOG_DEBUG

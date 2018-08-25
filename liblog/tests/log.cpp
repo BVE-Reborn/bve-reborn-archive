@@ -3,15 +3,17 @@
 #include "log_test.hpp"
 #include "utils.hpp"
 #include <boost/regex.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <sstream>
 using namespace std::string_literals;
+namespace bf = boost::filesystem;
 
 TEST_SUITE_BEGIN("liblog");
 
-TEST_CASE("liblog - log should write to a ostream correctly.") {
+TEST_CASE("liblog - write to ostream") {
 	auto file = std::make_shared<std::ostringstream>();
 	logger::set_output_location(file);
 
@@ -89,7 +91,7 @@ TEST_CASE("liblog - should be able to write to a file.") {
 	auto temp_loc = std::make_shared<std::ostringstream>();
 	logger::set_output_location(temp_loc);
 
-	std::fstream file(file_name);
+	bf::fstream file{file_name};
 	std::string logged = parsers::util::load_from_file_utf8_bom(file);
 	boost::smatch m;
 	CHECK(boost::regex_match(logged, m, log_regex));
