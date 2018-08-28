@@ -55,7 +55,8 @@ namespace csv_rw_route {
 		if (split.size() != 2) {
 			throw std::invalid_argument("$Rnd takes two arguments");
 		}
-		if (!util::is_numeric(split[0]) || !util::is_numeric(split[1])) {
+
+		if (!util::is_loose_integer(split[0]) || !util::is_loose_integer(split[1])) {
 			throw std::invalid_argument("Error: $Rnd requires numeric values");
 		}
 		auto start = util::parse_loose_integer(split[0]);

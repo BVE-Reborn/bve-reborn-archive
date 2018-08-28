@@ -11,6 +11,8 @@ namespace util {
 	std::intmax_t parse_loose_integer(const std::string& text);
 	std::intmax_t parse_loose_integer(std::string text, std::intmax_t default_value);
 
+	bool is_loose_integer(const std::string& test);
+
 	float parse_loose_float(const std::string& text);
 	float parse_loose_float(std::string text, float default_value);
 
@@ -33,6 +35,5 @@ namespace util {
 	std::string load_from_file_utf8_bom(const std::string& filename);
 	std::string load_from_file_utf8_bom(std::istream& file);
 
-	bool is_numeric(std::string const& str);
 } // namespace util
 } // namespace parsers

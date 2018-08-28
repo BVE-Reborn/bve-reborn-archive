@@ -1,5 +1,6 @@
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
+#include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <doctest.h>
 
@@ -7,6 +8,7 @@ using namespace std::string_literals;
 namespace bf = boost::filesystem;
 namespace cs = parsers::csv_rw_route;
 namespace p_util = parsers::util;
+
 namespace {
 
 std::string file_func(std::string const& base, std::string const& rel) {
@@ -14,8 +16,8 @@ std::string file_func(std::string const& base, std::string const& rel) {
 }
 
 void write_to_file(std::string const& directive) {
-	bf::path p{"directive.csv"};
-	bf::ofstream ofs{p};
+	bf::path path{"directive.csv"s};
+	bf::ofstream ofs{path};
 	ofs << directive;
 }
 
@@ -24,9 +26,10 @@ cs::preprocessed_lines setup(std::string const& test,
 	write_to_file(test);
 	int const seed = 1;
 	auto rng = bvereborn::datatypes::rng{seed};
-	auto processed = cs::process_include_directives("directive.csv", rng, output_errors,
+	auto processed = cs::process_include_directives("directive.csv"s, rng, output_errors,
 	                                                cs::file_type::csv, file_func);
 	cs::preprocess_file(processed, rng, output_errors, cs::file_type::csv);
+	bf::remove("directive.csv"s);
 	return processed;
 }
 
@@ -34,13 +37,13 @@ cs::preprocessed_lines setup(std::string const& test,
 
 TEST_SUITE_BEGIN("libparsers - csv_rw_route - preprocessor");
 
-TEST_CASE("libparsers - csv_rw_route - preprocessor - $chr") {
+TEST_CASE("libparsers - csv_rw_route - preprocessor - $Chr") {
 	std::string test_command =
 	    "$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),\n$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78)"s;
 	parsers::errors::multi_error_t output_errors;
 	auto processed = setup(test_command, output_errors);
 	CHECK_EQ(processed.lines.size(), 10);
-	std::string value{};
+	std::string value;
 	for (auto& chr : processed.lines) {
 		value += chr.contents;
 	}
@@ -53,7 +56,7 @@ TEST_CASE(
 	parsers::errors::multi_error_t output_errors;
 	auto processed = setup(test_command, output_errors);
 	CHECK_EQ(processed.lines.size(), 1);
-	std::string value{};
+	std::string value;
 	for (auto& chr : processed.lines) {
 		value += chr.contents;
 	}
@@ -93,7 +96,10 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Rnd bad inputs should add
 }
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $Sub") {
-	std::string test_command = "$Sub(0) = $Rnd(3;5)\n$Sub(1) = $Chr(75) \n,$Sub(0),$Sub(1)"s;
+	std::string test_command =
+	    "$Sub(0) = $Rnd(3;5)\n"
+	    "$Sub(1) = $Chr(75) \n"
+	    ",$Sub(0),$Sub(1)"s;
 	parsers::errors::multi_error_t output_errors;
 	auto processed = setup(test_command, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 2);
@@ -116,13 +122,14 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $If") {
 	REQUIRE_EQ(processed.lines.size(), 1);
 	CHECK_EQ(processed.lines[0].contents, "E");
 }
+
 TEST_CASE("libparser - csv_rw_route - preprocessor - $If multiple sub expressions") {
 	parsers::errors::multi_error_t output_errors;
 	auto processed =
 	    setup("$If(1),$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),$Else(),$Chr(69),$EndIf()"s,
 	          output_errors);
 	REQUIRE_EQ(processed.lines.size(), 5);
-	std::string value{};
+	std::string value;
 	for (auto const& line : processed.lines) {
 		value += line.contents;
 	}
@@ -131,13 +138,14 @@ TEST_CASE("libparser - csv_rw_route - preprocessor - $If multiple sub expression
 	processed =
 	    setup("$If(0),$Chr(75),$Else(),$Chr(75),$Chr(69),$Chr(86),$EndIf()"s, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 3);
-	value = ""s;
+	value.clear();
 	for (auto const& line : processed.lines) {
 		value += line.contents;
 	}
 	CHECK_EQ(value, "KEV"s);
 }
-TEST_CASE("libparsers - csv_rw_route - preprocessor - $If mutliple conditionals") {
+
+TEST_CASE("libparsers - csv_rw_route - preprocessor - $If multiple conditionals") {
 	parsers::errors::multi_error_t output_errors;
 	auto processed =
 	    setup("$If(1),$Chr(75),$If(1),$Chr(69),$If(1),$Chr(86),$Else(),$Chr(69),$EndIf()"s,
