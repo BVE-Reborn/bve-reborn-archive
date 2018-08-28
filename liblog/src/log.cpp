@@ -54,4 +54,3 @@ void logger::set_output_location(std::shared_ptr<std::ostream> name) {
 std::shared_ptr<std::ostream> logger::get_output_stream() {
 	return log_impl.file_;
 }
-

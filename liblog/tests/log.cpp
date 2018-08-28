@@ -2,12 +2,14 @@
 #include "doctest.h"
 #include "log_test.hpp"
 #include "utils.hpp"
-#include <boost/regex.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/regex.hpp>
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <sstream>
+
 using namespace std::string_literals;
 namespace bf = boost::filesystem;
 
@@ -29,7 +31,7 @@ TEST_CASE("liblog - write to ostream") {
 	CHECK_EQ(m[4], "hello\n"s);
 }
 
-TEST_CASE("liblog - should be able to change current severity") {
+TEST_CASE("liblog - change current severity") {
 	auto file = std::make_shared<std::ostringstream>();
 	logger::set_output_location(file);
 	// Default severity is note.
@@ -41,7 +43,7 @@ TEST_CASE("liblog - should be able to change current severity") {
 	logger::current_severity.set(logger::severity::note);
 }
 
-TEST_CASE("liblog - log should not print if given severitiy is lower than current severity") {
+TEST_CASE("liblog - only print if severity high enough") {
 	auto file = std::make_shared<std::ostringstream>();
 	logger::set_output_location(file);
 
@@ -83,7 +85,7 @@ TEST_CASE("liblog - log should not print if given severitiy is lower than curren
 	logger::current_severity.set(logger::severity::note);
 }
 
-TEST_CASE("liblog - should be able to write to a file.") {
+TEST_CASE("liblog - write to file") {
 	std::string file_name = create_temp_file();
 	logger::set_output_location(file_name);
 	LOG(fatal_error, "{}", "hello");
@@ -101,9 +103,11 @@ TEST_CASE("liblog - should be able to write to a file.") {
 	CHECK_EQ(m[2], ""s);
 	CHECK_EQ(m[3], ""s);
 	CHECK_EQ(m[4], "hello\n"s);
+	file.close();
+	boost::filesystem::remove(file_name);
 }
 
-TEST_CASE("liblog - should not write to a file if the severity is lower than current severity.") {
+TEST_CASE("liblog - only write to file if severity high enough") {
 	std::string file_name = create_temp_file();
 	logger::set_output_location(file_name);
 
@@ -147,9 +151,11 @@ TEST_CASE("liblog - should not write to a file if the severity is lower than cur
 	}
 	// Reset current severity to note.
 	logger::current_severity.set(logger::severity::note);
+	file.close();
+	boost::filesystem::remove(file_name);
 }
 
-TEST_CASE("liblog - logging should be thread safe.") {
+TEST_CASE("liblog - thread safety") {
 	auto file = std::make_shared<std::stringstream>();
 	logger::set_output_location(file);
 	// Changes the global severity and LOGs str, the LOG serverity will always be note.
@@ -188,7 +194,9 @@ TEST_CASE("liblog - logging should be thread safe.") {
 }
 
 TEST_CASE("liblog - changes to current severity should be thread safe.") {
-	auto change_sev = [](logger::severity s) noexcept { logger::current_severity.set(s); };
+	auto change_sev = [](logger::severity s) noexcept {
+		logger::current_severity.set(s);
+	};
 	auto t1 = std::async(std::launch::async, change_sev, logger::severity::info);
 	auto t2 = std::async(std::launch::async, change_sev, logger::severity::note);
 	auto t3 = std::async(std::launch::async, change_sev, logger::severity::warning);
