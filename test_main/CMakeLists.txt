@@ -7,6 +7,7 @@ add_executable(test_main main.cpp)
 
 target_link_libraries(test_main PUBLIC doctest::doctest options::iterator_debug_level_1) # Global tests
 target_link_libraries(test_main PUBLIC libparsers_test)
+target_link_libraries(test_main PUBLIC liblog_test)
 
 lint(FILES main.cpp)
 format(FILES main.cpp)

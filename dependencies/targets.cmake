@@ -30,7 +30,9 @@ set_target_properties(gsl::gsl PROPERTIES
 	INTERFACE_COMPILE_DEFINITIONS "GSL_THROW_ON_CONTRACT_VIOLATION"
 )
 
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/fmt)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
+target_compile_options(fmt PRIVATE "-fPIC")
 
 find_package(Sanitizers)
 
