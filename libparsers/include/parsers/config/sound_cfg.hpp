@@ -82,7 +82,7 @@ namespace config {
 		};
 
 		struct buzzer_t {
-			filename_iterator filename;
+			filename_iterator correct;
 		};
 
 		struct pilot_lamp_t {
@@ -131,7 +131,7 @@ namespace config {
 			suspension_t suspension_sounds;
 			horn_t horn_sounds;
 			doors_t door_sounds;
-			ats_t ats_sounds;
+			std::unordered_map<std::size_t, ats_t> ats_sounds;
 			buzzer_t buzzer_sounds;
 			pilot_lamp_t pilot_lamp_sounds;
 			break_handle_t break_handle_sounds;
@@ -141,10 +141,10 @@ namespace config {
 			misc_t misc_sounds;
 		};
 
-		parsed_sound_cfg_t parse(std::string const& filename,
-		                         std::string input_string,
-		                         errors::multi_error_t& errors,
-		                         find_relative_file_func const& get_relative_file);
+		parsed_sound_cfg_t parse(std::string const &filename,
+		                         std::string const &input_string,
+		                         errors::multi_error_t &errors,
+		                         find_relative_file_func const &get_relative_file);
 	} // namespace sound_cfg
 } // namespace config
 } // namespace parsers
