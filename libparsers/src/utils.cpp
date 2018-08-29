@@ -223,14 +223,13 @@ namespace util {
 		return vec;
 	}
 
-	bool match_against_lower(const std::string& text, const char* match) {
+	bool match_against_lower(const std::string& text, char const* const match) {
 		auto const text_len = text.size();
 		auto const match_len = std::strlen(match);
 
 		auto const min_len = std::min(text_len, match_len);
 
 		for (std::size_t i = 0; i < min_len; ++i) {
-			// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 			if (std::tolower(text[i]) != match[i]) {
 				return false;
 			}

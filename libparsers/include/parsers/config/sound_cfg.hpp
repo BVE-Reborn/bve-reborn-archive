@@ -62,9 +62,9 @@ namespace config {
 		};
 
 		struct legacy_horn_t {
-			filename_iterator start;
-			filename_iterator loop;
-			filename_iterator end;
+			filename_iterator primary;
+			filename_iterator secondary;
+			filename_iterator music;
 		};
 
 		using horn_t = mapbox::util::variant<looped_horn_t, legacy_horn_t>;
