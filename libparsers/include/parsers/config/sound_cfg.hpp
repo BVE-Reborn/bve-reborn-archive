@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 
 #include "parsers/errors.hpp"
 #include "parsers/find_relative_file.hpp"
@@ -28,7 +28,7 @@ namespace config {
 			filename_iterator filename;
 		};
 
-		struct break_t {
+		struct brake_t {
 			filename_iterator bc_release_high;
 			filename_iterator bc_release;
 			filename_iterator bc_release_full;
@@ -90,7 +90,7 @@ namespace config {
 			filename_iterator off;
 		};
 
-		struct break_handle_t {
+		struct brake_handle_t {
 			filename_iterator apply;
 			filename_iterator release;
 			filename_iterator min;
@@ -109,7 +109,7 @@ namespace config {
 			filename_iterator off;
 		};
 
-		struct breaker_t {
+		struct brakeer_t {
 			filename_iterator on;
 			filename_iterator off;
 		};
@@ -126,7 +126,7 @@ namespace config {
 			std::unordered_map<std::size_t, flange_t> flange_sounds;
 			std::unordered_map<std::size_t, motor_t> motor_sounds;
 			std::unordered_map<std::size_t, switch_t> switch_sounds;
-			break_t break_sounds;
+			brake_t brake_sounds;
 			compressor_t compressor_sounds;
 			suspension_t suspension_sounds;
 			horn_t horn_sounds;
@@ -134,10 +134,10 @@ namespace config {
 			std::unordered_map<std::size_t, ats_t> ats_sounds;
 			buzzer_t buzzer_sounds;
 			pilot_lamp_t pilot_lamp_sounds;
-			break_handle_t break_handle_sounds;
+			brake_handle_t brake_handle_sounds;
 			master_controller_t master_controller_sounds;
 			reverser_t reverser_sounds;
-			breaker_t breaker_sounds;
+			brakeer_t brakeer_sounds;
 			misc_t misc_sounds;
 		};
 

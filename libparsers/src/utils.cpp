@@ -223,9 +223,21 @@ namespace util {
 		return vec;
 	}
 
-	bool match_against_lower(const std::string& text, char const* const match) {
+	bool match_against_lower(const std::string& text, char const* const match, bool const exact) {
 		auto const text_len = text.size();
 		auto const match_len = std::strlen(match);
+
+		if (text_len == 0 && match_len != 0) {
+			return false;
+		}
+
+		if (match_len == 0) {
+			return true;
+		}
+
+		if (exact == true && text_len != match_len) {
+			return false;
+		}
 
 		auto const min_len = std::min(text_len, match_len);
 

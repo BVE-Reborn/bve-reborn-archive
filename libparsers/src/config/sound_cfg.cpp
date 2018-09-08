@@ -18,10 +18,10 @@ namespace config {
 
 				for (auto const& value : section.values) {
 					boost::smatch res;
-					bool found = boost::regex_match(value.value, res, r);
+					bool const found = boost::regex_match(value.value, res, r);
 
 					if (found) {
-						auto version = util::parse_loose_float(res[1]);
+						auto const version = util::parse_loose_float(res[1]);
 						if (version != 1.0f) {
 							std::ostringstream err;
 							err << version << " is not a recognized version number";
@@ -53,7 +53,7 @@ namespace config {
 			                  errors::errors_t& errors,
 			                  char const* const section,
 			                  char const* const name,
-			                  std::size_t line) {
+			                  std::size_t const line) {
 				if (flag) {
 					std::ostringstream err;
 					err << name << " already set within [" << section
@@ -92,8 +92,8 @@ namespace config {
 				return ret;
 			}
 
-			break_t create_empty_break(filename_iterator end) {
-				break_t ret;
+			brake_t create_empty_brake(filename_iterator end) {
+				brake_t ret;
 
 				ret.bc_release_high = end;
 				ret.bc_release = end;
@@ -105,13 +105,13 @@ namespace config {
 			}
 
 			template <class F>
-			break_t parse_break(F& get_filename,
+			brake_t parse_brake(F& get_filename,
 			                    errors::errors_t& errors,
 			                    ini::ini_section_t const& section,
 			                    filename_iterator end) {
 				function_check(get_filename);
 
-				break_t ret = create_empty_break(end);
+				brake_t ret = create_empty_brake(end);
 
 				bool bc_release_high_flag = false, //
 				    bc_release_flag = false,       //
@@ -120,26 +120,26 @@ namespace config {
 				    bp_decompression_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "bc release high")) {
-						check_if_set(bc_release_high_flag, errors, "break", "BC Release High",
+					if (util::match_against_lower(kvp.key, "bc release high")) {
+						check_if_set(bc_release_high_flag, errors, "brake", "BC Release High",
 						             kvp.line);
 						ret.bc_release_high = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "bc release")) {
-						check_if_set(bc_release_flag, errors, "break", "BC Release", kvp.line);
+					else if (util::match_against_lower(kvp.key, "bc release")) {
+						check_if_set(bc_release_flag, errors, "brake", "BC Release", kvp.line);
 						ret.bc_release = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "bc release full")) {
-						check_if_set(bc_release_full_flag, errors, "break", "BC Release Full",
+					else if (util::match_against_lower(kvp.key, "bc release full")) {
+						check_if_set(bc_release_full_flag, errors, "brake", "BC Release Full",
 						             kvp.line);
 						ret.bc_release_full = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "emergency")) {
-						check_if_set(emergency_flag, errors, "break", "Emergency", kvp.line);
+					else if (util::match_against_lower(kvp.key, "emergency")) {
+						check_if_set(emergency_flag, errors, "brake", "Emergency", kvp.line);
 						ret.emergency = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "bp decomp")) {
-						check_if_set(bp_decompression_flag, errors, "break", "BP Decomp", kvp.line);
+					else if (util::match_against_lower(kvp.key, "bp decomp")) {
+						check_if_set(bp_decompression_flag, errors, "brake", "BP Decomp", kvp.line);
 						ret.bp_decompression = get_filename(kvp.value);
 					}
 					else {
@@ -176,15 +176,15 @@ namespace config {
 				    release_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "attack")) {
+					if (util::match_against_lower(kvp.key, "attack")) {
 						check_if_set(attack_flag, errors, "compressor", "Attack", kvp.line);
 						ret.attack = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "loop")) {
+					else if (util::match_against_lower(kvp.key, "loop")) {
 						check_if_set(loop_flag, errors, "compressor", "Loop", kvp.line);
 						ret.loop = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "release")) {
+					else if (util::match_against_lower(kvp.key, "release")) {
 						check_if_set(release_flag, errors, "compressor", "Release", kvp.line);
 						ret.release = get_filename(kvp.value);
 					}
@@ -220,11 +220,11 @@ namespace config {
 				    right_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "left")) {
+					if (util::match_against_lower(kvp.key, "left")) {
 						check_if_set(left_flag, errors, "suspension", "Left", kvp.line);
 						ret.left = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "right")) {
+					else if (util::match_against_lower(kvp.key, "right")) {
 						check_if_set(right_flag, errors, "suspension", "Right", kvp.line);
 						ret.right = get_filename(kvp.value);
 					}
@@ -304,49 +304,49 @@ namespace config {
 					// looped horn //
 					/////////////////
 
-					if (util::match_against_lower(kvp.value, "primarystart")) {
+					if (util::match_against_lower(kvp.key, "primarystart")) {
 						check_if_set(primary_start_flag, errors, "horn", "Primary Start", kvp.line);
 						looped_ret.primary_start = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "primaryloop")) {
+					else if (util::match_against_lower(kvp.key, "primaryloop")) {
 						check_if_set(primary_loop_flag, errors, "horn", "Primary Loop", kvp.line);
 						looped_ret.primary_loop = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "primaryend")) {
+					else if (util::match_against_lower(kvp.key, "primaryend")) {
 						check_if_set(primary_end_flag, errors, "horn", "Primary End", kvp.line);
 						looped_ret.primary_end = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "secondarystart")) {
+					else if (util::match_against_lower(kvp.key, "secondarystart")) {
 						check_if_set(secondary_start_flag, errors, "horn", "Secondary Start",
 						             kvp.line);
 						looped_ret.secondary_start = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "secondaryloop")) {
+					else if (util::match_against_lower(kvp.key, "secondaryloop")) {
 						check_if_set(secondary_loop_flag, errors, "horn", "Secondary Loop",
 						             kvp.line);
 						looped_ret.secondary_loop = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "secondaryend")) {
+					else if (util::match_against_lower(kvp.key, "secondaryend")) {
 						check_if_set(secondary_end_flag, errors, "horn", "Secondary End", kvp.line);
 						looped_ret.secondary_end = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "musicstart")) {
+					else if (util::match_against_lower(kvp.key, "musicstart")) {
 						check_if_set(music_start_flag, errors, "horn", "Music Start", kvp.line);
 						looped_ret.music_start = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "musicloop")) {
+					else if (util::match_against_lower(kvp.key, "musicloop")) {
 						check_if_set(music_loop_flag, errors, "horn", "Music Loop", kvp.line);
 						looped_ret.music_loop = get_filename(kvp.value);
 						new_stuff = true;
 					}
-					else if (util::match_against_lower(kvp.value, "musicend")) {
+					else if (util::match_against_lower(kvp.key, "musicend")) {
 						check_if_set(music_end_flag, errors, "horn", "Music End", kvp.line);
 						looped_ret.music_end = get_filename(kvp.value);
 						new_stuff = true;
@@ -356,17 +356,17 @@ namespace config {
 					// legacy horn //
 					/////////////////
 
-					else if (util::match_against_lower(kvp.value, "primary")) {
+					else if (util::match_against_lower(kvp.key, "primary")) {
 						check_if_set(primary_flag, errors, "horn", "Primary", kvp.line);
 						legacy_ret.primary = get_filename(kvp.value);
 						legacy_test("Primary", kvp.line);
 					}
-					else if (util::match_against_lower(kvp.value, "secondary")) {
+					else if (util::match_against_lower(kvp.key, "secondary")) {
 						check_if_set(secondary_flag, errors, "horn", "Secondary", kvp.line);
 						legacy_ret.secondary = get_filename(kvp.value);
 						legacy_test("Secondary", kvp.line);
 					}
-					else if (util::match_against_lower(kvp.value, "music")) {
+					else if (util::match_against_lower(kvp.key, "music")) {
 						check_if_set(music_flag, errors, "horn", "Music", kvp.line);
 						legacy_ret.music = get_filename(kvp.value);
 						legacy_test("Music", kvp.line);
@@ -416,19 +416,19 @@ namespace config {
 				    close_right_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "open left")) {
+					if (util::match_against_lower(kvp.key, "open left")) {
 						check_if_set(open_left_flag, errors, "doors", "Open Left", kvp.line);
 						ret.open_left = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "open right")) {
+					else if (util::match_against_lower(kvp.key, "open right")) {
 						check_if_set(open_right_flag, errors, "doors", "Open Right", kvp.line);
 						ret.open_right = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "close left")) {
+					else if (util::match_against_lower(kvp.key, "close left")) {
 						check_if_set(close_left_flag, errors, "doors", "Close Left", kvp.line);
 						ret.close_left = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "open right")) {
+					else if (util::match_against_lower(kvp.key, "open right")) {
 						check_if_set(close_right_flag, errors, "doors", "Close Right", kvp.line);
 						ret.close_right = get_filename(kvp.value);
 					}
@@ -462,7 +462,7 @@ namespace config {
 				bool correct_flag = false; //
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "correct")) {
+					if (util::match_against_lower(kvp.key, "correct")) {
 						check_if_set(correct_flag, errors, "buzzer", "Correct", kvp.line);
 						ret.correct = get_filename(kvp.value);
 					}
@@ -493,11 +493,11 @@ namespace config {
 				    off_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "on")) {
+					if (util::match_against_lower(kvp.key, "on")) {
 						check_if_set(on_flag, errors, "Pilot Lamp", "On", kvp.line);
 						ret.on = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "off")) {
+					else if (util::match_against_lower(kvp.key, "off")) {
 						check_if_set(off_flag, errors, "Pilot Lamp", "Off", kvp.line);
 						ret.off = get_filename(kvp.value);
 					}
@@ -511,8 +511,8 @@ namespace config {
 				return ret;
 			}
 
-			break_handle_t create_empty_break_handle(filename_iterator end) {
-				break_handle_t ret;
+			brake_handle_t create_empty_brake_handle(filename_iterator end) {
+				brake_handle_t ret;
 
 				ret.apply = end;
 				ret.release = end;
@@ -523,13 +523,13 @@ namespace config {
 			}
 
 			template <class F>
-			break_handle_t parse_break_handle(F& get_filename,
+			brake_handle_t parse_brake_handle(F& get_filename,
 			                                  errors::errors_t& errors,
 			                                  ini::ini_section_t const& section,
 			                                  filename_iterator end) {
 				function_check(get_filename);
 
-				break_handle_t ret = create_empty_break_handle(end);
+				brake_handle_t ret = create_empty_brake_handle(end);
 
 				bool apply_flag = false,  //
 				    release_flag = false, //
@@ -537,20 +537,20 @@ namespace config {
 				    max_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "apply")) {
-						check_if_set(apply_flag, errors, "Break Handle", "Apply", kvp.line);
+					if (util::match_against_lower(kvp.key, "apply")) {
+						check_if_set(apply_flag, errors, "brake Handle", "Apply", kvp.line);
 						ret.apply = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "release")) {
-						check_if_set(release_flag, errors, "Break Handle", "Release", kvp.line);
+					else if (util::match_against_lower(kvp.key, "release")) {
+						check_if_set(release_flag, errors, "brake Handle", "Release", kvp.line);
 						ret.release = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "min")) {
-						check_if_set(min_flag, errors, "Break Handle", "Min", kvp.line);
+					else if (util::match_against_lower(kvp.key, "min")) {
+						check_if_set(min_flag, errors, "brake Handle", "Min", kvp.line);
 						ret.min = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "max")) {
-						check_if_set(max_flag, errors, "Break Handle", "Max", kvp.line);
+					else if (util::match_against_lower(kvp.key, "max")) {
+						check_if_set(max_flag, errors, "brake Handle", "Max", kvp.line);
 						ret.max = get_filename(kvp.value);
 					}
 					else {
@@ -589,19 +589,19 @@ namespace config {
 				    max_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "up")) {
+					if (util::match_against_lower(kvp.key, "up")) {
 						check_if_set(up_flag, errors, "Master Controller", "Up", kvp.line);
 						ret.up = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "down")) {
+					else if (util::match_against_lower(kvp.key, "down")) {
 						check_if_set(down_flag, errors, "Master Controller", "Down", kvp.line);
 						ret.down = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "min")) {
+					else if (util::match_against_lower(kvp.key, "min")) {
 						check_if_set(min_flag, errors, "Master Controller", "Min", kvp.line);
 						ret.min = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "max")) {
+					else if (util::match_against_lower(kvp.key, "max")) {
 						check_if_set(max_flag, errors, "Master Controller", "Max", kvp.line);
 						ret.max = get_filename(kvp.value);
 					}
@@ -637,11 +637,11 @@ namespace config {
 				    off_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "on")) {
+					if (util::match_against_lower(kvp.key, "on")) {
 						check_if_set(on_flag, errors, "Reverser", "On", kvp.line);
 						ret.on = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "off")) {
+					else if (util::match_against_lower(kvp.key, "off")) {
 						check_if_set(off_flag, errors, "Reverser", "Off", kvp.line);
 						ret.off = get_filename(kvp.value);
 					}
@@ -655,8 +655,8 @@ namespace config {
 				return ret;
 			}
 
-			breaker_t create_empty_breaker(filename_iterator end) {
-				breaker_t ret;
+			brakeer_t create_empty_brakeer(filename_iterator end) {
+				brakeer_t ret;
 
 				ret.on = end;
 				ret.off = end;
@@ -665,24 +665,24 @@ namespace config {
 			}
 
 			template <class F>
-			breaker_t parse_breaker(F& get_filename,
+			brakeer_t parse_brakeer(F& get_filename,
 			                        errors::errors_t& errors,
 			                        ini::ini_section_t const& section,
 			                        filename_iterator end) {
 				function_check(get_filename);
 
-				breaker_t ret = create_empty_breaker(end);
+				brakeer_t ret = create_empty_brakeer(end);
 
 				bool on_flag = false, //
 				    off_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "on")) {
-						check_if_set(on_flag, errors, "Breaker", "On", kvp.line);
+					if (util::match_against_lower(kvp.key, "on")) {
+						check_if_set(on_flag, errors, "brakeer", "On", kvp.line);
 						ret.on = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "off")) {
-						check_if_set(off_flag, errors, "Breaker", "Off", kvp.line);
+					else if (util::match_against_lower(kvp.key, "off")) {
+						check_if_set(off_flag, errors, "brakeer", "Off", kvp.line);
 						ret.off = get_filename(kvp.value);
 					}
 					else {
@@ -717,11 +717,11 @@ namespace config {
 				    shoe_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
-					if (util::match_against_lower(kvp.value, "noise")) {
+					if (util::match_against_lower(kvp.key, "noise")) {
 						check_if_set(noise_flag, errors, "Others", "Noise", kvp.line);
 						ret.noise = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.value, "shoe")) {
+					else if (util::match_against_lower(kvp.key, "shoe")) {
 						check_if_set(shoe_flag, errors, "Others", "Shoe", kvp.line);
 						ret.shoe = get_filename(kvp.value);
 					}
@@ -754,7 +754,7 @@ namespace config {
 			    flange_flag = false,            //
 			    motor_flag = false,             //
 			    switch_flag = false,            //
-			    break_flag = false,             //
+			    brake_flag = false,             //
 			    compressor_flag = false,        //
 			    suspension_flag = false,        //
 			    horn_flag = false,              //
@@ -762,13 +762,13 @@ namespace config {
 			    ats_flag = false,               //
 			    buzzer_flag = false,            //
 			    pilot_lamp_flag = false,        //
-			    break_handle_flag = false,      //
+			    brake_handle_flag = false,      //
 			    master_controller_flag = false, //
 			    reverser_flag = false,          //
-			    breaker_flag = false,           //
+			    brakeer_flag = false,           //
 			    misc_flag = false;
 
-			auto check_if_section_used = [&](bool& flag, char const* const name, std::size_t line) {
+			auto const check_if_section_used = [&](bool& flag, char const* const name, std::size_t line) {
 				if (flag) {
 					std::ostringstream err;
 					err << "[" << name << "] has already been defined. Overriding with new value."s;
@@ -777,7 +777,7 @@ namespace config {
 				flag = true;
 			};
 
-			auto end_iterator = psc.filenames.end();
+			auto const end_iterator = psc.filenames.end();
 
 			for (auto const& section : parsed_ini) {
 				if (util::match_against_lower(section.name, "run")) {
@@ -800,9 +800,9 @@ namespace config {
 					psc.switch_sounds =
 					    parse_number_filename_pairs<switch_t>(get_filename, file_error, section);
 				}
-				else if (util::match_against_lower(section.name, "break")) {
-					check_if_section_used(break_flag, "break", section.line);
-					psc.break_sounds = parse_break(get_filename, file_error, section, end_iterator);
+				else if (util::match_against_lower(section.name, "brake")) {
+					check_if_section_used(brake_flag, "brake", section.line);
+					psc.brake_sounds = parse_brake(get_filename, file_error, section, end_iterator);
 				}
 				else if (util::match_against_lower(section.name, "compressor")) {
 					check_if_section_used(compressor_flag, "compressor", section.line);
@@ -837,10 +837,10 @@ namespace config {
 					psc.pilot_lamp_sounds =
 					    parse_pilot_lamp(get_filename, file_error, section, end_iterator);
 				}
-				else if (util::match_against_lower(section.name, "break handle")) {
-					check_if_section_used(break_handle_flag, "break handle", section.line);
-					psc.break_handle_sounds =
-					    parse_break_handle(get_filename, file_error, section, end_iterator);
+				else if (util::match_against_lower(section.name, "brake handle")) {
+					check_if_section_used(brake_handle_flag, "brake handle", section.line);
+					psc.brake_handle_sounds =
+					    parse_brake_handle(get_filename, file_error, section, end_iterator);
 				}
 				else if (util::match_against_lower(section.name, "master controller")) {
 					check_if_section_used(master_controller_flag, "master controller",
@@ -853,10 +853,10 @@ namespace config {
 					psc.reverser_sounds =
 					    parse_reverser(get_filename, file_error, section, end_iterator);
 				}
-				else if (util::match_against_lower(section.name, "breaker")) {
-					check_if_section_used(breaker_flag, "breaker", section.line);
-					psc.breaker_sounds =
-					    parse_breaker(get_filename, file_error, section, end_iterator);
+				else if (util::match_against_lower(section.name, "brakeer")) {
+					check_if_section_used(brakeer_flag, "brakeer", section.line);
+					psc.brakeer_sounds =
+					    parse_brakeer(get_filename, file_error, section, end_iterator);
 				}
 				else if (util::match_against_lower(section.name, "others")) {
 					check_if_section_used(misc_flag, "others", section.line);
@@ -883,8 +883,8 @@ namespace config {
 
 			// Only functions that are raw structs. Maps don't have to be filled, they would just be
 			// empty.
-			if (!break_flag) {
-				psc.break_sounds = create_empty_break(end_iterator);
+			if (!brake_flag) {
+				psc.brake_sounds = create_empty_brake(end_iterator);
 			}
 			if (!compressor_flag) {
 				psc.compressor_sounds = create_empty_compressor(end_iterator);
@@ -898,8 +898,8 @@ namespace config {
 			if (!pilot_lamp_flag) {
 				psc.pilot_lamp_sounds = create_empty_pilot_lamp(end_iterator);
 			}
-			if (!break_handle_flag) {
-				psc.break_handle_sounds = create_empty_break_handle(end_iterator);
+			if (!brake_handle_flag) {
+				psc.brake_handle_sounds = create_empty_brake_handle(end_iterator);
 			}
 			if (!master_controller_flag) {
 				psc.master_controller_sounds = create_empty_master_controller(end_iterator);
@@ -907,8 +907,8 @@ namespace config {
 			if (!reverser_flag) {
 				psc.reverser_sounds = create_empty_reverser(end_iterator);
 			}
-			if (!breaker_flag) {
-				psc.breaker_sounds = create_empty_breaker(end_iterator);
+			if (!brakeer_flag) {
+				psc.brakeer_sounds = create_empty_brakeer(end_iterator);
 			}
 			if (!misc_flag) {
 				psc.misc_sounds = create_empty_misc(end_iterator);
