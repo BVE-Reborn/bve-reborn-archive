@@ -300,6 +300,10 @@ namespace config {
 				};
 
 				for (auto const& kvp : section.key_value_pairs) {
+					/////////////////
+					// looped horn //
+					/////////////////
+
 					if (util::match_against_lower(kvp.value, "primarystart")) {
 						check_if_set(primary_start_flag, errors, "horn", "Primary Start", kvp.line);
 						looped_ret.primary_start = get_filename(kvp.value);
@@ -348,6 +352,10 @@ namespace config {
 						new_stuff = true;
 					}
 
+					/////////////////
+					// legacy horn //
+					/////////////////
+
 					else if (util::match_against_lower(kvp.value, "primary")) {
 						check_if_set(primary_flag, errors, "horn", "Primary", kvp.line);
 						legacy_ret.primary = get_filename(kvp.value);
@@ -363,6 +371,10 @@ namespace config {
 						legacy_ret.music = get_filename(kvp.value);
 						legacy_test("Music", kvp.line);
 					}
+
+					////////////
+					// errors //
+					////////////
 
 					else {
 						std::ostringstream err;

@@ -1,15 +1,10 @@
 #include "doctest.h"
+#include "sample_relative_file_func.hpp"
 #include "utils.hpp"
 #include <parsers/xml/stations.hpp>
 
 namespace st = parsers::xml::stations;
 using namespace std::string_literals;
-
-namespace {
-std::string rel_file_func(std::string const& base, std::string const& relative) {
-	return base + "/" + relative;
-}
-} // namespace
 
 TEST_SUITE_BEGIN("libparsers - xml - stations and request stops");
 

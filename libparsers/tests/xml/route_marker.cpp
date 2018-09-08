@@ -1,3 +1,4 @@
+#include "sample_relative_file_func.hpp"
 #include "utils.hpp"
 #include <doctest.h>
 #include <parsers/xml/route_marker.hpp>
@@ -30,7 +31,6 @@ TEST_CASE("libparsers - xml - route_marker - image based marker") {
             "</ImageMarker>"
         "</openBVE>"s;
 	// clang-format on
-	auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
@@ -79,7 +79,6 @@ TEST_CASE(
             "</ImageMarker>"
         "</openBVE>"s;
 	// clang-format on
-	auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
@@ -116,7 +115,6 @@ TEST_CASE(
                 "</ImageMarker>"
             "</openBVE>"s;
 	// clang-format on
-	auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
@@ -155,7 +153,6 @@ TEST_CASE("libparsers - xml - router_marker - text base marker") {
             "</TextMarker>"
         "</openBVE>"s;
 	// clang-format on
-	auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
@@ -192,7 +189,6 @@ TEST_CASE(
                 "</TextMarker>"
             "</openBVE>"s;
 	// clang-format on
-	auto rel_file_func = [](std::string base, std::string rel) { return base + "/" + rel; };
 	parsers::errors::multi_error_t output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);

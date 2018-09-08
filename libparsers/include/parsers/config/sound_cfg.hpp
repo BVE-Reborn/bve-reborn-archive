@@ -141,10 +141,10 @@ namespace config {
 			misc_t misc_sounds;
 		};
 
-		parsed_sound_cfg_t parse(std::string const &filename,
-		                         std::string const &input_string,
-		                         errors::multi_error_t &errors,
-		                         find_relative_file_func const &get_relative_file);
+		parsed_sound_cfg_t parse(std::string const& filename,
+		                         std::string const& input_string,
+		                         errors::multi_error_t& errors,
+		                         find_relative_file_func const& get_relative_file);
 	} // namespace sound_cfg
 } // namespace config
 } // namespace parsers

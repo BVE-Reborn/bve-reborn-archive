@@ -1,14 +1,11 @@
 #include "parsers/xml/dynamic_background.hpp"
+#include "sample_relative_file_func.hpp"
 #include "utils.hpp"
 #include <doctest.h>
 #include <iostream>
 
 namespace db = parsers::xml::dynamic_background;
 using namespace std::string_literals;
-
-std::string rel_file_func(std::string const& base, std::string const& rel) {
-	return base + "/" + rel;
-}
 
 TEST_SUITE_BEGIN("libparsers - xml - dynamic_background");
 
