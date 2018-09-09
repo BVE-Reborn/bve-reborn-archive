@@ -11,7 +11,7 @@ namespace config {
 	namespace sound_cfg {
 		namespace {
 			void check_version_number(errors::errors_t& errors, ini::ini_section_t const& section) {
-				static boost::regex const r(R"(version\w*(\d+(?:\.\d*)?))",
+				static boost::regex const r(R"(version\s*(\d+(?:\.\d*)?))",
 				                            boost::regex_constants::optimize
 				                                | boost::regex_constants::icase
 				                                | boost::regex_constants::perl);

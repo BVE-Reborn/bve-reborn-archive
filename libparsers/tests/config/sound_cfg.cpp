@@ -56,6 +56,27 @@ NUMBERED_PAIR_TEST(motor);
 NUMBERED_PAIR_TEST(switch);
 NUMBERED_PAIR_TEST(ats);
 
+TEST_CASE("libparsers - config - sound - version") {
+	std::string const input =
+	    "Version 1.0\n"s;
+
+	errors::multi_error_t me;
+
+	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
+
+	CHECK_EQ(me["sound.cfg"s].size(), 0);
+}
+
+TEST_CASE("libparsers - config - sound - version - invalid") {
+	std::string const input = "Version 2.2\n"s;
+
+	errors::multi_error_t me;
+
+	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
+
+	CHECK_EQ(me["sound.cfg"s].size(), 1);
+}
+
 TEST_CASE("libparsers - config - sound - [brake]") {
 	std::string const input =
 	    "[brake]\n"
