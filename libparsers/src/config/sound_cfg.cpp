@@ -386,7 +386,6 @@ namespace config {
 				if (new_stuff) {
 					// remove legacy filenames
 
-
 					return looped_ret;
 				}
 
@@ -674,9 +673,9 @@ namespace config {
 
 			template <class F>
 			braker_t parse_breaker(F& get_filename,
-			                        errors::errors_t& errors,
-			                        ini::ini_section_t const& section,
-			                        filename_iterator end) {
+			                       errors::errors_t& errors,
+			                       ini::ini_section_t const& section,
+			                       filename_iterator end) {
 				function_check(get_filename);
 
 				braker_t ret = create_empty_breaker(end);
@@ -747,9 +746,9 @@ namespace config {
 				std::set<std::string> new_filenames;
 
 				auto const filename_from_stritr = [&](auto const& file_iter) {
-					if (file_iter != psc.filenames.end()){
- 						return new_filenames.insert(*file_iter).first;
- 					}
+					if (file_iter != psc.filenames.end()) {
+						return new_filenames.insert(*file_iter).first;
+					}
 					return new_filenames.end();
 				};
 
@@ -768,11 +767,14 @@ namespace config {
 				for (auto&& filename : psc.ats_sounds) {
 					filename.second.filename = filename_from_stritr(filename.second.filename);
 				}
-				psc.brake_sounds.bc_release_high = filename_from_stritr(psc.brake_sounds.bc_release_high);
+				psc.brake_sounds.bc_release_high =
+				    filename_from_stritr(psc.brake_sounds.bc_release_high);
 				psc.brake_sounds.bc_release = filename_from_stritr(psc.brake_sounds.bc_release);
-				psc.brake_sounds.bc_release_full = filename_from_stritr(psc.brake_sounds.bc_release_full);
+				psc.brake_sounds.bc_release_full =
+				    filename_from_stritr(psc.brake_sounds.bc_release_full);
 				psc.brake_sounds.emergency = filename_from_stritr(psc.brake_sounds.emergency);
-				psc.brake_sounds.bp_decompression = filename_from_stritr(psc.brake_sounds.bp_decompression);
+				psc.brake_sounds.bp_decompression =
+				    filename_from_stritr(psc.brake_sounds.bp_decompression);
 
 				psc.compressor_sounds.attack = filename_from_stritr(psc.compressor_sounds.attack);
 				psc.compressor_sounds.loop = filename_from_stritr(psc.compressor_sounds.loop);
@@ -794,7 +796,7 @@ namespace config {
 					looped.music_loop = filename_from_stritr(looped.music_loop);
 					looped.music_end = filename_from_stritr(looped.music_end);
 				}
-				else if(psc.horn_sounds.is<legacy_horn_t>()) {
+				else if (psc.horn_sounds.is<legacy_horn_t>()) {
 					auto&& legacy = psc.horn_sounds.get_unchecked<legacy_horn_t>();
 
 					legacy.primary = filename_from_stritr(legacy.primary);
@@ -813,14 +815,19 @@ namespace config {
 				psc.pilot_lamp_sounds.off = filename_from_stritr(psc.pilot_lamp_sounds.off);
 
 				psc.brake_handle_sounds.apply = filename_from_stritr(psc.brake_handle_sounds.apply);
-				psc.brake_handle_sounds.release = filename_from_stritr(psc.brake_handle_sounds.release);
+				psc.brake_handle_sounds.release =
+				    filename_from_stritr(psc.brake_handle_sounds.release);
 				psc.brake_handle_sounds.min = filename_from_stritr(psc.brake_handle_sounds.min);
 				psc.brake_handle_sounds.max = filename_from_stritr(psc.brake_handle_sounds.max);
 
-				psc.master_controller_sounds.up = filename_from_stritr(psc.master_controller_sounds.up);
-				psc.master_controller_sounds.down = filename_from_stritr(psc.master_controller_sounds.down);
-				psc.master_controller_sounds.min = filename_from_stritr(psc.master_controller_sounds.min);
-				psc.master_controller_sounds.max = filename_from_stritr(psc.master_controller_sounds.max);
+				psc.master_controller_sounds.up =
+				    filename_from_stritr(psc.master_controller_sounds.up);
+				psc.master_controller_sounds.down =
+				    filename_from_stritr(psc.master_controller_sounds.down);
+				psc.master_controller_sounds.min =
+				    filename_from_stritr(psc.master_controller_sounds.min);
+				psc.master_controller_sounds.max =
+				    filename_from_stritr(psc.master_controller_sounds.max);
 
 				psc.reverser_sounds.on = filename_from_stritr(psc.reverser_sounds.on);
 				psc.reverser_sounds.off = filename_from_stritr(psc.reverser_sounds.off);
@@ -845,9 +852,6 @@ namespace config {
 			auto get_filename = [&](std::string const& relfile) {
 				return psc.filenames.insert(get_relative_file(filename, relfile)).first;
 			};
-			auto has_filename = [&](std::string const& relfile) {
-				return psc.filenames.count(get_relative_file(filename, relfile));
-			};
 
 			auto& file_error = errors[filename];
 
@@ -868,10 +872,11 @@ namespace config {
 			    brake_handle_flag = false,      //
 			    master_controller_flag = false, //
 			    reverser_flag = false,          //
-			    braker_flag = false,           //
+			    braker_flag = false,            //
 			    misc_flag = false;
 
-			auto const check_if_section_used = [&](bool& flag, char const* const name, std::size_t line) {
+			auto const check_if_section_used = [&](bool& flag, char const* const name,
+			                                       std::size_t line) {
 				if (flag) {
 					std::ostringstream err;
 					err << "[" << name << "] has already been defined. Overriding with new value."s;

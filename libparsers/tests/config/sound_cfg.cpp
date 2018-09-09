@@ -50,15 +50,14 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 		         result.filenames.find("sound.cfg/file4"s));                                           \
 	}
 
-NUMBERED_PAIR_TEST(run);
-NUMBERED_PAIR_TEST(flange);
-NUMBERED_PAIR_TEST(motor);
-NUMBERED_PAIR_TEST(switch);
-NUMBERED_PAIR_TEST(ats);
+NUMBERED_PAIR_TEST(run)
+NUMBERED_PAIR_TEST(flange)
+NUMBERED_PAIR_TEST(motor)
+NUMBERED_PAIR_TEST(switch)
+NUMBERED_PAIR_TEST(ats)
 
 TEST_CASE("libparsers - config - sound - version") {
-	std::string const input =
-	    "Version 1.0\n"s;
+	std::string const input = "Version 1.0\n"s;
 
 	errors::multi_error_t me;
 
@@ -452,23 +451,23 @@ TEST_CASE("libparsers - config - sound - [others]") {
 		CHECK_EQ(me["sound.cfg"s].size(), 1);                                                        \
 	}
 
-INVALID_KEY_TEST(run);
-INVALID_KEY_TEST(flange);
-INVALID_KEY_TEST(motor);
-INVALID_KEY_TEST(switch);
-INVALID_KEY_TEST(brake);
-INVALID_KEY_TEST(compressor);
-INVALID_KEY_TEST(suspension);
-INVALID_KEY_TEST(horn);
-INVALID_KEY_TEST(door);
-INVALID_KEY_TEST(ats);
-INVALID_KEY_TEST(buzzer);
-INVALID_KEY_TEST(pilot lamp);
-INVALID_KEY_TEST(brake handle);
-INVALID_KEY_TEST(master controller);
-INVALID_KEY_TEST(reverser);
-INVALID_KEY_TEST(breaker);
-INVALID_KEY_TEST(others);
+INVALID_KEY_TEST(run)
+INVALID_KEY_TEST(flange)
+INVALID_KEY_TEST(motor)
+INVALID_KEY_TEST(switch)
+INVALID_KEY_TEST(brake)
+INVALID_KEY_TEST(compressor)
+INVALID_KEY_TEST(suspension)
+INVALID_KEY_TEST(horn)
+INVALID_KEY_TEST(door)
+INVALID_KEY_TEST(ats)
+INVALID_KEY_TEST(buzzer)
+INVALID_KEY_TEST(pilot lamp)
+INVALID_KEY_TEST(brake handle)
+INVALID_KEY_TEST(master controller)
+INVALID_KEY_TEST(reverser)
+INVALID_KEY_TEST(breaker)
+INVALID_KEY_TEST(others)
 
 #define DUPLICATE_KEY_TEST(name, key, geteq)                                                       \
 	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {           \
@@ -495,26 +494,26 @@ INVALID_KEY_TEST(others);
 	                        ? result.CONCAT(name, _sounds).find(0)->second.filename                \
 	                        : result.filenames.end()))
 
-DUPLICATE_KEY_TEST_INDEXED(run);
-DUPLICATE_KEY_TEST_INDEXED(flange);
-DUPLICATE_KEY_TEST_INDEXED(motor);
-DUPLICATE_KEY_TEST_INDEXED(switch);
-DUPLICATE_KEY_TEST_INDEXED(ats);
+DUPLICATE_KEY_TEST_INDEXED(run)
+DUPLICATE_KEY_TEST_INDEXED(flange)
+DUPLICATE_KEY_TEST_INDEXED(motor)
+DUPLICATE_KEY_TEST_INDEXED(switch)
+DUPLICATE_KEY_TEST_INDEXED(ats)
 
 DUPLICATE_KEY_TEST(brake, emergency, result.brake_sounds.emergency);
-DUPLICATE_KEY_TEST(compressor, attack, result.compressor_sounds.attack);
-DUPLICATE_KEY_TEST(suspension, left, result.suspension_sounds.left);
+DUPLICATE_KEY_TEST(compressor, attack, result.compressor_sounds.attack)
+DUPLICATE_KEY_TEST(suspension, left, result.suspension_sounds.left)
 DUPLICATE_KEY_TEST(horn,
                    primarystart,
-                   result.horn_sounds.get<sound_cfg::looped_horn_t>().primary_start);
-DUPLICATE_KEY_TEST(door, open left, result.door_sounds.open_left);
-DUPLICATE_KEY_TEST(buzzer, correct, result.buzzer_sounds.correct);
-DUPLICATE_KEY_TEST(pilot lamp, on, result.pilot_lamp_sounds.on);
-DUPLICATE_KEY_TEST(brake handle, apply, result.brake_handle_sounds.apply);
-DUPLICATE_KEY_TEST(master controller, up, result.master_controller_sounds.up);
-DUPLICATE_KEY_TEST(reverser, on, result.reverser_sounds.on);
-DUPLICATE_KEY_TEST(breaker, on, result.breaker_sounds.on);
-DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise);
+                   result.horn_sounds.get<sound_cfg::looped_horn_t>().primary_start)
+DUPLICATE_KEY_TEST(door, open left, result.door_sounds.open_left)
+DUPLICATE_KEY_TEST(buzzer, correct, result.buzzer_sounds.correct)
+DUPLICATE_KEY_TEST(pilot lamp, on, result.pilot_lamp_sounds.on)
+DUPLICATE_KEY_TEST(brake handle, apply, result.brake_handle_sounds.apply)
+DUPLICATE_KEY_TEST(master controller, up, result.master_controller_sounds.up)
+DUPLICATE_KEY_TEST(reverser, on, result.reverser_sounds.on)
+DUPLICATE_KEY_TEST(breaker, on, result.breaker_sounds.on)
+DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise)
 
 #define DUPLICATE_SECTION_TEST(name, key, geteq)                                                     \
 	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {             \
@@ -542,25 +541,25 @@ DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise);
 	                        ? result.CONCAT(name, _sounds).find(0)->second.filename                \
 	                        : result.filenames.end()))
 
-DUPLICATE_SECTION_TEST_INDEXED(run);
-DUPLICATE_SECTION_TEST_INDEXED(flange);
-DUPLICATE_SECTION_TEST_INDEXED(motor);
-DUPLICATE_SECTION_TEST_INDEXED(switch);
-DUPLICATE_SECTION_TEST_INDEXED(ats);
+DUPLICATE_SECTION_TEST_INDEXED(run)
+DUPLICATE_SECTION_TEST_INDEXED(flange)
+DUPLICATE_SECTION_TEST_INDEXED(motor)
+DUPLICATE_SECTION_TEST_INDEXED(switch)
+DUPLICATE_SECTION_TEST_INDEXED(ats)
 
-DUPLICATE_SECTION_TEST(brake, emergency, result.brake_sounds.emergency);
-DUPLICATE_SECTION_TEST(compressor, attack, result.compressor_sounds.attack);
-DUPLICATE_SECTION_TEST(suspension, left, result.suspension_sounds.left);
+DUPLICATE_SECTION_TEST(brake, emergency, result.brake_sounds.emergency)
+DUPLICATE_SECTION_TEST(compressor, attack, result.compressor_sounds.attack)
+DUPLICATE_SECTION_TEST(suspension, left, result.suspension_sounds.left)
 DUPLICATE_SECTION_TEST(horn,
                        primarystart,
-                       result.horn_sounds.get<sound_cfg::looped_horn_t>().primary_start);
-DUPLICATE_SECTION_TEST(door, open left, result.door_sounds.open_left);
-DUPLICATE_SECTION_TEST(buzzer, correct, result.buzzer_sounds.correct);
-DUPLICATE_SECTION_TEST(pilot lamp, on, result.pilot_lamp_sounds.on);
-DUPLICATE_SECTION_TEST(brake handle, apply, result.brake_handle_sounds.apply);
-DUPLICATE_SECTION_TEST(master controller, up, result.master_controller_sounds.up);
-DUPLICATE_SECTION_TEST(reverser, on, result.reverser_sounds.on);
-DUPLICATE_SECTION_TEST(breaker, on, result.breaker_sounds.on);
-DUPLICATE_SECTION_TEST(others, noise, result.misc_sounds.noise);
+                       result.horn_sounds.get<sound_cfg::looped_horn_t>().primary_start)
+DUPLICATE_SECTION_TEST(door, open left, result.door_sounds.open_left)
+DUPLICATE_SECTION_TEST(buzzer, correct, result.buzzer_sounds.correct)
+DUPLICATE_SECTION_TEST(pilot lamp, on, result.pilot_lamp_sounds.on)
+DUPLICATE_SECTION_TEST(brake handle, apply, result.brake_handle_sounds.apply)
+DUPLICATE_SECTION_TEST(master controller, up, result.master_controller_sounds.up)
+DUPLICATE_SECTION_TEST(reverser, on, result.reverser_sounds.on)
+DUPLICATE_SECTION_TEST(breaker, on, result.breaker_sounds.on)
+DUPLICATE_SECTION_TEST(others, noise, result.misc_sounds.noise)
 
 TEST_SUITE_END();
