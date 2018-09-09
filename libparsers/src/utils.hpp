@@ -23,7 +23,7 @@ namespace util {
 
 	void lower(std::string& text);
 	std::string lower_copy(std::string text);
-	bool match_against_lower(const std::string& text, const char* match);
+	bool match_against_lower(const std::string& text, const char* const match, bool exact = true);
 	std::vector<std::string> split_text(const std::string& text,
 	                                    char delim = ',',
 	                                    bool remove_blanks = false);

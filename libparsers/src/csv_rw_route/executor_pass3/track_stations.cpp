@@ -55,6 +55,7 @@ namespace csv_rw_route {
 		}();
 		rsi.doors = [&]() -> rail_station_info::doors_t {
 			switch (parsed_xml.door) {
+				default:
 				case xml::stations::parsed_station_marker::doors::none:
 					return rail_station_info::doors_t::none;
 				case xml::stations::parsed_station_marker::doors::left:
@@ -65,7 +66,7 @@ namespace csv_rw_route {
 		}();
 		rsi.name = std::move(parsed_xml.station_name);
 		rsi.timetable_index = parsed_xml.time_table_index;
-		rsi.stop_duration = parsed_xml.stop_duration;
+		rsi.stop_duration = static_cast<float>(parsed_xml.stop_duration);
 		rsi.force_red = parsed_xml.force_red_signal;
 		rsi.request_stop_info = parsed_xml.request_stop;
 

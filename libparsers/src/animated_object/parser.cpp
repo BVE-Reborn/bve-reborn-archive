@@ -363,12 +363,12 @@ namespace animated_object {
 			}
 
 			// all includes to the file
-			else if (util::match_against_lower(section.name, "include")) {
+			else if (util::match_against_lower(section.name, "include", false)) {
 				parse_include_section(pao, section);
 			}
 
 			// add object
-			else if (util::match_against_lower(section.name, "object")) {
+			else if (util::match_against_lower(section.name, "object", false)) {
 				parse_object_section(pao, section);
 			}
 			else {

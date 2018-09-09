@@ -22,7 +22,7 @@ BreakBeforeBraces: Custom
 BreakConstructorInitializers: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
-CommentPragmas: '^ NOLINT(NEXTLINE)?'
+CommentPragmas: '^(\\.+)|( NOLINT(NEXTLINE)?)'
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 IndentCaseLabels: true
 IndentPPDirectives: AfterHash
