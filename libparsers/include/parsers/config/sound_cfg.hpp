@@ -109,7 +109,7 @@ namespace config {
 			filename_iterator off;
 		};
 
-		struct brakeer_t {
+		struct braker_t {
 			filename_iterator on;
 			filename_iterator off;
 		};
@@ -120,6 +120,12 @@ namespace config {
 		};
 
 		struct parsed_sound_cfg_t {
+			parsed_sound_cfg_t() = default;
+			parsed_sound_cfg_t(parsed_sound_cfg_t const& other) = delete;
+			parsed_sound_cfg_t(parsed_sound_cfg_t&& other) = default;
+			parsed_sound_cfg_t& operator=(parsed_sound_cfg_t const& other) = delete;
+			parsed_sound_cfg_t& operator=(parsed_sound_cfg_t&& other) = default;
+
 			std::set<std::string> filenames;
 
 			std::unordered_map<std::size_t, run_t> run_sounds;
@@ -137,7 +143,7 @@ namespace config {
 			brake_handle_t brake_handle_sounds;
 			master_controller_t master_controller_sounds;
 			reverser_t reverser_sounds;
-			brakeer_t brakeer_sounds;
+			braker_t breaker_sounds;
 			misc_t misc_sounds;
 		};
 

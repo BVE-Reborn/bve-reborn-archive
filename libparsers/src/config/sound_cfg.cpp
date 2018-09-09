@@ -384,6 +384,9 @@ namespace config {
 				}
 
 				if (new_stuff) {
+					// remove legacy filenames
+
+
 					return looped_ret;
 				}
 
@@ -428,7 +431,7 @@ namespace config {
 						check_if_set(close_left_flag, errors, "doors", "Close Left", kvp.line);
 						ret.close_left = get_filename(kvp.value);
 					}
-					else if (util::match_against_lower(kvp.key, "open right")) {
+					else if (util::match_against_lower(kvp.key, "close right")) {
 						check_if_set(close_right_flag, errors, "doors", "Close Right", kvp.line);
 						ret.close_right = get_filename(kvp.value);
 					}
@@ -465,6 +468,11 @@ namespace config {
 					if (util::match_against_lower(kvp.key, "correct")) {
 						check_if_set(correct_flag, errors, "buzzer", "Correct", kvp.line);
 						ret.correct = get_filename(kvp.value);
+					}
+					else {
+						std::ostringstream err;
+						err << "Unrecognized key \"" << kvp.key << "\"";
+						errors::add_error(errors, kvp.line, err);
 					}
 				}
 
@@ -538,19 +546,19 @@ namespace config {
 
 				for (auto const& kvp : section.key_value_pairs) {
 					if (util::match_against_lower(kvp.key, "apply")) {
-						check_if_set(apply_flag, errors, "brake Handle", "Apply", kvp.line);
+						check_if_set(apply_flag, errors, "Brake Handle", "Apply", kvp.line);
 						ret.apply = get_filename(kvp.value);
 					}
 					else if (util::match_against_lower(kvp.key, "release")) {
-						check_if_set(release_flag, errors, "brake Handle", "Release", kvp.line);
+						check_if_set(release_flag, errors, "Brake Handle", "Release", kvp.line);
 						ret.release = get_filename(kvp.value);
 					}
 					else if (util::match_against_lower(kvp.key, "min")) {
-						check_if_set(min_flag, errors, "brake Handle", "Min", kvp.line);
+						check_if_set(min_flag, errors, "Brake Handle", "Min", kvp.line);
 						ret.min = get_filename(kvp.value);
 					}
 					else if (util::match_against_lower(kvp.key, "max")) {
-						check_if_set(max_flag, errors, "brake Handle", "Max", kvp.line);
+						check_if_set(max_flag, errors, "Brake Handle", "Max", kvp.line);
 						ret.max = get_filename(kvp.value);
 					}
 					else {
@@ -655,8 +663,8 @@ namespace config {
 				return ret;
 			}
 
-			brakeer_t create_empty_brakeer(filename_iterator end) {
-				brakeer_t ret;
+			braker_t create_empty_breaker(filename_iterator end) {
+				braker_t ret;
 
 				ret.on = end;
 				ret.off = end;
@@ -665,24 +673,24 @@ namespace config {
 			}
 
 			template <class F>
-			brakeer_t parse_brakeer(F& get_filename,
+			braker_t parse_breaker(F& get_filename,
 			                        errors::errors_t& errors,
 			                        ini::ini_section_t const& section,
 			                        filename_iterator end) {
 				function_check(get_filename);
 
-				brakeer_t ret = create_empty_brakeer(end);
+				braker_t ret = create_empty_breaker(end);
 
 				bool on_flag = false, //
 				    off_flag = false;
 
 				for (auto const& kvp : section.key_value_pairs) {
 					if (util::match_against_lower(kvp.key, "on")) {
-						check_if_set(on_flag, errors, "brakeer", "On", kvp.line);
+						check_if_set(on_flag, errors, "breaker", "On", kvp.line);
 						ret.on = get_filename(kvp.value);
 					}
 					else if (util::match_against_lower(kvp.key, "off")) {
-						check_if_set(off_flag, errors, "brakeer", "Off", kvp.line);
+						check_if_set(off_flag, errors, "breaker", "Off", kvp.line);
 						ret.off = get_filename(kvp.value);
 					}
 					else {
@@ -734,6 +742,98 @@ namespace config {
 
 				return ret;
 			}
+
+			void remove_unnecessary_filenames(parsed_sound_cfg_t& psc) {
+				std::set<std::string> new_filenames;
+
+				auto const filename_from_stritr = [&](auto const& file_iter) {
+					if (file_iter != psc.filenames.end()){
+ 						return new_filenames.insert(*file_iter).first;
+ 					}
+					return new_filenames.end();
+				};
+
+				for (auto&& filename : psc.run_sounds) {
+					filename.second.filename = filename_from_stritr(filename.second.filename);
+				}
+				for (auto&& filename : psc.flange_sounds) {
+					filename.second.filename = filename_from_stritr(filename.second.filename);
+				}
+				for (auto&& filename : psc.motor_sounds) {
+					filename.second.filename = filename_from_stritr(filename.second.filename);
+				}
+				for (auto&& filename : psc.switch_sounds) {
+					filename.second.filename = filename_from_stritr(filename.second.filename);
+				}
+				for (auto&& filename : psc.ats_sounds) {
+					filename.second.filename = filename_from_stritr(filename.second.filename);
+				}
+				psc.brake_sounds.bc_release_high = filename_from_stritr(psc.brake_sounds.bc_release_high);
+				psc.brake_sounds.bc_release = filename_from_stritr(psc.brake_sounds.bc_release);
+				psc.brake_sounds.bc_release_full = filename_from_stritr(psc.brake_sounds.bc_release_full);
+				psc.brake_sounds.emergency = filename_from_stritr(psc.brake_sounds.emergency);
+				psc.brake_sounds.bp_decompression = filename_from_stritr(psc.brake_sounds.bp_decompression);
+
+				psc.compressor_sounds.attack = filename_from_stritr(psc.compressor_sounds.attack);
+				psc.compressor_sounds.loop = filename_from_stritr(psc.compressor_sounds.loop);
+				psc.compressor_sounds.release = filename_from_stritr(psc.compressor_sounds.release);
+
+				psc.suspension_sounds.left = filename_from_stritr(psc.suspension_sounds.left);
+				psc.suspension_sounds.right = filename_from_stritr(psc.suspension_sounds.right);
+
+				if (psc.horn_sounds.is<looped_horn_t>()) {
+					auto&& looped = psc.horn_sounds.get_unchecked<looped_horn_t>();
+
+					looped.primary_start = filename_from_stritr(looped.primary_start);
+					looped.primary_loop = filename_from_stritr(looped.primary_loop);
+					looped.primary_end = filename_from_stritr(looped.primary_end);
+					looped.secondary_start = filename_from_stritr(looped.secondary_start);
+					looped.secondary_loop = filename_from_stritr(looped.secondary_loop);
+					looped.secondary_end = filename_from_stritr(looped.secondary_end);
+					looped.music_start = filename_from_stritr(looped.music_start);
+					looped.music_loop = filename_from_stritr(looped.music_loop);
+					looped.music_end = filename_from_stritr(looped.music_end);
+				}
+				else if(psc.horn_sounds.is<legacy_horn_t>()) {
+					auto&& legacy = psc.horn_sounds.get_unchecked<legacy_horn_t>();
+
+					legacy.primary = filename_from_stritr(legacy.primary);
+					legacy.secondary = filename_from_stritr(legacy.secondary);
+					legacy.music = filename_from_stritr(legacy.music);
+				}
+
+				psc.door_sounds.open_left = filename_from_stritr(psc.door_sounds.open_left);
+				psc.door_sounds.close_left = filename_from_stritr(psc.door_sounds.close_left);
+				psc.door_sounds.open_right = filename_from_stritr(psc.door_sounds.open_right);
+				psc.door_sounds.close_right = filename_from_stritr(psc.door_sounds.close_right);
+
+				psc.buzzer_sounds.correct = filename_from_stritr(psc.buzzer_sounds.correct);
+
+				psc.pilot_lamp_sounds.on = filename_from_stritr(psc.pilot_lamp_sounds.on);
+				psc.pilot_lamp_sounds.off = filename_from_stritr(psc.pilot_lamp_sounds.off);
+
+				psc.brake_handle_sounds.apply = filename_from_stritr(psc.brake_handle_sounds.apply);
+				psc.brake_handle_sounds.release = filename_from_stritr(psc.brake_handle_sounds.release);
+				psc.brake_handle_sounds.min = filename_from_stritr(psc.brake_handle_sounds.min);
+				psc.brake_handle_sounds.max = filename_from_stritr(psc.brake_handle_sounds.max);
+
+				psc.master_controller_sounds.up = filename_from_stritr(psc.master_controller_sounds.up);
+				psc.master_controller_sounds.down = filename_from_stritr(psc.master_controller_sounds.down);
+				psc.master_controller_sounds.min = filename_from_stritr(psc.master_controller_sounds.min);
+				psc.master_controller_sounds.max = filename_from_stritr(psc.master_controller_sounds.max);
+
+				psc.reverser_sounds.on = filename_from_stritr(psc.reverser_sounds.on);
+				psc.reverser_sounds.off = filename_from_stritr(psc.reverser_sounds.off);
+
+				psc.breaker_sounds.on = filename_from_stritr(psc.breaker_sounds.on);
+				psc.breaker_sounds.off = filename_from_stritr(psc.breaker_sounds.off);
+
+				psc.misc_sounds.noise = filename_from_stritr(psc.misc_sounds.noise);
+				psc.misc_sounds.shoe = filename_from_stritr(psc.misc_sounds.shoe);
+
+				// keep iterators valid
+				psc.filenames = std::move(new_filenames);
+			}
 		} // namespace
 
 		parsed_sound_cfg_t parse(std::string const& filename,
@@ -744,6 +844,9 @@ namespace config {
 
 			auto get_filename = [&](std::string const& relfile) {
 				return psc.filenames.insert(get_relative_file(filename, relfile)).first;
+			};
+			auto has_filename = [&](std::string const& relfile) {
+				return psc.filenames.count(get_relative_file(filename, relfile));
 			};
 
 			auto& file_error = errors[filename];
@@ -765,7 +868,7 @@ namespace config {
 			    brake_handle_flag = false,      //
 			    master_controller_flag = false, //
 			    reverser_flag = false,          //
-			    brakeer_flag = false,           //
+			    braker_flag = false,           //
 			    misc_flag = false;
 
 			auto const check_if_section_used = [&](bool& flag, char const* const name, std::size_t line) {
@@ -853,10 +956,10 @@ namespace config {
 					psc.reverser_sounds =
 					    parse_reverser(get_filename, file_error, section, end_iterator);
 				}
-				else if (util::match_against_lower(section.name, "brakeer")) {
-					check_if_section_used(brakeer_flag, "brakeer", section.line);
-					psc.brakeer_sounds =
-					    parse_brakeer(get_filename, file_error, section, end_iterator);
+				else if (util::match_against_lower(section.name, "breaker")) {
+					check_if_section_used(braker_flag, "breaker", section.line);
+					psc.breaker_sounds =
+					    parse_breaker(get_filename, file_error, section, end_iterator);
 				}
 				else if (util::match_against_lower(section.name, "others")) {
 					check_if_section_used(misc_flag, "others", section.line);
@@ -892,6 +995,12 @@ namespace config {
 			if (!suspension_flag) {
 				psc.suspension_sounds = create_empty_suspension(end_iterator);
 			}
+			if (!horn_flag) {
+				psc.horn_sounds = create_empty_looped_horn(end_iterator);
+			}
+			if (!door_flag) {
+				psc.door_sounds = create_empty_doors(end_iterator);
+			}
 			if (!buzzer_flag) {
 				psc.buzzer_sounds = create_empty_buzzer(end_iterator);
 			}
@@ -907,12 +1016,14 @@ namespace config {
 			if (!reverser_flag) {
 				psc.reverser_sounds = create_empty_reverser(end_iterator);
 			}
-			if (!brakeer_flag) {
-				psc.brakeer_sounds = create_empty_brakeer(end_iterator);
+			if (!braker_flag) {
+				psc.breaker_sounds = create_empty_breaker(end_iterator);
 			}
 			if (!misc_flag) {
 				psc.misc_sounds = create_empty_misc(end_iterator);
 			}
+
+			remove_unnecessary_filenames(psc);
 
 			return psc;
 		}
