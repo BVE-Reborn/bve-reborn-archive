@@ -1,11 +1,11 @@
 #include "test_macro_util.hpp"
+#include "core/macro_helpers.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
 namespace fs_inst = parsers::function_scripts::instructions;
 
-#define STR(a) #a
 #define CREATE_VARIABLE_TEST_CASE(script_name, variable_name)                                      \
 	TEST_CASE("libparsers - function scripts - variables - " STR(variable_name)) {                 \
 		auto variable = fs_inst::op_variable_lookup{};                                             \

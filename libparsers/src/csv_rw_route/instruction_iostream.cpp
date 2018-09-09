@@ -1,11 +1,9 @@
+#include "core/macro_helpers.hpp"
 #include "csv_rw_route.hpp"
 #include <boost/optional/optional_io.hpp>
 #include <gsl/gsl_util>
 #include <iomanip>
 #include <ostream>
-
-// MSVC doesn't expand __VA_ARGS__ right, this is a workaround
-#define EXPAND(x) x
 
 #define PRINT_VALUE(name) os_ << ", " #name " = " << inst.name;
 #define PRINT_BYTE(name) os_ << ", " #name " = " << gsl::narrow<int>(inst.name);

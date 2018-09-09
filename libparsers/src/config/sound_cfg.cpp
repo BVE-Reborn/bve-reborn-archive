@@ -1,4 +1,5 @@
 #include "parsers/config/sound_cfg.hpp"
+#include "core/inlining_util.hpp"
 #include "gsl/gsl_util"
 #include "ini.hpp"
 #include "utils.hpp"
@@ -10,6 +11,11 @@ namespace parsers {
 namespace config {
 	namespace sound_cfg {
 		namespace {
+			/**
+			 * \brief Checks if the version number in the section is 1.0 exactly. If it isn't complains.
+			 * \param errors File error list. Puts complaints inside.
+			 * \param section Section holding version number.
+			 */
 			void check_version_number(errors::errors_t& errors, ini::ini_section_t const& section) {
 				static boost::regex const r(R"(version\s*(\d+(?:\.\d*)?))",
 				                            boost::regex_constants::optimize
@@ -41,14 +47,27 @@ namespace config {
 				}
 			}
 
+			/**
+			 * \brief Cheeky little function that checks to see if the function provided is of the right signature: filename_iterator(std::string). Exists at compile time only.
+			 * \tparam F Function type.
+			 * \param f Function to test.
+			 */
 			template <class F>
-			void function_check(F& f) {
+			FORCE_INLINE void function_check(F& f) {
 				static_assert(std::is_same<decltype(f(std::declval<std::string>())),
 				                           filename_iterator>::value,
 				              "get_filename must take a std::string and return a "
 				              "filename_iterator");
 			}
 
+			/**
+			 * \brief Checks if boolean flag is set already. If it is, complains about overriding data using the file position information provided.
+			 * \param flag Flag to check
+			 * \param errors Error list for the file. All complaining goes here.
+			 * \param section C String with ini section name
+			 * \param name C String with the key of the key value pair
+			 * \param line Line within the file that the error occured.
+			 */
 			void check_if_set(bool& flag,
 			                  errors::errors_t& errors,
 			                  char const* const section,
@@ -63,10 +82,20 @@ namespace config {
 				flag = true;
 			}
 
+			/**
+			 * \brief Generic function for parsing blocks with `number = file` pairs into a unordered_map of number -> struct w/ iterator
+			 * \tparam Ret Type of return structure.
+			 * \tparam F
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \return unordered_map of std::size_t -> Ret
+			 */
 			template <class Ret, class F>
-			auto parse_number_filename_pairs(F& get_filename,
-			                                 errors::errors_t& errors,
-			                                 ini::ini_section_t const& section) {
+			std::unordered_map<std::size_t, Ret> parse_number_filename_pairs(
+			    F& get_filename,
+			    errors::errors_t& errors,
+			    ini::ini_section_t const& section) {
 				function_check(get_filename);
 
 				std::unordered_map<std::size_t, bool> used;
@@ -92,6 +121,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty brake_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty brake_t block.
+			 */
 			brake_t create_empty_brake(filename_iterator end) {
 				brake_t ret;
 
@@ -104,6 +138,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a brake_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed brake_t block.
+			 */
 			template <class F>
 			brake_t parse_brake(F& get_filename,
 			                    errors::errors_t& errors,
@@ -152,6 +195,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty compressor_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty compressor_t block.
+			 */
 			compressor_t create_empty_compressor(filename_iterator end) {
 				compressor_t ret;
 
@@ -162,6 +210,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a compressor_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed compressor_t block.
+			 */
 			template <class F>
 			compressor_t parse_compressor(F& get_filename,
 			                              errors::errors_t& errors,
@@ -198,6 +255,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty suspension_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty suspension_t block.
+			 */
 			suspension_t create_empty_suspension(filename_iterator end) {
 				suspension_t ret;
 
@@ -207,6 +269,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a suspension_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed suspension_t block.
+			 */
 			template <class F>
 			suspension_t parse_suspension(F& get_filename,
 			                              errors::errors_t& errors,
@@ -238,6 +309,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty legacy_horn_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty legacy_horn_t block.
+			 */
 			legacy_horn_t create_empty_legacy_horn(filename_iterator end) {
 				legacy_horn_t ret;
 
@@ -248,6 +324,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty looped_horn_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty looped_horn_t block.
+			 */
 			looped_horn_t create_empty_looped_horn(filename_iterator end) {
 				looped_horn_t ret;
 
@@ -264,6 +345,19 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into horn_t block. Templating allows lambdas as function arguments.
+			 * A horn_t is a variant with either a looped_horn_t or a legacy_horn_t in it. There are
+			 * mutually exclusive legacy and modern (looped) horn configurations with the modern one
+			 * takes priority.
+			 *
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed doors_t block.
+			 */
 			template <class F>
 			horn_t parse_horn(F& get_filename,
 			                  errors::errors_t& errors,
@@ -392,6 +486,11 @@ namespace config {
 				return legacy_ret;
 			}
 
+			/**
+			 * \brief Creates an empty doors_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty doors_t block.
+			 */
 			doors_t create_empty_doors(filename_iterator end) {
 				doors_t ret;
 
@@ -403,6 +502,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a doors_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed doors_t block.
+			 */
 			template <class F>
 			doors_t parse_doors(F& get_filename,
 			                    errors::errors_t& errors,
@@ -444,6 +552,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty buzzer_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty buzzer_t block.
+			 */
 			buzzer_t create_empty_buzzer(filename_iterator end) {
 				buzzer_t ret;
 
@@ -452,6 +565,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a buzzer_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed buzzer_t block.
+			 */
 			template <class F>
 			buzzer_t parse_buzzer(F& get_filename,
 			                      errors::errors_t& errors,
@@ -478,6 +600,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty pilot_lamp_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty pilot_lamp_t block.
+			 */
 			pilot_lamp_t create_empty_pilot_lamp(filename_iterator end) {
 				pilot_lamp_t ret;
 
@@ -487,6 +614,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a pilot_lamp_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed pilot_lamp_t block.
+			 */
 			template <class F>
 			pilot_lamp_t parse_pilot_lamp(F& get_filename,
 			                              errors::errors_t& errors,
@@ -518,6 +654,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty brake_handle_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty brake_handle_t block.
+			 */
 			brake_handle_t create_empty_brake_handle(filename_iterator end) {
 				brake_handle_t ret;
 
@@ -529,6 +670,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a brake_handle_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed brake_handle_t block.
+			 */
 			template <class F>
 			brake_handle_t parse_brake_handle(F& get_filename,
 			                                  errors::errors_t& errors,
@@ -570,6 +720,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty master_controller_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty master_controller_t block.
+			 */
 			master_controller_t create_empty_master_controller(filename_iterator end) {
 				master_controller_t ret;
 
@@ -581,6 +736,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a master_controller_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed master_controller_t block.
+			 */
 			template <class F>
 			master_controller_t parse_master_controller(F& get_filename,
 			                                            errors::errors_t& errors,
@@ -622,6 +786,11 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Creates an empty reverser_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty reverser_t block.
+			 */
 			reverser_t create_empty_reverser(filename_iterator end) {
 				reverser_t ret;
 
@@ -631,6 +800,15 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a reverser_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed reverser_t block.
+			 */
 			template <class F>
 			reverser_t parse_reverser(F& get_filename,
 			                          errors::errors_t& errors,
@@ -662,8 +840,13 @@ namespace config {
 				return ret;
 			}
 
-			braker_t create_empty_breaker(filename_iterator end) {
-				braker_t ret;
+			/**
+			 * \brief Creates an empty breaker_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty breaker_t block.
+			 */
+			breaker_t create_empty_breaker(filename_iterator end) {
+				breaker_t ret;
 
 				ret.on = end;
 				ret.off = end;
@@ -671,14 +854,23 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a breaker_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed breaker_t block.
+			 */
 			template <class F>
-			braker_t parse_breaker(F& get_filename,
-			                       errors::errors_t& errors,
-			                       ini::ini_section_t const& section,
-			                       filename_iterator end) {
+			breaker_t parse_breaker(F& get_filename,
+			                        errors::errors_t& errors,
+			                        ini::ini_section_t const& section,
+			                        filename_iterator end) {
 				function_check(get_filename);
 
-				braker_t ret = create_empty_breaker(end);
+				breaker_t ret = create_empty_breaker(end);
 
 				bool on_flag = false, //
 				    off_flag = false;
@@ -702,7 +894,12 @@ namespace config {
 				return ret;
 			}
 
-			misc_t create_empty_misc(filename_iterator end) {
+			/**
+			 * \brief Creates an empty misc_t block with all members initalized to the end iterator of the filename set.
+			 * \param end End iterator of filename set
+			 * \return Empty misc_t block.
+			 */
+			misc_t create_empty_misc(filename_iterator const end) {
 				misc_t ret;
 
 				ret.noise = end;
@@ -711,11 +908,20 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Parses an ini section into a misc_t block. Templating allows lambdas as function arguments.
+			 * \tparam F get_filename's type.
+			 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
+			 * \param errors This file's errors.
+			 * \param section The ini section to be parsed.
+			 * \param end The end iterator into the filename set.
+			 * \return Parsed misc_t block.
+			 */
 			template <class F>
 			misc_t parse_misc(F& get_filename,
 			                  errors::errors_t& errors,
 			                  ini::ini_section_t const& section,
-			                  filename_iterator end) {
+			                  filename_iterator const end) {
 				function_check(get_filename);
 
 				misc_t ret = create_empty_misc(end);
@@ -742,6 +948,10 @@ namespace config {
 				return ret;
 			}
 
+			/**
+			 * \brief Strips unused filenames by constructing a new set of filenames as it visits every member. Discards old set.
+			 * \param psc Already parsed sound.cfg structure.
+			 */
 			void remove_unnecessary_filenames(parsed_sound_cfg_t& psc) {
 				std::set<std::string> new_filenames;
 

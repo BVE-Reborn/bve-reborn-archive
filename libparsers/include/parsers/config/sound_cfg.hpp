@@ -10,6 +10,9 @@
 namespace parsers {
 namespace config {
 	namespace sound_cfg {
+		/**
+		 * \brief Iterator into a sound.cfg's filename set.
+		 */
 		using filename_iterator = std::set<std::string>::const_iterator;
 
 		struct run_t {
@@ -67,6 +70,11 @@ namespace config {
 			filename_iterator music;
 		};
 
+		/**
+		 * \brief A horn_t is a variant with either a looped_horn_t or a legacy_horn_t in it. There are
+		 * mutually exclusive legacy and modern (looped) horn configurations with the modern one
+		 * takes priority.
+		 */
 		using horn_t = mapbox::util::variant<looped_horn_t, legacy_horn_t>;
 
 		struct doors_t {
@@ -109,7 +117,7 @@ namespace config {
 			filename_iterator off;
 		};
 
-		struct braker_t {
+		struct breaker_t {
 			filename_iterator on;
 			filename_iterator off;
 		};
@@ -126,6 +134,9 @@ namespace config {
 			parsed_sound_cfg_t& operator=(parsed_sound_cfg_t const& other) = delete;
 			parsed_sound_cfg_t& operator=(parsed_sound_cfg_t&& other) = default;
 
+			/**
+			 * \brief Master set of all filenames in this file. Unique. Every single file is used by at least one setting.
+			 */
 			std::set<std::string> filenames;
 
 			std::unordered_map<std::size_t, run_t> run_sounds;
@@ -143,10 +154,18 @@ namespace config {
 			brake_handle_t brake_handle_sounds;
 			master_controller_t master_controller_sounds;
 			reverser_t reverser_sounds;
-			braker_t breaker_sounds;
+			breaker_t breaker_sounds;
 			misc_t misc_sounds;
 		};
 
+		/**
+		 * \brief Parses a sound.cfg configuration file into a structure.
+		 * \param filename Source filename of the file. The file will not be accessed. Only used to get relative file names.
+		 * \param input_string Contents of the file to be parsed.
+		 * \param errors All errors encountered while parsing will be put into errors[filename].
+		 * \param get_relative_file Function that takes this file's filepath and a relative path and returns the path relative to this filepath's directory
+		 * \return Parsed structure containing contents of the file.
+		 */
 		parsed_sound_cfg_t parse(std::string const& filename,
 		                         std::string const& input_string,
 		                         errors::multi_error_t& errors,

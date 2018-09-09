@@ -1,3 +1,4 @@
+#include "core/macro_helpers.hpp"
 #include "test_macro_util.hpp"
 #include <algorithm>
 #include <doctest.h>
@@ -23,7 +24,7 @@ static std::string canonicalize(std::string str) {
 }
 
 #define UNARY_OP_TEST(rep, name, type_name)                                                        \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - " STRINGIFY(name)) {         \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - " STR(name)) {               \
 		parsers::function_scripts::instruction_list const                                          \
 		    test_list{{}, {}, {fs_instruction::stack_push{2}, fs_instruction::type_name{}}, {}};   \
                                                                                                    \
@@ -37,7 +38,7 @@ static std::string canonicalize(std::string str) {
 	}
 
 #define BINARY_OP_TEST(rep, name, type_name)                                                       \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - " STRINGIFY(name)) {         \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - " STR(name)) {               \
 		parsers::function_scripts::instruction_list const                                          \
 		    test_list{{},                                                                          \
 		              {},                                                                          \
@@ -56,8 +57,7 @@ static std::string canonicalize(std::string str) {
 	}
 
 #define REGULAR_VARIABLE_TEST(name)                                                                     \
-	TEST_CASE(                                                                                          \
-	    "libparsers - function scripts - instruction_iostream - unindexed " STRINGIFY(name)) {          \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - unindexed " STR(name)) {          \
 		parsers::function_scripts::instruction_list const                                               \
 		    test_list{{parsers::function_scripts::instructions::variable::name},                        \
 		              {},                                                                               \
@@ -70,12 +70,12 @@ static std::string canonicalize(std::string str) {
 		output << test_list;                                                                            \
                                                                                                         \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
-		         "Variables Used: " STRINGIFY(name) "\n"                                             \
-                 "0\tOP_VARIABLE_LOOKUP: " STRINGIFY(name) " " STRINGIFY(name) " -> 0\n"); \
+		         "Variables Used: " STR(name) "\n"                                             \
+                 "0\tOP_VARIABLE_LOOKUP: " STR(name) " " STR(name) " -> 0\n"); \
 	}
 
 #define INDEXED_VARIABLE_TEST(name)                                                                     \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STRINGIFY(name)) {        \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STR(name)) {              \
 		parsers::function_scripts::instruction_list const                                               \
 		    test_list{{},                                                                               \
 		              {parsers::function_scripts::instructions::indexed_variable::name},                \
@@ -89,9 +89,9 @@ static std::string canonicalize(std::string str) {
 		output << test_list;                                                                            \
                                                                                                         \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
-		         "Index Variables Used: " STRINGIFY(name) "\n"                                       \
+		         "Index Variables Used: " STR(name) "\n"                                       \
 		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                        \
-		         "1\tOP_VARIABLE_INDEXED: " STRINGIFY(name) " " STRINGIFY(name) "[0] -> 0\n"); \
+		         "1\tOP_VARIABLE_INDEXED: " STR(name) " " STR(name) "[0] -> 0\n"); \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");

@@ -1,11 +1,11 @@
 #include "test_macro_util.hpp"
+#include "core/macro_helpers.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
 namespace fs_inst = parsers::function_scripts::instructions;
 
-#define STR(a) #a
 #define CREATE_OOO_DIFFERENT_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)   \
 	TEST_CASE(                                                                                     \
 	    "libparsers - function scripts - order-of-operations - " STR(name1) " > " STR(name2)) {    \

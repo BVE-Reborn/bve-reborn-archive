@@ -178,3 +178,5 @@ TEST_CASE("libparsers - xml - dynamic_background - improper values should add an
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors.at("some_file.xml"s).size(), 3);
 }
+
+TEST_SUITE_END();

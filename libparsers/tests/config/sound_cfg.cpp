@@ -1,5 +1,6 @@
 #include "parsers/config/sound_cfg.hpp"
 #include "parsers/errors.hpp"
+#include "core/macro_helpers.hpp"
 #include "sample_relative_file_func.hpp"
 #include <doctest.h>
 #include <string>
@@ -14,10 +15,6 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 #define CHECK_ITER_EQ(container, itr, value)                                                       \
 	CHECK((((itr) != (container).end()) ? (*(itr) == (value)) : false))
 
-#define EXPAND(x) x
-#define STR(x) #x
-#define CONCAT_HELPER(a, b) a##b
-#define CONCAT(a, b) EXPAND(CONCAT_HELPER(a, b))
 #define NUMBERED_PAIR_TEST(name)                                                                       \
 	TEST_CASE("libparsers - config - sound - [" STR(run) "]") {                                        \
 		std::string const input =                                                                    \
@@ -40,14 +37,14 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 		CHECK_EQ(result.filenames.count("sound.cfg/file5"s), 0);                                       \
                                                                                                        \
 		REQUIRE_EQ(result.CONCAT(name, _sounds).size(), 4);                                            \
-		CHECK_EQ(result.CONCAT(name, _sounds).find(0)->second.filename,                                \
-		         result.filenames.find("sound.cfg/file1"s));                                           \
-		CHECK_EQ(result.CONCAT(name, _sounds).find(4)->second.filename,                                \
-		         result.filenames.find("sound.cfg/file2"s));                                           \
-		CHECK_EQ(result.CONCAT(name, _sounds).find(3)->second.filename,                                \
-		         result.filenames.find("sound.cfg/file3"s));                                           \
-		CHECK_EQ(result.CONCAT(name, _sounds).find(129)->second.filename,                              \
-		         result.filenames.find("sound.cfg/file4"s));                                           \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(0)->second.filename,         \
+		              "sound.cfg/file1"s);                                                             \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(4)->second.filename,         \
+		              "sound.cfg/file2"s);                                                             \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(3)->second.filename,         \
+		              "sound.cfg/file3"s);                                                             \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(129)->second.filename,       \
+		              "sound.cfg/file4"s);                                                             \
 	}
 
 NUMBERED_PAIR_TEST(run)
