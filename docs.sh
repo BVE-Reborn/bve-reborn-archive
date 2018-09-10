@@ -21,6 +21,9 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     export DOXYREST="$DEST/doxyrest/doxyrest-1.1.1-linux-amd64/"
 fi
 
+echo "Doxygen: $(doxygen --version)"
+$DOXYREST/bin/doxyrest --version
+sphinx-build --version
 cp "docs/Doxyfile" "$DEST/doxy-xml/Doxyfile"
 echo "OUTPUT_DIRECTORY = $DEST/doxy-xml" >> "$DEST/doxy-xml/Doxyfile"
 doxygen "$DEST/doxy-xml/Doxyfile"
