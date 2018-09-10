@@ -22,6 +22,7 @@ matrix:
     - "./docs.sh ../docs-build"
     deploy:
     - provider: script
+      skip_cleanup: true
       script: bash tools/travis/deploy_docs.sh $TRAVIS_BRANCH
       on:
         all_branches: true
