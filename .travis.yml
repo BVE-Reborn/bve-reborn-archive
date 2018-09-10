@@ -1,191 +1,206 @@
 language: cpp
-
 sudo: false
-
 matrix:
   include:
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - mesa-common-dev
-            - libx11-dev
-            - libxcursor-dev
-            - libxrandr-dev
-            - libxi-dev
-            - uuid-dev
-      env:
-        - MATRIX_EVAL="Coverage='On' && CXX='g++' && TYPE='Debug'"
-      install:
-        - eval "${MATRIX_EVAL}"
-        - pip install --user cpp-coveralls
-        - bash ./tools/travis/linux_deps.sh
-        - $HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -GNinja
-      after_success:
-        - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
+  - os: linux
+    dist: trusty
+    addons:
+      apt:
+        packages:
+        - python3-sphinx
+        - doxygen
+    env:
+    - Documentation=On
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in tools/travis/travis_ci_rsa.enc -out tools/travis/travis_ci_rsa -d
+    install:
+    - true
+    script:
+    - "./docs.sh ../docs-build"
+    deploy:
+    - provider: script
+      script: bash tools/travis/deploy_docs.sh $TRAVIS_BRANCH
+      all_branches: true
 
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - mesa-common-dev
-            - libx11-dev
-            - libxcursor-dev
-            - libxrandr-dev
-            - libxi-dev
-            - uuid-dev
-      env:
-        - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='RelWithDebInfo'"
-      install:
-        - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja
+  - os: linux
+    dist: trusty
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - gcc-7
+        - libgl1-mesa-dev
+        - libglu1-mesa-dev
+        - mesa-common-dev
+        - libx11-dev
+        - libxcursor-dev
+        - libxrandr-dev
+        - libxi-dev
+        - uuid-dev
+    env:
+    - MATRIX_EVAL="Coverage='On' && CXX='g++' && TYPE='Debug'"
+    install:
+    - eval "${MATRIX_EVAL}"
+    - pip install --user cpp-coveralls
+    - bash ./tools/travis/linux_deps.sh
+    - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On
+      -GNinja"
+    after_success:
+    - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E
+      '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - mesa-common-dev
-            - libx11-dev
-            - libxcursor-dev
-            - libxrandr-dev
-            - libxi-dev
-            - uuid-dev
-      env:
-        - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='Release'"
-      install:
-        - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
-          
-    - os: linux
-      dist: trusty
-      sudo: true
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-          packages:
-            - libstdc++-7-dev
-            - clang-6.0
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - mesa-common-dev
-            - libx11-dev
-            - libxcursor-dev
-            - libxrandr-dev
-            - libxi-dev
-            - uuid-dev
-      env:
-        - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Asan,UBsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
-      install:
-        - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps_clang.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
+  - os: linux
+    dist: trusty
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - libgl1-mesa-dev
+        - libglu1-mesa-dev
+        - mesa-common-dev
+        - libx11-dev
+        - libxcursor-dev
+        - libxrandr-dev
+        - libxi-dev
+        - uuid-dev
+    env:
+    - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='RelWithDebInfo'"
+    install:
+    - eval "${MATRIX_EVAL}"
+    - bash ./tools/travis/linux_deps.sh
+    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -GNinja
 
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-          packages:
-            - libstdc++-7-dev
-            - clang-6.0
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - mesa-common-dev
-            - libx11-dev
-            - libxcursor-dev
-            - libxrandr-dev
-            - libxi-dev
-            - uuid-dev
-      env:
-        - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
-      install:
-        - eval "${MATRIX_EVAL}"
-        - bash ./tools/travis/linux_deps_clang.sh
-        - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -GNinja
+  - os: linux
+    dist: trusty
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - libgl1-mesa-dev
+        - libglu1-mesa-dev
+        - mesa-common-dev
+        - libx11-dev
+        - libxcursor-dev
+        - libxrandr-dev
+        - libxi-dev
+        - uuid-dev
+    env:
+    - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='Release'"
+    install:
+    - eval "${MATRIX_EVAL}"
+    - bash ./tools/travis/linux_deps.sh
+    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
-    - os: osx
-      osx_image: xcode9.2
-      install:
-        - brew update
-        - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
-        - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
-        - bash ./build-deps-unix.sh
-        - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+  - os: linux
+    dist: trusty
+    sudo: true
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty-6.0
+        packages:
+        - libstdc++-7-dev
+        - clang-6.0
+        - libgl1-mesa-dev
+        - libglu1-mesa-dev
+        - mesa-common-dev
+        - libx11-dev
+        - libxcursor-dev
+        - libxrandr-dev
+        - libxi-dev
+        - uuid-dev
+    env:
+    - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Asan,UBsan' && CC=clang-6.0 && CXX=clang++-6.0
+      && TYPE='Debug'"
+    install:
+    - eval "${MATRIX_EVAL}"
+    - bash ./tools/travis/linux_deps_clang.sh
+    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On
+      -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
+      -GNinja
+
+  - os: linux
+    dist: trusty
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty-6.0
+        packages:
+        - libstdc++-7-dev
+        - clang-6.0
+        - libgl1-mesa-dev
+        - libglu1-mesa-dev
+        - mesa-common-dev
+        - libx11-dev
+        - libxcursor-dev
+        - libxrandr-dev
+        - libxi-dev
+        - uuid-dev
+    env:
+    - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0
+      && TYPE='Debug'"
+    install:
+    - eval "${MATRIX_EVAL}"
+    - bash ./tools/travis/linux_deps_clang.sh
+    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On
+      -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
+      -GNinja
+
+  - os: osx
+    osx_image: xcode9.2
+    install:
+    - brew update
+    - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
+    - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
+    - bash ./build-deps-unix.sh
+    - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
 before_install:
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
-  - mkdir -p ${DEPS_DIR}
-
-  # Download GCC 7.1
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      GCC_URL="https://bsfproxy.connorwfitzgerald.com/bsf/gcc-7.1-trusty.zip"
-      cd ${DEPS_DIR}
-      mkdir gcc
-      cd gcc
-      wget --no-check-certificate -q ${GCC_URL}
-      unzip -q gcc-7.1-trusty.zip
-      export PATH=${DEPS_DIR}/gcc/bin:$PATH
-      export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib:$LD_LIBRARY_PATH
-      export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib64:$LD_LIBRARY_PATH
-    fi
-
-  # Download binutils 2.28
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/bsf/binutils-2.28-trusty.zip"
-      cd ${DEPS_DIR}
-      mkdir binutils
-      cd binutils
-      wget --no-check-certificate -q ${BINUTILS_URL}
-      unzip -q binutils-2.28-trusty.zip
-      export PATH=${DEPS_DIR}/binutils/bin:${PATH}
-      export LD_LIBRARY_PATH=${DEPS_DIR}/binutils/lib:$LD_LIBRARY_PATH
-    fi
-
-  # Download ninja 1.8.2
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip"
-      cd ${DEPS_DIR}
-      mkdir ninja
-      cd ninja
-      wget --no-check-certificate -q ${NINJA_URL}
-      unzip -q ninja-linux.zip
-      export PATH=${DEPS_DIR}/ninja:${PATH}
-    fi
-
-
-  - cd ${TRAVIS_BUILD_DIR}
-  - mkdir -p build
-
+- openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in tools/travis/travis_ci_rsa.enc -out tools/travis/travis_ci_rsa -d
+- DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
+- mkdir -p ${DEPS_DIR}
+- |
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    GCC_URL="https://bsfproxy.connorwfitzgerald.com/bsf/gcc-7.1-trusty.zip"
+    cd ${DEPS_DIR}
+    mkdir gcc
+    cd gcc
+    wget --no-check-certificate -q ${GCC_URL}
+    unzip -q gcc-7.1-trusty.zip
+    export PATH=${DEPS_DIR}/gcc/bin:$PATH
+    export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib64:$LD_LIBRARY_PATH
+  fi
+- |
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/bsf/binutils-2.28-trusty.zip"
+    cd ${DEPS_DIR}
+    mkdir binutils
+    cd binutils
+    wget --no-check-certificate -q ${BINUTILS_URL}
+    unzip -q binutils-2.28-trusty.zip
+    export PATH=${DEPS_DIR}/binutils/bin:${PATH}
+    export LD_LIBRARY_PATH=${DEPS_DIR}/binutils/lib:$LD_LIBRARY_PATH
+  fi
+- |
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip"
+    cd ${DEPS_DIR}
+    mkdir ninja
+    cd ninja
+    wget --no-check-certificate -q ${NINJA_URL}
+    unzip -q ninja-linux.zip
+    export PATH=${DEPS_DIR}/ninja:${PATH}
+  fi
+- cd ${TRAVIS_BUILD_DIR}
+- mkdir -p build
 script:
-  - ninja -j2
-  - UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/tools/travis/ubsan.supp" LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/tools/travis/lsan.supp" bin/test_main
-
-#after_success:
-#  - bash ../tools/travis/discord_integration.sh success $WEBHOOK_URL
-#after_failure:
-#  - bash ../tools/travis/discord_integration.sh failure $WEBHOOK_URL
+- ninja -j2
+- UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/tools/travis/ubsan.supp"
+  LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/tools/travis/lsan.supp" bin/test_main

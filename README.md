@@ -58,11 +58,12 @@ There are three parts to the description of this project's structure. First is t
    - [glm](https://github.com/g-truc/glm/tree/0.9.9-a2) - Used for opengl math helpers and other geometric operations.
    - [mapbox-variant](https://github.com/mapbox/variant/tree/v1.1.5) - Used instead of boost::variant due to better performance and better features.
    - [rapidxml](http://rapidxml.sourceforge.net/) - Fastest xml parser in the land.
- - [libcore](libcore) - Central support libraries for bvereborn. Math functions go in here, as well as other hard to place utility functions.
+ - libcore - Central support libraries for bvereborn. Math functions go in here, as well as other hard to place utility functions.
  - libload - Helps with loading of files which depend on other files.
  - liblog - Thread-safe logging library
- - [libparsers](libparsers) - Parses all formats dealt with in the program, contains some helper features for file manipulation.
+ - libparsers - Parses all formats dealt with in the program, contains some helper features for file manipulation.
  - test_main - Main entry point to all the tests throughout the program.
+[Global](global.html)
 
 # TODO
 
