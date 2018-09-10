@@ -7,11 +7,11 @@ fi
 
 DEST="$1"
 
-mkdir -p "$DEST"/{doxyrest,doxy-xml,sphinx-rst,html}
+mkdir -p "$DEST"/{doxygen,doxyrest,doxy-xml,sphinx-rst,html}
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
-    wget https://github.com/vovkos/doxyrest/releases/download/doxyrest-1.1.1/doxyrest-1.1.1-mac.tar.xz -O "$DEST/doxyrest/doxyrest-1.1.1-mac.tar.xz"
+    wget -q -c -nc https://github.com/vovkos/doxyrest/releases/download/doxyrest-1.1.1/doxyrest-1.1.1-mac.tar.xz -O "$DEST/doxyrest/doxyrest-1.1.1-mac.tar.xz"
     tar xf "$DEST/doxyrest/doxyrest-1.1.1-mac.tar.xz" -C "$DEST/doxyrest/"
     export DOXYREST="$DEST/doxyrest/doxyrest-1.1.1-mac/"
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
