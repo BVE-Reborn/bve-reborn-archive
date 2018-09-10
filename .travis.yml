@@ -22,7 +22,8 @@ matrix:
     deploy:
     - provider: script
       script: bash tools/travis/deploy_docs.sh $TRAVIS_BRANCH
-      all_branches: true
+      on:
+        all_branches: true
 
   - os: linux
     dist: trusty
