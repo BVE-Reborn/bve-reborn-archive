@@ -14,7 +14,6 @@ matrix:
     - Documentation=On
     before_install:
     - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in ${TRAVIS_BUILD_DIR}/tools/travis/travis_ci_rsa.enc -out ${TRAVIS_BUILD_DIR}/tools/travis/travis_ci_rsa -d
-    - ls ${TRAVIS_BUILD_DIR}/tools/travis/
     install:
     - pip3 install --user pygments sphinx
     script:
@@ -23,7 +22,7 @@ matrix:
     deploy:
     - provider: script
       skip_cleanup: true
-      script: bash tools/travis/deploy_docs.sh $TRAVIS_BRANCH
+      script: bash tools/travis/deploy_docs.sh
       on:
         all_branches: true
 
