@@ -10,12 +10,15 @@ matrix:
         - python3-pip
         - doxygen
         - liblua5.2-0
+        - flex
+        - bison
     env:
     - Documentation=On
     before_install:
     - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in ${TRAVIS_BUILD_DIR}/tools/travis/travis_ci_rsa.enc -out ${TRAVIS_BUILD_DIR}/tools/travis/travis_ci_rsa -d
     install:
     - export DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
+    - mkdir -p ${DEPS_DIR}
     - bash tools/travis/build_doxygen.sh
     - pip3 install --user pygments sphinx
     - export PATH="${TRAVIS_BUILD_DIR}/dependencies/binary/bin/doxygen-install/bin/:$PATH"
