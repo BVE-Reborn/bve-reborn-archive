@@ -7,7 +7,6 @@ matrix:
     addons:
       apt:
         packages:
-        - python3-sphinx
         - python3-pip
         - doxygen
         - liblua5.2-0
@@ -16,8 +15,9 @@ matrix:
     before_install:
     - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in tools/travis/travis_ci_rsa.enc -out tools/travis/travis_ci_rsa -d
     install:
-    - pip3 install --user pygments
+    - pip3 install --user pygments sphinx
     script:
+    - export PATH=$(python3 -m site --user-base)/bin:$PATH
     - "./docs.sh ../docs-build"
     deploy:
     - provider: script
