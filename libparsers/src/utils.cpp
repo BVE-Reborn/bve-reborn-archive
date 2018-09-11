@@ -54,7 +54,7 @@ namespace util {
 
 	bool is_loose_integer(const std::string& text) {
 		try {
-			parse_loose_integer(text);
+			parse_loose_integer_impl(text);
 			return true;
 		}
 		catch (const std::invalid_argument&) {
