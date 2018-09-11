@@ -1,5 +1,5 @@
 digraph project_structure {
-	graph [pad="0.5", nodesep="0.5", ranksep="1"];
+	graph [pad="0.3", nodesep="0.3", ranksep="1"];
 	"libcore" [style=filled, fillcolor=lightblue]
 	"libparsers" [style=filled, fillcolor=lightblue]
 	"libload" [style=filled, fillcolor=lightblue]
