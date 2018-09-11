@@ -7,11 +7,11 @@ matrix:
     addons:
       apt:
         packages:
-        - python3-pip
         - doxygen
         - liblua5.2-0
         - flex
         - bison
+        - graphviz
     env:
     - Documentation=On
     before_install:
@@ -20,7 +20,7 @@ matrix:
     - export DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
     - mkdir -p ${DEPS_DIR}
     - bash tools/travis/build_doxygen.sh
-    - pip3 install --user pygments sphinx
+    # - pip3 install --user pygments sphinx
     - export PATH="${TRAVIS_BUILD_DIR}/dependencies/binary/bin/doxygen-install/bin/:$PATH"
     script:
     - export PATH=$(python3 -m site --user-base)/bin:$PATH
