@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "parsers/errors.hpp"
 
 namespace parsers {
 namespace config {
@@ -32,13 +33,26 @@ namespace config {
             std::vector<std::string> car_filenames;
         };
 
+        /**
+         * \brief
+         */
         struct parsed_extensions_config {
+            /// \brief
             std::vector<car> cars;
-            coupler_t couplers;
+            /// \brief
+            std::vector<coupler_t> couplers;
+            /// \brief
             exterior_t exterior;
         };
 
-        parsed_extensions_config parse(const std::string& file);
+        /**
+         * \brief
+         * \param file
+         * \param filename
+         * \param errors
+         * \return
+         */
+        parsed_extensions_config parse(const std::string& file, std::string const& filename, errors::multi_error_t& errors);
     } // namespace extensions_cfg
 } // namespace config
 } // namespace parsers

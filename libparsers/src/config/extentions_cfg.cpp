@@ -63,7 +63,15 @@ namespace config {
                     car_map[car_number] = c;
                 }
                 else if(util::match_against_lower(section.name.substr(0,3), "coupler")) {
-                    auto coupler_number = util::parse_loose_integer(section.name.substr(3));
+	                std::intmax_t coupler_number;
+	                try {
+		                coupler_number = util::parse_loose_integer(section.name.substr(7));
+	                }
+	                catch (std::exception const& e) {
+		                errors::add_error(errors, filename, 0, e.what());
+		                errors::add_error(errors, filename, 0, "[Coupleri] Section given an invalid number");
+		                throw;
+	                }
                     coupler_t c;
                     for(auto& kvp : section.key_value_pairs) {
                         if(util::match_against_lower(kvp.key, "distances")) {
@@ -87,7 +95,7 @@ namespace config {
                 retval.cars.emplace_back(itr.second);
             }
             for(auto& itr : coupler_map) {
-                retval.couplers = itr.second;
+                retval.couplers.emplace_back(itr.second);
             }
             return retval;
         }

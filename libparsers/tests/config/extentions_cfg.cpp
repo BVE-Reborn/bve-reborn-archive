@@ -1,136 +1,124 @@
 #include "utils.hpp"
-#include "ini.hpp"
 #include <doctest.h>
 #include "parsers/config/extentions_cfg.hpp"
+#include "parsers/errors.hpp"
 
 using namespace std::string_literals;
 
 TEST_SUITE_BEGIN("libparsers - config - extentions_cfg");
 
 TEST_CASE("libparsers - config - extentions_cfg - empty file") {
-    auto parsed = parsers::ini::parse("");
+    std::string const file =
+            ""s;
+    parsers::errors::multi_error_t output_errors;
+    auto parsed = parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    REQUIRE_EQ(parsed.size(), 1);
-    CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
-    CHECK_EQ(parsed[0].values.size(), 0);
-    CHECK_EQ(parsed[0].name, "");
-    CHECK_EQ(parsed[0].line, 0);
+    REQUIRE_EQ(parsed.cars.size(), 0);
 }
 
 TEST_CASE("libparsers - config - extentions_cfg - empty section") {
-    auto parsed = parsers::ini::parse("[sec1]");
+	std::string const file =
+		"[Car0]\n"s;
+    parsers::errors::multi_error_t output_errors;
+    auto parsed =  parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    REQUIRE_EQ(parsed.size(), 2);
-    CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
-    CHECK_EQ(parsed[0].values.size(), 0);
-    CHECK_EQ(parsed[0].name, "");
-    CHECK_EQ(parsed[0].line, 0);
-
-    CHECK_EQ(parsed[1].key_value_pairs.size(), 0);
-    CHECK_EQ(parsed[1].values.size(), 0);
-    CHECK_EQ(parsed[1].name, "sec1");
-    CHECK_EQ(parsed[1].line, 1);
+    REQUIRE_EQ(parsed.cars.size(), 1);
+    CHECK_EQ(parsed.cars[0].object.empty(), true);
 }
 
 TEST_CASE("libparsers - config - extentions_cfg - single Car section") {
-    auto parsed = parsers::ini::parse(
-        "[Car0]\n"
-        "Object = locomotive.b3d\n"
-        "Length = 16\n"
-        "Axles = -6, 6\n"
-        "Reversed = False");
+	std::string const file =
+		"[Car0]\n"
+		"Object = locomotive.b3d\n"
+		"Length = 16\n"
+		"Axles = -6, 6\n"
+		"Reversed = False"s;
+    parsers::errors::multi_error_t output_errors;
+    auto parsed =  parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    REQUIRE_EQ(parsed.size(), 2);
-    CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
-    CHECK_EQ(parsed[0].values.size(), 0);
-    CHECK_EQ(parsed[0].name, "");
-    CHECK_EQ(parsed[0].line, 0);
+    REQUIRE_EQ(parsed.cars.size(), 1);
+    CHECK_EQ(parsed.cars[0].object, "locomotive.b3d");
+    CHECK_EQ(parsed.cars[0].length, 16);
+    CHECK_EQ(parsed.cars[0].axles.rear, -6);
+    CHECK_EQ(parsed.cars[0].axles.front, 6);
+    CHECK_EQ(parsed.cars[0].reversed, false);
+}
 
-    REQUIRE_EQ(parsed[1].key_value_pairs.size(), 4);
-    CHECK_EQ(parsed[1].values.size(), 0);
-    CHECK_EQ(parsed[1].name, "Car0");
-    CHECK_EQ(parsed[1].line, 1);
+TEST_CASE("libparsers - config - extentions_cfg - multi Car section") {
+	std::string const file =
+		"[Car0]\n"
+		"Object = locomotive.b3d\n"
+		"Length = 16\n"
+		"Axles = -6, 6\n"
+		"Reversed = False\n"
+		"[Car1]\n"
+		"Object = locomotive.b3d\n"
+		"Length = 18\n"
+		"Axles = -8, 8\n"
+		"Reversed = False"s;
+	parsers::errors::multi_error_t output_errors;
+	auto parsed =  parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    CHECK_EQ(parsed[1].key_value_pairs[0].line, 2);
-    CHECK_EQ(parsed[1].key_value_pairs[0].key, "Object");
-    CHECK_EQ(parsed[1].key_value_pairs[0].value, "locomotive.b3d");
-
-    CHECK_EQ(parsed[1].key_value_pairs[1].line, 3);
-    CHECK_EQ(parsed[1].key_value_pairs[1].key, "Length");
-    CHECK_EQ(parsed[1].key_value_pairs[1].value, "16");
-
-    CHECK_EQ(parsed[1].key_value_pairs[2].line, 4);
-    CHECK_EQ(parsed[1].key_value_pairs[2].key, "Axles");
-    CHECK_EQ(parsed[1].key_value_pairs[2].value, "-6, 6");
-
-    CHECK_EQ(parsed[1].key_value_pairs[3].line, 5);
-    CHECK_EQ(parsed[1].key_value_pairs[3].key, "Reversed");
-    CHECK_EQ(parsed[1].key_value_pairs[3].value, "False");
+	REQUIRE_EQ(parsed.cars.size(), 2);
+	CHECK_EQ(parsed.cars[0].object, "locomotive.b3d");
+	CHECK_EQ(parsed.cars[0].length, 16);
+	CHECK_EQ(parsed.cars[0].axles.rear, -6);
+	CHECK_EQ(parsed.cars[0].axles.front, 6);
+	CHECK_EQ(parsed.cars[0].reversed, false);
+	CHECK_EQ(parsed.cars[1].object, "locomotive.b3d");
+	CHECK_EQ(parsed.cars[1].length, 18);
+	CHECK_EQ(parsed.cars[1].axles.rear, -8);
+	CHECK_EQ(parsed.cars[1].axles.front, 8);
+	CHECK_EQ(parsed.cars[1].reversed, false);
 }
 
 TEST_CASE("libparsers - config - extentions_cfg - single Coupler section") {
-    auto parsed = parsers::ini::parse(
-            "[Coupler0]\n"
-            "Distances = 0.30, 0.35");
+	std::string const file =
+		"[Coupler0]\n"
+		"Distances = 0.30, 0.35"s;
+    parsers::errors::multi_error_t output_errors;
+    auto parsed =  parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    REQUIRE_EQ(parsed.size(), 2);
-    CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
-    CHECK_EQ(parsed[0].values.size(), 0);
-    CHECK_EQ(parsed[0].name, "");
-    CHECK_EQ(parsed[0].line, 0);
+    REQUIRE_EQ(parsed.couplers.size(), 1);
+    CHECK_EQ(parsed.couplers[0].distances.minimum, 0.30f);
+    CHECK_EQ(parsed.couplers[0].distances.maximum, 0.35f);
+}
 
-    REQUIRE_EQ(parsed[1].key_value_pairs.size(), 1);
-    CHECK_EQ(parsed[1].values.size(), 0);
-    CHECK_EQ(parsed[1].name, "Coupler0");
-    CHECK_EQ(parsed[1].line, 1);
+TEST_CASE("libparsers - config - extentions_cfg - multi Coupler section") {
+	std::string const file =
+		"[Coupler0]\n"
+		"Distances = 0.30, 0.35\n"
+		"[Coupler1]\n"
+		"Distances = 0.40, 0.45"s;
+	parsers::errors::multi_error_t output_errors;
+	auto parsed =  parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    CHECK_EQ(parsed[1].key_value_pairs[0].line, 2);
-    CHECK_EQ(parsed[1].key_value_pairs[0].key, "Distances");
-    CHECK_EQ(parsed[1].key_value_pairs[0].value, "0.30, 0.35");
+	REQUIRE_EQ(parsed.couplers.size(), 2);
+	CHECK_EQ(parsed.couplers[0].distances.minimum, 0.30f);
+	CHECK_EQ(parsed.couplers[0].distances.maximum, 0.35f);
+	CHECK_EQ(parsed.couplers[1].distances.minimum, 0.40f);
+	CHECK_EQ(parsed.couplers[1].distances.maximum, 0.45f);
 }
 
 TEST_CASE("libparsers - config - extentions_cfg - Exterior section") {
-    auto parsed = parsers::ini::parse(
-            "[Exterior]\n"
-            "0 = cars\\engine.csv\n"
-            "1 = cars\\passenger_mk1.b3d\n"
-            "2 = cars\\passenger_mk1.b3d\n"
-            "3 = cars\\passenger_bistro.b3d\n"
-            "4 = cars\\passenger_mk2.b3d\n"
-            "5 = cars\\postal.x");
+	std::string const file =
+		"[Exterior]\n"
+		"0 = cars\\engine.csv\n"
+		"1 = cars\\passenger_mk1.b3d\n"
+		"2 = cars\\passenger_mk1.b3d\n"
+		"3 = cars\\passenger_bistro.b3d\n"
+		"4 = cars\\passenger_mk2.b3d\n"
+		"5 = cars\\postal.x"s;
+    parsers::errors::multi_error_t output_errors;
+    auto parsed =  parsers::config::extensions_cfg::parse(file, "extensions.cfg", output_errors);
 
-    REQUIRE_EQ(parsed.size(), 2);
-    CHECK_EQ(parsed[0].key_value_pairs.size(), 0);
-    CHECK_EQ(parsed[0].values.size(), 0);
-    CHECK_EQ(parsed[0].name, "");
-    CHECK_EQ(parsed[0].line, 0);
-
-    REQUIRE_EQ(parsed[1].key_value_pairs.size(), 6);
-    CHECK_EQ(parsed[1].values.size(), 0);
-    CHECK_EQ(parsed[1].name, "Exterior");
-    CHECK_EQ(parsed[1].line, 1);
-
-    CHECK_EQ(parsed[1].key_value_pairs[0].line, 2);
-    CHECK_EQ(parsed[1].key_value_pairs[0].key, "0");
-    CHECK_EQ(parsed[1].key_value_pairs[0].value, "cars\\engine.csv");
-
-    CHECK_EQ(parsed[1].key_value_pairs[1].line, 3);
-    CHECK_EQ(parsed[1].key_value_pairs[1].key, "1");
-    CHECK_EQ(parsed[1].key_value_pairs[1].value, "cars\\passenger_mk1.b3d");
-
-    CHECK_EQ(parsed[1].key_value_pairs[2].line, 4);
-    CHECK_EQ(parsed[1].key_value_pairs[2].key, "2");
-    CHECK_EQ(parsed[1].key_value_pairs[2].value, "cars\\passenger_mk1.b3d");
-
-    CHECK_EQ(parsed[1].key_value_pairs[3].line, 5);
-    CHECK_EQ(parsed[1].key_value_pairs[3].key, "3");
-    CHECK_EQ(parsed[1].key_value_pairs[3].value, "cars\\passenger_bistro.b3d");
-
-    CHECK_EQ(parsed[1].key_value_pairs[4].line, 6);
-    CHECK_EQ(parsed[1].key_value_pairs[4].key, "4");
-    CHECK_EQ(parsed[1].key_value_pairs[4].value, "cars\\passenger_mk2.b3d");
-
-    CHECK_EQ(parsed[1].key_value_pairs[5].line, 7);
-    CHECK_EQ(parsed[1].key_value_pairs[5].key, "5");
-    CHECK_EQ(parsed[1].key_value_pairs[5].value, "cars\\postal.x");
+    REQUIRE_EQ(parsed.exterior.car_filenames.size(), 6);
+    CHECK_EQ(parsed.exterior.car_filenames[0], "cars\\engine.csv");
+    CHECK_EQ(parsed.exterior.car_filenames[1], "cars\\passenger_mk1.b3d");
+    CHECK_EQ(parsed.exterior.car_filenames[2], "cars\\passenger_mk1.b3d");
+    CHECK_EQ(parsed.exterior.car_filenames[3], "cars\\passenger_bistro.b3d");
+    CHECK_EQ(parsed.exterior.car_filenames[4], "cars\\passenger_mk2.b3d");
+    CHECK_EQ(parsed.exterior.car_filenames[5], "cars\\postal.x");
 }
+
+TEST_SUITE_END();
