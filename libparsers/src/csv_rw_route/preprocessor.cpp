@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include <algorithm>
 #include <gsl/gsl_util>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -55,8 +56,15 @@ namespace csv_rw_route {
 			throw std::invalid_argument("$Rnd takes two arguments");
 		}
 
-		auto const start = util::parse_loose_integer(split[0]);
-		auto const end = util::parse_loose_integer(split[1]);
+		if (!util::is_loose_integer(split[0]) || !util::is_loose_integer(split[1])) {
+			throw std::invalid_argument("Error: $Rnd requires numeric values");
+		}
+		auto start = util::parse_loose_integer(split[0]);
+		auto end = util::parse_loose_integer(split[1]);
+
+		if (start > end) {
+			std::swap(start, end);
+		}
 
 		// ReSharper disable once CppLocalVariableMayBeConst
 		std::uniform_int_distribution<std::intmax_t> dist(start, end);
@@ -90,6 +98,8 @@ namespace csv_rw_route {
 	    std::unordered_map<std::size_t, std::string>& variable_set,
 	    if_status& if_conditions,
 	    bvereborn::datatypes::rng& rng,
+	    errors::multi_error_t& errors,
+	    std::string const& filename,
 	    std::string::const_iterator& last_used,
 	    std::string::const_iterator const arg_begin,
 	    std::string::const_iterator const arg_end,
@@ -113,9 +123,9 @@ namespace csv_rw_route {
 			// find the matching parenthesis
 			auto const matched_rparens = find_matching_parens(next_parens, end);
 
-			auto inside_value =
-			    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
-			                             next_parens + 1, matched_rparens, matched_rparens);
+			auto inside_value = preprocess_pass_dispatch(variable_set, if_conditions, rng, errors,
+			                                             filename, last_used, next_parens + 1,
+			                                             matched_rparens, matched_rparens);
 			util::strip_text(inside_value);
 
 			auto command_text = std::string(next_money + 1, next_parens);
@@ -126,10 +136,11 @@ namespace csv_rw_route {
 			if (command_text == "sub") {
 				// check for an assignment
 				auto const equals = std::find(matched_rparens, line_end, '=');
+
 				if (end != line_end && equals != line_end) {
 					auto const after_equals =
-					    preprocess_pass_dispatch(variable_set, if_conditions, rng, last_used,
-					                             equals + 1, line_end, line_end);
+					    preprocess_pass_dispatch(variable_set, if_conditions, rng, errors, filename,
+					                             last_used, equals + 1, line_end, line_end);
 					parse_sub_equality(variable_set, inside_value, after_equals);
 
 					inside_value.clear();
@@ -143,8 +154,16 @@ namespace csv_rw_route {
 				}
 			}
 			else if (command_text == "rnd") {
-				inside_value = parse_rnd(inside_value, rng);
-				last_used = matched_rparens;
+				try {
+					inside_value = parse_rnd(inside_value, rng);
+					last_used = matched_rparens;
+				}
+				catch (std::exception& e) {
+					errors::add_error(errors, filename, 0, e.what());
+					last_used = matched_rparens;
+					begin = matched_rparens + 1;
+					continue;
+				}
 			}
 			else if (command_text == "chr") {
 				inside_value = parse_char(inside_value);
@@ -168,6 +187,14 @@ namespace csv_rw_route {
 				if_conditions = {if_status::endif,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
+			}
+			else {
+				std::stringstream err;
+				err << "Error: unknown expression found " << command_text;
+				errors::add_error(errors, filename, 0, err.str());
+				last_used = matched_rparens;
+				begin = matched_rparens + 1;
+				continue;
 			}
 
 			return_value += std::string(begin, next_money);
@@ -212,7 +239,8 @@ namespace csv_rw_route {
 				std::string directive_value;
 				try {
 					directive_value =
-					    preprocess_pass_dispatch(variable_storage, if_condition, rng, last_used,
+					    preprocess_pass_dispatch(variable_storage, if_condition, rng, errors,
+					                             lines.filenames[line.filename_index], last_used,
 					                             next_money, matched_rparens + 1, end);
 				}
 				catch (const std::invalid_argument& e) {
@@ -224,7 +252,7 @@ namespace csv_rw_route {
 					if_condition_stack.emplace_back(true);
 				}
 				else if (if_condition.type == if_status::if_false) {
-					if_condition_stack.emplace_back(true);
+					if_condition_stack.emplace_back(false);
 				}
 				else if (if_condition.type == if_status::else_) {
 					if_condition_stack.back() = !if_condition_stack.back();
