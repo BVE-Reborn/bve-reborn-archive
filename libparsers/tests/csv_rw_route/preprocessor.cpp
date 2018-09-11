@@ -36,7 +36,7 @@ TEST_SUITE_BEGIN("libparsers - csv_rw_route - preprocessor");
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $Chr") {
 	std::string test_command =
-	    "$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),\n" \\
+	    "$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),\n" //
 	    "$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78)"s;
 
 	parsers::errors::multi_error_t output_errors;
@@ -110,9 +110,9 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Sub") {
 	auto const processed = setup(test_command, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 2);
 	CHECK_GE(p_util::parse_loose_integer(processed.lines[0].contents),
-	         p_util::parse_loose_integer("3"s));
+	         3);
 	CHECK_LE(p_util::parse_loose_integer(processed.lines[0].contents),
-	         p_util::parse_loose_integer("5"s));
+	         5);
 
 	CHECK_EQ(processed.lines[1].contents, "K"s);
 }
@@ -123,8 +123,8 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $If") {
 	parsers::errors::multi_error_t output_errors;
 	// Single sub expression.
 	auto const processed1 = setup(test_command, output_errors);
-	REQUIRE_EQ(processed.lines.size(), 1);
-	CHECK_EQ(processed.lines[0].contents, "K"s);
+	REQUIRE_EQ(processed1.lines.size(), 1);
+	CHECK_EQ(processed1.lines[0].contents, "K"s);
 
 	std::string const test_command2 = "$If(0),$Chr(75),$Else(),$Chr(69),$EndIf()"s;
 	auto const processed2 = setup(test_command2, output_errors);
