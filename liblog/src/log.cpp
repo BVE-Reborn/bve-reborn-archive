@@ -4,8 +4,7 @@
 #include <mutex>
 #include <vector>
 
-// Global severity object
-logger::current_severity_container logger::current_severity;
+logger::detail::current_severity_container logger::current_severity;
 
 logger::detail::current_time logger::detail::get_time() {
 	auto now = std::chrono::system_clock::now();
@@ -46,9 +45,9 @@ void logger::set_output_location(std::string const& name) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
 	log_impl.file_ = std::make_shared<std::ofstream>(name, std::ios::app);
 }
-void logger::set_output_location(std::shared_ptr<std::ostream> name) {
+void logger::set_output_location(std::shared_ptr<std::ostream> stream) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
-	log_impl.file_ = std::move(name);
+	log_impl.file_ = std::move(stream);
 }
 
 std::shared_ptr<std::ostream> logger::get_output_stream() {

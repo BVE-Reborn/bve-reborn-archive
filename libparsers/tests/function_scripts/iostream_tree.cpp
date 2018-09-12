@@ -1,5 +1,5 @@
-#include "function_scripts.hpp"
 #include "core/macro_helpers.hpp"
+#include "function_scripts.hpp"
 #include <doctest.h>
 #include <sstream>
 

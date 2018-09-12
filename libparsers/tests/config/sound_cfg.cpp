@@ -1,6 +1,6 @@
 #include "parsers/config/sound_cfg.hpp"
-#include "parsers/errors.hpp"
 #include "core/macro_helpers.hpp"
+#include "parsers/errors.hpp"
 #include "sample_relative_file_func.hpp"
 #include <doctest.h>
 #include <string>

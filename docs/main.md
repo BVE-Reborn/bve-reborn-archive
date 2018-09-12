@@ -18,8 +18,8 @@ Read \ref dev-structure for an overview of the project structure.
 
 \ref dev-tests has info about writing tests and code coverage.
 
-# TODO
-
- See [TODO.md](TODO.md)
+# Subpages
 
 \subpage dev
+
+\subpage misc

@@ -27,6 +27,7 @@ Submodules are handled by `dependencies/targets.cmake` unless otherwise noted.
 - [cotire](https://github.com/sakra/cotire/tree/cotire-1.8.0) - A cmake library which adds compile time saving features like precompiled headers and unity builds.
 - [cpp_guildlines_support_library](https://github.com/Microsoft/GSL/tree/v1.0.0) - A library for assisting with following the c++ core guidelines. Mainly used for `gsl::span`, `gsl::string_span` for non-owning views into arrays, `gsl::narrow` and `gsl::narrow_cast` for safer narrowing conversions.
 - [doctest](https://github.com/onqtam/doctest/tree/1.2.9) - Testing library.
+- [fmt](https://github.com/fmtlib/fmt/tree/6ebc1a967d9a54f8209b3c415039aff3979dd762) - String formatting library that uses python like syntax and is faster than streams.
 - [glm](https://github.com/g-truc/glm/tree/0.9.9-a2) - openGL Math library. Easies working with pixel and vertex data with many classes (such as `glm::vecN`) and geometric operations.
 - [mapbox-variant](https://github.com/mapbox/variant/tree/v1.1.5) - Provides `mapbox::util::variant`, a type-safe union type. Used instead of boost::variant due to better performance and better features.
 - [rapidxml](http://rapidxml.sourceforge.net/) - Fastest xml parser in the land with simple, powerful API.

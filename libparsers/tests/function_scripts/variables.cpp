@@ -1,5 +1,5 @@
-#include "test_macro_util.hpp"
 #include "core/macro_helpers.hpp"
+#include "test_macro_util.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
 

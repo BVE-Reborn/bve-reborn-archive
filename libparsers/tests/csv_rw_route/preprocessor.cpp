@@ -109,10 +109,8 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Sub") {
 	parsers::errors::multi_error_t output_errors;
 	auto const processed = setup(test_command, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 2);
-	CHECK_GE(p_util::parse_loose_integer(processed.lines[0].contents),
-	         3);
-	CHECK_LE(p_util::parse_loose_integer(processed.lines[0].contents),
-	         5);
+	CHECK_GE(p_util::parse_loose_integer(processed.lines[0].contents), 3);
+	CHECK_LE(p_util::parse_loose_integer(processed.lines[0].contents), 5);
 
 	CHECK_EQ(processed.lines[1].contents, "K"s);
 }
@@ -166,7 +164,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $If - multiple conditional
 	    "$If(1),$Chr(75),$If(1),$Chr(69),$If(1),$Chr(86),$Else(),$Chr(69),$EndIf()"s;
 
 	parsers::errors::multi_error_t output_errors;
-	
+
 	auto const processed = setup(test_input, output_errors);
 
 	REQUIRE_EQ(processed.lines.size(), 3);
