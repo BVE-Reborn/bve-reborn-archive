@@ -34,7 +34,7 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE
 add_library(libparsers_test OBJECT ${TEST_SOURCES})
 target_include_directories(libparsers_test PUBLIC ${CMAKE_SOURCE_DIR}/libparsers/src)
 target_include_directories(libparsers_test PUBLIC ${CMAKE_SOURCE_DIR}/libparsers/tests)
-target_link_libraries(libparsers_test PUBLIC parsers doctest::doctest options::iterator_debug_level_1)
+target_link_libraries(libparsers_test PUBLIC parsers doctest::doctest options::iterator_debug_level_1 Boost::filesystem)
 
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
