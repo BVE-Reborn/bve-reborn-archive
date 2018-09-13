@@ -1,10 +1,11 @@
 #include "executor_pass3.hpp"
 #include <ostream>
 #include <sstream>
+#include <vector>
 
 namespace parsers {
 namespace csv_rw_route {
-	boost::optional<filename_set_iterator> get_cycle_filename_index(
+	tl::optional<filename_set_iterator> get_cycle_filename_index(
 	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
 	    const std::unordered_map<std::size_t, filename_set_iterator>& object_mapping,
 	    std::size_t const index,
@@ -16,7 +17,7 @@ namespace csv_rw_route {
 			auto const to_use_iter = object_mapping.find(cycle_iterator->second[index_to_use]);
 
 			if (to_use_iter == object_mapping.end()) {
-				return boost::none;
+				return ti::nullopt;
 			}
 
 			return to_use_iter->second;
@@ -25,7 +26,7 @@ namespace csv_rw_route {
 		auto const to_use_iter = object_mapping.find(index);
 
 		if (to_use_iter == object_mapping.end()) {
-			return boost::none;
+			return ti::nullopt;
 		}
 
 		return to_use_iter->second;

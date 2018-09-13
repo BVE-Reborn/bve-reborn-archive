@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/inlining_util.hpp"
+#include "core/macro_helpers.hpp"
 #include <atomic>
 #include <chrono>
 #include <fmt/core.h>
@@ -103,7 +104,7 @@ namespace detail {
 /**
  * \brief Global object that marks the current severity
  */
-extern detail::current_severity_container current_severity;
+inline detail::current_severity_container current_severity;
 
 /**
  * \ingroup liblog
@@ -149,29 +150,29 @@ std::shared_ptr<std::ostream> get_output_stream();
 
 #ifdef LIBLOG_DEBUG
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "          \
-		                "{:s}:{:d}: " fmt_str "\n"),                                               \
-		            time.year, time.month, time.day, time.hour, time.minute, time.second,          \
-		            time.millisecond, #ser, __FILE__, __LINE__, __VA_ARGS__)
+		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "        \
+		                  "{:s}:{:d}: " fmt_str "\n"),                                             \
+		              time.year, time.month, time.day, time.hour, time.minute, time.second,        \
+		              time.millisecond, #ser, __FILE__, __LINE__, __VA_ARGS__)
 #else
 #	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
-		fmt::format(("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: " fmt_str     \
-		             "\n"),                                                                        \
-		            time.year, time.month, time.day, time.hour, time.minute, time.second,          \
-		            time.millisecond, #ser, __VA_ARGS__)
+		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: "              \
+		                  "{:s}: " fmt_str "\n"),                                                  \
+		              time.year, time.month, time.day, time.hour, time.minute, time.second,        \
+		              time.millisecond, #ser, __VA_ARGS__)
 #endif
 
 #define LIBLOG_LOG_SEVERITY_IMPL(ser, fmt_str, ...)                                                \
 	{                                                                                              \
 		auto const time = ::logger::detail::get_time();                                            \
-		auto const formated_str = LIBLOG_FORMAT_CALL(ser, fmt_str, __VA_ARGS__);                   \
+		auto const formated_str = EXPAND(LIBLOG_FORMAT_CALL(ser, fmt_str, __VA_ARGS__));           \
 		::logger::to_log(std::move(formated_str));                                                 \
 	}
 #ifdef LIBLOG_DEBUG
 #	define LIBLOG_LOG_SEVERITY_debug(...)                                                         \
 		if (static_cast<::logger::detail::severity_int_type>(::log::current_severity.get())        \
 		    <= static_cast<::logger::detail::severity_int_type>(::log::severity::debug)) {         \
-			LIBLOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__)                                           \
+			EXPAND(LIBLOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__))                                   \
 		}
 #else
 #	define LIBLOG_LOG_SEVERITY_debug(...)
@@ -179,27 +180,27 @@ std::shared_ptr<std::ostream> get_output_stream();
 #define LIBLOG_LOG_SEVERITY_info(...)                                                              \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
 	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::info)) {           \
-		LIBLOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__)                                                \
+		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__))                                        \
 	}
 #define LIBLOG_LOG_SEVERITY_note(...)                                                              \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
 	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::note)) {           \
-		LIBLOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__)                                                \
+		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__))                                        \
 	}
 #define LIBLOG_LOG_SEVERITY_warning(...)                                                           \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
 	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::warning)) {        \
-		LIBLOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__)                                             \
+		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__))                                     \
 	}
 #define LIBLOG_LOG_SEVERITY_error(...)                                                             \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
 	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::error)) {          \
-		LIBLOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__)                                               \
+		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__))                                       \
 	}
 #define LIBLOG_LOG_SEVERITY_fatal_error(...)                                                       \
 	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
 	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::fatal_error)) {    \
-		LIBLOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__)                                         \
+		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                                 \
 	}
 /**
  * \ingroup liblog
@@ -208,12 +209,13 @@ std::shared_ptr<std::ostream> get_output_stream();
  * \param format_str Format string that will be passed directly to fmt.
  * \param ... Arguments to be added into the format string.
  */
-#define LIBLOG_LOG(sev, format_str, ...) LIBLOG_LOG_SEVERITY_##sev(format_str, __VA_ARGS__)
+#define LIBLOG_LOG(sev, format_str, ...)                                                           \
+	EXPAND(CONCAT(LIBLOG_LOG_SEVERITY_, sev)(format_str, __VA_ARGS__))
 
 #ifndef LIBLOG_NO_SIMPLE_MACRO_NAMES
 /**
  * \ingroup liblog
  * \copydoc LIBLOG_LOG
  */
-#	define LOG(sev, format_str, ...) LIBLOG_LOG(sev, format_str, __VA_ARGS__)
+#	define LOG(sev, format_str, ...) EXPAND(LIBLOG_LOG(sev, format_str, __VA_ARGS__))
 #endif

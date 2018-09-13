@@ -1,9 +1,14 @@
 #include "core/macro_helpers.hpp"
 #include "csv_rw_route.hpp"
-#include <boost/optional/optional_io.hpp>
 #include <gsl/gsl_util>
 #include <iomanip>
 #include <ostream>
+
+template<class T>
+std::ostream& operator<<(std::ostream& os, ti::optional<T>& val) {
+	os << val.value();
+	return os;
+}
 
 #define PRINT_VALUE(name) os_ << ", " #name " = " << inst.name;
 #define PRINT_BYTE(name) os_ << ", " #name " = " << gsl::narrow<int>(inst.name);

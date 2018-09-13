@@ -3,7 +3,7 @@
 #include "tests.hpp"
 #include <algorithm>
 #include <array>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <iostream>
 #include <string>
 
@@ -26,19 +26,19 @@ void test_csv_route() {
 	    DIRECTORY "../libparsers/tests/test_files/NYCT- R [Astoria to 95 St - 4th Av].csv"s;
 	//	auto file_location = DIRECTORY "../libparsers/tests/Xmasmonorail.csv";
 	// Bridge NTT [v1.0].csv";
-	auto used_file = boost::filesystem::path(file_location);
+	auto used_file = std::filesystem::path(file_location);
 
 	auto const get_abs_path = [&](const std::string& base_file, const std::string& file) {
 		auto new_file = file;
 		std::replace(new_file.begin(), new_file.end(), '\\', '/');
-		auto file_path = boost::filesystem::path(base_file); //
+		auto file_path = std::filesystem::path(base_file); //
 		auto new_file_path = absolute(new_file, file_path.parent_path());
 		new_file_path = canonical(new_file_path.parent_path()) / new_file_path.filename();
 		return new_file_path.string();
 	};
 
 	auto vals =
-	    process_include_directives(boost::filesystem::canonical(file_location).string(), eng, me,
+	    process_include_directives(std::filesystem::canonical(file_location).string(), eng, me,
 	                               parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';

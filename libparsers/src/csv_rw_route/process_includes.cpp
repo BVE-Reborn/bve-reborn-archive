@@ -1,9 +1,10 @@
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
-#include <boost/regex.hpp>
 #include <numeric>
 #include <set>
 #include <sstream>
+#include <string>
+#include <regex>
 
 using namespace std::string_literals;
 
@@ -81,10 +82,10 @@ namespace csv_rw_route {
 		// Capture group 1 is filename
 		// Capture group 2 is position offset
 		// Capture group 3 is everything after the first filename
-		boost::regex include_finder(R"(\$Include\(([\w\-. \\/]+\s*)(?::\s*(\d+))*([\w\s;]*)\))",
-		                            boost::regex_constants::icase
-		                                | boost::regex_constants::ECMAScript
-		                                | boost::regex_constants::optimize);
+		std::regex include_finder(R"(\$Include\(([\w\-. \\/]+\s*)(?::\s*(\d+))*([\w\s;]*)\))",
+		                            std::regex_constants::icase
+		                                | std::regex_constants::ECMAScript
+		                                | std::regex_constants::optimize);
 	} // namespace
 
 	struct include_pos {
@@ -96,7 +97,7 @@ namespace csv_rw_route {
 	};
 
 	static include_pos parse_weighted_include(const line_break_list& breaks,
-	                                          const boost::smatch& match,
+	                                          const std::smatch& match,
 	                                          bvereborn::datatypes::rng& rng) {
 		auto const string = match[1].str() + match[3].str();
 
@@ -130,7 +131,7 @@ namespace csv_rw_route {
 	}
 
 	static include_pos parse_offset_include(const line_break_list& breaks,
-	                                        const boost::smatch& match) {
+	                                        const std::smatch& match) {
 		auto const filename = match[1].str();
 		auto const offset_str = match[2].str();
 
@@ -141,7 +142,7 @@ namespace csv_rw_route {
 	}
 
 	static include_pos parse_naked_include(const line_break_list& breaks,
-	                                       const boost::smatch& match) {
+	                                       const std::smatch& match) {
 		auto const filename = match[1].str();
 
 		return include_pos{filename, 0, line_number(breaks, match[0].first), match[0].first,
@@ -156,8 +157,8 @@ namespace csv_rw_route {
 		auto const line_br_list = list_line_breaks(contents);
 
 		auto const regex_start =
-		    boost::sregex_iterator(contents.begin(), contents.end(), include_finder);
-		auto const regex_end = boost::sregex_iterator();
+		    std::sregex_iterator(contents.begin(), contents.end(), include_finder);
+		auto const regex_end = std::sregex_iterator();
 
 		for (auto i = regex_start; i != regex_end; ++i) {
 			auto const match = *i;

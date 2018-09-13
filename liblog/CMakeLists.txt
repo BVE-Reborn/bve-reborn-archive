@@ -11,9 +11,7 @@ format(FILES ${HEADERS} ${SOURCES})
 add_library(log SHARED ${SOURCES} ${HEADERS})
 target_compile_features(log PUBLIC cxx_std_14)
 target_include_directories(log PUBLIC include)
-target_link_libraries(log PRIVATE options::fast_math options::iterator_debug_level_1 gsl::gsl
-                      # options::best_linker
-    )
+target_link_libraries(log PRIVATE options::fast_math options::iterator_debug_level_1 gsl::gsl)
 target_link_libraries(log PUBLIC fmt::fmt core)
 add_sanitizers(log)
 cotire(log)
@@ -30,8 +28,8 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE
 add_library(liblog_test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
 target_include_directories(liblog_test PUBLIC ../libparsers/src)
 target_link_libraries(liblog_test PUBLIC log core)
-target_link_libraries(liblog_test PUBLIC Boost::regex Threads::Threads gsl::gsl doctest::doctest
-                                         options::iterator_debug_level_1 Boost::filesystem)
+target_link_libraries(liblog_test PUBLIC Threads::Threads gsl::gsl doctest::doctest options::iterator_debug_level_1)
+
 add_sanitizers(liblog_test)
 cotire(liblog_test)
 

@@ -32,3 +32,6 @@
 	path = dependencies/bsf
 	url = https://github.com/cwfitzgerald/bsf.git
 	branch = master
+[submodule "optional"]
+	path = dependencies/optional
+	url = git@github.com:TartanLlama/optional.git

@@ -1,32 +1,31 @@
 #include "csv_rw_route.hpp"
 #include "sample_relative_file_func.hpp"
 #include "utils.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
 #include <doctest.h>
+#include <filesystem>
+#include <fstream>
 
 using namespace std::string_literals;
-namespace bf = boost::filesystem;
 namespace cs = parsers::csv_rw_route;
 namespace p_util = parsers::util;
 
 namespace {
 
 void write_to_file(std::string const& directive) {
-	bf::path path{"directive.csv"s};
-	bf::ofstream ofs{path};
+	std::filesystem::path const path{"directive.csv"s};
+	std::ofstream ofs{path};
 	ofs << directive;
 }
 
 cs::preprocessed_lines setup(std::string const& test,
                              parsers::errors::multi_error_t& output_errors) {
 	write_to_file(test);
-	int const seed = 1;
+	std::uint32_t const seed = 1;
 	auto rng = bvereborn::datatypes::rng{seed};
 	auto processed = cs::process_include_directives("directive.csv"s, rng, output_errors,
 	                                                cs::file_type::csv, rel_file_func);
 	cs::preprocess_file(processed, rng, output_errors, cs::file_type::csv);
-	bf::remove("directive.csv"s);
+	std::filesystem::remove("directive.csv"s);
 	return processed;
 }
 

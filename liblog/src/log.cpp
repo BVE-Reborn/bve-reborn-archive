@@ -2,21 +2,28 @@
 #include <fstream>
 #include <gsl/gsl_util>
 #include <mutex>
+#include <time.h>
 #include <vector>
 
-logger::detail::current_severity_container logger::current_severity;
+// logger::detail::current_severity_container logger::current_severity;
 
 logger::detail::current_time logger::detail::get_time() {
-	auto now = std::chrono::system_clock::now();
-	auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
+	auto const now = std::chrono::system_clock::now();
+	auto const seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
 	auto s = std::chrono::system_clock::to_time_t(seconds);
-	auto wall_time = std::gmtime(&s);
-	auto year = wall_time->tm_year + 1900;
-	auto month = wall_time->tm_mon;
-	auto day = wall_time->tm_mday;
-	auto hour = wall_time->tm_hour;
-	auto min = wall_time->tm_min;
-	auto sec = wall_time->tm_sec;
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+	tm wall_time;
+	gmtime_r(&s, &time);
+#else
+	tm wall_time;
+	gmtime_s(&wall_time, &s);
+#endif
+	auto const year = wall_time.tm_year + 1900;
+	auto const month = wall_time.tm_mon;
+	auto const day = wall_time.tm_mday;
+	auto const hour = wall_time.tm_hour;
+	auto const min = wall_time.tm_min;
+	auto const sec = wall_time.tm_sec;
 	auto milli = std::chrono::duration_cast<std::chrono::milliseconds>(now - seconds);
 
 	logger::detail::current_time current;

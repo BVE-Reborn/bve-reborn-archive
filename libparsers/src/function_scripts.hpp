@@ -2,7 +2,7 @@
 
 #include "parsers/errors.hpp"
 #include "parsers/function_scripts.hpp"
-#include <boost/optional/optional.hpp>
+#include <tl/optional.hpp>
 #include <iosfwd>
 #include <mapbox/recursive_wrapper.hpp>
 #include <mapbox/variant.hpp>
@@ -88,13 +88,13 @@ namespace function_scripts {
 		    err_(errors) {}
 
 		template <class T>
-		boost::optional<T> get_next_token() {
+		tl::optional<T> get_next_token() {
 			if (index_ < list_.size() && list_[index_].is<T>()) {
 				auto ret = list_[index_].get<T>();
 				index_ += 1;
 				return ret;
 			}
-			return boost::none;
+			return tl::nullopt;
 		}
 
 		template <class T>
@@ -117,8 +117,8 @@ namespace function_scripts {
 			}
 		}
 
-		boost::optional<lexer_token> peak_next_token() const {
-			return index_ < list_.size() ? boost::make_optional(list_[index_]) : boost::none;
+		tl::optional<lexer_token> peak_next_token() const {
+			return index_ < list_.size() ? tl::make_optional(list_[index_]) : tl::nullopt;
 		}
 
 		void add_error(const errors::error_t& error) const {

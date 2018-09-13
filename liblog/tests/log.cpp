@@ -2,16 +2,13 @@
 #include "doctest.h"
 #include "log_test.hpp"
 #include "utils.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <boost/regex.hpp>
+#include <filesystem>
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <sstream>
 
 using namespace std::string_literals;
-namespace bf = boost::filesystem;
 
 TEST_SUITE_BEGIN("liblog");
 
@@ -20,9 +17,9 @@ TEST_CASE("liblog - write to ostream") {
 	logger::set_output_location(file);
 
 	LOG(note, "{}", "hello");
-	boost::smatch m;
+	std::smatch m;
 	std::string logged = file->str();
-	CHECK(boost::regex_match(logged, m, log_regex));
+	CHECK(std::regex_match(logged, m, log_regex));
 	REQUIRE_EQ(m.size(), 5);
 	CHECK_EQ(m[1], "note"s);
 	// LIBLOG_DEBUG is not defined time and file location should be empty strings.
@@ -72,10 +69,10 @@ TEST_CASE("liblog - only print if severity high enough") {
 
 	LOG(warning, "{}", "hello");
 	std::string logged = file->str();
-	boost::smatch m;
+	std::smatch m;
 	if (s == logger::severity::debug || s == logger::severity::info || s == logger::severity::note
 	    || s == logger::severity::warning) {
-		CHECK(boost::regex_match(logged, m, log_regex));
+		CHECK(std::regex_match(logged, m, log_regex));
 		REQUIRE_EQ(m.size(), 5);
 	}
 	else {
@@ -93,10 +90,10 @@ TEST_CASE("liblog - write to file") {
 	auto temp_loc = std::make_shared<std::ostringstream>();
 	logger::set_output_location(temp_loc);
 
-	bf::fstream file{file_name};
+	std::fstream file{file_name};
 	std::string logged = parsers::util::load_from_file_utf8_bom(file);
-	boost::smatch m;
-	CHECK(boost::regex_match(logged, m, log_regex));
+	std::smatch m;
+	CHECK(std::regex_match(logged, m, log_regex));
 	REQUIRE_EQ(m.size(), 5);
 	CHECK_EQ(m[1], "fatal_error"s);
 	// LIBLOG_DEBUG is not defined time and file location should be empty strings.
@@ -104,7 +101,7 @@ TEST_CASE("liblog - write to file") {
 	CHECK_EQ(m[3], ""s);
 	CHECK_EQ(m[4], "hello\n"s);
 	file.close();
-	boost::filesystem::remove(file_name);
+	std::filesystem::remove(file_name);
 }
 
 TEST_CASE("liblog - only write to file if severity high enough") {
@@ -140,10 +137,10 @@ TEST_CASE("liblog - only write to file if severity high enough") {
 
 	std::fstream file(file_name);
 	std::string logged = parsers::util::load_from_file_utf8_bom(file);
-	boost::smatch m;
+	std::smatch m;
 	if (s == logger::severity::debug || s == logger::severity::info || s == logger::severity::note
 	    || s == logger::severity::warning) {
-		CHECK(boost::regex_match(logged, m, log_regex));
+		CHECK(std::regex_match(logged, m, log_regex));
 		REQUIRE_EQ(m.size(), 5);
 	}
 	else {
@@ -152,7 +149,7 @@ TEST_CASE("liblog - only write to file if severity high enough") {
 	// Reset current severity to note.
 	logger::current_severity.set(logger::severity::note);
 	file.close();
-	boost::filesystem::remove(file_name);
+	std::filesystem::remove(file_name);
 }
 
 TEST_CASE("liblog - thread safety") {
@@ -179,9 +176,9 @@ TEST_CASE("liblog - thread safety") {
 	t5.get();
 	std::string logged;
 
-	while (getline(*file, logged)) {
-		boost::smatch m;
-		CHECK(boost::regex_match(logged, m, log_regex));
+	while (std::getline(*file, logged)) {
+		std::smatch m;
+		CHECK(std::regex_match(logged, m, log_regex));
 		REQUIRE_EQ(m.size(), 5);
 		// t3-5 shouldn't LOG because they change the global severity to one that is higher than
 		// note.

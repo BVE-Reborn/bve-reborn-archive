@@ -1,12 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(BVE-Reborn C CXX)
 
-# Allow boost to be built from the binary dir
-if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-    list(INSERT CMAKE_PREFIX_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/binary/build_x86")
-else()
-    list(INSERT CMAKE_PREFIX_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/binary/build_x64")
-endif()
+find_package(Threads REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -14,7 +9,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 configure_file(.clang-tidy-manager .clang-tidy-manager COPYONLY)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS False)
 
@@ -30,7 +25,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dependencies/coti
                                            ${CMAKE_SOURCE_DIR}/dependencies/cmake
                                            ${CMAKE_SOURCE_DIR}/dependencies/cmake-utils/include
                                            ${CMAKE_SOURCE_DIR}/dependencies)
-include(binary)
+
 include(bsf)
 include(clang_format)
 include(cotire)

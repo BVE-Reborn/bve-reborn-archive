@@ -1,5 +1,6 @@
 #include "function_scripts.hpp"
 #include <cctype>
+#include <algorithm>
 #include <cstdlib>
 
 namespace parsers {

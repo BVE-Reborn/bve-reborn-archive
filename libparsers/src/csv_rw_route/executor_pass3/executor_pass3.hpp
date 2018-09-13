@@ -4,8 +4,10 @@
 #include "csv_rw_route.hpp"
 #include "parsers/find_relative_file.hpp"
 #include "utils.hpp"
-#include <boost/functional/hash.hpp>
+#include <boost/hash.hpp>
 #include <functional>
+#include <vector>
+#include <iostream>
 #include <iosfwd>
 
 namespace parsers {
@@ -13,7 +15,7 @@ namespace csv_rw_route {
 	using cycle_type = std::vector<std::size_t>;
 
 	// defined in executor_pass3/cycle.cpp
-	boost::optional<filename_set_iterator> get_cycle_filename_index(
+	tl::optional<filename_set_iterator> get_cycle_filename_index(
 	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
 	    const std::unordered_map<std::size_t, filename_set_iterator>& object_mapping,
 	    std::size_t index,

@@ -3,7 +3,8 @@
 #include "gsl/gsl_util"
 #include "ini.hpp"
 #include "utils.hpp"
-#include <boost/regex.hpp>
+#include <regex>
+#include <sstream>
 
 using namespace std::string_literals;
 
@@ -17,14 +18,14 @@ namespace config {
 			 * \param section Section holding version number.
 			 */
 			void check_version_number(errors::errors_t& errors, ini::ini_section_t const& section) {
-				static boost::regex const r(R"(version\s*(\d+(?:\.\d*)?))",
-				                            boost::regex_constants::optimize
-				                                | boost::regex_constants::icase
-				                                | boost::regex_constants::perl);
+				static std::regex const r(R"(version\s*(\d+(?:\.\d*)?))",
+				                          std::regex_constants::optimize
+				                              | std::regex_constants::icase
+				                              | std::regex_constants::ECMAScript);
 
 				for (auto const& value : section.values) {
-					boost::smatch res;
-					bool const found = boost::regex_match(value.value, res, r);
+					std::smatch res;
+					bool const found = std::regex_match(value.value, res, r);
 
 					if (found) {
 						auto const version = util::parse_loose_float(res[1]);

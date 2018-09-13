@@ -177,8 +177,8 @@ namespace function_scripts {
 		}
 
 		tree_node parse_term(lexer_token_container& list) {
-			boost::optional<lexer_types::floating> f;
-			boost::optional<lexer_types::integer> i;
+			ti::optional<lexer_types::floating> f;
+			ti::optional<lexer_types::integer> i;
 
 			if (list.skip_next_token<lexer_types::l_paren>()) {
 				auto inside = parse_expression(list);

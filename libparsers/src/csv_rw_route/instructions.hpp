@@ -3,7 +3,7 @@
 #include "core/datatypes.hpp"
 #include "route_structure.hpp"
 // ReSharper disable once CppUnusedIncludeDirective
-#include <boost/optional.hpp>
+#include <tl/optional.hpp>
 #include <cstddef>
 #include <string>
 #include <vector>
@@ -323,19 +323,19 @@ namespace csv_rw_route {
 			struct rail_start : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
-				boost::optional<float> x_offset;
+				tl::optional<float> x_offset;
 				// UnitOfLength
-				boost::optional<float> y_offset;
-				boost::optional<std::size_t> rail_type;
+				tl::optional<float> y_offset;
+				tl::optional<std::size_t> rail_type;
 			};
 
 			struct rail : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
-				boost::optional<float> x_offset;
+				tl::optional<float> x_offset;
 				// UnitOfLength
-				boost::optional<float> y_offset;
-				boost::optional<std::size_t> rail_type;
+				tl::optional<float> y_offset;
+				tl::optional<std::size_t> rail_type;
 			};
 
 			struct rail_type : instruction_base {
@@ -346,9 +346,9 @@ namespace csv_rw_route {
 			struct rail_end : instruction_base {
 				std::size_t rail_index;
 				// UnitOfLength
-				boost::optional<float> x_offset;
+				tl::optional<float> x_offset;
 				// UnitOfLength
-				boost::optional<float> y_offset;
+				tl::optional<float> y_offset;
 			};
 
 			struct adhesion {
