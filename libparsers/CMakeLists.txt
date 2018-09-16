@@ -13,7 +13,7 @@ add_library(parsers SHARED ${SOURCES} ${HEADERS})
 target_compile_features(parsers PUBLIC cxx_std_14)
 
 target_include_directories(parsers PUBLIC include)
-target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant gsl::gsl tl::optional)
+target_link_libraries(parsers PUBLIC core glm::glm mapbox::variant gsl::gsl tl::optional std::filesystem)
 
 target_include_directories(parsers PRIVATE src)
 target_link_libraries(parsers PUBLIC options::fast_math options::iterator_debug_level_1)

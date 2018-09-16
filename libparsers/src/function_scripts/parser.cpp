@@ -1,5 +1,6 @@
 #include "function_scripts.hpp"
 #include <sstream>
+#include <tl/optional.hpp>
 
 namespace parsers {
 namespace function_scripts {
@@ -177,8 +178,8 @@ namespace function_scripts {
 		}
 
 		tree_node parse_term(lexer_token_container& list) {
-			ti::optional<lexer_types::floating> f;
-			ti::optional<lexer_types::integer> i;
+			tl::optional<lexer_types::floating> f;
+			tl::optional<lexer_types::integer> i;
 
 			if (list.skip_next_token<lexer_types::l_paren>()) {
 				auto inside = parse_expression(list);
@@ -215,7 +216,7 @@ namespace function_scripts {
 
 		auto ret_tree = parse_expression(container);
 
-		boost::optional<lexer_token> next_token;
+		tl::optional<lexer_token> next_token;
 		while ((next_token = container.peak_next_token())) {
 			std::ostringstream err;
 

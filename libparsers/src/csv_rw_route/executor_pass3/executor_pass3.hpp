@@ -4,7 +4,7 @@
 #include "csv_rw_route.hpp"
 #include "parsers/find_relative_file.hpp"
 #include "utils.hpp"
-#include <boost/hash.hpp>
+#include <core/pair_hash.hpp>
 #include <functional>
 #include <vector>
 #include <iostream>
@@ -100,7 +100,7 @@ namespace csv_rw_route {
 		// structure index
 		std::unordered_map<std::pair<std::size_t, std::size_t>,
 		                   filename_set_iterator,
-		                   boost::hash<std::pair<std::size_t, std::size_t>>>
+		                   bvereborn::hash::pair_hash>
 		    object_pole_mapping_;
 
 		// Background indices

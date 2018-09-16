@@ -36,6 +36,17 @@ set_target_properties(tl::optional PROPERTIES
 	INTERFACE_COMPILE_FEATURES cxx_std_17
 )
 
+add_library(std::filesystem INTERFACE IMPORTED)
+if(BVEREBORN_MAC)
+	set_target_properties(std::filesystem PROPERTIES
+		INTERFACE_LINK_LIBRARIES "c++experimental"
+	)
+elseif(BVEREBORN_LINUX)
+	set_target_properties(tl::optional PROPERTIES
+		INTERFACE_LINK_LIBRARIES "stdc++fs"
+	)
+endif()
+
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/fmt)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 if(WIN32)

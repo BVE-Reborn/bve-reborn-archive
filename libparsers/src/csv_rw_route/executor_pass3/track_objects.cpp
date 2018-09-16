@@ -355,7 +355,7 @@ namespace csv_rw_route {
 			}
 
 			rail_object_info roi;
-			roi.filename = *filename_iter_optional.get_ptr();
+			roi.filename = *filename_iter_optional;
 			roi.position =
 			    bvereborn::math::position_from_offsets(track_location.position,
 			                                           track_location.tangent, 0, -ground_height);

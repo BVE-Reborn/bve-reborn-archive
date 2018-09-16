@@ -27,7 +27,7 @@ namespace csv_rw_route {
 			}
 
 			rail_object_info i;
-			i.filename = *filename_iter_optional.get_ptr();
+			i.filename = *filename_iter_optional;
 			i.position = object_location;
 			i.rotation = glm::vec3(0);
 			route_data_.objects.emplace_back(std::move(i));
@@ -49,9 +49,9 @@ namespace csv_rw_route {
 			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 
-		state.x_offset = inst.x_offset.get_value_or(state.x_offset);
-		state.y_offset = inst.y_offset.get_value_or(state.y_offset);
-		state.rail_structure_index = inst.rail_type.get_value_or(state.rail_structure_index);
+		state.x_offset = inst.x_offset.value_or(state.x_offset);
+		state.y_offset = inst.y_offset.value_or(state.y_offset);
+		state.rail_structure_index = inst.rail_type.value_or(state.rail_structure_index);
 		state.active = true;
 
 		if (object_rail_mapping_.count(state.rail_structure_index) == 0) {
@@ -68,9 +68,9 @@ namespace csv_rw_route {
 
 		add_rail_objects_up_to_position(state, inst.absolute_position);
 
-		state.x_offset = inst.x_offset.get_value_or(state.x_offset);
-		state.y_offset = inst.y_offset.get_value_or(state.y_offset);
-		state.rail_structure_index = inst.rail_type.get_value_or(state.rail_structure_index);
+		state.x_offset = inst.x_offset.value_or(state.x_offset);
+		state.y_offset = inst.y_offset.value_or(state.y_offset);
+		state.rail_structure_index = inst.rail_type.value_or(state.rail_structure_index);
 		state.active = true;
 
 		if (object_rail_mapping_.count(state.rail_structure_index) == 0) {

@@ -2,10 +2,11 @@
 #include "csv_rw_route.hpp"
 #include <gsl/gsl_util>
 #include <iomanip>
+#include <tl/optional.hpp>
 #include <ostream>
 
 template<class T>
-std::ostream& operator<<(std::ostream& os, ti::optional<T>& val) {
+std::ostream& operator<<(std::ostream& os, tl::optional<T> const& val) {
 	os << val.value();
 	return os;
 }

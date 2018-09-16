@@ -17,7 +17,7 @@ namespace csv_rw_route {
 			auto const to_use_iter = object_mapping.find(cycle_iterator->second[index_to_use]);
 
 			if (to_use_iter == object_mapping.end()) {
-				return ti::nullopt;
+				return tl::nullopt;
 			}
 
 			return to_use_iter->second;
@@ -26,7 +26,7 @@ namespace csv_rw_route {
 		auto const to_use_iter = object_mapping.find(index);
 
 		if (to_use_iter == object_mapping.end()) {
-			return ti::nullopt;
+			return tl::nullopt;
 		}
 
 		return to_use_iter->second;

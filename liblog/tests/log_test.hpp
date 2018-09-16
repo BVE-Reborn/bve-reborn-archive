@@ -22,7 +22,7 @@ FORCE_INLINE std::string create_temp_file() {
 }
 #else
 #	include <stdlib.h>
-FORCE_INLINE inline std::string create_temp_file() {
+FORCE_INLINE std::string create_temp_file() {
 	char c[] = "/tmp/bvereborntmpXXXXXX";
 	mkstemp(c);
 	return c;

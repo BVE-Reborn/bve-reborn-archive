@@ -13,7 +13,7 @@ logger::detail::current_time logger::detail::get_time() {
 	auto s = std::chrono::system_clock::to_time_t(seconds);
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
 	tm wall_time;
-	gmtime_r(&s, &time);
+	gmtime_r(&s, &wall_time);
 #else
 	tm wall_time;
 	gmtime_s(&wall_time, &s);
