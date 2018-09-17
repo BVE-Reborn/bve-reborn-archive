@@ -129,7 +129,7 @@ matrix:
       && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./tools/travis/linux_deps_clang.sh
+    - bash ./tools/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On
       -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
@@ -157,7 +157,7 @@ matrix:
       && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./tools/travis/linux_deps_clang.sh
+    - bash ./tools/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
