@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
-namespace parsers::xml::dynamic_background {
+namespace bve::parsers::xml::dynamic_background {
 	struct texture_background_info {
-		core::datatypes::time time = 0;
+		bve::core::datatypes::time time = 0;
 		enum { fade_in, fade_out, none } transition_mode = none;
 		std::size_t repetitions = 6;
 		std::string filename;
@@ -29,4 +29,4 @@ namespace parsers::xml::dynamic_background {
 	                                std::string input_string,
 	                                errors::multi_error_t& errors,
 	                                const find_relative_file_func& get_relative_file);
-} // namespace parsers::xml::dynamic_background
+} // namespace bve::parsers::xml::dynamic_background

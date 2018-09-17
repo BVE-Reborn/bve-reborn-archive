@@ -7,7 +7,7 @@
 #include <random>
 #include <type_traits>
 
-namespace core::datatypes {
+namespace bve::core::datatypes {
 	using color8_r = glm::u8vec1;
 	using color8_rg = glm::u8vec2;
 	using color8_rgb = glm::u8vec3;
@@ -75,4 +75,4 @@ namespace core::datatypes {
 	inline bool operator>=(position_value& lhs, const position_value& rhs);
 	inline bool operator==(position_value& lhs, const position_value& rhs);
 	inline bool operator!=(position_value& lhs, const position_value& rhs);*/
-} // namespace core::datatypes
+} // namespace bve::core::datatypes

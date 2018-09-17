@@ -1,6 +1,6 @@
 #include "instruction_generator.hpp"
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_curve(const line_splitting::instruction_info& inst) {
 		instructions::track::curve c;
 
@@ -26,4 +26,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_height(const line_splitting::instruction_info& inst) {
 		return create_single_float_instruction<instructions::track::height>(inst, "Track.Height");
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

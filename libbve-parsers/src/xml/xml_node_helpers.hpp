@@ -2,7 +2,7 @@
 
 #include <rapidxml_ns.hpp>
 
-namespace parsers::xml {
+namespace bve::parsers::xml {
 	namespace {
 		inline std::string get_node_name(rapidxml_ns::xml_node<char> const* const node) {
 			return std::string(node->name(), node->name_size());
@@ -12,4 +12,4 @@ namespace parsers::xml {
 			return std::string(node->value(), node->value_size());
 		}
 	} // namespace
-} // namespace parsers::xml
+} // namespace bve::parsers::xml

@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_back(const line_splitting::instruction_info& inst) {
 		return create_single_sizet_instruction<instructions::track::back>(inst, "Track.Back");
 	}
@@ -172,4 +172,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 		(void) inst;
 		return instructions::track::buffer{};
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

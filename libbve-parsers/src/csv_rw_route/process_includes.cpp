@@ -8,7 +8,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	namespace {
 		using line_break_list = std::vector<std::string::const_iterator>;
 
@@ -96,7 +96,7 @@ namespace parsers::csv_rw_route {
 
 	static include_pos parse_weighted_include(const line_break_list& breaks,
 	                                          const std::smatch& match,
-	                                          core::datatypes::rng& rng) {
+	                                          bve::core::datatypes::rng& rng) {
 		auto const string = match[1].str() + match[3].str();
 
 		auto split_includes = util::split_text(string, ';');
@@ -148,7 +148,7 @@ namespace parsers::csv_rw_route {
 	}
 
 	static std::vector<include_pos> parse_include_directives(const std::string& contents,
-	                                                         core::datatypes::rng& rng,
+	                                                         bve::core::datatypes::rng& rng,
 	                                                         errors::errors_t& errors) {
 		std::vector<include_pos> includes;
 
@@ -188,7 +188,7 @@ namespace parsers::csv_rw_route {
 	static preprocessed_lines recursive_process_includes(
 	    const std::set<std::string>& past_files,
 	    const std::string& current_filename,
-	    core::datatypes::rng& rng,
+	    bve::core::datatypes::rng& rng,
 	    errors::multi_error_t& errors,
 	    file_type ft,
 	    const find_relative_file_func& get_abs_path) {
@@ -320,7 +320,7 @@ namespace parsers::csv_rw_route {
 	}
 
 	preprocessed_lines process_include_directives(const std::string& filename,
-	                                              core::datatypes::rng& rng,
+	                                              bve::core::datatypes::rng& rng,
 	                                              errors::multi_error_t& errors,
 	                                              file_type const ft,
 	                                              const find_relative_file_func& get_abs_path) {
@@ -334,4 +334,4 @@ namespace parsers::csv_rw_route {
 		                  lines.lines.end());
 		return lines;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

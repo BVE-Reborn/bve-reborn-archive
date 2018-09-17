@@ -1,7 +1,7 @@
 #include "csv_rw_route.hpp"
 #include "parsers/errors.hpp"
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	namespace {
 		class pass1_executor {
 		  private:
@@ -57,4 +57,4 @@ namespace parsers::csv_rw_route {
 			                 return apply_visitor(position, a) < apply_visitor(position, b);
 		                 });
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

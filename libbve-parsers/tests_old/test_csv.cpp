@@ -27,7 +27,7 @@ void test_csv() {
 
 	std::string const test_csv(test_csv_ptr);
 
-	auto const result = parsers::csv::parse(test_csv);
+	auto const result = bve::parsers::csv::parse(test_csv);
 
 	std::cout << result;
 }

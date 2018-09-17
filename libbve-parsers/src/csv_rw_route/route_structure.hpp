@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	struct rail_block_info {
 		// Primative Parts
 		float position = 0;
@@ -83,8 +83,8 @@ namespace parsers::csv_rw_route {
 		filename_set_iterator departure_sound;
 		std::size_t timetable_index = 0;
 		std::vector<rail_station_stop_info> stop_points;
-		core::datatypes::time arrival;
-		core::datatypes::time departure;
+		bve::core::datatypes::time arrival;
+		bve::core::datatypes::time departure;
 		float stop_duration = 15;
 		float passenger_ratio = 100;
 		bool pass_alarm = false;
@@ -126,7 +126,7 @@ namespace parsers::csv_rw_route {
 		float position = 0;
 		float starting_distance = 0;
 		float ending_distance = 0;
-		core::datatypes::color8_rgb color;
+		bve::core::datatypes::color8_rgb color;
 	};
 
 	struct marker_info {
@@ -170,7 +170,7 @@ namespace parsers::csv_rw_route {
 	using section_info = position_data_pair<std::vector<std::size_t>>;
 	using background_info = position_data_pair<xml::dynamic_background::parsed_dynamic_background>;
 	using brightness_level_info = position_data_pair<std::uint8_t>;
-	using pretrain_info = position_data_pair<core::datatypes::time>;
+	using pretrain_info = position_data_pair<bve::core::datatypes::time>;
 
 	struct parsed_route_data {
 		// Core route info
@@ -216,7 +216,7 @@ namespace parsers::csv_rw_route {
 
 		// Start Conditions
 		safty_system_status_t safty_system_status;
-		core::datatypes::time game_start_time = -1;
+		bve::core::datatypes::time game_start_time = -1;
 
 		// Sound indices
 		std::vector<sound_info> sounds;
@@ -241,4 +241,4 @@ namespace parsers::csv_rw_route {
 		float pressure = 101.325f;
 		float altitude = 0;
 	};
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

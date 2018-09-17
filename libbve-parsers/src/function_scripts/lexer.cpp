@@ -3,7 +3,7 @@
 #include <cctype>
 #include <cstdlib>
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	namespace {
 		bool is_special_symbol(char const c) {
 			switch (c) {
@@ -203,4 +203,4 @@ namespace parsers::function_scripts {
 
 		return ltl;
 	}
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts

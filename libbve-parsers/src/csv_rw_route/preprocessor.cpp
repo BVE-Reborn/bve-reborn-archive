@@ -10,7 +10,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	static std::string::const_iterator find_matching_parens(std::string::const_iterator const begin,
 	                                                        std::string::const_iterator const end) {
 		std::size_t level = 0;
@@ -48,7 +48,7 @@ namespace parsers::csv_rw_route {
 		return ""s;
 	}
 
-	static std::string parse_rnd(const std::string& arg, core::datatypes::rng& rng) {
+	static std::string parse_rnd(const std::string& arg, bve::core::datatypes::rng& rng) {
 		auto split = util::split_text(arg, ';');
 
 		if (split.size() != 2) {
@@ -96,7 +96,7 @@ namespace parsers::csv_rw_route {
 	static std::string preprocess_pass_dispatch(
 	    std::unordered_map<std::size_t, std::string>& variable_set,
 	    if_status& if_conditions,
-	    core::datatypes::rng& rng,
+	    bve::core::datatypes::rng& rng,
 	    errors::multi_error_t& errors,
 	    std::string const& filename,
 	    std::string::const_iterator& last_used,
@@ -206,7 +206,7 @@ namespace parsers::csv_rw_route {
 	}
 
 	static void preprocess_pass(preprocessed_lines& lines,
-	                            core::datatypes::rng& rng,
+	                            bve::core::datatypes::rng& rng,
 	                            errors::multi_error_t& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
@@ -312,7 +312,7 @@ namespace parsers::csv_rw_route {
 	}
 
 	void preprocess_file(preprocessed_lines& lines,
-	                     core::datatypes::rng& rng,
+	                     bve::core::datatypes::rng& rng,
 	                     errors::multi_error_t& errors,
 	                     file_type const ft) {
 		preprocess_pass(lines, rng, errors);
@@ -337,4 +337,4 @@ namespace parsers::csv_rw_route {
 		                                 [](preprocessed_line& l) { return l.contents.empty(); }),
 		                  lines.lines.end());
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

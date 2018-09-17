@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::beacon& inst) {
 		beacon_info bi;
 
@@ -96,4 +96,4 @@ namespace parsers::csv_rw_route {
 
 		route_data_.patterns.emplace_back(std::move(asi));
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

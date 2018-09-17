@@ -9,7 +9,7 @@
 #include <tl/optional.hpp>
 #include <vector>
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	namespace lexer_types {
 		struct plus {};  // +
 		struct minus {}; // -
@@ -262,8 +262,9 @@ namespace parsers::function_scripts {
 	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors);
 	instruction_list build_instructions(const tree_node& head_node,
 	                                    const errors::errors_t& errors = {});
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts
 
-std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token& lt);
-std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token_list& list);
-std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::tree_node& node);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::lexer_token& lt);
+std::ostream& operator<<(std::ostream& os,
+                         const bve::parsers::function_scripts::lexer_token_list& list);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::tree_node& node);

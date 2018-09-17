@@ -1,6 +1,6 @@
 #if 0
 
-#	define LIBLOG_DEBUG
+#	define LIBBVE_LOG_DEBUG
 #	include "doctest.h"
 #	include "log.hpp"
 #	include "log_test.hpp"
@@ -13,9 +13,9 @@ using namespace std::string_literals;
 
 TEST_SUITE_BEGIN("liblog-debug");
 
-TEST_CASE("liblog-debug - LIBLOG_DEBUG output") {
+TEST_CASE("liblog-debug - LIBBVE_LOG_DEBUG output") {
 	auto file = std::make_shared<std::ostringstream>();
-	logger::set_output_location(file);
+	log::set_output_location(file);
 
 	LOG(note, "{}", "hello");
 	std::smatch m;
@@ -23,19 +23,19 @@ TEST_CASE("liblog-debug - LIBLOG_DEBUG output") {
 	CHECK(std::regex_match(logged, m, log_regex));
 	REQUIRE_EQ(m.size(), 5);
 	CHECK_EQ(m[1], "note"s);
-	// time and file should not be empty strings because LIBLOG_DEBUG is defined.
+	// time and file should not be empty strings because LIBBVE_LOG_DEBUG is defined.
 	CHECK_NE(m[2], ""s);
 	CHECK_NE(m[3], ""s);
 	CHECK_EQ(m[4], "hello\n"s);
 }
 
-TEST_CASE("liblog-debug - LIBLOG_DEBUG file output") {
+TEST_CASE("liblog-debug - LIBBVE_LOG_DEBUG file output") {
 	std::string file_name = create_temp_file();
-	logger::set_output_location(file_name);
+	log::set_output_location(file_name);
 	LOG(fatal_error, "{}", "hello");
 	// Close file by opening a different stream.
 	auto temp_loc = std::make_shared<std::ostringstream>();
-	logger::set_output_location(temp_loc);
+	log::set_output_location(temp_loc);
 
 	std::fstream file(file_name);
 	std::string logged = parsers::util::load_from_file_utf8_bom(file);
@@ -43,7 +43,7 @@ TEST_CASE("liblog-debug - LIBLOG_DEBUG file output") {
 	CHECK(std::regex_match(logged, m, log_regex));
 	REQUIRE_EQ(m.size(), 5);
 	CHECK_EQ(m[1], "fatal_error"s);
-	// time and file should not be empty strings because LIBLOG_DEBUG is defined.
+	// time and file should not be empty strings because LIBBVE_LOG_DEBUG is defined.
 	CHECK_NE(m[2], ""s);
 	CHECK_NE(m[3], ""s);
 	CHECK_EQ(m[4], "hello\n"s);
@@ -53,11 +53,11 @@ TEST_CASE("liblog-debug - LIBLOG_DEBUG file output") {
 
 TEST_CASE("liblog-debug - get_output_stream") {
 	std::string file_name = create_temp_file();
-	logger::set_output_location(file_name);
-	auto file = logger::get_output_stream();
+	log::set_output_location(file_name);
+	auto file = log::get_output_stream();
 	REQUIRE_NE(file.get(), nullptr);
 }
 
-#	undef LIBLOG_DEBUG
+#	undef LIBBVE_LOG_DEBUG
 
 #endif

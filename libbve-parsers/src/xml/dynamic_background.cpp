@@ -8,7 +8,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::xml::dynamic_background {
+namespace bve::parsers::xml::dynamic_background {
 	parsed_dynamic_background parse(
 	    const std::string& filename,
 	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
@@ -121,4 +121,4 @@ namespace parsers::xml::dynamic_background {
 
 		return db;
 	}
-} // namespace parsers::xml::dynamic_background
+} // namespace bve::parsers::xml::dynamic_background

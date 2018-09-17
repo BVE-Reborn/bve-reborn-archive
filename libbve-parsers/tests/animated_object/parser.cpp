@@ -6,9 +6,9 @@ using namespace std::string_literals;
 #define TEST_X_Y_SETTING(section, name, attribute)                                                 \
 	TEST_CASE("libparsers - animated object - " section " - " name) {                              \
 		auto string_a = "[" section "]\n" name " = 1, 2"s;                                         \
-		auto result_a = parsers::animated_object::parse(string_a);                                 \
+		auto result_a = bve::parsers::animated_object::parse(string_a);                            \
 		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2"s;                              \
-		auto result_b = parsers::animated_object::parse(string_b);                                 \
+		auto result_b = bve::parsers::animated_object::parse(string_b);                            \
                                                                                                    \
 		REQUIRE_EQ(result_a.includes.size(), 0);                                                   \
 		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                 \
@@ -24,9 +24,9 @@ using namespace std::string_literals;
 #define TEST_X_Y_DAMPING(section, name, attribute)                                                 \
 	TEST_CASE("libparsers - animated object - " section " - " name) {                              \
 		auto string_a = "[" section "]\n" name " = 1, 2"s;                                         \
-		auto result_a = parsers::animated_object::parse(string_a);                                 \
+		auto result_a = bve::parsers::animated_object::parse(string_a);                            \
 		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2"s;                              \
-		auto result_b = parsers::animated_object::parse(string_b);                                 \
+		auto result_b = bve::parsers::animated_object::parse(string_b);                            \
                                                                                                    \
 		REQUIRE_EQ(result_a.includes.size(), 0);                                                   \
 		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                 \
@@ -44,9 +44,9 @@ using namespace std::string_literals;
 #define TEST_X_Y_Z_SETTING(section, name, attribute)                                               \
 	TEST_CASE("libparsers - animated object - " section " - " name) {                              \
 		auto string_a = "[" section "]\n" name " = 1, 2, 3"s;                                      \
-		auto result_a = parsers::animated_object::parse(string_a);                                 \
+		auto result_a = bve::parsers::animated_object::parse(string_a);                            \
 		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2, 3"s;                           \
-		auto result_b = parsers::animated_object::parse(string_b);                                 \
+		auto result_b = bve::parsers::animated_object::parse(string_b);                            \
                                                                                                    \
 		REQUIRE_EQ(result_a.includes.size(), 0);                                                   \
 		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                 \

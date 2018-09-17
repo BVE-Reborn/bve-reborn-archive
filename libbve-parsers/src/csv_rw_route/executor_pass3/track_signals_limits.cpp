@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <sstream>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::limit& inst) const {
 		track_limit_info tli;
 		tli.position = inst.absolute_position;
@@ -194,4 +194,4 @@ namespace parsers::csv_rw_route {
 		}
 		roi.rotation = glm::vec3(0);
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

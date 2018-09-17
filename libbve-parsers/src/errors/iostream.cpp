@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <ostream>
 
-namespace parsers::errors {
+namespace bve::parsers::errors {
 	std::ostream& operator<<(std::ostream& os, error_t& e) {
 		os << e.line << ": " << e.error;
 		return os;
@@ -28,4 +28,4 @@ namespace parsers::errors {
 		}
 		return os;
 	}
-} // namespace parsers::errors
+} // namespace bve::parsers::errors

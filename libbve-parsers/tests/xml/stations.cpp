@@ -3,7 +3,7 @@
 #include "utils.hpp"
 #include <parsers/xml/stations.hpp>
 
-namespace st = parsers::xml::stations;
+namespace st = bve::parsers::xml::stations;
 using namespace std::string_literals;
 
 TEST_SUITE_BEGIN("libparsers - xml - stations and request stops");
@@ -27,7 +27,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse station marker"
 	    "		<TimeTableIndex>2</TimeTableIndex>"
 	    "	</Station>"
 	    "</openBVE>"s;
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
@@ -67,7 +67,7 @@ TEST_CASE("libparsers -xml - stations and request stops - stations should add er
 	    "		<TimeTableIndex>-1</TimeTableIndex>"
 	    "	</Station>"
 	    "</openBVE>"s;
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
@@ -99,7 +99,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse request stop ma
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -133,7 +133,7 @@ TEST_CASE("libparser - xml - stations and request stops - request stops should a
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
@@ -178,7 +178,7 @@ TEST_CASE(
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -217,7 +217,7 @@ TEST_CASE(
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
@@ -254,7 +254,7 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	    "		</RequestStop>"
 	    "	</Station>"
 	    "</openBVE>"s;
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -311,7 +311,7 @@ TEST_CASE(
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 

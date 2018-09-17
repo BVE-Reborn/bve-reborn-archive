@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_railstart(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "RailStart");
 
@@ -151,4 +151,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_pitch(const line_splitting::instruction_info& inst) {
 		return create_single_float_instruction<instructions::track::pitch>(inst, "Track.Pitch");
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

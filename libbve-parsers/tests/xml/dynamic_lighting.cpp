@@ -27,9 +27,9 @@ TEST_CASE("libparsers - xml - dynamic_lighting - test") {
 	    "	</Brightness>"
 	    "</openBVE>";
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const output =
-	    parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
+	    bve::parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
 
 	// The if here is needed to check if there's any errors to report
 	// Because otherwise it would print the filename
@@ -38,15 +38,15 @@ TEST_CASE("libparsers - xml - dynamic_lighting - test") {
 	}
 	CHECK(output_errors.empty());
 	REQUIRE_EQ(output.size(), 2);
-	CHECK_EQ(output[0].ambient, core::datatypes::color8_rgb{1, 1, 1});
+	CHECK_EQ(output[0].ambient, bve::core::datatypes::color8_rgb{1, 1, 1});
 	CHECK_EQ(output[0].cablighting, 80);
-	CHECK_EQ(output[0].directional_lighting, core::datatypes::color8_rgb{1, 1, 1});
+	CHECK_EQ(output[0].directional_lighting, bve::core::datatypes::color8_rgb{1, 1, 1});
 	CHECK_EQ(output[0].light_direction, glm::vec3{1.0, 1.0, 1.0});
 	CHECK_EQ(output[0].time, 3600 * 10);
 
-	CHECK_EQ(output[1].ambient, core::datatypes::color8_rgb{160, 160, 160});
+	CHECK_EQ(output[1].ambient, bve::core::datatypes::color8_rgb{160, 160, 160});
 	CHECK_EQ(output[1].cablighting, 255);
-	CHECK_EQ(output[1].directional_lighting, core::datatypes::color8_rgb{160, 160, 160});
+	CHECK_EQ(output[1].directional_lighting, bve::core::datatypes::color8_rgb{160, 160, 160});
 	CHECK_EQ(output[1].light_direction, glm::vec3{-0.5f, -0.5f, -0.5f});
 	CHECK_EQ(output[1].time, 3600 * 12);
 }
@@ -70,9 +70,9 @@ TEST_CASE("libparsers - xml - dynamic_lighting - no_parent_node_test") {
 	    "	<CabLighting>255</CabLighting>"
 	    "</openBVE>";
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const output =
-	    parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
+	    bve::parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
 
 	// The if here is needed to check if there's any errors to report
 	// Because otherwise it would print the filename
@@ -105,15 +105,15 @@ TEST_CASE("libparsers - xml - dynamic_lighting - insane_values") {
 	    "</Brightness>"
 	    "</openBVE>";
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const output =
-	    parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
+	    bve::parsers::xml::dynamic_lighting::parse("some_file.xml"s, test_value, output_errors);
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 4);
 	REQUIRE_EQ(output.size(), 1);
-	CHECK_EQ(output[0].ambient, core::datatypes::color8_rgb{160, 160, 160});
+	CHECK_EQ(output[0].ambient, bve::core::datatypes::color8_rgb{160, 160, 160});
 	CHECK_EQ(output[0].cablighting, 0);
-	CHECK_EQ(output[0].directional_lighting, core::datatypes::color8_rgb{160, 160, 160});
+	CHECK_EQ(output[0].directional_lighting, bve::core::datatypes::color8_rgb{160, 160, 160});
 	CHECK_EQ(output[0].light_direction, glm::vec3{-0.223645424f, -0.866025404f, 0.44719428f});
 	CHECK_EQ(output[0].time, 0);
 }

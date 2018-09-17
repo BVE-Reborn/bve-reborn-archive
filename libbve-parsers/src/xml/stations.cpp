@@ -9,7 +9,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::xml::stations {
+namespace bve::parsers::xml::stations {
 	namespace {
 		parsed_station_marker::doors parse_doors_text(std::string const& filename,
 		                                              rapidxml_ns::xml_node<char>* doors_node,
@@ -393,4 +393,4 @@ namespace parsers::xml::stations {
 		add_error(errors, filename, 0, err.str());
 		return parsed_station_marker{};
 	}
-} // namespace parsers::xml::stations
+} // namespace bve::parsers::xml::stations

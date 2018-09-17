@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::b3d_csv_object::instructions {
+namespace bve::parsers::b3d_csv_object::instructions {
 	std::ostream& operator<<(std::ostream& os, const error& rhs) {
 		os << "(ERROR, line = " << rhs.line << ", cause = " << rhs.cause << ")";
 		return os;
@@ -150,4 +150,4 @@ namespace parsers::b3d_csv_object::instructions {
 		   << "Y = " << rhs.y << ")";
 		return os;
 	}
-} // namespace parsers::b3d_csv_object::instructions
+} // namespace bve::parsers::b3d_csv_object::instructions

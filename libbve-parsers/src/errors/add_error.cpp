@@ -1,8 +1,8 @@
-#include <parsers/errors.hpp>
+#include "parsers/errors.hpp"
 #include <sstream>
 #include <utility>
 
-namespace parsers::errors {
+namespace bve::parsers::errors {
 	void add_error(errors_t& errors, std::intmax_t const line, std::string msg) {
 		error_t err;
 		err.line = line;
@@ -33,4 +33,4 @@ namespace parsers::errors {
 		add_error(errors[filename], line, msg);
 	}
 
-} // namespace parsers::errors
+} // namespace bve::parsers::errors

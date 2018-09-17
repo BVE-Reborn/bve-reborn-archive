@@ -4,14 +4,15 @@
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
-namespace fs_inst = parsers::function_scripts::instructions;
+namespace fs_inst = bve::parsers::function_scripts::instructions;
 
 #define CREATE_OOO_DIFFERENT_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)   \
 	TEST_CASE(                                                                                     \
 	    "libparsers - function scripts - order-of-operations - " STR(name1) " > " STR(name2)) {    \
 		auto function1 = fs_inst::instr_name1{};                                                   \
 		auto function2 = fs_inst::instr_name2{};                                                   \
-		auto result = parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4"); \
+		auto result =                                                                              \
+		    bve::parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4");      \
                                                                                                    \
 		REQUIRE_EQ(result.instructions.size(), 5);                                                 \
 		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);       \
@@ -27,7 +28,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 		auto front_function1 = fs_inst::instr_name1{};                                             \
 		auto front_function2 = fs_inst::instr_name2{};                                             \
 		auto front_result =                                                                        \
-		    parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4");           \
+		    bve::parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4");      \
                                                                                                    \
 		REQUIRE_EQ(front_result.instructions.size(), 5);                                           \
 		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[0], fs_inst::stack_push{2}, value); \
@@ -39,7 +40,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 		auto back_function1 = fs_inst::instr_name2{};                                              \
 		auto back_function2 = fs_inst::instr_name1{};                                              \
 		auto back_result =                                                                         \
-		    parsers::function_scripts::parse("2 " STR(symbol2) " 3 " STR(symbol1) " 4");           \
+		    bve::parsers::function_scripts::parse("2 " STR(symbol2) " 3 " STR(symbol1) " 4");      \
                                                                                                    \
 		REQUIRE_EQ(back_result.instructions.size(), 5);                                            \
 		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[0], fs_inst::stack_push{2}, value);  \
@@ -53,7 +54,7 @@ namespace fs_inst = parsers::function_scripts::instructions;
 	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name) " > unary not") { \
 		auto function1 = fs_inst::op_unary_not{};                                                  \
 		auto function2 = fs_inst::instr_name{};                                                    \
-		auto result = parsers::function_scripts::parse("!2 " STR(symbol) " 3");                    \
+		auto result = bve::parsers::function_scripts::parse("!2 " STR(symbol) " 3");               \
                                                                                                    \
 		REQUIRE_EQ(result.instructions.size(), 4);                                                 \
 		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);       \
@@ -73,7 +74,7 @@ CREATE_OOO_DIFFERENT_TEST_CASE(binary and, binary xor, op_and, op_xor, &, ^)
 TEST_CASE("libparsers - function scripts - order-of-operations - unary not > binary and") {
 	auto function1 = fs_inst::op_unary_not{};
 	auto function2 = fs_inst::op_and{};
-	auto result = parsers::function_scripts::parse("!2 & 3");
+	auto result = bve::parsers::function_scripts::parse("!2 & 3");
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -146,7 +147,7 @@ CREATE_OOO_DIFFERENT_TEST_CASE(divide, multiply, op_divide, op_multiply, /, *)
 TEST_CASE("libparsers - function scripts - order-of-operations - unary minus > divide") {
 	auto function1 = fs_inst::op_unary_minus{};
 	auto function2 = fs_inst::op_divide{};
-	auto result = parsers::function_scripts::parse("- 2 / 3");
+	auto result = bve::parsers::function_scripts::parse("- 2 / 3");
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -159,7 +160,7 @@ TEST_CASE("libparsers - function scripts - order-of-operations - unary minus > d
 TEST_CASE("libparsers - function scripts - order-of-operations - function > unary minus") {
 	auto function1 = fs_inst::op_unary_minus{};
 	auto function2 = fs_inst::func_sin{};
-	auto result = parsers::function_scripts::parse("sin[- 2]");
+	auto result = bve::parsers::function_scripts::parse("sin[- 2]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);

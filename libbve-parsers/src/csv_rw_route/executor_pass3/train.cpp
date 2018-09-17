@@ -1,6 +1,6 @@
 #include "executor_pass3.hpp"
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::train::folder& inst) const {
 		route_data_.default_train = inst.filepath;
 	}
@@ -25,4 +25,4 @@ namespace parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::train::velocity& inst) const {
 		route_data_.ai_max_speed = inst.speed * unit_of_speed_;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

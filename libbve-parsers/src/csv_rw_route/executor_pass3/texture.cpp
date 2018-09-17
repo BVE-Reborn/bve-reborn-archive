@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	using texture_vector = std::vector<xml::dynamic_background::texture_background_info>;
 	using xml::dynamic_background::object_background_info;
 	using xml::dynamic_background::parsed_dynamic_background;
@@ -172,4 +172,4 @@ namespace parsers::csv_rw_route {
 		bround.get_unchecked<texture_vector>()[0].preserve_aspect =
 		    inst.mode == instructions::texture::background_aspect::aspect;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

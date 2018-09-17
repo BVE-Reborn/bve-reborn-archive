@@ -8,7 +8,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	namespace {
 		// ReSharper disable once CyclomaticComplexity
 		std::string get_name(const instructions::variable& var) {
@@ -495,4 +495,4 @@ namespace parsers::function_scripts {
 
 		return os;
 	}
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts

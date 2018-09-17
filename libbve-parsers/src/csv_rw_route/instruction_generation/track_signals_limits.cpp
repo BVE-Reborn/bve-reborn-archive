@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_limit(const line_splitting::instruction_info& inst) {
 		instructions::track::limit l;
 
@@ -126,4 +126,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 
 		return r;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

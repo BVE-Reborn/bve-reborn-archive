@@ -6,8 +6,8 @@
 #include <fstream>
 
 using namespace std::string_literals;
-namespace cs = parsers::csv_rw_route;
-namespace p_util = parsers::util;
+namespace cs = bve::parsers::csv_rw_route;
+namespace p_util = bve::parsers::util;
 
 namespace {
 
@@ -18,10 +18,10 @@ namespace {
 	}
 
 	cs::preprocessed_lines setup(std::string const& test,
-	                             parsers::errors::multi_error_t& output_errors) {
+	                             bve::parsers::errors::multi_error_t& output_errors) {
 		write_to_file(test);
 		std::uint32_t const seed = 1;
-		auto rng = core::datatypes::rng{seed};
+		auto rng = bve::core::datatypes::rng{seed};
 		auto processed = cs::process_include_directives("directive.csv"s, rng, output_errors,
 		                                                cs::file_type::csv, rel_file_func);
 		cs::preprocess_file(processed, rng, output_errors, cs::file_type::csv);
@@ -38,7 +38,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Chr") {
 	    "$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),\n" //
 	    "$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78)"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const processed = setup(test_command, output_errors);
 
@@ -55,7 +55,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Chr") {
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $Chr - invalid input") {
 	std::string test_command = "$Cr(75),$Ch(69),$Chr(75)"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const processed = setup(test_command, output_errors);
 	CHECK_EQ(processed.lines.size(), 1);
@@ -71,7 +71,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Chr - invalid input") {
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $Rnd") {
 	std::string test_command = "$Rnd(3;5),$Rnd(-100;100),$Rnd(0;0),$Rnd(5;3)"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const processed = setup(test_command, output_errors);
 
@@ -91,7 +91,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Rnd") {
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $Rnd - invalid input") {
 	std::string test_command = "$Rd(3;5),$nd(-100;100),$d(0;0),$Rnd(;3),$Rnd(0),$Rnd(s:a)"s;
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const processed = setup(test_command, output_errors);
 
@@ -105,7 +105,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Sub") {
 	    "$Sub(1) = $Chr(75) \n"
 	    ",$Sub(0),$Sub(1)"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	auto const processed = setup(test_command, output_errors);
 	REQUIRE_EQ(processed.lines.size(), 2);
 	CHECK_GE(p_util::parse_loose_integer(processed.lines[0].contents), 3);
@@ -117,7 +117,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $Sub") {
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $If") {
 	std::string const test_command = "$If(1),$Chr(75),$EndIf()"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 	// Single sub expression.
 	auto const processed1 = setup(test_command, output_errors);
 	REQUIRE_EQ(processed1.lines.size(), 1);
@@ -133,7 +133,7 @@ TEST_CASE("libparser - csv_rw_route - preprocessor - $If - multiple sub expressi
 	std::string const test_input =
 	    "$If(1),$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),$Else(),$Chr(69),$EndIf()"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const processed = setup(test_input, output_errors);
 
@@ -162,7 +162,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $If - multiple conditional
 	std::string const test_input =
 	    "$If(1),$Chr(75),$If(1),$Chr(69),$If(1),$Chr(86),$Else(),$Chr(69),$EndIf()"s;
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const processed = setup(test_input, output_errors);
 

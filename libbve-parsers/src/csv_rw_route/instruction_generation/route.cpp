@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_route_comment(const line_splitting::instruction_info& inst) {
 		return create_single_string_instruction<instructions::route::comment>(inst,
 		                                                                      "Route.Comment");
@@ -204,4 +204,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 
 		return ld;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

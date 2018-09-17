@@ -4,13 +4,13 @@
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
-namespace fs_inst = parsers::function_scripts::instructions;
+namespace fs_inst = bve::parsers::function_scripts::instructions;
 
 #define CREATE_INDEXED_VARIABLE_TEST_CASE(script_name, variable_name)                              \
 	TEST_CASE("libparsers - function scripts - indexed variables - " STR(variable_name)) {         \
 		auto variable = fs_inst::op_variable_indexed{};                                            \
 		variable.name = fs_inst::indexed_variable::variable_name;                                  \
-		auto result = parsers::function_scripts::parse(script_name "[2]");                         \
+		auto result = bve::parsers::function_scripts::parse(script_name "[2]");                    \
                                                                                                    \
 		REQUIRE_EQ(result.instructions.size(), 2);                                                 \
 		REQUIRE_EQ(result.used_indexed_variables.size(), 1);                                       \

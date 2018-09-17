@@ -18,7 +18,7 @@ void test_csv_route() {
 
 	std::mt19937 eng(seq);
 
-	parsers::errors::multi_error_t me;
+	bve::parsers::errors::multi_error_t me;
 
 	auto const file_location = TESTLOCATION "/Kaligung Mas.csv"s;
 	auto used_file = std::filesystem::path(file_location);
@@ -34,15 +34,16 @@ void test_csv_route() {
 		return new_file_path.string();
 	};
 
-	auto vals = process_include_directives(std::filesystem::canonical(file_location).string(), eng,
-	                                       me, parsers::csv_rw_route::file_type::csv, get_abs_path);
+	auto vals =
+	    process_include_directives(std::filesystem::canonical(file_location).string(), eng, me,
+	                               bve::parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';
 
-	preprocess_file(vals, eng, me, parsers::csv_rw_route::file_type::csv);
+	preprocess_file(vals, eng, me, bve::parsers::csv_rw_route::file_type::csv);
 
-	auto instructions = generate_instructions(vals, me, parsers::csv_rw_route::file_type::csv);
+	auto instructions = generate_instructions(vals, me, bve::parsers::csv_rw_route::file_type::csv);
 
 	std::cout << instructions.instructions.size() << '\n';
 

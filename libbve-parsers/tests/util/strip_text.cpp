@@ -6,7 +6,7 @@ using namespace std::string_literals;
 #define STRIP_TEXT_CHECK_EQ(input_string, output_string)                                           \
 	{                                                                                              \
 		std::string s = input_string;                                                              \
-		parsers::util::strip_text(s);                                                              \
+		bve::parsers::util::strip_text(s);                                                         \
 		CHECK_EQ(s, output_string);                                                                \
 	}
 

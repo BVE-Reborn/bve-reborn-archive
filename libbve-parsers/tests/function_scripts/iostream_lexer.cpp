@@ -3,12 +3,12 @@
 #include <sstream>
 
 using namespace std::string_literals;
-namespace fs_lex_token = parsers::function_scripts::lexer_types;
+namespace fs_lex_token = bve::parsers::function_scripts::lexer_types;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 TEST_CASE("libparsers - function scripts - lexer iostream - all symbols") {
-	parsers::function_scripts::lexer_token_list const token_list = {{
+	bve::parsers::function_scripts::lexer_token_list const token_list = {{
 	    fs_lex_token::plus{},           //
 	    fs_lex_token::minus{},          //
 	    fs_lex_token::star{},           //

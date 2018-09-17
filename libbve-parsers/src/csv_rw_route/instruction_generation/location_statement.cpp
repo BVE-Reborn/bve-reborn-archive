@@ -1,6 +1,6 @@
 #include "instruction_generator.hpp"
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_location_statement(
 	    const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "Location Statement");
@@ -13,4 +13,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 
 		return pos;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

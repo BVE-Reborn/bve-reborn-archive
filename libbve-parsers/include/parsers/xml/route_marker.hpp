@@ -7,14 +7,14 @@
 #include <string>
 #include <vector>
 
-namespace parsers::xml::route_marker {
+namespace bve::parsers::xml::route_marker {
 	struct image_marker {
 		std::vector<std::string> allowed_trains;
 		std::string early_filename;
 		std::string on_time_filename;
 		std::string late_filename;
-		core::datatypes::time early_time = 0;
-		core::datatypes::time late_time = 0;
+		bve::core::datatypes::time early_time = 0;
+		bve::core::datatypes::time late_time = 0;
 		std::intmax_t timeout = 0;
 		float distance = 0;
 		bool using_early = false;
@@ -29,8 +29,8 @@ namespace parsers::xml::route_marker {
 		std::string early_text;
 		std::string on_time_text;
 		std::string late_text;
-		core::datatypes::time early_time = 0;
-		core::datatypes::time late_time = 0;
+		bve::core::datatypes::time early_time = 0;
+		bve::core::datatypes::time late_time = 0;
 		std::intmax_t timeout = 0;
 		float distance = 0;
 		color early_color = color::white;
@@ -47,4 +47,4 @@ namespace parsers::xml::route_marker {
 	                          std::string input_string,
 	                          errors::multi_error_t& errors,
 	                          const find_relative_file_func& get_relative_file);
-} // namespace parsers::xml::route_marker
+} // namespace bve::parsers::xml::route_marker

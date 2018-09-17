@@ -1,7 +1,7 @@
 #include "function_scripts.hpp"
 #include <ostream>
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	struct function_script_lexer_token_io_class {
 	  private:
 		std::ostream& os_;
@@ -121,16 +121,16 @@ namespace parsers::function_scripts {
 			os_ << "(float, \"" << arg.val << "\")";
 		}
 	};
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts
 
-std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::lexer_token& lt) {
-	parsers::function_scripts::function_script_lexer_token_io_class fsic{os};
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::lexer_token& lt) {
+	bve::parsers::function_scripts::function_script_lexer_token_io_class fsic{os};
 	apply_visitor(fsic, lt);
 	return os;
 }
 
 std::ostream& operator<<(std::ostream& os,
-                         const parsers::function_scripts::lexer_token_list& list) {
+                         const bve::parsers::function_scripts::lexer_token_list& list) {
 	for (auto& token : list) {
 		os << token << '\n';
 	}

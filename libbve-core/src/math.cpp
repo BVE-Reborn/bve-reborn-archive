@@ -7,7 +7,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h> // NOLINT Also include overloads of std::*
 
-float core::math::radius_from_distances(float deltax, float deltay) {
+float bve::core::math::radius_from_distances(float deltax, float deltay) {
 	// https://math.stackexchange.com/questions/1088902/what-is-the-radius-of-a-circle-given-two-points-and-the-center-of-the-circle-is#comment2218658_1088926
 	// gives the formula for this
 	// X = y1 in the formula
@@ -27,10 +27,10 @@ float core::math::radius_from_distances(float deltax, float deltay) {
 	return radius;
 }
 
-core::math::evaulate_curve_t core::math::evaluate_curve(glm::vec3 input_position,
-                                                        glm::vec3 input_direction,
-                                                        float const distance,
-                                                        float radius) {
+bve::core::math::evaulate_curve_t bve::core::math::evaluate_curve(glm::vec3 input_position,
+                                                                  glm::vec3 input_direction,
+                                                                  float const distance,
+                                                                  float radius) {
 	if (distance == 0) {
 		return {input_position, input_direction};
 	}
@@ -134,10 +134,10 @@ core::math::evaulate_curve_t core::math::evaluate_curve(glm::vec3 input_position
 	return evaulate_curve_t{input_position, tangent_3d};
 }
 
-glm::vec3 core::math::position_from_offsets(glm::vec3 const input_position,
-                                            glm::vec3 const input_tangent,
-                                            float const x_offset,
-                                            float const y_offset) {
+glm::vec3 bve::core::math::position_from_offsets(glm::vec3 const input_position,
+                                                 glm::vec3 const input_tangent,
+                                                 float const x_offset,
+                                                 float const y_offset) {
 	assert(input_tangent != glm::vec3(0));
 
 	auto const x_z = normalize(glm::vec2(input_tangent.x, input_tangent.z));

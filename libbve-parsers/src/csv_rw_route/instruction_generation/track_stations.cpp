@@ -3,7 +3,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	// ReSharper disable once CyclomaticComplexity
 	instruction create_instruction_track_sta(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "Track.Sta");
@@ -300,4 +300,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 		// ReSharper disable once CppSomeObjectMembersMightNotBeInitialized
 		return f;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

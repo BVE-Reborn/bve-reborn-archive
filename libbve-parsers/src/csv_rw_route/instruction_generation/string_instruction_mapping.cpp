@@ -2,7 +2,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	const std::map<std::string, instruction (*)(const line_splitting::instruction_info& inst)>
 	    function_mapping = {
 	        ////////////////
@@ -313,4 +313,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 	        {"@@object@@freeobj"s, instructions::structure::command::free_obj},
 	        {"@@object@@beacon"s, instructions::structure::command::beacon},
 	    };
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

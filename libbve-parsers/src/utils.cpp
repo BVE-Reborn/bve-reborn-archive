@@ -13,11 +13,11 @@
 
 using namespace std::string_literals;
 
-namespace parsers::util {
+namespace bve::parsers::util {
 	static std::intmax_t parse_loose_integer_impl(std::string text);
 	static float parse_loose_float_impl(std::string text);
 	static std::intmax_t parse_time_impl(std::string text);
-	static core::datatypes::color8_rgba parse_color_impl(std::string text);
+	static bve::core::datatypes::color8_rgba parse_color_impl(std::string text);
 
 	/////////////////
 	// Int Parsing //
@@ -96,7 +96,7 @@ namespace parsers::util {
 	// time Parsing //
 	//////////////////
 
-	static core::datatypes::time parse_time_impl(std::string text) {
+	static bve::core::datatypes::time parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
@@ -125,7 +125,7 @@ namespace parsers::util {
 		throw std::invalid_argument("");
 	}
 
-	core::datatypes::time parse_time(const std::string& text) {
+	bve::core::datatypes::time parse_time(const std::string& text) {
 		try {
 			return parse_time_impl(text);
 		}
@@ -136,7 +136,7 @@ namespace parsers::util {
 		}
 	}
 
-	core::datatypes::time parse_time(std::string text, std::intmax_t const default_value) {
+	bve::core::datatypes::time parse_time(std::string text, std::intmax_t const default_value) {
 		try {
 			return parse_time_impl(std::move(text));
 		}
@@ -149,16 +149,16 @@ namespace parsers::util {
 	// Color Parsing //
 	///////////////////
 
-	static core::datatypes::color8_rgba parse_color_impl(std::string text) {
+	static bve::core::datatypes::color8_rgba parse_color_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		if (text.size() == 7) {
 			auto const value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
 
-			core::datatypes::color8_rgba color{uint8_t((value & 0xFF0000) >> 16),
-			                                   uint8_t((value & 0xFF00) >> 8),
-			                                   uint8_t((value & 0xFF) >> 0), uint8_t(255)};
+			bve::core::datatypes::color8_rgba color{uint8_t((value & 0xFF0000) >> 16),
+			                                        uint8_t((value & 0xFF00) >> 8),
+			                                        uint8_t((value & 0xFF) >> 0), uint8_t(255)};
 
 			return color;
 		}
@@ -166,7 +166,7 @@ namespace parsers::util {
 		throw std::invalid_argument("");
 	}
 
-	core::datatypes::color8_rgba parse_color(const std::string& text) {
+	bve::core::datatypes::color8_rgba parse_color(const std::string& text) {
 		try {
 			return parse_color_impl(text);
 		}
@@ -177,8 +177,8 @@ namespace parsers::util {
 		}
 	}
 
-	core::datatypes::color8_rgba parse_color(std::string text,
-	                                         core::datatypes::color8_rgba default_value) {
+	bve::core::datatypes::color8_rgba parse_color(std::string text,
+	                                              bve::core::datatypes::color8_rgba default_value) {
 		try {
 			return parse_color_impl(std::move(text));
 		}
@@ -359,4 +359,4 @@ namespace parsers::util {
 		return contents;
 	}
 
-} // namespace parsers::util
+} // namespace bve::parsers::util

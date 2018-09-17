@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::ini {
+namespace bve::parsers::ini {
 	struct value_t {
 		std::string value;
 		std::size_t line;
@@ -27,4 +27,4 @@ namespace parsers::ini {
 	std::ostream& operator<<(std::ostream& os, const parsed_ini_object& rhs);
 
 	parsed_ini_object parse(const std::string& file_string);
-} // namespace parsers::ini
+} // namespace bve::parsers::ini

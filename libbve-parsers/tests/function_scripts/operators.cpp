@@ -3,18 +3,18 @@
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
-namespace fs_inst = parsers::function_scripts::instructions;
+namespace fs_inst = bve::parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 TEST_CASE("libparsers - function scripts - operators - logical or") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 | 3");
+		result = bve::parsers::function_scripts::parse("2 | 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("or[2, 3]");
+		result = bve::parsers::function_scripts::parse("or[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -24,13 +24,13 @@ TEST_CASE("libparsers - function scripts - operators - logical or") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - logical xor") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 ^ 3");
+		result = bve::parsers::function_scripts::parse("2 ^ 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("xor[2, 3]");
+		result = bve::parsers::function_scripts::parse("xor[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -40,13 +40,13 @@ TEST_CASE("libparsers - function scripts - operators - logical xor") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - logical and") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 & 3");
+		result = bve::parsers::function_scripts::parse("2 & 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("and[2, 3]");
+		result = bve::parsers::function_scripts::parse("and[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -56,13 +56,13 @@ TEST_CASE("libparsers - function scripts - operators - logical and") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - logical not") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("!3");
+		result = bve::parsers::function_scripts::parse("!3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("not[3]");
+		result = bve::parsers::function_scripts::parse("not[3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 2);
@@ -71,13 +71,13 @@ TEST_CASE("libparsers - function scripts - operators - logical not") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - equals") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 == 3");
+		result = bve::parsers::function_scripts::parse("2 == 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("equal[2, 3]");
+		result = bve::parsers::function_scripts::parse("equal[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -87,13 +87,13 @@ TEST_CASE("libparsers - function scripts - operators - equals") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - not equals") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 != 3");
+		result = bve::parsers::function_scripts::parse("2 != 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("unequal[2, 3]");
+		result = bve::parsers::function_scripts::parse("unequal[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -103,13 +103,13 @@ TEST_CASE("libparsers - function scripts - operators - not equals") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - less") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 < 3");
+		result = bve::parsers::function_scripts::parse("2 < 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("less[2, 3]");
+		result = bve::parsers::function_scripts::parse("less[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -119,13 +119,13 @@ TEST_CASE("libparsers - function scripts - operators - less") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - greater") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 > 3");
+		result = bve::parsers::function_scripts::parse("2 > 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("greater[2, 3]");
+		result = bve::parsers::function_scripts::parse("greater[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -135,13 +135,13 @@ TEST_CASE("libparsers - function scripts - operators - greater") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - less equal") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 <= 3");
+		result = bve::parsers::function_scripts::parse("2 <= 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("lessequal[2, 3]");
+		result = bve::parsers::function_scripts::parse("lessequal[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -151,13 +151,13 @@ TEST_CASE("libparsers - function scripts - operators - less equal") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - greater equal") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 >= 3");
+		result = bve::parsers::function_scripts::parse("2 >= 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("greaterequal[2, 3]");
+		result = bve::parsers::function_scripts::parse("greaterequal[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -167,13 +167,13 @@ TEST_CASE("libparsers - function scripts - operators - greater equal") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - plus") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 + 3");
+		result = bve::parsers::function_scripts::parse("2 + 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("plus[2, 3]");
+		result = bve::parsers::function_scripts::parse("plus[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -183,13 +183,13 @@ TEST_CASE("libparsers - function scripts - operators - plus") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - subtract") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 - 3");
+		result = bve::parsers::function_scripts::parse("2 - 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("subtract[2, 3]");
+		result = bve::parsers::function_scripts::parse("subtract[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -199,13 +199,13 @@ TEST_CASE("libparsers - function scripts - operators - subtract") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - times") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 * 3");
+		result = bve::parsers::function_scripts::parse("2 * 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("times[2, 3]");
+		result = bve::parsers::function_scripts::parse("times[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -215,13 +215,13 @@ TEST_CASE("libparsers - function scripts - operators - times") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - divide") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("2 / 3");
+		result = bve::parsers::function_scripts::parse("2 / 3");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("divide[2, 3]");
+		result = bve::parsers::function_scripts::parse("divide[2, 3]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
@@ -231,13 +231,13 @@ TEST_CASE("libparsers - function scripts - operators - divide") {
 }
 
 TEST_CASE("libparsers - function scripts - operators - unary minus") {
-	parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::instruction_list result;
 
 	SUBCASE("infix") {
-		result = parsers::function_scripts::parse("-(2)");
+		result = bve::parsers::function_scripts::parse("-(2)");
 	}
 	SUBCASE("function") {
-		result = parsers::function_scripts::parse("minus[2]");
+		result = bve::parsers::function_scripts::parse("minus[2]");
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 2);

@@ -7,7 +7,7 @@ using namespace std::string_literals;
 #define LOAD_FROM_FILE_COMPARE(input, output)                                                      \
 	{                                                                                              \
 		std::istringstream i(input);                                                               \
-		CHECK_EQ(parsers::util::load_from_file_utf8_bom(i), output);                               \
+		CHECK_EQ(bve::parsers::util::load_from_file_utf8_bom(i), output);                          \
 	}
 
 TEST_SUITE_BEGIN("libparsers - util");

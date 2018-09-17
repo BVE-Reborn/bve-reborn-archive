@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::xml::stations {
+namespace bve::parsers::xml::stations {
 	struct message {
 		std::string early;
 		std::string ontime;
@@ -23,9 +23,9 @@ namespace parsers::xml::stations {
 
 	struct request_stop_marker {
 		enum class behaviour : std::uint8_t { fullspeed, normalbrake };
-		core::datatypes::time early_time = 0;
+		bve::core::datatypes::time early_time = 0;
 		bool using_early = false;
-		core::datatypes::time late_time = 0;
+		bve::core::datatypes::time late_time = 0;
 		bool using_late = false;
 		float distance = 0;
 		message stop_message;
@@ -38,9 +38,9 @@ namespace parsers::xml::stations {
 	struct parsed_station_marker {
 		enum class doors : std::int8_t { left = -1, right = 1, none = 0 };
 		std::string station_name;
-		core::datatypes::time arrival_time = 0;
+		bve::core::datatypes::time arrival_time = 0;
 		bool using_arrival = false;
-		core::datatypes::time departure_time = 0;
+		bve::core::datatypes::time departure_time = 0;
 		bool using_departure = false;
 		doors door = doors::none;
 		bool force_red_signal = false;
@@ -56,4 +56,4 @@ namespace parsers::xml::stations {
 	                            std::string input_string,
 	                            errors::multi_error_t& errors,
 	                            const find_relative_file_func& get_relative_file);
-} // namespace parsers::xml::stations
+} // namespace bve::parsers::xml::stations

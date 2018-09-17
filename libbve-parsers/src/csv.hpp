@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::csv {
+namespace bve::parsers::csv {
 	struct csv_token {
 		std::string text;
 		std::size_t line_begin = 0;
@@ -24,4 +24,4 @@ namespace parsers::csv {
 
 	std::ostream& operator<<(std::ostream& os, const csv_token& rhs);
 	std::ostream& operator<<(std::ostream& os, const parsed_csv& rhs);
-} // namespace parsers::csv
+} // namespace bve::parsers::csv

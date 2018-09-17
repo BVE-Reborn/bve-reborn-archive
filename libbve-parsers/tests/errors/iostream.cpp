@@ -6,7 +6,7 @@ TEST_SUITE_BEGIN("libparsers - errors");
 
 TEST_CASE("libparsers - errors - errors::error_t - print error") {
 	std::ostringstream oss;
-	parsers::errors::error_t err{59, "Hello"};
+	bve::parsers::errors::error_t err{59, "Hello"};
 
 	oss << err;
 
@@ -15,7 +15,7 @@ TEST_CASE("libparsers - errors - errors::error_t - print error") {
 
 TEST_CASE("libparsers - errors - errors::errors_t - print single error") {
 	std::ostringstream oss;
-	parsers::errors::errors_t err;
+	bve::parsers::errors::errors_t err;
 
 	add_error(err, 59, "Hello");
 
@@ -26,7 +26,7 @@ TEST_CASE("libparsers - errors - errors::errors_t - print single error") {
 
 TEST_CASE("libparsers - errors - errors::errors_t - print multiple errors") {
 	std::ostringstream oss;
-	parsers::errors::errors_t err;
+	bve::parsers::errors::errors_t err;
 
 	add_error(err, 59, "Hello");
 	add_error(err, -1, "Bello");
@@ -40,7 +40,7 @@ TEST_CASE("libparsers - errors - errors::errors_t - print multiple errors") {
 
 TEST_CASE("libparsers - errors - errors::multi_error_t - print single error") {
 	std::ostringstream oss;
-	parsers::errors::multi_error_t err;
+	bve::parsers::errors::multi_error_t err;
 
 	add_error(err, "/path/to/file", 59, "Hello");
 
@@ -53,7 +53,7 @@ TEST_CASE("libparsers - errors - errors::multi_error_t - print single error") {
 
 TEST_CASE("libparsers - errors - errors::multi_error_t - print multiple errors") {
 	std::ostringstream oss;
-	parsers::errors::multi_error_t err;
+	bve::parsers::errors::multi_error_t err;
 
 	add_error(err, "/path/to/file", 59, "Hello");
 	add_error(err, "/path/to/file", -1, "Bello");
@@ -68,7 +68,7 @@ TEST_CASE("libparsers - errors - errors::multi_error_t - print multiple errors")
 
 TEST_CASE("libparsers - errors - errors::multi_error_t - print from multiple files") {
 	std::ostringstream oss;
-	parsers::errors::multi_error_t err;
+	bve::parsers::errors::multi_error_t err;
 
 	add_error(err, "/path/to/file", 59, "Hello");
 	add_error(err, "/path/to/file2", -1, "Bello");

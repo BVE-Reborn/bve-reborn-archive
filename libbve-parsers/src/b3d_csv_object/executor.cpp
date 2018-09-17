@@ -8,7 +8,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h> // NOLINT
 
-namespace parsers::b3d_csv_object {
+namespace bve::parsers::b3d_csv_object {
 	namespace {
 		// Following
 		// https://stackoverflow.com/questions/3574680/sort-based-on-multiple-things-in-c
@@ -456,13 +456,15 @@ namespace parsers::b3d_csv_object {
 
 	void instructions::parsed_csv_object_builder::operator()(const set_color& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.color = core::datatypes::color8_rgba{arg.red, arg.green, arg.blue, arg.alpha};
+			face.data.color =
+			    bve::core::datatypes::color8_rgba{arg.red, arg.green, arg.blue, arg.alpha};
 		}
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const set_emissive_color& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.emissive_color = core::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
+			face.data.emissive_color =
+			    bve::core::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
 		}
 	}
 
@@ -484,7 +486,7 @@ namespace parsers::b3d_csv_object {
 	    const set_decal_transparent_color& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.decal_transparent_color =
-			    core::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
+			    bve::core::datatypes::color8_rgb{arg.red, arg.green, arg.blue};
 		}
 	}
 	void instructions::parsed_csv_object_builder::operator()(const set_texture_coordinates& arg) {
@@ -508,5 +510,4 @@ namespace parsers::b3d_csv_object {
 		pcsvob.add_mesh_builder();
 		return pcsvob.pso;
 	}
-} // namespace parsers::b3d_csv_object
-} // namespace parsers
+} // namespace bve::parsers::b3d_csv_object

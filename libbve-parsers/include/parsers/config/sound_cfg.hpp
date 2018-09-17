@@ -7,7 +7,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace parsers::config::sound_cfg {
+namespace bve::parsers::config::sound_cfg {
 	/**
 	 * \brief Iterator into a sound.cfg's filename set.
 	 */
@@ -168,4 +168,4 @@ namespace parsers::config::sound_cfg {
 	                         std::string const& input_string,
 	                         errors::multi_error_t& errors,
 	                         find_relative_file_func const& get_relative_file);
-} // namespace parsers::config::sound_cfg
+} // namespace bve::parsers::config::sound_cfg

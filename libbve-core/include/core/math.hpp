@@ -3,7 +3,7 @@
 #include <glm/vec3.hpp>
 #include <type_traits>
 
-namespace core::math {
+namespace bve::core::math {
 	template <class T, class A, class B>
 	T clamp(T value, A min, B max) {
 		return value > max ? T(max) : (value < min ? T(min) : value);
@@ -45,4 +45,4 @@ namespace core::math {
 	                                glm::vec3 input_tangent,
 	                                float x_offset,
 	                                float y_offset);
-} // namespace core::math
+} // namespace bve::core::math

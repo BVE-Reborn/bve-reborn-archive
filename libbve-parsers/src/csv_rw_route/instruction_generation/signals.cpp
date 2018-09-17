@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_signal(const line_splitting::instruction_info& inst) {
 		indices_at_least(inst, 1, "Signal");
 		args_at_least(inst, 1, "Signal");
@@ -24,4 +24,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 		sa.filename = inst.args[0];
 		return sa;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

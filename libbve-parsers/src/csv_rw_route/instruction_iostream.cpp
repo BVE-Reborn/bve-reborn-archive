@@ -97,7 +97,7 @@ std::ostream& operator<<(std::ostream& os, tl::optional<T> const& val) {
 		os_ << ", " #name " = " #value18;                                                          \
 	EXPAND(PRINT_ENUM17(name, nsp, __VA_ARGS__))
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	namespace {
 		struct csv_rw_route_instruction_io_class {
 		  private:
@@ -846,19 +846,20 @@ namespace parsers::csv_rw_route {
 			}
 		};
 	} // namespace
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route
 
-std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction& i) {
+std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::instruction& i) {
 	os << std::boolalpha;
 
-	parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os);
+	bve::parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os);
 
 	apply_visitor(crriic, i);
 
 	return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction_list& list) {
+std::ostream& operator<<(std::ostream& os,
+                         const bve::parsers::csv_rw_route::instruction_list& list) {
 	os << "Files:\n";
 	for (std::size_t i = 0; i < list.filenames.size(); ++i) {
 		os << i << ": " << list.filenames[i] << '\n';
@@ -867,7 +868,7 @@ std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruct
 	for (auto& i : list.instructions) {
 		os << std::boolalpha;
 
-		parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os, list.filenames);
+		bve::parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os, list.filenames);
 
 		apply_visitor(crriic, i);
 

@@ -1,7 +1,7 @@
 #include "csv.hpp"
 #include <ostream>
 
-namespace parsers::csv {
+namespace bve::parsers::csv {
 	std::ostream& operator<<(std::ostream& os, const csv_token& rhs) {
 		os << "(\"" << rhs.text << "\", " << rhs.line_begin << ", " << rhs.line_end << ", "
 		   << rhs.char_begin << ", " << rhs.char_end << ')';
@@ -20,4 +20,4 @@ namespace parsers::csv {
 		}
 		return os;
 	}
-} // namespace parsers::csv
+} // namespace bve::parsers::csv

@@ -1,6 +1,6 @@
 #include "executor_pass3.hpp"
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	rail_state& pass3_executor::get_rail_state(std::size_t const index) {
 		if (index == std::numeric_limits<std::size_t>::max()) {
 			return current_rail_state_[0];
@@ -34,12 +34,13 @@ namespace parsers::csv_rw_route {
 			start_iter -= 1;
 		}
 
-		return core::math::lerp(start_iter->value, end_iter->value,
-		                        (position - start_iter->position)
-		                            / (end_iter->position - start_iter->position));
+		return bve::core::math::lerp(start_iter->value, end_iter->value,
+		                             (position - start_iter->position)
+		                                 / (end_iter->position - start_iter->position));
 	}
 
-	core::math::evaulate_curve_t pass3_executor::track_position_at(float const position) const {
+	bve::core::math::evaulate_curve_t pass3_executor::track_position_at(
+	    float const position) const {
 		decltype(route_data_.blocks)::const_iterator starting_it;
 
 		if (position < route_data_.blocks.front().position) {
@@ -53,8 +54,10 @@ namespace parsers::csv_rw_route {
 			starting_it -= 1;
 		}
 
-		return core::math::evaluate_curve(starting_it->cache.location, starting_it->cache.direction,
-		                                  position - starting_it->position, starting_it->radius);
+		return bve::core::math::evaluate_curve(starting_it->cache.location,
+		                                       starting_it->cache.direction,
+		                                       position - starting_it->position,
+		                                       starting_it->radius);
 	}
 
 	glm::vec3 pass3_executor::position_relative_to_rail(std::size_t rail_num,
@@ -78,9 +81,9 @@ namespace parsers::csv_rw_route {
 #endif
 
 		auto ret_val =
-		    core::math::position_from_offsets(track_position.position, track_position.tangent,
-		                                      track_state_iter->second.x_offset + x_offset,
-		                                      track_state_iter->second.y_offset + y_offset);
+		    bve::core::math::position_from_offsets(track_position.position, track_position.tangent,
+		                                           track_state_iter->second.x_offset + x_offset,
+		                                           track_state_iter->second.y_offset + y_offset);
 
 		if (max) {
 			ret_val.y -= ground_height_at(position);
@@ -88,4 +91,4 @@ namespace parsers::csv_rw_route {
 
 		return ret_val;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

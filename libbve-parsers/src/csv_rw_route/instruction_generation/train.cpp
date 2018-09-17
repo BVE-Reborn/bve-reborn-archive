@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_train_folder(const line_splitting::instruction_info& inst) {
 		return create_single_string_instruction<instructions::train::folder>(inst, "Train.Folder");
 	}
@@ -56,4 +56,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 		return create_single_float_instruction<instructions::train::velocity>(inst,
 		                                                                      "Train.Velocity", 0);
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

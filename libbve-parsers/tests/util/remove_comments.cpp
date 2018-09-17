@@ -6,7 +6,7 @@ using namespace std::string_literals;
 #define REMOVE_COMMENTS_CHECK_EQ(input_string, comment_char, first_in_line, output_string)         \
 	{                                                                                              \
 		std::string s = input_string;                                                              \
-		parsers::util::remove_comments(s, comment_char, first_in_line);                            \
+		bve::parsers::util::remove_comments(s, comment_char, first_in_line);                       \
 		CHECK_EQ(s, output_string);                                                                \
 	}
 

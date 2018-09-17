@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::errors {
+namespace bve::parsers::errors {
 	struct error_t {
 		std::intmax_t line;
 		std::string error;
@@ -29,4 +29,4 @@ namespace parsers::errors {
 	std::ostream& operator<<(std::ostream& os, error_t& /*e*/);
 	std::ostream& operator<<(std::ostream& os, errors_t& /*es*/);
 	std::ostream& operator<<(std::ostream& os, multi_error_t& /*me*/);
-} // namespace parsers::errors
+} // namespace bve::parsers::errors

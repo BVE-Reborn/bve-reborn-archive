@@ -7,7 +7,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route::line_splitting {
+namespace bve::parsers::csv_rw_route::line_splitting {
 	instruction_info csv(const preprocessed_line& l) {
 		const auto& text = l.contents;
 		auto first_break = std::find_if(text.begin(), text.end(),
@@ -156,4 +156,4 @@ namespace parsers::csv_rw_route::line_splitting {
 		                        suffix,
 		                        l.offset};
 	}
-} // namespace parsers::csv_rw_route::line_splitting
+} // namespace bve::parsers::csv_rw_route::line_splitting

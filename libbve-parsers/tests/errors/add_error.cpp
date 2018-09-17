@@ -5,7 +5,7 @@
 TEST_SUITE_BEGIN("libparsers - errors");
 
 TEST_CASE("libparsers - errors - errors::errors_t - add single error") {
-	parsers::errors::errors_t error_list;
+	bve::parsers::errors::errors_t error_list;
 
 	constexpr std::intmax_t line = 59;
 
@@ -31,7 +31,7 @@ TEST_CASE("libparsers - errors - errors::errors_t - add single error") {
 }
 
 TEST_CASE("libparsers - errors - errors::multi_error_t - add single error") {
-	parsers::errors::multi_error_t error_list;
+	bve::parsers::errors::multi_error_t error_list;
 
 	constexpr char filename[] = "test.csv";
 	constexpr std::intmax_t line = 59;

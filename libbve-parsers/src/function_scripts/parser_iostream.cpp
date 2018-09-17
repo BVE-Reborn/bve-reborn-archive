@@ -1,7 +1,7 @@
 #include "function_scripts.hpp"
 #include <ostream>
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	class function_script_parse_tree_printer {
 	  private:
 		std::ostream& os_;
@@ -125,10 +125,10 @@ namespace parsers::function_scripts {
 			os_ << "NONE\n";
 		}
 	};
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts
 
-std::ostream& operator<<(std::ostream& os, const parsers::function_scripts::tree_node& node) {
-	parsers::function_scripts::function_script_parse_tree_printer fsptp{os};
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::tree_node& node) {
+	bve::parsers::function_scripts::function_script_parse_tree_printer fsptp{os};
 
 	apply_visitor(fsptp, node);
 

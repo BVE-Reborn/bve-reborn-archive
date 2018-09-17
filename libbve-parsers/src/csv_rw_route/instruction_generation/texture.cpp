@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_texture_background(
 	    const line_splitting::instruction_info& inst) {
 		indices_at_least(inst, 1, "Texture.Background");
@@ -38,4 +38,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 
 		throw std::invalid_argument("Invalid suffix to Texture.Background");
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

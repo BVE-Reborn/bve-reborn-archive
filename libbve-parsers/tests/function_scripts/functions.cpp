@@ -3,12 +3,12 @@
 #include <parsers/function_scripts.hpp>
 
 using namespace std::string_literals;
-namespace fs_inst = parsers::function_scripts::instructions;
+namespace fs_inst = bve::parsers::function_scripts::instructions;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 TEST_CASE("libparsers - function scripts - functions - reciprocal") {
-	auto result = parsers::function_scripts::parse("reciprocal[2]");
+	auto result = bve::parsers::function_scripts::parse("reciprocal[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -16,7 +16,7 @@ TEST_CASE("libparsers - function scripts - functions - reciprocal") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - power2") {
-	auto result = parsers::function_scripts::parse("power[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("power[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -27,7 +27,7 @@ TEST_CASE("libparsers - function scripts - functions - power2") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - power3") {
-	auto result = parsers::function_scripts::parse("power[2, 3, 4]");
+	auto result = bve::parsers::function_scripts::parse("power[2, 3, 4]");
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -39,7 +39,7 @@ TEST_CASE("libparsers - function scripts - functions - power3") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - quotient") {
-	auto result = parsers::function_scripts::parse("quotient[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("quotient[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -48,7 +48,7 @@ TEST_CASE("libparsers - function scripts - functions - quotient") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - mod") {
-	auto result = parsers::function_scripts::parse("mod[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("mod[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -57,7 +57,7 @@ TEST_CASE("libparsers - function scripts - functions - mod") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - min2") {
-	auto result = parsers::function_scripts::parse("min[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("min[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -68,7 +68,7 @@ TEST_CASE("libparsers - function scripts - functions - min2") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - min3") {
-	auto result = parsers::function_scripts::parse("min[2, 3, 4]");
+	auto result = bve::parsers::function_scripts::parse("min[2, 3, 4]");
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -80,7 +80,7 @@ TEST_CASE("libparsers - function scripts - functions - min3") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - max2") {
-	auto result = parsers::function_scripts::parse("max[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("max[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -91,7 +91,7 @@ TEST_CASE("libparsers - function scripts - functions - max2") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - max3") {
-	auto result = parsers::function_scripts::parse("max[2, 3, 4]");
+	auto result = bve::parsers::function_scripts::parse("max[2, 3, 4]");
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -103,7 +103,7 @@ TEST_CASE("libparsers - function scripts - functions - max3") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - abs") {
-	auto result = parsers::function_scripts::parse("abs[2]");
+	auto result = bve::parsers::function_scripts::parse("abs[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -111,7 +111,7 @@ TEST_CASE("libparsers - function scripts - functions - abs") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - sign") {
-	auto result = parsers::function_scripts::parse("sign[2]");
+	auto result = bve::parsers::function_scripts::parse("sign[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -119,7 +119,7 @@ TEST_CASE("libparsers - function scripts - functions - sign") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - floor") {
-	auto result = parsers::function_scripts::parse("floor[2]");
+	auto result = bve::parsers::function_scripts::parse("floor[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -127,7 +127,7 @@ TEST_CASE("libparsers - function scripts - functions - floor") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - ceiling") {
-	auto result = parsers::function_scripts::parse("ceiling[2]");
+	auto result = bve::parsers::function_scripts::parse("ceiling[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -135,7 +135,7 @@ TEST_CASE("libparsers - function scripts - functions - ceiling") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - round") {
-	auto result = parsers::function_scripts::parse("round[2]");
+	auto result = bve::parsers::function_scripts::parse("round[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -143,7 +143,7 @@ TEST_CASE("libparsers - function scripts - functions - round") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - random") {
-	auto result = parsers::function_scripts::parse("random[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("random[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -152,7 +152,7 @@ TEST_CASE("libparsers - function scripts - functions - random") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - randomInt") {
-	auto result = parsers::function_scripts::parse("randomint[2, 3]");
+	auto result = bve::parsers::function_scripts::parse("randomint[2, 3]");
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -161,7 +161,7 @@ TEST_CASE("libparsers - function scripts - functions - randomInt") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - exp") {
-	auto result = parsers::function_scripts::parse("exp[2]");
+	auto result = bve::parsers::function_scripts::parse("exp[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -169,7 +169,7 @@ TEST_CASE("libparsers - function scripts - functions - exp") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - log") {
-	auto result = parsers::function_scripts::parse("log[2]");
+	auto result = bve::parsers::function_scripts::parse("log[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -177,7 +177,7 @@ TEST_CASE("libparsers - function scripts - functions - log") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - sqrt") {
-	auto result = parsers::function_scripts::parse("sqrt[2]");
+	auto result = bve::parsers::function_scripts::parse("sqrt[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -185,7 +185,7 @@ TEST_CASE("libparsers - function scripts - functions - sqrt") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - sin") {
-	auto result = parsers::function_scripts::parse("sin[2]");
+	auto result = bve::parsers::function_scripts::parse("sin[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -193,7 +193,7 @@ TEST_CASE("libparsers - function scripts - functions - sin") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - cos") {
-	auto result = parsers::function_scripts::parse("cos[2]");
+	auto result = bve::parsers::function_scripts::parse("cos[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -201,7 +201,7 @@ TEST_CASE("libparsers - function scripts - functions - cos") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - tan") {
-	auto result = parsers::function_scripts::parse("tan[2]");
+	auto result = bve::parsers::function_scripts::parse("tan[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -209,7 +209,7 @@ TEST_CASE("libparsers - function scripts - functions - tan") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - arctan") {
-	auto result = parsers::function_scripts::parse("arctan[2]");
+	auto result = bve::parsers::function_scripts::parse("arctan[2]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
@@ -217,7 +217,7 @@ TEST_CASE("libparsers - function scripts - functions - arctan") {
 }
 
 TEST_CASE("libparsers - function scripts - functions - if") {
-	auto result = parsers::function_scripts::parse("if[2, 3, 4]");
+	auto result = bve::parsers::function_scripts::parse("if[2, 3, 4]");
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);

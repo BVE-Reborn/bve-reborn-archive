@@ -8,7 +8,7 @@
 #include <vector>
 
 // ReSharper disable once CppInconsistentNaming
-namespace parsers::b3d_csv_object {
+namespace bve::parsers::b3d_csv_object {
 	namespace instructions {
 		/*
 		http://openbve-project.net/documentation/HTML/object_csv_quick.html
@@ -217,7 +217,7 @@ namespace parsers::b3d_csv_object {
 			// based on this data.
 			struct extended_face_data_t : face_data_t {
 				std::string texture;
-				core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
+				bve::core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
 				mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;
@@ -285,4 +285,4 @@ namespace parsers::b3d_csv_object {
 	instruction_list create_instructions(std::string text, file_type ft);
 
 	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& /*ilist*/);
-} // namespace parsers::b3d_csv_object
+} // namespace bve::parsers::b3d_csv_object

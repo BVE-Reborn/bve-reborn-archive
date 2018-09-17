@@ -2,7 +2,7 @@
 #include "csv_rw_route.hpp"
 #include <parsers/errors.hpp>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void execute_instructions_pass3(parsed_route_data& rd,
 	                                instruction_list& list,
 	                                errors::multi_error_t& errors,
@@ -19,4 +19,4 @@ namespace parsers::csv_rw_route {
 
 		p3_e.finalize(largest_position);
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

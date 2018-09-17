@@ -4,7 +4,7 @@
 #include <doctest.h>
 #include <iostream>
 
-namespace db = parsers::xml::dynamic_background;
+namespace db = bve::parsers::xml::dynamic_background;
 using namespace std::string_literals;
 
 TEST_SUITE_BEGIN("libparsers - xml - dynamic_background");
@@ -22,7 +22,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
             "</Background>"
         "</openBVE>"s;
 	// clang-format on
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const output =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
@@ -63,7 +63,7 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgounds") {
         "</openBVE>"s;
 	// clang-format on
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const output =
 	    db::parse("some_file.xml"s, test_multiple_backgrounds, output_errors, rel_file_func);
@@ -101,7 +101,7 @@ TEST_CASE("libparser - xml - dynamic_background - object_background") {
 		"</openBVE>"s;
 	// clang-format on
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const output =
 	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
@@ -131,7 +131,7 @@ TEST_CASE("libparser - xml - dynamic_background - should allow only one object_b
 		"</openBVE>"s;
 	// clang-format on
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const output =
 	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
@@ -152,7 +152,7 @@ TEST_CASE("libparser - xml - dynamic_background - openbve node should be optiona
 		"</Background>"s;
 	// clang-format on
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
@@ -171,7 +171,7 @@ TEST_CASE("libparsers - xml - dynamic_background - improper values should add an
 		"</Background>"s;
 	// clang-format on
 
-	parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::multi_error_t output_errors;
 
 	auto const out =
 	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);

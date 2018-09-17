@@ -8,7 +8,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::b3d_csv_object {
+namespace bve::parsers::b3d_csv_object {
 	namespace {
 		instruction create_instruction_createmeshbuilder(
 		    const std::vector<csv::csv_token>& arguments) {
@@ -258,24 +258,24 @@ namespace parsers::b3d_csv_object {
 			switch (arguments.size()) {
 				default:
 				case 5:
-					sc.alpha =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[4].text, 255),
-					                              0, 255));
+					sc.alpha = uint8_t(
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[4].text, 255), 0,
+					                           255));
 					// fall through
 				case 4:
-					sc.blue =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[3].text, 255),
-					                              0, 255));
+					sc.blue = uint8_t(
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[3].text, 255), 0,
+					                           255));
 					// fall through
 				case 3:
-					sc.green =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[2].text, 255),
-					                              0, 255));
+					sc.green = uint8_t(
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[2].text, 255), 0,
+					                           255));
 					// fall through
 				case 2:
-					sc.red =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[1].text, 255),
-					                              0, 255));
+					sc.red = uint8_t(
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[1].text, 255), 0,
+					                           255));
 					// fall through
 				case 1:
 					break;
@@ -290,15 +290,18 @@ namespace parsers::b3d_csv_object {
 				default:
 				case 4:
 					sec.blue = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0, 255));
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0,
+					                           255));
 					// fall through
 				case 3:
 					sec.green = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 255));
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
+					                           255));
 					// fall through
 				case 2:
 					sec.red = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0, 255));
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0,
+					                           255));
 					// fall through
 				case 1:
 					break;
@@ -321,9 +324,9 @@ namespace parsers::b3d_csv_object {
 					}
 					// fall through
 				case 3:
-					sbm.glow_half_distance =
-					    uint16_t(core::math::clamp(util::parse_loose_integer(arguments[2].text, 0),
-					                               0, 4095));
+					sbm.glow_half_distance = uint16_t(
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
+					                           4095));
 					// fall through
 				case 2:
 					if (util::match_against_lower(arguments[1].text, "normal")) {
@@ -362,15 +365,18 @@ namespace parsers::b3d_csv_object {
 				default:
 				case 4:
 					sdtc.blue = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0, 255));
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0,
+					                           255));
 					// fall through
 				case 3:
 					sdtc.green = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 255));
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0,
+					                           255));
 					// fall through
 				case 2:
 					sdtc.red = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0, 255));
+					    bve::core::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0,
+					                           255));
 					// fall through
 				case 1:
 					break;
@@ -484,4 +490,4 @@ namespace parsers::b3d_csv_object {
 
 		return il;
 	} // namespace b3d_csv_object
-} // namespace parsers::b3d_csv_object
+} // namespace bve::parsers::b3d_csv_object

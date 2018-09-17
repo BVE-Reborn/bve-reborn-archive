@@ -7,7 +7,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	namespace instruction_generation {
 		// ReSharper disable once CyclomaticComplexity
 		instruction generate_instruction(const preprocessed_lines& lines,
@@ -120,4 +120,4 @@ namespace parsers::csv_rw_route {
 
 		return i_list;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

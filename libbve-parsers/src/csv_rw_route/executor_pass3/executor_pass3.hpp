@@ -1,16 +1,16 @@
 #pragma once
 
 #include "core/math.hpp"
+#include "core/pair_hash.hpp"
 #include "csv_rw_route.hpp"
 #include "parsers/find_relative_file.hpp"
 #include "utils.hpp"
-#include <core/pair_hash.hpp>
 #include <functional>
 #include <iosfwd>
 #include <iostream>
 #include <vector>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	using cycle_type = std::vector<std::size_t>;
 
 	// defined in executor_pass3/cycle.cpp
@@ -99,7 +99,7 @@ namespace parsers::csv_rw_route {
 		// structure index
 		std::unordered_map<std::pair<std::size_t, std::size_t>,
 		                   filename_set_iterator,
-		                   core::hash::pair_hash>
+		                   bve::core::hash::pair_hash>
 		    object_pole_mapping_;
 
 		// Background indices
@@ -143,7 +143,7 @@ namespace parsers::csv_rw_route {
 		// defined in executor_pass3/util.cpp
 		rail_state& get_rail_state(std::size_t index);
 		float ground_height_at(float position) const;
-		core::math::evaulate_curve_t track_position_at(float position) const;
+		bve::core::math::evaulate_curve_t track_position_at(float position) const;
 		glm::vec3 position_relative_to_rail(std::size_t rail_num,
 		                                    float position,
 		                                    float x_offset,
@@ -286,4 +286,4 @@ namespace parsers::csv_rw_route {
 		void operator()(const instructions::track::doppler& /*unused*/);
 		void operator()(const instructions::track::buffer& /*unused*/) const;
 	};
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

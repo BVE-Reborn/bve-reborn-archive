@@ -7,7 +7,7 @@
 #include <string>
 using namespace std::string_literals;
 
-namespace parsers::xml::route_marker {
+namespace bve::parsers::xml::route_marker {
 	namespace {
 		///////////////////////////////
 		// Parsing a Text Color Node //
@@ -63,10 +63,10 @@ namespace parsers::xml::route_marker {
 					}
 				}
 				add_error(errors, 0, err);
-				return std::make_tuple(core::datatypes::time{0}, ""s, text_marker::color::black,
-				                       false);
+				return std::make_tuple(bve::core::datatypes::time{0}, ""s,
+				                       text_marker::color::black, false);
 			}
-			core::datatypes::time time_parsed;
+			bve::core::datatypes::time time_parsed;
 			bool using_early_late = true;
 			try {
 				time_parsed = util::parse_time(get_node_value(time_node));
@@ -323,4 +323,4 @@ namespace parsers::xml::route_marker {
 
 		return parse_text_marker(filename, primary_node, errors, get_relative_file);
 	}
-} // namespace parsers::xml::route_marker
+} // namespace bve::parsers::xml::route_marker

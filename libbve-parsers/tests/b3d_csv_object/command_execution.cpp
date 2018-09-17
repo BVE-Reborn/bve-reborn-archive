@@ -5,7 +5,7 @@
 using namespace std::string_literals;
 
 // ReSharper disable once CppInconsistentNaming
-namespace b3d = parsers::b3d_csv_object;
+namespace b3d = bve::parsers::b3d_csv_object;
 
 TEST_SUITE_BEGIN("libparsers - b3d_csv_object");
 

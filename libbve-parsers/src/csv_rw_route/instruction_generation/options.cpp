@@ -1,6 +1,6 @@
 #include "instruction_generator.hpp"
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_options_unitoflength(
 	    const line_splitting::instruction_info& inst) {
 		instructions::options::unit_of_length uol;
@@ -136,4 +136,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 
 		return ebth;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

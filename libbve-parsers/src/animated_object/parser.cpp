@@ -11,7 +11,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::animated_object {
+namespace bve::parsers::animated_object {
 	namespace {
 		//////////////////////
 		// Helper functions //
@@ -378,4 +378,4 @@ namespace parsers::animated_object {
 
 		return pao;
 	}
-} // namespace parsers::animated_object
+} // namespace bve::parsers::animated_object

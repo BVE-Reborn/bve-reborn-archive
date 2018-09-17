@@ -3,11 +3,8 @@
 #include <gsl/gsl_util>
 #include <mutex>
 #include <time.h>
-#include <vector>
 
-// logger::detail::current_severity_container logger::current_severity;
-
-logger::detail::current_time logger::detail::get_time() {
+bve::log::detail::current_time bve::log::detail::get_time() {
 	auto const now = std::chrono::system_clock::now();
 	auto const seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
 	auto s = std::chrono::system_clock::to_time_t(seconds);
@@ -26,7 +23,7 @@ logger::detail::current_time logger::detail::get_time() {
 	auto const sec = wall_time.tm_sec;
 	auto milli = std::chrono::duration_cast<std::chrono::milliseconds>(now - seconds);
 
-	logger::detail::current_time current;
+	log::detail::current_time current;
 	current.year = year;
 	current.month = month;
 	current.day = day;
@@ -44,19 +41,19 @@ struct Log {
 
 static Log log_impl;
 
-void logger::to_log(std::string const& fmt_str) {
+void bve::log::to_log(std::string const& fmt_str) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
 	*log_impl.file_ << fmt_str;
 }
-void logger::set_output_location(std::string const& name) {
+void bve::log::set_output_location(std::string const& name) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
 	log_impl.file_ = std::make_shared<std::ofstream>(name, std::ios::app);
 }
-void logger::set_output_location(std::shared_ptr<std::ostream> stream) {
+void bve::log::set_output_location(std::shared_ptr<std::ostream> stream) {
 	std::lock_guard<std::mutex> lock(log_impl.file_lock_);
 	log_impl.file_ = std::move(stream);
 }
 
-std::shared_ptr<std::ostream> logger::get_output_stream() {
+std::shared_ptr<std::ostream> bve::log::get_output_stream() {
 	return log_impl.file_;
 }

@@ -5,7 +5,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::xml::dynamic_lighting {
+namespace bve::parsers::xml::dynamic_lighting {
 	std::vector<lighting_info> parse(
 	    const std::string& filename,
 	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
@@ -119,4 +119,4 @@ namespace parsers::xml::dynamic_lighting {
 
 		return retvalue;
 	}
-} // namespace parsers::xml::dynamic_lighting
+} // namespace bve::parsers::xml::dynamic_lighting

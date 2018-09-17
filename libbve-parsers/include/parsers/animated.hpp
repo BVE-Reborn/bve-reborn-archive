@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::animated_object {
+namespace bve::parsers::animated_object {
 	using function_script = function_scripts::instruction_list;
 
 	struct animated_include {
@@ -60,4 +60,4 @@ namespace parsers::animated_object {
 	};
 
 	parsed_animated_object parse(const std::string& file_string);
-} // namespace parsers::animated_object
+} // namespace bve::parsers::animated_object

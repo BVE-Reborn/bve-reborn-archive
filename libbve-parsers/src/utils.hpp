@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::util {
+namespace bve::parsers::util {
 	std::intmax_t parse_loose_integer(const std::string& text);
 	std::intmax_t parse_loose_integer(std::string text, std::intmax_t default_value);
 
@@ -15,12 +15,12 @@ namespace parsers::util {
 	float parse_loose_float(const std::string& text);
 	float parse_loose_float(std::string text, float default_value);
 
-	core::datatypes::time parse_time(const std::string& text);
-	core::datatypes::time parse_time(std::string text, std::intmax_t default_value);
+	bve::core::datatypes::time parse_time(const std::string& text);
+	bve::core::datatypes::time parse_time(std::string text, std::intmax_t default_value);
 
-	core::datatypes::color8_rgba parse_color(const std::string& text);
-	core::datatypes::color8_rgba parse_color(std::string text,
-	                                         core::datatypes::color8_rgba default_value);
+	bve::core::datatypes::color8_rgba parse_color(const std::string& text);
+	bve::core::datatypes::color8_rgba parse_color(std::string text,
+	                                              bve::core::datatypes::color8_rgba default_value);
 
 	void lower(std::string& text);
 	std::string lower_copy(std::string text);
@@ -34,4 +34,4 @@ namespace parsers::util {
 	std::string load_from_file_utf8_bom(const std::string& filename);
 	std::string load_from_file_utf8_bom(std::istream& file);
 
-} // namespace parsers::util
+} // namespace bve::parsers::util

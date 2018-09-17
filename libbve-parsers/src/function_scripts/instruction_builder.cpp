@@ -8,7 +8,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	namespace {
 		const std::map<std::string, instructions::variable> naked_variables = {
 		    {"value"s, instructions::variable::value},                             //
@@ -366,4 +366,4 @@ namespace parsers::function_scripts {
 		apply_visitor(ibh, head_node);
 		return ibh.list;
 	}
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts

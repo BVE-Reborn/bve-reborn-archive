@@ -3,7 +3,7 @@
 #include <sstream>
 #include <vector>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	tl::optional<filename_set_iterator> get_cycle_filename_index(
 	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
 	    const std::unordered_map<std::size_t, filename_set_iterator>& object_mapping,
@@ -100,4 +100,4 @@ namespace parsers::csv_rw_route {
 			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

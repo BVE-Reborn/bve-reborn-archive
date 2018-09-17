@@ -1,7 +1,7 @@
 #include "executor_pass3.hpp"
 #include <sstream>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::structure::command& inst) {
 		auto const add_and_warn = [&](auto& container, const char* command_name) {
 			auto filename_iter = add_object_filename(inst.filename);
@@ -129,4 +129,4 @@ namespace parsers::csv_rw_route {
 			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

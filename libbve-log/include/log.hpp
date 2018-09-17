@@ -10,29 +10,29 @@
 #include <type_traits>
 
 /**
- * \ingroup liblog
- * \def LIBLOG_DEBUG
- * \brief Enables \link logger::severity::debug severity::debug \endlink logging messages and adds debug information to logging output.
+ * \ingroup libbve-log
+ * \def LIBBVE_LOG_DEBUG
+ * \brief Enables \link bve::log::severity::debug severity::debug \endlink logging messages and adds debug information to logging output.
  */
 
 /**
- * \ingroup liblog
- * \def LIBLOG_NO_SIMPLE_MACRO_NAMES
- * \brief Disables the \ref LOG macro, forcing use of \ref LIBLOG_LOG.
+ * \ingroup libbve-log
+ * \def LIBBVE_LOG_NO_SIMPLE_MACRO_NAMES
+ * \brief Disables the \ref LOG macro, forcing use of \ref LIBBVE_LOG_LOG.
  */
 #ifdef DOXYGEN
-#	define LIBLOG_DEBUG
-#	define LIBLOG_NO_SIMPLE_MACRO_NAMES
-#	undef LIBLOG_NO_SIMPLE_MACRO_NAMES
+#	define LIBBVE_LOG_DEBUG
+#	define LIBBVE_LOG_NO_SIMPLE_MACRO_NAMES
+#	undef LIBBVE_LOG_NO_SIMPLE_MACRO_NAMES
 #endif
 
-namespace logger {
+namespace bve::log {
 
 	/**
 	 * \brief Sets severity of message for log filtering.
 	 */
 	enum class severity {
-		/// \brief For extremely verbose debugging information. Requires \ref LIBLOG_DEBUG <b>Default: Hidden</b>
+		/// \brief For extremely verbose debugging information. Requires \ref LIBBVE_LOG_DEBUG <b>Default: Hidden</b>
 		debug,
 		/// \brief Unimportant information. <b>Default: Hidden</b>
 		info,
@@ -48,7 +48,7 @@ namespace logger {
 
 	namespace detail {
 		/**
-		 * \brief Helper for the integer type underlying \ref logger::severity
+		 * \brief Helper for the integer type underlying \ref log::severity
 		 */
 		using severity_int_type = std::underlying_type_t<severity>;
 
@@ -107,7 +107,7 @@ namespace logger {
 	inline detail::current_severity_container current_severity;
 
 	/**
-	 * \ingroup liblog
+	 * \ingroup libbve-log
 	 * \brief Sends preformatted text to the log. You should not be using this method directly. Use the \ref LOG macro instead.
 	 * \details This will block on the file or object used internally for synchronization.
 	 * \param fmt_str Preformatted text.
@@ -115,7 +115,7 @@ namespace logger {
 	void to_log(std::string const& fmt_str);
 
 	/**
-	 * \ingroup liblog
+	 * \ingroup libbve-log
 	 * \brief Chooses the current allowed severity level for messages. Any message at or above it is allowed through.
 	 * \param s Severity to set.
 	 */
@@ -124,7 +124,7 @@ namespace logger {
 	}
 
 	/**
-	 * \ingroup liblog
+	 * \ingroup libbve-log
 	 * \brief Sets the log output location to a filename.
 	 * \details An ostream will be constructed internally to send to the file.
 	 *
@@ -133,7 +133,7 @@ namespace logger {
 	void set_output_location(std::string const& name);
 
 	/**
-	 * \ingroup liblog
+	 * \ingroup libbve-log
 	 * \brief Sets the log output location to an ostream.
 	 * \details Shared pointer allows you to get the handle back which can be useful for testing and information gathering.
 	 * \param stream The ostream object the log file should write to.
@@ -141,81 +141,82 @@ namespace logger {
 	void set_output_location(std::shared_ptr<std::ostream> stream);
 
 	/**
-	 * \ingroup liblog
-	 * \brief Returns a shared pointer to the ostream object the logger is writing to.
+	 * \ingroup libbve-log
+	 * \brief Returns a shared pointer to the ostream object the log is writing to.
 	 */
 	std::shared_ptr<std::ostream> get_output_stream();
 
-} // namespace logger
+} // namespace bve::log
 
-#ifdef LIBLOG_DEBUG
-#	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
+#ifdef LIBBVE_LOG_DEBUG
+#	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                              \
 		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "        \
 		                  "{:s}:{:d}: " fmt_str "\n"),                                             \
 		              time.year, time.month, time.day, time.hour, time.minute, time.second,        \
 		              time.millisecond, #ser, __FILE__, __LINE__, __VA_ARGS__)
 #else
-#	define LIBLOG_FORMAT_CALL(ser, fmt_str, ...)                                                  \
+#	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                              \
 		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: "              \
 		                  "{:s}: " fmt_str "\n"),                                                  \
 		              time.year, time.month, time.day, time.hour, time.minute, time.second,        \
 		              time.millisecond, #ser, __VA_ARGS__)
 #endif
 
-#define LIBLOG_LOG_SEVERITY_IMPL(ser, fmt_str, ...)                                                \
+#define LIBBVE_LOG_LOG_SEVERITY_IMPL(ser, fmt_str, ...)                                            \
 	{                                                                                              \
-		auto const time = ::logger::detail::get_time();                                            \
-		auto const formated_str = EXPAND(LIBLOG_FORMAT_CALL(ser, fmt_str, __VA_ARGS__));           \
-		::logger::to_log(std::move(formated_str));                                                 \
+		auto const time = ::bve::log::detail::get_time();                                          \
+		auto const formated_str = EXPAND(LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, __VA_ARGS__));       \
+		::bve::log::to_log(std::move(formated_str));                                               \
 	}
-#ifdef LIBLOG_DEBUG
-#	define LIBLOG_LOG_SEVERITY_debug(...)                                                         \
-		if (static_cast<::logger::detail::severity_int_type>(::log::current_severity.get())        \
-		    <= static_cast<::logger::detail::severity_int_type>(::log::severity::debug)) {         \
-			EXPAND(LIBLOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__))                                   \
+#ifdef LIBBVE_LOG_DEBUG
+#	define LIBBVE_LOG_LOG_SEVERITY_debug(...)                                                     \
+		if (static_cast<::log::detail::severity_int_type>(::log::current_severity.get())           \
+		    <= static_cast<::log::detail::severity_int_type>(::log::severity::debug)) {            \
+			EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__))                               \
 		}
 #else
-#	define LIBLOG_LOG_SEVERITY_debug(...)
+#	define LIBBVE_LOG_LOG_SEVERITY_debug(...)
 #endif
-#define LIBLOG_LOG_SEVERITY_info(...)                                                              \
-	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::info)) {           \
-		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__))                                        \
+#define LIBBVE_LOG_LOG_SEVERITY_info(...)                                                          \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::info)) {       \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__))                                    \
 	}
-#define LIBLOG_LOG_SEVERITY_note(...)                                                              \
-	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::note)) {           \
-		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__))                                        \
+#define LIBBVE_LOG_LOG_SEVERITY_note(...)                                                          \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::note)) {       \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__))                                    \
 	}
-#define LIBLOG_LOG_SEVERITY_warning(...)                                                           \
-	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::warning)) {        \
-		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__))                                     \
+#define LIBBVE_LOG_LOG_SEVERITY_warning(...)                                                       \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::warning)) {    \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__))                                 \
 	}
-#define LIBLOG_LOG_SEVERITY_error(...)                                                             \
-	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::error)) {          \
-		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__))                                       \
+#define LIBBVE_LOG_LOG_SEVERITY_error(...)                                                         \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::error)) {      \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__))                                   \
 	}
-#define LIBLOG_LOG_SEVERITY_fatal_error(...)                                                       \
-	if (static_cast<::logger::detail::severity_int_type>(::logger::current_severity.get())         \
-	    <= static_cast<::logger::detail::severity_int_type>(::logger::severity::fatal_error)) {    \
-		EXPAND(LIBLOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                                 \
+#define LIBBVE_LOG_LOG_SEVERITY_fatal_error(...)                                                   \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
+	    <= static_cast<::bve::log::detail::severity_int_type>(                                     \
+	           ::bve::log::severity::fatal_error)) {                                               \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                             \
 	}
 /**
- * \ingroup liblog
+ * \ingroup libbve-log
  * \brief Formats given string and writes it to the log.
- * \param sev <b>Unqualified</b> member of \ref logger::severity to set for this message.
+ * \param sev <b>Unqualified</b> member of \ref bve::log::severity to set for this message.
  * \param format_str Format string that will be passed directly to fmt.
  * \param ... Arguments to be added into the format string.
  */
-#define LIBLOG_LOG(sev, format_str, ...)                                                           \
-	EXPAND(CONCAT(LIBLOG_LOG_SEVERITY_, sev)(format_str, __VA_ARGS__))
+#define LIBBVE_LOG_LOG(sev, format_str, ...)                                                       \
+	EXPAND(CONCAT(LIBBVE_LOG_LOG_SEVERITY_, sev)(format_str, __VA_ARGS__))
 
-#ifndef LIBLOG_NO_SIMPLE_MACRO_NAMES
+#ifndef LIBBVE_LOG_NO_SIMPLE_MACRO_NAMES
 /**
- * \ingroup liblog
- * \copydoc LIBLOG_LOG
+ * \ingroup libbve-log
+ * \copydoc LIBBVE_LOG_LOG
  */
-#	define LOG(sev, format_str, ...) EXPAND(LIBLOG_LOG(sev, format_str, __VA_ARGS__))
+#	define LOG(sev, format_str, ...) EXPAND(LIBBVE_LOG_LOG(sev, format_str, __VA_ARGS__))
 #endif

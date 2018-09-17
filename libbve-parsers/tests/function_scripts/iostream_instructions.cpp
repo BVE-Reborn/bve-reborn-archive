@@ -6,7 +6,7 @@
 #include <sstream>
 
 using namespace std::string_literals;
-namespace fs_instruction = parsers::function_scripts::instructions;
+namespace fs_instruction = bve::parsers::function_scripts::instructions;
 
 // This function helps when dealing with pretty printed output. Because the amount of spaces may
 // vary, collapsing lengths > 1 down to only one help with making the code easy to test generically.
@@ -25,7 +25,7 @@ static std::string canonicalize(std::string str) {
 
 #define UNARY_OP_TEST(rep, name, type_name)                                                        \
 	TEST_CASE("libparsers - function scripts - instruction_iostream - " STR(name)) {               \
-		parsers::function_scripts::instruction_list const                                          \
+		bve::parsers::function_scripts::instruction_list const                                     \
 		    test_list{{}, {}, {fs_instruction::stack_push{2}, fs_instruction::type_name{}}, {}};   \
                                                                                                    \
 		std::ostringstream output;                                                                 \
@@ -39,7 +39,7 @@ static std::string canonicalize(std::string str) {
 
 #define BINARY_OP_TEST(rep, name, type_name)                                                       \
 	TEST_CASE("libparsers - function scripts - instruction_iostream - " STR(name)) {               \
-		parsers::function_scripts::instruction_list const                                          \
+		bve::parsers::function_scripts::instruction_list const                                     \
 		    test_list{{},                                                                          \
 		              {},                                                                          \
 		              {fs_instruction::stack_push{2}, fs_instruction::stack_push{3},               \
@@ -58,11 +58,11 @@ static std::string canonicalize(std::string str) {
 
 #define REGULAR_VARIABLE_TEST(name)                                                                     \
 	TEST_CASE("libparsers - function scripts - instruction_iostream - unindexed " STR(name)) {          \
-		parsers::function_scripts::instruction_list const                                               \
-		    test_list{{parsers::function_scripts::instructions::variable::name},                        \
+		bve::parsers::function_scripts::instruction_list const                                          \
+		    test_list{{bve::parsers::function_scripts::instructions::variable::name},                   \
 		              {},                                                                               \
 		              {fs_instruction::op_variable_lookup{                                              \
-		                  parsers::function_scripts::instructions::variable::name}},                    \
+		                  bve::parsers::function_scripts::instructions::variable::name}},               \
 		              {}};                                                                              \
                                                                                                         \
 		std::ostringstream output;                                                                      \
@@ -76,12 +76,12 @@ static std::string canonicalize(std::string str) {
 
 #define INDEXED_VARIABLE_TEST(name)                                                                     \
 	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STR(name)) {              \
-		parsers::function_scripts::instruction_list const                                               \
+		bve::parsers::function_scripts::instruction_list const                                          \
 		    test_list{{},                                                                               \
-		              {parsers::function_scripts::instructions::indexed_variable::name},                \
+		              {bve::parsers::function_scripts::instructions::indexed_variable::name},           \
 		              {fs_instruction::stack_push{2},                                                   \
 		               fs_instruction::op_variable_indexed{                                             \
-		                   parsers::function_scripts::instructions::indexed_variable::name}},           \
+		                   bve::parsers::function_scripts::instructions::indexed_variable::name}},      \
 		              {}};                                                                              \
                                                                                                         \
 		std::ostringstream output;                                                                      \
@@ -137,7 +137,7 @@ UNARY_OP_TEST("FUNC_ARCTAN Arctan[0]", arctan, func_arctan)
 
 TEST_CASE("libparsers - function scripts - instruction_iostream - if") {
 	
-	parsers::function_scripts::instruction_list const test_list{
+	bve::parsers::function_scripts::instruction_list const test_list{
 			{},
 			{},
 			{fs_instruction::stack_push{ 2 },

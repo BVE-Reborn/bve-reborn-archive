@@ -1,7 +1,7 @@
 #include "ini.hpp"
 #include <ostream>
 
-namespace parsers::ini {
+namespace bve::parsers::ini {
 	std::ostream& operator<<(std::ostream& os, const parsed_ini_object& rhs) {
 		for (auto& section : rhs) {
 			os << "Line: " << section.line << " Section: \"" << section.name << "\"\n";
@@ -16,4 +16,4 @@ namespace parsers::ini {
 
 		return os;
 	}
-} // namespace parsers::ini
+} // namespace bve::parsers::ini

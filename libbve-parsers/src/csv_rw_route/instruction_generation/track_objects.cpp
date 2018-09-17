@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_freeobj(const line_splitting::instruction_info& inst) {
 		instructions::track::free_obj fobj;
 
@@ -144,4 +144,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_ground(const line_splitting::instruction_info& inst) {
 		return create_single_sizet_instruction<instructions::track::ground>(inst, "Track.Ground");
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

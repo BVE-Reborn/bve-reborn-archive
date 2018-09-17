@@ -5,10 +5,10 @@
 #include <string>
 #include <tuple>
 
-namespace parsers::dependencies {
+namespace bve::parsers::dependencies {
 	struct texture_t {
 		std::string file;
-		core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
+		bve::core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 		bool has_transparent_color = false;
 
 		// less than operator for use in std::set
@@ -25,4 +25,4 @@ namespace parsers::dependencies {
 	struct dependencies_t {
 		std::set<texture_t> textures;
 	};
-} // namespace parsers::dependencies
+} // namespace bve::parsers::dependencies

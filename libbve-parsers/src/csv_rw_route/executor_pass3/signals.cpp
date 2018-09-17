@@ -1,7 +1,7 @@
 #include "executor_pass3.hpp"
 #include <sstream>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::naked::signal_animated& inst) {
 		auto this_signal = animated_signal{inst.filename};
 		auto insert_pair = std::make_pair(inst.signal_index, this_signal);
@@ -62,4 +62,4 @@ namespace parsers::csv_rw_route {
 			add_error(errors_, get_filename(inst.file_index), inst.line, err);
 		}
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

@@ -2,7 +2,7 @@
 #include "csv_rw_route.hpp"
 #include "parsers/errors.hpp"
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	namespace {
 		struct pass2_executor {
 		  public:
@@ -18,7 +18,7 @@ namespace parsers::csv_rw_route {
 			    instructions::options::cant_behavior::unsigned_cant;
 
 			rail_block_info& make_new_block(float position) {
-				position = core::math::max<float>(0, position);
+				position = bve::core::math::max<float>(0, position);
 				if (rd.blocks.empty()) {
 					if (position != 0) {
 						rd.blocks.emplace_back();
@@ -69,9 +69,9 @@ namespace parsers::csv_rw_route {
 					// the y component in order to get the proper angle
 					last_block.cache.direction.y = last_block.pitch;
 					auto const curve_results =
-					    core::math::evaluate_curve(last_block.cache.location,
-					                               last_block.cache.direction, last_block.length,
-					                               last_block.radius);
+					    bve::core::math::evaluate_curve(last_block.cache.location,
+					                                    last_block.cache.direction,
+					                                    last_block.length, last_block.radius);
 
 					current_block.cache.location = curve_results.position;
 					current_block.cache.direction = curve_results.tangent;
@@ -148,7 +148,7 @@ namespace parsers::csv_rw_route {
 					auto const x = inst.ratio * block_size;
 					auto const z = x / inst.ratio;
 
-					block.radius = core::math::radius_from_distances(z, x);
+					block.radius = bve::core::math::radius_from_distances(z, x);
 				}
 				else {
 					block.radius = 0;
@@ -180,4 +180,4 @@ namespace parsers::csv_rw_route {
 
 		return p2_e.rd;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

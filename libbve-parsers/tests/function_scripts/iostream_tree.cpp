@@ -4,7 +4,7 @@
 #include <sstream>
 
 using namespace std::string_literals;
-namespace fs_tree_node = parsers::function_scripts::tree_types;
+namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
 
 #define UNARY_TREE_TEST(full_name, type_name, output_name)                                         \
 	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) {                 \

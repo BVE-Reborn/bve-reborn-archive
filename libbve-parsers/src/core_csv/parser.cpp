@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <gsl/gsl_util>
 
-namespace parsers::csv {
+namespace bve::parsers::csv {
 	parsed_csv parse(const std::string& file, split_first_column sfc, char delim, char split_char) {
 		// start with at least one row
 		std::vector<std::vector<csv_token>> token_list{1, std::vector<csv_token>{}};
@@ -59,4 +59,4 @@ namespace parsers::csv {
 
 		return token_list;
 	}
-} // namespace parsers::csv
+} // namespace bve::parsers::csv

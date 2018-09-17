@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	enum class file_type { csv, rw };
 
 	struct preprocessed_line {
@@ -26,13 +26,13 @@ namespace parsers::csv_rw_route {
 	};
 
 	preprocessed_lines process_include_directives(const std::string& filename,
-	                                              core::datatypes::rng& rng,
+	                                              bve::core::datatypes::rng& rng,
 	                                              errors::multi_error_t& errors,
 	                                              file_type ft,
 	                                              const find_relative_file_func& get_abs_path);
 
 	void preprocess_file(preprocessed_lines& lines,
-	                     core::datatypes::rng& rng,
+	                     bve::core::datatypes::rng& rng,
 	                     errors::multi_error_t& errors,
 	                     file_type ft);
 
@@ -160,7 +160,8 @@ namespace parsers::csv_rw_route {
 	                                errors::multi_error_t& errors,
 	                                const find_relative_file_func& get_abs_path);
 
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route
 
-std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction& i);
-std::ostream& operator<<(std::ostream& os, const parsers::csv_rw_route::instruction_list& list);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::instruction& i);
+std::ostream& operator<<(std::ostream& os,
+                         const bve::parsers::csv_rw_route::instruction_list& list);

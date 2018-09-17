@@ -2,7 +2,7 @@
 #include <sstream>
 #include <tl/optional.hpp>
 
-namespace parsers::function_scripts {
+namespace bve::parsers::function_scripts {
 	namespace {
 		// See function_script_grammar.bnf for the grammar this parser is
 		// following
@@ -226,4 +226,4 @@ namespace parsers::function_scripts {
 		}
 		return ret_tree;
 	}
-} // namespace parsers::function_scripts
+} // namespace bve::parsers::function_scripts

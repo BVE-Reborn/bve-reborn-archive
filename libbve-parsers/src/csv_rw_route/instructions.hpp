@@ -7,7 +7,7 @@
 #include <tl/optional.hpp>
 #include <vector>
 
-namespace parsers::csv_rw_route::instructions {
+namespace bve::parsers::csv_rw_route::instructions {
 
 	struct instruction_base {
 		std::size_t file_index = 0;
@@ -167,7 +167,7 @@ namespace parsers::csv_rw_route::instructions {
 		};
 
 		struct start_time {
-			core::datatypes::time time;
+			bve::core::datatypes::time time;
 			std::size_t file_index = 0;
 			std::size_t line = 0;
 			float absolute_position = -1;
@@ -181,11 +181,11 @@ namespace parsers::csv_rw_route::instructions {
 		};
 
 		struct ambiant_light : instruction_base {
-			core::datatypes::color8_rgb color = {160, 160, 160};
+			bve::core::datatypes::color8_rgb color = {160, 160, 160};
 		};
 
 		struct directional_light : instruction_base {
-			core::datatypes::color8_rgb color = {160, 160, 160};
+			bve::core::datatypes::color8_rgb color = {160, 160, 160};
 		};
 
 		struct light_direction : instruction_base {
@@ -460,8 +460,8 @@ namespace parsers::csv_rw_route::instructions {
 			std::string arrival_sound;
 			std::string departure_sound;
 			std::size_t timetable_index = 0;
-			core::datatypes::time arrival = 0;
-			core::datatypes::time departure = 0;
+			bve::core::datatypes::time arrival = 0;
+			bve::core::datatypes::time departure = 0;
 			float stop_duration = 15;
 			float passenger_ratio = 100;
 			bool pass_alarm = false;
@@ -621,7 +621,7 @@ namespace parsers::csv_rw_route::instructions {
 			float starting_distance = 0;
 			// UnitOfLength
 			float ending_distance = 0;
-			core::datatypes::color8_rgb color = {128, 128, 128};
+			bve::core::datatypes::color8_rgb color = {128, 128, 128};
 		};
 
 		struct brightness : instruction_base {
@@ -661,7 +661,7 @@ namespace parsers::csv_rw_route::instructions {
 		};
 
 		struct pre_train : instruction_base {
-			core::datatypes::time time;
+			bve::core::datatypes::time time;
 		};
 
 		struct announce : instruction_base {
@@ -680,4 +680,4 @@ namespace parsers::csv_rw_route::instructions {
 
 		struct buffer : instruction_base {};
 	} // namespace track
-} // namespace parsers::csv_rw_route::instructions
+} // namespace bve::parsers::csv_rw_route::instructions

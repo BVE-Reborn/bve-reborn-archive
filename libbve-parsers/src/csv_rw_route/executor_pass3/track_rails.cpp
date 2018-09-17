@@ -1,7 +1,7 @@
 #include "executor_pass3.hpp"
 #include <sstream>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::add_rail_objects_up_to_position(rail_state& state,
 	                                                     float const position) const {
 		if (!state.active) {
@@ -12,8 +12,9 @@ namespace parsers::csv_rw_route {
 		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_position = track_position_at(float(pos));
 			auto const object_location =
-			    core::math::position_from_offsets(track_position.position, track_position.tangent,
-			                                      state.x_offset, state.y_offset);
+			    bve::core::math::position_from_offsets(track_position.position,
+			                                           track_position.tangent, state.x_offset,
+			                                           state.y_offset);
 
 			auto filename_iter_optional =
 			    get_cycle_filename_index(cycle_rail_mapping_, object_rail_mapping_,
@@ -132,4 +133,4 @@ namespace parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::adhesion& inst) const {
 		route_data_.adheason.emplace_back<rail_adheason_info>({inst.absolute_position, inst.value});
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

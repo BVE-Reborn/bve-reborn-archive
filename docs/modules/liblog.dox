@@ -1,10 +1,10 @@
 /*!
-@defgroup liblog liblog
+@defgroup libbve-log libbve-log
 \brief Thread-Safe Logging Library.
 
-This is a simple thread-safe logging library to make logging things easier. It internally uses the wonderful <a href="https://github.com/fmtlib/fmt/tree/6ebc1a967d9a54f8209b3c415039aff3979dd762">fmt</a> library to do string formatting internally. Therefore you can use the logger just like you would use fmt, and it works as expected. It also uses fmt's compile time parsing of format strings to speed logging. 
+This is a simple thread-safe logging library to make logging things easier. It internally uses the wonderful <a href="https://github.com/fmtlib/fmt/tree/6ebc1a967d9a54f8209b3c415039aff3979dd762">fmt</a> library to do string formatting internally. Therefore you can use the bve::log just like you would use fmt, and it works as expected. It also uses fmt's compile time parsing of format strings to speed logging. 
 
-::LOG is the main macro that does the logging. `severity` is the unqualified name of one of the \link logger::severity severity \endlink enum values. All severity at or above \link logger::severity::note note \endlink are printed by default. If this needs to be changed used \link logger::set_visible_severity set_visible_severity \endlink. \link logger::severity::debug debug \endlink messages can only be printed if \ref LIBLOG_DEBUG is defined. If \ref LIBLOG_DEBUG is defined, it also includes much more debugging information in the message.
+::LOG is the main macro that does the logging. `severity` is the unqualified name of one of the \link bve::log::severity severity \endlink enum values. All severity at or above \link bve::log::severity::note note \endlink are printed by default. If this needs to be changed use \link bve::log::set_visible_severity set_visible_severity\endlink. \link bve::log::severity::debug debug \endlink messages can only be printed if \ref LIBBVE_LOG_DEBUG is defined. If \ref LIBBVE_LOG_DEBUG is defined, it also includes much more debugging information in the message.
 
 <h2>Examples</h2>
 
@@ -21,7 +21,7 @@ you would get an output that looks like this:
 2018.06.06 16:54.678: Warning: MyLibrary has a problem. See github.com.
 \endcode
 
-If you were to enable LIBLOG_DEBUG, you would get an output of:
+If you were to enable \ref LIBBVE_LOG_DEBUG, you would get an output of:
 
 \code
 2018.06.06 16:54.678: C:/build/mylib/mylib.cpp:63: Warning: MyLibrary has a problem. See github.com.

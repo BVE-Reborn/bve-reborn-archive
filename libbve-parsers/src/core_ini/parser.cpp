@@ -2,7 +2,7 @@
 #include "utils.hpp"
 #include <algorithm>
 
-namespace parsers::ini {
+namespace bve::parsers::ini {
 	parsed_ini_object parse(const std::string& file_string) {
 		auto begin = file_string.begin();
 		auto const end = file_string.end();
@@ -56,4 +56,4 @@ namespace parsers::ini {
 
 		return pio;
 	}
-} // namespace parsers::ini
+} // namespace bve::parsers::ini

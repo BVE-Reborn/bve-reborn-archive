@@ -6,7 +6,7 @@
 #include <map>
 #include <sstream>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	/////////////////////////////////////////////
 	// Argument/Indices Count Helper Functions //
 	/////////////////////////////////////////////
@@ -240,4 +240,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_announce(const inst_info& /*inst*/);
 	instruction create_instruction_track_doppler(const inst_info& /*inst*/);
 	instruction create_instruction_track_buffer(const inst_info& /*inst*/);
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

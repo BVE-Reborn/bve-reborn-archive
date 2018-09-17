@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 #include <gsl/gsl_util>
 
-namespace parsers::csv_rw_route::instruction_generation {
+namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_cycle_ground(const line_splitting::instruction_info& inst) {
 		indices_at_least(inst, 1, "Cycle.Ground");
 		args_at_least(inst, 1, "Cycle.Ground");
@@ -37,4 +37,4 @@ namespace parsers::csv_rw_route::instruction_generation {
 
 		return r;
 	}
-} // namespace parsers::csv_rw_route::instruction_generation
+} // namespace bve::parsers::csv_rw_route::instruction_generation

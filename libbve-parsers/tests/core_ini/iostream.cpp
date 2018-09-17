@@ -7,19 +7,19 @@ using namespace std::string_literals;
 TEST_SUITE_BEGIN("libparsers - core_ini");
 
 TEST_CASE("libparsers - core_ini - iostream") {
-	parsers::ini::parsed_ini_object const test_input{{
-	                                                     ""s,                     //
-	                                                     {{"hello"s, 1}},         //
-	                                                     {{"key"s, "value"s, 2}}, //
-	                                                     0                        //
-	                                                 },
-	                                                 {
-	                                                     "sec1"s,                     //
-	                                                     {{"world"s, 3}, {"hi"s, 5}}, //
-	                                                     {{"key1"s, "value"s, 4},
-	                                                      {"key2"s, "value"s, 6}}, //
-	                                                     3                         //
-	                                                 }};
+	bve::parsers::ini::parsed_ini_object const test_input{{
+	                                                          ""s,                     //
+	                                                          {{"hello"s, 1}},         //
+	                                                          {{"key"s, "value"s, 2}}, //
+	                                                          0                        //
+	                                                      },
+	                                                      {
+	                                                          "sec1"s,                     //
+	                                                          {{"world"s, 3}, {"hi"s, 5}}, //
+	                                                          {{"key1"s, "value"s, 4},
+	                                                           {"key2"s, "value"s, 6}}, //
+	                                                          3                         //
+	                                                      }};
 
 	std::ostringstream output;
 

@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::route::comment& inst) const {
 		route_data_.comment = inst.text;
 	}
@@ -151,4 +151,4 @@ namespace parsers::csv_rw_route {
 		route_data_.lighting[0].light_direction.y = -std::sin(inst.theta);
 		route_data_.lighting[0].light_direction.z = std::cos(inst.theta) * std::cos(inst.phi);
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

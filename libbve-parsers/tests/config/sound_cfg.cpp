@@ -7,8 +7,8 @@
 
 using namespace std::string_literals;
 
-namespace sound_cfg = parsers::config::sound_cfg;
-namespace errors = parsers::errors;
+namespace sound_cfg = bve::parsers::config::sound_cfg;
+namespace errors = bve::parsers::errors;
 
 TEST_SUITE_BEGIN("libparsers - config - sound");
 

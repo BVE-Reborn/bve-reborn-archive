@@ -35,9 +35,9 @@ BSF is handled by `dependencies/bsf.cmake`
 
 The namespace for the library `libbve-X` will be `bve::X::`. So `libbve-core` will become `bve::core::`
 
-- [libbve-core](\ref bvereborn) - Central support libraries. Commonly used math functions as well as other hard to place utility functions.
-- [libbve-log](\ref liblog/include/log.hpp) - Thread-safe logging library
-- [libbve-parsers](\ref ::parsers) - Contains easy to use parsers all formats dealt with in the program. Also includes helper functions for dealing with files and parsing.
+- [libbve-core](\ref bve::core) - Central support libraries. Commonly used math functions as well as other hard to place utility functions.
+- [libbve-log](\ref libbve-log) - Thread-safe logging library
+- [libbve-parsers](\ref bve::parsers) - Contains easy to use parsers all formats dealt with in the program. Also includes helper functions for dealing with files and parsing.
 - libbve-load - Higher level loading library, loading whole routes/trains instead of individual files.
 
 

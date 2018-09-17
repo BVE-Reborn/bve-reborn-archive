@@ -1,7 +1,7 @@
 #include "executor_pass3.hpp"
 #include <sstream>
 
-namespace parsers::csv_rw_route {
+namespace bve::parsers::csv_rw_route {
 	void pass3_executor::operator()(const instructions::track::free_obj& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
@@ -87,8 +87,9 @@ namespace parsers::csv_rw_route {
 		     pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_position = track_position_at(float(pos));
 			auto const object_location =
-			    core::math::position_from_offsets(track_position.position, track_position.tangent,
-			                                      state.x_offset, state.y_offset);
+			    bve::core::math::position_from_offsets(track_position.position,
+			                                           track_position.tangent, state.x_offset,
+			                                           state.y_offset);
 
 			rail_object_info i;
 			i.filename = object_mapping_iter->second;
@@ -355,8 +356,8 @@ namespace parsers::csv_rw_route {
 			rail_object_info roi;
 			roi.filename = *filename_iter_optional;
 			roi.position =
-			    core::math::position_from_offsets(track_location.position, track_location.tangent,
-			                                      0, -ground_height);
+			    bve::core::math::position_from_offsets(track_location.position,
+			                                           track_location.tangent, 0, -ground_height);
 			roi.rotation = glm::vec3(0);
 			route_data_.objects.emplace_back(roi);
 		}
@@ -383,4 +384,4 @@ namespace parsers::csv_rw_route {
 
 		state.ground_index = inst.ground_structure_index;
 	}
-} // namespace parsers::csv_rw_route
+} // namespace bve::parsers::csv_rw_route

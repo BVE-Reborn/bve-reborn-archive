@@ -8,7 +8,7 @@
 
 using namespace std::string_literals;
 
-namespace parsers::config::sound_cfg {
+namespace bve::parsers::config::sound_cfg {
 	namespace {
 		/**
 		 * \brief Checks if the version number in the section is 1.0 exactly. If it isn't complains.
@@ -1233,4 +1233,4 @@ namespace parsers::config::sound_cfg {
 
 		return psc;
 	}
-} // namespace parsers::config::sound_cfg
+} // namespace bve::parsers::config::sound_cfg
