@@ -34,4 +34,4 @@
 	branch = master
 [submodule "optional"]
 	path = dependencies/optional
-	url = git@github.com:TartanLlama/optional.git
+	url = https://github.com/TartanLlama/optional.git
