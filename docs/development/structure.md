@@ -6,15 +6,7 @@ BVE-Reborn is composed of libraries that provide the common functionallity betwe
 
 # Dependencies {#dev-structure-dependencies}
 
-We use many different dependencies, which are all held in the dependencies folder as submodules. There is currently a single binary dependency - boost - which can be built by the dependency building script. See more at \ref dev-building. 
-
-## Binary
-
-All binary dependencies are handled by `dependencies/binary.cmake`
-
-- [boost::optional](https://www.boost.org/doc/libs/1_64_0/libs/optional/doc/html/index.html) - Represents the possibility of a value. Used for places where a value not being set is acceptable.
-- [boost::filesystem](https://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm) - Provides for many helpful functions for interacting with the filesystem in a sane way. Almost identical to the C++17 library [std::filesystem](https://en.cppreference.com/w/cpp/filesystem).
-- [boost::regex](https://en.cppreference.com/w/cpp/regex) - Almost identical to std::regex but with a consistent, faster implementation. Use the std::regex documentation. 
+We use many different dependencies, which are all held in the dependencies folder as submodules.
 
 ## Submodules
 
@@ -41,12 +33,12 @@ BSF is handled by `dependencies/bsf.cmake`
 
 # Libraries {#dev-structure-libraries}
 
-The actual binary names of each library will be `libbve-X`. So `libcore` will become `libbve-core`. The namespace for the library `libX` will be `X::`. So `libcore` will become `core::`
+The namespace for the library `libbve-X` will be `bve::X::`. So `libbve-core` will become `bve::core::`
 
-- [libcore](\ref bvereborn) - Central support libraries. Commonly used math functions as well as other hard to place utility functions.
-- [liblog](\ref liblog/include/log.hpp) - Thread-safe logging library
-- [libparsers](\ref ::parsers) - Contains easy to use parsers all formats dealt with in the program. Also includes helper functions for dealing with files and parsing.
-- libload - Higher level loading library, loading whole routes/trains instead of individual files.
+- [libbve-core](\ref bvereborn) - Central support libraries. Commonly used math functions as well as other hard to place utility functions.
+- [libbve-log](\ref liblog/include/log.hpp) - Thread-safe logging library
+- [libbve-parsers](\ref ::parsers) - Contains easy to use parsers all formats dealt with in the program. Also includes helper functions for dealing with files and parsing.
+- libbve-load - Higher level loading library, loading whole routes/trains instead of individual files.
 
 
 ---
@@ -57,4 +49,4 @@ The actual binary names of each library will be `libbve-X`. So `libcore` will be
 
 # Test Runner {#dev-structure-testrunner}
 
-- test_main - Main entry point to all the tests throughout the program.
+- test_main - Main entry point to all the tests throughout the program.\

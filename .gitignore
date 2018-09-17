@@ -5,8 +5,7 @@ CMakeLists.txt.user*
 
 dependencies/binary
 
-libparsers/tests/simple_tests/test_files/*
-!libparsers/tests/test_files/README.md
+libparsers/tests_old/test_files/
 
 cmake-build*/
 

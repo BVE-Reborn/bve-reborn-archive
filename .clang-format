@@ -24,12 +24,13 @@ BreakStringLiterals: true
 ColumnLimit: 100
 CommentPragmas: '^(\\.+)|( NOLINT(NEXTLINE)?)'
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
+FixNamespaceComments: true
 IndentCaseLabels: true
 IndentPPDirectives: AfterHash
 IndentWidth: 4
 KeepEmptyLinesAtTheStartOfBlocks: false
 Language: Cpp
-NamespaceIndentation: Inner
+NamespaceIndentation: All 
 PenaltyBreakBeforeFirstCallParameter: 1000
 PenaltyBreakComment: 150
 PenaltyBreakString: 150
