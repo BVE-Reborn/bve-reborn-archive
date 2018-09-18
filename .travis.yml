@@ -104,12 +104,9 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - LINKER='LD'
-    - CC=gcc-8
-    - CXX=g++8
-    - TYPE=Release
+    - MATRIX_EVAL="Coverage='On' && CC='gcc-8' && CXX='g++-8' && TYPE='Debug'"
     install:
-    - export LINKER CC CXX TYPE
+    - eval "${MATRIX_EVAL}"
     - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
@@ -165,6 +162,7 @@ matrix:
       && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
+    - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja

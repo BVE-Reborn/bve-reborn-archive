@@ -42,7 +42,7 @@ if(BVEREBORN_MAC)
 		INTERFACE_LINK_LIBRARIES "c++experimental"
 	)
 elseif(BVEREBORN_LINUX)
-	set_target_properties(tl::optional PROPERTIES
+	set_target_properties(std::filesystem PROPERTIES
 		INTERFACE_LINK_LIBRARIES "stdc++fs"
 	)
 endif()
