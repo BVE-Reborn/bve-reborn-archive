@@ -58,7 +58,7 @@ file(GLOB_RECURSE OLD_TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${C
 lint(FILES ${OLD_TEST_SOURCES})
 format(FILES ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS})
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests_old/old_tests_config.hpp.in
+configure_file(tests_old/old_tests_config.hpp.in
                old_tests_config.hpp)
 
 set(CMAKE_INCLUDE_CURRENT_DIR True)

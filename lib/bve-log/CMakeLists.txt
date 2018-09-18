@@ -26,7 +26,7 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE
 file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.hpp")
 
 add_library(bve-log-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
-target_include_directories(bve-log-test PUBLIC ../libparsers/src)
+target_include_directories(bve-log-test PUBLIC ../bve-parsers/src)
 target_link_libraries(bve-log-test PUBLIC bve-log bve-core)
 target_link_libraries(bve-log-test PUBLIC Threads::Threads gsl::gsl)
 

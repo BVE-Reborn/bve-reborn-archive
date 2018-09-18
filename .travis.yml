@@ -15,20 +15,20 @@ matrix:
     env:
     - Documentation=On
     before_install:
-    - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in ${TRAVIS_BUILD_DIR}/tools/travis/travis_ci_rsa.enc -out ${TRAVIS_BUILD_DIR}/tools/travis/travis_ci_rsa -d
+    - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in ${TRAVIS_BUILD_DIR}/util/travis/travis_ci_rsa.enc -out ${TRAVIS_BUILD_DIR}/util/travis/travis_ci_rsa -d
     install:
-    - export DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
+    - export DEPS_DIR="${TRAVIS_BUILD_DIR}/extern/binary/bin"
     - mkdir -p ${DEPS_DIR}
-    - bash tools/travis/build_doxygen.sh
+    - bash util/travis/build_doxygen.sh
     # - pip3 install --user pygments sphinx
-    - export PATH="${TRAVIS_BUILD_DIR}/dependencies/binary/bin/doxygen-install/bin/:$PATH"
+    - export PATH="${TRAVIS_BUILD_DIR}/extern/binary/bin/doxygen-install/bin/:$PATH"
     script:
     - export PATH=$(python3 -m site --user-base)/bin:$PATH
     - "./docs.sh ../docs-build"
     deploy:
     - provider: script
       skip_cleanup: true
-      script: bash tools/travis/deploy_docs.sh
+      script: bash util/travis/deploy_docs.sh
       on:
         all_branches: true
 
@@ -39,7 +39,8 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
-        - gcc-7
+        - gcc-8
+        - g++-8
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -49,15 +50,15 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="Coverage='On' && CXX='g++' && TYPE='Debug'"
+    - MATRIX_EVAL="Coverage='On' && CXX='g++-8' && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
     - pip install --user cpp-coveralls
-    - bash ./tools/travis/linux_deps.sh
+    - bash ./util/travis/linux_deps.sh
     - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On
       -GNinja"
     after_success:
-    - coveralls --gcov gcov-7 -e dependencies -e libparsers/tests -e test_main -E
+    - coveralls --gcov gcov-7 -e extern -e libparsers/tests -e test_main -E
       '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
   - os: linux
@@ -67,6 +68,8 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
+        - gcc-8
+        - g++-8
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -76,10 +79,10 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='RelWithDebInfo'"
+    - MATRIX_EVAL="LINKER='LD' && CXX=g++-8 && TYPE='RelWithDebInfo'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./tools/travis/linux_deps.sh
+    - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
       -GNinja
 
@@ -90,6 +93,8 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
+        - gcc-8
+        - g++-8
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -99,10 +104,10 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LD' && CXX=g++ && TYPE='Release'"
+    - MATRIX_EVAL="LINKER='LD' && CXX=g++-8 && TYPE='Release'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./tools/travis/linux_deps.sh
+    - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
   - os: linux
@@ -114,7 +119,7 @@ matrix:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty-6.0
         packages:
-        - libstdc++-7-dev
+        - libstdc++-8-dev
         - clang-6.0
         - libgl1-mesa-dev
         - libglu1-mesa-dev
@@ -129,7 +134,7 @@ matrix:
       && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./tools/travis/linux_deps.sh
+    - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On
       -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
@@ -142,7 +147,7 @@ matrix:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty-6.0
         packages:
-        - libstdc++-7-dev
+        - libstdc++-8-dev
         - clang-6.0
         - libgl1-mesa-dev
         - libglu1-mesa-dev
@@ -157,7 +162,7 @@ matrix:
       && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./tools/travis/linux_deps.sh
+    - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
@@ -172,21 +177,9 @@ matrix:
     - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in tools/travis/travis_ci_rsa.enc -out tools/travis/travis_ci_rsa -d
-- DEPS_DIR="${TRAVIS_BUILD_DIR}/dependencies/binary/bin"
+- openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in util/travis/travis_ci_rsa.enc -out util/travis/travis_ci_rsa -d
+- DEPS_DIR="${TRAVIS_BUILD_DIR}/extern/binary/bin"
 - mkdir -p ${DEPS_DIR}
-- |
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    GCC_URL="https://bsfproxy.connorwfitzgerald.com/bsf/gcc-7.1-trusty.zip"
-    cd ${DEPS_DIR}
-    mkdir gcc
-    cd gcc
-    wget --no-check-certificate -q ${GCC_URL}
-    unzip -q gcc-7.1-trusty.zip
-    export PATH=${DEPS_DIR}/gcc/bin:$PATH
-    export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=${DEPS_DIR}/gcc/lib64:$LD_LIBRARY_PATH
-  fi
 - |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/bsf/binutils-2.28-trusty.zip"
@@ -212,5 +205,5 @@ before_install:
 - mkdir -p build
 script:
 - ninja -j2
-- UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/tools/travis/ubsan.supp"
-  LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/tools/travis/lsan.supp" bin/test_main
+- UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/util/travis/ubsan.supp"
+  LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/util/travis/lsan.supp" bin/test_main

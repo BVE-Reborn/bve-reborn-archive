@@ -1,5 +1,5 @@
 ###############
-# libbve-core #
+# ibbve-core #
 ###############
 
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")

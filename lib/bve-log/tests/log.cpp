@@ -213,4 +213,4 @@ TEST_CASE("liblog - changes to current severity should be thread safe.") {
 	log::current_severity.set(log::severity::note);
 }
 
-#endif 0
+#endif

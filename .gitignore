@@ -3,9 +3,7 @@ build*/
 
 CMakeLists.txt.user*
 
-dependencies/binary
-
-libparsers/tests_old/test_files/
+lib/bve-parsers/tests_old/test_files
 
 cmake-build*/
 

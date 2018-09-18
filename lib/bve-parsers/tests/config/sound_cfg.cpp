@@ -497,7 +497,7 @@ DUPLICATE_KEY_TEST_INDEXED(motor)
 DUPLICATE_KEY_TEST_INDEXED(switch)
 DUPLICATE_KEY_TEST_INDEXED(ats)
 
-DUPLICATE_KEY_TEST(brake, emergency, result.brake_sounds.emergency);
+DUPLICATE_KEY_TEST(brake, emergency, result.brake_sounds.emergency)
 DUPLICATE_KEY_TEST(compressor, attack, result.compressor_sounds.attack)
 DUPLICATE_KEY_TEST(suspension, left, result.suspension_sounds.left)
 DUPLICATE_KEY_TEST(horn,

@@ -47,6 +47,18 @@ elseif(BVEREBORN_LINUX)
 	)
 endif()
 
+
+function(make_target_includes_system target)
+	get_target_property(INTERFACE_INCLUDES ${target} INTERFACE_INCLUDE_DIRECTORIES)
+	get_target_property(PUBLIC_INCLUDES ${target} PUBLIC_INCLUDE_DIRECTORIES)
+	if(INTERFACE_INCLUDES)
+		target_include_directories(${target} SYSTEM BEFORE INTERFACE ${INTERFACE_INCLUDES})
+	endif()
+	if(PUBLIC_INCLUDES)
+		target_include_directories(${target} SYSTEM BEFORE PUBLIC ${PUBLIC_INCLUDES})
+	endif()
+endfunction()
+
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/fmt)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 if(WIN32)
@@ -54,6 +66,8 @@ if(WIN32)
 else()
 	target_compile_options(fmt PRIVATE "-fPIC")
 endif()
+
+make_target_includes_system(fmt)
 
 find_package(Sanitizers)
 

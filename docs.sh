@@ -30,6 +30,6 @@ echo "OUTPUT_DIRECTORY = $DEST" >> "$DEST/Doxyfile"
 doxygen "$DEST/Doxyfile"
 # $DOXYREST/bin/doxyrest "$DEST/doxy-xml/xml/index.xml" -o "$DEST/sphinx-rst/index.rst" -F "$DOXYREST/share/doxyrest/frame" -f c_index.rst.in -D g_introFile=page_index.rst -D g_escapeAsterisks -D "g_indexTitle=BVE-Reborn documentation and manual"
 # echo
-# cp $(find . -name '*.png' | grep -v dependencies) "$DEST/sphinx-rst/"
+# cp $(find . -name '*.png' | grep -v extern) "$DEST/sphinx-rst/"
 # cp docs/sphinx-conf.py "$DEST/sphinx-rst/conf.py"
 # sphinx-build -q -j $(($(nproc) + 1)) -b html "$DEST/sphinx-rst" "$DEST/html"

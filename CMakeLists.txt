@@ -3,7 +3,7 @@ project(BVE-Reborn C CXX)
 
 find_package(Threads REQUIRED)
 
-include(tools/cmake/config.cmake)
+include(util/cmake/config.cmake)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -23,10 +23,10 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release) 
 endif() 
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dependencies/cotire/CMake 
-                                           ${CMAKE_SOURCE_DIR}/dependencies/cmake
-                                           ${CMAKE_SOURCE_DIR}/dependencies/cmake-utils/include
-                                           ${CMAKE_SOURCE_DIR}/dependencies)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
+                                           ${CMAKE_SOURCE_DIR}/extern/cmake
+                                           ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
+                                           ${CMAKE_SOURCE_DIR}/extern)
 
 include(bsf)
 
@@ -71,9 +71,9 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 # TODO: Fix Warning Propagation
 add_warnings()
 
-add_linted_subdirectory(libbve-core)
-add_linted_subdirectory(libbve-log)
-add_linted_subdirectory(libbve-parsers)
-add_linted_subdirectory(test-runner)
+add_linted_subdirectory(lib/bve-core)
+add_linted_subdirectory(lib/bve-log)
+add_linted_subdirectory(lib/bve-parsers)
+add_linted_subdirectory(src/test-runner)
 
 configure_linter()

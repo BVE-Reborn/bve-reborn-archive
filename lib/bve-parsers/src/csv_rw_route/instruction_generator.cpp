@@ -1,4 +1,4 @@
-#include "instruction_generation/instruction_generator.hpp"
+#include "src/csv_rw_route/instruction_generation/instruction_generator.hpp"
 #include "csv_rw_route.hpp"
 #include "utils.hpp"
 #include <algorithm>
