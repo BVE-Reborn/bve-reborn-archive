@@ -25,7 +25,7 @@ set_target_properties(doctest::doctest PROPERTIES
 
 add_library(gsl::gsl INTERFACE IMPORTED)
 set_target_properties(gsl::gsl PROPERTIES
-	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/cpp_guidelines_support_library/include"
+	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/gsl/include"
 	INTERFACE_COMPILE_FEATURES cxx_std_17
 	INTERFACE_COMPILE_DEFINITIONS "GSL_THROW_ON_CONTRACT_VIOLATION"
 )

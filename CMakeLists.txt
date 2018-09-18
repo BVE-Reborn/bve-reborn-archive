@@ -42,10 +42,10 @@ endif()
 
 include(clang_format)
 include(cotire)
+include(extern)
 include(linker_support)
 include(linter)
 include(meta_features)
-include(targets)
 include(warnings)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)

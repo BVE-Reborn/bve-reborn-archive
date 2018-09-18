@@ -20,7 +20,7 @@
 	path = extern/cotire
 	url = https://github.com/sakra/cotire.git
 [submodule "cpp_guidelines_support_library"]
-	path = extern/cpp_guidelines_support_library
+	path = extern/gsl
 	url = https://github.com/Microsoft/GSL.git
 [submodule "rapidxml_ns"]
 	path = extern/rapidxml_ns

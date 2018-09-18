@@ -50,7 +50,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="Coverage='On' && CXX='g++-8' && TYPE='Debug'"
+    - MATRIX_EVAL="Coverage='On' && CC=gcc-8 && CXX='g++-8' && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
     - pip install --user cpp-coveralls
@@ -58,7 +58,7 @@ matrix:
     - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On
       -GNinja"
     after_success:
-    - coveralls --gcov gcov-7 -e extern -e libparsers/tests -e test_main -E
+    - coveralls --gcov gcov-8 -e extern -e libparsers/tests -e test_main -E
       '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
   - os: linux
@@ -79,7 +79,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LD' && CXX=g++-8 && TYPE='RelWithDebInfo'"
+    - MATRIX_EVAL="LINKER='LD' && CC=gcc-8 && CXX=g++-8 && TYPE='RelWithDebInfo'"
     install:
     - eval "${MATRIX_EVAL}"
     - bash ./util/travis/linux_deps.sh
@@ -104,7 +104,10 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LD' && CXX=g++-8 && TYPE='Release'"
+    - LINKER='LD'
+    - CC=gcc-8
+    - CXX=g++8
+    - TYPE=Release
     install:
     - eval "${MATRIX_EVAL}"
     - bash ./util/travis/linux_deps.sh
@@ -162,7 +165,6 @@ matrix:
       && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
-    - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
