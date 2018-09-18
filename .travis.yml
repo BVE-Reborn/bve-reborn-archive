@@ -109,7 +109,7 @@ matrix:
     - CXX=g++8
     - TYPE=Release
     install:
-    - eval "${MATRIX_EVAL}"
+    - export LINKER CC CXX TYPE
     - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
@@ -175,7 +175,6 @@ matrix:
     - brew update
     - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
     - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
-    - bash ./build-deps-unix.sh
     - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
 before_install:
@@ -208,4 +207,4 @@ before_install:
 script:
 - ninja -j2
 - UBSAN_OPTIONS="print_stacktrace=1:suppressions=${TRAVIS_BUILD_DIR}/util/travis/ubsan.supp"
-  LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/util/travis/lsan.supp" bin/test_main
+  LSAN_OPTIONS=suppressions="${TRAVIS_BUILD_DIR}/util/travis/lsan.supp" bin/tests
