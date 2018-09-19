@@ -14,7 +14,7 @@ namespace bve::parsers::csv_rw_route {
 	// Background.Load Subcalls //
 	//////////////////////////////
 
-	void pass3_executor::background_load_xml(const instructions::texture::background_load& inst) {
+	void pass3_executor::background_load_xml(const instructions::texture::BackgroundLoad& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
 		parsed_dynamic_background bround;
@@ -48,7 +48,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::background_load_image(const instructions::texture::background_load& inst) {
+	void pass3_executor::background_load_image(const instructions::texture::BackgroundLoad& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
 		auto found_iter = background_mapping_.find(inst.background_texture_index);
@@ -84,7 +84,7 @@ namespace bve::parsers::csv_rw_route {
 	// Direct Instructions //
 	/////////////////////////
 
-	void pass3_executor::operator()(const instructions::texture::background_load& inst) {
+	void pass3_executor::operator()(const instructions::texture::BackgroundLoad& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
 		// Hacky way to find the file extant of the file in order to determine
@@ -108,7 +108,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::texture::background_x& inst) {
+	void pass3_executor::operator()(const instructions::texture::BackgroundX& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
 		auto found_iter = background_mapping_.find(inst.background_texture_index);
@@ -140,7 +140,7 @@ namespace bve::parsers::csv_rw_route {
 		bround.get_unchecked<texture_vector>()[0].repetitions = inst.repetition_count;
 	}
 
-	void pass3_executor::operator()(const instructions::texture::background_aspect& inst) {
+	void pass3_executor::operator()(const instructions::texture::BackgroundAspect& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
 		auto found_iter = background_mapping_.find(inst.background_texture_index);
@@ -148,7 +148,7 @@ namespace bve::parsers::csv_rw_route {
 		if (found_iter == background_mapping_.end()) {
 			texture_background_info tbi;
 			tbi.from_xml = false;
-			tbi.preserve_aspect = inst.mode == instructions::texture::background_aspect::aspect;
+			tbi.preserve_aspect = inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
 			background_mapping_.insert(
 			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
 			return;
@@ -170,6 +170,6 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		bround.get_unchecked<texture_vector>()[0].preserve_aspect =
-		    inst.mode == instructions::texture::background_aspect::aspect;
+		    inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
 	}
 } // namespace bve::parsers::csv_rw_route

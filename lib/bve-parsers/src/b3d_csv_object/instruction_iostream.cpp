@@ -118,10 +118,10 @@ namespace bve::parsers::b3d_csv_object::instructions {
 	std::ostream& operator<<(std::ostream& os, const set_blend_mode& rhs) {
 		os << "(SetBlendMode, line = " << rhs.line << ", " //
 		   << "BlendMode = "
-		   << (rhs.blend_mode == mesh_t::blend_mode_t::normal ? "Normal"s : "Additive"s) << ", "
+		   << (rhs.blend_mode == Mesh::blend_mode_t::normal ? "Normal"s : "Additive"s) << ", "
 		   << "GlowHalfDistance = " << rhs.glow_half_distance << ", "
 		   << "GlowAttenuationMode = "
-		   << (rhs.glow_attenuation_mode == mesh_t::glow_attenuation_mode_t::divide_exponent2
+		   << (rhs.glow_attenuation_mode == Mesh::glow_attenuation_mode_t::divide_exponent2
 		           ? "DivideExponent2"s
 		           : "DivideExponent4"s)
 		   << ")";

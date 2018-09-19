@@ -158,10 +158,10 @@ namespace bve::parsers::b3d_csv_object {
 		};
 
 		struct set_blend_mode {
-			mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;
+			Mesh::blend_mode_t blend_mode = Mesh::blend_mode_t::normal;
 			std::uint16_t glow_half_distance = 0;
-			mesh_t::glow_attenuation_mode_t glow_attenuation_mode =
-			    mesh_t::glow_attenuation_mode_t::divide_exponent4;
+			Mesh::glow_attenuation_mode_t glow_attenuation_mode =
+			    Mesh::glow_attenuation_mode_t::divide_exponent4;
 
 			std::size_t line = 0;
 		};
@@ -209,20 +209,20 @@ namespace bve::parsers::b3d_csv_object {
 		std::ostream& operator<<(std::ostream& os, const set_texture_coordinates& rhs);
 
 		struct parsed_csv_object_builder {
-			parsed_b3d_csv_object_t pso;
+			ParsedB3DCSVObject pso;
 
 			// More data is needed for the faces before we convert them to
 			// internal format all of this data has to be consistant within an
 			// internal mesh, so part of the parsing process is to split up
 			// based on this data.
-			struct extended_face_data_t : face_data_t {
+			struct extended_face_data_t : FaceData {
 				std::string texture;
 				bve::core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
-				mesh_t::blend_mode_t blend_mode = mesh_t::blend_mode_t::normal;
-				mesh_t::glow_attenuation_mode_t glow_attenuation_mode =
-				    mesh_t::glow_attenuation_mode_t::divide_exponent4;
+				Mesh::blend_mode_t blend_mode = Mesh::blend_mode_t::normal;
+				Mesh::glow_attenuation_mode_t glow_attenuation_mode =
+				    Mesh::glow_attenuation_mode_t::divide_exponent4;
 				uint16_t glow_half_distance = 0;
 
 				bool back_visible = false;
@@ -233,7 +233,7 @@ namespace bve::parsers::b3d_csv_object {
 				extended_face_data_t data;
 			};
 
-			std::vector<vertex_t> vertices;
+			std::vector<Vertex> vertices;
 			std::vector<untriangulated_face_t> untriangulated_faces;
 
 			void add_mesh_builder();
@@ -284,5 +284,5 @@ namespace bve::parsers::b3d_csv_object {
 
 	instruction_list create_instructions(std::string text, file_type ft);
 
-	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& /*ilist*/);
+	ParsedB3DCSVObject run_csv_instructions(const instruction_list& /*ilist*/);
 } // namespace bve::parsers::b3d_csv_object

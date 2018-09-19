@@ -6,7 +6,7 @@ namespace bve::parsers::csv_rw_route {
 			auto& rail_num = state.first;
 			auto& state_val = state.second;
 
-			add_rail_objects_up_to_position(state_val, max_position);
+			addRailObjectsToPosition(state_val, max_position);
 			add_wall_objects_up_to_position(state_val, max_position, 0);
 			add_wall_objects_up_to_position(state_val, max_position, 1);
 			add_wall_objects_up_to_position(state_val, max_position, 2);

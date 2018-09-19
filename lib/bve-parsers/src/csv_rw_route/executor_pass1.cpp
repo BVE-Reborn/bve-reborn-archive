@@ -3,19 +3,19 @@
 
 namespace bve::parsers::csv_rw_route {
 	namespace {
-		class pass1_executor {
+		class Pass1Executor {
 		  private:
-			errors::multi_error_t& errors_;
+			errors::MultiError& errors_;
 			const std::vector<std::string>& filenames_;
 			float current_position_ = -1;
 			std::vector<float> current_unitoflength_ = {1, 1};
 
 		  public:
-			pass1_executor(errors::multi_error_t& e, const std::vector<std::string>& f) :
+			Pass1Executor(errors::MultiError& e, const std::vector<std::string>& f) :
 			    errors_(e),
 			    filenames_(f) {}
 
-			void operator()(instructions::naked::position& p) {
+			void operator()(instructions::naked::Position& p) {
 				if (p.distances.size() > current_unitoflength_.size()) {
 					add_error(errors_, filenames_[p.file_index], p.line,
 					          "Position has more arguments than UnitOfLength, "
@@ -30,7 +30,7 @@ namespace bve::parsers::csv_rw_route {
 				p.absolute_position = current_position_;
 			}
 
-			void operator()(instructions::options::unit_of_length& u) {
+			void operator()(instructions::options::UnitOfLength& u) {
 				current_unitoflength_ = u.factors_in_meters;
 				u.absolute_position = current_position_;
 			}
@@ -42,8 +42,8 @@ namespace bve::parsers::csv_rw_route {
 		};
 	} // namespace
 
-	void execute_instructions_pass1(instruction_list& list, errors::multi_error_t& errors) {
-		pass1_executor e(errors, list.filenames);
+	void execute_instructions_pass1(instruction_list& list, errors::MultiError& errors) {
+		Pass1Executor e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {
 			apply_visitor(e, i);

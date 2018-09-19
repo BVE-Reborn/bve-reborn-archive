@@ -13,7 +13,7 @@ namespace bve::parsers::xml::stations {
 	namespace {
 		parsed_station_marker::doors parse_doors_text(std::string const& filename,
 		                                              rapidxml_ns::xml_node<char>* doors_node,
-		                                              errors::multi_error_t& errors) {
+		                                              errors::MultiError& errors) {
 			static std::unordered_map<std::string, parsed_station_marker::doors> text_mapping{
 			    //
 			    {"left", parsed_station_marker::doors::left},
@@ -41,7 +41,7 @@ namespace bve::parsers::xml::stations {
 		request_stop_marker::behaviour parse_ai_behaviour(
 		    std::string const& filename,
 		    rapidxml_ns::xml_node<char>* ai_behaviour_node,
-		    errors::multi_error_t& errors) {
+		    errors::MultiError& errors) {
 			static std::unordered_map<std::string, request_stop_marker::behaviour> text_mapping{
 			    //
 			    {"fullspeed", request_stop_marker::behaviour::fullspeed},
@@ -106,7 +106,7 @@ namespace bve::parsers::xml::stations {
 
 		probabilities parse_probabilities_nodes(std::string const& filename,
 		                                        rapidxml_ns::xml_node<char>* parent_node,
-		                                        errors::multi_error_t& errors) {
+		                                        errors::MultiError& errors) {
 			auto* early_node = parent_node->first_node("early", 0, false);
 			auto* on_time_node = parent_node->first_node("ontime", 0, false);
 			auto* late_node = parent_node->first_node("late", 0, false);
@@ -135,7 +135,7 @@ namespace bve::parsers::xml::stations {
 				return sub_nodes;
 			}
 			// Sets the probabilities.
-			auto set_prob = [&](rapidxml_ns::xml_node<char> const* const node, std::uint8_t& prob,
+			auto const set_prob = [&](rapidxml_ns::xml_node<char> const* const node, std::uint8_t& prob,
 			                    std::string const& time) {
 				if (node != nullptr) {
 					std::intmax_t temp_prob;
@@ -173,7 +173,7 @@ namespace bve::parsers::xml::stations {
 		request_stop_marker parse_request_stop_marker(
 		    std::string const& filename,
 		    rapidxml_ns::xml_node<char>* start_node,
-		    errors::multi_error_t& errors,
+		    errors::MultiError& errors,
 		    find_relative_file_func const& /*get_relative_file*/) {
 			request_stop_marker rs;
 
@@ -260,7 +260,7 @@ namespace bve::parsers::xml::stations {
 	/////////////////////////////
 	parsed_station_marker parse_station_marker(std::string const& filename,
 	                                           rapidxml_ns::xml_node<char>* start_node,
-	                                           errors::multi_error_t& errors,
+	                                           errors::MultiError& errors,
 	                                           find_relative_file_func const& get_relative_file) {
 		parsed_station_marker sm;
 		auto* name_node = start_node->first_node("name", 0, false);
@@ -308,7 +308,7 @@ namespace bve::parsers::xml::stations {
 		}
 
 		if (red_signal_node != nullptr) {
-			std::string red_signal = util::lower_copy(get_node_value(red_signal_node));
+			std::string const red_signal = util::lower_copy(get_node_value(red_signal_node));
 			sm.force_red_signal = "true"s == red_signal;
 		}
 
@@ -340,7 +340,7 @@ namespace bve::parsers::xml::stations {
 
 		if (stop_duration_node != nullptr) {
 			try {
-				auto duration = util::parse_loose_integer(get_node_value(stop_duration_node), 15);
+				auto const duration = util::parse_loose_integer(get_node_value(stop_duration_node), 15);
 				sm.stop_duration = gsl::narrow<std::uintmax_t>(duration);
 			}
 			catch (std::exception const& e) {
@@ -358,7 +358,7 @@ namespace bve::parsers::xml::stations {
 			sm.time_table_index = gsl::narrow_cast<std::size_t>(index);
 		}
 		if (request_stop_node != nullptr) {
-			stations::request_stop_marker rs =
+			stations::request_stop_marker const rs =
 			    parse_request_stop_marker(filename, request_stop_node, errors, get_relative_file);
 			sm.request_stop = rs;
 		}
@@ -368,7 +368,7 @@ namespace bve::parsers::xml::stations {
 	// Main parse function
 	parsed_station_marker parse(std::string const& filename,
 	                            std::string input_string,
-	                            errors::multi_error_t& errors,
+	                            errors::MultiError& errors,
 	                            find_relative_file_func const& get_relative_file) {
 		rapidxml_ns::xml_document<> doc;
 		doc.parse<rapidxml_ns::parse_default>(&input_string[0]);

@@ -14,7 +14,7 @@ namespace bve::parsers::xml::route_marker {
 		///////////////////////////////
 
 		text_marker::color parse_text_color(rapidxml_ns::xml_node<char>* test_color_node,
-		                                    errors::errors_t& /*errors*/) {
+		                                    errors::Errors& /*errors*/) {
 			static std::map<std::string, text_marker::color> text_mapping{
 			    //
 			    {"black", text_marker::color::black},    {"gray", text_marker::color::gray},
@@ -40,9 +40,9 @@ namespace bve::parsers::xml::route_marker {
 
 		template <bool Early, bool Text>
 		auto parse_early_late_impl(rapidxml_ns::xml_node<char>* start_node,
-		                           errors::errors_t& errors) {
+		                           errors::Errors& errors) {
 			auto* time_node = start_node->first_node("time", 0, false);
-			auto data_node = start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
+			auto const data_node = start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 			if (time_node == nullptr || data_node == nullptr) {
 				std::string err;
@@ -91,17 +91,17 @@ namespace bve::parsers::xml::route_marker {
 			                       text_marker::color::black, using_early_late);
 		}
 
-		auto parse_text_early(rapidxml_ns::xml_node<char>* start_node, errors::errors_t& errors) {
+		auto parse_text_early(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
 			return parse_early_late_impl<true, true>(start_node, errors);
 		}
-		auto parse_text_late(rapidxml_ns::xml_node<char>* start_node, errors::errors_t& errors) {
+		auto parse_text_late(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
 			return parse_early_late_impl<false, true>(start_node, errors);
 		}
 
-		auto parse_image_early(rapidxml_ns::xml_node<char>* start_node, errors::errors_t& errors) {
+		auto parse_image_early(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
 			return parse_early_late_impl<true, false>(start_node, errors);
 		}
-		auto parse_image_late(rapidxml_ns::xml_node<char>* start_node, errors::errors_t& errors) {
+		auto parse_image_late(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
 			return parse_early_late_impl<false, false>(start_node, errors);
 		}
 
@@ -111,8 +111,8 @@ namespace bve::parsers::xml::route_marker {
 
 		template <bool Text>
 		auto parse_on_time_impl(rapidxml_ns::xml_node<char>* on_time_node,
-		                        errors::errors_t& errors) {
-			auto data_node =
+		                        errors::Errors& errors) {
+			auto const data_node =
 			    on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 			if (data_node == nullptr) {
@@ -132,11 +132,11 @@ namespace bve::parsers::xml::route_marker {
 		}
 
 		auto parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node,
-		                        errors::errors_t& errors) {
+		                        errors::Errors& errors) {
 			return parse_on_time_impl<true>(on_time_node, errors);
 		}
 		auto parse_image_on_time(rapidxml_ns::xml_node<char>* on_time_node,
-		                         errors::errors_t& errors) {
+		                         errors::Errors& errors) {
 			return parse_on_time_impl<false>(on_time_node, errors);
 		}
 
@@ -144,7 +144,7 @@ namespace bve::parsers::xml::route_marker {
 		// Parsing Distance Nodes //
 		////////////////////////////
 
-		float parse_distance(rapidxml_ns::xml_node<char>* distance_node, errors::errors_t& errors) {
+		float parse_distance(rapidxml_ns::xml_node<char>* distance_node, errors::Errors& errors) {
 			try {
 				return util::parse_loose_float(get_node_value(distance_node));
 			}
@@ -159,7 +159,7 @@ namespace bve::parsers::xml::route_marker {
 		///////////////////////////
 
 		std::intmax_t parse_timeout(rapidxml_ns::xml_node<char>* timeout_node,
-		                            errors::errors_t& errors) {
+		                            errors::Errors& errors) {
 			try {
 				auto const time = util::parse_loose_integer(get_node_value(timeout_node));
 				if (time < 0) {
@@ -179,13 +179,13 @@ namespace bve::parsers::xml::route_marker {
 		/////////////////////////
 
 		std::vector<std::string> parse_trains(rapidxml_ns::xml_node<char>* train_node,
-		                                      errors::errors_t& /*errors*/) {
+		                                      errors::Errors& /*errors*/) {
 			return util::split_text(get_node_value(train_node), ';', true);
 		}
 
 		image_marker parse_image_marker(const std::string& filename,
 		                                rapidxml_ns::xml_node<char>* start_node,
-		                                errors::multi_error_t& errors,
+		                                errors::MultiError& errors,
 		                                const find_relative_file_func& get_relative_file) {
 			image_marker marker;
 
@@ -235,7 +235,7 @@ namespace bve::parsers::xml::route_marker {
 
 		text_marker parse_text_marker(const std::string& filename,
 		                              rapidxml_ns::xml_node<char>* start_node,
-		                              errors::multi_error_t& errors,
+		                              errors::MultiError& errors,
 		                              const find_relative_file_func& /*get_relative_file*/) {
 			text_marker marker;
 
@@ -289,7 +289,7 @@ namespace bve::parsers::xml::route_marker {
 	parsed_route_marker parse(
 	    const std::string& filename,
 	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
-	    errors::multi_error_t& errors,
+	    errors::MultiError& errors,
 	    const find_relative_file_func& get_relative_file) {
 		rapidxml_ns::xml_document<> doc;
 		doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
@@ -305,7 +305,7 @@ namespace bve::parsers::xml::route_marker {
 		}
 
 		auto const primary_node_name = get_node_name(primary_node);
-		auto primary_node_name_lower = util::lower_copy(primary_node_name);
+		auto const primary_node_name_lower = util::lower_copy(primary_node_name);
 
 		auto const is_image_marker = primary_node_name_lower == "imagemarker"s;
 		auto const is_text_marker = primary_node_name_lower == "textmarker"s;

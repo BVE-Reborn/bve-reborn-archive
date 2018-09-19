@@ -22,7 +22,7 @@ namespace bve::parsers::ini {
 				// parse section header
 				if (line[0] == '[') {
 					auto const end_section_header = std::find(line.begin() + 1, line.end(), ']');
-					ini_section_t sec;
+					INISection sec;
 					sec.name = std::string(line.begin() + 1, end_section_header);
 					sec.line = line_number;
 					pio.emplace_back(sec);
@@ -32,11 +32,11 @@ namespace bve::parsers::ini {
 					auto const equals_iter = std::find(line.begin(), line.end(), '=');
 					// Non equals declaration
 					if (equals_iter == line.end()) {
-						pio.back().values.emplace_back(value_t{line, line_number});
+						pio.back().values.emplace_back(Value{line, line_number});
 					}
 					// Equals declaration
 					else {
-						kvp_t key_value;
+						KeyValuePair key_value;
 
 						key_value.key = std::string(line.begin(), equals_iter);
 						key_value.value = std::string(equals_iter + 1, line.end());

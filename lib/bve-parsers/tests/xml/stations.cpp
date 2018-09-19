@@ -9,7 +9,7 @@ using namespace std::string_literals;
 TEST_SUITE_BEGIN("libparsers - xml - stations and request stops");
 
 TEST_CASE("libparsers - xml - stations and request stops - parse station marker") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -27,7 +27,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse station marker"
 	    "		<TimeTableIndex>2</TimeTableIndex>"
 	    "	</Station>"
 	    "</openBVE>"s;
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
@@ -49,7 +49,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse station marker"
 }
 
 TEST_CASE("libparsers -xml - stations and request stops - stations should add errors") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -67,7 +67,7 @@ TEST_CASE("libparsers -xml - stations and request stops - stations should add er
 	    "		<TimeTableIndex>-1</TimeTableIndex>"
 	    "	</Station>"
 	    "</openBVE>"s;
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
@@ -82,7 +82,7 @@ TEST_CASE("libparsers -xml - stations and request stops - stations should add er
 }
 
 TEST_CASE("libparsers - xml - stations and request stops - parse request stop marker") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -99,7 +99,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse request stop ma
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -116,7 +116,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse request stop ma
 }
 
 TEST_CASE("libparser - xml - stations and request stops - request stops should add errors") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -133,7 +133,7 @@ TEST_CASE("libparser - xml - stations and request stops - request stops should a
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
@@ -149,7 +149,7 @@ TEST_CASE("libparser - xml - stations and request stops - request stops should a
 TEST_CASE(
     "libparser - xml - stations and request stops - probabilities and messages can have node, "
     "early, ontime, late") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -178,7 +178,7 @@ TEST_CASE(
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -200,7 +200,7 @@ TEST_CASE(
 TEST_CASE(
     "libparser - xml - stations and request stops - early, ontime and late probabilites should add "
     "errors") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -217,7 +217,7 @@ TEST_CASE(
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
@@ -228,7 +228,7 @@ TEST_CASE(
 }
 
 TEST_CASE("libparser - xml - stations and request stops - stations can contain request stops") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -254,7 +254,7 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	    "		</RequestStop>"
 	    "	</Station>"
 	    "</openBVE>"s;
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
@@ -284,7 +284,7 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 TEST_CASE(
     "libparsers - xml - stations and request stops - stations with request stops should add "
     "errors") {
-	std::string test_value =
+	std::string const test_value =
 	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	    "<openBVE "
 	    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xmlns:xsd=\"http://www.w3.org/2001/"
@@ -311,7 +311,7 @@ TEST_CASE(
 	    "	</Station>"
 	    "</openBVE>"s;
 
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const station_marker =
 	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 

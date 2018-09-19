@@ -29,7 +29,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		void add_error(const line_break_list& line_br_list,
-		               errors::errors_t errors,
+		               errors::Errors errors,
 		               std::string::const_iterator const pos,
 		               const char* msg) {
 			auto const num = line_number(line_br_list, pos);
@@ -149,7 +149,7 @@ namespace bve::parsers::csv_rw_route {
 
 	static std::vector<include_pos> parse_include_directives(const std::string& contents,
 	                                                         bve::core::datatypes::rng& rng,
-	                                                         errors::errors_t& errors) {
+	                                                         errors::Errors& errors) {
 		std::vector<include_pos> includes;
 
 		auto const line_br_list = list_line_breaks(contents);
@@ -189,7 +189,7 @@ namespace bve::parsers::csv_rw_route {
 	    const std::set<std::string>& past_files,
 	    const std::string& current_filename,
 	    bve::core::datatypes::rng& rng,
-	    errors::multi_error_t& errors,
+	    errors::MultiError& errors,
 	    file_type ft,
 	    const find_relative_file_func& get_abs_path) {
 		auto& current_file_errors = errors[current_filename];
@@ -321,7 +321,7 @@ namespace bve::parsers::csv_rw_route {
 
 	preprocessed_lines process_include_directives(const std::string& filename,
 	                                              bve::core::datatypes::rng& rng,
-	                                              errors::multi_error_t& errors,
+	                                              errors::MultiError& errors,
 	                                              file_type const ft,
 	                                              const find_relative_file_func& get_abs_path) {
 		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng,

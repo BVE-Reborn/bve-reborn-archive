@@ -6,13 +6,13 @@
 #include <tuple>
 
 namespace bve::parsers::dependencies {
-	struct texture_t {
+	struct Texture {
 		std::string file;
 		bve::core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
 		bool has_transparent_color = false;
 
 		// less than operator for use in std::set
-		friend bool operator<(const texture_t& lhs, const texture_t& rhs) {
+		friend bool operator<(const Texture& lhs, const Texture& rhs) {
 			return std::make_tuple(lhs.file, lhs.decal_transparent_color.x,
 			                       lhs.decal_transparent_color.y, lhs.decal_transparent_color.z,
 			                       lhs.has_transparent_color)
@@ -22,7 +22,7 @@ namespace bve::parsers::dependencies {
 		}
 	};
 
-	struct dependencies_t {
-		std::set<texture_t> textures;
+	struct Dependencies {
+		std::set<Texture> textures;
 	};
 } // namespace bve::parsers::dependencies

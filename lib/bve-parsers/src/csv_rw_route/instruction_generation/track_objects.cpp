@@ -3,7 +3,7 @@
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_freeobj(const line_splitting::instruction_info& inst) {
-		instructions::track::free_obj fobj;
+		instructions::track::FreeObj fobj;
 
 		switch (inst.args.size()) {
 			default:
@@ -28,7 +28,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_wall(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 2, "Track.Wall");
 
-		instructions::track::wall w;
+		instructions::track::Wall w;
 
 		w.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 		auto const direction_num = util::parse_loose_integer(inst.args[1]);
@@ -39,14 +39,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		switch (direction_num) {
 			case -1:
-				w.direction = instructions::track::wall::left;
+				w.direction = instructions::track::Wall::Direction::left;
 				break;
 			default:
 			case 0:
-				w.direction = instructions::track::wall::both;
+				w.direction = instructions::track::Wall::Direction::both;
 				break;
 			case 1:
-				w.direction = instructions::track::wall::right;
+				w.direction = instructions::track::Wall::Direction::right;
 				break;
 		}
 
@@ -54,14 +54,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_track_wallend(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::wall_end>(inst,
+		return create_single_sizet_instruction<instructions::track::WallEnd>(inst,
 		                                                                      "Track.WallEnd");
 	}
 
 	instruction create_instruction_track_dike(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 2, "Track.Dike");
 
-		instructions::track::dike d;
+		instructions::track::Dike d;
 
 		d.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 		auto const direction_num = util::parse_loose_integer(inst.args[1]);
@@ -72,14 +72,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		switch (direction_num) {
 			case -1:
-				d.direction = instructions::track::dike::left;
+				d.direction = instructions::track::Dike::Direction::left;
 				break;
 			default:
 			case 0:
-				d.direction = instructions::track::dike::both;
+				d.direction = instructions::track::Dike::Direction::both;
 				break;
 			case 1:
-				d.direction = instructions::track::dike::right;
+				d.direction = instructions::track::Dike::Direction::right;
 				break;
 		}
 
@@ -87,12 +87,12 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_track_dikeend(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::dike_end>(inst,
+		return create_single_sizet_instruction<instructions::track::DikeEnd>(inst,
 		                                                                      "Track.DikeEnd");
 	}
 
 	instruction create_instruction_track_pole(const line_splitting::instruction_info& inst) {
-		instructions::track::pole p;
+		instructions::track::Pole p;
 
 		switch (inst.args.size()) {
 			default:
@@ -122,14 +122,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_track_poleend(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::pole_end>(inst,
+		return create_single_sizet_instruction<instructions::track::PoleEnd>(inst,
 		                                                                      "Track.PoleEnd");
 	}
 
 	instruction create_instruction_track_crack(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 2, "Track.Crack");
 
-		instructions::track::crack c;
+		instructions::track::Crack c;
 
 		c.rail_index_1 = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
 		c.rail_index_2 = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[1]));
@@ -142,6 +142,6 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_track_ground(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::ground>(inst, "Track.Ground");
+		return create_single_sizet_instruction<instructions::track::Ground>(inst, "Track.Ground");
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

@@ -11,16 +11,16 @@ TEST_CASE("libparsers - core_csv - empty file") {
 	const std::string text;
 
 	SUBCASE("nosplit_first, delim comma, split on space") {
-		result = parse(text, bve::parsers::csv::split_first_column::no, ',', ' ');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::no, ',', ' ');
 	}
 	SUBCASE("split_first, delim comma, split on space") {
-		result = parse(text, bve::parsers::csv::split_first_column::yes, ',', ' ');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::yes, ',', ' ');
 	}
 	SUBCASE("nosplit_first, delim tab, split on space") {
-		result = parse(text, bve::parsers::csv::split_first_column::no, '\t', ' ');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::no, '\t', ' ');
 	}
 	SUBCASE("nosplit_first, delim comma, split on tab") {
-		result = parse(text, bve::parsers::csv::split_first_column::no, ',', '\t');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::no, ',', '\t');
 	}
 
 	REQUIRE_EQ(result.size(), 1);
@@ -38,16 +38,16 @@ TEST_CASE("libparsers - core_csv - single item") {
 	const std::string text = "hello";
 
 	SUBCASE("nosplit_first, delim comma, split on space") {
-		result = parse(text, bve::parsers::csv::split_first_column::no, ',', ' ');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::no, ',', ' ');
 	}
 	SUBCASE("split_first, delim comma, split on space") {
-		result = parse(text, bve::parsers::csv::split_first_column::yes, ',', ' ');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::yes, ',', ' ');
 	}
 	SUBCASE("nosplit_first, delim tab, split on space") {
-		result = parse(text, bve::parsers::csv::split_first_column::no, '\t', ' ');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::no, '\t', ' ');
 	}
 	SUBCASE("nosplit_first, delim comma, split on tab") {
-		result = parse(text, bve::parsers::csv::split_first_column::no, ',', '\t');
+		result = parse(text, bve::parsers::csv::SplitFirstColumn::no, ',', '\t');
 	}
 
 	REQUIRE_EQ(result.size(), 1);
@@ -63,16 +63,16 @@ TEST_CASE("libparsers - core_csv - two items two lines") {
 	bve::parsers::csv::parsed_csv result;
 
 	SUBCASE("nosplit_first, delim comma, split on space") {
-		result = parse("hello\nworld"s, bve::parsers::csv::split_first_column::no, ',', ' ');
+		result = parse("hello\nworld"s, bve::parsers::csv::SplitFirstColumn::no, ',', ' ');
 	}
 	SUBCASE("split_first, delim comma, split on space") {
-		result = parse("hello\nworld"s, bve::parsers::csv::split_first_column::yes, ',', ' ');
+		result = parse("hello\nworld"s, bve::parsers::csv::SplitFirstColumn::yes, ',', ' ');
 	}
 	SUBCASE("nosplit_first, delim tab, split on space") {
-		result = parse("hello\nworld"s, bve::parsers::csv::split_first_column::no, '\t', ' ');
+		result = parse("hello\nworld"s, bve::parsers::csv::SplitFirstColumn::no, '\t', ' ');
 	}
 	SUBCASE("nosplit_first, delim comma, split on tab") {
-		result = parse("hello\nworld"s, bve::parsers::csv::split_first_column::no, ',', '\t');
+		result = parse("hello\nworld"s, bve::parsers::csv::SplitFirstColumn::no, ',', '\t');
 	}
 
 	REQUIRE_EQ(result.size(), 2);
@@ -95,19 +95,19 @@ TEST_CASE("libparsers - core_csv - four items two lines") {
 	bve::parsers::csv::parsed_csv result;
 
 	SUBCASE("nosplit_first, delim comma, split on space") {
-		result = parse("hello, world\non-another, line"s, bve::parsers::csv::split_first_column::no,
+		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::no,
 		               ',', ' ');
 	}
 	SUBCASE("split_first, delim comma, split on space") {
 		result = parse("hello, world\non-another, line"s,
-		               bve::parsers::csv::split_first_column::yes, ',', ' ');
+		               bve::parsers::csv::SplitFirstColumn::yes, ',', ' ');
 	}
 	SUBCASE("nosplit_first, delim tab, split on space") {
 		result = parse("hello\t world\non-another\t line"s,
-		               bve::parsers::csv::split_first_column::no, '\t', ' ');
+		               bve::parsers::csv::SplitFirstColumn::no, '\t', ' ');
 	}
 	SUBCASE("nosplit_first, delim comma, split on tab") {
-		result = parse("hello, world\non-another, line"s, bve::parsers::csv::split_first_column::no,
+		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::no,
 		               ',', '\t');
 	}
 
@@ -138,7 +138,7 @@ TEST_CASE("libparsers - core_csv - four items two lines") {
 }
 
 TEST_CASE("libparsers - core_csv - split first line, single item") {
-	auto result = parse("first second"s, bve::parsers::csv::split_first_column::yes);
+	auto result = parse("first second"s, bve::parsers::csv::SplitFirstColumn::yes);
 
 	REQUIRE_EQ(result.size(), 1);
 	REQUIRE_EQ(result[0].size(), 2);
@@ -155,7 +155,7 @@ TEST_CASE("libparsers - core_csv - split first line, single item") {
 }
 
 TEST_CASE("libparsers - core_csv - split first line, two items") {
-	auto result = parse("first second, third forth"s, bve::parsers::csv::split_first_column::yes);
+	auto result = parse("first second, third forth"s, bve::parsers::csv::SplitFirstColumn::yes);
 
 	REQUIRE_EQ(result.size(), 1);
 	REQUIRE_EQ(result[0].size(), 3);
@@ -178,7 +178,7 @@ TEST_CASE("libparsers - core_csv - split first line, two items") {
 
 TEST_CASE("libparsers - core_csv - split first line, four items") {
 	auto result = parse("first second, third forth\nfifth, sixth"s,
-	                    bve::parsers::csv::split_first_column::yes);
+	                    bve::parsers::csv::SplitFirstColumn::yes);
 
 	REQUIRE_EQ(result.size(), 2);
 	REQUIRE_EQ(result[0].size(), 3);
@@ -213,7 +213,7 @@ TEST_CASE("libparsers - core_csv - split first line, four items") {
 
 TEST_CASE("libparsers - core_csv - split first line, four items split") {
 	auto result = parse("first second, third forth\nfifth sixth"s,
-	                    bve::parsers::csv::split_first_column::yes);
+	                    bve::parsers::csv::SplitFirstColumn::yes);
 
 	REQUIRE_EQ(result.size(), 2);
 	REQUIRE_EQ(result[0].size(), 3);

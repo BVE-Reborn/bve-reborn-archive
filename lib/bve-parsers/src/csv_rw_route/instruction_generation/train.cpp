@@ -3,14 +3,14 @@
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_train_folder(const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::train::folder>(inst, "Train.Folder");
+		return create_single_string_instruction<instructions::train::Folder>(inst, "Train.Folder");
 	}
 
 	instruction create_instruction_train_run(const line_splitting::instruction_info& inst) {
 		indices_at_least(inst, 1, "Train.Run");
 		args_at_least(inst, 1, "Train.Run");
 
-		instructions::train::rail r;
+		instructions::train::Rail r;
 
 		r.rail_type_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 		r.run_sound_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
@@ -22,7 +22,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Train.Flange");
 		args_at_least(inst, 1, "Train.Flange");
 
-		instructions::train::flange f;
+		instructions::train::Flange f;
 
 		f.rail_type_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 		f.flange_sound_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
@@ -34,7 +34,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Train.Timetable");
 		args_at_least(inst, 1, "Train.Timetable");
 
-		instructions::train::timetable tt;
+		instructions::train::Timetable tt;
 
 		tt.timetable_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 		tt.filename = inst.args[0];
@@ -53,7 +53,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_train_velocity(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::train::velocity>(inst,
+		return create_single_float_instruction<instructions::train::Velocity>(inst,
 		                                                                      "Train.Velocity", 0);
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

@@ -85,14 +85,14 @@ namespace bve::log {
 			 * @brief Atomically gets the current severity
 			 * @return Current Severity
 			 */
-			severity get() {
+			severity get() const {
 				return current_sev_;
 			}
 			/**
 			 * \brief Atomically sets global severity
 			 * \param new_sev New severity value.
 			 */
-			void set(severity new_sev) {
+			void set(severity const new_sev) {
 				current_sev_ = new_sev;
 			}
 
@@ -119,7 +119,7 @@ namespace bve::log {
 	 * \brief Chooses the current allowed severity level for messages. Any message at or above it is allowed through.
 	 * \param s Severity to set.
 	 */
-	FORCE_INLINE void set_visible_severity(severity s) {
+	FORCE_INLINE void set_visible_severity(severity const s) {
 		current_severity.set(s);
 	}
 

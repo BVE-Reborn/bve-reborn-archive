@@ -2,10 +2,10 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::free_obj& inst) {
+	void pass3_executor::operator()(const instructions::track::FreeObj& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -101,10 +101,10 @@ namespace bve::parsers::csv_rw_route {
 		*last_updated = position;
 	}
 
-	void pass3_executor::operator()(const instructions::track::wall& inst) {
+	void pass3_executor::operator()(const instructions::track::Wall& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -114,10 +114,10 @@ namespace bve::parsers::csv_rw_route {
 			add_error(errors_, issuer_filename, inst.line, err);
 		}
 
-		auto const left = inst.direction == instructions::track::wall::left
-		                  || inst.direction == instructions::track::wall::both;
-		auto const right = inst.direction == instructions::track::wall::right
-		                   || inst.direction == instructions::track::wall::both;
+		auto const left = inst.direction == instructions::track::Wall::Direction::left
+		                  || inst.direction == instructions::track::Wall::Direction::both;
+		auto const right = inst.direction == instructions::track::Wall::Direction::right
+		                   || inst.direction == instructions::track::Wall::Direction::both;
 
 		if (left) {
 			add_wall_objects_up_to_position(state, inst.absolute_position, 0);
@@ -155,10 +155,10 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::wall_end& inst) {
+	void pass3_executor::operator()(const instructions::track::WallEnd& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		// Don't check if the rail is active as people can call .RailEnd before calling .WallEnd
 		// if (!state.active) {}
@@ -170,10 +170,10 @@ namespace bve::parsers::csv_rw_route {
 		state.wall_r_active = false;
 	}
 
-	void pass3_executor::operator()(const instructions::track::dike& inst) {
+	void pass3_executor::operator()(const instructions::track::Dike& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -183,10 +183,10 @@ namespace bve::parsers::csv_rw_route {
 			add_error(errors_, issuer_filename, inst.line, err);
 		}
 
-		auto const left = inst.direction == instructions::track::dike::left
-		                  || inst.direction == instructions::track::dike::both;
-		auto const right = inst.direction == instructions::track::dike::right
-		                   || inst.direction == instructions::track::dike::both;
+		auto const left = inst.direction == instructions::track::Dike::Direction::left
+		                  || inst.direction == instructions::track::Dike::Direction::both;
+		auto const right = inst.direction == instructions::track::Dike::Direction::right
+		                   || inst.direction == instructions::track::Dike::Direction::both;
 
 		if (left) {
 			add_wall_objects_up_to_position(state, inst.absolute_position, 2);
@@ -225,10 +225,10 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::dike_end& inst) {
+	void pass3_executor::operator()(const instructions::track::DikeEnd& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		// Don't check if the rail is active as people can call .RailEnd before calling .DikeEnd
 		// if (!state.active) {}
@@ -285,10 +285,10 @@ namespace bve::parsers::csv_rw_route {
 		state.position_pole_updated = position;
 	}
 
-	void pass3_executor::operator()(const instructions::track::pole& inst) {
+	void pass3_executor::operator()(const instructions::track::Pole& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		add_poll_objects_up_to_position(inst.rail_index, state, inst.absolute_position);
 
@@ -320,10 +320,10 @@ namespace bve::parsers::csv_rw_route {
 		state.pole_active = true;
 	}
 
-	void pass3_executor::operator()(const instructions::track::pole_end& inst) {
+	void pass3_executor::operator()(const instructions::track::PoleEnd& inst) {
 		auto issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(inst.rail_index);
+		auto& state = getRailState(inst.rail_index);
 
 		// Don't check if the rail is active as people can call .RailEnd before calling .PoleEnd
 		// if (!state.active) {}
@@ -333,7 +333,7 @@ namespace bve::parsers::csv_rw_route {
 		state.pole_active = false;
 	}
 
-	void pass3_executor::operator()(const instructions::track::crack& inst) const {
+	void pass3_executor::operator()(const instructions::track::Crack& inst) const {
 		(void) inst;
 		// TODO(sirflankalot): crack
 	}
@@ -365,10 +365,10 @@ namespace bve::parsers::csv_rw_route {
 		state.position_ground_updated = position;
 	}
 
-	void pass3_executor::operator()(const instructions::track::ground& inst) {
+	void pass3_executor::operator()(const instructions::track::Ground& inst) {
 		auto const issuer_filename = get_filename(inst.file_index);
 
-		auto& state = get_rail_state(0);
+		auto& state = getRailState(0);
 
 		add_ground_objects_up_to_position(state, inst.absolute_position);
 

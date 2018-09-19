@@ -124,7 +124,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	// string_instruction_mapping.cpp
 	extern const std::map<std::string, instruction (*)(const inst_info& inst)> function_mapping;
-	extern const std::map<std::string, decltype(instructions::structure::command::command_type)>
+	extern const std::map<std::string, instructions::structure::Command::Type>
 	    command_type_mapping;
 
 	// location_statement.cpp

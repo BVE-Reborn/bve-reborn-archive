@@ -210,7 +210,7 @@ namespace bve::parsers::function_scripts {
 		}
 	} // namespace
 
-	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors) {
+	tree_node create_tree(const lexer_token_list& list, errors::Errors& errors) {
 		auto container = lexer_token_container(list, errors);
 
 		auto ret_tree = parse_expression(container);

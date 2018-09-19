@@ -55,7 +55,11 @@ set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 # Global Config #
 #################
 
-file(COPY BVE-Reborn.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
+if(EXISTS ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings)
+    file(COPY ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_SOURCE_DIR})
+else()
+    file(COPY BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
+endif()
 
 if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (BVEREBORN_CODE_COVERAGE))
     message(STATUS "Compiling with CodeCoverage")

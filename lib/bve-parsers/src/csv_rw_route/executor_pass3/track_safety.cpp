@@ -5,7 +5,7 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::beacon& inst) {
+	void pass3_executor::operator()(const instructions::track::Beacon& inst) {
 		beacon_info bi;
 
 		bi.position = inst.absolute_position;
@@ -41,12 +41,12 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::transponder& inst) {
+	void pass3_executor::operator()(const instructions::track::Transponder& inst) {
 		beacon_info bi;
 
 		bi.position = inst.absolute_position;
 		bi.beacon_type = static_cast<std::underlying_type<decltype(inst.type)>::type>(inst.type);
-		if (inst.type != 2) {
+		if (bi.beacon_type != 2) {
 			bi.beacon_data = inst.switch_system ? 0 : -1;
 		}
 		else {
@@ -87,11 +87,12 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::pattern& inst) const {
+	void pass3_executor::operator()(const instructions::track::Pattern& inst) const {
 		atsp_section_info asi;
 
 		asi.position = inst.absolute_position;
-		asi.permanent = bool(inst.type) ? bool(inst.permanent) : bool(inst.temporary);
+		asi.permanent = bool(inst.type) ? bool(decltype(inst.type)::permanent)
+		                                : bool(decltype(inst.type)::temporary);
 		asi.speed = inst.speed;
 
 		route_data_.patterns.emplace_back(std::move(asi));

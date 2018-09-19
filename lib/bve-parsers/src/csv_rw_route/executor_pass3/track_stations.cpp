@@ -2,7 +2,7 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::sta& inst) const {
+	void pass3_executor::operator()(const instructions::track::Sta& inst) const {
 		rail_station_info rsi;
 		rsi.arrival = inst.arrival;
 		rsi.arrival_sound = add_sound_filename(inst.arrival_sound);
@@ -22,7 +22,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.stations.emplace_back(std::move(rsi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::station_xml& inst) const {
+	void pass3_executor::operator()(const instructions::track::StationXml& inst) const {
 		rail_station_info rsi;
 
 		auto const xml_file_loc = get_relative_file_(get_filename(inst.file_index), inst.filename);
@@ -72,7 +72,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.stations.emplace_back(std::move(rsi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::stop& inst) const {
+	void pass3_executor::operator()(const instructions::track::Stop& inst) const {
 		if (route_data_.stations.empty()) {
 			std::ostringstream err;
 
@@ -91,7 +91,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.stations.back().stop_points.emplace_back(std::move(rssi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::form& inst) const {
+	void pass3_executor::operator()(const instructions::track::Form& inst) const {
 		(void) inst;
 		// Todo(sirflankalot): form?
 	}

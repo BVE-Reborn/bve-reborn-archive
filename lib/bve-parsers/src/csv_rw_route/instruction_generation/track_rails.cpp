@@ -5,7 +5,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_railstart(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "RailStart");
 
-		instructions::track::rail_start rs;
+		instructions::track::RailStart rs;
 
 		switch (inst.args.size()) {
 			default:
@@ -47,7 +47,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_rail(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "Rail");
 
-		instructions::track::rail r;
+		instructions::track::Rail r;
 
 		switch (inst.args.size()) {
 			default:
@@ -85,7 +85,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_track_railtype(const line_splitting::instruction_info& inst) {
-		instructions::track::rail_type rt;
+		instructions::track::RailType rt;
 
 		switch (inst.args.size()) {
 			default:
@@ -107,7 +107,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_railend(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "RailEnd");
 
-		instructions::track::rail_end re;
+		instructions::track::RailEnd re;
 
 		switch (inst.args.size()) {
 			default:
@@ -140,15 +140,15 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_accuracy(const line_splitting::instruction_info& inst) {
 		// Ignored instruction
 		(void) inst;
-		return instructions::naked::none{};
+		return instructions::naked::None{};
 	}
 
 	instruction create_instruction_track_adhesion(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::track::adhesion>(inst,
+		return create_single_float_instruction<instructions::track::Adhesion>(inst,
 		                                                                      "Track.Adhesion");
 	}
 
 	instruction create_instruction_track_pitch(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::track::pitch>(inst, "Track.Pitch");
+		return create_single_float_instruction<instructions::track::Pitch>(inst, "Track.Pitch");
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

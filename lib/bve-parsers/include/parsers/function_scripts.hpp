@@ -198,7 +198,7 @@ namespace bve::parsers::function_scripts {
 		std::set<instructions::variable> used_variables;
 		std::set<instructions::indexed_variable> used_indexed_variables;
 		std::vector<instruction> instructions;
-		errors::errors_t errors;
+		errors::Errors errors;
 	};
 
 	instruction_list parse(const std::string& text);

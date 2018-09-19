@@ -3,7 +3,7 @@
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_limit(const line_splitting::instruction_info& inst) {
-		instructions::track::limit l;
+		instructions::track::Limit l;
 
 		switch (inst.args.size()) {
 			default:
@@ -12,14 +12,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 				switch (course_num) {
 					case -1:
-						l.cource = instructions::track::limit::cource_t::left;
+						l.course = instructions::track::Limit::Course::left;
 						break;
 					default:
 					case 0:
-						l.cource = instructions::track::limit::cource_t::none;
+						l.course = instructions::track::Limit::Course::none;
 						break;
 					case 1:
-						l.cource = instructions::track::limit::cource_t::right;
+						l.course = instructions::track::Limit::Course::right;
 						break;
 				}
 			}
@@ -29,14 +29,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 				switch (post_num) {
 					case -1:
-						l.post = instructions::track::limit::post_t::left;
+						l.post = instructions::track::Limit::Post::left;
 						break;
 					default:
 					case 0:
-						l.post = instructions::track::limit::post_t::none;
+						l.post = instructions::track::Limit::Post::none;
 						break;
 					case 1:
-						l.post = instructions::track::limit::post_t::right;
+						l.post = instructions::track::Limit::Post::right;
 						break;
 				}
 			}
@@ -54,7 +54,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_section(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "Track.Section");
 
-		instructions::track::section s;
+		instructions::track::Section s;
 		s.a_term.reserve(inst.args.size());
 
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(s.a_term),
@@ -68,7 +68,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_track_sigf(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 2, "Track.SigF");
 
-		instructions::track::sig_f sf;
+		instructions::track::SigF sf;
 
 		sf.signal_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
 		sf.section = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1]));
@@ -77,41 +77,41 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return sf;
 	}
 	instruction create_instruction_track_signal(const line_splitting::instruction_info& inst) {
-		instructions::track::signal s;
+		instructions::track::Signal s;
 
 		if (!inst.args.empty()) {
 			auto const type_num = util::parse_loose_integer(inst.args[0]);
 
 			switch (type_num) {
 				case 2:
-					s.type = instructions::track::signal::r_y;
+					s.type = instructions::track::Signal::Aspect::r_y;
 					break;
 				default:
 				case -2:
-					s.type = instructions::track::signal::r_g;
+					s.type = instructions::track::Signal::Aspect::r_g;
 					break;
 				case 3:
-					s.type = instructions::track::signal::r_y_g;
+					s.type = instructions::track::Signal::Aspect::r_y_g;
 					break;
 				case 4:
-					s.type = instructions::track::signal::r_yy_y_g;
+					s.type = instructions::track::Signal::Aspect::r_yy_y_g;
 					break;
 				case -4:
-					s.type = instructions::track::signal::r_y_yg_g;
+					s.type = instructions::track::Signal::Aspect::r_y_yg_g;
 					break;
 				case 5:
-					s.type = instructions::track::signal::r_yy_y_yg_g;
+					s.type = instructions::track::Signal::Aspect::r_yy_y_yg_g;
 					break;
 				case -5:
-					s.type = instructions::track::signal::r_y_yg_g_gg;
+					s.type = instructions::track::Signal::Aspect::r_y_yg_g_gg;
 					break;
 				case 6:
-					s.type = instructions::track::signal::r_yy_y_yg_g_gg;
+					s.type = instructions::track::Signal::Aspect::r_yy_y_yg_g_gg;
 					break;
 			}
 		}
 		else {
-			s.type = instructions::track::signal::r_g;
+			s.type = instructions::track::Signal::Aspect::r_g;
 		}
 
 		set_positions<2>(s, inst);
@@ -120,7 +120,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_track_relay(const line_splitting::instruction_info& inst) {
-		instructions::track::relay r;
+		instructions::track::Relay r;
 
 		set_positions<0>(r, inst);
 

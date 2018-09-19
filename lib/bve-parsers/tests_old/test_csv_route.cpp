@@ -18,7 +18,7 @@ void test_csv_route() {
 
 	std::mt19937 eng(seq);
 
-	bve::parsers::errors::multi_error_t me;
+	bve::parsers::errors::MultiError me;
 
 	auto const file_location = TESTLOCATION "/Kaligung Mas.csv"s;
 	auto used_file = cppfs::FilePath(file_location);

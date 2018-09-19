@@ -196,7 +196,7 @@ namespace bve::parsers::csv_rw_route {
 		filename_set sound_filenames;
 
 		// Lighting and Background
-		std::vector<xml::dynamic_lighting::lighting_info> lighting;
+		std::vector<xml::dynamic_lighting::LightingInfo> lighting;
 		std::vector<background_info> backgrounds;
 		std::vector<fog_info> fog;
 		std::vector<brightness_level_info> brightness_levels;

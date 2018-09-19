@@ -31,7 +31,7 @@ TEST_CASE("libparsers - xml - route_marker - image based marker") {
             "</ImageMarker>"
         "</openBVE>"s;
 	// clang-format on
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::image_marker>());
@@ -79,7 +79,7 @@ TEST_CASE(
             "</ImageMarker>"
         "</openBVE>"s;
 	// clang-format on
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::image_marker>());
@@ -115,7 +115,7 @@ TEST_CASE(
                 "</ImageMarker>"
             "</openBVE>"s;
 	// clang-format on
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::image_marker>());
@@ -153,7 +153,7 @@ TEST_CASE("libparsers - xml - router_marker - text base marker") {
             "</TextMarker>"
         "</openBVE>"s;
 	// clang-format on
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::text_marker>());
@@ -189,7 +189,7 @@ TEST_CASE(
                 "</TextMarker>"
             "</openBVE>"s;
 	// clang-format on
-	bve::parsers::errors::multi_error_t output_errors;
+	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::text_marker>());

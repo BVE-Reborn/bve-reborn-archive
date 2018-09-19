@@ -97,7 +97,7 @@ namespace bve::parsers::csv_rw_route {
 	    std::unordered_map<std::size_t, std::string>& variable_set,
 	    if_status& if_conditions,
 	    bve::core::datatypes::rng& rng,
-	    errors::multi_error_t& errors,
+	    errors::MultiError& errors,
 	    std::string const& filename,
 	    std::string::const_iterator& last_used,
 	    std::string::const_iterator const arg_begin,
@@ -207,7 +207,7 @@ namespace bve::parsers::csv_rw_route {
 
 	static void preprocess_pass(preprocessed_lines& lines,
 	                            bve::core::datatypes::rng& rng,
-	                            errors::multi_error_t& errors) {
+	                            errors::MultiError& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
 		std::vector<bool> if_condition_stack(1, true);
@@ -313,7 +313,7 @@ namespace bve::parsers::csv_rw_route {
 
 	void preprocess_file(preprocessed_lines& lines,
 	                     bve::core::datatypes::rng& rng,
-	                     errors::multi_error_t& errors,
+	                     errors::MultiError& errors,
 	                     file_type const ft) {
 		preprocess_pass(lines, rng, errors);
 

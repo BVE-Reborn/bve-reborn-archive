@@ -6,11 +6,11 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::xml::dynamic_lighting {
-	std::vector<lighting_info> parse(
+	std::vector<LightingInfo> parse(
 	    const std::string& filename,
 	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
-	    errors::multi_error_t& errors) {
-		std::vector<lighting_info> retvalue;
+	    errors::MultiError& errors) {
+		std::vector<LightingInfo> retvalue;
 
 		rapidxml_ns::xml_document<> doc;
 		doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
@@ -27,7 +27,7 @@ namespace bve::parsers::xml::dynamic_lighting {
 
 		for (; current_section != nullptr;
 		     current_section = current_section->next_sibling("brightness", 0, false)) {
-			lighting_info info;
+			LightingInfo info;
 
 			auto* time = current_section->first_node("time", 0, false);
 			auto* ambient_light = current_section->first_node("ambientlight", 0, false);
@@ -101,7 +101,7 @@ namespace bve::parsers::xml::dynamic_lighting {
 
 			if (cab_lighting != nullptr) {
 				try {
-					info.cablighting =
+					info.cab_lighting =
 					    uint8_t(util::parse_loose_integer(get_node_value(cab_lighting)));
 				}
 				catch (const std::invalid_argument& e) {

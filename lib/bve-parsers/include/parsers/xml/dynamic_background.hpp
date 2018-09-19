@@ -27,6 +27,6 @@ namespace bve::parsers::xml::dynamic_background {
 
 	parsed_dynamic_background parse(const std::string& filename,
 	                                std::string input_string,
-	                                errors::multi_error_t& errors,
+	                                errors::MultiError& errors,
 	                                const find_relative_file_func& get_relative_file);
 } // namespace bve::parsers::xml::dynamic_background

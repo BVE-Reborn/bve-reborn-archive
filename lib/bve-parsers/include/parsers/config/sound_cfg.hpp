@@ -166,6 +166,6 @@ namespace bve::parsers::config::sound_cfg {
 	 */
 	parsed_sound_cfg_t parse(std::string const& filename,
 	                         std::string const& input_string,
-	                         errors::multi_error_t& errors,
+	                         errors::MultiError& errors,
 	                         find_relative_file_func const& get_relative_file);
 } // namespace bve::parsers::config::sound_cfg

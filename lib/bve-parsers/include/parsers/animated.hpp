@@ -55,8 +55,8 @@ namespace bve::parsers::animated_object {
 	struct parsed_animated_object {
 		std::vector<animated_include> includes;
 		std::vector<animated_subobject> subobjects;
-		dependencies::dependencies_t dependencies;
-		errors::errors_t errors;
+		dependencies::Dependencies dependencies;
+		errors::Errors errors;
 	};
 
 	parsed_animated_object parse(const std::string& file_string);

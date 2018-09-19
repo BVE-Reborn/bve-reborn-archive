@@ -7,7 +7,7 @@ using namespace std::string_literals;
 TEST_SUITE_BEGIN("libparsers - core_csv");
 
 TEST_CASE("libparsers - core_csv - iostream - bve::parsers::csv::csv_token") {
-	bve::parsers::csv::csv_token const token{"hello"s, 1, 2, 3, 4};
+	bve::parsers::csv::CSVToken const token{"hello"s, 1, 2, 3, 4};
 
 	std::ostringstream output;
 

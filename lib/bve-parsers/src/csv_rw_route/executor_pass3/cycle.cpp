@@ -43,7 +43,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::cycle::ground& inst) {
+	void pass3_executor::operator()(const instructions::cycle::Ground& inst) {
 		std::vector<std::size_t> cycle;
 
 		for (auto& ground_index : inst.input_indices) {
@@ -72,7 +72,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::cycle::rail& inst) {
+	void pass3_executor::operator()(const instructions::cycle::Rail& inst) {
 		std::vector<std::size_t> cycle;
 
 		for (auto& ground_index : inst.input_indices) {

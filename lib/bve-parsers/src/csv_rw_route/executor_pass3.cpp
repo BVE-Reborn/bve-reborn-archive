@@ -5,7 +5,7 @@
 namespace bve::parsers::csv_rw_route {
 	void execute_instructions_pass3(parsed_route_data& rd,
 	                                instruction_list& list,
-	                                errors::multi_error_t& errors,
+	                                errors::MultiError& errors,
 	                                const find_relative_file_func& get_abs_path) {
 		pass3_executor p3_e(rd, errors, list.filenames, get_abs_path);
 

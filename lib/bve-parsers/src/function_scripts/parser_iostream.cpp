@@ -2,135 +2,135 @@
 #include <ostream>
 
 namespace bve::parsers::function_scripts {
-	class function_script_parse_tree_printer {
+	class FunctionScriptParseTreePrinter {
 	  private:
 		std::ostream& os_;
 		std::size_t depth_ = 0;
 
-		void start_print() const {
+		void startPrint() const {
 			for (std::size_t i = 0; i < depth_; ++i) {
 				os_ << "| ";
 			}
 		}
 
-		void print_next_node(const tree_node& next) {
+		void printNextNode(const tree_node& next) {
 			depth_ += 1;
 			apply_visitor(*this, next);
 			depth_ -= 1;
 		}
 
 		template <class T>
-		void print_binary(const T& node, const char* name) {
-			start_print();
+		void printBinary(const T& node, const char* name) {
+			startPrint();
 			os_ << name << '\n';
-			print_next_node(node.left);
-			print_next_node(node.right);
+			printNextNode(node.left);
+			printNextNode(node.right);
 		}
 
 		template <class T>
-		void print_unary(const T& node, const char* name) {
-			start_print();
+		void printUnary(const T& node, const char* name) {
+			startPrint();
 			os_ << name << '\n';
-			print_next_node(node.child);
+			printNextNode(node.child);
 		}
 
 	  public:
-		explicit function_script_parse_tree_printer(std::ostream& os) : os_(os) {}
+		explicit FunctionScriptParseTreePrinter(std::ostream& os) : os_(os) {}
 
 		void operator()(const tree_types::binary_and& node) {
-			print_binary(node, "AND");
+			printBinary(node, "AND");
 		}
 
 		void operator()(const tree_types::binary_xor& node) {
-			print_binary(node, "XOR");
+			printBinary(node, "XOR");
 		}
 
 		void operator()(const tree_types::binary_or& node) {
-			print_binary(node, "OR");
+			printBinary(node, "OR");
 		}
 
 		void operator()(const tree_types::binary_eq& node) {
-			print_binary(node, "EQ");
+			printBinary(node, "EQ");
 		}
 
 		void operator()(const tree_types::binary_not_eq& node) {
-			print_binary(node, "NEQ");
+			printBinary(node, "NEQ");
 		}
 
 		void operator()(const tree_types::binary_less& node) {
-			print_binary(node, "LESS");
+			printBinary(node, "LESS");
 		}
 
 		void operator()(const tree_types::binary_greater& node) {
-			print_binary(node, "GREATER");
+			printBinary(node, "GREATER");
 		}
 
 		void operator()(const tree_types::binary_less_eq& node) {
-			print_binary(node, "LESS_EQ");
+			printBinary(node, "LESS_EQ");
 		}
 
 		void operator()(const tree_types::binary_greater_eq& node) {
-			print_binary(node, "GREATER_EQ");
+			printBinary(node, "GREATER_EQ");
 		}
 
 		void operator()(const tree_types::binary_add& node) {
-			print_binary(node, "ADD");
+			printBinary(node, "ADD");
 		}
 
 		void operator()(const tree_types::binary_subtract& node) {
-			print_binary(node, "SUB");
+			printBinary(node, "SUB");
 		}
 
 		void operator()(const tree_types::binary_multiply& node) {
-			print_binary(node, "MULTIPLY");
+			printBinary(node, "MULTIPLY");
 		}
 
 		void operator()(const tree_types::binary_divide& node) {
-			print_binary(node, "DIVIDE");
+			printBinary(node, "DIVIDE");
 		}
 
 		void operator()(const tree_types::unary_not& node) {
-			print_unary(node, "NOT");
+			printUnary(node, "NOT");
 		}
 
 		void operator()(const tree_types::unary_minus& node) {
-			print_unary(node, "MINUS");
+			printUnary(node, "MINUS");
 		}
 
 		void operator()(const tree_types::function_call& node) {
-			start_print();
+			startPrint();
 			os_ << "FUNC_CALL: " << node.name.val << '\n';
 			for (auto& n : node.args) {
-				print_next_node(n);
+				printNextNode(n);
 			}
 		}
 		void operator()(const tree_types::integer& node) const {
-			start_print();
+			startPrint();
 			os_ << node.num << '\n';
 		}
 
 		void operator()(const tree_types::floating& node) const {
-			start_print();
+			startPrint();
 			os_ << node.num << '\n';
 		}
 
 		void operator()(const tree_types::identifier& node) const {
-			start_print();
+			startPrint();
 			os_ << "VARIABLE: " << node.val << '\n';
 		}
 
 		void operator()(const tree_types::none& node) const {
 			(void) node;
-			start_print();
+			startPrint();
 			os_ << "NONE\n";
 		}
 	};
 } // namespace bve::parsers::function_scripts
 
 std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::tree_node& node) {
-	bve::parsers::function_scripts::function_script_parse_tree_printer fsptp{os};
+	bve::parsers::function_scripts::FunctionScriptParseTreePrinter parse_tree_printer{os};
 
-	apply_visitor(fsptp, node);
+	apply_visitor(parse_tree_printer, node);
 
 	return os;
 }

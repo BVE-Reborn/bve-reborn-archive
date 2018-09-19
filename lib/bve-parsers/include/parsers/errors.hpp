@@ -6,27 +6,27 @@
 #include <vector>
 
 namespace bve::parsers::errors {
-	struct error_t {
+	struct Error {
 		std::intmax_t line;
 		std::string error;
 	};
 
-	using errors_t = std::vector<error_t>;
+	using Errors = std::vector<Error>;
 
-	using multi_error_t = std::map<std::string, errors_t>;
+	using MultiError = std::map<std::string, Errors>;
 
-	void add_error(errors_t& errors, std::intmax_t line, std::string msg);
-	void add_error(errors_t& errors, std::intmax_t line, const std::ostringstream& msg);
-	void add_error(multi_error_t& errors,
+	void add_error(Errors& errors, std::intmax_t line, std::string msg);
+	void add_error(Errors& errors, std::intmax_t line, const std::ostringstream& msg);
+	void add_error(MultiError& errors,
 	               const std::string& filename,
 	               std::intmax_t line,
 	               std::string msg);
-	void add_error(multi_error_t& errors,
+	void add_error(MultiError& errors,
 	               const std::string& filename,
 	               std::intmax_t line,
 	               const std::ostringstream& msg);
 
-	std::ostream& operator<<(std::ostream& os, error_t& /*e*/);
-	std::ostream& operator<<(std::ostream& os, errors_t& /*es*/);
-	std::ostream& operator<<(std::ostream& os, multi_error_t& /*me*/);
+	std::ostream& operator<<(std::ostream& os, Error& /*e*/);
+	std::ostream& operator<<(std::ostream& os, Errors& /*es*/);
+	std::ostream& operator<<(std::ostream& os, MultiError& /*me*/);
 } // namespace bve::parsers::errors

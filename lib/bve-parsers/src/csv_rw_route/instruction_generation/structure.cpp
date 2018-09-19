@@ -6,7 +6,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Structure.Command");
 		args_at_least(inst, 1, "Structure.Command");
 
-		instructions::structure::command c;
+		instructions::structure::Command c;
 
 		c.command_type = command_type_mapping.find(inst.name)->second;
 
@@ -20,7 +20,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Structure.Pole");
 		args_at_least(inst, 1, "Structure.Pole");
 
-		instructions::structure::pole p;
+		instructions::structure::Pole p;
 
 		if (inst.indices.size() == 1) {
 			p.additional_rails = 0;

@@ -6,7 +6,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Cycle.Ground");
 		args_at_least(inst, 1, "Cycle.Ground");
 
-		instructions::cycle::ground g;
+		instructions::cycle::Ground g;
 
 		g.cycle_structure_index =
 		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
@@ -24,7 +24,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Cycle.Rail");
 		args_at_least(inst, 1, "Cycle.Rail");
 
-		instructions::cycle::rail r;
+		instructions::cycle::Rail r;
 
 		r.cycle_structure_index =
 		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));

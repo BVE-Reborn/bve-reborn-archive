@@ -25,7 +25,7 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 		    "129 = file4\n"                                                                          \
 		    "-1 = file5\n"s; \
                                                                                                        \
-		errors::multi_error_t me;                                                                      \
+		errors::MultiError me;                                                                      \
                                                                                                        \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                  \
                                                                                                        \
@@ -56,7 +56,7 @@ NUMBERED_PAIR_TEST(ats)
 TEST_CASE("libparsers - config - sound - version") {
 	std::string const input = "Version 1.0\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -66,7 +66,7 @@ TEST_CASE("libparsers - config - sound - version") {
 TEST_CASE("libparsers - config - sound - version - invalid") {
 	std::string const input = "Version 2.2\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -82,7 +82,7 @@ TEST_CASE("libparsers - config - sound - [brake]") {
 	    "Emergency = emer\n"
 	    "BP Decomp = bp/decomp\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -107,7 +107,7 @@ TEST_CASE("libparsers - config - sound - [compressor]") {
 	    "Loop = comp/loop\n"
 	    "Release = comp/release\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -127,7 +127,7 @@ TEST_CASE("libparsers - config - sound - [suspension]") {
 	    "Left = sus/left\n"
 	    "Right = sus/right\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -154,7 +154,7 @@ TEST_CASE("libparsers - config - sound - [horn] - looped horn") {
 	    "SecondaryEnd = secondary/end\n"
 	    "MusicEnd = music/end\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -190,7 +190,7 @@ TEST_CASE("libparsers - config - sound - [horn] - legacy horn") {
 	    "Secondary = legacy/secondary\n"
 	    "Music = legacy/music\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -226,7 +226,7 @@ TEST_CASE("libparsers - config - sound - [horn] - looped horn priority") {
 	    "Secondary = legacy/secondary\n"
 	    "Music = legacy/music\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -263,7 +263,7 @@ TEST_CASE("libparsers - config - sound - [suspension]") {
 	    "Left = sus/left\n"
 	    "Right = sus/right\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -283,7 +283,7 @@ TEST_CASE("libparsers - config - sound - [door]") {
 	    "Close Left = close/left\n"
 	    "Close Right = close/right\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -304,7 +304,7 @@ TEST_CASE("libparsers - config - sound - [buzzer]") {
 	    "[buzzer]\n"
 	    "correct = cor/rect\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -320,7 +320,7 @@ TEST_CASE("libparsers - config - sound - [pilot lamp]") {
 	    "on = pl/on\n"
 	    "off = pl/off\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -340,7 +340,7 @@ TEST_CASE("libparsers - config - sound - [brake handle]") {
 	    "min = bh/min\n"
 	    "max = bh/max\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -364,7 +364,7 @@ TEST_CASE("libparsers - config - sound - [master controller]") {
 	    "min = mc/min\n"
 	    "max = mc/max\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -386,7 +386,7 @@ TEST_CASE("libparsers - config - sound - [reverser]") {
 	    "on = rv/on\n"
 	    "off = rv/off\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -404,7 +404,7 @@ TEST_CASE("libparsers - config - sound - [breaker]") {
 	    "on = bk/on\n"
 	    "off = bk/off\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -422,7 +422,7 @@ TEST_CASE("libparsers - config - sound - [others]") {
 	    "noise = misc/noise\n"
 	    "shoe = misc/shoe\n"s;
 
-	errors::multi_error_t me;
+	errors::MultiError me;
 
 	auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);
 
@@ -440,7 +440,7 @@ TEST_CASE("libparsers - config - sound - [others]") {
 	    "[" STR(name) "]\n"                                                                        \
 	    "thisdoesntmakesence = misc/noise\n"s; \
                                                                                                      \
-		errors::multi_error_t me;                                                                    \
+		errors::MultiError me;                                                                    \
                                                                                                      \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
                                                                                                      \
@@ -473,7 +473,7 @@ INVALID_KEY_TEST(others)
 		    STR(key) " = orig\n"  /**/                                                             \
 		    STR(key) " = repl\n"s;                                                                 \
                                                                                                    \
-		errors::multi_error_t me;                                                                  \
+		errors::MultiError me;                                                                  \
                                                                                                    \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);              \
                                                                                                    \
@@ -520,7 +520,7 @@ DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise)
 		    "[" STR(name) "]\n"   /**/                                                             \
 		    STR(key) " = repl\n"s; \
                                                                                                      \
-		errors::multi_error_t me;                                                                    \
+		errors::MultiError me;                                                                    \
                                                                                                      \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
                                                                                                      \

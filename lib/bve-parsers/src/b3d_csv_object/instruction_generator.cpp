@@ -8,15 +8,16 @@
 
 using namespace std::string_literals;
 
+// ReSharper disable once CppInconsistentNaming
 namespace bve::parsers::b3d_csv_object {
 	namespace {
 		instruction create_instruction_createmeshbuilder(
-		    const std::vector<csv::csv_token>& arguments) {
+		    const std::vector<csv::CSVToken>& arguments) {
 			(void) arguments;
 			return instructions::create_mesh_builder{};
 		}
 
-		instruction create_instruction_addvertex(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_addvertex(const std::vector<csv::CSVToken>& arguments) {
 			instructions::add_vertex av{};
 			switch (arguments.size()) {
 				default:
@@ -45,7 +46,7 @@ namespace bve::parsers::b3d_csv_object {
 			return av;
 		}
 
-		instruction create_instruction_addface_impl(const std::vector<csv::csv_token>& arguments,
+		instruction create_instruction_addface_impl(const std::vector<csv::CSVToken>& arguments,
 		                                            instructions::sides const sides) {
 			if (arguments.size() < 4) {
 				throw std::invalid_argument("Creation of instruction addface");
@@ -66,15 +67,15 @@ namespace bve::parsers::b3d_csv_object {
 			return af;
 		}
 
-		instruction create_instruction_addface(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_addface(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_addface_impl(arguments, instructions::sides::one);
 		}
 
-		instruction create_instruction_addface2(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_addface2(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_addface_impl(arguments, instructions::sides::two);
 		}
 
-		instruction create_instruction_cube(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_cube(const std::vector<csv::CSVToken>& arguments) {
 			if (arguments.size() < 4) {
 				throw std::invalid_argument("Creation of instruction cube");
 			}
@@ -85,7 +86,7 @@ namespace bve::parsers::b3d_csv_object {
 			return cu;
 		}
 
-		instruction create_instruction_cylinder(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_cylinder(const std::vector<csv::CSVToken>& arguments) {
 			if (arguments.size() < 5) {
 				throw std::invalid_argument("Creation of instruction cylinder");
 			}
@@ -97,7 +98,7 @@ namespace bve::parsers::b3d_csv_object {
 			return cy;
 		}
 
-		instruction create_instruction_translate_impl(const std::vector<csv::csv_token>& arguments,
+		instruction create_instruction_translate_impl(const std::vector<csv::CSVToken>& arguments,
 		                                              instructions::apply_to const applies_to) {
 			instructions::translate tl{};
 			switch (arguments.size()) {
@@ -118,15 +119,15 @@ namespace bve::parsers::b3d_csv_object {
 			return tl;
 		}
 
-		instruction create_instruction_translate(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_translate(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_translate_impl(arguments,
 			                                         instructions::apply_to::single_mesh);
 		}
-		instruction create_instruction_translateall(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_translateall(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_translate_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
-		instruction create_instruction_scale_impl(const std::vector<csv::csv_token>& arguments,
+		instruction create_instruction_scale_impl(const std::vector<csv::CSVToken>& arguments,
 		                                          instructions::apply_to const applies_to) {
 			instructions::scale sc{};
 			switch (arguments.size()) {
@@ -147,14 +148,14 @@ namespace bve::parsers::b3d_csv_object {
 			return sc;
 		}
 
-		instruction create_instruction_scale(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_scale(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_scale_impl(arguments, instructions::apply_to::single_mesh);
 		}
-		instruction create_instruction_scaleall(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_scaleall(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_scale_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
-		instruction create_instruction_rotate_impl(const std::vector<csv::csv_token>& arguments,
+		instruction create_instruction_rotate_impl(const std::vector<csv::CSVToken>& arguments,
 		                                           instructions::apply_to const applies_to) {
 			instructions::rotate ro{};
 			switch (arguments.size()) {
@@ -178,14 +179,14 @@ namespace bve::parsers::b3d_csv_object {
 			return ro;
 		}
 
-		instruction create_instruction_rotate(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_rotate(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_rotate_impl(arguments, instructions::apply_to::single_mesh);
 		}
-		instruction create_instruction_rotateall(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_rotateall(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_rotate_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
-		instruction create_instruction_shear_impl(const std::vector<csv::csv_token>& arguments,
+		instruction create_instruction_shear_impl(const std::vector<csv::CSVToken>& arguments,
 		                                          instructions::apply_to const applies_to) {
 			instructions::shear sh{};
 			switch (arguments.size()) {
@@ -218,14 +219,14 @@ namespace bve::parsers::b3d_csv_object {
 			return sh;
 		}
 
-		instruction create_instruction_shear(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_shear(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_shear_impl(arguments, instructions::apply_to::single_mesh);
 		}
-		instruction create_instruction_shearall(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_shearall(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_shear_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
-		instruction create_instruction_mirror_impl(const std::vector<csv::csv_token>& arguments,
+		instruction create_instruction_mirror_impl(const std::vector<csv::CSVToken>& arguments,
 		                                           instructions::apply_to const applies_to) {
 			instructions::mirror mirror{};
 			switch (arguments.size()) {
@@ -246,14 +247,14 @@ namespace bve::parsers::b3d_csv_object {
 			return mirror;
 		}
 
-		instruction create_instruction_mirror(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_mirror(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_mirror_impl(arguments, instructions::apply_to::single_mesh);
 		}
-		instruction create_instruction_mirrorall(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_mirrorall(const std::vector<csv::CSVToken>& arguments) {
 			return create_instruction_mirror_impl(arguments, instructions::apply_to::all_meshes);
 		}
 
-		instruction create_instruction_setcolor(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_setcolor(const std::vector<csv::CSVToken>& arguments) {
 			instructions::set_color sc{};
 			switch (arguments.size()) {
 				default:
@@ -284,7 +285,7 @@ namespace bve::parsers::b3d_csv_object {
 		}
 
 		instruction create_instruction_setemissivecolor(
-		    const std::vector<csv::csv_token>& arguments) {
+		    const std::vector<csv::CSVToken>& arguments) {
 			instructions::set_emissive_color sec{};
 			switch (arguments.size()) {
 				default:
@@ -309,18 +310,18 @@ namespace bve::parsers::b3d_csv_object {
 			return sec;
 		}
 
-		instruction create_instruction_setblendmode(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_setblendmode(const std::vector<csv::CSVToken>& arguments) {
 			instructions::set_blend_mode sbm{};
 			switch (arguments.size()) {
 				default:
 				case 4:
 					if (util::match_against_lower(arguments[3].text, "divideexponent4")) {
 						sbm.glow_attenuation_mode =
-						    mesh_t::glow_attenuation_mode_t::divide_exponent4;
+						    Mesh::glow_attenuation_mode_t::divide_exponent4;
 					}
 					else if (util::match_against_lower(arguments[3].text, "divideexponent2")) {
 						sbm.glow_attenuation_mode =
-						    mesh_t::glow_attenuation_mode_t::divide_exponent2;
+						    Mesh::glow_attenuation_mode_t::divide_exponent2;
 					}
 					// fall through
 				case 3:
@@ -330,10 +331,10 @@ namespace bve::parsers::b3d_csv_object {
 					// fall through
 				case 2:
 					if (util::match_against_lower(arguments[1].text, "normal")) {
-						sbm.blend_mode = mesh_t::blend_mode_t::normal;
+						sbm.blend_mode = Mesh::blend_mode_t::normal;
 					}
 					else if (util::match_against_lower(arguments[1].text, "additive")) {
-						sbm.blend_mode = mesh_t::blend_mode_t::additive;
+						sbm.blend_mode = Mesh::blend_mode_t::additive;
 					}
 					// fall through
 				case 1:
@@ -342,7 +343,7 @@ namespace bve::parsers::b3d_csv_object {
 			return sbm;
 		}
 
-		instruction create_instruction_loadtexture(const std::vector<csv::csv_token>& arguments) {
+		instruction create_instruction_loadtexture(const std::vector<csv::CSVToken>& arguments) {
 			instructions::load_texture lt{};
 			switch (arguments.size()) {
 				default:
@@ -359,7 +360,7 @@ namespace bve::parsers::b3d_csv_object {
 		}
 
 		instruction create_instruction_setdecaltransparentcolor(
-		    const std::vector<csv::csv_token>& arguments) {
+		    const std::vector<csv::CSVToken>& arguments) {
 			instructions::set_decal_transparent_color sdtc{};
 			switch (arguments.size()) {
 				default:
@@ -384,7 +385,7 @@ namespace bve::parsers::b3d_csv_object {
 			return sdtc;
 		}
 		instruction create_instruction_settexturecoordinates(
-		    const std::vector<csv::csv_token>& arguments) {
+		    const std::vector<csv::CSVToken>& arguments) {
 			if (arguments.size() < 4) {
 				throw std::invalid_argument("Creation of instruction settexturecoordinates");
 			}
@@ -396,7 +397,7 @@ namespace bve::parsers::b3d_csv_object {
 			return stc;
 		}
 
-		const std::map<std::string, instruction (*)(const std::vector<csv::csv_token>&)>
+		const std::map<std::string, instruction (*)(const std::vector<csv::CSVToken>&)>
 		    function_mapping{
 		        // .csv
 		        {"createmeshbuilder"s, &create_instruction_createmeshbuilder},
@@ -453,8 +454,8 @@ namespace bve::parsers::b3d_csv_object {
 
 		util::remove_comments(text, ';');
 
-		auto csv = parse(text, ft == file_type::b3d ? csv::split_first_column::yes
-		                                            : csv::split_first_column::no);
+		auto csv = parse(text, ft == file_type::b3d ? csv::SplitFirstColumn::yes
+		                                            : csv::SplitFirstColumn::no);
 
 		for (auto& row : csv) {
 			if (row.empty() || row[0].text.empty()) {

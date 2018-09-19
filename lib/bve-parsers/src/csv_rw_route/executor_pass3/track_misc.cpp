@@ -2,7 +2,7 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::back& inst) {
+	void pass3_executor::operator()(const instructions::track::Back& inst) {
 		auto const background_iterator = background_mapping_.find(inst.background_texture_index);
 
 		if (background_iterator == background_mapping_.end()) {
@@ -21,7 +21,7 @@ namespace bve::parsers::csv_rw_route {
 		    {inst.absolute_position, background_iterator->second});
 	}
 
-	void pass3_executor::operator()(const instructions::track::fog& inst) {
+	void pass3_executor::operator()(const instructions::track::Fog& inst) {
 		fog_info fi;
 
 		fi.position = inst.absolute_position;
@@ -32,12 +32,12 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.fog.emplace_back(std::move(fi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::brightness& inst) const {
+	void pass3_executor::operator()(const instructions::track::Brightness& inst) const {
 		route_data_.brightness_levels.emplace_back<brightness_level_info>(
 		    {inst.absolute_position, inst.value});
 	}
 
-	void pass3_executor::operator()(const instructions::track::marker& inst) const {
+	void pass3_executor::operator()(const instructions::track::Marker& inst) const {
 		xml::route_marker::image_marker im;
 
 		im.on_time_filename = inst.filename;
@@ -56,7 +56,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.markers.emplace_back(mi);
 	}
 
-	void pass3_executor::operator()(const instructions::track::text_marker& inst) const {
+	void pass3_executor::operator()(const instructions::track::TextMarker& inst) const {
 		xml::route_marker::text_marker tm;
 
 		tm.on_time_text = inst.text;
@@ -64,28 +64,28 @@ namespace bve::parsers::csv_rw_route {
 
 		switch (inst.font_color) {
 			default:
-			case instructions::track::text_marker::black:
+			case instructions::track::TextMarker::FontColor::black:
 				tm.on_time_color = xml::route_marker::text_marker::color::black;
 				break;
-			case instructions::track::text_marker::gray:
+			case instructions::track::TextMarker::FontColor::gray:
 				tm.on_time_color = xml::route_marker::text_marker::color::gray;
 				break;
-			case instructions::track::text_marker::white:
+			case instructions::track::TextMarker::FontColor::white:
 				tm.on_time_color = xml::route_marker::text_marker::color::white;
 				break;
-			case instructions::track::text_marker::red:
+			case instructions::track::TextMarker::FontColor::red:
 				tm.on_time_color = xml::route_marker::text_marker::color::red;
 				break;
-			case instructions::track::text_marker::orange:
+			case instructions::track::TextMarker::FontColor::orange:
 				tm.on_time_color = xml::route_marker::text_marker::color::orange;
 				break;
-			case instructions::track::text_marker::green:
+			case instructions::track::TextMarker::FontColor::green:
 				tm.on_time_color = xml::route_marker::text_marker::color::green;
 				break;
-			case instructions::track::text_marker::blue:
+			case instructions::track::TextMarker::FontColor::blue:
 				tm.on_time_color = xml::route_marker::text_marker::color::blue;
 				break;
-			case instructions::track::text_marker::magenta:
+			case instructions::track::TextMarker::FontColor::magenta:
 				tm.on_time_color = xml::route_marker::text_marker::color::magenta;
 				break;
 		}
@@ -133,10 +133,10 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.markers.emplace_back(mi);
 	}
 
-	void pass3_executor::operator()(const instructions::track::point_of_interest& inst) {
+	void pass3_executor::operator()(const instructions::track::PointOfInterest& inst) {
 		point_of_interest_info poii;
 
-		if (!get_rail_state(inst.rail_index).active) {
+		if (!getRailState(inst.rail_index).active) {
 			std::ostringstream err;
 
 			err << "Track Index " << inst.rail_index
@@ -154,7 +154,7 @@ namespace bve::parsers::csv_rw_route {
 		poii.text = inst.text;
 	}
 
-	void pass3_executor::operator()(const instructions::track::pre_train& inst) const {
+	void pass3_executor::operator()(const instructions::track::PreTrain& inst) const {
 		if (!route_data_.pretrain_points.empty()
 		    && route_data_.pretrain_points.back().value > inst.time) {
 			std::ostringstream err;
@@ -175,7 +175,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.pretrain_points.emplace_back(std::move(pti));
 	}
 
-	void pass3_executor::operator()(const instructions::track::announce& inst) const {
+	void pass3_executor::operator()(const instructions::track::Announce& inst) const {
 		announcement_info ai;
 
 		ai.filename = add_sound_filename(inst.filename);
@@ -185,7 +185,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.announcments.emplace_back(std::move(ai));
 	}
 
-	void pass3_executor::operator()(const instructions::track::doppler& inst) {
+	void pass3_executor::operator()(const instructions::track::Doppler& inst) {
 		sound_info si;
 
 		si.position =
@@ -195,7 +195,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.sounds.emplace_back(std::move(si));
 	}
 
-	void pass3_executor::operator()(const instructions::track::buffer& inst) const {
+	void pass3_executor::operator()(const instructions::track::Buffer& inst) const {
 		route_data_.bumpers.emplace_back(inst.absolute_position);
 	}
 } // namespace bve::parsers::csv_rw_route

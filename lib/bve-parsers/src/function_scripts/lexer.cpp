@@ -43,7 +43,7 @@ namespace bve::parsers::function_scripts {
 	} // namespace
 
 	// ReSharper disable once CyclomaticComplexity
-	lexer_token_list lex(const std::string& text, errors::errors_t& errors) {
+	lexer_token_list lex(const std::string& text, errors::Errors& errors) {
 		lexer_token_list ltl;
 
 		for (std::size_t i = 0; i < text.size(); ++i) {
@@ -119,7 +119,7 @@ namespace bve::parsers::function_scripts {
 							i += 1;
 						}
 						else {
-							errors.emplace_back<errors::error_t>({0, R"("=" must be "==")"});
+							errors.emplace_back<errors::Error>({0, R"("=" must be "==")"});
 						}
 						lt = lexer_types::double_eq{};
 						break;

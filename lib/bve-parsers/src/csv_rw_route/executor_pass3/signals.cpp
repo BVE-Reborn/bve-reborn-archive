@@ -2,7 +2,7 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::naked::signal_animated& inst) {
+	void pass3_executor::operator()(const instructions::naked::SignalAnimated& inst) {
 		auto this_signal = animated_signal{inst.filename};
 		auto insert_pair = std::make_pair(inst.signal_index, this_signal);
 
@@ -29,7 +29,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::naked::signal& inst) {
+	void pass3_executor::operator()(const instructions::naked::Signal& inst) {
 		auto this_signal = traditional_signal{inst.signal_filename, inst.glow_filename};
 
 		auto insert_pair = std::make_pair(inst.signal_index, this_signal);

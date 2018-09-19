@@ -1,7 +1,7 @@
 #include "executor_pass3.hpp"
 
 namespace bve::parsers::csv_rw_route {
-	rail_state& pass3_executor::get_rail_state(std::size_t const index) {
+	rail_state& pass3_executor::getRailState(std::size_t const index) {
 		if (index == std::numeric_limits<std::size_t>::max()) {
 			return current_rail_state_[0];
 		}

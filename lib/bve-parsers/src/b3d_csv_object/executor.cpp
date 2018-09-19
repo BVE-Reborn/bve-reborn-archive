@@ -82,7 +82,7 @@ namespace bve::parsers::b3d_csv_object {
 			return false;
 		}
 
-		void calculate_normals(mesh_t& mesh) {
+		void calculate_normals(Mesh& mesh) {
 			for (auto& vert : mesh.verts) {
 				vert.normal = glm::vec3(0);
 			}
@@ -136,7 +136,7 @@ namespace bve::parsers::b3d_csv_object {
 			return face_count;
 		}
 
-		std::vector<vertex_t> shrink_vertex_list(const std::vector<vertex_t>& vertices,
+		std::vector<Vertex> shrink_vertex_list(const std::vector<Vertex>& vertices,
 		                                         std::vector<std::size_t>& indices) {
 			std::vector<std::size_t> translation(vertices.size(), 0);
 			std::vector<bool> use_vertex(vertices.size(), false);
@@ -146,7 +146,7 @@ namespace bve::parsers::b3d_csv_object {
 				use_vertex[index] = true;
 			}
 
-			std::vector<vertex_t> new_vertex_list;
+			std::vector<Vertex> new_vertex_list;
 
 			// create new vertex list and translations
 			std::size_t new_index = 0;
@@ -198,8 +198,8 @@ namespace bve::parsers::b3d_csv_object {
 
 			auto const next_face = std::find_if(begin, end, cmp_func);
 
-			mesh_t mesh;
-			dependencies::texture_t tex;
+			Mesh mesh;
+			dependencies::Texture tex;
 
 			// apply properties to the texture
 			tex.file = begin->data.texture;
@@ -220,7 +220,7 @@ namespace bve::parsers::b3d_csv_object {
 				    triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
 				for (std::size_t i = 0; i < count; ++i) {
 					mesh.face_data.emplace_back(
-					    face_data_t{face.data.color, face.data.emissive_color});
+					    FaceData{face.data.color, face.data.emissive_color});
 				}
 			});
 
@@ -256,7 +256,7 @@ namespace bve::parsers::b3d_csv_object {
 
 	void instructions::parsed_csv_object_builder::operator()(const add_vertex& arg) {
 		vertices.emplace_back(
-		    vertex_t{glm::vec3{arg.v_x, arg.v_y, arg.v_z}, glm::vec3{arg.n_x, arg.n_y, arg.n_z}});
+		    Vertex{glm::vec3{arg.v_x, arg.v_y, arg.v_z}, glm::vec3{arg.n_x, arg.n_y, arg.n_z}});
 	}
 
 	void instructions::parsed_csv_object_builder::operator()(const add_face& arg) {
@@ -283,20 +283,20 @@ namespace bve::parsers::b3d_csv_object {
 
 		// Create vertices
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(arg.half_width, arg.half_height, -arg.half_depth)});
+		    Vertex{glm::vec3(arg.half_width, arg.half_height, -arg.half_depth)});
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(arg.half_width, -arg.half_height, -arg.half_depth)});
+		    Vertex{glm::vec3(arg.half_width, -arg.half_height, -arg.half_depth)});
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(-arg.half_width, -arg.half_height, -arg.half_depth)});
+		    Vertex{glm::vec3(-arg.half_width, -arg.half_height, -arg.half_depth)});
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(-arg.half_width, arg.half_height, -arg.half_depth)});
-		vertices.emplace_back(vertex_t{glm::vec3(arg.half_width, arg.half_height, arg.half_depth)});
+		    Vertex{glm::vec3(-arg.half_width, arg.half_height, -arg.half_depth)});
+		vertices.emplace_back(Vertex{glm::vec3(arg.half_width, arg.half_height, arg.half_depth)});
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(arg.half_width, -arg.half_height, arg.half_depth)});
+		    Vertex{glm::vec3(arg.half_width, -arg.half_height, arg.half_depth)});
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(-arg.half_width, -arg.half_height, arg.half_depth)});
+		    Vertex{glm::vec3(-arg.half_width, -arg.half_height, arg.half_depth)});
 		vertices.emplace_back(
-		    vertex_t{glm::vec3(-arg.half_width, arg.half_height, arg.half_depth)});
+		    Vertex{glm::vec3(-arg.half_width, arg.half_height, arg.half_depth)});
 
 		// Create faces
 		untriangulated_faces.emplace_back(
@@ -328,7 +328,7 @@ namespace bve::parsers::b3d_csv_object {
 		// Add vertices
 		for (std::size_t i = 0; i < n; ++i) {
 			vertices.emplace_back(
-			    vertex_t{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
+			    Vertex{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
 			                                / static_cast<float>(n))
 			                           * r1, //
 			                       h / 2,    //
@@ -337,7 +337,7 @@ namespace bve::parsers::b3d_csv_object {
 			                           * r1}});
 
 			vertices.emplace_back(
-			    vertex_t{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
+			    Vertex{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
 			                                / static_cast<float>(n))
 			                           * r2, //
 			                       -h / 2,   //
@@ -501,7 +501,7 @@ namespace bve::parsers::b3d_csv_object {
 		}
 	}
 
-	parsed_b3d_csv_object_t run_csv_instructions(const instruction_list& ilist) {
+	ParsedB3DCSVObject run_csv_instructions(const instruction_list& ilist) {
 		instructions::parsed_csv_object_builder pcsvob;
 		for (auto& inst : ilist) {
 			apply_visitor(pcsvob, inst);

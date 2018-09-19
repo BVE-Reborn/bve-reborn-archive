@@ -214,7 +214,7 @@ namespace bve::parsers::function_scripts {
 			else {
 				std::ostringstream error;
 				error << "Variable \"" << node.val << "\" not found";
-				list.errors.emplace_back<errors::error_t>({0, error.str()});
+				list.errors.emplace_back<errors::Error>({0, error.str()});
 				list.instructions.emplace_back<instructions::stack_push>({0});
 			}
 		}
@@ -256,7 +256,7 @@ namespace bve::parsers::function_scripts {
 					std::ostringstream error;
 					error << "Variable \"" << node.name.val
 					      << "\" must be indexed with one argument.";
-					list.errors.emplace_back<errors::error_t>({0, error.str()});
+					list.errors.emplace_back<errors::Error>({0, error.str()});
 				}
 				return;
 			}
@@ -360,7 +360,7 @@ namespace bve::parsers::function_scripts {
 	};
 
 	instruction_list build_instructions(const tree_node& head_node,
-	                                    const errors::errors_t& errors) {
+	                                    const errors::Errors& errors) {
 		intruction_builder_helper ibh;
 		std::copy(errors.begin(), errors.end(), std::back_inserter(ibh.list.errors));
 		apply_visitor(ibh, head_node);

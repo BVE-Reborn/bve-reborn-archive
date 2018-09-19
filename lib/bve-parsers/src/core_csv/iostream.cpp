@@ -2,7 +2,7 @@
 #include <ostream>
 
 namespace bve::parsers::csv {
-	std::ostream& operator<<(std::ostream& os, const csv_token& rhs) {
+	std::ostream& operator<<(std::ostream& os, const CSVToken& rhs) {
 		os << "(\"" << rhs.text << "\", " << rhs.line_begin << ", " << rhs.line_end << ", "
 		   << rhs.char_begin << ", " << rhs.char_end << ')';
 		return os;

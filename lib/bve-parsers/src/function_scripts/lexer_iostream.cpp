@@ -2,12 +2,12 @@
 #include <ostream>
 
 namespace bve::parsers::function_scripts {
-	struct function_script_lexer_token_io_class {
+	struct FunctionScriptLexerTokenIoClass {
 	  private:
 		std::ostream& os_;
 
 	  public:
-		explicit function_script_lexer_token_io_class(std::ostream& os) : os_(os) {}
+		explicit FunctionScriptLexerTokenIoClass(std::ostream& os) : os_(os) {}
 
 		void operator()(const lexer_types::plus& arg) const {
 			(void) arg;
@@ -124,7 +124,7 @@ namespace bve::parsers::function_scripts {
 } // namespace bve::parsers::function_scripts
 
 std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::lexer_token& lt) {
-	bve::parsers::function_scripts::function_script_lexer_token_io_class fsic{os};
+	bve::parsers::function_scripts::FunctionScriptLexerTokenIoClass fsic{os};
 	apply_visitor(fsic, lt);
 	return os;
 }

@@ -5,7 +5,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	    const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "Location Statement");
 
-		instructions::naked::position pos;
+		instructions::naked::Position pos;
 		pos.distances.reserve(inst.args.size() + 1);
 		pos.distances.emplace_back(inst.offset);
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(pos.distances),

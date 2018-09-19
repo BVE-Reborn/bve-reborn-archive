@@ -2,7 +2,7 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::add_rail_objects_up_to_position(rail_state& state,
+	void pass3_executor::addRailObjectsToPosition(rail_state& state,
 	                                                     float const position) const {
 		if (!state.active) {
 			return;
@@ -35,10 +35,10 @@ namespace bve::parsers::csv_rw_route {
 		state.position_last_updated = position;
 	}
 
-	void pass3_executor::operator()(const instructions::track::rail_start& inst) {
-		auto& state = get_rail_state(inst.rail_index);
+	void pass3_executor::operator()(const instructions::track::RailStart& inst) {
+		auto& state = getRailState(inst.rail_index);
 
-		add_rail_objects_up_to_position(state, inst.absolute_position);
+		addRailObjectsToPosition(state, inst.absolute_position);
 
 		if (state.active) {
 			std::ostringstream err;
@@ -62,10 +62,10 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::rail& inst) {
-		auto& state = get_rail_state(inst.rail_index);
+	void pass3_executor::operator()(const instructions::track::Rail& inst) {
+		auto& state = getRailState(inst.rail_index);
 
-		add_rail_objects_up_to_position(state, inst.absolute_position);
+		addRailObjectsToPosition(state, inst.absolute_position);
 
 		state.x_offset = inst.x_offset.value_or(state.x_offset);
 		state.y_offset = inst.y_offset.value_or(state.y_offset);
@@ -81,10 +81,10 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::rail_type& inst) {
-		auto& state = get_rail_state(inst.rail_index);
+	void pass3_executor::operator()(const instructions::track::RailType& inst) {
+		auto& state = getRailState(inst.rail_index);
 
-		add_rail_objects_up_to_position(state, inst.absolute_position);
+		addRailObjectsToPosition(state, inst.absolute_position);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -106,10 +106,10 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::rail_end& inst) {
-		auto& state = get_rail_state(inst.rail_index);
+	void pass3_executor::operator()(const instructions::track::RailEnd& inst) {
+		auto& state = getRailState(inst.rail_index);
 
-		add_rail_objects_up_to_position(state, inst.absolute_position);
+		addRailObjectsToPosition(state, inst.absolute_position);
 
 		if (!state.active) {
 			std::ostringstream err;
@@ -130,7 +130,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::adhesion& inst) const {
+	void pass3_executor::operator()(const instructions::track::Adhesion& inst) const {
 		route_data_.adheason.emplace_back<rail_adheason_info>({inst.absolute_position, inst.value});
 	}
 } // namespace bve::parsers::csv_rw_route

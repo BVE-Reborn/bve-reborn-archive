@@ -78,11 +78,11 @@ namespace bve::parsers::function_scripts {
 	class lexer_token_container {
 	  private:
 		const lexer_token_list& list_;
-		errors::errors_t& err_;
+		errors::Errors& err_;
 		std::size_t index_ = 0;
 
 	  public:
-		lexer_token_container(const lexer_token_list& contains, errors::errors_t& errors) :
+		lexer_token_container(const lexer_token_list& contains, errors::Errors& errors) :
 		    list_(contains),
 		    err_(errors) {}
 
@@ -120,7 +120,7 @@ namespace bve::parsers::function_scripts {
 			return index_ < list_.size() ? tl::make_optional(list_[index_]) : tl::nullopt;
 		}
 
-		void add_error(const errors::error_t& error) const {
+		void add_error(const errors::Error& error) const {
 			err_.emplace_back(error);
 		}
 	};
@@ -258,10 +258,10 @@ namespace bve::parsers::function_scripts {
 		};
 	} // namespace tree_types
 
-	lexer_token_list lex(const std::string& text, errors::errors_t& errors);
-	tree_node create_tree(const lexer_token_list& list, errors::errors_t& errors);
+	lexer_token_list lex(const std::string& text, errors::Errors& errors);
+	tree_node create_tree(const lexer_token_list& list, errors::Errors& errors);
 	instruction_list build_instructions(const tree_node& head_node,
-	                                    const errors::errors_t& errors = {});
+	                                    const errors::Errors& errors = {});
 } // namespace bve::parsers::function_scripts
 
 std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::lexer_token& lt);

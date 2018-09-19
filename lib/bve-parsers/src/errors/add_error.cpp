@@ -3,30 +3,30 @@
 #include <utility>
 
 namespace bve::parsers::errors {
-	void add_error(errors_t& errors, std::intmax_t const line, std::string msg) {
-		error_t err;
+	void add_error(Errors& errors, std::intmax_t const line, std::string msg) {
+		Error err;
 		err.line = line;
 		err.error = std::move(msg);
 
 		errors.emplace_back(std::move(err));
 	}
 
-	void add_error(errors_t& errors, std::intmax_t const line, const std::ostringstream& msg) {
-		error_t err;
+	void add_error(Errors& errors, std::intmax_t const line, const std::ostringstream& msg) {
+		Error err;
 		err.line = line;
 		err.error = msg.str();
 
 		errors.emplace_back(std::move(err));
 	}
 
-	void add_error(multi_error_t& errors,
+	void add_error(MultiError& errors,
 	               const std::string& filename,
 	               std::intmax_t const line,
 	               std::string msg) {
 		add_error(errors[filename], line, std::move(msg));
 	}
 
-	void add_error(multi_error_t& errors,
+	void add_error(MultiError& errors,
 	               const std::string& filename,
 	               std::intmax_t const line,
 	               const std::ostringstream& msg) {

@@ -4,20 +4,20 @@
 
 namespace bve::parsers::csv_rw_route {
 	namespace {
-		struct pass2_executor {
+		struct Pass2Executor {
 		  public:
 			parsed_route_data rd = {};
 			float first_factor_uod = 1;
 			float block_size = 25;
 
 		  private:
-			errors::multi_error_t& errors_;
+			errors::MultiError& errors_;
 			const std::vector<std::string>& filenames_;
 
-			decltype(instructions::options::cant_behavior::signed_cant) cant_behavior_ =
-			    instructions::options::cant_behavior::unsigned_cant;
+			instructions::options::CantBehavior::Mode cant_behavior_ =
+			    instructions::options::CantBehavior::Mode::unsigned_cant;
 
-			rail_block_info& make_new_block(float position) {
+			rail_block_info& makeNewBlock(float position) {
 				position = bve::core::math::max<float>(0, position);
 				if (rd.blocks.empty()) {
 					if (position != 0) {
@@ -104,35 +104,35 @@ namespace bve::parsers::csv_rw_route {
 			}
 
 		  public:
-			pass2_executor(errors::multi_error_t& e, const std::vector<std::string>& f) :
+			Pass2Executor(errors::MultiError& e, const std::vector<std::string>& f) :
 			    errors_(e),
 			    filenames_(f) {}
 
-			void operator()(const instructions::options::unit_of_length& inst) {
+			void operator()(const instructions::options::UnitOfLength& inst) {
 				// verification of argument count has already happened
 				// first element is the factor used by include offsets (always
 				// one) the first user defined factor is the second element
 				first_factor_uod = inst.factors_in_meters[1];
 			}
 
-			void operator()(const instructions::options::block_length& inst) {
+			void operator()(const instructions::options::BlockLength& inst) {
 				block_size = first_factor_uod * inst.length;
 			}
 
-			void operator()(const instructions::options::cant_behavior& inst) {
+			void operator()(const instructions::options::CantBehavior& inst) {
 				cant_behavior_ = inst.mode;
 			}
 
-			void operator()(const instructions::track::pitch& inst) {
-				auto& block = make_new_block(inst.absolute_position);
+			void operator()(const instructions::track::Pitch& inst) {
+				auto& block = makeNewBlock(inst.absolute_position);
 				block.pitch = inst.rate / 1000;
 				calculate_cache();
 			}
 
-			void operator()(const instructions::track::curve& inst) {
-				auto& block = make_new_block(inst.absolute_position);
+			void operator()(const instructions::track::Curve& inst) {
+				auto& block = makeNewBlock(inst.absolute_position);
 				block.radius = inst.radius;
-				if (inst.cant == decltype(cant_behavior_)::unsigned_cant) {
+				if (cant_behavior_ == instructions::options::CantBehavior::Mode::unsigned_cant) {
 					block.cant = block.radius != 0 ? std::abs(inst.cant) : 0;
 				}
 				else {
@@ -141,8 +141,8 @@ namespace bve::parsers::csv_rw_route {
 				calculate_cache();
 			}
 
-			void operator()(const instructions::track::turn& inst) {
-				auto& block = make_new_block(inst.absolute_position);
+			void operator()(const instructions::track::Turn& inst) {
+				auto& block = makeNewBlock(inst.absolute_position);
 
 				if (inst.ratio != 0) {
 					auto const x = inst.ratio * block_size;
@@ -157,7 +157,7 @@ namespace bve::parsers::csv_rw_route {
 				calculate_cache();
 			}
 
-			void operator()(const instructions::track::height& inst) {
+			void operator()(const instructions::track::Height& inst) {
 				rd.ground_height.emplace_back(ground_height_info{inst.absolute_position, inst.y});
 			}
 
@@ -171,8 +171,8 @@ namespace bve::parsers::csv_rw_route {
 	} // namespace
 
 	parsed_route_data execute_instructions_pass2(instruction_list& list,
-	                                             errors::multi_error_t& errors) {
-		pass2_executor p2_e(errors, list.filenames);
+	                                             errors::MultiError& errors) {
+		Pass2Executor p2_e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {
 			mapbox::util::apply_visitor(p2_e, i);

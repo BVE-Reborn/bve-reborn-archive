@@ -3,7 +3,7 @@
 namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_options_unitoflength(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::unit_of_length uol;
+		instructions::options::UnitOfLength uol;
 		uol.factors_in_meters.reserve(std::max(std::size_t(2), inst.args.size() + 1));
 		uol.factors_in_meters.emplace_back(1.0f);
 		if (!inst.args.empty()) {
@@ -21,7 +21,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_unitofspeed(
 	    const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::options::unit_of_speed>(inst,
+		return create_single_float_instruction<instructions::options::UnitOfSpeed>(inst,
 		                                                                             "Options."
 		                                                                             "UnitOfSpeed",
 		                                                                             1);
@@ -29,7 +29,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_blocklength(
 	    const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::options::block_length>(inst,
+		return create_single_float_instruction<instructions::options::BlockLength>(inst,
 		                                                                            "Options."
 		                                                                            "BlockLength",
 		                                                                            25);
@@ -37,16 +37,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_objectvisibility(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::object_visibility ov;
+		instructions::options::ObjectVisibility ov;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			ov.mode = value == 0 ? instructions::options::object_visibility::legacy
-			                     : instructions::options::object_visibility::track_based;
+			ov.mode = value == 0 ? instructions::options::ObjectVisibility::Mode::legacy
+			                     : instructions::options::ObjectVisibility::Mode::track_based;
 		}
 		else {
-			ov.mode = instructions::options::object_visibility::legacy;
+			ov.mode = instructions::options::ObjectVisibility::Mode::legacy;
 		}
 
 		return ov;
@@ -54,16 +54,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_sectionbehavior(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::section_behavior sb;
+		instructions::options::SectionBehavior sb;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			sb.mode = value == 0 ? instructions::options::section_behavior::normal
-			                     : instructions::options::section_behavior::simplified;
+			sb.mode = value == 0 ? instructions::options::SectionBehavior::Mode::normal
+			                     : instructions::options::SectionBehavior::Mode::simplified;
 		}
 		else {
-			sb.mode = instructions::options::section_behavior::normal;
+			sb.mode = instructions::options::SectionBehavior::Mode::normal;
 		}
 
 		return sb;
@@ -71,16 +71,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_cantbehavior(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::cant_behavior cb;
+		instructions::options::CantBehavior cb;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			cb.mode = value == 0 ? instructions::options::cant_behavior::unsigned_cant
-			                     : instructions::options::cant_behavior::signed_cant;
+			cb.mode = value == 0 ? instructions::options::CantBehavior::Mode::unsigned_cant
+			                     : instructions::options::CantBehavior::Mode::signed_cant;
 		}
 		else {
-			cb.mode = instructions::options::cant_behavior::unsigned_cant;
+			cb.mode = instructions::options::CantBehavior::Mode::unsigned_cant;
 		}
 
 		return cb;
@@ -88,16 +88,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_fogbehavior(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::fog_behavior fb;
+		instructions::options::FogBehavior fb;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			fb.mode = value == 0 ? instructions::options::fog_behavior::block_based
-			                     : instructions::options::fog_behavior::interpolated;
+			fb.mode = value == 0 ? instructions::options::FogBehavior::Mode::block_based
+			                     : instructions::options::FogBehavior::Mode::interpolated;
 		}
 		else {
-			fb.mode = instructions::options::fog_behavior::block_based;
+			fb.mode = instructions::options::FogBehavior::Mode::block_based;
 		}
 
 		return fb;
@@ -105,16 +105,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_compatibletransparencymode(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::compatible_transparency_mode ctm;
+		instructions::options::CompatibleTransparencyMode ctm;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			ctm.mode = value == 0 ? instructions::options::compatible_transparency_mode::off
-			                      : instructions::options::compatible_transparency_mode::on;
+			ctm.mode = value == 0 ? instructions::options::CompatibleTransparencyMode::Mode::off
+			                      : instructions::options::CompatibleTransparencyMode::Mode::on;
 		}
 		else {
-			ctm.mode = instructions::options::compatible_transparency_mode::off;
+			ctm.mode = instructions::options::CompatibleTransparencyMode::Mode::off;
 		}
 
 		return ctm;
@@ -122,16 +122,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_options_enablebvetshacks(
 	    const line_splitting::instruction_info& inst) {
-		instructions::options::enable_bve_ts_hacks ebth;
+		instructions::options::EnableBveTsHacks ebth;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			ebth.mode = value == 0 ? instructions::options::enable_bve_ts_hacks::off
-			                       : instructions::options::enable_bve_ts_hacks::on;
+			ebth.mode = value == 0 ? instructions::options::EnableBveTsHacks::Mode::off
+			                       : instructions::options::EnableBveTsHacks::Mode::on;
 		}
 		else {
-			ebth.mode = instructions::options::enable_bve_ts_hacks::off;
+			ebth.mode = instructions::options::EnableBveTsHacks::Mode::off;
 		}
 
 		return ebth;

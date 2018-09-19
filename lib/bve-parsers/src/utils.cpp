@@ -101,7 +101,7 @@ namespace bve::parsers::util {
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		auto const dilim =
-		    std::find_if(text.begin(), text.end(), [](char c) { return c == '.' || c == ':'; });
+		    std::find_if(text.begin(), text.end(), [](char const c) { return c == '.' || c == ':'; });
 		auto const right_hand_size = std::distance(dilim, text.end()) - 1;
 
 		// no dilim, only hh

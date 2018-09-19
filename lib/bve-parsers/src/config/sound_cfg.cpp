@@ -15,7 +15,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param errors File error list. Puts complaints inside.
 		 * \param section Section holding version number.
 		 */
-		void check_version_number(errors::errors_t& errors, ini::ini_section_t const& section) {
+		void check_version_number(errors::Errors& errors, ini::INISection const& section) {
 			static std::regex const r(R"(version\s*(\d+(?:\.\d*)?))",
 			                          std::regex_constants::optimize | std::regex_constants::icase
 			                              | std::regex_constants::ECMAScript);
@@ -67,7 +67,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param line Line within the file that the error occured.
 		 */
 		void check_if_set(bool& flag,
-		                  errors::errors_t& errors,
+		                  errors::Errors& errors,
 		                  char const* const section,
 		                  char const* const name,
 		                  std::size_t const line) {
@@ -92,8 +92,8 @@ namespace bve::parsers::config::sound_cfg {
 		template <class Ret, class F>
 		std::unordered_map<std::size_t, Ret> parse_number_filename_pairs(
 		    F& get_filename,
-		    errors::errors_t& errors,
-		    ini::ini_section_t const& section) {
+		    errors::Errors& errors,
+		    ini::INISection const& section) {
 			function_check(get_filename);
 
 			std::unordered_map<std::size_t, bool> used;
@@ -124,7 +124,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty brake_t block.
 		 */
-		brake_t create_empty_brake(filename_iterator end) {
+		brake_t create_empty_brake(filename_iterator const end) {
 			brake_t ret;
 
 			ret.bc_release_high = end;
@@ -147,9 +147,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		brake_t parse_brake(F& get_filename,
-		                    errors::errors_t& errors,
-		                    ini::ini_section_t const& section,
-		                    filename_iterator end) {
+		                    errors::Errors& errors,
+		                    ini::INISection const& section,
+		                    filename_iterator const end) {
 			function_check(get_filename);
 
 			brake_t ret = create_empty_brake(end);
@@ -198,7 +198,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty compressor_t block.
 		 */
-		compressor_t create_empty_compressor(filename_iterator end) {
+		compressor_t create_empty_compressor(filename_iterator const end) {
 			compressor_t ret;
 
 			ret.attack = end;
@@ -219,9 +219,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		compressor_t parse_compressor(F& get_filename,
-		                              errors::errors_t& errors,
-		                              ini::ini_section_t const& section,
-		                              filename_iterator end) {
+		                              errors::Errors& errors,
+		                              ini::INISection const& section,
+		                              filename_iterator const end) {
 			function_check(get_filename);
 
 			compressor_t ret = create_empty_compressor(end);
@@ -258,7 +258,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty suspension_t block.
 		 */
-		suspension_t create_empty_suspension(filename_iterator end) {
+		suspension_t create_empty_suspension(filename_iterator const end) {
 			suspension_t ret;
 
 			ret.left = end;
@@ -278,9 +278,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		suspension_t parse_suspension(F& get_filename,
-		                              errors::errors_t& errors,
-		                              ini::ini_section_t const& section,
-		                              filename_iterator end) {
+		                              errors::Errors& errors,
+		                              ini::INISection const& section,
+		                              filename_iterator const end) {
 			function_check(get_filename);
 
 			suspension_t ret = create_empty_suspension(end);
@@ -312,7 +312,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty legacy_horn_t block.
 		 */
-		legacy_horn_t create_empty_legacy_horn(filename_iterator end) {
+		legacy_horn_t create_empty_legacy_horn(filename_iterator const end) {
 			legacy_horn_t ret;
 
 			ret.primary = end;
@@ -327,7 +327,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty looped_horn_t block.
 		 */
-		looped_horn_t create_empty_looped_horn(filename_iterator end) {
+		looped_horn_t create_empty_looped_horn(filename_iterator const end) {
 			looped_horn_t ret;
 
 			ret.primary_start = end;
@@ -358,9 +358,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		horn_t parse_horn(F& get_filename,
-		                  errors::errors_t& errors,
-		                  ini::ini_section_t const& section,
-		                  filename_iterator end) {
+		                  errors::Errors& errors,
+		                  ini::INISection const& section,
+		                  filename_iterator const end) {
 			function_check(get_filename);
 
 			looped_horn_t looped_ret = create_empty_looped_horn(end);
@@ -487,7 +487,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty doors_t block.
 		 */
-		doors_t create_empty_doors(filename_iterator end) {
+		doors_t create_empty_doors(filename_iterator const end) {
 			doors_t ret;
 
 			ret.open_left = end;
@@ -509,9 +509,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		doors_t parse_doors(F& get_filename,
-		                    errors::errors_t& errors,
-		                    ini::ini_section_t const& section,
-		                    filename_iterator end) {
+		                    errors::Errors& errors,
+		                    ini::INISection const& section,
+		                    filename_iterator const end) {
 			function_check(get_filename);
 
 			doors_t ret = create_empty_doors(end);
@@ -553,7 +553,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty buzzer_t block.
 		 */
-		buzzer_t create_empty_buzzer(filename_iterator end) {
+		buzzer_t create_empty_buzzer(filename_iterator const end) {
 			buzzer_t ret;
 
 			ret.correct = end;
@@ -572,9 +572,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		buzzer_t parse_buzzer(F& get_filename,
-		                      errors::errors_t& errors,
-		                      ini::ini_section_t const& section,
-		                      filename_iterator end) {
+		                      errors::Errors& errors,
+		                      ini::INISection const& section,
+		                      filename_iterator const end) {
 			function_check(get_filename);
 
 			buzzer_t ret = create_empty_buzzer(end);
@@ -601,7 +601,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty pilot_lamp_t block.
 		 */
-		pilot_lamp_t create_empty_pilot_lamp(filename_iterator end) {
+		pilot_lamp_t create_empty_pilot_lamp(filename_iterator const end) {
 			pilot_lamp_t ret;
 
 			ret.on = end;
@@ -621,9 +621,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		pilot_lamp_t parse_pilot_lamp(F& get_filename,
-		                              errors::errors_t& errors,
-		                              ini::ini_section_t const& section,
-		                              filename_iterator end) {
+		                              errors::Errors& errors,
+		                              ini::INISection const& section,
+		                              filename_iterator const end) {
 			function_check(get_filename);
 
 			pilot_lamp_t ret = create_empty_pilot_lamp(end);
@@ -655,7 +655,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty brake_handle_t block.
 		 */
-		brake_handle_t create_empty_brake_handle(filename_iterator end) {
+		brake_handle_t create_empty_brake_handle(filename_iterator const end) {
 			brake_handle_t ret;
 
 			ret.apply = end;
@@ -677,9 +677,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		brake_handle_t parse_brake_handle(F& get_filename,
-		                                  errors::errors_t& errors,
-		                                  ini::ini_section_t const& section,
-		                                  filename_iterator end) {
+		                                  errors::Errors& errors,
+		                                  ini::INISection const& section,
+		                                  filename_iterator const end) {
 			function_check(get_filename);
 
 			brake_handle_t ret = create_empty_brake_handle(end);
@@ -721,7 +721,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty master_controller_t block.
 		 */
-		master_controller_t create_empty_master_controller(filename_iterator end) {
+		master_controller_t create_empty_master_controller(filename_iterator const end) {
 			master_controller_t ret;
 
 			ret.up = end;
@@ -743,9 +743,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		master_controller_t parse_master_controller(F& get_filename,
-		                                            errors::errors_t& errors,
-		                                            ini::ini_section_t const& section,
-		                                            filename_iterator end) {
+		                                            errors::Errors& errors,
+		                                            ini::INISection const& section,
+		                                            filename_iterator const end) {
 			function_check(get_filename);
 
 			master_controller_t ret = create_empty_master_controller(end);
@@ -787,7 +787,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty reverser_t block.
 		 */
-		reverser_t create_empty_reverser(filename_iterator end) {
+		reverser_t create_empty_reverser(filename_iterator const end) {
 			reverser_t ret;
 
 			ret.on = end;
@@ -807,9 +807,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		reverser_t parse_reverser(F& get_filename,
-		                          errors::errors_t& errors,
-		                          ini::ini_section_t const& section,
-		                          filename_iterator end) {
+		                          errors::Errors& errors,
+		                          ini::INISection const& section,
+		                          filename_iterator const end) {
 			function_check(get_filename);
 
 			reverser_t ret = create_empty_reverser(end);
@@ -841,7 +841,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param end End iterator of filename set
 		 * \return Empty breaker_t block.
 		 */
-		breaker_t create_empty_breaker(filename_iterator end) {
+		breaker_t create_empty_breaker(filename_iterator const end) {
 			breaker_t ret;
 
 			ret.on = end;
@@ -861,9 +861,9 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		breaker_t parse_breaker(F& get_filename,
-		                        errors::errors_t& errors,
-		                        ini::ini_section_t const& section,
-		                        filename_iterator end) {
+		                        errors::Errors& errors,
+		                        ini::INISection const& section,
+		                        filename_iterator const end) {
 			function_check(get_filename);
 
 			breaker_t ret = create_empty_breaker(end);
@@ -915,8 +915,8 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		misc_t parse_misc(F& get_filename,
-		                  errors::errors_t& errors,
-		                  ini::ini_section_t const& section,
+		                  errors::Errors& errors,
+		                  ini::INISection const& section,
 		                  filename_iterator const end) {
 			function_check(get_filename);
 
@@ -1049,7 +1049,7 @@ namespace bve::parsers::config::sound_cfg {
 
 	parsed_sound_cfg_t parse(std::string const& filename,
 	                         std::string const& input_string,
-	                         errors::multi_error_t& errors,
+	                         errors::MultiError& errors,
 	                         find_relative_file_func const& get_relative_file) {
 		parsed_sound_cfg_t psc;
 
@@ -1080,7 +1080,7 @@ namespace bve::parsers::config::sound_cfg {
 		    misc_flag = false;
 
 		auto const check_if_section_used = [&](bool& flag, char const* const name,
-		                                       std::size_t line) {
+		                                       std::size_t const line) {
 			if (flag) {
 				std::ostringstream err;
 				err << "[" << name << "] has already been defined. Overriding with new value."s;

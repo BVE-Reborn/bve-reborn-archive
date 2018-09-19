@@ -11,7 +11,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		// Signal File version
 		if (inst.args.size() >= 2) {
-			instructions::naked::signal s;
+			instructions::naked::Signal s;
 			s.signal_index = signal_index;
 			s.signal_filename = inst.args[0];
 			s.glow_filename = inst.args[1];
@@ -19,7 +19,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		}
 
 		// Animated File version
-		instructions::naked::signal_animated sa;
+		instructions::naked::SignalAnimated sa;
 		sa.signal_index = signal_index;
 		sa.filename = inst.args[0];
 		return sa;

@@ -3,7 +3,7 @@
 #include <utility>
 
 namespace bve::core::hash {
-	inline std::size_t hash_combine(std::size_t lhs, std::size_t rhs) noexcept {
+	inline std::size_t hash_combine(std::size_t lhs, std::size_t const rhs) noexcept {
 		lhs ^= rhs + 0x517cc1b727220a95 + (lhs << 6) + (lhs >> 2);
 		return lhs;
 	}

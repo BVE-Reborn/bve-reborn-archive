@@ -3,47 +3,50 @@
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_route_comment(const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::route::comment>(inst,
+		return create_single_string_instruction<instructions::route::Comment>(inst,
 		                                                                      "Route.Comment");
 	}
 
 	instruction create_instruction_route_image(const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::route::image>(inst, "Route.Image");
+		return create_single_string_instruction<instructions::route::Image>(inst, "Route.Image");
 	}
 
 	instruction create_instruction_route_timetable(const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::route::timetable>(inst,
+		return create_single_string_instruction<instructions::route::Timetable>(inst,
 		                                                                        "Route."
 		                                                                        "Timetable");
 	}
 
 	instruction create_instruction_route_change(const line_splitting::instruction_info& inst) {
-		instructions::route::change change;
+		instructions::route::Change change;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], -1);
 			switch (value) {
 				default:
 				case -1:
-					change.mode = instructions::route::change::safty_activiated_service_brakes;
+					change.mode =
+					    instructions::route::Change::Mode::safety_activated_service_brakes;
 					break;
 				case 0:
-					change.mode = instructions::route::change::safty_activiated_emergency_brakes;
+					change.mode =
+					    instructions::route::Change::Mode::safety_activated_emergency_brakes;
 					break;
 				case 1:
-					change.mode = instructions::route::change::safty_deactivated_emergency_brakes;
+					change.mode =
+					    instructions::route::Change::Mode::safety_deactivated_emergency_brakes;
 					break;
 			}
 		}
 		else {
-			change.mode = instructions::route::change::safty_activiated_service_brakes;
+			change.mode = instructions::route::Change::Mode::safety_activated_service_brakes;
 		}
 
 		return change;
 	}
 
 	instruction create_instruction_route_gauge(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::route::guage>(inst, "Route.Guage",
+		return create_single_float_instruction<instructions::route::Gauge>(inst, "Route.Gauge",
 		                                                                   1435);
 	}
 
@@ -51,7 +54,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Route.Signal");
 		args_at_least(inst, 1, "Route.Signal");
 
-		instructions::route::signal s;
+		instructions::route::Signal s;
 
 		s.aspect_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
 		s.speed = util::parse_loose_float(inst.args[0]);
@@ -62,7 +65,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_route_runinterval(const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 1, "Route.RunInterval");
 
-		instructions::route::run_interval ri;
+		instructions::route::RunInterval ri;
 		ri.time_interval.reserve(inst.args.size());
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(ri.time_interval),
 		               [](const std::string& s) { return util::parse_loose_float(s); });
@@ -73,7 +76,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	instruction create_instruction_route_accelerationduetogravity(
 	    const line_splitting::instruction_info& inst) {
 		return create_single_float_instruction<
-		    instructions::route::acceleration_due_to_gravity>(inst,
+		    instructions::route::AccelerationDueToGravity>(inst,
 		                                                      "Route."
 		                                                      "AccelerationDue"
 		                                                      "ToGravity",
@@ -81,21 +84,21 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_route_elevation(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::route::elevation>(inst,
+		return create_single_float_instruction<instructions::route::Elevation>(inst,
 		                                                                       "Route."
 		                                                                       "Elevation",
 		                                                                       0);
 	}
 
 	instruction create_instruction_route_temperature(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::route::temperature>(inst,
+		return create_single_float_instruction<instructions::route::Temperature>(inst,
 		                                                                         "Route."
 		                                                                         "Temperature",
 		                                                                         20);
 	}
 
 	instruction create_instruction_route_pressure(const line_splitting::instruction_info& inst) {
-		return create_single_float_instruction<instructions::route::pressure>(inst,
+		return create_single_float_instruction<instructions::route::Pressure>(inst,
 		                                                                      "Route.Pressure",
 		                                                                      101.325f);
 	}
@@ -104,7 +107,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	    const line_splitting::instruction_info& inst) {
 		args_at_least(inst, 2, "Route.DisplaySpeed");
 
-		instructions::route::display_speed ds;
+		instructions::route::DisplaySpeed ds;
 
 		ds.unit_string = inst.args[0];
 		ds.conversion_factor = util::parse_loose_float(inst.args[1]);
@@ -114,7 +117,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_route_loadingscreen(
 	    const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::route::loading_screen>(inst,
+		return create_single_string_instruction<instructions::route::LoadingScreen>(inst,
 		                                                                             "Route."
 		                                                                             "LoadingSc"
 		                                                                             "r"
@@ -122,14 +125,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	instruction create_instruction_route_starttime(const line_splitting::instruction_info& inst) {
-		return create_single_time_instruction<instructions::route::start_time>(inst,
+		return create_single_time_instruction<instructions::route::StartTime>(inst,
 		                                                                       "Route."
 		                                                                       "StartTime");
 	}
 
 	instruction create_instruction_route_dynamiclight(
 	    const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::route::dynamic_light>(inst,
+		return create_single_string_instruction<instructions::route::DynamicLight>(inst,
 		                                                                            "Route."
 		                                                                            "DynamicLig"
 		                                                                            "h"
@@ -138,7 +141,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_route_ambientlight(
 	    const line_splitting::instruction_info& inst) {
-		instructions::route::ambiant_light al;
+		instructions::route::AmbientLight al;
 
 		switch (inst.args.size()) {
 			default:
@@ -163,7 +166,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_route_directionallight(
 	    const line_splitting::instruction_info& inst) {
-		instructions::route::directional_light dl;
+		instructions::route::DirectionalLight dl;
 
 		switch (inst.args.size()) {
 			default:
@@ -188,7 +191,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 	instruction create_instruction_route_lightdirection(
 	    const line_splitting::instruction_info& inst) {
-		instructions::route::light_direction ld;
+		instructions::route::LightDirection ld;
 
 		switch (inst.args.size()) {
 			default:

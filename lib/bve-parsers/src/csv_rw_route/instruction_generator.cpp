@@ -12,7 +12,7 @@ namespace bve::parsers::csv_rw_route {
 		// ReSharper disable once CyclomaticComplexity
 		instruction generate_instruction(const preprocessed_lines& lines,
 		                                 const preprocessed_line& line,
-		                                 errors::multi_error_t& errors,
+		                                 errors::MultiError& errors,
 		                                 std::string& with_value,
 		                                 file_type const ft) {
 			instruction i;
@@ -38,7 +38,7 @@ namespace bve::parsers::csv_rw_route {
 			else if (parsed.name != "with"s) {
 				// Deal with special cases
 				if (with_value.empty() && parsed.name != "with"s) {
-					return instructions::route::comment{line.contents};
+					return instructions::route::Comment{line.contents};
 				}
 				if (with_value == "signal") {
 					parsed.indices.emplace_back(std::move(parsed.name));
@@ -80,7 +80,7 @@ namespace bve::parsers::csv_rw_route {
 						add_error(errors, lines.filenames[line.filename_index], line.line, oss);
 					}
 				}
-				return instructions::naked::none{};
+				return instructions::naked::None{};
 			}
 
 			try {
@@ -88,7 +88,7 @@ namespace bve::parsers::csv_rw_route {
 			}
 			catch (const std::exception& e) {
 				add_error(errors, lines.filenames[line.filename_index], line.line, e.what());
-				return instructions::naked::none{};
+				return instructions::naked::None{};
 			}
 
 			return i;
@@ -96,7 +96,7 @@ namespace bve::parsers::csv_rw_route {
 	} // namespace instruction_generation
 
 	instruction_list generate_instructions(const preprocessed_lines& lines,
-	                                       errors::multi_error_t& errors,
+	                                       errors::MultiError& errors,
 	                                       file_type const ft) {
 		instruction_list i_list;
 		i_list.instructions.reserve(lines.lines.size());

@@ -2,7 +2,7 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::structure::command& inst) {
+	void pass3_executor::operator()(const instructions::structure::Command& inst) {
 		auto const add_and_warn = [&](auto& container, const char* command_name) {
 			auto filename_iter = add_object_filename(inst.filename);
 
@@ -48,58 +48,58 @@ namespace bve::parsers::csv_rw_route {
 		};
 
 		switch (inst.command_type) {
-			case instructions::structure::command::ground:
+			case instructions::structure::Command::Type::ground:
 				add_and_warn_cycle(object_ground_mapping_, "Structure.Ground");
 				break;
-			case instructions::structure::command::rail:
+			case instructions::structure::Command::Type::rail:
 				add_and_warn_cycle(object_rail_mapping_, "Structure.Rail");
 				break;
-			case instructions::structure::command::wall_l:
+			case instructions::structure::Command::Type::wall_l:
 				add_and_warn(object_wall_l_mapping_, "Structure.WallL");
 				break;
-			case instructions::structure::command::wall_r:
+			case instructions::structure::Command::Type::wall_r:
 				add_and_warn(object_wall_r_mapping_, "Structure.WallR");
 				break;
-			case instructions::structure::command::dike_l:
+			case instructions::structure::Command::Type::dike_l:
 				add_and_warn(object_dike_l_mapping_, "Structure.DikeL");
 				break;
-			case instructions::structure::command::dike_r:
+			case instructions::structure::Command::Type::dike_r:
 				add_and_warn(object_dike_r_mapping_, "Structure.DikeR");
 				break;
-			case instructions::structure::command::form_l:
+			case instructions::structure::Command::Type::form_l:
 				add_and_warn(object_form_l_mapping_, "Structure.FormL");
 				break;
-			case instructions::structure::command::form_r:
+			case instructions::structure::Command::Type::form_r:
 				add_and_warn(object_form_r_mapping_, "Structure.FormR");
 				break;
-			case instructions::structure::command::form_cl:
+			case instructions::structure::Command::Type::form_cl:
 				add_and_warn(object_form_cl_mapping_, "Structure.FormCL");
 				break;
-			case instructions::structure::command::form_cr:
+			case instructions::structure::Command::Type::form_cr:
 				add_and_warn(object_form_cr_mapping_, "Structure.FormCR");
 				break;
-			case instructions::structure::command::roof_l:
+			case instructions::structure::Command::Type::roof_l:
 				add_and_warn(object_roof_l_mapping_, "Structure.RoofL");
 				break;
-			case instructions::structure::command::roof_r:
+			case instructions::structure::Command::Type::roof_r:
 				add_and_warn(object_roof_r_mapping_, "Structure.RoofR");
 				break;
-			case instructions::structure::command::roof_cl:
+			case instructions::structure::Command::Type::roof_cl:
 				add_and_warn(object_roof_cl_mapping_, "Structure.RoofCL");
 				break;
-			case instructions::structure::command::roof_cr:
+			case instructions::structure::Command::Type::roof_cr:
 				add_and_warn(object_roof_cr_mapping_, "Structure.RoofCR");
 				break;
-			case instructions::structure::command::crack_l:
+			case instructions::structure::Command::Type::crack_l:
 				add_and_warn(object_crack_l_mapping_, "Structure.CrackL");
 				break;
-			case instructions::structure::command::crack_r:
+			case instructions::structure::Command::Type::crack_r:
 				add_and_warn(object_crack_r_mapping_, "Structure.CrackR");
 				break;
-			case instructions::structure::command::free_obj:
+			case instructions::structure::Command::Type::free_obj:
 				add_and_warn(object_freeobj_mapping_, "Structure.Freeobj");
 				break;
-			case instructions::structure::command::beacon:
+			case instructions::structure::Command::Type::beacon:
 				add_and_warn(object_beacon_mapping_, "Structure.Beacon");
 				break;
 			default:
@@ -107,7 +107,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::structure::pole& inst) {
+	void pass3_executor::operator()(const instructions::structure::Pole& inst) {
 		auto filename_iter = add_object_filename(inst.filename);
 
 		auto value =
