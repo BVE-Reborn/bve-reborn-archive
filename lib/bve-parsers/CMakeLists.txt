@@ -63,7 +63,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR True)
 
 add_executable(bve-old-tests ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS})
 target_include_directories(bve-old-tests PRIVATE src)
-target_link_libraries(bve-old-tests PRIVATE bve-core bve-parsers Threads::Threads options::fast_math)
+target_link_libraries(bve-old-tests PRIVATE bve-core bve-parsers)
+target_link_libraries(bve-old-tests PRIVATE Threads::Threads cppfs::cppfs)
+target_link_libraries(bve-old-tests PRIVATE options::fast_math)
 add_sanitizers(bve-old-tests)
 cotire(bve-old-tests)
 

@@ -21,21 +21,17 @@ void test_csv_route() {
 	bve::parsers::errors::multi_error_t me;
 
 	auto const file_location = TESTLOCATION "/Kaligung Mas.csv"s;
-	auto used_file = std::filesystem::path(file_location);
+	auto used_file = cppfs::FilePath(file_location);
 
 	auto const get_abs_path = [&](const std::string& base_file, const std::string& file) {
-		auto new_file = file;
-		std::replace(new_file.begin(), new_file.end(), '\\', '/');
-		auto file_path = std::filesystem::path(base_file); //
-		auto new_file_path = std::filesystem::absolute(
-		    std::filesystem::proximate(file_path, file_path.parent_path()));
-		new_file_path =
-		    std::filesystem::canonical(new_file_path.parent_path()) / new_file_path.filename();
-		return new_file_path.string();
+		cppfs::FilePath base_fp(base_file);
+		cppfs::FilePath fp(file);
+
+		return base_fp.resolve("..").resolve(file).path();
 	};
 
 	auto vals =
-	    process_include_directives(std::filesystem::canonical(file_location).string(), eng, me,
+	    process_include_directives(cppfs::FilePath(file_location).resolved(), eng, me,
 	                               bve::parsers::csv_rw_route::file_type::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
