@@ -4,7 +4,6 @@ matrix:
   include:
   - os: linux
     dist: trusty
-    sudo: true
     addons:
       apt:
         packages:
@@ -35,6 +34,7 @@ matrix:
 
   - os: linux
     dist: trusty
+    sudo: true
     addons:
       apt:
         sources:
