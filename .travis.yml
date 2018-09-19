@@ -50,16 +50,14 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="Coverage='On' && CC=gcc-7 && CXX='g++-7' && TYPE='Debug'"
+    - ME="Coverage='On' && SANITIZE='Asan,UBsan' &&  CC=gcc-7 && CXX='g++-7' && TYPE='Debug'"
     install:
-    - eval "${MATRIX_EVAL}"
+    - eval "${ME}"
     - pip install --user cpp-coveralls
     - bash ./util/travis/linux_deps.sh
-    - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On
-      -GNinja"
+    - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja"
     after_success:
-    - coveralls --gcov gcov-7 -e extern -e libparsers/tests -e test_main -E
-      '.*?CMakeFiles.*?' -E '.*?cotire.*?'
+    - coveralls --gcov gcov-7 -e extern -e lib/bve-parsers/tests -e src/test-runner -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
   - os: linux
     dist: trusty
@@ -79,9 +77,9 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="Coverage='On' && CC='gcc-7' && CXX='g++-7' && TYPE='Release'"
+    - ME="Coverage='On' && CC='gcc-7' && CXX='g++-7' && TYPE='Release'"
     install:
-    - eval "${MATRIX_EVAL}"
+    - eval "${ME}"
     - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
@@ -105,13 +103,11 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Asan,UBsan' && CC=clang-6.0 && CXX=clang++-6.0
-      && TYPE='Debug'"
+    - ME="LINKER='LLD' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
     install:
-    - eval "${MATRIX_EVAL}"
+    - eval "${ME}"
     - bash ./util/travis/linux_deps.sh
-    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On
-      -DSANITIZE_UNDEFINED=On  -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
+    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
 
   - os: linux
@@ -133,10 +129,9 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LLD' && SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0
-      && TYPE='Debug'"
+    - ME="LINKER='LLD' && SANITIZE='Tsan' && CC=clang-6.0 && CXX=clang++-6.0 && TYPE='Debug'"
     install:
-    - eval "${MATRIX_EVAL}"
+    - eval "${ME}"
     - bash ./util/travis/linux_deps.sh
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_Thread=On
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
