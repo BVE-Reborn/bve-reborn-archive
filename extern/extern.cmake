@@ -36,17 +36,7 @@ set_target_properties(tl::optional PROPERTIES
 	INTERFACE_COMPILE_FEATURES cxx_std_17
 )
 
-add_library(std::filesystem INTERFACE IMPORTED)
-if(BVEREBORN_MAC)
-	set_target_properties(std::filesystem PROPERTIES
-		INTERFACE_LINK_LIBRARIES "c++experimental"
-	)
-elseif(BVEREBORN_LINUX)
-	set_target_properties(std::filesystem PROPERTIES
-		INTERFACE_LINK_LIBRARIES "stdc++fs"
-	)
-endif()
-
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cppfs)
 
 function(make_target_includes_system target)
 	get_target_property(INTERFACE_INCLUDES ${target} INTERFACE_INCLUDE_DIRECTORIES)

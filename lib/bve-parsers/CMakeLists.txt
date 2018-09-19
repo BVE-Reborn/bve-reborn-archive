@@ -10,14 +10,12 @@ format(FILES ${SOURCES} ${HEADERS})
 
 add_library(bve-parsers SHARED ${SOURCES} ${HEADERS})
 
-target_compile_features(bve-parsers PUBLIC cxx_std_14)
-
 target_include_directories(bve-parsers PUBLIC include)
-target_link_libraries(bve-parsers PUBLIC bve-core glm::glm mapbox::variant gsl::gsl tl::optional std::filesystem)
+target_link_libraries(bve-parsers PUBLIC bve-core)
+target_link_libraries(bve-parsers PUBLIC mapbox::variant gsl::gsl tl::optional)
 
 target_include_directories(bve-parsers PRIVATE src)
-target_link_libraries(bve-parsers PUBLIC options::fast_math)
-target_link_libraries(bve-parsers PRIVATE rapidxml::rapidxml)
+target_link_libraries(bve-parsers PRIVATE rapidxml::rapidxml options::fast_math)
 
 add_sanitizers(bve-parsers)
 cotire(bve-parsers)
@@ -30,9 +28,9 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE
 file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.hpp")
 
 add_library(bve-parsers-test OBJECT ${TEST_SOURCES})
-target_include_directories(bve-parsers-test PUBLIC src)
-target_include_directories(bve-parsers-test PUBLIC tests)
-target_link_libraries(bve-parsers-test PUBLIC bve-parsers doctest::doctest)
+target_include_directories(bve-parsers-test PRIVATE src tests)
+target_link_libraries(bve-parsers-test PUBLIC bve-parsers)
+target_link_libraries(bve-parsers-test PUBLIC doctest::doctest cppfs::cppfs)
 
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
@@ -64,7 +62,6 @@ configure_file(tests_old/old_tests_config.hpp.in
 set(CMAKE_INCLUDE_CURRENT_DIR True)
 
 add_executable(bve-old-tests ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS})
-target_compile_features(bve-old-tests PRIVATE cxx_std_14)
 target_include_directories(bve-old-tests PRIVATE src)
 target_link_libraries(bve-old-tests PRIVATE bve-core bve-parsers Threads::Threads options::fast_math)
 add_sanitizers(bve-old-tests)

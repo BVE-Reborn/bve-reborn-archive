@@ -39,8 +39,8 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
-        - gcc-8
-        - g++-8
+        - gcc-7
+        - g++-7
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -50,7 +50,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="Coverage='On' && CC=gcc-8 && CXX='g++-8' && TYPE='Debug'"
+    - MATRIX_EVAL="Coverage='On' && CC=gcc-7 && CXX='g++-7' && TYPE='Debug'"
     install:
     - eval "${MATRIX_EVAL}"
     - pip install --user cpp-coveralls
@@ -58,7 +58,7 @@ matrix:
     - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On
       -GNinja"
     after_success:
-    - coveralls --gcov gcov-8 -e extern -e libparsers/tests -e test_main -E
+    - coveralls --gcov gcov-7 -e extern -e libparsers/tests -e test_main -E
       '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
   - os: linux
@@ -68,8 +68,8 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
-        - gcc-8
-        - g++-8
+        - gcc-7
+        - g++-7
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -79,32 +79,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - MATRIX_EVAL="LINKER='LD' && CC=gcc-8 && CXX=g++-8 && TYPE='RelWithDebInfo'"
-    install:
-    - eval "${MATRIX_EVAL}"
-    - bash ./util/travis/linux_deps.sh
-    - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      -GNinja
-
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - gcc-8
-        - g++-8
-        - libgl1-mesa-dev
-        - libglu1-mesa-dev
-        - mesa-common-dev
-        - libx11-dev
-        - libxcursor-dev
-        - libxrandr-dev
-        - libxi-dev
-        - uuid-dev
-    env:
-    - MATRIX_EVAL="Coverage='On' && CC='gcc-8' && CXX='g++-8' && TYPE='Debug'"
+    - MATRIX_EVAL="Coverage='On' && CC='gcc-7' && CXX='g++-7' && TYPE='Release'"
     install:
     - eval "${MATRIX_EVAL}"
     - bash ./util/travis/linux_deps.sh
@@ -119,7 +94,7 @@ matrix:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty-6.0
         packages:
-        - libstdc++-8-dev
+        - libstdc++-7-dev
         - clang-6.0
         - libgl1-mesa-dev
         - libglu1-mesa-dev
@@ -147,7 +122,7 @@ matrix:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty-6.0
         packages:
-        - libstdc++-8-dev
+        - libstdc++-7-dev
         - clang-6.0
         - libgl1-mesa-dev
         - libglu1-mesa-dev

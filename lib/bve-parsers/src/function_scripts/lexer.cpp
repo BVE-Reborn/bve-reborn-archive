@@ -56,7 +56,7 @@ namespace bve::parsers::function_scripts {
 				auto has_dot = false;
 
 				// find if the number has a . in it
-				std::find_if(text.begin() + i, text.end(), [&has_dot](char const c) {
+				(void) std::find_if(text.begin() + i, text.end(), [&has_dot](char const c) {
 					if (c == '.') {
 						has_dot = true;
 						return true;
