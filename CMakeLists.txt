@@ -32,7 +32,7 @@ include(bsf)
 
 if(BVEREBORN_WIN)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
-    add_compile_options(/Zi)
+    add_compile_options(/Zi /permissive-)
     set (CMAKE_SHARED_LINKER_FLAGS "/DEBUG")
     set (CMAKE_EXE_LINKER_FLAGS "/DEBUG")
 else()

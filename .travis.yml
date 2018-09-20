@@ -137,6 +137,7 @@ matrix:
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
 
+  allow_failures:
   - os: osx
     osx_image: xcode9.2
     install:

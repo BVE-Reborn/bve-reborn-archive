@@ -59,19 +59,19 @@ namespace bve::parsers::csv_rw_route {
 		rail_object_info roi;
 
 		switch (inst.type) {
-			case 0:
+			case instructions::track::Transponder::Type::s_type:
 				roi.filename = add_object_filename("\034compat\034/transponder/S"s);
 				break;
-			case 1:
+			case instructions::track::Transponder::Type::sn_type:
 				roi.filename = add_object_filename("\034compat\034/transponder/SN"s);
 				break;
-			case 2:
+			case instructions::track::Transponder::Type::departure:
 				roi.filename = add_object_filename("\034compat\034/transponder/AccidentalDep"s);
 				break;
-			case 3:
+			case instructions::track::Transponder::Type::ats_p_renewal:
 				roi.filename = add_object_filename("\034compat\034/transponder/ATSP-Pattern"s);
 				break;
-			case 4:
+			case instructions::track::Transponder::Type::ats_p_stop:
 				roi.filename = add_object_filename("\034compat\034/transponder/ATSP-Immediate"s);
 				break;
 			default:
