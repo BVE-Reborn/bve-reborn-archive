@@ -7,8 +7,8 @@ using namespace std::string_literals;
 #define CHECK_THROWS_AND_DEFAULTS(value)                                                           \
 	CHECK_THROWS_AS(bve::parsers::util::parse_time(value), std::invalid_argument);                 \
 	CHECK_EQ(bve::parsers::util::parse_time(value, std::numeric_limits<                            \
-	                                                   bve::core::datatypes::time>::max()),        \
-	         std::numeric_limits<bve::core::datatypes::time>::max());
+	                                                   bve::core::datatypes::Time>::max()),        \
+	         std::numeric_limits<bve::core::datatypes::Time>::max());
 
 TEST_SUITE_BEGIN("libparsers - util");
 

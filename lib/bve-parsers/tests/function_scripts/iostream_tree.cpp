@@ -8,7 +8,7 @@ namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
 
 #define UNARY_TREE_TEST(full_name, type_name, output_name)                                         \
 	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) {                 \
-		fs_tree_node::type_name test_node{fs_tree_node::integer{2}};                               \
+		fs_tree_node::type_name test_node{fs_tree_node::Integer{2}};                               \
                                                                                                    \
 		std::ostringstream output;                                                                 \
                                                                                                    \
@@ -20,7 +20,7 @@ namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
 
 #define BINARY_TREE_TEST(full_name, type_name, output_name)                                        \
 	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) {                 \
-		fs_tree_node::type_name test_node{fs_tree_node::integer{2}, fs_tree_node::floating{3}};    \
+		fs_tree_node::type_name test_node{fs_tree_node::Integer{2}, fs_tree_node::Floating{3}};    \
                                                                                                    \
 		std::ostringstream output;                                                                 \
                                                                                                    \
@@ -33,24 +33,24 @@ namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
-UNARY_TREE_TEST(unary not, unary_not, NOT)
-UNARY_TREE_TEST(unary minus, unary_minus, MINUS)
-BINARY_TREE_TEST(binary and, binary_and, AND)
-BINARY_TREE_TEST(binary xor, binary_xor, XOR)
-BINARY_TREE_TEST(binary or, binary_or, OR)
-BINARY_TREE_TEST(binary equal, binary_eq, EQ)
-BINARY_TREE_TEST(binary not equal, binary_not_eq, NEQ)
-BINARY_TREE_TEST(binary less, binary_less, LESS)
-BINARY_TREE_TEST(binary greater, binary_greater, GREATER)
-BINARY_TREE_TEST(binary less or equal, binary_less_eq, LESS_EQ)
-BINARY_TREE_TEST(binary greater or equal, binary_greater_eq, GREATER_EQ)
-BINARY_TREE_TEST(binary add, binary_add, ADD)
-BINARY_TREE_TEST(binary subtract, binary_subtract, SUB)
-BINARY_TREE_TEST(binary multiply, binary_multiply, MULTIPLY)
-BINARY_TREE_TEST(binary divide, binary_divide, DIVIDE)
+UNARY_TREE_TEST(unary not, UnaryNot, NOT)
+UNARY_TREE_TEST(unary minus, UnaryMinus, MINUS)
+BINARY_TREE_TEST(binary and, BinaryAnd, AND)
+BINARY_TREE_TEST(binary xor, BinaryXor, XOR)
+BINARY_TREE_TEST(binary or, BinaryOr, OR)
+BINARY_TREE_TEST(binary equal, BinaryEq, EQ)
+BINARY_TREE_TEST(binary not equal, BinaryNotEq, NEQ)
+BINARY_TREE_TEST(binary less, BinaryLess, LESS)
+BINARY_TREE_TEST(binary greater, BinaryGreater, GREATER)
+BINARY_TREE_TEST(binary less or equal, BinaryLessEq, LESS_EQ)
+BINARY_TREE_TEST(binary greater or equal, BinaryGreaterEq, GREATER_EQ)
+BINARY_TREE_TEST(binary add, BinaryAdd, ADD)
+BINARY_TREE_TEST(binary subtract, BinarySubtract, SUB)
+BINARY_TREE_TEST(binary multiply, BinaryMultiply, MULTIPLY)
+BINARY_TREE_TEST(binary divide, BinaryDivide, DIVIDE)
 
 TEST_CASE("libparsers - function scripts - tree iostream - function call 1 arg") {
-	fs_tree_node::function_call test_node{{"max"s}, {fs_tree_node::integer{2}}};
+	fs_tree_node::FunctionCall test_node{{"max"s}, {fs_tree_node::Integer{2}}};
 
 	std::ostringstream output;
 
@@ -62,8 +62,8 @@ TEST_CASE("libparsers - function scripts - tree iostream - function call 1 arg")
 }
 
 TEST_CASE("libparsers - function scripts - tree iostream - function call 2 args") {
-	fs_tree_node::function_call test_node{{"max"s},
-	                                      {fs_tree_node::integer{2}, fs_tree_node::integer{3}}};
+	fs_tree_node::FunctionCall test_node{{"max"s},
+	                                     {fs_tree_node::Integer{2}, fs_tree_node::Integer{3}}};
 
 	std::ostringstream output;
 
@@ -76,9 +76,9 @@ TEST_CASE("libparsers - function scripts - tree iostream - function call 2 args"
 }
 
 TEST_CASE("libparsers - function scripts - tree iostream - function call 3 args") {
-	fs_tree_node::function_call test_node{{"max"s},
-	                                      {fs_tree_node::integer{2}, fs_tree_node::integer{3},
-	                                       fs_tree_node::integer{4}}};
+	fs_tree_node::FunctionCall test_node{{"max"s},
+	                                     {fs_tree_node::Integer{2}, fs_tree_node::Integer{3},
+	                                      fs_tree_node::Integer{4}}};
 
 	std::ostringstream output;
 
@@ -92,7 +92,7 @@ TEST_CASE("libparsers - function scripts - tree iostream - function call 3 args"
 }
 
 TEST_CASE("libparsers - function scripts - tree iostream - variable") {
-	fs_tree_node::identifier test_node{"odometer"s};
+	fs_tree_node::Identifier test_node{"odometer"s};
 
 	std::ostringstream output;
 
@@ -102,7 +102,7 @@ TEST_CASE("libparsers - function scripts - tree iostream - variable") {
 }
 
 TEST_CASE("libparsers - function scripts - tree iostream - none") {
-	fs_tree_node::none test_node{};
+	fs_tree_node::None test_node{};
 
 	std::ostringstream output;
 

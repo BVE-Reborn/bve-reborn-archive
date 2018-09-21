@@ -5,7 +5,7 @@ using namespace std::string_literals;
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
 	// ReSharper disable once CyclomaticComplexity
-	instruction create_instruction_track_sta(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_sta(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Track.Sta");
 
 		instructions::track::Sta s;
@@ -124,8 +124,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 									    instructions::track::Sta::DepartureTime::change_ends;
 								}
 								else {
-									s.departure_tag = instructions::track::Sta::DepartureTime::
-									    change_ends_time;
+									s.departure_tag =
+									    instructions::track::Sta::DepartureTime::change_ends_time;
 								}
 								break;
 							default:
@@ -152,13 +152,11 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 								break;
 							case 'b':
 							case 'B':
-								s.arrival_tag =
-								    instructions::track::Sta::ArrivalTime::player_pass;
+								s.arrival_tag = instructions::track::Sta::ArrivalTime::player_pass;
 								break;
 							case 's':
 							case 'S':
-								s.arrival_tag =
-								    instructions::track::Sta::ArrivalTime::player_stop;
+								s.arrival_tag = instructions::track::Sta::ArrivalTime::player_stop;
 
 								if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
 									s.arrival = util::parse_time(arr_arg.substr(2));
@@ -181,20 +179,20 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return s;
 	}
 
-	instruction create_instruction_track_station(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_station(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Track.Station");
 
-		line_splitting::instruction_info ii;
+		line_splitting::InstructionInfo ii;
 		ii.name = inst.name;
 		ii.args.resize(12);
 		ii.args[0] = !inst.args.empty() ? inst.args[0] : ""s;     // Name
-		ii.args[1] = inst.args.size() >= 2 ? inst.args[1] : ""s;  // ArivalTime
+		ii.args[1] = inst.args.size() >= 2 ? inst.args[1] : ""s;  // ArrivalTime
 		ii.args[2] = inst.args.size() >= 3 ? inst.args[2] : ""s;  // DepartureTime
 		ii.args[3] = "0"s;                                        // Pass Alarm
 		ii.args[4] = "b"s;                                        // Doors
 		ii.args[5] = inst.args.size() >= 4 ? inst.args[3] : "0"s; // ForcedRedSignal
 		ii.args[6] = inst.args.size() >= 5 ? inst.args[4] : "0"s; // System
-		ii.args[7] = ""s;                                         // Arival Sound
+		ii.args[7] = ""s;                                         // Arrival Sound
 		ii.args[8] = "15"s;                                       // Stop Duration
 		ii.args[9] = "100"s;                                      // PassengerRatio
 		ii.args[10] = inst.args.size() >= 6 ? inst.args[5] : ""s; // DepartureSound
@@ -203,7 +201,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return create_instruction_track_sta(ii);
 	}
 
-	instruction create_instruction_track_station_xml(inst_info const& inst) {
+	Instruction create_instruction_track_station_xml(InstInfo const& inst) {
 		args_at_least(inst, 1, "Track.StationXML");
 
 		instructions::track::StationXml xml;
@@ -213,7 +211,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return xml;
 	}
 
-	instruction create_instruction_track_stop(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_stop(const line_splitting::InstructionInfo& inst) {
 		instructions::track::Stop s;
 
 		switch (inst.args.size()) {
@@ -251,7 +249,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return s;
 	}
 
-	instruction create_instruction_track_form(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_form(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Track.Form");
 
 		instructions::track::Form f;

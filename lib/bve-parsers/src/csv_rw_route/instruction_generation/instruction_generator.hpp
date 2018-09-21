@@ -11,7 +11,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	// Argument/Indices Count Helper Functions //
 	/////////////////////////////////////////////
 
-	inline void args_at_least(const line_splitting::instruction_info& inst,
+	inline void args_at_least(const line_splitting::InstructionInfo& inst,
 	                          std::size_t const num,
 	                          const char* const name) {
 		if (inst.args.size() < num) {
@@ -21,7 +21,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		}
 	}
 
-	inline void indices_at_least(const line_splitting::instruction_info& inst,
+	inline void indices_at_least(const line_splitting::InstructionInfo& inst,
 	                             std::size_t const num,
 	                             const char* const name) {
 		if (inst.indices.size() < num) {
@@ -36,16 +36,15 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	//////////////////////////////
 
 	template <class T>
-	static instruction create_single_string_instruction(
-	    const line_splitting::instruction_info& inst,
-	    const char* name) {
+	static Instruction create_single_string_instruction(const line_splitting::InstructionInfo& inst,
+	                                                    const char* name) {
 		args_at_least(inst, 1, name);
 
 		return T{inst.args[0]};
 	}
 
 	template <class T>
-	static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
+	static Instruction create_single_float_instruction(const line_splitting::InstructionInfo& inst,
 	                                                   const char* name) {
 		args_at_least(inst, 1, name);
 
@@ -53,7 +52,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	template <class T>
-	static instruction create_single_float_instruction(const line_splitting::instruction_info& inst,
+	static Instruction create_single_float_instruction(const line_splitting::InstructionInfo& inst,
 	                                                   const char* name,
 	                                                   float def) {
 		(void) name;
@@ -66,17 +65,17 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	template <class T>
-	static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
-	                                                   const char* name) {
+	static Instruction create_single_uint_instruction(const line_splitting::InstructionInfo& inst,
+	                                                  const char* name) {
 		args_at_least(inst, 1, name);
 
 		return T{gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]))};
 	}
 
 	template <class T>
-	static instruction create_single_sizet_instruction(const line_splitting::instruction_info& inst,
-	                                                   const char* name,
-	                                                   std::intmax_t def) {
+	static Instruction create_single_uint_instruction(const line_splitting::InstructionInfo& inst,
+	                                                  const char* name,
+	                                                  std::intmax_t def) {
 		(void) name;
 
 		if (!inst.args.empty()) {
@@ -87,7 +86,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	template <class T>
-	static instruction create_single_time_instruction(const line_splitting::instruction_info& inst,
+	static Instruction create_single_time_instruction(const line_splitting::InstructionInfo& inst,
 	                                                  const char* name) {
 		args_at_least(inst, 1, name);
 
@@ -95,7 +94,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	template <std::size_t Offset, class T>
-	static void set_positions(T& inst, const line_splitting::instruction_info& instr_info) {
+	static void set_positions(T& inst, const line_splitting::InstructionInfo& instr_info) {
 		if (instr_info.args.size() > Offset) {
 			switch (instr_info.args.size()) {
 				default:
@@ -120,124 +119,123 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		}
 	}
 
-	using inst_info = line_splitting::instruction_info;
+	using InstInfo = line_splitting::InstructionInfo;
 
 	// string_instruction_mapping.cpp
-	extern const std::map<std::string, instruction (*)(const inst_info& inst)> function_mapping;
-	extern const std::map<std::string, instructions::structure::Command::Type>
-	    command_type_mapping;
+	extern const std::map<std::string, Instruction (*)(const InstInfo& inst)> function_mapping;
+	extern const std::map<std::string, instructions::structure::Command::Type> command_type_mapping;
 
 	// location_statement.cpp
-	instruction create_instruction_location_statement(const inst_info& /*inst*/);
+	Instruction create_instruction_location_statement(const InstInfo& /*inst*/);
 
-	// optoins.cpp
-	instruction create_instruction_options_unitoflength(const inst_info& /*inst*/);
-	instruction create_instruction_options_unitofspeed(const inst_info& /*inst*/);
-	instruction create_instruction_options_blocklength(const inst_info& /*inst*/);
-	instruction create_instruction_options_objectvisibility(const inst_info& /*inst*/);
-	instruction create_instruction_options_sectionbehavior(const inst_info& /*inst*/);
-	instruction create_instruction_options_cantbehavior(const inst_info& /*inst*/);
-	instruction create_instruction_options_fogbehavior(const inst_info& /*inst*/);
-	instruction create_instruction_options_compatibletransparencymode(const inst_info& /*inst*/);
-	instruction create_instruction_options_enablebvetshacks(const inst_info& /*inst*/);
+	// options.cpp
+	Instruction create_instruction_options_unitoflength(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_unitofspeed(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_blocklength(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_objectvisibility(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_sectionbehavior(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_cantbehavior(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_fogbehavior(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_compatibletransparencymode(const InstInfo& /*inst*/);
+	Instruction create_instruction_options_enablebvetshacks(const InstInfo& /*inst*/);
 
 	// route.cpp
-	instruction create_instruction_route_comment(const inst_info& /*inst*/);
-	instruction create_instruction_route_image(const inst_info& /*inst*/);
-	instruction create_instruction_route_timetable(const inst_info& /*inst*/);
-	instruction create_instruction_route_change(const inst_info& /*inst*/);
-	instruction create_instruction_route_gauge(const inst_info& /*inst*/);
-	instruction create_instruction_route_signal(const inst_info& /*inst*/);
-	instruction create_instruction_route_runinterval(const inst_info& /*inst*/);
-	instruction create_instruction_route_accelerationduetogravity(const inst_info& /*inst*/);
-	instruction create_instruction_route_elevation(const inst_info& /*inst*/);
-	instruction create_instruction_route_temperature(const inst_info& /*inst*/);
-	instruction create_instruction_route_pressure(const inst_info& /*inst*/);
-	instruction create_instruction_route_displayspeed(const inst_info& /*inst*/);
-	instruction create_instruction_route_loadingscreen(const inst_info& /*inst*/);
-	instruction create_instruction_route_starttime(const inst_info& /*inst*/);
-	instruction create_instruction_route_dynamiclight(const inst_info& /*inst*/);
-	instruction create_instruction_route_ambientlight(const inst_info& /*inst*/);
-	instruction create_instruction_route_directionallight(const inst_info& /*inst*/);
-	instruction create_instruction_route_lightdirection(const inst_info& /*inst*/);
+	Instruction create_instruction_route_comment(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_image(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_timetable(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_change(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_gauge(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_signal(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_runinterval(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_accelerationduetogravity(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_elevation(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_temperature(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_pressure(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_displayspeed(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_loadingscreen(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_starttime(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_dynamiclight(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_ambientlight(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_directionallight(const InstInfo& /*inst*/);
+	Instruction create_instruction_route_lightdirection(const InstInfo& /*inst*/);
 
 	// train.cpp
-	instruction create_instruction_train_folder(const inst_info& /*inst*/);
-	instruction create_instruction_train_run(const inst_info& /*inst*/);
-	instruction create_instruction_train_flange(const inst_info& /*inst*/);
-	instruction create_instruction_train_timetable(const inst_info& /*inst*/);
-	instruction create_instruction_train_velocity(const inst_info& /*inst*/);
+	Instruction create_instruction_train_folder(const InstInfo& /*inst*/);
+	Instruction create_instruction_train_run(const InstInfo& /*inst*/);
+	Instruction create_instruction_train_flange(const InstInfo& /*inst*/);
+	Instruction create_instruction_train_timetable(const InstInfo& /*inst*/);
+	Instruction create_instruction_train_velocity(const InstInfo& /*inst*/);
 
 	// structure.cpp
-	instruction create_instruction_structure_command(const inst_info& /*inst*/);
-	instruction create_instruction_structure_pole(const inst_info& /*inst*/);
+	Instruction create_instruction_structure_command(const InstInfo& /*inst*/);
+	Instruction create_instruction_structure_pole(const InstInfo& /*inst*/);
 
 	// texture.cpp
-	instruction create_instruction_texture_background(const inst_info& /*inst*/);
+	Instruction create_instruction_texture_background(const InstInfo& /*inst*/);
 
 	// cycle.cpp
-	instruction create_instruction_cycle_ground(const inst_info& /*inst*/);
-	instruction create_instruction_cycle_rail(const inst_info& /*inst*/);
+	Instruction create_instruction_cycle_ground(const InstInfo& /*inst*/);
+	Instruction create_instruction_cycle_rail(const InstInfo& /*inst*/);
 
 	// signal.cpp
-	instruction create_instruction_signal(const inst_info& /*inst*/);
+	Instruction create_instruction_signal(const InstInfo& /*inst*/);
 
 	// track_rails.cpp
-	instruction create_instruction_track_railstart(const inst_info& /*inst*/);
-	instruction create_instruction_track_rail(const inst_info& /*inst*/);
-	instruction create_instruction_track_railtype(const inst_info& /*inst*/);
-	instruction create_instruction_track_railend(const inst_info& /*inst*/);
-	instruction create_instruction_track_accuracy(const inst_info& /*inst*/);
-	instruction create_instruction_track_adhesion(const inst_info& /*inst*/);
-	instruction create_instruction_track_pitch(const inst_info& /*inst*/);
+	Instruction create_instruction_track_railstart(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_rail(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_railtype(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_railend(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_accuracy(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_adhesion(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_pitch(const InstInfo& /*inst*/);
 
 	// track_geometry.cpp
-	instruction create_instruction_track_curve(const inst_info& /*inst*/);
-	instruction create_instruction_track_turn(const inst_info& /*inst*/);
-	instruction create_instruction_track_height(const inst_info& /*inst*/);
+	Instruction create_instruction_track_curve(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_turn(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_height(const InstInfo& /*inst*/);
 
 	// track_objects.cpp
-	instruction create_instruction_track_freeobj(const inst_info& /*inst*/);
-	instruction create_instruction_track_wall(const inst_info& /*inst*/);
-	instruction create_instruction_track_wallend(const inst_info& /*inst*/);
-	instruction create_instruction_track_dike(const inst_info& /*inst*/);
-	instruction create_instruction_track_dikeend(const inst_info& /*inst*/);
-	instruction create_instruction_track_pole(const inst_info& /*inst*/);
-	instruction create_instruction_track_poleend(const inst_info& /*inst*/);
-	instruction create_instruction_track_crack(const inst_info& /*inst*/);
-	instruction create_instruction_track_ground(const inst_info& /*inst*/);
+	Instruction create_instruction_track_freeobj(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_wall(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_wallend(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_dike(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_dikeend(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_pole(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_poleend(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_crack(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_ground(const InstInfo& /*inst*/);
 
 	// track_stations.cpp
-	instruction create_instruction_track_sta(const inst_info& /*inst*/);
-	instruction create_instruction_track_station_xml(const inst_info& /*inst*/);
-	instruction create_instruction_track_station(const inst_info& /*inst*/);
-	instruction create_instruction_track_stop(const inst_info& /*inst*/);
-	instruction create_instruction_track_form(const inst_info& /*inst*/);
+	Instruction create_instruction_track_sta(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_station_xml(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_station(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_stop(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_form(const InstInfo& /*inst*/);
 
-	// track_singals_limits.cpp
-	instruction create_instruction_track_limit(const inst_info& /*inst*/);
-	instruction create_instruction_track_section(const inst_info& /*inst*/);
-	instruction create_instruction_track_sigf(const inst_info& /*inst*/);
-	instruction create_instruction_track_signal(const inst_info& /*inst*/);
-	instruction create_instruction_track_relay(const inst_info& /*inst*/);
+	// track_signals_limits.cpp
+	Instruction create_instruction_track_limit(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_section(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_sigf(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_signal(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_relay(const InstInfo& /*inst*/);
 
 	// track_safety.cpp
-	instruction create_instruction_track_beacon(const inst_info& /*inst*/);
-	instruction create_instruction_track_transponder(const inst_info& /*inst*/);
-	instruction create_instruction_track_atssn(const inst_info& /*inst*/);
-	instruction create_instruction_track_atsp(const inst_info& /*inst*/);
-	instruction create_instruction_track_pattern(const inst_info& /*inst*/);
-	instruction create_instruction_track_plimit(const inst_info& /*inst*/);
+	Instruction create_instruction_track_beacon(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_transponder(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_atssn(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_atsp(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_pattern(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_plimit(const InstInfo& /*inst*/);
 
 	// track_misc.cpp
-	instruction create_instruction_track_back(const inst_info& /*inst*/);
-	instruction create_instruction_track_fog(const inst_info& /*inst*/);
-	instruction create_instruction_track_brightness(const inst_info& /*inst*/);
-	instruction create_instruction_track_marker(const inst_info& /*inst*/);
-	instruction create_instruction_track_text_marker(const inst_info& /*inst*/);
-	instruction create_instruction_track_pointofinterest(const inst_info& /*inst*/);
-	instruction create_instruction_track_pretrain(const inst_info& /*inst*/);
-	instruction create_instruction_track_announce(const inst_info& /*inst*/);
-	instruction create_instruction_track_doppler(const inst_info& /*inst*/);
-	instruction create_instruction_track_buffer(const inst_info& /*inst*/);
+	Instruction create_instruction_track_back(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_fog(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_brightness(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_marker(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_text_marker(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_pointofinterest(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_pretrain(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_announce(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_doppler(const InstInfo& /*inst*/);
+	Instruction create_instruction_track_buffer(const InstInfo& /*inst*/);
 } // namespace bve::parsers::csv_rw_route::instruction_generation

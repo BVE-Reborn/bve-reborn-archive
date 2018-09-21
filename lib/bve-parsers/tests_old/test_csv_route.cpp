@@ -30,16 +30,15 @@ void test_csv_route() {
 		return base_fp.resolve("..").resolve(file).path();
 	};
 
-	auto vals =
-	    process_include_directives(cppfs::FilePath(file_location).resolved(), eng, me,
-	                               bve::parsers::csv_rw_route::file_type::csv, get_abs_path);
+	auto vals = process_include_directives(cppfs::FilePath(file_location).resolved(), eng, me,
+	                                       bve::parsers::csv_rw_route::FileType::csv, get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';
 
-	preprocess_file(vals, eng, me, bve::parsers::csv_rw_route::file_type::csv);
+	preprocess_file(vals, eng, me, bve::parsers::csv_rw_route::FileType::csv);
 
-	auto instructions = generate_instructions(vals, me, bve::parsers::csv_rw_route::file_type::csv);
+	auto instructions = generate_instructions(vals, me, bve::parsers::csv_rw_route::FileType::csv);
 
 	std::cout << instructions.instructions.size() << '\n';
 

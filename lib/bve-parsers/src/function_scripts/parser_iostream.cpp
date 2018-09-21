@@ -13,7 +13,7 @@ namespace bve::parsers::function_scripts {
 			}
 		}
 
-		void printNextNode(const tree_node& next) {
+		void printNextNode(const TreeNode& next) {
 			depth_ += 1;
 			apply_visitor(*this, next);
 			depth_ -= 1;
@@ -37,89 +37,89 @@ namespace bve::parsers::function_scripts {
 	  public:
 		explicit FunctionScriptParseTreePrinter(std::ostream& os) : os_(os) {}
 
-		void operator()(const tree_types::binary_and& node) {
+		void operator()(const tree_types::BinaryAnd& node) {
 			printBinary(node, "AND");
 		}
 
-		void operator()(const tree_types::binary_xor& node) {
+		void operator()(const tree_types::BinaryXor& node) {
 			printBinary(node, "XOR");
 		}
 
-		void operator()(const tree_types::binary_or& node) {
+		void operator()(const tree_types::BinaryOr& node) {
 			printBinary(node, "OR");
 		}
 
-		void operator()(const tree_types::binary_eq& node) {
+		void operator()(const tree_types::BinaryEq& node) {
 			printBinary(node, "EQ");
 		}
 
-		void operator()(const tree_types::binary_not_eq& node) {
+		void operator()(const tree_types::BinaryNotEq& node) {
 			printBinary(node, "NEQ");
 		}
 
-		void operator()(const tree_types::binary_less& node) {
+		void operator()(const tree_types::BinaryLess& node) {
 			printBinary(node, "LESS");
 		}
 
-		void operator()(const tree_types::binary_greater& node) {
+		void operator()(const tree_types::BinaryGreater& node) {
 			printBinary(node, "GREATER");
 		}
 
-		void operator()(const tree_types::binary_less_eq& node) {
+		void operator()(const tree_types::BinaryLessEq& node) {
 			printBinary(node, "LESS_EQ");
 		}
 
-		void operator()(const tree_types::binary_greater_eq& node) {
+		void operator()(const tree_types::BinaryGreaterEq& node) {
 			printBinary(node, "GREATER_EQ");
 		}
 
-		void operator()(const tree_types::binary_add& node) {
+		void operator()(const tree_types::BinaryAdd& node) {
 			printBinary(node, "ADD");
 		}
 
-		void operator()(const tree_types::binary_subtract& node) {
+		void operator()(const tree_types::BinarySubtract& node) {
 			printBinary(node, "SUB");
 		}
 
-		void operator()(const tree_types::binary_multiply& node) {
+		void operator()(const tree_types::BinaryMultiply& node) {
 			printBinary(node, "MULTIPLY");
 		}
 
-		void operator()(const tree_types::binary_divide& node) {
+		void operator()(const tree_types::BinaryDivide& node) {
 			printBinary(node, "DIVIDE");
 		}
 
-		void operator()(const tree_types::unary_not& node) {
+		void operator()(const tree_types::UnaryNot& node) {
 			printUnary(node, "NOT");
 		}
 
-		void operator()(const tree_types::unary_minus& node) {
+		void operator()(const tree_types::UnaryMinus& node) {
 			printUnary(node, "MINUS");
 		}
 
-		void operator()(const tree_types::function_call& node) {
+		void operator()(const tree_types::FunctionCall& node) {
 			startPrint();
 			os_ << "FUNC_CALL: " << node.name.val << '\n';
 			for (auto& n : node.args) {
 				printNextNode(n);
 			}
 		}
-		void operator()(const tree_types::integer& node) const {
+		void operator()(const tree_types::Integer& node) const {
 			startPrint();
 			os_ << node.num << '\n';
 		}
 
-		void operator()(const tree_types::floating& node) const {
+		void operator()(const tree_types::Floating& node) const {
 			startPrint();
 			os_ << node.num << '\n';
 		}
 
-		void operator()(const tree_types::identifier& node) const {
+		void operator()(const tree_types::Identifier& node) const {
 			startPrint();
 			os_ << "VARIABLE: " << node.val << '\n';
 		}
 
-		void operator()(const tree_types::none& node) const {
+		void operator()(const tree_types::None& node) const {
 			(void) node;
 			startPrint();
 			os_ << "NONE\n";
@@ -127,7 +127,7 @@ namespace bve::parsers::function_scripts {
 	};
 } // namespace bve::parsers::function_scripts
 
-std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::tree_node& node) {
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::TreeNode& node) {
 	bve::parsers::function_scripts::FunctionScriptParseTreePrinter parse_tree_printer{os};
 
 	apply_visitor(parse_tree_printer, node);

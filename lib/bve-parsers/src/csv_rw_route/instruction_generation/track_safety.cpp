@@ -1,7 +1,7 @@
 #include "instruction_generator.hpp"
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_track_beacon(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_beacon(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 4, "Track.Beacon");
 
 		instructions::track::Beacon b;
@@ -17,7 +17,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return b;
 	}
 
-	instruction create_instruction_track_transponder(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_transponder(const line_splitting::InstructionInfo& inst) {
 		instructions::track::Transponder t;
 
 		switch (inst.args.size()) {
@@ -60,7 +60,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return t;
 	}
 
-	instruction create_instruction_track_atssn(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_atssn(const line_splitting::InstructionInfo& inst) {
 		(void) inst;
 
 		instructions::track::Transponder t;
@@ -72,7 +72,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return t;
 	}
 
-	instruction create_instruction_track_atsp(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_atsp(const line_splitting::InstructionInfo& inst) {
 		(void) inst;
 
 		instructions::track::Transponder t;
@@ -84,7 +84,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return t;
 	}
 
-	instruction create_instruction_track_pattern(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_pattern(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Track.Pattern");
 
 		instructions::track::Pattern p;
@@ -97,7 +97,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return p;
 	}
 
-	instruction create_instruction_track_plimit(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_plimit(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Track.PLimit");
 
 		instructions::track::Pattern p;

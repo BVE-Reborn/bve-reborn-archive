@@ -4,9 +4,9 @@
 #include <vector>
 
 namespace bve::parsers::csv_rw_route {
-	tl::optional<filename_set_iterator> get_cycle_filename_index(
+	tl::optional<FilenameSetIterator> get_cycle_filename_index(
 	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
-	    const std::unordered_map<std::size_t, filename_set_iterator>& object_mapping,
+	    const std::unordered_map<std::size_t, FilenameSetIterator>& object_mapping,
 	    std::size_t const index,
 	    std::size_t const position) {
 		auto const cycle_iterator = cycle_mapping.find(index);
@@ -31,7 +31,7 @@ namespace bve::parsers::csv_rw_route {
 		return to_use_iter->second;
 	}
 
-	void print_cycle_type(std::ostream& o, const cycle_type& c) {
+	void print_cycle_type(std::ostream& o, const CycleType& c) {
 		o << "Cycle of: (";
 		std::size_t i = 0;
 		for (auto& item : c) {
@@ -43,7 +43,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::cycle::Ground& inst) {
+	void Pass3Executor::operator()(const instructions::cycle::Ground& inst) {
 		std::vector<std::size_t> cycle;
 
 		for (auto& ground_index : inst.input_indices) {
@@ -68,11 +68,11 @@ namespace bve::parsers::csv_rw_route {
 			print_cycle_type(err, cycle);
 			err << "\".";
 
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::cycle::Rail& inst) {
+	void Pass3Executor::operator()(const instructions::cycle::Rail& inst) {
 		std::vector<std::size_t> cycle;
 
 		for (auto& ground_index : inst.input_indices) {
@@ -97,7 +97,7 @@ namespace bve::parsers::csv_rw_route {
 			print_cycle_type(err, cycle);
 			err << "\".";
 
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace bve::parsers::csv_rw_route

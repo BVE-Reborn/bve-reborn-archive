@@ -17,7 +17,7 @@ namespace bve::parsers::util {
 	static std::intmax_t parse_loose_integer_impl(std::string text);
 	static float parse_loose_float_impl(std::string text);
 	static std::intmax_t parse_time_impl(std::string text);
-	static bve::core::datatypes::color8_rgba parse_color_impl(std::string text);
+	static core::datatypes::Color8RGBA parse_color_impl(std::string text);
 
 	/////////////////
 	// Int Parsing //
@@ -96,36 +96,36 @@ namespace bve::parsers::util {
 	// time Parsing //
 	//////////////////
 
-	static bve::core::datatypes::time parse_time_impl(std::string text) {
+	static core::datatypes::Time parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
-		auto const dilim =
-		    std::find_if(text.begin(), text.end(), [](char const c) { return c == '.' || c == ':'; });
-		auto const right_hand_size = std::distance(dilim, text.end()) - 1;
+		auto const deliminator = std::find_if(text.begin(), text.end(),
+		                                      [](char const c) { return c == '.' || c == ':'; });
+		auto const right_hand_size = std::distance(deliminator, text.end()) - 1;
 
-		// no dilim, only hh
-		if (dilim == text.end() || right_hand_size <= 0) {
+		// no deliminator, only hh
+		if (deliminator == text.end() || right_hand_size <= 0) {
 			return std::stoll(text) * 3600;
 		}
 
 		// only hh.mm
 		if (0 < right_hand_size && right_hand_size <= 2) {
 			return std::stoll(text) * 3600 + //
-			       std::stoll(std::string(dilim + 1, dilim + 1 + right_hand_size)) * 60;
+			       std::stoll(std::string(deliminator + 1, deliminator + 1 + right_hand_size)) * 60;
 		}
 
 		// hh.mmss
 		if (right_hand_size <= 4) {
 			return std::stoll(text) * 3600 + //
-			       std::stoll(std::string(dilim + 1, dilim + 3)) * 60
-			       + std::stoll(std::string(dilim + 3, dilim + 1 + right_hand_size));
+			       std::stoll(std::string(deliminator + 1, deliminator + 3)) * 60
+			       + std::stoll(std::string(deliminator + 3, deliminator + 1 + right_hand_size));
 		}
 
 		throw std::invalid_argument("");
 	}
 
-	bve::core::datatypes::time parse_time(const std::string& text) {
+	core::datatypes::Time parse_time(const std::string& text) {
 		try {
 			return parse_time_impl(text);
 		}
@@ -136,7 +136,7 @@ namespace bve::parsers::util {
 		}
 	}
 
-	bve::core::datatypes::time parse_time(std::string text, std::intmax_t const default_value) {
+	core::datatypes::Time parse_time(std::string text, std::intmax_t const default_value) {
 		try {
 			return parse_time_impl(std::move(text));
 		}
@@ -149,16 +149,16 @@ namespace bve::parsers::util {
 	// Color Parsing //
 	///////////////////
 
-	static bve::core::datatypes::color8_rgba parse_color_impl(std::string text) {
+	static core::datatypes::Color8RGBA parse_color_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		if (text.size() == 7) {
 			auto const value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
 
-			bve::core::datatypes::color8_rgba color{uint8_t((value & 0xFF0000) >> 16),
-			                                        uint8_t((value & 0xFF00) >> 8),
-			                                        uint8_t((value & 0xFF) >> 0), uint8_t(255)};
+			core::datatypes::Color8RGBA color{uint8_t((value & 0xFF0000) >> 16),
+			                                  uint8_t((value & 0xFF00) >> 8),
+			                                  uint8_t((value & 0xFF) >> 0), uint8_t(255)};
 
 			return color;
 		}
@@ -166,7 +166,7 @@ namespace bve::parsers::util {
 		throw std::invalid_argument("");
 	}
 
-	bve::core::datatypes::color8_rgba parse_color(const std::string& text) {
+	core::datatypes::Color8RGBA parse_color(const std::string& text) {
 		try {
 			return parse_color_impl(text);
 		}
@@ -177,8 +177,8 @@ namespace bve::parsers::util {
 		}
 	}
 
-	bve::core::datatypes::color8_rgba parse_color(std::string text,
-	                                              bve::core::datatypes::color8_rgba default_value) {
+	core::datatypes::Color8RGBA parse_color(std::string text,
+	                                        core::datatypes::Color8RGBA default_value) {
 		try {
 			return parse_color_impl(std::move(text));
 		}

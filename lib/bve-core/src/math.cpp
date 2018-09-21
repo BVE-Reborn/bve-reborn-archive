@@ -7,15 +7,15 @@
 #define _USE_MATH_DEFINES
 #include <math.h> // NOLINT Also include overloads of std::*
 
-float bve::core::math::radius_from_distances(float deltax, float deltay) {
+float bve::core::math::radius_from_distances(float delta_x, float delta_y) {
 	// https://math.stackexchange.com/questions/1088902/what-is-the-radius-of-a-circle-given-two-points-and-the-center-of-the-circle-is#comment2218658_1088926
 	// gives the formula for this
 	// X = y1 in the formula
 	// Z = x1 in the formula
-	// y0 and x0 are both zero, so they can be ommitted.
+	// y0 and x0 are both zero, so they can be omitted.
 
-	auto& x1 = deltax;
-	auto& y1 = deltay;
+	auto& x1 = delta_x;
+	auto& y1 = delta_y;
 
 	auto const angle = std::atan2(y1, x1);
 
@@ -27,10 +27,10 @@ float bve::core::math::radius_from_distances(float deltax, float deltay) {
 	return radius;
 }
 
-bve::core::math::evaulate_curve_t bve::core::math::evaluate_curve(glm::vec3 input_position,
-                                                                  glm::vec3 input_direction,
-                                                                  float const distance,
-                                                                  float radius) {
+bve::core::math::EvaluateCurveState bve::core::math::evaluate_curve(glm::vec3 input_position,
+                                                                    glm::vec3 input_direction,
+                                                                    float const distance,
+                                                                    float radius) {
 	if (distance == 0) {
 		return {input_position, input_direction};
 	}
@@ -53,7 +53,7 @@ bve::core::math::evaulate_curve_t bve::core::math::evaluate_curve(glm::vec3 inpu
 	auto const flipped_radius = radius < 0;
 	radius = std::abs(radius);
 
-	// convert from game direction coordinates to 2d cartisian plane
+	// convert from game direction coordinates to 2d cartesian plane
 	auto xy = glm::vec2(input_direction.z, -input_direction.x);
 
 	// this algorithm works by pretending all curves are to the right. THe
@@ -75,10 +75,10 @@ bve::core::math::evaulate_curve_t bve::core::math::evaluate_curve(glm::vec3 inpu
 
 	// compute fraction of circle traveled
 	auto const circumference = 2 * static_cast<float>(M_PI) * radius;
-	auto const frac_traveled = horizontal_movement / circumference;
+	auto const fraction_traveled = horizontal_movement / circumference;
 
 	// get angle traveled in radians
-	auto travel_angle = frac_traveled * static_cast<float>(M_PI * 2);
+	auto travel_angle = fraction_traveled * static_cast<float>(M_PI * 2);
 
 	// make sure the ending angle includes the starting angle
 	travel_angle += input_angle;
@@ -88,7 +88,7 @@ bve::core::math::evaulate_curve_t bve::core::math::evaluate_curve(glm::vec3 inpu
 	// bottom is 180, etc
 	// hence why we flipped x and y, as we mirrored it over y=x
 
-	// the track is comming in at (0,0)
+	// the track is coming in at (0,0)
 	// right on the coordinate plane is moving forward (+z in game world)
 	// down on the coordinate plane is turning right (+x in the game world)
 	auto travel_x = std::sin(travel_angle);
@@ -131,7 +131,7 @@ bve::core::math::evaulate_curve_t bve::core::math::evaluate_curve(glm::vec3 inpu
 	// add to the position
 	input_position += gamespace_offset;
 
-	return evaulate_curve_t{input_position, tangent_3d};
+	return EvaluateCurveState{input_position, tangent_3d};
 }
 
 glm::vec3 bve::core::math::position_from_offsets(glm::vec3 const input_position,

@@ -14,8 +14,8 @@ namespace bve::parsers::b3d_csv_object {
 	};
 
 	struct FaceData {
-		bve::core::datatypes::color8_rgba color = {255, 255, 255, 255};
-		bve::core::datatypes::color8_rgb emissive_color = {0, 0, 0};
+		core::datatypes::Color8RGBA color = {255, 255, 255, 255};
+		core::datatypes::Color8RGB emissive_color = {0, 0, 0};
 	};
 
 	struct Mesh {
@@ -23,8 +23,8 @@ namespace bve::parsers::b3d_csv_object {
 		std::vector<std::size_t> indices;
 		std::vector<FaceData> face_data;
 		dependencies::Texture texture;
-		enum blend_mode_t { normal, additive } blend_mode;
-		enum glow_attenuation_mode_t { divide_exponent2, divide_exponent4 } glow_attenuation_mode;
+		enum BlendMode { normal, additive } blend_mode;
+		enum GlowAttenuationMode { divide_exponent2, divide_exponent4 } glow_attenuation_mode;
 		uint16_t glow_half_distance = 0;
 	};
 

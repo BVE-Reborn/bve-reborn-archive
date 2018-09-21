@@ -10,8 +10,8 @@
 #include <vector>
 
 namespace bve::parsers::csv_rw_route {
-	struct rail_block_info {
-		// Primative Parts
+	struct RailBlockInfo {
+		// Primitive Parts
 		float position = 0;
 		float length = 25;
 		float pitch = 0;
@@ -19,208 +19,208 @@ namespace bve::parsers::csv_rw_route {
 		float cant = 0;
 		float height = 0;
 
-		struct cached_locations {
+		struct CachedLocations {
 			glm::vec3 location;
 			glm::vec3 direction;
 			bool valid = false;
 		} cache;
 	};
 
-	using filename_set = std::set<std::string>;
-	using filename_set_iterator = std::set<std::string>::const_iterator;
+	using FilenameSet = std::set<std::string>;
+	using FilenameSetIterator = std::set<std::string>::const_iterator;
 
-	struct rail_object_info {
-		filename_set_iterator filename;
+	struct RailObjectInfo {
+		FilenameSetIterator filename;
 		glm::vec3 position;
 		glm::vec3 rotation;
 		bool flip_x = false;
 	};
 
-	struct display_unit_info {
+	struct DisplayUnitInfo {
 		std::string unit_name;
 		float conversion_factor;
 	};
 
-	struct animated_signal {
+	struct AnimatedSignal {
 		std::string filename;
 	};
 
-	struct traditional_signal {
+	struct TraditionalSignal {
 		std::string signal_filename;
 		std::string glow_filename;
 	};
 
-	using signal_info = mapbox::util::variant<animated_signal, traditional_signal>;
+	using SignalInfo = mapbox::util::variant<AnimatedSignal, TraditionalSignal>;
 
 	// More compatibility levels to come in the future
-	struct compatibility_modes {
-		bool bve2_4_transparancy : 1;
+	struct CompatibilityModes {
+		bool bve2_4_transparency : 1;
 		bool bve2_4_content : 1;
 	};
 
-	enum class safty_system_status_t {
-		safty_activiated_service_brakes,
-		safty_activiated_emergency_brakes,
-		safty_deactivated_emergency_brakes
+	enum class SafetySystemStatus {
+		safety_activated_service_brakes,
+		safety_activated_emergency_brakes,
+		safety_deactivated_emergency_brakes
 	};
 
-	enum class direction_t { left, none, right };
+	enum class Direction { left, none, right };
 
-	enum class bi_direction_t { left, both, right };
+	enum class BiDirection { left, both, right };
 
-	struct rail_station_stop_info {
+	struct RailStationStop {
 		float position;
-		direction_t direction;
+		Direction direction;
 		float backward_tolerance;
 		float forward_tolerance;
 		std::size_t car_count;
 	};
 
-	struct rail_station_info {
-		xml::stations::request_stop_marker request_stop_info;
+	struct RailStation {
+		xml::stations::RequestStopMarker request_stop_info;
 		std::string name;
-		filename_set_iterator arrival_sound;
-		filename_set_iterator departure_sound;
+		FilenameSetIterator arrival_sound;
+		FilenameSetIterator departure_sound;
 		std::size_t timetable_index = 0;
-		std::vector<rail_station_stop_info> stop_points;
-		bve::core::datatypes::time arrival;
-		bve::core::datatypes::time departure;
+		std::vector<RailStationStop> stop_points;
+		core::datatypes::Time arrival;
+		core::datatypes::Time departure;
 		float stop_duration = 15;
 		float passenger_ratio = 100;
 		bool pass_alarm = false;
 		bool force_red = false;
 		bool system = false;
-		enum class arrival_time_t : uint8_t {
+		enum class ArrivalTime : uint8_t {
 			time,
 			any_time,
 			all_pass,
 			player_pass,
 			player_stop,
 			all_stop
-		} arrival_tag = arrival_time_t::any_time;
-		enum class departure_time_t : uint8_t {
+		} arrival_tag = ArrivalTime::any_time;
+		enum class DepartureTime : uint8_t {
 			time,
 			any_time,
 			terminal,
 			terminal_time,
 			change_ends,
 			change_ends_time
-		} departure_tag = departure_time_t::any_time;
-		enum class doors_t : std::uint8_t { left, none, right, both } doors = doors_t::none;
+		} departure_tag = DepartureTime::any_time;
+		enum class Doors : std::uint8_t { left, none, right, both } doors = Doors::none;
 	};
 
-	struct beacon_info {
+	struct Beacon {
 		float position = 0;
 		std::intmax_t beacon_type;
 		std::intmax_t beacon_data;
 		std::intmax_t section_offset;
 	};
 
-	struct atsp_section_info {
+	struct ATSPSection {
 		float position = 0;
 		float speed = 0;
 		bool permanent = false;
 	};
 
-	struct fog_info {
+	struct Fog {
 		float position = 0;
 		float starting_distance = 0;
 		float ending_distance = 0;
-		bve::core::datatypes::color8_rgb color;
+		core::datatypes::Color8RGB color;
 	};
 
-	struct marker_info {
-		xml::route_marker::parsed_route_marker marker;
+	struct Marker {
+		xml::route_marker::ParsedRouteMarker marker;
 		float start;
 		float end;
 	};
 
-	struct point_of_interest_info {
+	struct PointOfInterest {
 		glm::vec3 position;
 		glm::vec3 camera_rotation;
 		std::string text;
 	};
 
-	struct announcement_info {
+	struct Announcement {
 		float position;
 		float speed = 0;
-		filename_set_iterator filename;
+		FilenameSetIterator filename;
 	};
 
-	struct sound_info {
+	struct Sound {
 		glm::vec3 position;
-		filename_set_iterator filename;
+		FilenameSetIterator filename;
 	};
 
 	template <class T, std::intmax_t Def>
-	struct position_data_pair_default {
+	struct PositionDataPairDefault {
 		float position = 0;
 		T value = Def;
 	};
 
 	template <class T>
-	struct position_data_pair {
+	struct PositionDataPair {
 		float position = 0;
 		T value;
 	};
 
-	using ground_height_info = position_data_pair_default<float, 0>;
-	using rail_adheason_info = position_data_pair_default<float, 0>;
-	using track_limit_info = position_data_pair_default<float, 0>;
-	using section_info = position_data_pair<std::vector<std::size_t>>;
-	using background_info = position_data_pair<xml::dynamic_background::parsed_dynamic_background>;
-	using brightness_level_info = position_data_pair<std::uint8_t>;
-	using pretrain_info = position_data_pair<bve::core::datatypes::time>;
+	using GroundHeight = PositionDataPairDefault<float, 0>;
+	using RailAdhesion = PositionDataPairDefault<float, 0>;
+	using TrackLimit = PositionDataPairDefault<float, 0>;
+	using Section = PositionDataPair<std::vector<std::size_t>>;
+	using Background = PositionDataPair<xml::dynamic_background::ParsedDynamicBackground>;
+	using BrightnessLevel = PositionDataPair<std::uint8_t>;
+	using Pretrain = PositionDataPair<core::datatypes::Time>;
 
-	struct parsed_route_data {
+	struct ParsedRoute {
 		// Core route info
-		std::vector<rail_block_info> blocks;
-		std::vector<ground_height_info> ground_height;
+		std::vector<RailBlockInfo> blocks;
+		std::vector<GroundHeight> ground_height;
 		std::vector<float> bumpers;
 
 		// Secondary route info
-		std::vector<rail_adheason_info> adheason;
+		std::vector<RailAdhesion> adhesion;
 
 		// Objects
-		std::vector<rail_object_info> objects;
+		std::vector<RailObjectInfo> objects;
 
 		// Stations
-		std::vector<rail_station_info> stations;
+		std::vector<RailStation> stations;
 
 		// Speed limits
-		std::vector<track_limit_info> limits;
+		std::vector<TrackLimit> limits;
 
 		// file references
-		filename_set object_filenames;
-		filename_set texture_filenames;
-		filename_set sound_filenames;
+		FilenameSet object_filenames;
+		FilenameSet texture_filenames;
+		FilenameSet sound_filenames;
 
 		// Lighting and Background
 		std::vector<xml::dynamic_lighting::LightingInfo> lighting;
-		std::vector<background_info> backgrounds;
-		std::vector<fog_info> fog;
-		std::vector<brightness_level_info> brightness_levels;
+		std::vector<Background> backgrounds;
+		std::vector<Fog> fog;
+		std::vector<BrightnessLevel> brightness_levels;
 
 		// Signalling
 		std::vector<float> signal_speed = {0, 25, 55, 75, -1, -1};
-		std::vector<section_info> sections;
-		std::vector<beacon_info> beacons;
-		std::vector<atsp_section_info> patterns;
+		std::vector<Section> sections;
+		std::vector<Beacon> beacons;
+		std::vector<ATSPSection> patterns;
 
 		// Other trains
-		std::vector<pretrain_info> pretrain_points;
+		std::vector<Pretrain> pretrain_points;
 		std::vector<float> ai_train_start_intervals;
 		float ai_max_speed = 0;
 
-		compatibility_modes compatibility;
+		CompatibilityModes compatibility;
 
 		// Start Conditions
-		safty_system_status_t safty_system_status;
-		bve::core::datatypes::time game_start_time = -1;
+		SafetySystemStatus safety_system_status;
+		core::datatypes::Time game_start_time = -1;
 
 		// Sound indices
-		std::vector<sound_info> sounds;
-		std::vector<announcement_info> announcments;
+		std::vector<Sound> sounds;
+		std::vector<Announcement> announcements;
 		std::unordered_map<std::size_t, std::size_t> rail_runsound_mapping;
 		std::unordered_map<std::size_t, std::size_t> rail_flangesound_mapping;
 
@@ -230,12 +230,12 @@ namespace bve::parsers::csv_rw_route {
 		std::string loading_image_location;
 		std::string comment;
 		std::string timetable_text;
-		display_unit_info display_unit;
-		std::vector<marker_info> markers;
-		std::vector<point_of_interest_info> points_of_interest;
+		DisplayUnitInfo display_unit;
+		std::vector<Marker> markers;
+		std::vector<PointOfInterest> points_of_interest;
 
 		// World State -- Ignored
-		float guage = 1435;
+		float gauge = 1435;
 		float acceleration_due_to_gravity = 9.80665f;
 		float temperature = 20;
 		float pressure = 101.325f;

@@ -2,19 +2,17 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::addRailObjectsToPosition(rail_state& state,
-	                                                     float const position) const {
+	void Pass3Executor::addRailObjectsToPosition(RailState& state, float const position) const {
 		if (!state.active) {
 			return;
 		}
 
 		for (auto pos = static_cast<std::size_t>(state.position_last_updated);
 		     pos < static_cast<std::size_t>(position); pos += 25) {
-			auto const track_position = track_position_at(float(pos));
+			auto const track_position = trackPositionAt(float(pos));
 			auto const object_location =
-			    bve::core::math::position_from_offsets(track_position.position,
-			                                           track_position.tangent, state.x_offset,
-			                                           state.y_offset);
+			    core::math::position_from_offsets(track_position.position, track_position.tangent,
+			                                      state.x_offset, state.y_offset);
 
 			auto filename_iter_optional =
 			    get_cycle_filename_index(cycle_rail_mapping_, object_rail_mapping_,
@@ -25,7 +23,7 @@ namespace bve::parsers::csv_rw_route {
 				return;
 			}
 
-			rail_object_info i;
+			RailObjectInfo i;
 			i.filename = *filename_iter_optional;
 			i.position = object_location;
 			i.rotation = glm::vec3(0);
@@ -35,7 +33,7 @@ namespace bve::parsers::csv_rw_route {
 		state.position_last_updated = position;
 	}
 
-	void pass3_executor::operator()(const instructions::track::RailStart& inst) {
+	void Pass3Executor::operator()(const instructions::track::RailStart& inst) {
 		auto& state = getRailState(inst.rail_index);
 
 		addRailObjectsToPosition(state, inst.absolute_position);
@@ -45,7 +43,7 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail number " << inst.rail_index
 			    << " is still active. Please use Track.Rail to update.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 
 		state.x_offset = inst.x_offset.value_or(state.x_offset);
@@ -58,11 +56,11 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail Structure " << state.rail_structure_index
 			    << " has not been declared. Ignoring.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::Rail& inst) {
+	void Pass3Executor::operator()(const instructions::track::Rail& inst) {
 		auto& state = getRailState(inst.rail_index);
 
 		addRailObjectsToPosition(state, inst.absolute_position);
@@ -77,11 +75,11 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail Structure " << state.rail_structure_index
 			    << " has not been declared. Ignoring.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::RailType& inst) {
+	void Pass3Executor::operator()(const instructions::track::RailType& inst) {
 		auto& state = getRailState(inst.rail_index);
 
 		addRailObjectsToPosition(state, inst.absolute_position);
@@ -91,7 +89,7 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail number " << inst.rail_index
 			    << " isn't active. Use Track.RailStart to start the track.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 
 		state.rail_structure_index = inst.rail_type_number;
@@ -102,11 +100,11 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail Structure " << state.rail_structure_index
 			    << " has not been declared. Ignoring.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::RailEnd& inst) {
+	void Pass3Executor::operator()(const instructions::track::RailEnd& inst) {
 		auto& state = getRailState(inst.rail_index);
 
 		addRailObjectsToPosition(state, inst.absolute_position);
@@ -116,7 +114,7 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail number " << inst.rail_index
 			    << " was already inactive. Did you mean Track.RailStart?";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 
 		state.active = false;
@@ -126,11 +124,11 @@ namespace bve::parsers::csv_rw_route {
 
 			err << "Rail Structure " << state.rail_structure_index
 			    << " has not been declared. Ignoring.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::Adhesion& inst) const {
-		route_data_.adheason.emplace_back<rail_adheason_info>({inst.absolute_position, inst.value});
+	void Pass3Executor::operator()(const instructions::track::Adhesion& inst) const {
+		route_data_.adhesion.emplace_back<RailAdhesion>({inst.absolute_position, inst.value});
 	}
 } // namespace bve::parsers::csv_rw_route

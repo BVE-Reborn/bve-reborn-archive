@@ -25,7 +25,7 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 		    "129 = file4\n"                                                                          \
 		    "-1 = file5\n"s; \
                                                                                                        \
-		errors::MultiError me;                                                                      \
+		errors::MultiError me;                                                                         \
                                                                                                        \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                  \
                                                                                                        \
@@ -169,8 +169,8 @@ TEST_CASE("libparsers - config - sound - [horn] - looped horn") {
 	CHECK_EQ(result.filenames.count("sound.cfg/secondary/end"s), 1);
 	CHECK_EQ(result.filenames.count("sound.cfg/music/end"s), 1);
 
-	REQUIRE(result.horn_sounds.is<sound_cfg::looped_horn_t>());
-	auto& looped_horn = result.horn_sounds.get_unchecked<sound_cfg::looped_horn_t>();
+	REQUIRE(result.horn_sounds.is<sound_cfg::LoopedHorn>());
+	auto& looped_horn = result.horn_sounds.get_unchecked<sound_cfg::LoopedHorn>();
 
 	CHECK_ITER_EQ(result.filenames, looped_horn.primary_start, "sound.cfg/primary/start"s);
 	CHECK_ITER_EQ(result.filenames, looped_horn.secondary_start, "sound.cfg/secondary/start"s);
@@ -199,8 +199,8 @@ TEST_CASE("libparsers - config - sound - [horn] - legacy horn") {
 	CHECK_EQ(result.filenames.count("sound.cfg/legacy/secondary"s), 1);
 	CHECK_EQ(result.filenames.count("sound.cfg/legacy/music"s), 1);
 
-	REQUIRE(result.horn_sounds.is<sound_cfg::legacy_horn_t>());
-	auto& legacy_horn = result.horn_sounds.get_unchecked<sound_cfg::legacy_horn_t>();
+	REQUIRE(result.horn_sounds.is<sound_cfg::LegacyHorn>());
+	auto& legacy_horn = result.horn_sounds.get_unchecked<sound_cfg::LegacyHorn>();
 
 	CHECK_ITER_EQ(result.filenames, legacy_horn.primary, "sound.cfg/legacy/primary"s);
 	CHECK_ITER_EQ(result.filenames, legacy_horn.secondary, "sound.cfg/legacy/secondary"s);
@@ -243,8 +243,8 @@ TEST_CASE("libparsers - config - sound - [horn] - looped horn priority") {
 	CHECK_EQ(result.filenames.count("sound.cfg/secondary/end"s), 1);
 	CHECK_EQ(result.filenames.count("sound.cfg/music/end"s), 1);
 
-	REQUIRE(result.horn_sounds.is<sound_cfg::looped_horn_t>());
-	auto& looped_horn = result.horn_sounds.get_unchecked<sound_cfg::looped_horn_t>();
+	REQUIRE(result.horn_sounds.is<sound_cfg::LoopedHorn>());
+	auto& looped_horn = result.horn_sounds.get_unchecked<sound_cfg::LoopedHorn>();
 
 	CHECK_ITER_EQ(result.filenames, looped_horn.primary_start, "sound.cfg/primary/start"s);
 	CHECK_ITER_EQ(result.filenames, looped_horn.secondary_start, "sound.cfg/secondary/start"s);
@@ -440,7 +440,7 @@ TEST_CASE("libparsers - config - sound - [others]") {
 	    "[" STR(name) "]\n"                                                                        \
 	    "thisdoesntmakesence = misc/noise\n"s; \
                                                                                                      \
-		errors::MultiError me;                                                                    \
+		errors::MultiError me;                                                                       \
                                                                                                      \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
                                                                                                      \
@@ -473,7 +473,7 @@ INVALID_KEY_TEST(others)
 		    STR(key) " = orig\n"  /**/                                                             \
 		    STR(key) " = repl\n"s;                                                                 \
                                                                                                    \
-		errors::MultiError me;                                                                  \
+		errors::MultiError me;                                                                     \
                                                                                                    \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);              \
                                                                                                    \
@@ -502,7 +502,7 @@ DUPLICATE_KEY_TEST(compressor, attack, result.compressor_sounds.attack)
 DUPLICATE_KEY_TEST(suspension, left, result.suspension_sounds.left)
 DUPLICATE_KEY_TEST(horn,
                    primarystart,
-                   result.horn_sounds.get<sound_cfg::looped_horn_t>().primary_start)
+                   result.horn_sounds.get<sound_cfg::LoopedHorn>().primary_start)
 DUPLICATE_KEY_TEST(door, open left, result.door_sounds.open_left)
 DUPLICATE_KEY_TEST(buzzer, correct, result.buzzer_sounds.correct)
 DUPLICATE_KEY_TEST(pilot lamp, on, result.pilot_lamp_sounds.on)
@@ -520,7 +520,7 @@ DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise)
 		    "[" STR(name) "]\n"   /**/                                                             \
 		    STR(key) " = repl\n"s; \
                                                                                                      \
-		errors::MultiError me;                                                                    \
+		errors::MultiError me;                                                                       \
                                                                                                      \
 		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
                                                                                                      \
@@ -549,7 +549,7 @@ DUPLICATE_SECTION_TEST(compressor, attack, result.compressor_sounds.attack)
 DUPLICATE_SECTION_TEST(suspension, left, result.suspension_sounds.left)
 DUPLICATE_SECTION_TEST(horn,
                        primarystart,
-                       result.horn_sounds.get<sound_cfg::looped_horn_t>().primary_start)
+                       result.horn_sounds.get<sound_cfg::LoopedHorn>().primary_start)
 DUPLICATE_SECTION_TEST(door, open left, result.door_sounds.open_left)
 DUPLICATE_SECTION_TEST(buzzer, correct, result.buzzer_sounds.correct)
 DUPLICATE_SECTION_TEST(pilot lamp, on, result.pilot_lamp_sounds.on)

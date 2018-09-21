@@ -3,7 +3,7 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	const std::map<std::string, instruction (*)(const line_splitting::instruction_info& inst)>
+	const std::map<std::string, Instruction (*)(const line_splitting::InstructionInfo& inst)>
 	    function_mapping = {
 	        ////////////////
 	        // CSV ROUTES //

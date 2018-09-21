@@ -2,30 +2,30 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_track_freeobj(const line_splitting::instruction_info& inst) {
-		instructions::track::FreeObj fobj;
+	Instruction create_instruction_track_freeobj(const line_splitting::InstructionInfo& inst) {
+		instructions::track::FreeObj obj;
 
 		switch (inst.args.size()) {
 			default:
 			case 3:
-				set_positions<2>(fobj, inst);
+				set_positions<2>(obj, inst);
 				// fall through
 			case 2:
-				fobj.free_obj_structure_index =
+				obj.free_obj_structure_index =
 				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
 				// fall through
 			case 1:
-				fobj.rail_index =
+				obj.rail_index =
 				    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
 				// fall through
 			case 0:
 				break;
 		}
 
-		return fobj;
+		return obj;
 	}
 
-	instruction create_instruction_track_wall(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_wall(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Track.Wall");
 
 		instructions::track::Wall w;
@@ -53,12 +53,11 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return w;
 	}
 
-	instruction create_instruction_track_wallend(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::WallEnd>(inst,
-		                                                                      "Track.WallEnd");
+	Instruction create_instruction_track_wallend(const line_splitting::InstructionInfo& inst) {
+		return create_single_uint_instruction<instructions::track::WallEnd>(inst, "Track.WallEnd");
 	}
 
-	instruction create_instruction_track_dike(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_dike(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Track.Dike");
 
 		instructions::track::Dike d;
@@ -86,12 +85,11 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return d;
 	}
 
-	instruction create_instruction_track_dikeend(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::DikeEnd>(inst,
-		                                                                      "Track.DikeEnd");
+	Instruction create_instruction_track_dikeend(const line_splitting::InstructionInfo& inst) {
+		return create_single_uint_instruction<instructions::track::DikeEnd>(inst, "Track.DikeEnd");
 	}
 
-	instruction create_instruction_track_pole(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_pole(const line_splitting::InstructionInfo& inst) {
 		instructions::track::Pole p;
 
 		switch (inst.args.size()) {
@@ -121,12 +119,11 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return p;
 	}
 
-	instruction create_instruction_track_poleend(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::PoleEnd>(inst,
-		                                                                      "Track.PoleEnd");
+	Instruction create_instruction_track_poleend(const line_splitting::InstructionInfo& inst) {
+		return create_single_uint_instruction<instructions::track::PoleEnd>(inst, "Track.PoleEnd");
 	}
 
-	instruction create_instruction_track_crack(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_crack(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Track.Crack");
 
 		instructions::track::Crack c;
@@ -141,7 +138,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return c;
 	}
 
-	instruction create_instruction_track_ground(const line_splitting::instruction_info& inst) {
-		return create_single_sizet_instruction<instructions::track::Ground>(inst, "Track.Ground");
+	Instruction create_instruction_track_ground(const line_splitting::InstructionInfo& inst) {
+		return create_single_uint_instruction<instructions::track::Ground>(inst, "Track.Ground");
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

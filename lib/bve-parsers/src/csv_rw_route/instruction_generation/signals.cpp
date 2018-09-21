@@ -2,7 +2,7 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_signal(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_signal(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Signal");
 		args_at_least(inst, 1, "Signal");
 

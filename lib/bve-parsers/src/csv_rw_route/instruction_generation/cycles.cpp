@@ -2,7 +2,7 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_cycle_ground(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_cycle_ground(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Cycle.Ground");
 		args_at_least(inst, 1, "Cycle.Ground");
 
@@ -20,7 +20,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return g;
 	}
 
-	instruction create_instruction_cycle_rail(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_cycle_rail(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Cycle.Rail");
 		args_at_least(inst, 1, "Cycle.Rail");
 

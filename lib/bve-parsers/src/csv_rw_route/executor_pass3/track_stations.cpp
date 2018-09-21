@@ -2,13 +2,13 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::Sta& inst) const {
-		rail_station_info rsi;
+	void Pass3Executor::operator()(const instructions::track::Sta& inst) const {
+		RailStation rsi;
 		rsi.arrival = inst.arrival;
-		rsi.arrival_sound = add_sound_filename(inst.arrival_sound);
+		rsi.arrival_sound = addSoundFilename(inst.arrival_sound);
 		rsi.arrival_tag = inst.arrival_tag;
 		rsi.departure = inst.departure;
-		rsi.departure_sound = add_sound_filename(inst.departure_sound);
+		rsi.departure_sound = addSoundFilename(inst.departure_sound);
 		rsi.departure_tag = inst.departure_tag;
 		rsi.doors = inst.doors;
 		rsi.force_red = inst.force_red;
@@ -22,10 +22,10 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.stations.emplace_back(std::move(rsi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::StationXml& inst) const {
-		rail_station_info rsi;
+	void Pass3Executor::operator()(const instructions::track::StationXml& inst) const {
+		RailStation rsi;
 
-		auto const xml_file_loc = get_relative_file_(get_filename(inst.file_index), inst.filename);
+		auto const xml_file_loc = get_relative_file_(getFilename(inst.file_index), inst.filename);
 
 		auto const file_contents = util::load_from_file_utf8_bom(xml_file_loc);
 
@@ -33,34 +33,30 @@ namespace bve::parsers::csv_rw_route {
 		    xml::stations::parse(xml_file_loc, file_contents, errors_, get_relative_file_);
 
 		rsi.arrival = parsed_xml.arrival_time;
-		rsi.arrival_sound = add_sound_filename(parsed_xml.arrival_sound_file);
-		rsi.arrival_tag = [&]() -> rail_station_info::arrival_time_t {
+		rsi.arrival_sound = addSoundFilename(parsed_xml.arrival_sound_file);
+		rsi.arrival_tag = [&]() -> RailStation::ArrivalTime {
 			if (parsed_xml.using_arrival) {
-				return rail_station_info::arrival_time_t::time;
+				return RailStation::ArrivalTime::time;
 			}
-			else {
-				return rail_station_info::arrival_time_t::any_time;
-			}
+			return RailStation::ArrivalTime::any_time;
 		}();
 		rsi.departure = parsed_xml.departure_time;
-		rsi.departure_sound = add_sound_filename(parsed_xml.departure_sound_file);
-		rsi.departure_tag = [&]() -> rail_station_info::departure_time_t {
+		rsi.departure_sound = addSoundFilename(parsed_xml.departure_sound_file);
+		rsi.departure_tag = [&]() -> RailStation::DepartureTime {
 			if (parsed_xml.using_departure) {
-				return rail_station_info::departure_time_t::time;
+				return RailStation::DepartureTime::time;
 			}
-			else {
-				return rail_station_info::departure_time_t ::any_time;
-			}
+			return RailStation::DepartureTime ::any_time;
 		}();
-		rsi.doors = [&]() -> rail_station_info::doors_t {
+		rsi.doors = [&]() -> RailStation::Doors {
 			switch (parsed_xml.door) {
 				default:
-				case xml::stations::parsed_station_marker::doors::none:
-					return rail_station_info::doors_t::none;
-				case xml::stations::parsed_station_marker::doors::left:
-					return rail_station_info::doors_t::left;
-				case xml::stations::parsed_station_marker::doors::right:
-					return rail_station_info::doors_t::right;
+				case xml::stations::ParsedStationMarker::Doors::none:
+					return RailStation::Doors::none;
+				case xml::stations::ParsedStationMarker::Doors::left:
+					return RailStation::Doors::left;
+				case xml::stations::ParsedStationMarker::Doors::right:
+					return RailStation::Doors::right;
 			}
 		}();
 		rsi.name = std::move(parsed_xml.station_name);
@@ -72,27 +68,27 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.stations.emplace_back(std::move(rsi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Stop& inst) const {
+	void Pass3Executor::operator()(const instructions::track::Stop& inst) const {
 		if (route_data_.stations.empty()) {
 			std::ostringstream err;
 
 			err << "Track.Stop: no station to bind to. Ignoring.";
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 			return;
 		}
 
-		rail_station_stop_info rssi;
-		rssi.position = inst.absolute_position;
-		rssi.backward_tolerance = inst.backwards_tolerance;
-		rssi.forward_tolerance = inst.forwards_tolerance;
-		rssi.car_count = inst.cars;
-		rssi.direction = inst.stop_post;
+		RailStationStop stop;
+		stop.position = inst.absolute_position;
+		stop.backward_tolerance = inst.backwards_tolerance;
+		stop.forward_tolerance = inst.forwards_tolerance;
+		stop.car_count = inst.cars;
+		stop.direction = inst.stop_post;
 
-		route_data_.stations.back().stop_points.emplace_back(std::move(rssi));
+		route_data_.stations.back().stop_points.emplace_back(std::move(stop));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Form& inst) const {
+	void Pass3Executor::operator()(const instructions::track::Form& inst) const {
 		(void) inst;
-		// Todo(sirflankalot): form?
+		// Todo(cwfitzgerald): form?
 	}
 } // namespace bve::parsers::csv_rw_route

@@ -12,7 +12,7 @@
 /**
  * \ingroup libbve-log
  * \def LIBBVE_LOG_DEBUG
- * \brief Enables \link bve::log::severity::debug severity::debug \endlink logging messages and adds debug information to logging output.
+ * \brief Enables \link bve::log::Severity::debug Severity::debug \endlink logging messages and adds debug information to logging output.
  */
 
 /**
@@ -29,9 +29,9 @@
 namespace bve::log {
 
 	/**
-	 * \brief Sets severity of message for log filtering.
+	 * \brief Sets Severity of message for log filtering.
 	 */
-	enum class severity {
+	enum class Severity {
 		/// \brief For extremely verbose debugging information. Requires \ref LIBBVE_LOG_DEBUG <b>Default: Hidden</b>
 		debug,
 		/// \brief Unimportant information. <b>Default: Hidden</b>
@@ -48,15 +48,15 @@ namespace bve::log {
 
 	namespace detail {
 		/**
-		 * \brief Helper for the integer type underlying \ref log::severity
+		 * \brief Helper for the integer type underlying \ref log::Severity
 		 */
-		using severity_int_type = std::underlying_type_t<severity>;
+		using SeverityIntType = std::underlying_type_t<Severity>;
 
 		/**
 		 * \brief Holds the current time, accurate down to the millisecond.
 		 * \details We don't use any of the builtin time types because they lack support for accuracy down to the millisecond.
 		 */
-		struct current_time {
+		struct CurrentTime {
 			int year;
 			int month;
 			int day;
@@ -70,41 +70,41 @@ namespace bve::log {
 		 * \brief Gets the current time, accurate to the millisecond
 		 * \return Current time
 		 */
-		current_time get_time();
+		CurrentTime get_time();
 
 		/**
-		 * \brief Atomic container for the current severity.
+		 * \brief Atomic container for the current Severity.
 		 */
-		class current_severity_container {
+		class CurrentSeverityContainer {
 		  public:
 			/**
-			 * \brief Initializes the container with the default severity of \ref severity::note
+			 * \brief Initializes the container with the default Severity of \ref Severity::note
 			 */
-			current_severity_container() : current_sev_{severity::note} {}
+			CurrentSeverityContainer() : current_sev_{Severity::note} {}
 			/**
-			 * @brief Atomically gets the current severity
+			 * @brief Atomically gets the current Severity
 			 * @return Current Severity
 			 */
-			severity get() const {
+			Severity get() const {
 				return current_sev_;
 			}
 			/**
-			 * \brief Atomically sets global severity
-			 * \param new_sev New severity value.
+			 * \brief Atomically sets global Severity
+			 * \param new_sev New Severity value.
 			 */
-			void set(severity const new_sev) {
+			void set(Severity const new_sev) {
 				current_sev_ = new_sev;
 			}
 
 		  private:
-			std::atomic<severity> current_sev_;
+			std::atomic<Severity> current_sev_;
 		};
 	} // namespace detail
 
 	/**
-	 * \brief Global object that marks the current severity
+	 * \brief Global object that marks the current Severity
 	 */
-	inline detail::current_severity_container current_severity;
+	inline detail::CurrentSeverityContainer current_severity;
 
 	/**
 	 * \ingroup libbve-log
@@ -116,10 +116,10 @@ namespace bve::log {
 
 	/**
 	 * \ingroup libbve-log
-	 * \brief Chooses the current allowed severity level for messages. Any message at or above it is allowed through.
+	 * \brief Chooses the current allowed Severity level for messages. Any message at or above it is allowed through.
 	 * \param s Severity to set.
 	 */
-	FORCE_INLINE void set_visible_severity(severity const s) {
+	FORCE_INLINE void set_visible_severity(Severity const s) {
 		current_severity.set(s);
 	}
 
@@ -148,6 +148,7 @@ namespace bve::log {
 
 } // namespace bve::log
 
+// ReSharper disable CppInconsistentNaming
 #ifdef LIBBVE_LOG_DEBUG
 #	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                              \
 		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "        \
@@ -171,7 +172,7 @@ namespace bve::log {
 #ifdef LIBBVE_LOG_DEBUG
 #	define LIBBVE_LOG_LOG_SEVERITY_debug(...)                                                     \
 		if (static_cast<::log::detail::severity_int_type>(::log::current_severity.get())           \
-		    <= static_cast<::log::detail::severity_int_type>(::log::severity::debug)) {            \
+		    <= static_cast<::log::detail::severity_int_type>(::log::Severity::debug)) {            \
 			EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__))                               \
 		}
 #else
@@ -179,34 +180,36 @@ namespace bve::log {
 #endif
 #define LIBBVE_LOG_LOG_SEVERITY_info(...)                                                          \
 	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::info)) {       \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::info)) {       \
 		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__))                                    \
 	}
 #define LIBBVE_LOG_LOG_SEVERITY_note(...)                                                          \
 	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::note)) {       \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::note)) {       \
 		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__))                                    \
 	}
 #define LIBBVE_LOG_LOG_SEVERITY_warning(...)                                                       \
 	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::warning)) {    \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::warning)) {    \
 		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__))                                 \
 	}
 #define LIBBVE_LOG_LOG_SEVERITY_error(...)                                                         \
 	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::severity::error)) {      \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::error)) {      \
 		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__))                                   \
 	}
 #define LIBBVE_LOG_LOG_SEVERITY_fatal_error(...)                                                   \
 	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
 	    <= static_cast<::bve::log::detail::severity_int_type>(                                     \
-	           ::bve::log::severity::fatal_error)) {                                               \
+	           ::bve::log::Severity::fatal_error)) {                                               \
 		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                             \
 	}
+// ReSharper restore CppInconsistentNaming
+
 /**
  * \ingroup libbve-log
  * \brief Formats given string and writes it to the log.
- * \param sev <b>Unqualified</b> member of \ref bve::log::severity to set for this message.
+ * \param sev <b>Unqualified</b> member of \ref bve::log::Severity to set for this message.
  * \param format_str Format string that will be passed directly to fmt.
  * \param ... Arguments to be added into the format string.
  */
@@ -214,6 +217,8 @@ namespace bve::log {
 	EXPAND(CONCAT(LIBBVE_LOG_LOG_SEVERITY_, sev)(format_str, __VA_ARGS__))
 
 #ifndef LIBBVE_LOG_NO_SIMPLE_MACRO_NAMES
+
+// ReSharper disable once CppDoxygenUnresolvedReference
 /**
  * \ingroup libbve-log
  * \copydoc LIBBVE_LOG_LOG

@@ -1,11 +1,11 @@
+#include "cppfs/FileHandle.h"
+#include "cppfs/fs.h"
 #include "csv_rw_route.hpp"
 #include "sample_relative_file_func.hpp"
 #include "utils.hpp"
-#include <doctest.h>
 #include <cppfs/FilePath.h>
+#include <doctest.h>
 #include <fstream>
-#include "cppfs/FileHandle.h"
-#include "cppfs/fs.h"
 
 using namespace std::string_literals;
 namespace cs = bve::parsers::csv_rw_route;
@@ -19,14 +19,14 @@ namespace {
 		*ofs << directive;
 	}
 
-	cs::preprocessed_lines setup(std::string const& test,
-	                             bve::parsers::errors::MultiError& output_errors) {
+	cs::PreprocessedLines setup(std::string const& test,
+	                            bve::parsers::errors::MultiError& output_errors) {
 		write_to_file(test);
 		std::uint32_t const seed = 1;
-		auto rng = bve::core::datatypes::rng{seed};
-		auto processed = cs::process_include_directives("directive.csv"s, rng, output_errors,
-		                                                cs::file_type::csv, rel_file_func);
-		cs::preprocess_file(processed, rng, output_errors, cs::file_type::csv);
+		auto rng = bve::core::datatypes::RNG{seed};
+		auto processed = process_include_directives("directive.csv"s, rng, output_errors,
+		                                            cs::FileType::csv, rel_file_func);
+		preprocess_file(processed, rng, output_errors, cs::FileType::csv);
 		cppfs::fs::open("directive.csv"s).remove();
 		return processed;
 	}

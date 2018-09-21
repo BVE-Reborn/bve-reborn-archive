@@ -40,7 +40,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse station marker"
 	CHECK_EQ(station_marker.departure_time, 45110);
 	CHECK(station_marker.using_departure);
 	CHECK_EQ(station_marker.departure_sound_file, "some_file.xml/dong.wav"s);
-	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::left);
+	CHECK_EQ(station_marker.door, st::ParsedStationMarker::Doors::left);
 	CHECK_EQ(station_marker.force_red_signal, false);
 	CHECK_EQ(station_marker.passenger_ratio, 10);
 	CHECK_EQ(station_marker.station_name, "Dockyard"s);
@@ -77,7 +77,7 @@ TEST_CASE("libparsers -xml - stations and request stops - stations should add er
 	CHECK(!station_marker.using_arrival);
 	CHECK_EQ(station_marker.departure_time, 0);
 	CHECK(!station_marker.using_departure);
-	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::none);
+	CHECK_EQ(station_marker.door, st::ParsedStationMarker::Doors::none);
 	CHECK_EQ(station_marker.stop_duration, 15);
 }
 
@@ -112,7 +112,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse request stop ma
 	CHECK_EQ(station_marker.request_stop.pass_message.ontime, "No passengers for Dockyard."s);
 	CHECK_EQ(station_marker.request_stop.max_cars, 10);
 	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::request_stop_marker::behaviour::fullspeed);
+	         st::RequestStopMarker::Behaviour::full_speed);
 }
 
 TEST_CASE("libparser - xml - stations and request stops - request stops should add errors") {
@@ -143,7 +143,7 @@ TEST_CASE("libparser - xml - stations and request stops - request stops should a
 	CHECK_EQ(station_marker.request_stop.distance, 0);
 	CHECK_EQ(station_marker.request_stop.max_cars, 0);
 	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::request_stop_marker::behaviour::normalbrake);
+	         st::RequestStopMarker::Behaviour::normal_brake);
 }
 
 TEST_CASE(
@@ -265,7 +265,7 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	CHECK_EQ(station_marker.departure_time, 45110);
 	CHECK(station_marker.using_departure);
 	CHECK_EQ(station_marker.departure_sound_file, "some_file.xml/dong.wav"s);
-	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::left);
+	CHECK_EQ(station_marker.door, st::ParsedStationMarker::Doors::left);
 	CHECK_EQ(station_marker.force_red_signal, false);
 	CHECK_EQ(station_marker.passenger_ratio, 10);
 	CHECK_EQ(station_marker.station_name, "Dockyard"s);
@@ -278,7 +278,7 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	CHECK_EQ(station_marker.request_stop.pass_message.ontime, "No passengers for Dockyard."s);
 	CHECK_EQ(station_marker.request_stop.max_cars, 10);
 	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::request_stop_marker::behaviour::fullspeed);
+	         st::RequestStopMarker::Behaviour::full_speed);
 }
 
 TEST_CASE(
@@ -322,11 +322,11 @@ TEST_CASE(
 	CHECK(!station_marker.using_arrival);
 	CHECK_EQ(station_marker.departure_time, 0);
 	CHECK(!station_marker.using_departure);
-	CHECK_EQ(station_marker.door, st::parsed_station_marker::doors::none);
+	CHECK_EQ(station_marker.door, st::ParsedStationMarker::Doors::none);
 	CHECK_EQ(station_marker.stop_duration, 15);
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 0);
 	CHECK_EQ(station_marker.request_stop.distance, 0);
 	CHECK_EQ(station_marker.request_stop.max_cars, 0);
 	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::request_stop_marker::behaviour::normalbrake);
+	         st::RequestStopMarker::Behaviour::normal_brake);
 }

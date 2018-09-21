@@ -42,7 +42,7 @@ namespace bve::parsers::csv_rw_route {
 		};
 	} // namespace
 
-	void execute_instructions_pass1(instruction_list& list, errors::MultiError& errors) {
+	void execute_instructions_pass1(InstructionList& list, errors::MultiError& errors) {
 		Pass1Executor e(errors, list.filenames);
 
 		for (auto& i : list.instructions) {
@@ -50,7 +50,7 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		std::stable_sort(list.instructions.begin(), list.instructions.end(),
-		                 [](const instruction& a, const instruction& b) {
+		                 [](const Instruction& a, const Instruction& b) {
 			                 auto position = [](auto& val) -> float {
 				                 return val.absolute_position;
 			                 };

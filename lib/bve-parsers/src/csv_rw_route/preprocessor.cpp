@@ -48,7 +48,7 @@ namespace bve::parsers::csv_rw_route {
 		return ""s;
 	}
 
-	static std::string parse_rnd(const std::string& arg, bve::core::datatypes::rng& rng) {
+	static std::string parse_rnd(const std::string& arg, core::datatypes::RNG& rng) {
 		auto split = util::split_text(arg, ';');
 
 		if (split.size() != 2) {
@@ -87,16 +87,16 @@ namespace bve::parsers::csv_rw_route {
 		return val != 0;
 	}
 
-	struct if_status {
+	struct IfStatus {
 		// ReSharper disable once CppInconsistentNaming
-		enum type_t { if_true, if_false, else_, endif, none } type = none;
+		enum class Type { if_true, if_false, else_f, endif, none } type = Type::none;
 		std::size_t char_start{};
 	};
 
 	static std::string preprocess_pass_dispatch(
 	    std::unordered_map<std::size_t, std::string>& variable_set,
-	    if_status& if_conditions,
-	    bve::core::datatypes::rng& rng,
+	    IfStatus& if_conditions,
+	    core::datatypes::RNG& rng,
 	    errors::MultiError& errors,
 	    std::string const& filename,
 	    std::string::const_iterator& last_used,
@@ -111,7 +111,7 @@ namespace bve::parsers::csv_rw_route {
 		while (begin != end) {
 			auto const next_money = std::find(begin, end, '$');
 			if (next_money == end) {
-				// Prevent commas from beign dragged into the contents of a
+				// Prevent commas from being dragged into the contents of a
 				// preprocessing statement
 				auto const comma_iter = std::find(begin, end, ',');
 				return_value += std::string(begin, comma_iter);
@@ -158,7 +158,7 @@ namespace bve::parsers::csv_rw_route {
 					last_used = matched_rparens;
 				}
 				catch (std::exception& e) {
-					errors::add_error(errors, filename, 0, e.what());
+					add_error(errors, filename, 0, e.what());
 					last_used = matched_rparens;
 					begin = matched_rparens + 1;
 					continue;
@@ -171,26 +171,26 @@ namespace bve::parsers::csv_rw_route {
 			else if (command_text == "if") {
 				auto const enabled = parse_if(inside_value);
 				inside_value = "";
-				if_conditions = {enabled ? if_status::if_true : if_status::if_false,
+				if_conditions = {enabled ? IfStatus::Type::if_true : IfStatus::Type::if_false,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "else") {
 				inside_value = "";
-				if_conditions = {if_status::else_,
+				if_conditions = {IfStatus::Type::else_f,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "endif") {
 				inside_value = "";
-				if_conditions = {if_status::endif,
+				if_conditions = {IfStatus::Type::endif,
 				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else {
 				std::stringstream err;
 				err << "Error: unknown expression found " << command_text;
-				errors::add_error(errors, filename, 0, err.str());
+				add_error(errors, filename, 0, err.str());
 				last_used = matched_rparens;
 				begin = matched_rparens + 1;
 				continue;
@@ -205,8 +205,8 @@ namespace bve::parsers::csv_rw_route {
 		return return_value;
 	}
 
-	static void preprocess_pass(preprocessed_lines& lines,
-	                            bve::core::datatypes::rng& rng,
+	static void preprocess_pass(PreprocessedLines& lines,
+	                            core::datatypes::RNG& rng,
 	                            errors::MultiError& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
@@ -233,7 +233,7 @@ namespace bve::parsers::csv_rw_route {
 					break;
 				}
 
-				if_status if_condition;
+				IfStatus if_condition;
 				std::string::const_iterator last_used;
 				std::string directive_value;
 				try {
@@ -247,16 +247,16 @@ namespace bve::parsers::csv_rw_route {
 					continue;
 				}
 
-				if (if_condition.type == if_status::if_true) {
+				if (if_condition.type == IfStatus::Type::if_true) {
 					if_condition_stack.emplace_back(true);
 				}
-				else if (if_condition.type == if_status::if_false) {
+				else if (if_condition.type == IfStatus::Type::if_false) {
 					if_condition_stack.emplace_back(false);
 				}
-				else if (if_condition.type == if_status::else_) {
+				else if (if_condition.type == IfStatus::Type::else_f) {
 					if_condition_stack.back() = !if_condition_stack.back();
 				}
-				else if (if_condition.type == if_status::endif) {
+				else if (if_condition.type == IfStatus::Type::endif) {
 					if (if_condition_stack.size() == 1) {
 						// error
 						throw std::invalid_argument("preprocessing wtf");
@@ -265,7 +265,7 @@ namespace bve::parsers::csv_rw_route {
 				}
 
 				if (if_condition_stack.back()) {
-					// copy the result of the directive, and concatinate \r\n
+					// copy the result of the directive, and concatenate \r\n
 					// into \n if condition will be true if this is not the \n
 					// of the \r\n sequence
 					if (!(directive_value == "\n" && !processed_line.empty()
@@ -284,11 +284,11 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	static void split_on_char(preprocessed_lines& lines, file_type const ft) {
-		preprocessed_lines fixed;
+	static void split_on_char(PreprocessedLines& lines, FileType const ft) {
+		PreprocessedLines fixed;
 
 		char c;
-		if (ft == file_type::csv) {
+		if (ft == FileType::csv) {
 			c = ',';
 		}
 		else {
@@ -296,11 +296,11 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		for (auto& line : lines.lines) {
-			auto vec = util::split_text(line.contents, c, ft == file_type::csv);
+			auto vec = util::split_text(line.contents, c, ft == FileType::csv);
 			for (auto& elem : vec) {
 				util::strip_text(elem);
 				if (!elem.empty()) {
-					fixed.lines.emplace_back<preprocessed_line>(
+					fixed.lines.emplace_back<PreprocessedLine>(
 					    {std::move(elem), line.filename_index, line.line, line.offset});
 				}
 			}
@@ -311,21 +311,21 @@ namespace bve::parsers::csv_rw_route {
 		lines = fixed;
 	}
 
-	void preprocess_file(preprocessed_lines& lines,
-	                     bve::core::datatypes::rng& rng,
+	void preprocess_file(PreprocessedLines& lines,
+	                     core::datatypes::RNG& rng,
 	                     errors::MultiError& errors,
-	                     file_type const ft) {
+	                     FileType const ft) {
 		preprocess_pass(lines, rng, errors);
 
 		// remove comments that have been added by preprocessing
 		for (auto& line : lines.lines) {
-			util::remove_comments(line.contents, ';', ft == file_type::csv);
+			util::remove_comments(line.contents, ';', ft == FileType::csv);
 		}
 
 		// split lines on commas
 		split_on_char(lines, ft);
 
-		if (ft == file_type::csv) {
+		if (ft == FileType::csv) {
 			// remove comments that have been made valid by splitting
 			for (auto& line : lines.lines) {
 				util::remove_comments(line.contents, ';', true);
@@ -334,7 +334,7 @@ namespace bve::parsers::csv_rw_route {
 
 		// remove empty lines
 		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
-		                                 [](preprocessed_line& l) { return l.contents.empty(); }),
+		                                 [](PreprocessedLine& l) { return l.contents.empty(); }),
 		                  lines.lines.end());
 	}
 } // namespace bve::parsers::csv_rw_route

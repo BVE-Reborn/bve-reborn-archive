@@ -11,32 +11,32 @@
 #include <vector>
 
 namespace bve::parsers::csv_rw_route {
-	enum class file_type { csv, rw };
+	enum class FileType { csv, rw };
 
-	struct preprocessed_line {
+	struct PreprocessedLine {
 		std::string contents;
 		std::size_t filename_index;
 		std::size_t line;
 		float offset;
 	};
 
-	struct preprocessed_lines {
-		std::vector<preprocessed_line> lines;
+	struct PreprocessedLines {
+		std::vector<PreprocessedLine> lines;
 		std::vector<std::string> filenames;
 	};
 
-	preprocessed_lines process_include_directives(const std::string& filename,
-	                                              bve::core::datatypes::rng& rng,
-	                                              errors::MultiError& errors,
-	                                              file_type ft,
-	                                              const find_relative_file_func& get_abs_path);
+	PreprocessedLines process_include_directives(const std::string& filename,
+	                                             core::datatypes::RNG& rng,
+	                                             errors::MultiError& errors,
+	                                             FileType ft,
+	                                             const RelativeFileFunc& get_abs_path);
 
-	void preprocess_file(preprocessed_lines& lines,
-	                     bve::core::datatypes::rng& rng,
+	void preprocess_file(PreprocessedLines& lines,
+	                     core::datatypes::RNG& rng,
 	                     errors::MultiError& errors,
-	                     file_type ft);
+	                     FileType ft);
 
-	using instruction = mapbox::util::variant<instructions::naked::None,
+	using Instruction = mapbox::util::variant<instructions::naked::None,
 	                                          instructions::naked::Position,
 	                                          // options commands
 	                                          instructions::options::UnitOfLength,
@@ -121,7 +121,7 @@ namespace bve::parsers::csv_rw_route {
 	                                          instructions::track::Fog,
 	                                          instructions::track::Brightness,
 	                                          instructions::track::Marker,
-	                                          instructions::track::marker_xml,
+	                                          instructions::track::MarkerXML,
 	                                          instructions::track::TextMarker,
 	                                          instructions::track::PointOfInterest,
 	                                          instructions::track::PreTrain,
@@ -129,13 +129,13 @@ namespace bve::parsers::csv_rw_route {
 	                                          instructions::track::Doppler,
 	                                          instructions::track::Buffer>;
 
-	struct instruction_list {
-		std::vector<instruction> instructions;
+	struct InstructionList {
+		std::vector<Instruction> instructions;
 		std::vector<std::string> filenames;
 	};
 
 	namespace line_splitting {
-		struct instruction_info {
+		struct InstructionInfo {
 			std::string name;
 			std::vector<std::string> indices;
 			std::vector<std::string> args;
@@ -144,24 +144,22 @@ namespace bve::parsers::csv_rw_route {
 			bool track_position = false;
 		};
 
-		instruction_info csv(const preprocessed_line& l);
-		instruction_info rw(const preprocessed_line& l);
+		InstructionInfo csv(const PreprocessedLine& l);
+		InstructionInfo rw(const PreprocessedLine& l);
 	} // namespace line_splitting
 
-	instruction_list generate_instructions(const preprocessed_lines& lines,
-	                                       errors::MultiError& errors,
-	                                       file_type ft);
+	InstructionList generate_instructions(const PreprocessedLines& lines,
+	                                      errors::MultiError& errors,
+	                                      FileType ft);
 
-	void execute_instructions_pass1(instruction_list& list, errors::MultiError& errors);
-	parsed_route_data execute_instructions_pass2(instruction_list& list,
-	                                             errors::MultiError& errors);
-	void execute_instructions_pass3(parsed_route_data& rd,
-	                                instruction_list& list,
+	void execute_instructions_pass1(InstructionList& list, errors::MultiError& errors);
+	ParsedRoute execute_instructions_pass2(InstructionList& list, errors::MultiError& errors);
+	void execute_instructions_pass3(ParsedRoute& rd,
+	                                InstructionList& list,
 	                                errors::MultiError& errors,
-	                                const find_relative_file_func& get_abs_path);
+	                                const RelativeFileFunc& get_abs_path);
 
 } // namespace bve::parsers::csv_rw_route
 
-std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::instruction& i);
-std::ostream& operator<<(std::ostream& os,
-                         const bve::parsers::csv_rw_route::instruction_list& list);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::Instruction& i);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::InstructionList& list);

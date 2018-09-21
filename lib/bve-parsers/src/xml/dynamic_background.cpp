@@ -9,14 +9,14 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::xml::dynamic_background {
-	parsed_dynamic_background parse(
+	ParsedDynamicBackground parse(
 	    const std::string& filename,
 	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
 	    errors::MultiError& errors,
-	    const find_relative_file_func& get_relative_file) {
+	    const RelativeFileFunc& get_relative_file) {
 		// This is always an vector of texture backgrounds, the object code
-		// shortcircuts this variable and returns a newly constructed object
-		parsed_dynamic_background db = std::vector<texture_background_info>{};
+		// short-circuit this variable and returns a newly constructed object
+		ParsedDynamicBackground db = std::vector<TextureBackgroundInfo>{};
 
 		rapidxml_ns::xml_document<> doc;
 		doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
@@ -48,10 +48,10 @@ namespace bve::parsers::xml::dynamic_background {
 					    errors, filename, 0,
 					    "Multiple Object backgrounds: only one object background is allowed."s);
 				}
-				return object_background_info{absolute};
+				return ObjectBackgroundInfo{absolute};
 			}
 
-			texture_background_info tbi;
+			TextureBackgroundInfo tbi;
 
 			auto* texture = current_section->first_node("texture", 0, false);
 			auto* repetitions = current_section->first_node("repetitions", 0, false);
@@ -79,10 +79,10 @@ namespace bve::parsers::xml::dynamic_background {
 				auto const mode_text = util::lower_copy(get_node_value(mode));
 
 				if (mode_text == "fadein"s) {
-					tbi.transition_mode = texture_background_info::fade_in;
+					tbi.transition_mode = TextureBackgroundInfo::fade_in;
 				}
 				else if (mode_text == "fadeout"s) {
-					tbi.transition_mode = texture_background_info::fade_out;
+					tbi.transition_mode = TextureBackgroundInfo::fade_out;
 				}
 				else {
 					if (mode_text != "none"s) {
@@ -91,7 +91,7 @@ namespace bve::parsers::xml::dynamic_background {
 						    << R"(" assuming "None")";
 						add_error(errors, filename, 0, err.str());
 					}
-					tbi.transition_mode = texture_background_info::none;
+					tbi.transition_mode = TextureBackgroundInfo::none;
 				}
 			}
 
@@ -116,7 +116,7 @@ namespace bve::parsers::xml::dynamic_background {
 
 			// No need to check as we know the type for sure within this
 			// function (see above)
-			db.get_unchecked<std::vector<texture_background_info>>().emplace_back(std::move(tbi));
+			db.get_unchecked<std::vector<TextureBackgroundInfo>>().emplace_back(std::move(tbi));
 		}
 
 		return db;

@@ -9,7 +9,7 @@
 
 namespace bve::parsers::function_scripts {
 	namespace instructions {
-		enum class variable : uint8_t {
+		enum class Variable : uint8_t {
 			none = 0,
 			value,
 			delta,
@@ -58,7 +58,7 @@ namespace bve::parsers::function_scripts {
 			section
 		};
 
-		enum class indexed_variable : uint8_t {
+		enum class IndexedVariable : uint8_t {
 			none = 0,
 			speed,
 			speedometer,
@@ -83,125 +83,125 @@ namespace bve::parsers::function_scripts {
 			odometer
 		};
 
-		struct stack_push {
+		struct StackPush {
 			float value;
 		};
 
-		struct op_add {
+		struct OPAdd {
 			std::size_t count = 2;
 		};
-		struct op_subtract {};
-		struct op_unary_minus {};
-		struct op_multiply {
+		struct OPSubtract {};
+		struct OPUnaryMinus {};
+		struct OPMultiply {
 			std::size_t count = 2;
 		};
-		struct op_divide {};
+		struct OPDivide {};
 
-		struct op_equal {};
-		struct op_unequal {};
-		struct op_less {};
-		struct op_greater {};
-		struct op_less_equal {};
-		struct op_greater_equal {};
+		struct OPEqual {};
+		struct OPUnequal {};
+		struct OPLess {};
+		struct OPGreater {};
+		struct OPLessEqual {};
+		struct OPGreaterEqual {};
 
-		struct op_unary_not {};
-		struct op_and {};
-		struct op_or {};
-		struct op_xor {};
+		struct OPUnaryNot {};
+		struct OPAnd {};
+		struct OPOr {};
+		struct OPXor {};
 
 		// struct op_function_call {
 		// 	std::string function;
 		// 	std::size_t args;
 		// };
 
-		struct op_variable_lookup {
-			variable name;
+		struct OPVariableLookup {
+			Variable name;
 		};
 
-		struct op_variable_indexed {
-			indexed_variable name;
+		struct OPVariableIndexed {
+			IndexedVariable name;
 		};
 
-		struct func_reciprocal {};
-		struct func_power {
+		struct FuncReciprocal {};
+		struct FuncPower {
 			std::size_t count = 2;
 		};
 
-		struct func_quotient {};
-		struct func_mod {};
-		struct func_min {
+		struct FuncQuotient {};
+		struct FuncMod {};
+		struct FuncMin {
 			std::size_t count = 2;
 		};
-		struct func_max {
+		struct FuncMax {
 			std::size_t count = 2;
 		};
-		struct func_abs {};
-		struct func_sign {};
-		struct func_floor {};
-		struct func_ceiling {};
-		struct func_round {};
-		struct func_random {};
-		struct func_random_int {};
+		struct FuncAbs {};
+		struct FuncSign {};
+		struct FuncFloor {};
+		struct FuncCeiling {};
+		struct FuncRound {};
+		struct FuncRandom {};
+		struct FuncRandomInt {};
 
-		struct func_exp {};
-		struct func_log {};
-		struct func_sqrt {};
-		struct func_sin {};
-		struct func_cos {};
-		struct func_tan {};
-		struct func_arctan {};
+		struct FuncExp {};
+		struct FuncLog {};
+		struct FuncSqrt {};
+		struct FuncSin {};
+		struct FuncCos {};
+		struct FuncTan {};
+		struct FuncArctan {};
 
-		struct func_if {};
+		struct FuncIf {};
 	} // namespace instructions
 
-	using instruction = mapbox::util::variant<instructions::stack_push,
-	                                          instructions::op_add,
-	                                          instructions::op_subtract,
-	                                          instructions::op_unary_minus,
-	                                          instructions::op_multiply,
-	                                          instructions::op_divide,
-	                                          instructions::op_equal,
-	                                          instructions::op_unequal,
-	                                          instructions::op_less,
-	                                          instructions::op_greater,
-	                                          instructions::op_less_equal,
-	                                          instructions::op_greater_equal,
-	                                          instructions::op_unary_not,
-	                                          instructions::op_and,
-	                                          instructions::op_or,
-	                                          instructions::op_xor,
-	                                          instructions::op_variable_lookup,
-	                                          instructions::op_variable_indexed,
-	                                          instructions::func_reciprocal,
-	                                          instructions::func_power,
-	                                          instructions::func_quotient,
-	                                          instructions::func_mod,
-	                                          instructions::func_min,
-	                                          instructions::func_max,
-	                                          instructions::func_abs,
-	                                          instructions::func_sign,
-	                                          instructions::func_floor,
-	                                          instructions::func_ceiling,
-	                                          instructions::func_round,
-	                                          instructions::func_random,
-	                                          instructions::func_random_int,
-	                                          instructions::func_exp,
-	                                          instructions::func_log,
-	                                          instructions::func_sqrt,
-	                                          instructions::func_sin,
-	                                          instructions::func_cos,
-	                                          instructions::func_tan,
-	                                          instructions::func_arctan,
-	                                          instructions::func_if>;
+	using Instruction = mapbox::util::variant<instructions::StackPush,
+	                                          instructions::OPAdd,
+	                                          instructions::OPSubtract,
+	                                          instructions::OPUnaryMinus,
+	                                          instructions::OPMultiply,
+	                                          instructions::OPDivide,
+	                                          instructions::OPEqual,
+	                                          instructions::OPUnequal,
+	                                          instructions::OPLess,
+	                                          instructions::OPGreater,
+	                                          instructions::OPLessEqual,
+	                                          instructions::OPGreaterEqual,
+	                                          instructions::OPUnaryNot,
+	                                          instructions::OPAnd,
+	                                          instructions::OPOr,
+	                                          instructions::OPXor,
+	                                          instructions::OPVariableLookup,
+	                                          instructions::OPVariableIndexed,
+	                                          instructions::FuncReciprocal,
+	                                          instructions::FuncPower,
+	                                          instructions::FuncQuotient,
+	                                          instructions::FuncMod,
+	                                          instructions::FuncMin,
+	                                          instructions::FuncMax,
+	                                          instructions::FuncAbs,
+	                                          instructions::FuncSign,
+	                                          instructions::FuncFloor,
+	                                          instructions::FuncCeiling,
+	                                          instructions::FuncRound,
+	                                          instructions::FuncRandom,
+	                                          instructions::FuncRandomInt,
+	                                          instructions::FuncExp,
+	                                          instructions::FuncLog,
+	                                          instructions::FuncSqrt,
+	                                          instructions::FuncSin,
+	                                          instructions::FuncCos,
+	                                          instructions::FuncTan,
+	                                          instructions::FuncArctan,
+	                                          instructions::FuncIf>;
 
-	struct instruction_list {
-		std::set<instructions::variable> used_variables;
-		std::set<instructions::indexed_variable> used_indexed_variables;
-		std::vector<instruction> instructions;
+	struct InstructionList {
+		std::set<instructions::Variable> used_variables;
+		std::set<instructions::IndexedVariable> used_indexed_variables;
+		std::vector<Instruction> instructions;
 		errors::Errors errors;
 	};
 
-	instruction_list parse(const std::string& text);
+	InstructionList parse(const std::string& text);
 
-	std::ostream& operator<<(std::ostream& os, const instruction_list& list);
+	std::ostream& operator<<(std::ostream& os, const InstructionList& list);
 } // namespace bve::parsers::function_scripts

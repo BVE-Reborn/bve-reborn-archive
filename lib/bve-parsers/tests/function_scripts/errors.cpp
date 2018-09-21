@@ -12,7 +12,7 @@ TEST_CASE("libparsers - function scripts - errors - invalid function") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - invalid variable") {
@@ -20,7 +20,7 @@ TEST_CASE("libparsers - function scripts - errors - invalid variable") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing unary operand") {
@@ -28,8 +28,8 @@ TEST_CASE("libparsers - function scripts - errors - missing unary operand") {
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::OPUnaryMinus{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing unary operand inside function") {
@@ -37,9 +37,9 @@ TEST_CASE("libparsers - function scripts - errors - missing unary operand inside
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_sin{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::OPUnaryMinus{});
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::FuncSin{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - single dot") {
@@ -47,7 +47,7 @@ TEST_CASE("libparsers - function scripts - errors - single dot") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - single dot inside function") {
@@ -55,8 +55,8 @@ TEST_CASE("libparsers - function scripts - errors - single dot inside function")
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::FuncSin{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - malformed variable") {
@@ -64,7 +64,7 @@ TEST_CASE("libparsers - function scripts - errors - malformed variable") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - malformed number") {
@@ -72,7 +72,7 @@ TEST_CASE("libparsers - function scripts - errors - malformed number") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{12131}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{12131}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing left bracket") {
@@ -80,7 +80,7 @@ TEST_CASE("libparsers - function scripts - errors - missing left bracket") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing right bracket") {
@@ -88,8 +88,8 @@ TEST_CASE("libparsers - function scripts - errors - missing right bracket") {
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES(result.instructions[0], fs_inst::op_variable_lookup{});
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
+	COMPARE_VARIANT_NODES(result.instructions[0], fs_inst::OPVariableLookup{});
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::FuncSin{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing left parenthesis") {
@@ -97,7 +97,7 @@ TEST_CASE("libparsers - function scripts - errors - missing left parenthesis") {
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{5}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{5}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing right parenthesis") {
@@ -105,7 +105,7 @@ TEST_CASE("libparsers - function scripts - errors - missing right parenthesis") 
 
 	REQUIRE_EQ(result.instructions.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{5}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{5}, value);
 }
 
 TEST_CASE("libparsers - function scripts - errors - missing unary function argument") {
@@ -113,8 +113,8 @@ TEST_CASE("libparsers - function scripts - errors - missing unary function argum
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::FuncSin{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - too many unary function arguments") {
@@ -122,8 +122,8 @@ TEST_CASE("libparsers - function scripts - errors - too many unary function argu
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{1}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::func_sin{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{1}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::FuncSin{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - 2 missing binary function argument") {
@@ -131,9 +131,9 @@ TEST_CASE("libparsers - function scripts - errors - 2 missing binary function ar
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_random_int{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::FuncRandomInt{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - 1 missing binary function argument") {
@@ -141,9 +141,9 @@ TEST_CASE("libparsers - function scripts - errors - 1 missing binary function ar
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{1}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_random_int{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{1}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::FuncRandomInt{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - too many binary function argument") {
@@ -151,9 +151,9 @@ TEST_CASE("libparsers - function scripts - errors - too many binary function arg
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{1}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::func_random_int{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{1}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::FuncRandomInt{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - 3 missing ternary function argument") {
@@ -161,10 +161,10 @@ TEST_CASE("libparsers - function scripts - errors - 3 missing ternary function a
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::FuncIf{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - 2 missing ternary function argument") {
@@ -172,10 +172,10 @@ TEST_CASE("libparsers - function scripts - errors - 2 missing ternary function a
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::FuncIf{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - 1 missing ternary function argument") {
@@ -183,10 +183,10 @@ TEST_CASE("libparsers - function scripts - errors - 1 missing ternary function a
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::stack_push{0}, value);
-	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::StackPush{0}, value);
+	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::FuncIf{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - too many ternary function argument") {
@@ -194,20 +194,20 @@ TEST_CASE("libparsers - function scripts - errors - too many ternary function ar
 
 	REQUIRE_EQ(result.instructions.size(), 4);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::stack_push{4}, value);
-	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::func_if{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[2], fs_inst::StackPush{4}, value);
+	COMPARE_VARIANT_NODES(result.instructions[3], fs_inst::FuncIf{});
 }
 
 TEST_CASE("libparsers - function scripts - errors - 1 missing variatic function argument") {
-	auto function = fs_inst::func_max{1};
+	auto function = fs_inst::FuncMax{1};
 
 	auto result = bve::parsers::function_scripts::parse("max[]");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], function, count);
 }
 
@@ -217,11 +217,11 @@ TEST_CASE("libparsers - function scripts - errors - missing unary variable index
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_EQ(result.used_indexed_variables.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{0}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1],
-	                             fs_inst::op_variable_indexed{fs_inst::indexed_variable::odometer},
+	                             fs_inst::OPVariableIndexed{fs_inst::IndexedVariable::odometer},
 	                             name);
-	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::indexed_variable::odometer);
+	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::IndexedVariable::odometer);
 }
 
 TEST_CASE("libparsers - function scripts - errors - too many unary variable index argument") {
@@ -230,11 +230,11 @@ TEST_CASE("libparsers - function scripts - errors - too many unary variable inde
 	REQUIRE_EQ(result.instructions.size(), 2);
 	REQUIRE_EQ(result.used_indexed_variables.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{1}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{1}, value);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1],
-	                             fs_inst::op_variable_indexed{fs_inst::indexed_variable::odometer},
+	                             fs_inst::OPVariableIndexed{fs_inst::IndexedVariable::odometer},
 	                             name);
-	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::indexed_variable::odometer);
+	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::IndexedVariable::odometer);
 }
 
 TEST_CASE("libparsers - function scripts - errors - Single equals") {
@@ -242,9 +242,9 @@ TEST_CASE("libparsers - function scripts - errors - Single equals") {
 
 	REQUIRE_EQ(result.instructions.size(), 3);
 	REQUIRE_GE(result.errors.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_equal{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPEqual{});
 }
 
 TEST_SUITE_END();

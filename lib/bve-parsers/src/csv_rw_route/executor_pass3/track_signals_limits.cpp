@@ -3,8 +3,8 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::Limit& inst) const {
-		track_limit_info tli;
+	void Pass3Executor::operator()(const instructions::track::Limit& inst) const {
+		TrackLimit tli;
 		tli.position = inst.absolute_position;
 		tli.value = inst.speed;
 		route_data_.limits.emplace_back(std::move(tli));
@@ -38,16 +38,16 @@ namespace bve::parsers::csv_rw_route {
 				obj_name << "no_restriction";
 			}
 
-			rail_object_info roi;
-			roi.filename = add_object_filename(obj_name.str());
-			roi.position = track_position_at(inst.absolute_position).position;
+			RailObjectInfo roi;
+			roi.filename = addObjectFilename(obj_name.str());
+			roi.position = trackPositionAt(inst.absolute_position).position;
 			roi.rotation = glm::vec3(0);
 			route_data_.objects.emplace_back(std::move(roi));
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::track::Section& inst) const {
-		section_info si;
+	void Pass3Executor::operator()(const instructions::track::Section& inst) const {
+		Section si;
 		if (section_behavior_ == instructions::options::SectionBehavior::Mode::normal) {
 			si.position = inst.absolute_position;
 			si.value = inst.a_term;
@@ -71,7 +71,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.sections.emplace_back(std::move(si));
 	}
 
-	void pass3_executor::operator()(const instructions::track::SigF& inst) {
+	void Pass3Executor::operator()(const instructions::track::SigF& inst) {
 		auto signal_info_iter = signal_mapping_.find(inst.signal_index);
 
 		std::ostringstream name;
@@ -92,32 +92,31 @@ namespace bve::parsers::csv_rw_route {
 					break;
 			}
 		}
-		else if (signal_info_iter->second.is<animated_signal>()) {
-			name << signal_info_iter->second.get_unchecked<animated_signal>().filename;
+		else if (signal_info_iter->second.is<AnimatedSignal>()) {
+			name << signal_info_iter->second.get_unchecked<AnimatedSignal>().filename;
 		}
 		else {
-			auto& sig = signal_info_iter->second.get_unchecked<traditional_signal>();
+			auto& sig = signal_info_iter->second.get_unchecked<TraditionalSignal>();
 			name << "\034compat\034/user_signal/" << sig.signal_filename << "/\034/"
 			     << sig.glow_filename;
 		}
 
-		rail_object_info roi;
-		roi.filename = add_object_filename(name.str());
+		RailObjectInfo roi;
+		roi.filename = addObjectFilename(name.str());
 		if (inst.y_offset >= 0) {
 			roi.position =
-			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		else {
-			roi.position =
-			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}
 		roi.rotation = glm::vec3(0);
 
 		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Signal& inst) {
-		section_info si;
+	void Pass3Executor::operator()(const instructions::track::Signal& inst) {
+		Section si;
 		si.position = inst.absolute_position;
 
 		std::ostringstream name;
@@ -163,34 +162,32 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		rail_object_info roi;
+		RailObjectInfo roi;
 
-		roi.filename = add_object_filename(name.str());
+		roi.filename = addObjectFilename(name.str());
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
-			roi.position =
-			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}
 		else {
 			roi.position =
-			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		roi.rotation = glm::vec3(0);
 	}
 
-	void pass3_executor::operator()(const instructions::track::Relay& inst) {
+	void Pass3Executor::operator()(const instructions::track::Relay& inst) {
 		if (inst.x_offset == 0) {
 			return;
 		}
 
-		rail_object_info roi;
-		roi.filename = add_object_filename("\034compat\034/signal/relay");
+		RailObjectInfo roi;
+		roi.filename = addObjectFilename("\034compat\034/signal/relay");
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
-			roi.position =
-			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8f);
 		}
 		else {
 			roi.position =
-			    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		roi.rotation = glm::vec3(0);
 	}

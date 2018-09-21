@@ -167,7 +167,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct StartTime {
-			bve::core::datatypes::time time;
+			core::datatypes::Time time;
 			std::size_t file_index = 0;
 			std::size_t line = 0;
 			float absolute_position = -1;
@@ -181,11 +181,11 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct AmbientLight : InstructionBase {
-			bve::core::datatypes::color8_rgb color = {160, 160, 160};
+			core::datatypes::Color8RGB color = {160, 160, 160};
 		};
 
 		struct DirectionalLight : InstructionBase {
-			bve::core::datatypes::color8_rgb color = {160, 160, 160};
+			core::datatypes::Color8RGB color = {160, 160, 160};
 		};
 
 		struct LightDirection : InstructionBase {
@@ -460,18 +460,18 @@ namespace bve::parsers::csv_rw_route::instructions {
 			std::string arrival_sound;
 			std::string departure_sound;
 			std::size_t timetable_index = 0;
-			bve::core::datatypes::time arrival = 0;
-			bve::core::datatypes::time departure = 0;
+			core::datatypes::Time arrival = 0;
+			core::datatypes::Time departure = 0;
 			float stop_duration = 15;
 			float passenger_ratio = 100;
 			bool pass_alarm = false;
 			bool force_red = false;
 			bool system = false;
-			using ArrivalTime = rail_station_info::arrival_time_t;
+			using ArrivalTime = RailStation::ArrivalTime;
 			ArrivalTime arrival_tag = ArrivalTime::any_time;
-			using DepartureTime = rail_station_info::departure_time_t;
+			using DepartureTime = RailStation::DepartureTime;
 			DepartureTime departure_tag = DepartureTime::any_time;
-			using Doors = rail_station_info::doors_t;
+			using Doors = RailStation::Doors;
 			Doors doors = Doors::none;
 		};
 
@@ -480,7 +480,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct Stop : InstructionBase {
-			using StopPost = direction_t;
+			using StopPost = Direction;
 			StopPost stop_post = StopPost::none;
 
 			float forwards_tolerance = 5;
@@ -621,7 +621,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 			float starting_distance = 0;
 			// UnitOfLength
 			float ending_distance = 0;
-			bve::core::datatypes::color8_rgb color = {128, 128, 128};
+			core::datatypes::Color8RGB color = {128, 128, 128};
 		};
 
 		struct Brightness : InstructionBase {
@@ -634,7 +634,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 			float distance;
 		};
 
-		struct marker_xml : InstructionBase {
+		struct MarkerXML : InstructionBase {
 			std::string filename;
 		};
 
@@ -642,7 +642,16 @@ namespace bve::parsers::csv_rw_route::instructions {
 			std::string text;
 			// UnitOfLength
 			float distance;
-			enum class FontColor : uint8_t { black, gray, white, red, orange, green, blue, magenta } font_color;
+			enum class FontColor : uint8_t {
+				black,
+				gray,
+				white,
+				red,
+				orange,
+				green,
+				blue,
+				magenta
+			} font_color;
 		};
 
 		struct PointOfInterest : InstructionBase {
@@ -661,7 +670,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct PreTrain : InstructionBase {
-			bve::core::datatypes::time time;
+			core::datatypes::Time time;
 		};
 
 		struct Announce : InstructionBase {

@@ -25,8 +25,8 @@ static std::string canonicalize(std::string str) {
 
 #define UNARY_OP_TEST(rep, name, type_name)                                                        \
 	TEST_CASE("libparsers - function scripts - instruction_iostream - " STR(name)) {               \
-		bve::parsers::function_scripts::instruction_list const                                     \
-		    test_list{{}, {}, {fs_instruction::stack_push{2}, fs_instruction::type_name{}}, {}};   \
+		bve::parsers::function_scripts::InstructionList const                                      \
+		    test_list{{}, {}, {fs_instruction::StackPush{2}, fs_instruction::type_name{}}, {}};    \
                                                                                                    \
 		std::ostringstream output;                                                                 \
                                                                                                    \
@@ -39,10 +39,10 @@ static std::string canonicalize(std::string str) {
 
 #define BINARY_OP_TEST(rep, name, type_name)                                                       \
 	TEST_CASE("libparsers - function scripts - instruction_iostream - " STR(name)) {               \
-		bve::parsers::function_scripts::instruction_list const                                     \
+		bve::parsers::function_scripts::InstructionList const                                      \
 		    test_list{{},                                                                          \
 		              {},                                                                          \
-		              {fs_instruction::stack_push{2}, fs_instruction::stack_push{3},               \
+		              {fs_instruction::StackPush{2}, fs_instruction::StackPush{3},                 \
 		               fs_instruction::type_name{}},                                               \
 		              {}};                                                                         \
                                                                                                    \
@@ -56,38 +56,38 @@ static std::string canonicalize(std::string str) {
 		         "2\t" rep " -> 0\n");                                                             \
 	}
 
-#define REGULAR_VARIABLE_TEST(name)                                                                     \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - unindexed " STR(name)) {          \
-		bve::parsers::function_scripts::instruction_list const                                          \
-		    test_list{{bve::parsers::function_scripts::instructions::variable::name},                   \
-		              {},                                                                               \
-		              {fs_instruction::op_variable_lookup{                                              \
-		                  bve::parsers::function_scripts::instructions::variable::name}},               \
-		              {}};                                                                              \
-                                                                                                        \
-		std::ostringstream output;                                                                      \
-                                                                                                        \
-		output << test_list;                                                                            \
-                                                                                                        \
+#define REGULAR_VARIABLE_TEST(name)                                                                    \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - unindexed " STR(name)) {         \
+		bve::parsers::function_scripts::InstructionList const                                          \
+		    test_list{{bve::parsers::function_scripts::instructions::Variable::name},                  \
+		              {},                                                                              \
+		              {fs_instruction::OPVariableLookup{                                               \
+		                  bve::parsers::function_scripts::instructions::Variable::name}},              \
+		              {}};                                                                             \
+                                                                                                       \
+		std::ostringstream output;                                                                     \
+                                                                                                       \
+		output << test_list;                                                                           \
+                                                                                                       \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Variables Used: " STR(name) "\n"                                             \
                  "0\tOP_VARIABLE_LOOKUP: " STR(name) " " STR(name) " -> 0\n"); \
 	}
 
-#define INDEXED_VARIABLE_TEST(name)                                                                     \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STR(name)) {              \
-		bve::parsers::function_scripts::instruction_list const                                          \
-		    test_list{{},                                                                               \
-		              {bve::parsers::function_scripts::instructions::indexed_variable::name},           \
-		              {fs_instruction::stack_push{2},                                                   \
-		               fs_instruction::op_variable_indexed{                                             \
-		                   bve::parsers::function_scripts::instructions::indexed_variable::name}},      \
-		              {}};                                                                              \
-                                                                                                        \
-		std::ostringstream output;                                                                      \
-                                                                                                        \
-		output << test_list;                                                                            \
-                                                                                                        \
+#define INDEXED_VARIABLE_TEST(name)                                                                    \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STR(name)) {             \
+		bve::parsers::function_scripts::InstructionList const                                          \
+		    test_list{{},                                                                              \
+		              {bve::parsers::function_scripts::instructions::IndexedVariable::name},           \
+		              {fs_instruction::StackPush{2},                                                   \
+		               fs_instruction::OPVariableIndexed{                                              \
+		                   bve::parsers::function_scripts::instructions::IndexedVariable::name}},      \
+		              {}};                                                                             \
+                                                                                                       \
+		std::ostringstream output;                                                                     \
+                                                                                                       \
+		output << test_list;                                                                           \
+                                                                                                       \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Index Variables Used: " STR(name) "\n"                                       \
 		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                        \
@@ -97,53 +97,53 @@ static std::string canonicalize(std::string str) {
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 // clang-format off
-UNARY_OP_TEST("OP_UNARY_NOT (!0)", unary not, op_unary_not)
-UNARY_OP_TEST("OP_UNARY_MINUS (-0)", unary minus, op_unary_minus)
+UNARY_OP_TEST("OP_UNARY_NOT (!0)", unary not, OPUnaryNot)
+UNARY_OP_TEST("OP_UNARY_MINUS (-0)", unary minus, OPUnaryMinus)
 
-BINARY_OP_TEST("OP_ADD2 (0 + 1)", binary add, op_add)
-BINARY_OP_TEST("OP_SUBTRACT (0 - 1)",  binary subtract, op_subtract)
-BINARY_OP_TEST("OP_MULTIPLY2 (0 * 1)", binary multiply, op_multiply)
-BINARY_OP_TEST("OP_DIVIDE (0 / 1)",  binary divide, op_divide)
-BINARY_OP_TEST("OP_EQUAL (0 == 1)",  binary equal, op_equal)
-BINARY_OP_TEST("OP_UNEQUAL (0 != 1)",  binary unequal, op_unequal)
-BINARY_OP_TEST("OP_LESS (0 < 1)",  binary less, op_less)
-BINARY_OP_TEST("OP_GREATER (0 > 1)", binary greater, op_greater)
-BINARY_OP_TEST("OP_LESS_EQUAL (0 <= 1)", binary lesser or equal, op_less_equal)
-BINARY_OP_TEST("OP_GREATER_EQUAL (0 >= 1)", binary greater or equals, op_greater_equal)
-BINARY_OP_TEST("OP_AND (0 & 1)",  binary and, op_and)
-BINARY_OP_TEST("OP_OR (0 | 1)",  binary or, op_or)
-BINARY_OP_TEST("OP_XOR (0 ^ 1)", binary xor, op_xor)
+BINARY_OP_TEST("OP_ADD2 (0 + 1)", binary add, OPAdd)
+BINARY_OP_TEST("OP_SUBTRACT (0 - 1)",  binary subtract, OPSubtract)
+BINARY_OP_TEST("OP_MULTIPLY2 (0 * 1)", binary multiply, OPMultiply)
+BINARY_OP_TEST("OP_DIVIDE (0 / 1)",  binary divide, OPDivide)
+BINARY_OP_TEST("OP_EQUAL (0 == 1)",  binary equal, OPEqual)
+BINARY_OP_TEST("OP_UNEQUAL (0 != 1)",  binary unequal, OPUnequal)
+BINARY_OP_TEST("OP_LESS (0 < 1)",  binary less, OPLess)
+BINARY_OP_TEST("OP_GREATER (0 > 1)", binary greater, OPGreater)
+BINARY_OP_TEST("OP_LESS_EQUAL (0 <= 1)", binary lesser or equal, OPLessEqual)
+BINARY_OP_TEST("OP_GREATER_EQUAL (0 >= 1)", binary greater or equals, OPGreaterEqual)
+BINARY_OP_TEST("OP_AND (0 & 1)",  binary and, OPAnd)
+BINARY_OP_TEST("OP_OR (0 | 1)",  binary or, OPOr)
+BINARY_OP_TEST("OP_XOR (0 ^ 1)", binary xor, OPXor)
 
-UNARY_OP_TEST("FUNC_RECIPROCAL Reciprocal[0]", reciprocal, func_reciprocal)
-BINARY_OP_TEST("FUNC_POWER2 (0 ** 1)", power2, func_power)
-BINARY_OP_TEST("FUNC_QUOTIENT (0 // 1)", quotient, func_quotient)
-BINARY_OP_TEST("FUNC_MOD (0 % 1)", mod, func_mod)
-BINARY_OP_TEST("FUNC_MIN2 Min[0, 1]", min2, func_min)
-BINARY_OP_TEST("FUNC_MAX2 Max[0, 1]", max2, func_max)
-UNARY_OP_TEST("FUNC_ABS Abs[0]", abs, func_abs)
-UNARY_OP_TEST("FUNC_SIGN Sign[0]", sign, func_sign)
-UNARY_OP_TEST("FUNC_FLOOR Floor[0]", floor, func_floor)
-UNARY_OP_TEST("FUNC_CEILING Ceiling[0]", ceiling, func_ceiling)
-UNARY_OP_TEST("FUNC_ROUND Round[0]", round, func_round)
-BINARY_OP_TEST("FUNC_RANDOM Random[0, 1]", random, func_random)
-BINARY_OP_TEST("FUNC_RANDOMINT RandomInt[0, 1]", random, func_random_int)
-UNARY_OP_TEST("FUNC_EXP Exp[0]", exp, func_exp)
-UNARY_OP_TEST("FUNC_LOG Log[0]", log, func_log)
-UNARY_OP_TEST("FUNC_SQRT Sqrt[0]", sqrt, func_sqrt)
-UNARY_OP_TEST("FUNC_SIN Sin[0]", sin, func_sin)
-UNARY_OP_TEST("FUNC_COS Cos[0]", cos, func_cos)
-UNARY_OP_TEST("FUNC_TAN Tan[0]", tan, func_tan)
-UNARY_OP_TEST("FUNC_ARCTAN Arctan[0]", arctan, func_arctan)
+UNARY_OP_TEST("FUNC_RECIPROCAL Reciprocal[0]", reciprocal, FuncReciprocal)
+BINARY_OP_TEST("FUNC_POWER2 (0 ** 1)", power2, FuncPower)
+BINARY_OP_TEST("FUNC_QUOTIENT (0 // 1)", quotient, FuncQuotient)
+BINARY_OP_TEST("FUNC_MOD (0 % 1)", mod, FuncMod)
+BINARY_OP_TEST("FUNC_MIN2 Min[0, 1]", min2, FuncMin)
+BINARY_OP_TEST("FUNC_MAX2 Max[0, 1]", max2, FuncMax)
+UNARY_OP_TEST("FUNC_ABS Abs[0]", abs, FuncAbs)
+UNARY_OP_TEST("FUNC_SIGN Sign[0]", sign, FuncSign)
+UNARY_OP_TEST("FUNC_FLOOR Floor[0]", floor, FuncFloor)
+UNARY_OP_TEST("FUNC_CEILING Ceiling[0]", ceiling, FuncCeiling)
+UNARY_OP_TEST("FUNC_ROUND Round[0]", round, FuncRound)
+BINARY_OP_TEST("FUNC_RANDOM Random[0, 1]", random, FuncRandom)
+BINARY_OP_TEST("FUNC_RANDOMINT RandomInt[0, 1]", random, FuncRandomInt)
+UNARY_OP_TEST("FUNC_EXP Exp[0]", exp, FuncExp)
+UNARY_OP_TEST("FUNC_LOG Log[0]", log, FuncLog)
+UNARY_OP_TEST("FUNC_SQRT Sqrt[0]", sqrt, FuncSqrt)
+UNARY_OP_TEST("FUNC_SIN Sin[0]", sin, FuncSin)
+UNARY_OP_TEST("FUNC_COS Cos[0]", cos, FuncCos)
+UNARY_OP_TEST("FUNC_TAN Tan[0]", tan, FuncTan)
+UNARY_OP_TEST("FUNC_ARCTAN Arctan[0]", arctan, FuncArctan)
 
 TEST_CASE("libparsers - function scripts - instruction_iostream - if") {
 	
-	bve::parsers::function_scripts::instruction_list const test_list{
+	bve::parsers::function_scripts::InstructionList const test_list{
 			{},
 			{},
-			{fs_instruction::stack_push{ 2 },
-				fs_instruction::stack_push{ 3 },
-				fs_instruction::stack_push{ 4 },
-				fs_instruction::func_if{}},
+			{fs_instruction::StackPush{ 2 },
+				fs_instruction::StackPush{ 3 },
+				fs_instruction::StackPush{ 4 },
+				fs_instruction::FuncIf{}},
 			{}
 		};
 		

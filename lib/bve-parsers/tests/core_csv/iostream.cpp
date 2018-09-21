@@ -17,7 +17,7 @@ TEST_CASE("libparsers - core_csv - iostream - bve::parsers::csv::csv_token") {
 }
 
 TEST_CASE("libparsers - core_csv - iostream - single item") {
-	bve::parsers::csv::parsed_csv const result{{
+	bve::parsers::csv::ParsedCSV const result{{
 	    {{"hello"s, 1, 2, 3, 4}}, //
 	}};
 
@@ -29,7 +29,7 @@ TEST_CASE("libparsers - core_csv - iostream - single item") {
 }
 
 TEST_CASE("libparsers - core_csv - iostream - two items") {
-	bve::parsers::csv::parsed_csv const result{{
+	bve::parsers::csv::ParsedCSV const result{{
 	    {{"hello"s, 1, 2, 3, 4}, {"world"s, 5, 6, 7, 8}}, //
 	}};
 

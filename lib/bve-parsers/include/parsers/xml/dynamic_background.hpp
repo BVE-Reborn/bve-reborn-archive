@@ -8,8 +8,8 @@
 #include <vector>
 
 namespace bve::parsers::xml::dynamic_background {
-	struct texture_background_info {
-		bve::core::datatypes::time time = 0;
+	struct TextureBackgroundInfo {
+		core::datatypes::Time time = 0;
 		enum { fade_in, fade_out, none } transition_mode = none;
 		std::size_t repetitions = 6;
 		std::string filename;
@@ -18,15 +18,15 @@ namespace bve::parsers::xml::dynamic_background {
 		bool from_xml = true;
 	};
 
-	struct object_background_info {
+	struct ObjectBackgroundInfo {
 		std::string filename;
 	};
 
-	using parsed_dynamic_background =
-	    mapbox::util::variant<std::vector<texture_background_info>, object_background_info>;
+	using ParsedDynamicBackground =
+	    mapbox::util::variant<std::vector<TextureBackgroundInfo>, ObjectBackgroundInfo>;
 
-	parsed_dynamic_background parse(const std::string& filename,
-	                                std::string input_string,
-	                                errors::MultiError& errors,
-	                                const find_relative_file_func& get_relative_file);
+	ParsedDynamicBackground parse(const std::string& filename,
+	                              std::string input_string,
+	                              errors::MultiError& errors,
+	                              const RelativeFileFunc& get_relative_file);
 } // namespace bve::parsers::xml::dynamic_background

@@ -5,32 +5,32 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::csv_rw_route {
-	using texture_vector = std::vector<xml::dynamic_background::texture_background_info>;
-	using xml::dynamic_background::object_background_info;
-	using xml::dynamic_background::parsed_dynamic_background;
-	using xml::dynamic_background::texture_background_info;
+	using TextureVector = std::vector<xml::dynamic_background::TextureBackgroundInfo>;
+	using xml::dynamic_background::ObjectBackgroundInfo;
+	using xml::dynamic_background::ParsedDynamicBackground;
+	using xml::dynamic_background::TextureBackgroundInfo;
 
 	//////////////////////////////
 	// Background.Load Subcalls //
 	//////////////////////////////
 
-	void pass3_executor::background_load_xml(const instructions::texture::BackgroundLoad& inst) {
-		auto const issuer_filename = get_filename(inst.file_index);
+	void Pass3Executor::backgroundLoadXML(const instructions::texture::BackgroundLoad& inst) {
+		auto const issuer_filename = getFilename(inst.file_index);
 
-		parsed_dynamic_background bround;
+		ParsedDynamicBackground background;
 
 		auto const filename = get_relative_file_(issuer_filename, inst.filename);
 
 		try {
 			auto file_contents = util::load_from_file_utf8_bom(filename);
-			bround = xml::dynamic_background::parse(filename, std::move(file_contents), errors_,
-			                                        get_relative_file_);
+			background = xml::dynamic_background::parse(filename, std::move(file_contents), errors_,
+			                                            get_relative_file_);
 		}
 		catch (const std::exception& e) {
 			add_error(errors_, issuer_filename, inst.line, e.what());
 		}
 
-		auto insert_pair = std::make_pair(inst.background_texture_index, std::move(bround));
+		auto insert_pair = std::make_pair(inst.background_texture_index, std::move(background));
 
 		auto const insert_return = background_mapping_.insert(insert_pair);
 
@@ -39,7 +39,7 @@ namespace bve::parsers::csv_rw_route {
 
 		// Something defined this first
 		if (!inserted) {
-			// actually preform the insertion, not using the bround variable as
+			// actually preform the insertion, not using the background variable as
 			// it has been moved
 			iterator->second = std::move(insert_pair.second);
 			add_error(
@@ -48,27 +48,27 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::background_load_image(const instructions::texture::BackgroundLoad& inst) {
-		auto const issuer_filename = get_filename(inst.file_index);
+	void Pass3Executor::backgroundLoadImage(const instructions::texture::BackgroundLoad& inst) {
+		auto const issuer_filename = getFilename(inst.file_index);
 
 		auto found_iter = background_mapping_.find(inst.background_texture_index);
 
 		if (found_iter == background_mapping_.end()) {
-			texture_background_info tbi;
+			TextureBackgroundInfo tbi;
 			tbi.from_xml = false;
 			tbi.filename = inst.filename;
 			background_mapping_.insert(
-			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
+			    {inst.background_texture_index, TextureVector{std::move(tbi)}});
 			return;
 		}
 
-		auto& bround = found_iter->second;
+		auto& background = found_iter->second;
 
-		auto const created_by_xml = bround.match(
+		auto const created_by_xml = background.match(
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
-		    [](const texture_vector& v) -> bool { return v[0].from_xml; },
-		    [](const object_background_info&) -> bool { return true; });
+		    [](const TextureVector& v) -> bool { return v[0].from_xml; },
+		    [](const ObjectBackgroundInfo&) -> bool { return true; });
 
 		if (created_by_xml) {
 			add_error(
@@ -77,15 +77,15 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		bround.get_unchecked<texture_vector>()[0].filename = inst.filename;
+		background.get_unchecked<TextureVector>()[0].filename = inst.filename;
 	}
 
 	/////////////////////////
 	// Direct Instructions //
 	/////////////////////////
 
-	void pass3_executor::operator()(const instructions::texture::BackgroundLoad& inst) {
-		auto issuer_filename = get_filename(inst.file_index);
+	void Pass3Executor::operator()(const instructions::texture::BackgroundLoad& inst) {
+		auto issuer_filename = getFilename(inst.file_index);
 
 		// Hacky way to find the file extant of the file in order to determine
 		// if XML. Works due to OpenBVE's strictness on filenames
@@ -101,34 +101,34 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		if (is_xml) {
-			background_load_xml(inst);
+			backgroundLoadXML(inst);
 		}
 		else {
-			background_load_image(inst);
+			backgroundLoadImage(inst);
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::texture::BackgroundX& inst) {
-		auto const issuer_filename = get_filename(inst.file_index);
+	void Pass3Executor::operator()(const instructions::texture::BackgroundX& inst) {
+		auto const issuer_filename = getFilename(inst.file_index);
 
 		auto found_iter = background_mapping_.find(inst.background_texture_index);
 
 		if (found_iter == background_mapping_.end()) {
-			texture_background_info tbi;
+			TextureBackgroundInfo tbi;
 			tbi.from_xml = false;
 			tbi.repetitions = inst.repetition_count;
 			background_mapping_.insert(
-			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
+			    {inst.background_texture_index, TextureVector{std::move(tbi)}});
 			return;
 		}
 
-		auto& bround = found_iter->second;
+		auto& background = found_iter->second;
 
-		auto const created_by_xml = bround.match(
+		auto const created_by_xml = background.match(
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
-		    [](const texture_vector& v) -> bool { return v[0].from_xml; },
-		    [](const object_background_info&) -> bool { return true; });
+		    [](const TextureVector& v) -> bool { return v[0].from_xml; },
+		    [](const ObjectBackgroundInfo&) -> bool { return true; });
 
 		if (created_by_xml) {
 			add_error(
@@ -137,30 +137,31 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		bround.get_unchecked<texture_vector>()[0].repetitions = inst.repetition_count;
+		background.get_unchecked<TextureVector>()[0].repetitions = inst.repetition_count;
 	}
 
-	void pass3_executor::operator()(const instructions::texture::BackgroundAspect& inst) {
-		auto const issuer_filename = get_filename(inst.file_index);
+	void Pass3Executor::operator()(const instructions::texture::BackgroundAspect& inst) {
+		auto const issuer_filename = getFilename(inst.file_index);
 
 		auto found_iter = background_mapping_.find(inst.background_texture_index);
 
 		if (found_iter == background_mapping_.end()) {
-			texture_background_info tbi;
+			TextureBackgroundInfo tbi;
 			tbi.from_xml = false;
-			tbi.preserve_aspect = inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
+			tbi.preserve_aspect =
+			    inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
 			background_mapping_.insert(
-			    {inst.background_texture_index, texture_vector{std::move(tbi)}});
+			    {inst.background_texture_index, TextureVector{std::move(tbi)}});
 			return;
 		}
 
-		auto& bround = found_iter->second;
+		auto& background = found_iter->second;
 
-		auto const created_by_xml = bround.match(
+		auto const created_by_xml = background.match(
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
-		    [](const texture_vector& v) -> bool { return v[0].from_xml; },
-		    [](const object_background_info&) -> bool { return true; });
+		    [](const TextureVector& v) -> bool { return v[0].from_xml; },
+		    [](const ObjectBackgroundInfo&) -> bool { return true; });
 
 		if (created_by_xml) {
 			add_error(
@@ -169,7 +170,7 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		bround.get_unchecked<texture_vector>()[0].preserve_aspect =
+		background.get_unchecked<TextureVector>()[0].preserve_aspect =
 		    inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
 	}
 } // namespace bve::parsers::csv_rw_route

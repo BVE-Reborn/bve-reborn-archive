@@ -32,13 +32,13 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
 	}
 	CHECK(output_errors.empty());
 
-	REQUIRE(output.is<std::vector<db::texture_background_info>>());
-	auto const& background = output.get_unchecked<std::vector<db::texture_background_info>>();
+	REQUIRE(output.is<std::vector<db::TextureBackgroundInfo>>());
+	auto const& background = output.get_unchecked<std::vector<db::TextureBackgroundInfo>>();
 	REQUIRE_EQ(background.size(), 1);
 
 	CHECK_EQ(background[0].time, 0);
 	CHECK_EQ(background[0].repetitions, 6);
-	CHECK_EQ(background[0].transition_mode, db::texture_background_info::fade_in);
+	CHECK_EQ(background[0].transition_mode, db::TextureBackgroundInfo::fade_in);
 	CHECK_EQ(background[0].filename, "some_file.xml/Cloudy.png"s);
 }
 
@@ -74,18 +74,18 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgounds") {
 	CHECK(output_errors.empty());
 
 	// Parsed values should match.
-	REQUIRE(output.is<std::vector<db::texture_background_info>>());
-	auto const& vec = output.get_unchecked<std::vector<db::texture_background_info>>();
+	REQUIRE(output.is<std::vector<db::TextureBackgroundInfo>>());
+	auto const& vec = output.get_unchecked<std::vector<db::TextureBackgroundInfo>>();
 	REQUIRE_EQ(vec.size(), 2);
 
 	CHECK_EQ(vec[0].time, 0);
 	CHECK_EQ(vec[0].repetitions, 6);
-	CHECK_EQ(vec[0].transition_mode, db::texture_background_info::fade_in);
+	CHECK_EQ(vec[0].transition_mode, db::TextureBackgroundInfo::fade_in);
 	CHECK_EQ(vec[0].filename, "some_file.xml/Cloudy.png"s);
 
 	CHECK_EQ(vec[1].time, 36000);
 	CHECK_EQ(vec[1].repetitions, 6);
-	CHECK_EQ(vec[1].transition_mode, db::texture_background_info::fade_out);
+	CHECK_EQ(vec[1].transition_mode, db::TextureBackgroundInfo::fade_out);
 	CHECK_EQ(vec[1].filename, "some_file.xml/Sunny.png"s);
 	CHECK_EQ(vec[1].transition_time, 10);
 }
@@ -111,8 +111,8 @@ TEST_CASE("libparser - xml - dynamic_background - object_background") {
 	}
 	CHECK(output_errors.empty());
 
-	REQUIRE(output.is<db::object_background_info>());
-	auto const& object_background = output.get_unchecked<db::object_background_info>();
+	REQUIRE(output.is<db::ObjectBackgroundInfo>());
+	auto const& object_background = output.get_unchecked<db::ObjectBackgroundInfo>();
 
 	CHECK_EQ(object_background.filename, "some_file.xml/Background.csv"s);
 }

@@ -3,11 +3,11 @@
 #include <algorithm>
 
 namespace bve::parsers::ini {
-	parsed_ini_object parse(const std::string& file_string) {
+	ParsedINIObject parse(const std::string& file_string) {
 		auto begin = file_string.begin();
 		auto const end = file_string.end();
 
-		parsed_ini_object pio;
+		ParsedINIObject pio;
 		pio.emplace_back();
 
 		std::size_t line_number = 1;

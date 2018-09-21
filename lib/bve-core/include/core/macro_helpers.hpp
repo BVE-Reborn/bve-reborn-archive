@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * \brief Pre-expands the macro provided. Helpful due to MSVC's non-C99 complient preprocessor
+ * \brief Pre-expands the macro provided. Helpful due to MSVC's non-C99 compliant preprocessor
  * \param x Macro to expand.
  */
 #define EXPAND(x) x
@@ -11,13 +11,13 @@
  */
 #define STR(x) #x
 /**
- * \brief Symbol concatination helper due to MSVC. INTERNAL
+ * \brief Symbol concatenation helper due to MSVC. INTERNAL
  * \param a Left symbols already expanded.
  * \param b Right symbols already expanded.
  */
 #define INTERNAL_CONCAT_HELPER(a, b) a##b
 /**
- * \brief Does symbol concatination on two arguments, turning them into a single symbol with both things in them.
+ * \brief Does symbol concatenation on two arguments, turning them into a single symbol with both things in them.
  * \param a Left symbols.
  * \param b Right symbols.
  */

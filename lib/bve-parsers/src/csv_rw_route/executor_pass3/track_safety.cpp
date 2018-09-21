@@ -5,8 +5,8 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::track::Beacon& inst) {
-		beacon_info bi;
+	void Pass3Executor::operator()(const instructions::track::Beacon& inst) {
+		Beacon bi;
 
 		bi.position = inst.absolute_position;
 		bi.beacon_type = inst.type;
@@ -19,7 +19,7 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		rail_object_info roi;
+		RailObjectInfo roi;
 
 		auto const file_iter = object_beacon_mapping_.find(inst.beacon_structure_index);
 
@@ -29,20 +29,20 @@ namespace bve::parsers::csv_rw_route {
 			oss << "Beacon Structure #" << inst.beacon_structure_index
 			    << " isn't mapped. Use Structure.Beacon to declare it.";
 
-			add_error(errors_, get_filename(inst.file_index), inst.line, oss);
+			add_error(errors_, getFilename(inst.file_index), inst.line, oss);
 		}
 
 		roi.filename = file_iter->second;
 		roi.position =
-		    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
-		// TODO(sirflankalot): convert PYR to angle vector
+		    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		// TODO(cwfitzgerald): convert PYR to angle vector
 		/* roi.rotation = */
 
 		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Transponder& inst) {
-		beacon_info bi;
+	void Pass3Executor::operator()(const instructions::track::Transponder& inst) {
+		Beacon bi;
 
 		bi.position = inst.absolute_position;
 		bi.beacon_type = static_cast<std::underlying_type<decltype(inst.type)>::type>(inst.type);
@@ -56,23 +56,23 @@ namespace bve::parsers::csv_rw_route {
 
 		route_data_.beacons.emplace_back(std::move(bi));
 
-		rail_object_info roi;
+		RailObjectInfo roi;
 
 		switch (inst.type) {
 			case instructions::track::Transponder::Type::s_type:
-				roi.filename = add_object_filename("\034compat\034/transponder/S"s);
+				roi.filename = addObjectFilename("\034compat\034/transponder/S"s);
 				break;
 			case instructions::track::Transponder::Type::sn_type:
-				roi.filename = add_object_filename("\034compat\034/transponder/SN"s);
+				roi.filename = addObjectFilename("\034compat\034/transponder/SN"s);
 				break;
 			case instructions::track::Transponder::Type::departure:
-				roi.filename = add_object_filename("\034compat\034/transponder/AccidentalDep"s);
+				roi.filename = addObjectFilename("\034compat\034/transponder/AccidentalDep"s);
 				break;
 			case instructions::track::Transponder::Type::ats_p_renewal:
-				roi.filename = add_object_filename("\034compat\034/transponder/ATSP-Pattern"s);
+				roi.filename = addObjectFilename("\034compat\034/transponder/ATSP-Pattern"s);
 				break;
 			case instructions::track::Transponder::Type::ats_p_stop:
-				roi.filename = add_object_filename("\034compat\034/transponder/ATSP-Immediate"s);
+				roi.filename = addObjectFilename("\034compat\034/transponder/ATSP-Immediate"s);
 				break;
 			default:
 				assert(false);
@@ -80,15 +80,15 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		roi.position =
-		    position_relative_to_rail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
-		// TODO(sirflankalot): convert PYR to angle vector
+		    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		// TODO(cwfitzgerald): convert PYR to angle vector
 		/* roi.rotation = */
 
 		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void pass3_executor::operator()(const instructions::track::Pattern& inst) const {
-		atsp_section_info asi;
+	void Pass3Executor::operator()(const instructions::track::Pattern& inst) const {
+		ATSPSection asi;
 
 		asi.position = inst.absolute_position;
 		asi.permanent = bool(inst.type) ? bool(decltype(inst.type)::permanent)

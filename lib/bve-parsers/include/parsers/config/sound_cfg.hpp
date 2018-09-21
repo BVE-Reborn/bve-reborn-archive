@@ -11,149 +11,149 @@ namespace bve::parsers::config::sound_cfg {
 	/**
 	 * \brief Iterator into a sound.cfg's filename set.
 	 */
-	using filename_iterator = std::set<std::string>::const_iterator;
+	using FilenameIterator = std::set<std::string>::const_iterator;
 
-	struct run_t {
-		filename_iterator filename;
+	struct Run {
+		FilenameIterator filename;
 	};
 
-	struct flange_t {
-		filename_iterator filename;
+	struct Flange {
+		FilenameIterator filename;
 	};
 
-	struct motor_t {
-		filename_iterator filename;
+	struct Motor {
+		FilenameIterator filename;
 	};
 
-	struct switch_t {
-		filename_iterator filename;
+	struct Switch {
+		FilenameIterator filename;
 	};
 
-	struct brake_t {
-		filename_iterator bc_release_high;
-		filename_iterator bc_release;
-		filename_iterator bc_release_full;
-		filename_iterator emergency;
-		filename_iterator bp_decompression;
+	struct Brake {
+		FilenameIterator bc_release_high;
+		FilenameIterator bc_release;
+		FilenameIterator bc_release_full;
+		FilenameIterator emergency;
+		FilenameIterator bp_decompression;
 	};
 
-	struct compressor_t {
-		filename_iterator attack;
-		filename_iterator loop;
-		filename_iterator release;
+	struct Compressor {
+		FilenameIterator attack;
+		FilenameIterator loop;
+		FilenameIterator release;
 	};
 
-	struct suspension_t {
-		filename_iterator left;
-		filename_iterator right;
+	struct Suspension {
+		FilenameIterator left;
+		FilenameIterator right;
 	};
 
-	struct looped_horn_t {
-		filename_iterator primary_start;
-		filename_iterator primary_loop;
-		filename_iterator primary_end;
+	struct LoopedHorn {
+		FilenameIterator primary_start;
+		FilenameIterator primary_loop;
+		FilenameIterator primary_end;
 
-		filename_iterator secondary_start;
-		filename_iterator secondary_loop;
-		filename_iterator secondary_end;
+		FilenameIterator secondary_start;
+		FilenameIterator secondary_loop;
+		FilenameIterator secondary_end;
 
-		filename_iterator music_start;
-		filename_iterator music_loop;
-		filename_iterator music_end;
+		FilenameIterator music_start;
+		FilenameIterator music_loop;
+		FilenameIterator music_end;
 	};
 
-	struct legacy_horn_t {
-		filename_iterator primary;
-		filename_iterator secondary;
-		filename_iterator music;
+	struct LegacyHorn {
+		FilenameIterator primary;
+		FilenameIterator secondary;
+		FilenameIterator music;
 	};
 
 	/**
-	 * \brief A horn_t is a variant with either a looped_horn_t or a legacy_horn_t in it. There are
+	 * \brief A horn_t is a variant with either a LoopedHorn or a LegacyHorn in it. There are
 	 * mutually exclusive legacy and modern (looped) horn configurations with the modern one
 	 * takes priority.
 	 */
-	using horn_t = mapbox::util::variant<looped_horn_t, legacy_horn_t>;
+	using Horn = mapbox::util::variant<LoopedHorn, LegacyHorn>;
 
-	struct doors_t {
-		filename_iterator open_left;
-		filename_iterator close_left;
+	struct Doors {
+		FilenameIterator open_left;
+		FilenameIterator close_left;
 
-		filename_iterator open_right;
-		filename_iterator close_right;
+		FilenameIterator open_right;
+		FilenameIterator close_right;
 	};
 
-	struct ats_t {
-		filename_iterator filename;
+	struct Ats {
+		FilenameIterator filename;
 	};
 
-	struct buzzer_t {
-		filename_iterator correct;
+	struct Buzzer {
+		FilenameIterator correct;
 	};
 
-	struct pilot_lamp_t {
-		filename_iterator on;
-		filename_iterator off;
+	struct PilotLamp {
+		FilenameIterator on;
+		FilenameIterator off;
 	};
 
-	struct brake_handle_t {
-		filename_iterator apply;
-		filename_iterator release;
-		filename_iterator min;
-		filename_iterator max;
+	struct BrakeHandle {
+		FilenameIterator apply;
+		FilenameIterator release;
+		FilenameIterator min;
+		FilenameIterator max;
 	};
 
-	struct master_controller_t {
-		filename_iterator up;
-		filename_iterator down;
-		filename_iterator min;
-		filename_iterator max;
+	struct MasterController {
+		FilenameIterator up;
+		FilenameIterator down;
+		FilenameIterator min;
+		FilenameIterator max;
 	};
 
-	struct reverser_t {
-		filename_iterator on;
-		filename_iterator off;
+	struct Reverser {
+		FilenameIterator on;
+		FilenameIterator off;
 	};
 
-	struct breaker_t {
-		filename_iterator on;
-		filename_iterator off;
+	struct Breaker {
+		FilenameIterator on;
+		FilenameIterator off;
 	};
 
-	struct misc_t {
-		filename_iterator noise;
-		filename_iterator shoe;
+	struct Misc {
+		FilenameIterator noise;
+		FilenameIterator shoe;
 	};
 
-	struct parsed_sound_cfg_t {
-		parsed_sound_cfg_t() = default;
-		parsed_sound_cfg_t(parsed_sound_cfg_t const& other) = delete;
-		parsed_sound_cfg_t(parsed_sound_cfg_t&& other) = default;
-		parsed_sound_cfg_t& operator=(parsed_sound_cfg_t const& other) = delete;
-		parsed_sound_cfg_t& operator=(parsed_sound_cfg_t&& other) = default;
+	struct ParsedSoundCFG {
+		ParsedSoundCFG() = default;
+		ParsedSoundCFG(ParsedSoundCFG const& other) = delete;
+		ParsedSoundCFG(ParsedSoundCFG&& other) = default;
+		ParsedSoundCFG& operator=(ParsedSoundCFG const& other) = delete;
+		ParsedSoundCFG& operator=(ParsedSoundCFG&& other) = default;
 
 		/**
 		 * \brief Master set of all filenames in this file. Unique. Every single file is used by at least one setting.
 		 */
 		std::set<std::string> filenames;
 
-		std::unordered_map<std::size_t, run_t> run_sounds;
-		std::unordered_map<std::size_t, flange_t> flange_sounds;
-		std::unordered_map<std::size_t, motor_t> motor_sounds;
-		std::unordered_map<std::size_t, switch_t> switch_sounds;
-		brake_t brake_sounds;
-		compressor_t compressor_sounds;
-		suspension_t suspension_sounds;
-		horn_t horn_sounds;
-		doors_t door_sounds;
-		std::unordered_map<std::size_t, ats_t> ats_sounds;
-		buzzer_t buzzer_sounds;
-		pilot_lamp_t pilot_lamp_sounds;
-		brake_handle_t brake_handle_sounds;
-		master_controller_t master_controller_sounds;
-		reverser_t reverser_sounds;
-		breaker_t breaker_sounds;
-		misc_t misc_sounds;
+		std::unordered_map<std::size_t, Run> run_sounds;
+		std::unordered_map<std::size_t, Flange> flange_sounds;
+		std::unordered_map<std::size_t, Motor> motor_sounds;
+		std::unordered_map<std::size_t, Switch> switch_sounds;
+		Brake brake_sounds;
+		Compressor compressor_sounds;
+		Suspension suspension_sounds;
+		Horn horn_sounds;
+		Doors door_sounds;
+		std::unordered_map<std::size_t, Ats> ats_sounds;
+		Buzzer buzzer_sounds;
+		PilotLamp pilot_lamp_sounds;
+		BrakeHandle brake_handle_sounds;
+		MasterController master_controller_sounds;
+		Reverser reverser_sounds;
+		Breaker breaker_sounds;
+		Misc misc_sounds;
 	};
 
 	/**
@@ -164,8 +164,8 @@ namespace bve::parsers::config::sound_cfg {
 	 * \param get_relative_file Function that takes this file's filepath and a relative path and returns the path relative to this filepath's directory
 	 * \return Parsed structure containing contents of the file.
 	 */
-	parsed_sound_cfg_t parse(std::string const& filename,
-	                         std::string const& input_string,
-	                         errors::MultiError& errors,
-	                         find_relative_file_func const& get_relative_file);
+	ParsedSoundCFG parse(std::string const& filename,
+	                     std::string const& input_string,
+	                     errors::MultiError& errors,
+	                     RelativeFileFunc const& get_relative_file);
 } // namespace bve::parsers::config::sound_cfg

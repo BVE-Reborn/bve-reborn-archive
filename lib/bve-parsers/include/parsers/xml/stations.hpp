@@ -9,51 +9,51 @@
 #include <vector>
 
 namespace bve::parsers::xml::stations {
-	struct message {
+	struct Message {
 		std::string early;
 		std::string ontime;
 		std::string late;
 	};
 
-	struct probabilities {
+	struct Probabilities {
 		std::uint8_t early = 0;
 		std::uint8_t ontime = 0;
 		std::uint8_t late = 0;
 	};
 
-	struct request_stop_marker {
-		enum class behaviour : std::uint8_t { fullspeed, normalbrake };
-		bve::core::datatypes::time early_time = 0;
+	struct RequestStopMarker {
+		enum class Behaviour : std::uint8_t { full_speed, normal_brake };
+		core::datatypes::Time early_time = 0;
 		bool using_early = false;
-		bve::core::datatypes::time late_time = 0;
+		core::datatypes::Time late_time = 0;
 		bool using_late = false;
 		float distance = 0;
-		message stop_message;
-		message pass_message;
-		probabilities probability;
+		Message stop_message;
+		Message pass_message;
+		Probabilities probability;
 		std::uintmax_t max_cars = 0;
-		behaviour ai_behaviour = behaviour::fullspeed;
+		Behaviour ai_behaviour = Behaviour::full_speed;
 	};
 
-	struct parsed_station_marker {
-		enum class doors : std::int8_t { left = -1, right = 1, none = 0 };
+	struct ParsedStationMarker {
+		enum class Doors : std::int8_t { left = -1, right = 1, none = 0 };
 		std::string station_name;
-		bve::core::datatypes::time arrival_time = 0;
+		core::datatypes::Time arrival_time = 0;
 		bool using_arrival = false;
-		bve::core::datatypes::time departure_time = 0;
+		core::datatypes::Time departure_time = 0;
 		bool using_departure = false;
-		doors door = doors::none;
+		Doors door = Doors::none;
 		bool force_red_signal = false;
 		std::uint8_t passenger_ratio = 100;
 		std::string arrival_sound_file;
 		std::string departure_sound_file;
 		std::uintmax_t stop_duration = 15;
 		std::size_t time_table_index = 0;
-		request_stop_marker request_stop;
+		RequestStopMarker request_stop;
 	};
 
-	parsed_station_marker parse(const std::string& filename,
-	                            std::string input_string,
-	                            errors::MultiError& errors,
-	                            const find_relative_file_func& get_relative_file);
+	ParsedStationMarker parse(const std::string& filename,
+	                          std::string input_string,
+	                          errors::MultiError& errors,
+	                          const RelativeFileFunc& get_relative_file);
 } // namespace bve::parsers::xml::stations

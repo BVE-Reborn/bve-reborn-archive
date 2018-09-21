@@ -10,7 +10,7 @@ namespace bve::parsers::xml::dynamic_lighting {
 	    const std::string& filename,
 	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
 	    errors::MultiError& errors) {
-		std::vector<LightingInfo> retvalue;
+		std::vector<LightingInfo> ret;
 
 		rapidxml_ns::xml_document<> doc;
 		doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
@@ -109,14 +109,14 @@ namespace bve::parsers::xml::dynamic_lighting {
 				}
 			}
 
-			retvalue.emplace_back(std::move(info));
+			ret.emplace_back(std::move(info));
 		}
 
-		if (retvalue.empty()) {
+		if (ret.empty()) {
 			add_error(errors, filename, 0,
 			          "XML dynamic lighting must have at least one <brightness> node."s);
 		}
 
-		return retvalue;
+		return ret;
 	}
 } // namespace bve::parsers::xml::dynamic_lighting

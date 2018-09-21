@@ -29,31 +29,30 @@ namespace bve::parsers::config::sound_cfg {
 					if (version != 1.0f) {
 						std::ostringstream err;
 						err << version << " is not a recognized version number";
-						errors::add_error(errors, value.line, err);
+						add_error(errors, value.line, err);
 					}
 				}
 				else {
 					std::ostringstream err;
 					err << "Unrecognized value \"" << value.value << "\"";
-					errors::add_error(errors, value.line, err);
+					add_error(errors, value.line, err);
 				}
 			}
 			for (auto const& kvp : section.key_value_pairs) {
 				std::ostringstream err;
 				err << "Unrecognized key \"" << kvp.key << "\"";
-				errors::add_error(errors, kvp.line, err);
+				add_error(errors, kvp.line, err);
 			}
 		}
 
 		/**
 		 * \brief Cheeky little function that checks to see if the function provided is of the right signature: filename_iterator(std::string). Exists at compile time only.
 		 * \tparam F Function type.
-		 * \param f Function to test.
 		 */
 		template <class F>
-		FORCE_INLINE void function_check(F& f) {
-			static_assert(std::is_same<decltype(f(std::declval<std::string>())),
-			                           filename_iterator>::value,
+		FORCE_INLINE void function_check(F&) {
+			static_assert(std::is_same<decltype(std::declval<F>()(std::declval<std::string>())),
+			                           FilenameIterator>::value,
 			              "get_filename must take a std::string and return a "
 			              "filename_iterator");
 		}
@@ -75,7 +74,7 @@ namespace bve::parsers::config::sound_cfg {
 				std::ostringstream err;
 				err << name << " already set within [" << section
 				    << "] section. Overriding with new value."s;
-				errors::add_error(errors, line, err);
+				add_error(errors, line, err);
 			}
 			flag = true;
 		}
@@ -107,7 +106,7 @@ namespace bve::parsers::config::sound_cfg {
 				catch (std::exception const& e) {
 					std::ostringstream err;
 					err << "Key \"" << kvp.key << "\" had number parsing error: " << e.what();
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 					continue;
 				}
 
@@ -120,12 +119,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty brake_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Brake block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty brake_t block.
+		 * \return Empty Brake block.
 		 */
-		brake_t create_empty_brake(filename_iterator const end) {
-			brake_t ret;
+		Brake create_empty_brake(FilenameIterator const end) {
+			Brake ret;
 
 			ret.bc_release_high = end;
 			ret.bc_release = end;
@@ -137,22 +136,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a brake_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Brake block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed brake_t block.
+		 * \return Parsed Brake block.
 		 */
 		template <class F>
-		brake_t parse_brake(F& get_filename,
-		                    errors::Errors& errors,
-		                    ini::INISection const& section,
-		                    filename_iterator const end) {
+		Brake parse_brake(F& get_filename,
+		                  errors::Errors& errors,
+		                  ini::INISection const& section,
+		                  FilenameIterator const end) {
 			function_check(get_filename);
 
-			brake_t ret = create_empty_brake(end);
+			Brake ret = create_empty_brake(end);
 
 			bool bc_release_high_flag = false, //
 			    bc_release_flag = false,       //
@@ -186,7 +185,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -194,12 +193,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty compressor_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Compressor block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty compressor_t block.
+		 * \return Empty Compressor block.
 		 */
-		compressor_t create_empty_compressor(filename_iterator const end) {
-			compressor_t ret;
+		Compressor create_empty_compressor(FilenameIterator const end) {
+			Compressor ret;
 
 			ret.attack = end;
 			ret.release = end;
@@ -209,22 +208,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a compressor_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Compressor block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed compressor_t block.
+		 * \return Parsed Compressor block.
 		 */
 		template <class F>
-		compressor_t parse_compressor(F& get_filename,
-		                              errors::Errors& errors,
-		                              ini::INISection const& section,
-		                              filename_iterator const end) {
+		Compressor parse_compressor(F& get_filename,
+		                            errors::Errors& errors,
+		                            ini::INISection const& section,
+		                            FilenameIterator const end) {
 			function_check(get_filename);
 
-			compressor_t ret = create_empty_compressor(end);
+			Compressor ret = create_empty_compressor(end);
 
 			bool attack_flag = false, //
 			    loop_flag = false,    //
@@ -246,7 +245,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -254,12 +253,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty suspension_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Suspension block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty suspension_t block.
+		 * \return Empty Suspension block.
 		 */
-		suspension_t create_empty_suspension(filename_iterator const end) {
-			suspension_t ret;
+		Suspension create_empty_suspension(FilenameIterator const end) {
+			Suspension ret;
 
 			ret.left = end;
 			ret.right = end;
@@ -268,22 +267,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a suspension_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Suspension block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed suspension_t block.
+		 * \return Parsed Suspension block.
 		 */
 		template <class F>
-		suspension_t parse_suspension(F& get_filename,
-		                              errors::Errors& errors,
-		                              ini::INISection const& section,
-		                              filename_iterator const end) {
+		Suspension parse_suspension(F& get_filename,
+		                            errors::Errors& errors,
+		                            ini::INISection const& section,
+		                            FilenameIterator const end) {
 			function_check(get_filename);
 
-			suspension_t ret = create_empty_suspension(end);
+			Suspension ret = create_empty_suspension(end);
 
 			bool left_flag = false, //
 			    right_flag = false;
@@ -300,7 +299,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -308,12 +307,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty legacy_horn_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty LegacyHorn block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty legacy_horn_t block.
+		 * \return Empty LegacyHorn block.
 		 */
-		legacy_horn_t create_empty_legacy_horn(filename_iterator const end) {
-			legacy_horn_t ret;
+		LegacyHorn create_empty_legacy_horn(FilenameIterator const end) {
+			LegacyHorn ret;
 
 			ret.primary = end;
 			ret.secondary = end;
@@ -323,12 +322,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty looped_horn_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty LoopedHorn block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty looped_horn_t block.
+		 * \return Empty LoopedHorn block.
 		 */
-		looped_horn_t create_empty_looped_horn(filename_iterator const end) {
-			looped_horn_t ret;
+		LoopedHorn create_empty_looped_horn(FilenameIterator const end) {
+			LoopedHorn ret;
 
 			ret.primary_start = end;
 			ret.primary_loop = end;
@@ -345,7 +344,7 @@ namespace bve::parsers::config::sound_cfg {
 
 		/**
 		 * \brief Parses an ini section into horn_t block. Templating allows lambdas as function arguments.
-		 * A horn_t is a variant with either a looped_horn_t or a legacy_horn_t in it. There are
+		 * A horn_t is a variant with either a LoopedHorn or a LegacyHorn in it. There are
 		 * mutually exclusive legacy and modern (looped) horn configurations with the modern one
 		 * takes priority.
 		 *
@@ -354,17 +353,17 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed doors_t block.
+		 * \return Parsed Doors block.
 		 */
 		template <class F>
-		horn_t parse_horn(F& get_filename,
-		                  errors::Errors& errors,
-		                  ini::INISection const& section,
-		                  filename_iterator const end) {
+		Horn parse_horn(F& get_filename,
+		                errors::Errors& errors,
+		                ini::INISection const& section,
+		                FilenameIterator const end) {
 			function_check(get_filename);
 
-			looped_horn_t looped_ret = create_empty_looped_horn(end);
-			legacy_horn_t legacy_ret = create_empty_legacy_horn(end);
+			LoopedHorn looped_ret = create_empty_looped_horn(end);
+			LegacyHorn legacy_ret = create_empty_legacy_horn(end);
 
 			bool new_stuff = false;
 
@@ -387,7 +386,7 @@ namespace bve::parsers::config::sound_cfg {
 					std::ostringstream err;
 					err << name
 					    << " is a legacy horn setting. Looping horn already in use, ignoring.";
-					errors::add_error(errors, line, err);
+					add_error(errors, line, err);
 				}
 			};
 
@@ -469,7 +468,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -483,12 +482,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty doors_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Doors block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty doors_t block.
+		 * \return Empty Doors block.
 		 */
-		doors_t create_empty_doors(filename_iterator const end) {
-			doors_t ret;
+		Doors create_empty_doors(FilenameIterator const end) {
+			Doors ret;
 
 			ret.open_left = end;
 			ret.open_right = end;
@@ -499,22 +498,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a doors_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Doors block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed doors_t block.
+		 * \return Parsed Doors block.
 		 */
 		template <class F>
-		doors_t parse_doors(F& get_filename,
-		                    errors::Errors& errors,
-		                    ini::INISection const& section,
-		                    filename_iterator const end) {
+		Doors parse_doors(F& get_filename,
+		                  errors::Errors& errors,
+		                  ini::INISection const& section,
+		                  FilenameIterator const end) {
 			function_check(get_filename);
 
-			doors_t ret = create_empty_doors(end);
+			Doors ret = create_empty_doors(end);
 
 			bool open_left_flag = false, //
 			    open_right_flag = false, //
@@ -541,7 +540,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -549,12 +548,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty buzzer_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Buzzer block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty buzzer_t block.
+		 * \return Empty Buzzer block.
 		 */
-		buzzer_t create_empty_buzzer(filename_iterator const end) {
-			buzzer_t ret;
+		Buzzer create_empty_buzzer(FilenameIterator const end) {
+			Buzzer ret;
 
 			ret.correct = end;
 
@@ -562,22 +561,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a buzzer_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Buzzer block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed buzzer_t block.
+		 * \return Parsed Buzzer block.
 		 */
 		template <class F>
-		buzzer_t parse_buzzer(F& get_filename,
-		                      errors::Errors& errors,
-		                      ini::INISection const& section,
-		                      filename_iterator const end) {
+		Buzzer parse_buzzer(F& get_filename,
+		                    errors::Errors& errors,
+		                    ini::INISection const& section,
+		                    FilenameIterator const end) {
 			function_check(get_filename);
 
-			buzzer_t ret = create_empty_buzzer(end);
+			Buzzer ret = create_empty_buzzer(end);
 
 			bool correct_flag = false; //
 
@@ -589,7 +588,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -597,12 +596,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty pilot_lamp_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty PilotLamp block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty pilot_lamp_t block.
+		 * \return Empty PilotLamp block.
 		 */
-		pilot_lamp_t create_empty_pilot_lamp(filename_iterator const end) {
-			pilot_lamp_t ret;
+		PilotLamp create_empty_pilot_lamp(FilenameIterator const end) {
+			PilotLamp ret;
 
 			ret.on = end;
 			ret.off = end;
@@ -611,22 +610,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a pilot_lamp_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a PilotLamp block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed pilot_lamp_t block.
+		 * \return Parsed PilotLamp block.
 		 */
 		template <class F>
-		pilot_lamp_t parse_pilot_lamp(F& get_filename,
-		                              errors::Errors& errors,
-		                              ini::INISection const& section,
-		                              filename_iterator const end) {
+		PilotLamp parse_pilot_lamp(F& get_filename,
+		                           errors::Errors& errors,
+		                           ini::INISection const& section,
+		                           FilenameIterator const end) {
 			function_check(get_filename);
 
-			pilot_lamp_t ret = create_empty_pilot_lamp(end);
+			PilotLamp ret = create_empty_pilot_lamp(end);
 
 			bool on_flag = false, //
 			    off_flag = false;
@@ -643,7 +642,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -651,12 +650,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty brake_handle_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty BrakeHandle block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty brake_handle_t block.
+		 * \return Empty BrakeHandle block.
 		 */
-		brake_handle_t create_empty_brake_handle(filename_iterator const end) {
-			brake_handle_t ret;
+		BrakeHandle create_empty_brake_handle(FilenameIterator const end) {
+			BrakeHandle ret;
 
 			ret.apply = end;
 			ret.release = end;
@@ -667,22 +666,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a brake_handle_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a BrakeHandle block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed brake_handle_t block.
+		 * \return Parsed BrakeHandle block.
 		 */
 		template <class F>
-		brake_handle_t parse_brake_handle(F& get_filename,
-		                                  errors::Errors& errors,
-		                                  ini::INISection const& section,
-		                                  filename_iterator const end) {
+		BrakeHandle parse_brake_handle(F& get_filename,
+		                               errors::Errors& errors,
+		                               ini::INISection const& section,
+		                               FilenameIterator const end) {
 			function_check(get_filename);
 
-			brake_handle_t ret = create_empty_brake_handle(end);
+			BrakeHandle ret = create_empty_brake_handle(end);
 
 			bool apply_flag = false,  //
 			    release_flag = false, //
@@ -709,7 +708,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -717,12 +716,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty master_controller_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty MasterController block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty master_controller_t block.
+		 * \return Empty MasterController block.
 		 */
-		master_controller_t create_empty_master_controller(filename_iterator const end) {
-			master_controller_t ret;
+		MasterController create_empty_master_controller(FilenameIterator const end) {
+			MasterController ret;
 
 			ret.up = end;
 			ret.down = end;
@@ -733,22 +732,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a master_controller_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a MasterController block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed master_controller_t block.
+		 * \return Parsed MasterController block.
 		 */
 		template <class F>
-		master_controller_t parse_master_controller(F& get_filename,
-		                                            errors::Errors& errors,
-		                                            ini::INISection const& section,
-		                                            filename_iterator const end) {
+		MasterController parse_master_controller(F& get_filename,
+		                                         errors::Errors& errors,
+		                                         ini::INISection const& section,
+		                                         FilenameIterator const end) {
 			function_check(get_filename);
 
-			master_controller_t ret = create_empty_master_controller(end);
+			MasterController ret = create_empty_master_controller(end);
 
 			bool up_flag = false,  //
 			    down_flag = false, //
@@ -775,7 +774,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -783,12 +782,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty reverser_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Reverser block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty reverser_t block.
+		 * \return Empty Reverser block.
 		 */
-		reverser_t create_empty_reverser(filename_iterator const end) {
-			reverser_t ret;
+		Reverser create_empty_reverser(FilenameIterator const end) {
+			Reverser ret;
 
 			ret.on = end;
 			ret.off = end;
@@ -797,22 +796,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a reverser_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Reverser block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed reverser_t block.
+		 * \return Parsed Reverser block.
 		 */
 		template <class F>
-		reverser_t parse_reverser(F& get_filename,
-		                          errors::Errors& errors,
-		                          ini::INISection const& section,
-		                          filename_iterator const end) {
+		Reverser parse_reverser(F& get_filename,
+		                        errors::Errors& errors,
+		                        ini::INISection const& section,
+		                        FilenameIterator const end) {
 			function_check(get_filename);
 
-			reverser_t ret = create_empty_reverser(end);
+			Reverser ret = create_empty_reverser(end);
 
 			bool on_flag = false, //
 			    off_flag = false;
@@ -829,7 +828,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -837,12 +836,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty breaker_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Breaker block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty breaker_t block.
+		 * \return Empty Breaker block.
 		 */
-		breaker_t create_empty_breaker(filename_iterator const end) {
-			breaker_t ret;
+		Breaker create_empty_breaker(FilenameIterator const end) {
+			Breaker ret;
 
 			ret.on = end;
 			ret.off = end;
@@ -851,22 +850,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a breaker_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Breaker block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed breaker_t block.
+		 * \return Parsed Breaker block.
 		 */
 		template <class F>
-		breaker_t parse_breaker(F& get_filename,
-		                        errors::Errors& errors,
-		                        ini::INISection const& section,
-		                        filename_iterator const end) {
+		Breaker parse_breaker(F& get_filename,
+		                      errors::Errors& errors,
+		                      ini::INISection const& section,
+		                      FilenameIterator const end) {
 			function_check(get_filename);
 
-			breaker_t ret = create_empty_breaker(end);
+			Breaker ret = create_empty_breaker(end);
 
 			bool on_flag = false, //
 			    off_flag = false;
@@ -883,7 +882,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -891,12 +890,12 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Creates an empty misc_t block with all members initalized to the end iterator of the filename set.
+		 * \brief Creates an empty Misc block with all members initialized to the end iterator of the filename set.
 		 * \param end End iterator of filename set
-		 * \return Empty misc_t block.
+		 * \return Empty Misc block.
 		 */
-		misc_t create_empty_misc(filename_iterator const end) {
-			misc_t ret;
+		Misc create_empty_misc(FilenameIterator const end) {
+			Misc ret;
 
 			ret.noise = end;
 			ret.shoe = end;
@@ -905,22 +904,22 @@ namespace bve::parsers::config::sound_cfg {
 		}
 
 		/**
-		 * \brief Parses an ini section into a misc_t block. Templating allows lambdas as function arguments.
+		 * \brief Parses an ini section into a Misc block. Templating allows lambdas as function arguments.
 		 * \tparam F get_filename's type.
 		 * \param get_filename Function that takes a filepath and returns an iterator into the filename set for that value.
 		 * \param errors This file's errors.
 		 * \param section The ini section to be parsed.
 		 * \param end The end iterator into the filename set.
-		 * \return Parsed misc_t block.
+		 * \return Parsed Misc block.
 		 */
 		template <class F>
-		misc_t parse_misc(F& get_filename,
-		                  errors::Errors& errors,
-		                  ini::INISection const& section,
-		                  filename_iterator const end) {
+		Misc parse_misc(F& get_filename,
+		                errors::Errors& errors,
+		                ini::INISection const& section,
+		                FilenameIterator const end) {
 			function_check(get_filename);
 
-			misc_t ret = create_empty_misc(end);
+			Misc ret = create_empty_misc(end);
 
 			bool noise_flag = false, //
 			    shoe_flag = false;
@@ -937,7 +936,7 @@ namespace bve::parsers::config::sound_cfg {
 				else {
 					std::ostringstream err;
 					err << "Unrecognized key \"" << kvp.key << "\"";
-					errors::add_error(errors, kvp.line, err);
+					add_error(errors, kvp.line, err);
 				}
 			}
 
@@ -948,10 +947,10 @@ namespace bve::parsers::config::sound_cfg {
 		 * \brief Strips unused filenames by constructing a new set of filenames as it visits every member. Discards old set.
 		 * \param psc Already parsed sound.cfg structure.
 		 */
-		void remove_unnecessary_filenames(parsed_sound_cfg_t& psc) {
+		void remove_unnecessary_filenames(ParsedSoundCFG& psc) {
 			std::set<std::string> new_filenames;
 
-			auto const filename_from_stritr = [&](auto const& file_iter) {
+			auto const filename_from_str_itr = [&](auto const& file_iter) {
 				if (file_iter != psc.filenames.end()) {
 					return new_filenames.insert(*file_iter).first;
 				}
@@ -959,102 +958,104 @@ namespace bve::parsers::config::sound_cfg {
 			};
 
 			for (auto&& filename : psc.run_sounds) {
-				filename.second.filename = filename_from_stritr(filename.second.filename);
+				filename.second.filename = filename_from_str_itr(filename.second.filename);
 			}
 			for (auto&& filename : psc.flange_sounds) {
-				filename.second.filename = filename_from_stritr(filename.second.filename);
+				filename.second.filename = filename_from_str_itr(filename.second.filename);
 			}
 			for (auto&& filename : psc.motor_sounds) {
-				filename.second.filename = filename_from_stritr(filename.second.filename);
+				filename.second.filename = filename_from_str_itr(filename.second.filename);
 			}
 			for (auto&& filename : psc.switch_sounds) {
-				filename.second.filename = filename_from_stritr(filename.second.filename);
+				filename.second.filename = filename_from_str_itr(filename.second.filename);
 			}
 			for (auto&& filename : psc.ats_sounds) {
-				filename.second.filename = filename_from_stritr(filename.second.filename);
+				filename.second.filename = filename_from_str_itr(filename.second.filename);
 			}
 			psc.brake_sounds.bc_release_high =
-			    filename_from_stritr(psc.brake_sounds.bc_release_high);
-			psc.brake_sounds.bc_release = filename_from_stritr(psc.brake_sounds.bc_release);
+			    filename_from_str_itr(psc.brake_sounds.bc_release_high);
+			psc.brake_sounds.bc_release = filename_from_str_itr(psc.brake_sounds.bc_release);
 			psc.brake_sounds.bc_release_full =
-			    filename_from_stritr(psc.brake_sounds.bc_release_full);
-			psc.brake_sounds.emergency = filename_from_stritr(psc.brake_sounds.emergency);
+			    filename_from_str_itr(psc.brake_sounds.bc_release_full);
+			psc.brake_sounds.emergency = filename_from_str_itr(psc.brake_sounds.emergency);
 			psc.brake_sounds.bp_decompression =
-			    filename_from_stritr(psc.brake_sounds.bp_decompression);
+			    filename_from_str_itr(psc.brake_sounds.bp_decompression);
 
-			psc.compressor_sounds.attack = filename_from_stritr(psc.compressor_sounds.attack);
-			psc.compressor_sounds.loop = filename_from_stritr(psc.compressor_sounds.loop);
-			psc.compressor_sounds.release = filename_from_stritr(psc.compressor_sounds.release);
+			psc.compressor_sounds.attack = filename_from_str_itr(psc.compressor_sounds.attack);
+			psc.compressor_sounds.loop = filename_from_str_itr(psc.compressor_sounds.loop);
+			psc.compressor_sounds.release = filename_from_str_itr(psc.compressor_sounds.release);
 
-			psc.suspension_sounds.left = filename_from_stritr(psc.suspension_sounds.left);
-			psc.suspension_sounds.right = filename_from_stritr(psc.suspension_sounds.right);
+			psc.suspension_sounds.left = filename_from_str_itr(psc.suspension_sounds.left);
+			psc.suspension_sounds.right = filename_from_str_itr(psc.suspension_sounds.right);
 
-			if (psc.horn_sounds.is<looped_horn_t>()) {
-				auto&& looped = psc.horn_sounds.get_unchecked<looped_horn_t>();
+			if (psc.horn_sounds.is<LoopedHorn>()) {
+				auto&& looped = psc.horn_sounds.get_unchecked<LoopedHorn>();
 
-				looped.primary_start = filename_from_stritr(looped.primary_start);
-				looped.primary_loop = filename_from_stritr(looped.primary_loop);
-				looped.primary_end = filename_from_stritr(looped.primary_end);
-				looped.secondary_start = filename_from_stritr(looped.secondary_start);
-				looped.secondary_loop = filename_from_stritr(looped.secondary_loop);
-				looped.secondary_end = filename_from_stritr(looped.secondary_end);
-				looped.music_start = filename_from_stritr(looped.music_start);
-				looped.music_loop = filename_from_stritr(looped.music_loop);
-				looped.music_end = filename_from_stritr(looped.music_end);
+				looped.primary_start = filename_from_str_itr(looped.primary_start);
+				looped.primary_loop = filename_from_str_itr(looped.primary_loop);
+				looped.primary_end = filename_from_str_itr(looped.primary_end);
+				looped.secondary_start = filename_from_str_itr(looped.secondary_start);
+				looped.secondary_loop = filename_from_str_itr(looped.secondary_loop);
+				looped.secondary_end = filename_from_str_itr(looped.secondary_end);
+				looped.music_start = filename_from_str_itr(looped.music_start);
+				looped.music_loop = filename_from_str_itr(looped.music_loop);
+				looped.music_end = filename_from_str_itr(looped.music_end);
 			}
-			else if (psc.horn_sounds.is<legacy_horn_t>()) {
-				auto&& legacy = psc.horn_sounds.get_unchecked<legacy_horn_t>();
+			else if (psc.horn_sounds.is<LegacyHorn>()) {
+				auto&& legacy = psc.horn_sounds.get_unchecked<LegacyHorn>();
 
-				legacy.primary = filename_from_stritr(legacy.primary);
-				legacy.secondary = filename_from_stritr(legacy.secondary);
-				legacy.music = filename_from_stritr(legacy.music);
+				legacy.primary = filename_from_str_itr(legacy.primary);
+				legacy.secondary = filename_from_str_itr(legacy.secondary);
+				legacy.music = filename_from_str_itr(legacy.music);
 			}
 
-			psc.door_sounds.open_left = filename_from_stritr(psc.door_sounds.open_left);
-			psc.door_sounds.close_left = filename_from_stritr(psc.door_sounds.close_left);
-			psc.door_sounds.open_right = filename_from_stritr(psc.door_sounds.open_right);
-			psc.door_sounds.close_right = filename_from_stritr(psc.door_sounds.close_right);
+			psc.door_sounds.open_left = filename_from_str_itr(psc.door_sounds.open_left);
+			psc.door_sounds.close_left = filename_from_str_itr(psc.door_sounds.close_left);
+			psc.door_sounds.open_right = filename_from_str_itr(psc.door_sounds.open_right);
+			psc.door_sounds.close_right = filename_from_str_itr(psc.door_sounds.close_right);
 
-			psc.buzzer_sounds.correct = filename_from_stritr(psc.buzzer_sounds.correct);
+			psc.buzzer_sounds.correct = filename_from_str_itr(psc.buzzer_sounds.correct);
 
-			psc.pilot_lamp_sounds.on = filename_from_stritr(psc.pilot_lamp_sounds.on);
-			psc.pilot_lamp_sounds.off = filename_from_stritr(psc.pilot_lamp_sounds.off);
+			psc.pilot_lamp_sounds.on = filename_from_str_itr(psc.pilot_lamp_sounds.on);
+			psc.pilot_lamp_sounds.off = filename_from_str_itr(psc.pilot_lamp_sounds.off);
 
-			psc.brake_handle_sounds.apply = filename_from_stritr(psc.brake_handle_sounds.apply);
-			psc.brake_handle_sounds.release = filename_from_stritr(psc.brake_handle_sounds.release);
-			psc.brake_handle_sounds.min = filename_from_stritr(psc.brake_handle_sounds.min);
-			psc.brake_handle_sounds.max = filename_from_stritr(psc.brake_handle_sounds.max);
+			psc.brake_handle_sounds.apply = filename_from_str_itr(psc.brake_handle_sounds.apply);
+			psc.brake_handle_sounds.release =
+			    filename_from_str_itr(psc.brake_handle_sounds.release);
+			psc.brake_handle_sounds.min = filename_from_str_itr(psc.brake_handle_sounds.min);
+			psc.brake_handle_sounds.max = filename_from_str_itr(psc.brake_handle_sounds.max);
 
-			psc.master_controller_sounds.up = filename_from_stritr(psc.master_controller_sounds.up);
+			psc.master_controller_sounds.up =
+			    filename_from_str_itr(psc.master_controller_sounds.up);
 			psc.master_controller_sounds.down =
-			    filename_from_stritr(psc.master_controller_sounds.down);
+			    filename_from_str_itr(psc.master_controller_sounds.down);
 			psc.master_controller_sounds.min =
-			    filename_from_stritr(psc.master_controller_sounds.min);
+			    filename_from_str_itr(psc.master_controller_sounds.min);
 			psc.master_controller_sounds.max =
-			    filename_from_stritr(psc.master_controller_sounds.max);
+			    filename_from_str_itr(psc.master_controller_sounds.max);
 
-			psc.reverser_sounds.on = filename_from_stritr(psc.reverser_sounds.on);
-			psc.reverser_sounds.off = filename_from_stritr(psc.reverser_sounds.off);
+			psc.reverser_sounds.on = filename_from_str_itr(psc.reverser_sounds.on);
+			psc.reverser_sounds.off = filename_from_str_itr(psc.reverser_sounds.off);
 
-			psc.breaker_sounds.on = filename_from_stritr(psc.breaker_sounds.on);
-			psc.breaker_sounds.off = filename_from_stritr(psc.breaker_sounds.off);
+			psc.breaker_sounds.on = filename_from_str_itr(psc.breaker_sounds.on);
+			psc.breaker_sounds.off = filename_from_str_itr(psc.breaker_sounds.off);
 
-			psc.misc_sounds.noise = filename_from_stritr(psc.misc_sounds.noise);
-			psc.misc_sounds.shoe = filename_from_stritr(psc.misc_sounds.shoe);
+			psc.misc_sounds.noise = filename_from_str_itr(psc.misc_sounds.noise);
+			psc.misc_sounds.shoe = filename_from_str_itr(psc.misc_sounds.shoe);
 
 			// keep iterators valid
 			psc.filenames = std::move(new_filenames);
 		}
 	} // namespace
 
-	parsed_sound_cfg_t parse(std::string const& filename,
-	                         std::string const& input_string,
-	                         errors::MultiError& errors,
-	                         find_relative_file_func const& get_relative_file) {
-		parsed_sound_cfg_t psc;
+	ParsedSoundCFG parse(std::string const& filename,
+	                     std::string const& input_string,
+	                     errors::MultiError& errors,
+	                     RelativeFileFunc const& get_relative_file) {
+		ParsedSoundCFG psc;
 
-		auto get_filename = [&](std::string const& relfile) {
-			return psc.filenames.insert(get_relative_file(filename, relfile)).first;
+		auto get_filename = [&](std::string const& rel_file) {
+			return psc.filenames.insert(get_relative_file(filename, rel_file)).first;
 		};
 
 		auto& file_error = errors[filename];
@@ -1076,7 +1077,7 @@ namespace bve::parsers::config::sound_cfg {
 		    brake_handle_flag = false,      //
 		    master_controller_flag = false, //
 		    reverser_flag = false,          //
-		    braker_flag = false,            //
+		    breaker_flag = false,           //
 		    misc_flag = false;
 
 		auto const check_if_section_used = [&](bool& flag, char const* const name,
@@ -1084,7 +1085,7 @@ namespace bve::parsers::config::sound_cfg {
 			if (flag) {
 				std::ostringstream err;
 				err << "[" << name << "] has already been defined. Overriding with new value."s;
-				errors::add_error(file_error, line, err);
+				add_error(file_error, line, err);
 			}
 			flag = true;
 		};
@@ -1095,22 +1096,22 @@ namespace bve::parsers::config::sound_cfg {
 			if (util::match_against_lower(section.name, "run")) {
 				check_if_section_used(run_flag, "run", section.line);
 				psc.run_sounds =
-				    parse_number_filename_pairs<run_t>(get_filename, file_error, section);
+				    parse_number_filename_pairs<Run>(get_filename, file_error, section);
 			}
 			else if (util::match_against_lower(section.name, "flange")) {
 				check_if_section_used(flange_flag, "flange", section.line);
 				psc.flange_sounds =
-				    parse_number_filename_pairs<flange_t>(get_filename, file_error, section);
+				    parse_number_filename_pairs<Flange>(get_filename, file_error, section);
 			}
 			else if (util::match_against_lower(section.name, "motor")) {
 				check_if_section_used(motor_flag, "motor", section.line);
 				psc.motor_sounds =
-				    parse_number_filename_pairs<motor_t>(get_filename, file_error, section);
+				    parse_number_filename_pairs<Motor>(get_filename, file_error, section);
 			}
 			else if (util::match_against_lower(section.name, "switch")) {
 				check_if_section_used(switch_flag, "switch", section.line);
 				psc.switch_sounds =
-				    parse_number_filename_pairs<switch_t>(get_filename, file_error, section);
+				    parse_number_filename_pairs<Switch>(get_filename, file_error, section);
 			}
 			else if (util::match_against_lower(section.name, "brake")) {
 				check_if_section_used(brake_flag, "brake", section.line);
@@ -1137,7 +1138,7 @@ namespace bve::parsers::config::sound_cfg {
 			else if (util::match_against_lower(section.name, "ats")) {
 				check_if_section_used(ats_flag, "ats", section.line);
 				psc.ats_sounds =
-				    parse_number_filename_pairs<ats_t>(get_filename, file_error, section);
+				    parse_number_filename_pairs<Ats>(get_filename, file_error, section);
 			}
 			else if (util::match_against_lower(section.name, "buzzer")) {
 				check_if_section_used(buzzer_flag, "buzzer", section.line);
@@ -1164,7 +1165,7 @@ namespace bve::parsers::config::sound_cfg {
 				    parse_reverser(get_filename, file_error, section, end_iterator);
 			}
 			else if (util::match_against_lower(section.name, "breaker")) {
-				check_if_section_used(braker_flag, "breaker", section.line);
+				check_if_section_used(breaker_flag, "breaker", section.line);
 				psc.breaker_sounds = parse_breaker(get_filename, file_error, section, end_iterator);
 			}
 			else if (util::match_against_lower(section.name, "others")) {
@@ -1177,15 +1178,15 @@ namespace bve::parsers::config::sound_cfg {
 			else {
 				std::ostringstream err;
 				err << "[" << section.name << "] is not recognized. Ignoring.";
-				errors::add_error(file_error, section.line, err);
+				add_error(file_error, section.line, err);
 			}
 
 			// check_version_number does the checking for us.
 			if (!section.name.empty()) {
 				for (auto const& value : section.values) {
 					std::ostringstream err;
-					err << "Unrecongnized value \"" << value.value << "\".";
-					errors::add_error(file_error, value.line, err);
+					err << "Unrecognized value \"" << value.value << "\".";
+					add_error(file_error, value.line, err);
 				}
 			}
 		}
@@ -1222,7 +1223,7 @@ namespace bve::parsers::config::sound_cfg {
 		if (!reverser_flag) {
 			psc.reverser_sounds = create_empty_reverser(end_iterator);
 		}
-		if (!braker_flag) {
+		if (!breaker_flag) {
 			psc.breaker_sounds = create_empty_breaker(end_iterator);
 		}
 		if (!misc_flag) {

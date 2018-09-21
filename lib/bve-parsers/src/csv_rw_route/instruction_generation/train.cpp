@@ -2,11 +2,11 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_train_folder(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_train_folder(const line_splitting::InstructionInfo& inst) {
 		return create_single_string_instruction<instructions::train::Folder>(inst, "Train.Folder");
 	}
 
-	instruction create_instruction_train_run(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_train_run(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Train.Run");
 		args_at_least(inst, 1, "Train.Run");
 
@@ -18,7 +18,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return r;
 	}
 
-	instruction create_instruction_train_flange(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_train_flange(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Train.Flange");
 		args_at_least(inst, 1, "Train.Flange");
 
@@ -30,7 +30,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return f;
 	}
 
-	instruction create_instruction_train_timetable(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_train_timetable(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Train.Timetable");
 		args_at_least(inst, 1, "Train.Timetable");
 
@@ -52,7 +52,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return tt;
 	}
 
-	instruction create_instruction_train_velocity(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_train_velocity(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::train::Velocity>(inst,
 		                                                                      "Train.Velocity", 0);
 	}

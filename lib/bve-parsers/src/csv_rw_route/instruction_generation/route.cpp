@@ -2,22 +2,22 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_route_comment(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_comment(const line_splitting::InstructionInfo& inst) {
 		return create_single_string_instruction<instructions::route::Comment>(inst,
 		                                                                      "Route.Comment");
 	}
 
-	instruction create_instruction_route_image(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_image(const line_splitting::InstructionInfo& inst) {
 		return create_single_string_instruction<instructions::route::Image>(inst, "Route.Image");
 	}
 
-	instruction create_instruction_route_timetable(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_timetable(const line_splitting::InstructionInfo& inst) {
 		return create_single_string_instruction<instructions::route::Timetable>(inst,
 		                                                                        "Route."
 		                                                                        "Timetable");
 	}
 
-	instruction create_instruction_route_change(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_change(const line_splitting::InstructionInfo& inst) {
 		instructions::route::Change change;
 
 		if (!inst.args.empty()) {
@@ -45,12 +45,12 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return change;
 	}
 
-	instruction create_instruction_route_gauge(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_gauge(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::route::Gauge>(inst, "Route.Gauge",
 		                                                                   1435);
 	}
 
-	instruction create_instruction_route_signal(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_signal(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Route.Signal");
 		args_at_least(inst, 1, "Route.Signal");
 
@@ -62,7 +62,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return s;
 	}
 
-	instruction create_instruction_route_runinterval(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_runinterval(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Route.RunInterval");
 
 		instructions::route::RunInterval ri;
@@ -73,38 +73,37 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return ri;
 	}
 
-	instruction create_instruction_route_accelerationduetogravity(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_accelerationduetogravity(
+	    const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<
 		    instructions::route::AccelerationDueToGravity>(inst,
-		                                                      "Route."
-		                                                      "AccelerationDue"
-		                                                      "ToGravity",
-		                                                      9.80665f);
+		                                                   "Route."
+		                                                   "AccelerationDue"
+		                                                   "ToGravity",
+		                                                   9.80665f);
 	}
 
-	instruction create_instruction_route_elevation(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_elevation(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::route::Elevation>(inst,
 		                                                                       "Route."
 		                                                                       "Elevation",
 		                                                                       0);
 	}
 
-	instruction create_instruction_route_temperature(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_temperature(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::route::Temperature>(inst,
 		                                                                         "Route."
 		                                                                         "Temperature",
 		                                                                         20);
 	}
 
-	instruction create_instruction_route_pressure(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_pressure(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::route::Pressure>(inst,
 		                                                                      "Route.Pressure",
 		                                                                      101.325f);
 	}
 
-	instruction create_instruction_route_displayspeed(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_displayspeed(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Route.DisplaySpeed");
 
 		instructions::route::DisplaySpeed ds;
@@ -115,32 +114,30 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return ds;
 	}
 
-	instruction create_instruction_route_loadingscreen(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_loadingscreen(
+	    const line_splitting::InstructionInfo& inst) {
 		return create_single_string_instruction<instructions::route::LoadingScreen>(inst,
-		                                                                             "Route."
-		                                                                             "LoadingSc"
-		                                                                             "r"
-		                                                                             "een");
-	}
-
-	instruction create_instruction_route_starttime(const line_splitting::instruction_info& inst) {
-		return create_single_time_instruction<instructions::route::StartTime>(inst,
-		                                                                       "Route."
-		                                                                       "StartTime");
-	}
-
-	instruction create_instruction_route_dynamiclight(
-	    const line_splitting::instruction_info& inst) {
-		return create_single_string_instruction<instructions::route::DynamicLight>(inst,
 		                                                                            "Route."
-		                                                                            "DynamicLig"
-		                                                                            "h"
-		                                                                            "t");
+		                                                                            "LoadingSc"
+		                                                                            "r"
+		                                                                            "een");
 	}
 
-	instruction create_instruction_route_ambientlight(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_starttime(const line_splitting::InstructionInfo& inst) {
+		return create_single_time_instruction<instructions::route::StartTime>(inst,
+		                                                                      "Route."
+		                                                                      "StartTime");
+	}
+
+	Instruction create_instruction_route_dynamiclight(const line_splitting::InstructionInfo& inst) {
+		return create_single_string_instruction<instructions::route::DynamicLight>(inst,
+		                                                                           "Route."
+		                                                                           "DynamicLig"
+		                                                                           "h"
+		                                                                           "t");
+	}
+
+	Instruction create_instruction_route_ambientlight(const line_splitting::InstructionInfo& inst) {
 		instructions::route::AmbientLight al;
 
 		switch (inst.args.size()) {
@@ -164,8 +161,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return al;
 	}
 
-	instruction create_instruction_route_directionallight(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_directionallight(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::route::DirectionalLight dl;
 
 		switch (inst.args.size()) {
@@ -189,8 +186,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return dl;
 	}
 
-	instruction create_instruction_route_lightdirection(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_route_lightdirection(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::route::LightDirection ld;
 
 		switch (inst.args.size()) {

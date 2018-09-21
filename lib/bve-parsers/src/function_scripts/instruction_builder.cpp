@@ -10,115 +10,115 @@ using namespace std::string_literals;
 
 namespace bve::parsers::function_scripts {
 	namespace {
-		const std::map<std::string, instructions::variable> naked_variables = {
-		    {"value"s, instructions::variable::value},                             //
-		    {"delta"s, instructions::variable::delta},                             //
-		    {"currentstate"s, instructions::variable::current_state},              //
-		    {"time"s, instructions::variable::time},                               //
-		    {"cameradistance"s, instructions::variable::camera_distance},          //
-		    {"cameramode"s, instructions::variable::camera_mode},                  //
-		    {"cars"s, instructions::variable::cars},                               //
-		    {"speed"s, instructions::variable::speed},                             //
-		    {"speedometer"s, instructions::variable::speedometer},                 //
-		    {"acceleration"s, instructions::variable::acceleration},               //
-		    {"accelerationmotor"s, instructions::variable::acceleration_motor},    //
-		    {"distance"s, instructions::variable::distance},                       //
-		    {"trackdistance"s, instructions::variable::track_distance},            //
-		    {"mainreservoir"s, instructions::variable::main_reservoir},            //
-		    {"emergencyreservoir"s, instructions::variable::emergency_reservoir},  //
-		    {"brakepipe"s, instructions::variable::brake_pipe},                    //
-		    {"brakecylinder"s, instructions::variable::brake_cylinder},            //
-		    {"straightairpipe"s, instructions::variable::straight_air_pipe},       //
-		    {"doors"s, instructions::variable::doors},                             //
-		    {"leftdoors"s, instructions::variable::left_doors},                    //
-		    {"rightdoors"s, instructions::variable::right_doors},                  //
-		    {"leftdoorstarget"s, instructions::variable::left_doors_target},       //
-		    {"rightdoorstarget"s, instructions::variable::right_doors_target},     //
-		    {"leftdoorsbutton"s, instructions::variable::left_doors_button},       //
-		    {"rightdoorsbutton"s, instructions::variable::right_doors_button},     //
-		    {"reversernotch"s, instructions::variable::reverser_notch},            //
-		    {"powernotch"s, instructions::variable::power_notch},                  //
-		    {"powernotches"s, instructions::variable::power_notches},              //
-		    {"brakenotch"s, instructions::variable::brake_notch},                  //
-		    {"brakenotches"s, instructions::variable::brake_notches},              //
-		    {"brakenotchlinear"s, instructions::variable::brake_notch_linear},     //
-		    {"brakenotcheslinear"s, instructions::variable::brake_notches_linear}, //
-		    {"emergencybrake"s, instructions::variable::emergency_brake},          //
-		    {"hasairbrake"s, instructions::variable::has_air_brake},               //
-		    {"holdbrake"s, instructions::variable::hold_brake},                    //
-		    {"hasholdbrake"s, instructions::variable::has_hold_brake},             //
-		    {"constspeed"s, instructions::variable::const_speed},                  //
-		    {"hasconstspeed"s, instructions::variable::has_const_speed},           //
-		    {"hasplugin"s, instructions::variable::has_plugin},                    //
-		    {"odometer"s, instructions::variable::odometer},                       //
-		    {"klaxon"s, instructions::variable::klaxon},                           //
-		    {"primaryklaxon"s, instructions::variable::primary_klaxon},            //
-		    {"secondaryklaxon"s, instructions::variable::secondary_klaxon},        //
-		    {"musicklaxon"s, instructions::variable::music_klaxon},                //
-		    {"section"s, instructions::variable::section},                         //
+		const std::map<std::string, instructions::Variable> naked_variables = {
+		    {"value"s, instructions::Variable::value},                             //
+		    {"delta"s, instructions::Variable::delta},                             //
+		    {"currentstate"s, instructions::Variable::current_state},              //
+		    {"time"s, instructions::Variable::time},                               //
+		    {"cameradistance"s, instructions::Variable::camera_distance},          //
+		    {"cameramode"s, instructions::Variable::camera_mode},                  //
+		    {"cars"s, instructions::Variable::cars},                               //
+		    {"speed"s, instructions::Variable::speed},                             //
+		    {"speedometer"s, instructions::Variable::speedometer},                 //
+		    {"acceleration"s, instructions::Variable::acceleration},               //
+		    {"accelerationmotor"s, instructions::Variable::acceleration_motor},    //
+		    {"distance"s, instructions::Variable::distance},                       //
+		    {"trackdistance"s, instructions::Variable::track_distance},            //
+		    {"mainreservoir"s, instructions::Variable::main_reservoir},            //
+		    {"emergencyreservoir"s, instructions::Variable::emergency_reservoir},  //
+		    {"brakepipe"s, instructions::Variable::brake_pipe},                    //
+		    {"brakecylinder"s, instructions::Variable::brake_cylinder},            //
+		    {"straightairpipe"s, instructions::Variable::straight_air_pipe},       //
+		    {"doors"s, instructions::Variable::doors},                             //
+		    {"leftdoors"s, instructions::Variable::left_doors},                    //
+		    {"rightdoors"s, instructions::Variable::right_doors},                  //
+		    {"leftdoorstarget"s, instructions::Variable::left_doors_target},       //
+		    {"rightdoorstarget"s, instructions::Variable::right_doors_target},     //
+		    {"leftdoorsbutton"s, instructions::Variable::left_doors_button},       //
+		    {"rightdoorsbutton"s, instructions::Variable::right_doors_button},     //
+		    {"reversernotch"s, instructions::Variable::reverser_notch},            //
+		    {"powernotch"s, instructions::Variable::power_notch},                  //
+		    {"powernotches"s, instructions::Variable::power_notches},              //
+		    {"brakenotch"s, instructions::Variable::brake_notch},                  //
+		    {"brakenotches"s, instructions::Variable::brake_notches},              //
+		    {"brakenotchlinear"s, instructions::Variable::brake_notch_linear},     //
+		    {"brakenotcheslinear"s, instructions::Variable::brake_notches_linear}, //
+		    {"emergencybrake"s, instructions::Variable::emergency_brake},          //
+		    {"hasairbrake"s, instructions::Variable::has_air_brake},               //
+		    {"holdbrake"s, instructions::Variable::hold_brake},                    //
+		    {"hasholdbrake"s, instructions::Variable::has_hold_brake},             //
+		    {"constspeed"s, instructions::Variable::const_speed},                  //
+		    {"hasconstspeed"s, instructions::Variable::has_const_speed},           //
+		    {"hasplugin"s, instructions::Variable::has_plugin},                    //
+		    {"odometer"s, instructions::Variable::odometer},                       //
+		    {"klaxon"s, instructions::Variable::klaxon},                           //
+		    {"primaryklaxon"s, instructions::Variable::primary_klaxon},            //
+		    {"secondaryklaxon"s, instructions::Variable::secondary_klaxon},        //
+		    {"musicklaxon"s, instructions::Variable::music_klaxon},                //
+		    {"section"s, instructions::Variable::section},                         //
 		};
 
-		const std::map<std::string, instructions::indexed_variable> indexable_variables = {
-		    {"speed"s, instructions::indexed_variable::speed},                                  //
-		    {"speedometer"s, instructions::indexed_variable::speedometer},                      //
-		    {"acceleration"s, instructions::indexed_variable::acceleration},                    //
-		    {"accelerationmotor"s, instructions::indexed_variable::acceleration_motor},         //
-		    {"distance"s, instructions::indexed_variable::distance},                            //
-		    {"trackdistance"s, instructions::indexed_variable::track_distance},                 //
-		    {"mainreservoir"s, instructions::indexed_variable::main_reservoir},                 //
-		    {"emergencyreservoir"s, instructions::indexed_variable::emergency_reservoir},       //
-		    {"brakepipe"s, instructions::indexed_variable::brake_pipe},                         //
-		    {"brakecylinder"s, instructions::indexed_variable::brake_cylinder},                 //
-		    {"straightairpipe"s, instructions::indexed_variable::straight_air_pipe},            //
-		    {"doors"s, instructions::indexed_variable::doors},                                  //
-		    {"leftdoors"s, instructions::indexed_variable::left_doors},                         //
-		    {"rightdoors"s, instructions::indexed_variable::right_doors},                       //
-		    {"leftdoorstarget"s, instructions::indexed_variable::left_doors_target},            //
-		    {"rightdoorstarget"s, instructions::indexed_variable::right_doors_target},          //
-		    {"pluginstate"s, instructions::indexed_variable::plugin_state},                     //
-		    {"frontaxlecurveradius"s, instructions::indexed_variable::front_axle_curve_radius}, //
-		    {"rearaxlecurveradius"s, instructions::indexed_variable::rear_axle_curve_radius},   //
-		    {"curvecant"s, instructions::indexed_variable::curve_cant},                         //
-		    {"odometer"s, instructions::indexed_variable::odometer},                            //
+		const std::map<std::string, instructions::IndexedVariable> indexable_variables = {
+		    {"speed"s, instructions::IndexedVariable::speed},                                  //
+		    {"speedometer"s, instructions::IndexedVariable::speedometer},                      //
+		    {"acceleration"s, instructions::IndexedVariable::acceleration},                    //
+		    {"accelerationmotor"s, instructions::IndexedVariable::acceleration_motor},         //
+		    {"distance"s, instructions::IndexedVariable::distance},                            //
+		    {"trackdistance"s, instructions::IndexedVariable::track_distance},                 //
+		    {"mainreservoir"s, instructions::IndexedVariable::main_reservoir},                 //
+		    {"emergencyreservoir"s, instructions::IndexedVariable::emergency_reservoir},       //
+		    {"brakepipe"s, instructions::IndexedVariable::brake_pipe},                         //
+		    {"brakecylinder"s, instructions::IndexedVariable::brake_cylinder},                 //
+		    {"straightairpipe"s, instructions::IndexedVariable::straight_air_pipe},            //
+		    {"doors"s, instructions::IndexedVariable::doors},                                  //
+		    {"leftdoors"s, instructions::IndexedVariable::left_doors},                         //
+		    {"rightdoors"s, instructions::IndexedVariable::right_doors},                       //
+		    {"leftdoorstarget"s, instructions::IndexedVariable::left_doors_target},            //
+		    {"rightdoorstarget"s, instructions::IndexedVariable::right_doors_target},          //
+		    {"pluginstate"s, instructions::IndexedVariable::plugin_state},                     //
+		    {"frontaxlecurveradius"s, instructions::IndexedVariable::front_axle_curve_radius}, //
+		    {"rearaxlecurveradius"s, instructions::IndexedVariable::rear_axle_curve_radius},   //
+		    {"curvecant"s, instructions::IndexedVariable::curve_cant},                         //
+		    {"odometer"s, instructions::IndexedVariable::odometer},                            //
 		};
 
-		const std::map<std::string, instruction> unary_functions = {
-		    {"minus"s, instructions::op_unary_minus{}},       //
-		    {"not"s, instructions::op_unary_not{}},           //
-		    {"reciprocal"s, instructions::func_reciprocal{}}, //
-		    {"abs"s, instructions::func_abs{}},               //
-		    {"sign"s, instructions::func_sign{}},             //
-		    {"floor"s, instructions::func_floor{}},           //
-		    {"ceiling"s, instructions::func_ceiling{}},       //
-		    {"round"s, instructions::func_round{}},           //
-		    {"exp"s, instructions::func_exp{}},               //
-		    {"log"s, instructions::func_log{}},               //
-		    {"sqrt"s, instructions::func_sqrt{}},             //
-		    {"sin"s, instructions::func_sin{}},               //
-		    {"cos"s, instructions::func_cos{}},               //
-		    {"tan"s, instructions::func_tan{}},               //
-		    {"arctan"s, instructions::func_arctan{}},         //
+		const std::map<std::string, Instruction> unary_functions = {
+		    {"minus"s, instructions::OPUnaryMinus{}},        //
+		    {"not"s, instructions::OPUnaryNot{}},            //
+		    {"reciprocal"s, instructions::FuncReciprocal{}}, //
+		    {"abs"s, instructions::FuncAbs{}},               //
+		    {"sign"s, instructions::FuncSign{}},             //
+		    {"floor"s, instructions::FuncFloor{}},           //
+		    {"ceiling"s, instructions::FuncCeiling{}},       //
+		    {"round"s, instructions::FuncRound{}},           //
+		    {"exp"s, instructions::FuncExp{}},               //
+		    {"log"s, instructions::FuncLog{}},               //
+		    {"sqrt"s, instructions::FuncSqrt{}},             //
+		    {"sin"s, instructions::FuncSin{}},               //
+		    {"cos"s, instructions::FuncCos{}},               //
+		    {"tan"s, instructions::FuncTan{}},               //
+		    {"arctan"s, instructions::FuncArctan{}},         //
 		};
 
-		const std::map<std::string, instruction> binary_functions = {
-		    {"subtract"s, instructions::op_subtract{}},          //
-		    {"divide"s, instructions::op_divide{}},              //
-		    {"equal"s, instructions::op_equal{}},                //
-		    {"unequal"s, instructions::op_unequal{}},            //
-		    {"less"s, instructions::op_less{}},                  //
-		    {"greater"s, instructions::op_greater{}},            //
-		    {"lessequal"s, instructions::op_less_equal{}},       //
-		    {"greaterequal"s, instructions::op_greater_equal{}}, //
-		    {"and"s, instructions::op_and{}},                    //
-		    {"or"s, instructions::op_or{}},                      //
-		    {"xor"s, instructions::op_xor{}},                    //
-		    {"quotient"s, instructions::func_quotient{}},        //
-		    {"mod"s, instructions::func_mod{}},                  //
-		    {"random"s, instructions::func_random{}},            //
-		    {"randomint"s, instructions::func_random_int{}},     //
+		const std::map<std::string, Instruction> binary_functions = {
+		    {"subtract"s, instructions::OPSubtract{}},         //
+		    {"divide"s, instructions::OPDivide{}},             //
+		    {"equal"s, instructions::OPEqual{}},               //
+		    {"unequal"s, instructions::OPUnequal{}},           //
+		    {"less"s, instructions::OPLess{}},                 //
+		    {"greater"s, instructions::OPGreater{}},           //
+		    {"lessequal"s, instructions::OPLessEqual{}},       //
+		    {"greaterequal"s, instructions::OPGreaterEqual{}}, //
+		    {"and"s, instructions::OPAnd{}},                   //
+		    {"or"s, instructions::OPOr{}},                     //
+		    {"xor"s, instructions::OPXor{}},                   //
+		    {"quotient"s, instructions::FuncQuotient{}},       //
+		    {"mod"s, instructions::FuncMod{}},                 //
+		    {"random"s, instructions::FuncRandom{}},           //
+		    {"randomint"s, instructions::FuncRandomInt{}},     //
 		};
 
-		const std::set<std::string> variatic_functions{
+		const std::set<std::string> variadic_functions{
 		    {"plus"s},  //
 		    {"times"s}, //
 		    {"power"s}, //
@@ -127,99 +127,99 @@ namespace bve::parsers::function_scripts {
 		};
 	} // namespace
 
-	struct intruction_builder_helper {
-		instruction_list list;
+	struct InstructionBuilderHelper {
+		InstructionList list;
 
-		void call_next_node(const tree_node& next) {
+		void callNextNode(const TreeNode& next) {
 			apply_visitor(*this, next);
 		}
 
 		template <class R, class T>
-		void generate_binary_func(const T& node) {
-			call_next_node(node.left);
-			call_next_node(node.right);
+		void generateBinaryFunc(const T& node) {
+			callNextNode(node.left);
+			callNextNode(node.right);
 			list.instructions.emplace_back<R>(R{});
 		}
 
 		template <class R, class T>
-		void generate_unary_func(const T& node) {
-			call_next_node(node.child);
+		void generateUnaryFunc(const T& node) {
+			callNextNode(node.child);
 			list.instructions.emplace_back<R>(R{});
 		}
 
-		void operator()(const tree_types::binary_and& node) {
-			generate_binary_func<instructions::op_and>(node);
+		void operator()(const tree_types::BinaryAnd& node) {
+			generateBinaryFunc<instructions::OPAnd>(node);
 		}
-		void operator()(const tree_types::binary_xor& node) {
-			generate_binary_func<instructions::op_xor>(node);
+		void operator()(const tree_types::BinaryXor& node) {
+			generateBinaryFunc<instructions::OPXor>(node);
 		}
-		void operator()(const tree_types::binary_or& node) {
-			generate_binary_func<instructions::op_or>(node);
+		void operator()(const tree_types::BinaryOr& node) {
+			generateBinaryFunc<instructions::OPOr>(node);
 		}
-		void operator()(const tree_types::binary_eq& node) {
-			generate_binary_func<instructions::op_equal>(node);
+		void operator()(const tree_types::BinaryEq& node) {
+			generateBinaryFunc<instructions::OPEqual>(node);
 		}
-		void operator()(const tree_types::binary_not_eq& node) {
-			generate_binary_func<instructions::op_unequal>(node);
+		void operator()(const tree_types::BinaryNotEq& node) {
+			generateBinaryFunc<instructions::OPUnequal>(node);
 		}
-		void operator()(const tree_types::binary_less& node) {
-			generate_binary_func<instructions::op_less>(node);
+		void operator()(const tree_types::BinaryLess& node) {
+			generateBinaryFunc<instructions::OPLess>(node);
 		}
-		void operator()(const tree_types::binary_greater& node) {
-			generate_binary_func<instructions::op_greater>(node);
+		void operator()(const tree_types::BinaryGreater& node) {
+			generateBinaryFunc<instructions::OPGreater>(node);
 		}
-		void operator()(const tree_types::binary_less_eq& node) {
-			generate_binary_func<instructions::op_less_equal>(node);
+		void operator()(const tree_types::BinaryLessEq& node) {
+			generateBinaryFunc<instructions::OPLessEqual>(node);
 		}
-		void operator()(const tree_types::binary_greater_eq& node) {
-			generate_binary_func<instructions::op_greater_equal>(node);
+		void operator()(const tree_types::BinaryGreaterEq& node) {
+			generateBinaryFunc<instructions::OPGreaterEqual>(node);
 		}
-		void operator()(const tree_types::binary_add& node) {
-			generate_binary_func<instructions::op_add>(node);
+		void operator()(const tree_types::BinaryAdd& node) {
+			generateBinaryFunc<instructions::OPAdd>(node);
 		}
-		void operator()(const tree_types::binary_subtract& node) {
-			generate_binary_func<instructions::op_subtract>(node);
+		void operator()(const tree_types::BinarySubtract& node) {
+			generateBinaryFunc<instructions::OPSubtract>(node);
 		}
-		void operator()(const tree_types::binary_multiply& node) {
-			generate_binary_func<instructions::op_multiply>(node);
+		void operator()(const tree_types::BinaryMultiply& node) {
+			generateBinaryFunc<instructions::OPMultiply>(node);
 		}
-		void operator()(const tree_types::binary_divide& node) {
-			generate_binary_func<instructions::op_divide>(node);
+		void operator()(const tree_types::BinaryDivide& node) {
+			generateBinaryFunc<instructions::OPDivide>(node);
 		}
-		void operator()(const tree_types::unary_not& node) {
-			generate_unary_func<instructions::op_unary_not>(node);
+		void operator()(const tree_types::UnaryNot& node) {
+			generateUnaryFunc<instructions::OPUnaryNot>(node);
 		}
-		void operator()(const tree_types::unary_minus& node) {
-			generate_unary_func<instructions::op_unary_minus>(node);
+		void operator()(const tree_types::UnaryMinus& node) {
+			generateUnaryFunc<instructions::OPUnaryMinus>(node);
 		}
-		void operator()(const tree_types::integer& node) {
-			list.instructions.emplace_back<instructions::stack_push>({float(node.num)});
+		void operator()(const tree_types::Integer& node) {
+			list.instructions.emplace_back<instructions::StackPush>({float(node.num)});
 		}
-		void operator()(const tree_types::floating& node) {
-			list.instructions.emplace_back<instructions::stack_push>({float(node.num)});
+		void operator()(const tree_types::Floating& node) {
+			list.instructions.emplace_back<instructions::StackPush>({float(node.num)});
 		}
-		void operator()(const tree_types::none& node) {
+		void operator()(const tree_types::None& node) {
 			(void) node;
-			list.instructions.emplace_back<instructions::stack_push>({0});
+			list.instructions.emplace_back<instructions::StackPush>({0});
 		}
 
-		void operator()(const tree_types::identifier& node) {
+		void operator()(const tree_types::Identifier& node) {
 			auto const lower_name = util::lower_copy(node.val);
 
 			auto const iter = naked_variables.find(lower_name);
 			if (iter != naked_variables.end()) {
-				list.instructions.emplace_back<instructions::op_variable_lookup>({iter->second});
+				list.instructions.emplace_back<instructions::OPVariableLookup>({iter->second});
 				list.used_variables.insert(iter->second);
 			}
 			else {
 				std::ostringstream error;
 				error << "Variable \"" << node.val << "\" not found";
 				list.errors.emplace_back<errors::Error>({0, error.str()});
-				list.instructions.emplace_back<instructions::stack_push>({0});
+				list.instructions.emplace_back<instructions::StackPush>({0});
 			}
 		}
 		// ReSharper disable once CyclomaticComplexity
-		void operator()(const tree_types::function_call& node) {
+		void operator()(const tree_types::FunctionCall& node) {
 			auto const arg_count = node.args.size();
 			auto const lower_name = util::lower_copy(node.name.val);
 
@@ -227,10 +227,10 @@ namespace bve::parsers::function_scripts {
 			auto const unary_iter = unary_functions.find(lower_name);
 			if (unary_iter != unary_functions.end()) {
 				if (arg_count < 1) {
-					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
 				}
 				else {
-					call_next_node(node.args[0]);
+					callNextNode(node.args[0]);
 					list.instructions.emplace_back(unary_iter->second);
 				}
 				if (arg_count != 1) {
@@ -244,13 +244,13 @@ namespace bve::parsers::function_scripts {
 			auto const index_iter = indexable_variables.find(lower_name);
 			if (index_iter != indexable_variables.end()) {
 				if (arg_count >= 1) {
-					call_next_node(node.args[0]);
-					list.instructions.emplace_back<instructions::op_variable_indexed>(
+					callNextNode(node.args[0]);
+					list.instructions.emplace_back<instructions::OPVariableIndexed>(
 					    {index_iter->second});
 					list.used_indexed_variables.insert(index_iter->second);
 				}
 				else {
-					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
 				}
 				if (arg_count != 1) {
 					std::ostringstream error;
@@ -265,18 +265,18 @@ namespace bve::parsers::function_scripts {
 			auto const binary_iter = binary_functions.find(lower_name);
 			if (binary_iter != binary_functions.end()) {
 				if (arg_count >= 2) {
-					call_next_node(node.args[0]);
-					call_next_node(node.args[1]);
+					callNextNode(node.args[0]);
+					callNextNode(node.args[1]);
 					list.instructions.emplace_back(binary_iter->second);
 				}
 				else if (arg_count == 1) {
-					call_next_node(node.args[0]);
-					list.instructions.emplace_back<instructions::stack_push>({0});
+					callNextNode(node.args[0]);
+					list.instructions.emplace_back<instructions::StackPush>({0});
 					list.instructions.emplace_back(binary_iter->second);
 				}
 				else {
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::stack_push>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
 					list.instructions.emplace_back(binary_iter->second);
 				}
 				if (arg_count != 2) {
@@ -290,28 +290,28 @@ namespace bve::parsers::function_scripts {
 			// ternary
 			if (lower_name == "if"s) {
 				if (arg_count >= 3) {
-					call_next_node(node.args[0]);
-					call_next_node(node.args[1]);
-					call_next_node(node.args[2]);
-					list.instructions.emplace_back<instructions::func_if>({});
+					callNextNode(node.args[0]);
+					callNextNode(node.args[1]);
+					callNextNode(node.args[2]);
+					list.instructions.emplace_back<instructions::FuncIf>({});
 				}
 				else if (arg_count == 2) {
-					call_next_node(node.args[0]);
-					call_next_node(node.args[1]);
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::func_if>({});
+					callNextNode(node.args[0]);
+					callNextNode(node.args[1]);
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::FuncIf>({});
 				}
 				else if (arg_count == 1) {
-					call_next_node(node.args[0]);
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::func_if>({});
+					callNextNode(node.args[0]);
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::FuncIf>({});
 				}
 				else if (arg_count == 0) {
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::stack_push>({0});
-					list.instructions.emplace_back<instructions::func_if>({});
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::StackPush>({0});
+					list.instructions.emplace_back<instructions::FuncIf>({});
 				}
 				if (arg_count != 3) {
 					std::ostringstream error;
@@ -321,11 +321,11 @@ namespace bve::parsers::function_scripts {
 				return;
 			}
 
-			// variatic
-			auto const variatic_iter = variatic_functions.find(lower_name);
-			if (variatic_iter != variatic_functions.end()) {
+			// variadic
+			auto const variadic_iter = variadic_functions.find(lower_name);
+			if (variadic_iter != variadic_functions.end()) {
 				for (auto& arg : node.args) {
-					call_next_node(arg);
+					callNextNode(arg);
 				}
 
 				auto const creator = [this](auto&& s, std::size_t const count) {
@@ -334,19 +334,19 @@ namespace bve::parsers::function_scripts {
 				};
 
 				if (lower_name == "plus"s) {
-					creator(instructions::op_add{}, arg_count);
+					creator(instructions::OPAdd{}, arg_count);
 				}
 				else if (lower_name == "times"s) {
-					creator(instructions::op_multiply{}, arg_count);
+					creator(instructions::OPMultiply{}, arg_count);
 				}
 				else if (lower_name == "power"s) {
-					creator(instructions::func_power{}, arg_count);
+					creator(instructions::FuncPower{}, arg_count);
 				}
 				else if (lower_name == "min"s) {
-					creator(instructions::func_min{}, arg_count);
+					creator(instructions::FuncMin{}, arg_count);
 				}
 				else if (lower_name == "max"s) {
-					creator(instructions::func_max{}, arg_count);
+					creator(instructions::FuncMax{}, arg_count);
 				}
 				return;
 			}
@@ -355,13 +355,12 @@ namespace bve::parsers::function_scripts {
 			error << "Function \"" << node.name.val << "\" not recognized.";
 			add_error(list.errors, 0, error);
 
-			list.instructions.emplace_back<instructions::stack_push>({0});
+			list.instructions.emplace_back<instructions::StackPush>({0});
 		}
 	};
 
-	instruction_list build_instructions(const tree_node& head_node,
-	                                    const errors::Errors& errors) {
-		intruction_builder_helper ibh;
+	InstructionList build_instructions(const TreeNode& head_node, const errors::Errors& errors) {
+		InstructionBuilderHelper ibh;
 		std::copy(errors.begin(), errors.end(), std::back_inserter(ibh.list.errors));
 		apply_visitor(ibh, head_node);
 		return ibh.list;

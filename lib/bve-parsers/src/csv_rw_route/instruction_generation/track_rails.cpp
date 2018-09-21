@@ -2,7 +2,7 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_track_railstart(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_railstart(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "RailStart");
 
 		instructions::track::RailStart rs;
@@ -44,7 +44,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return rs;
 	}
 
-	instruction create_instruction_track_rail(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_rail(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Rail");
 
 		instructions::track::Rail r;
@@ -84,7 +84,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return r;
 	}
 
-	instruction create_instruction_track_railtype(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_railtype(const line_splitting::InstructionInfo& inst) {
 		instructions::track::RailType rt;
 
 		switch (inst.args.size()) {
@@ -104,7 +104,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return rt;
 	}
 
-	instruction create_instruction_track_railend(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_railend(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "RailEnd");
 
 		instructions::track::RailEnd re;
@@ -137,18 +137,18 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return re;
 	}
 
-	instruction create_instruction_track_accuracy(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_accuracy(const line_splitting::InstructionInfo& inst) {
 		// Ignored instruction
 		(void) inst;
 		return instructions::naked::None{};
 	}
 
-	instruction create_instruction_track_adhesion(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_adhesion(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::track::Adhesion>(inst,
 		                                                                      "Track.Adhesion");
 	}
 
-	instruction create_instruction_track_pitch(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_pitch(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::track::Pitch>(inst, "Track.Pitch");
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

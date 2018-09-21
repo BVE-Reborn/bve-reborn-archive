@@ -13,15 +13,15 @@ namespace bve::parsers::xml::route_marker {
 		// Parsing a Text Color Node //
 		///////////////////////////////
 
-		text_marker::color parse_text_color(rapidxml_ns::xml_node<char>* test_color_node,
-		                                    errors::Errors& /*errors*/) {
-			static std::map<std::string, text_marker::color> text_mapping{
+		TextMarker::Color parse_text_color(rapidxml_ns::xml_node<char>* test_color_node,
+		                                   errors::Errors& /*errors*/) {
+			static std::map<std::string, TextMarker::Color> text_mapping{
 			    //
-			    {"black", text_marker::color::black},    {"gray", text_marker::color::gray},
-			    {"grey", text_marker::color::gray},      {"white", text_marker::color::white},
-			    {"red", text_marker::color::red},        {"orange", text_marker::color::orange},
-			    {"green", text_marker::color::green},    {"blue", text_marker::color::blue},
-			    {"magenta", text_marker::color::magenta}
+			    {"black", TextMarker::Color::black},    {"gray", TextMarker::Color::gray},
+			    {"grey", TextMarker::Color::gray},      {"white", TextMarker::Color::white},
+			    {"red", TextMarker::Color::red},        {"orange", TextMarker::Color::orange},
+			    {"green", TextMarker::Color::green},    {"blue", TextMarker::Color::blue},
+			    {"magenta", TextMarker::Color::magenta}
 			    //
 			};
 
@@ -31,7 +31,7 @@ namespace bve::parsers::xml::route_marker {
 				return find_mapping_iter->second;
 			}
 
-			return text_marker::color::black;
+			return TextMarker::Color::black;
 		}
 
 		//////////////////////////////
@@ -42,7 +42,8 @@ namespace bve::parsers::xml::route_marker {
 		auto parse_early_late_impl(rapidxml_ns::xml_node<char>* start_node,
 		                           errors::Errors& errors) {
 			auto* time_node = start_node->first_node("time", 0, false);
-			auto const data_node = start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
+			auto const data_node =
+			    start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 			if (time_node == nullptr || data_node == nullptr) {
 				std::string err;
@@ -63,10 +64,10 @@ namespace bve::parsers::xml::route_marker {
 					}
 				}
 				add_error(errors, 0, err);
-				return std::make_tuple(bve::core::datatypes::time{0}, ""s,
-				                       text_marker::color::black, false);
+				return std::make_tuple(core::datatypes::Time{0}, ""s, TextMarker::Color::black,
+				                       false);
 			}
-			bve::core::datatypes::time time_parsed;
+			core::datatypes::Time time_parsed;
 			bool using_early_late = true;
 			try {
 				time_parsed = util::parse_time(get_node_value(time_node));
@@ -85,10 +86,10 @@ namespace bve::parsers::xml::route_marker {
 					                       using_early_late);
 				}
 				return std::make_tuple(time_parsed, get_node_value(data_node),
-				                       text_marker::color::black, using_early_late);
+				                       TextMarker::Color::black, using_early_late);
 			}
-			return std::make_tuple(time_parsed, get_node_value(data_node),
-			                       text_marker::color::black, using_early_late);
+			return std::make_tuple(time_parsed, get_node_value(data_node), TextMarker::Color::black,
+			                       using_early_late);
 		}
 
 		auto parse_text_early(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
@@ -110,8 +111,7 @@ namespace bve::parsers::xml::route_marker {
 		//////////////////////////
 
 		template <bool Text>
-		auto parse_on_time_impl(rapidxml_ns::xml_node<char>* on_time_node,
-		                        errors::Errors& errors) {
+		auto parse_on_time_impl(rapidxml_ns::xml_node<char>* on_time_node, errors::Errors& errors) {
 			auto const data_node =
 			    on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
@@ -131,8 +131,7 @@ namespace bve::parsers::xml::route_marker {
 			return std::make_tuple(get_node_value(data_node), true);
 		}
 
-		auto parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node,
-		                        errors::Errors& errors) {
+		auto parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node, errors::Errors& errors) {
 			return parse_on_time_impl<true>(on_time_node, errors);
 		}
 		auto parse_image_on_time(rapidxml_ns::xml_node<char>* on_time_node,
@@ -183,11 +182,11 @@ namespace bve::parsers::xml::route_marker {
 			return util::split_text(get_node_value(train_node), ';', true);
 		}
 
-		image_marker parse_image_marker(const std::string& filename,
-		                                rapidxml_ns::xml_node<char>* start_node,
-		                                errors::MultiError& errors,
-		                                const find_relative_file_func& get_relative_file) {
-			image_marker marker;
+		ImageMarker parse_image_marker(const std::string& filename,
+		                               rapidxml_ns::xml_node<char>* start_node,
+		                               errors::MultiError& errors,
+		                               const RelativeFileFunc& get_relative_file) {
+			ImageMarker marker;
 
 			auto& err = errors[filename];
 			auto* early_node = start_node->first_node("early", 0, false);
@@ -233,11 +232,11 @@ namespace bve::parsers::xml::route_marker {
 			return marker;
 		}
 
-		text_marker parse_text_marker(const std::string& filename,
-		                              rapidxml_ns::xml_node<char>* start_node,
-		                              errors::MultiError& errors,
-		                              const find_relative_file_func& /*get_relative_file*/) {
-			text_marker marker;
+		TextMarker parse_text_marker(const std::string& filename,
+		                             rapidxml_ns::xml_node<char>* start_node,
+		                             errors::MultiError& errors,
+		                             const RelativeFileFunc& /*get_relative_file*/) {
+			TextMarker marker;
 
 			auto& err = errors[filename];
 			auto* early_node = start_node->first_node("early", 0, false);
@@ -286,11 +285,10 @@ namespace bve::parsers::xml::route_marker {
 		}
 	} // namespace
 
-	parsed_route_marker parse(
-	    const std::string& filename,
-	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
-	    errors::MultiError& errors,
-	    const find_relative_file_func& get_relative_file) {
+	ParsedRouteMarker parse(const std::string& filename,
+	                        std::string input_string, // NOLINT(performance-unnecessary-value-param)
+	                        errors::MultiError& errors,
+	                        const RelativeFileFunc& get_relative_file) {
 		rapidxml_ns::xml_document<> doc;
 		doc.parse<rapidxml_ns::parse_default>(&input_string[0]);
 

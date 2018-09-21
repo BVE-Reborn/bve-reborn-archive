@@ -13,15 +13,15 @@ namespace bve::parsers::csv {
 		std::size_t char_end = 0;
 	};
 
-	using parsed_csv = std::vector<std::vector<CSVToken>>;
+	using ParsedCSV = std::vector<std::vector<CSVToken>>;
 
 	enum class SplitFirstColumn : bool { yes = true, no = false };
 
-	parsed_csv parse(const std::string& file,
-	                 SplitFirstColumn sfc = SplitFirstColumn::no,
-	                 char delim = ',',
-	                 char split_char = ' ');
+	ParsedCSV parse(const std::string& file,
+	                SplitFirstColumn sfc = SplitFirstColumn::no,
+	                char delim = ',',
+	                char split_char = ' ');
 
 	std::ostream& operator<<(std::ostream& os, const CSVToken& rhs);
-	std::ostream& operator<<(std::ostream& os, const parsed_csv& rhs);
+	std::ostream& operator<<(std::ostream& os, const ParsedCSV& rhs);
 } // namespace bve::parsers::csv

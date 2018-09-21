@@ -23,8 +23,8 @@ namespace bve::parsers::ini {
 		std::size_t line;
 	};
 
-	using parsed_ini_object = std::vector<INISection>;
-	std::ostream& operator<<(std::ostream& os, const parsed_ini_object& rhs);
+	using ParsedINIObject = std::vector<INISection>;
+	std::ostream& operator<<(std::ostream& os, const ParsedINIObject& rhs);
 
-	parsed_ini_object parse(const std::string& file_string);
+	ParsedINIObject parse(const std::string& file_string);
 } // namespace bve::parsers::ini

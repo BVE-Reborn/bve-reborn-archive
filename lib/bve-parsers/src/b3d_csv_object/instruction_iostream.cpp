@@ -5,17 +5,17 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::b3d_csv_object::instructions {
-	std::ostream& operator<<(std::ostream& os, const error& rhs) {
+	std::ostream& operator<<(std::ostream& os, const Error& rhs) {
 		os << "(ERROR, line = " << rhs.line << ", cause = " << rhs.cause << ")";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const create_mesh_builder& rhs) {
+	std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs) {
 		os << "(CreateMeshBuilder, line = " << rhs.line << ")";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const add_vertex& rhs) {
+	std::ostream& operator<<(std::ostream& os, const AddVertex& rhs) {
 		os << "(AddVertex, line = " << rhs.line << ", "
 		   << "vX = " << rhs.v_x << ", "
 		   << "vY = " << rhs.v_y << ", "
@@ -26,8 +26,8 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const add_face& rhs) {
-		os << (rhs.side_count == sides::two ? "(AddFace2" : "(AddFace");
+	std::ostream& operator<<(std::ostream& os, const AddFace& rhs) {
+		os << (rhs.side_count == Sides::two ? "(AddFace2" : "(AddFace");
 		for (auto& vertex_num : rhs.vertices) {
 			os << ", " << vertex_num;
 		}
@@ -35,7 +35,7 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const cube& rhs) {
+	std::ostream& operator<<(std::ostream& os, const Cube& rhs) {
 		os << "(Cube, "
 		   << "HalfWidth = " << rhs.half_width << ", "
 		   << "HalfHeight = " << rhs.half_height << ", "
@@ -43,7 +43,7 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const cylinder& rhs) {
+	std::ostream& operator<<(std::ostream& os, const Cylinder& rhs) {
 		os << "(Cylinder, "
 		   << "side_count = " << rhs.sides << ", "
 		   << "UpperRadius = " << rhs.upper_radius << ", "
@@ -52,24 +52,24 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const translate& rhs) {
-		os << (rhs.applies_to == apply_to::all_meshes ? "(TranslateAll, " : "(Translate, ") //
+	std::ostream& operator<<(std::ostream& os, const Translate& rhs) {
+		os << (rhs.applies_to == ApplyTo::all_meshes ? "(TranslateAll, " : "(Translate, ") //
 		   << "X = " << rhs.x << ", "
 		   << "Y = " << rhs.y << ", "
 		   << "Z = " << rhs.z << ")";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const scale& rhs) {
-		os << (rhs.applies_to == apply_to::all_meshes ? "(ScaleAll, " : "(Scale, ") //
+	std::ostream& operator<<(std::ostream& os, const Scale& rhs) {
+		os << (rhs.applies_to == ApplyTo::all_meshes ? "(ScaleAll, " : "(Scale, ") //
 		   << "X = " << rhs.x << ", "
 		   << "Y = " << rhs.y << ", "
 		   << "Z = " << rhs.z << ")";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const rotate& rhs) {
-		os << (rhs.applies_to == apply_to::all_meshes ? "(RotateAll, " : "(Rotate, ") //
+	std::ostream& operator<<(std::ostream& os, const Rotate& rhs) {
+		os << (rhs.applies_to == ApplyTo::all_meshes ? "(RotateAll, " : "(Rotate, ") //
 		   << "X = " << rhs.x << ", "
 		   << "Y = " << rhs.y << ", "
 		   << "Z = " << rhs.z << ", "
@@ -77,8 +77,8 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const shear& rhs) {
-		os << (rhs.applies_to == apply_to::all_meshes ? "(ShearAll, " : "(Shear, ") //
+	std::ostream& operator<<(std::ostream& os, const Shear& rhs) {
+		os << (rhs.applies_to == ApplyTo::all_meshes ? "(ShearAll, " : "(Shear, ") //
 		   << "dX = " << rhs.d_x << ", "
 		   << "dY = " << rhs.d_y << ", "
 		   << "dZ = " << rhs.d_z << ", "
@@ -89,16 +89,16 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const mirror& rhs) {
-		os << (rhs.applies_to == apply_to::all_meshes ? "(MirrorAll, " : "(Mirror, ") //
-		   << std::boolalpha                                                          //
+	std::ostream& operator<<(std::ostream& os, const Mirror& rhs) {
+		os << (rhs.applies_to == ApplyTo::all_meshes ? "(MirrorAll, " : "(Mirror, ") //
+		   << std::boolalpha                                                         //
 		   << "x = " << rhs.x << ", "
 		   << "y = " << rhs.y << ", "
 		   << "z = " << rhs.z << ", ";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const set_color& rhs) {
+	std::ostream& operator<<(std::ostream& os, const SetColor& rhs) {
 		os << "(SetColor, line = " << rhs.line << ", " //
 		   << "Red = " << static_cast<int>(rhs.red) << ", "
 		   << "Green = " << static_cast<int>(rhs.green) << ", "
@@ -107,7 +107,7 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const set_emissive_color& rhs) {
+	std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs) {
 		os << "(SetEmissiveColor, line = " << rhs.line << ", " //
 		   << "Red = " << static_cast<int>(rhs.red) << ", "
 		   << "Green = " << static_cast<int>(rhs.green) << ", "
@@ -115,27 +115,27 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const set_blend_mode& rhs) {
+	std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs) {
 		os << "(SetBlendMode, line = " << rhs.line << ", " //
 		   << "BlendMode = "
-		   << (rhs.blend_mode == Mesh::blend_mode_t::normal ? "Normal"s : "Additive"s) << ", "
+		   << (rhs.blend_mode == Mesh::BlendMode::normal ? "Normal"s : "Additive"s) << ", "
 		   << "GlowHalfDistance = " << rhs.glow_half_distance << ", "
 		   << "GlowAttenuationMode = "
-		   << (rhs.glow_attenuation_mode == Mesh::glow_attenuation_mode_t::divide_exponent2
+		   << (rhs.glow_attenuation_mode == Mesh::GlowAttenuationMode::divide_exponent2
 		           ? "DivideExponent2"s
 		           : "DivideExponent4"s)
 		   << ")";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const load_texture& rhs) {
+	std::ostream& operator<<(std::ostream& os, const LoadTexture& rhs) {
 		os << "(LoadTexture, line = " << rhs.line << ", "
 		   << "DaytimeTexture = \"" << rhs.daytime_texture << "\", "
 		   << "NighttimeTexture = \"" << rhs.nighttime_texture << "\")";
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const set_decal_transparent_color& rhs) {
+	std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs) {
 		os << "(SetDecalTransparentColor, line = " << rhs.line << ", " //
 		   << "Red = " << static_cast<int>(rhs.red) << ", "
 		   << "Green = " << static_cast<int>(rhs.green) << ", "
@@ -143,7 +143,7 @@ namespace bve::parsers::b3d_csv_object::instructions {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const set_texture_coordinates& rhs) {
+	std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs) {
 		os << "(SetTextureCoordinates, line = " << rhs.line << ", " //
 		   << "VertexIndex = " << rhs.vertex_index << ", "
 		   << "X = " << rhs.x << ", "

@@ -2,7 +2,7 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_track_limit(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_limit(const line_splitting::InstructionInfo& inst) {
 		instructions::track::Limit l;
 
 		switch (inst.args.size()) {
@@ -51,7 +51,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return l;
 	}
 
-	instruction create_instruction_track_section(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_section(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Track.Section");
 
 		instructions::track::Section s;
@@ -65,7 +65,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return s;
 	}
 
-	instruction create_instruction_track_sigf(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_sigf(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 2, "Track.SigF");
 
 		instructions::track::SigF sf;
@@ -76,7 +76,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		return sf;
 	}
-	instruction create_instruction_track_signal(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_signal(const line_splitting::InstructionInfo& inst) {
 		instructions::track::Signal s;
 
 		if (!inst.args.empty()) {
@@ -119,7 +119,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return s;
 	}
 
-	instruction create_instruction_track_relay(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_track_relay(const line_splitting::InstructionInfo& inst) {
 		instructions::track::Relay r;
 
 		set_positions<0>(r, inst);

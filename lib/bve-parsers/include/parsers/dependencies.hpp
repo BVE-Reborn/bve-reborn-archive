@@ -8,7 +8,7 @@
 namespace bve::parsers::dependencies {
 	struct Texture {
 		std::string file;
-		bve::core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
+		core::datatypes::Color8RGB decal_transparent_color = {0, 0, 0};
 		bool has_transparent_color = false;
 
 		// less than operator for use in std::set

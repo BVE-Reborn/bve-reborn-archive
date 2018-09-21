@@ -8,7 +8,7 @@ namespace bve::parsers::csv {
 		return os;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const parsed_csv& rhs) {
+	std::ostream& operator<<(std::ostream& os, const ParsedCSV& rhs) {
 		for (auto& row : rhs) {
 			for (std::size_t i = 0; i < row.size(); ++i) {
 				os << row[i];

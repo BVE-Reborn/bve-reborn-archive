@@ -34,22 +34,23 @@ namespace bve::parsers::b3d_csv_object {
 		SetTextureCoordinates, VertexIndex, X, Y
 		*/
 
-		enum class sides { one, two };
+		enum class Sides { one, two };
 
-		enum class apply_to { single_mesh, all_meshes };
+		enum class ApplyTo { single_mesh, all_meshes };
 
-		struct error {
+		// TODO(cwfitzgerald): Use unified errors
+		struct Error {
 			std::string cause;
 			std::size_t line = 0;
-			error() = default;
-			explicit error(std::string desc) : cause(std::move(desc)) {}
+			Error() = default;
+			explicit Error(std::string desc) : cause(std::move(desc)) {}
 		};
 
-		struct create_mesh_builder {
+		struct CreateMeshBuilder {
 			std::size_t line = 0;
 		};
 
-		struct add_vertex {
+		struct AddVertex {
 			float v_x = 0;
 			float v_y = 0;
 			float v_z = 0;
@@ -61,14 +62,14 @@ namespace bve::parsers::b3d_csv_object {
 		};
 
 		// AddFace and AddFace2
-		struct add_face {
+		struct AddFace {
 			std::vector<std::size_t> vertices;
-			sides side_count;
+			Sides side_count;
 
 			std::size_t line = 0;
 		};
 
-		struct cube {
+		struct Cube {
 			float half_width;
 			float half_height;
 			float half_depth;
@@ -76,7 +77,7 @@ namespace bve::parsers::b3d_csv_object {
 			std::size_t line = 0;
 		};
 
-		struct cylinder {
+		struct Cylinder {
 			std::size_t sides;
 			float upper_radius;
 			float lower_radius;
@@ -86,38 +87,38 @@ namespace bve::parsers::b3d_csv_object {
 		};
 
 		// Translate and TranslateAll
-		struct translate {
+		struct Translate {
 			float x = 0;
 			float y = 0;
 			float z = 0;
-			apply_to applies_to;
+			ApplyTo applies_to;
 
 			std::size_t line = 0;
 		};
 
 		// Scale and ScaleAll
-		struct scale {
+		struct Scale {
 			float x = 1;
 			float y = 1;
 			float z = 1;
-			apply_to applies_to;
+			ApplyTo applies_to;
 
 			std::size_t line = 0;
 		};
 
 		// Rotate and RotateAll
-		struct rotate {
+		struct Rotate {
 			float x = 0;
 			float y = 0;
 			float z = 0;
 			float angle = 0;
-			apply_to applies_to;
+			ApplyTo applies_to;
 
 			std::size_t line = 0;
 		};
 
 		// Shear and ShearAll
-		struct shear {
+		struct Shear {
 			float d_x = 0;
 			float d_y = 0;
 			float d_z = 0;
@@ -125,22 +126,22 @@ namespace bve::parsers::b3d_csv_object {
 			float s_y = 0;
 			float s_z = 0;
 			float r = 0;
-			apply_to applies_to;
+			ApplyTo applies_to;
 
 			std::size_t line = 0;
 		};
 
 		// Mirror and MirrorAll
-		struct mirror {
+		struct Mirror {
 			bool x = false;
 			bool y = false;
 			bool z = false;
-			apply_to applies_to;
+			ApplyTo applies_to;
 
 			std::size_t line = 0;
 		};
 
-		struct set_color {
+		struct SetColor {
 			uint8_t red = 255;
 			uint8_t green = 255;
 			uint8_t blue = 255;
@@ -149,7 +150,7 @@ namespace bve::parsers::b3d_csv_object {
 			std::size_t line = 0;
 		};
 
-		struct set_emissive_color {
+		struct SetEmissiveColor {
 			uint8_t red = 0;
 			uint8_t green = 0;
 			uint8_t blue = 0;
@@ -157,23 +158,23 @@ namespace bve::parsers::b3d_csv_object {
 			std::size_t line = 0;
 		};
 
-		struct set_blend_mode {
-			Mesh::blend_mode_t blend_mode = Mesh::blend_mode_t::normal;
+		struct SetBlendMode {
+			Mesh::BlendMode blend_mode = Mesh::BlendMode::normal;
 			std::uint16_t glow_half_distance = 0;
-			Mesh::glow_attenuation_mode_t glow_attenuation_mode =
-			    Mesh::glow_attenuation_mode_t::divide_exponent4;
+			Mesh::GlowAttenuationMode glow_attenuation_mode =
+			    Mesh::GlowAttenuationMode::divide_exponent4;
 
 			std::size_t line = 0;
 		};
 
-		struct load_texture {
+		struct LoadTexture {
 			std::string daytime_texture;
 			std::string nighttime_texture;
 
 			std::size_t line = 0;
 		};
 
-		struct set_decal_transparent_color {
+		struct SetDecalTransparentColor {
 			uint8_t red;
 			uint8_t green;
 			uint8_t blue;
@@ -181,7 +182,7 @@ namespace bve::parsers::b3d_csv_object {
 			std::size_t line = 0;
 		};
 
-		struct set_texture_coordinates {
+		struct SetTextureCoordinates {
 			std::size_t vertex_index;
 			float x;
 			float y;
@@ -190,99 +191,102 @@ namespace bve::parsers::b3d_csv_object {
 		};
 
 		// Defined in csv_object_instruction_iostream.cpp
-		std::ostream& operator<<(std::ostream& os, const error& rhs);
-		std::ostream& operator<<(std::ostream& os, const create_mesh_builder& rhs);
-		std::ostream& operator<<(std::ostream& os, const add_vertex& rhs);
-		std::ostream& operator<<(std::ostream& os, const add_face& rhs);
-		std::ostream& operator<<(std::ostream& os, const cube& rhs);
-		std::ostream& operator<<(std::ostream& os, const cylinder& rhs);
-		std::ostream& operator<<(std::ostream& os, const translate& rhs);
-		std::ostream& operator<<(std::ostream& os, const scale& rhs);
-		std::ostream& operator<<(std::ostream& os, const rotate& rhs);
-		std::ostream& operator<<(std::ostream& os, const shear& rhs);
-		std::ostream& operator<<(std::ostream& os, const mirror& rhs);
-		std::ostream& operator<<(std::ostream& os, const set_color& rhs);
-		std::ostream& operator<<(std::ostream& os, const set_emissive_color& rhs);
-		std::ostream& operator<<(std::ostream& os, const set_blend_mode& rhs);
-		std::ostream& operator<<(std::ostream& os, const load_texture& rhs);
-		std::ostream& operator<<(std::ostream& os, const set_decal_transparent_color& rhs);
-		std::ostream& operator<<(std::ostream& os, const set_texture_coordinates& rhs);
+		std::ostream& operator<<(std::ostream& os, const Error& rhs);
+		std::ostream& operator<<(std::ostream& os, const CreateMeshBuilder& rhs);
+		std::ostream& operator<<(std::ostream& os, const AddVertex& rhs);
+		std::ostream& operator<<(std::ostream& os, const AddFace& rhs);
+		std::ostream& operator<<(std::ostream& os, const Cube& rhs);
+		std::ostream& operator<<(std::ostream& os, const Cylinder& rhs);
+		std::ostream& operator<<(std::ostream& os, const Translate& rhs);
+		std::ostream& operator<<(std::ostream& os, const Scale& rhs);
+		std::ostream& operator<<(std::ostream& os, const Rotate& rhs);
+		std::ostream& operator<<(std::ostream& os, const Shear& rhs);
+		std::ostream& operator<<(std::ostream& os, const Mirror& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetColor& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetEmissiveColor& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetBlendMode& rhs);
+		std::ostream& operator<<(std::ostream& os, const LoadTexture& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetDecalTransparentColor& rhs);
+		std::ostream& operator<<(std::ostream& os, const SetTextureCoordinates& rhs);
 
-		struct parsed_csv_object_builder {
+		struct ParsedCSVObjectBuilder {
 			ParsedB3DCSVObject pso;
 
 			// More data is needed for the faces before we convert them to
-			// internal format all of this data has to be consistant within an
+			// internal format all of this data has to be consistent within an
 			// internal mesh, so part of the parsing process is to split up
 			// based on this data.
-			struct extended_face_data_t : FaceData {
+			struct ExtendedFaceData : FaceData {
 				std::string texture;
-				bve::core::datatypes::color8_rgb decal_transparent_color = {0, 0, 0};
+				core::datatypes::Color8RGB decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
-				Mesh::blend_mode_t blend_mode = Mesh::blend_mode_t::normal;
-				Mesh::glow_attenuation_mode_t glow_attenuation_mode =
-				    Mesh::glow_attenuation_mode_t::divide_exponent4;
+				Mesh::BlendMode blend_mode = Mesh::BlendMode::normal;
+				Mesh::GlowAttenuationMode glow_attenuation_mode =
+				    Mesh::GlowAttenuationMode::divide_exponent4;
 				uint16_t glow_half_distance = 0;
 
 				bool back_visible = false;
 			};
 
-			struct untriangulated_face_t {
+			struct UntriangulatedFace {
 				std::vector<std::size_t> indices;
-				extended_face_data_t data;
+				ExtendedFaceData data;
 			};
 
 			std::vector<Vertex> vertices;
-			std::vector<untriangulated_face_t> untriangulated_faces;
+			std::vector<UntriangulatedFace> untriangulated_faces;
 
-			void add_mesh_builder();
+			void addMeshBuilder();
 
-			void operator()(const error& arg);
-			void operator()(const create_mesh_builder& arg);
-			void operator()(const add_vertex& arg);
-			void operator()(const add_face& arg);
-			void operator()(const cube& arg);
-			void operator()(const cylinder& arg);
-			void operator()(const translate& arg);
-			void operator()(const scale& arg);
-			void operator()(const rotate& arg);
-			void operator()(const shear& arg);
-			void operator()(const mirror& arg);
-			void operator()(const set_color& arg);
-			void operator()(const set_emissive_color& arg);
-			void operator()(const set_blend_mode& arg);
-			void operator()(const load_texture& arg);
-			void operator()(const set_decal_transparent_color& arg);
-			void operator()(const set_texture_coordinates& arg);
+			void operator()(const Error& arg);
+			void operator()(const CreateMeshBuilder& arg);
+			void operator()(const AddVertex& arg);
+			void operator()(const AddFace& arg);
+			void operator()(const Cube& arg);
+			void operator()(const Cylinder& arg);
+			void operator()(const Translate& arg);
+			void operator()(const Scale& arg);
+			void operator()(const Rotate& arg);
+			void operator()(const Shear& arg);
+			void operator()(const Mirror& arg);
+			void operator()(const SetColor& arg);
+			void operator()(const SetEmissiveColor& arg);
+			void operator()(const SetBlendMode& arg);
+			void operator()(const LoadTexture& arg);
+			void operator()(const SetDecalTransparentColor& arg);
+			void operator()(const SetTextureCoordinates& arg);
 		};
 
 	} // namespace instructions
 
-	using instruction = mapbox::util::variant<instructions::error,
-	                                          instructions::create_mesh_builder,
-	                                          instructions::add_vertex,
-	                                          instructions::add_face,
-	                                          instructions::cube,
-	                                          instructions::cylinder,
-	                                          instructions::translate,
-	                                          instructions::scale,
-	                                          instructions::rotate,
-	                                          instructions::shear,
-	                                          instructions::mirror,
-	                                          instructions::set_color,
-	                                          instructions::set_emissive_color,
-	                                          instructions::set_blend_mode,
-	                                          instructions::load_texture,
-	                                          instructions::set_decal_transparent_color,
-	                                          instructions::set_texture_coordinates>;
+	using Instruction = mapbox::util::variant<instructions::Error,
+	                                          instructions::CreateMeshBuilder,
+	                                          instructions::AddVertex,
+	                                          instructions::AddFace,
+	                                          instructions::Cube,
+	                                          instructions::Cylinder,
+	                                          instructions::Translate,
+	                                          instructions::Scale,
+	                                          instructions::Rotate,
+	                                          instructions::Shear,
+	                                          instructions::Mirror,
+	                                          instructions::SetColor,
+	                                          instructions::SetEmissiveColor,
+	                                          instructions::SetBlendMode,
+	                                          instructions::LoadTexture,
+	                                          instructions::SetDecalTransparentColor,
+	                                          instructions::SetTextureCoordinates>;
 
-	using instruction_list = std::vector<instruction>;
+	using InstructionList = std::vector<Instruction>;
 
-	// ReSharper disable once CppInconsistentNaming
-	enum class file_type { b3d, csv };
+	enum class FileType {
+		// ReSharper disable CppInconsistentNaming
+		b3d,
+		csv
+	};
 
-	instruction_list create_instructions(std::string text, file_type ft);
+	InstructionList create_instructions(std::string text, FileType ft);
 
-	ParsedB3DCSVObject run_csv_instructions(const instruction_list& /*ilist*/);
+	ParsedB3DCSVObject run_csv_instructions(const InstructionList& /*ilist*/);
 } // namespace bve::parsers::b3d_csv_object

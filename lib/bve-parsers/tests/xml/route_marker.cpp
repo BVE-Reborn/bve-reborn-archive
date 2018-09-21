@@ -34,8 +34,8 @@ TEST_CASE("libparsers - xml - route_marker - image based marker") {
 	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
-	REQUIRE(output.is<rm::image_marker>());
-	auto const& image_marker = output.get_unchecked<rm::image_marker>();
+	REQUIRE(output.is<rm::ImageMarker>());
+	auto const& image_marker = output.get_unchecked<rm::ImageMarker>();
 	CHECK_EQ(image_marker.early_time, 43200);
 	CHECK_EQ(image_marker.early_filename, "some_file.xml/Early.png"s);
 
@@ -82,8 +82,8 @@ TEST_CASE(
 	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
-	REQUIRE(output.is<rm::image_marker>());
-	auto const& image_marker = output.get_unchecked<rm::image_marker>();
+	REQUIRE(output.is<rm::ImageMarker>());
+	auto const& image_marker = output.get_unchecked<rm::ImageMarker>();
 	CHECK_EQ(image_marker.early_time, 0);
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
@@ -118,8 +118,8 @@ TEST_CASE(
 	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
-	REQUIRE(output.is<rm::image_marker>());
-	auto const& image_marker = output.get_unchecked<rm::image_marker>();
+	REQUIRE(output.is<rm::ImageMarker>());
+	auto const& image_marker = output.get_unchecked<rm::ImageMarker>();
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 4);
 	CHECK_EQ(image_marker.early_time, 0);
@@ -156,8 +156,8 @@ TEST_CASE("libparsers - xml - router_marker - text base marker") {
 	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
-	REQUIRE(output.is<rm::text_marker>());
-	auto const& text_marker = output.get_unchecked<rm::text_marker>();
+	REQUIRE(output.is<rm::TextMarker>());
+	auto const& text_marker = output.get_unchecked<rm::TextMarker>();
 	CHECK_EQ(text_marker.early_time, 43200);
 	CHECK_EQ(text_marker.early_text, "Early!"s);
 	CHECK_EQ(text_marker.on_time_text, "On Time."s);
@@ -192,8 +192,8 @@ TEST_CASE(
 	bve::parsers::errors::MultiError output_errors;
 	auto const output =
 	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
-	REQUIRE(output.is<rm::text_marker>());
-	auto const& text_marker = output.get_unchecked<rm::text_marker>();
+	REQUIRE(output.is<rm::TextMarker>());
+	auto const& text_marker = output.get_unchecked<rm::TextMarker>();
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
 	CHECK_EQ(text_marker.early_time, 0);

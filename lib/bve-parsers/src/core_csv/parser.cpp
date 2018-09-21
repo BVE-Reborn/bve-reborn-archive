@@ -4,7 +4,7 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv {
-	parsed_csv parse(const std::string& file, SplitFirstColumn sfc, char delim, char split_char) {
+	ParsedCSV parse(const std::string& file, SplitFirstColumn sfc, char delim, char split_char) {
 		// start with at least one row
 		std::vector<std::vector<CSVToken>> token_list{1, std::vector<CSVToken>{}};
 
@@ -31,9 +31,9 @@ namespace bve::parsers::csv {
 			util::strip_text(s);
 
 			CSVToken token{std::move(s), current_line, current_line,
-			                gsl::narrow<std::size_t>(std::distance(last_newline_iterator, begin)),
-			                gsl::narrow<std::size_t>(
-			                    std::distance(last_newline_iterator, next_delim))};
+			               gsl::narrow<std::size_t>(std::distance(last_newline_iterator, begin)),
+			               gsl::narrow<std::size_t>(
+			                   std::distance(last_newline_iterator, next_delim))};
 
 			token_list.back().emplace_back(std::move(token));
 

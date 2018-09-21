@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream& os, tl::optional<T> const& val) {
 #define PRINT_BYTE(name) os_ << ", " #name " = " << gsl::narrow<int>(inst.name);
 #define PRINT_VECTOR(name)                                                                         \
 	os_ << ", " #name " = ";                                                                       \
-	print_vector(inst.name);
+	printVector(inst.name);
 #define PRINT_TIME(name)                                                                           \
 	os_ << ", " #name " = " << std::setw(2) << std::setfill('0') << (inst.name / 3600) << ':'      \
 	    << std::setw(2) << std::setfill('0') << ((inst.name / 60) % 60) << ':' << std::setw(2)     \
@@ -99,24 +99,24 @@ std::ostream& operator<<(std::ostream& os, tl::optional<T> const& val) {
 
 namespace bve::parsers::csv_rw_route {
 	namespace {
-		struct csv_rw_route_instruction_io_class {
+		struct CSVRwRouteInstructionIOClass {
 		  private:
 			std::ostream& os_;
 			const std::vector<std::string> filenames_;
 			bool has_filenames_;
 
 		  public:
-			explicit csv_rw_route_instruction_io_class(std::ostream& os) :
+			explicit CSVRwRouteInstructionIOClass(std::ostream& os) :
 			    os_(os),
 			    has_filenames_(false) {}
-			explicit csv_rw_route_instruction_io_class(std::ostream& os,
-			                                           std::vector<std::string> filenames) :
+			explicit CSVRwRouteInstructionIOClass(std::ostream& os,
+			                                      std::vector<std::string> filenames) :
 			    os_(os),
 			    filenames_(std::move(filenames)),
 			    has_filenames_(true) {}
 
 			template <class T>
-			void print_vector(const std::vector<T>& vec) {
+			void printVector(const std::vector<T>& vec) {
 				std::size_t i = 0;
 				os_ << "[";
 				for (auto& item : vec) {
@@ -325,7 +325,7 @@ namespace bve::parsers::csv_rw_route {
 				end();
 			}
 			void operator()(const instructions::route::AmbientLight& inst) {
-				start(inst, "Route.AmbiantLight");
+				start(inst, "Route.AmbientLight");
 
 				PRINT_COLOR(color);
 
@@ -387,9 +387,9 @@ namespace bve::parsers::csv_rw_route {
 			void operator()(const instructions::structure::Command& inst) {
 				start(inst, "Structure.Command");
 
-				PRINT_ENUM18(command_type, structure::Command::Type, ground, rail, wall_l, wall_r, dike_l,
-				             dike_r, form_l, form_r, form_cl, form_cr, roof_l, form_r, form_cl,
-				             form_cr, crack_l, crack_r, free_obj, beacon);
+				PRINT_ENUM18(command_type, structure::Command::Type, ground, rail, wall_l, wall_r,
+				             dike_l, dike_r, form_l, form_r, form_cl, form_cr, roof_l, form_r,
+				             form_cl, form_cr, crack_l, crack_r, free_obj, beacon);
 
 				PRINT_VALUE(structure_index);
 				PRINT_VALUE(filename);
@@ -696,8 +696,8 @@ namespace bve::parsers::csv_rw_route {
 			void operator()(const instructions::track::Signal& inst) {
 				start(inst, "Track.Signal");
 
-				PRINT_ENUM8(type, track::Signal::Aspect, r_y, r_g, r_y_g, r_yy_y_g, r_y_yg_g, r_yy_y_yg_g,
-				            r_y_yg_g_gg, r_yy_y_yg_g_gg);
+				PRINT_ENUM8(type, track::Signal::Aspect, r_y, r_g, r_y_g, r_yy_y_g, r_y_yg_g,
+				            r_yy_y_yg_g, r_y_yg_g_gg, r_yy_y_yg_g_gg);
 				PRINT_VALUE(x_offset);
 				PRINT_VALUE(y_offset);
 				PRINT_VALUE(yaw);
@@ -735,8 +735,8 @@ namespace bve::parsers::csv_rw_route {
 			void operator()(const instructions::track::Transponder& inst) {
 				start(inst, "Track.Transponder");
 
-				PRINT_ENUM5(type, track::Transponder::Type, s_type, sn_type, departure, ats_p_renewal,
-				            ats_p_stop);
+				PRINT_ENUM5(type, track::Transponder::Type, s_type, sn_type, departure,
+				            ats_p_renewal, ats_p_stop);
 				PRINT_VALUE(signal);
 				PRINT_VALUE(switch_system);
 				PRINT_VALUE(x_offset);
@@ -786,7 +786,7 @@ namespace bve::parsers::csv_rw_route {
 
 				end();
 			}
-			void operator()(const instructions::track::marker_xml& inst) {
+			void operator()(const instructions::track::MarkerXML& inst) {
 				start(inst, "Track.MarkerXML");
 
 				PRINT_VALUE(filename);
@@ -798,8 +798,8 @@ namespace bve::parsers::csv_rw_route {
 
 				PRINT_VALUE(text);
 				PRINT_VALUE(distance);
-				PRINT_ENUM8(font_color, track::TextMarker::FontColor, black, gray, white, red, orange, green,
-				            blue, magenta);
+				PRINT_ENUM8(font_color, track::TextMarker::FontColor, black, gray, white, red,
+				            orange, green, blue, magenta);
 
 				end();
 			}
@@ -849,18 +849,18 @@ namespace bve::parsers::csv_rw_route {
 	} // namespace
 } // namespace bve::parsers::csv_rw_route
 
-std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::instruction& i) {
+std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::Instruction& i) {
 	os << std::boolalpha;
 
-	bve::parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os);
+	bve::parsers::csv_rw_route::CSVRwRouteInstructionIOClass io_class(os);
 
-	apply_visitor(crriic, i);
+	apply_visitor(io_class, i);
 
 	return os;
 }
 
 std::ostream& operator<<(std::ostream& os,
-                         const bve::parsers::csv_rw_route::instruction_list& list) {
+                         const bve::parsers::csv_rw_route::InstructionList& list) {
 	os << "Files:\n";
 	for (std::size_t i = 0; i < list.filenames.size(); ++i) {
 		os << i << ": " << list.filenames[i] << '\n';
@@ -869,9 +869,9 @@ std::ostream& operator<<(std::ostream& os,
 	for (auto& i : list.instructions) {
 		os << std::boolalpha;
 
-		bve::parsers::csv_rw_route::csv_rw_route_instruction_io_class crriic(os, list.filenames);
+		bve::parsers::csv_rw_route::CSVRwRouteInstructionIOClass io_class(os, list.filenames);
 
-		apply_visitor(crriic, i);
+		apply_visitor(io_class, i);
 
 		os << "\n";
 	}

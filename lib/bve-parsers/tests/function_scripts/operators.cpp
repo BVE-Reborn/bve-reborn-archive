@@ -8,7 +8,7 @@ namespace fs_inst = bve::parsers::function_scripts::instructions;
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 TEST_CASE("libparsers - function scripts - operators - logical or") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 | 3");
@@ -18,13 +18,13 @@ TEST_CASE("libparsers - function scripts - operators - logical or") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_or{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPOr{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - logical xor") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 ^ 3");
@@ -34,13 +34,13 @@ TEST_CASE("libparsers - function scripts - operators - logical xor") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_xor{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPXor{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - logical and") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 & 3");
@@ -50,13 +50,13 @@ TEST_CASE("libparsers - function scripts - operators - logical and") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_and{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPAnd{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - logical not") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("!3");
@@ -66,12 +66,12 @@ TEST_CASE("libparsers - function scripts - operators - logical not") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 2);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_not{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::OPUnaryNot{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - equals") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 == 3");
@@ -81,13 +81,13 @@ TEST_CASE("libparsers - function scripts - operators - equals") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_equal{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPEqual{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - not equals") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 != 3");
@@ -97,13 +97,13 @@ TEST_CASE("libparsers - function scripts - operators - not equals") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_unequal{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPUnequal{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - less") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 < 3");
@@ -113,13 +113,13 @@ TEST_CASE("libparsers - function scripts - operators - less") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_less{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPLess{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - greater") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 > 3");
@@ -129,13 +129,13 @@ TEST_CASE("libparsers - function scripts - operators - greater") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_greater{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPGreater{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - less equal") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 <= 3");
@@ -145,13 +145,13 @@ TEST_CASE("libparsers - function scripts - operators - less equal") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_less_equal{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPLessEqual{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - greater equal") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 >= 3");
@@ -161,13 +161,13 @@ TEST_CASE("libparsers - function scripts - operators - greater equal") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_greater_equal{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPGreaterEqual{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - plus") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 + 3");
@@ -177,13 +177,13 @@ TEST_CASE("libparsers - function scripts - operators - plus") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_add{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPAdd{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - subtract") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 - 3");
@@ -193,13 +193,13 @@ TEST_CASE("libparsers - function scripts - operators - subtract") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_subtract{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPSubtract{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - times") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 * 3");
@@ -209,13 +209,13 @@ TEST_CASE("libparsers - function scripts - operators - times") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_multiply{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPMultiply{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - divide") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("2 / 3");
@@ -225,13 +225,13 @@ TEST_CASE("libparsers - function scripts - operators - divide") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 3);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::stack_push{3}, value);
-	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::op_divide{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);
+	COMPARE_VARIANT_NODES(result.instructions[2], fs_inst::OPDivide{});
 }
 
 TEST_CASE("libparsers - function scripts - operators - unary minus") {
-	bve::parsers::function_scripts::instruction_list result;
+	bve::parsers::function_scripts::InstructionList result;
 
 	SUBCASE("infix") {
 		result = bve::parsers::function_scripts::parse("-(2)");
@@ -241,8 +241,8 @@ TEST_CASE("libparsers - function scripts - operators - unary minus") {
 	}
 
 	REQUIRE_EQ(result.instructions.size(), 2);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::stack_push{2}, value);
-	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::op_unary_minus{});
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);
+	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::OPUnaryMinus{});
 }
 
 TEST_SUITE_END();

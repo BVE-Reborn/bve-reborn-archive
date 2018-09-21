@@ -16,7 +16,7 @@ namespace bve::parsers::animated_object {
 		//////////////////////
 		// Helper functions //
 		//////////////////////
-		glm::vec2 parse_2_argument_list(parsed_animated_object& pso,
+		glm::vec2 parse_2_argument_list(ParsedAnimatedObject& pso,
 		                                gsl::cstring_span<> const value_name,
 		                                std::size_t const line_number,
 		                                std::string const& list) {
@@ -28,7 +28,7 @@ namespace bve::parsers::animated_object {
 				add_error(pso.errors, line_number, oss.str());
 			}
 
-			glm::vec2 value;
+			glm::vec2 value{};
 
 			switch (split_list.size()) {
 				default:
@@ -45,7 +45,7 @@ namespace bve::parsers::animated_object {
 			return value;
 		}
 
-		glm::vec3 parse_3_argument_list(parsed_animated_object& pso,
+		glm::vec3 parse_3_argument_list(ParsedAnimatedObject& pso,
 		                                gsl::cstring_span<> const value_name,
 		                                std::size_t const line_number,
 		                                std::string const& list) {
@@ -57,7 +57,7 @@ namespace bve::parsers::animated_object {
 				add_error(pso.errors, line_number, oss.str());
 			}
 
-			glm::vec3 value;
+			glm::vec3 value{};
 
 			switch (split_list.size()) {
 				default:
@@ -77,9 +77,9 @@ namespace bve::parsers::animated_object {
 			return value;
 		}
 
-		function_script parse_function_script(parsed_animated_object& pso,
-		                                      gsl::cstring_span<> const function,
-		                                      std::size_t line) {
+		FunctionScript parse_function_script(ParsedAnimatedObject& pso,
+		                                     gsl::cstring_span<> const function,
+		                                     std::size_t line) {
 			(void) pso;
 			auto instructions = function_scripts::parse(to_string(function));
 			std::for_each(instructions.errors.begin(), instructions.errors.end(),
@@ -93,12 +93,12 @@ namespace bve::parsers::animated_object {
 		// Value parsing functions //
 		/////////////////////////////
 
-		void parse_position(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_position(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().position =
 			    parse_3_argument_list(pso, "Position", section.line, section.value);
 		}
 
-		void parse_states(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_states(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			auto states = util::split_text(section.value, ',');
 
 			for (auto& state : states) {
@@ -108,68 +108,74 @@ namespace bve::parsers::animated_object {
 			pso.subobjects.back().states = states;
 		}
 
-		void parse_state_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_state_function(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().state_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_translate_x_direction(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_translate_x_direction(ParsedAnimatedObject& pso,
+		                                 ini::KeyValuePair const& section) {
 			pso.subobjects.back().translate_x_direction =
 			    parse_3_argument_list(pso, "TranslateXDirection", section.line, section.value);
 		}
-		void parse_translate_y_direction(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_translate_y_direction(ParsedAnimatedObject& pso,
+		                                 ini::KeyValuePair const& section) {
 			pso.subobjects.back().translate_y_direction =
 			    parse_3_argument_list(pso, "TranslateYDirection", section.line, section.value);
 		}
-		void parse_translate_z_direction(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_translate_z_direction(ParsedAnimatedObject& pso,
+		                                 ini::KeyValuePair const& section) {
 			pso.subobjects.back().translate_z_direction =
 			    parse_3_argument_list(pso, "TranslateZDirection", section.line, section.value);
 		}
 
-		void parse_translate_x_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_translate_x_function(ParsedAnimatedObject& pso,
+		                                ini::KeyValuePair const& section) {
 			pso.subobjects.back().translate_x_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_translate_y_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_translate_y_function(ParsedAnimatedObject& pso,
+		                                ini::KeyValuePair const& section) {
 			pso.subobjects.back().translate_y_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_translate_z_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_translate_z_function(ParsedAnimatedObject& pso,
+		                                ini::KeyValuePair const& section) {
 			pso.subobjects.back().translate_z_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_x_direction(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_x_direction(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().rotate_x_direction =
 			    parse_3_argument_list(pso, "RotateXDirection", section.line, section.value);
 		}
-		void parse_rotate_y_direction(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_y_direction(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().rotate_y_direction =
 			    parse_3_argument_list(pso, "RotateYDirection", section.line, section.value);
 		}
-		void parse_rotate_z_direction(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_z_direction(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().rotate_z_direction =
 			    parse_3_argument_list(pso, "RotateZDirection", section.line, section.value);
 		}
 
-		void parse_rotate_x_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_x_function(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().rotate_x_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_y_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_y_function(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().rotate_y_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_z_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_z_function(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().rotate_z_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_rotate_x_damping(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_x_damping(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			auto const list =
 			    parse_2_argument_list(pso, "RotateXDamping", section.line, section.value);
 
@@ -178,7 +184,7 @@ namespace bve::parsers::animated_object {
 			damping.ratio = list.y;
 		}
 
-		void parse_rotate_y_damping(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_y_damping(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			auto const list =
 			    parse_2_argument_list(pso, "RotateYDamping", section.line, section.value);
 
@@ -187,7 +193,7 @@ namespace bve::parsers::animated_object {
 			damping.ratio = list.y;
 		}
 
-		void parse_rotate_z_damping(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_rotate_z_damping(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			auto const list =
 			    parse_2_argument_list(pso, "RotateZDamping", section.line, section.value);
 
@@ -196,35 +202,36 @@ namespace bve::parsers::animated_object {
 			damping.ratio = list.y;
 		}
 
-		void parse_texture_shift_x_direction(parsed_animated_object& pso,
+		void parse_texture_shift_x_direction(ParsedAnimatedObject& pso,
 		                                     ini::KeyValuePair const& section) {
 			pso.subobjects.back().texture_shift_x_direction =
 			    parse_2_argument_list(pso, "TextureShiftXDirection", section.line, section.value);
 		}
 
-		void parse_texture_shift_y_direction(parsed_animated_object& pso,
+		void parse_texture_shift_y_direction(ParsedAnimatedObject& pso,
 		                                     ini::KeyValuePair const& section) {
 			pso.subobjects.back().texture_shift_y_direction =
 			    parse_2_argument_list(pso, "TextureShiftYDirection", section.line, section.value);
 		}
 
-		void parse_texture_shift_x_function(parsed_animated_object& pso,
+		void parse_texture_shift_x_function(ParsedAnimatedObject& pso,
 		                                    ini::KeyValuePair const& section) {
 			pso.subobjects.back().texture_shift_x_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
-		void parse_texture_shift_y_function(parsed_animated_object& pso,
+		void parse_texture_shift_y_function(ParsedAnimatedObject& pso,
 		                                    ini::KeyValuePair const& section) {
 			pso.subobjects.back().texture_shift_y_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_track_follower_function(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_track_follower_function(ParsedAnimatedObject& pso,
+		                                   ini::KeyValuePair const& section) {
 			pso.subobjects.back().track_follower_function =
 			    parse_function_script(pso, section.value, section.line);
 		}
 
-		void parse_texture_override(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_texture_override(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			if (util::match_against_lower(section.value, "timetable")) {
 				pso.subobjects.back().timetable_override = true;
 			}
@@ -238,11 +245,11 @@ namespace bve::parsers::animated_object {
 			}
 		}
 
-		void parse_refresh_rate(parsed_animated_object& pso, ini::KeyValuePair const& section) {
+		void parse_refresh_rate(ParsedAnimatedObject& pso, ini::KeyValuePair const& section) {
 			pso.subobjects.back().refresh_rate = util::parse_loose_float(section.value);
 		}
 
-		std::map<std::string, void (*)(parsed_animated_object&, ini::KeyValuePair const&)>
+		std::map<std::string, void (*)(ParsedAnimatedObject&, ini::KeyValuePair const&)>
 		    function_mapping = {
 		        {"position"s, &parse_position},
 		        {"states"s, &parse_states},
@@ -271,7 +278,7 @@ namespace bve::parsers::animated_object {
 		        {"refreshrate"s, &parse_refresh_rate},
 		};
 
-		void parse_object_section(parsed_animated_object& pso, ini::INISection const& section) {
+		void parse_object_section(ParsedAnimatedObject& pso, ini::INISection const& section) {
 			pso.subobjects.emplace_back();
 
 			for (auto const& assignment : section.key_value_pairs) {
@@ -291,7 +298,7 @@ namespace bve::parsers::animated_object {
 			}
 		}
 
-		void parse_include_section(parsed_animated_object& pso, ini::INISection const& section) {
+		void parse_include_section(ParsedAnimatedObject& pso, ini::INISection const& section) {
 			std::vector<std::string> files;
 			auto position = glm::vec3(0);
 
@@ -335,13 +342,13 @@ namespace bve::parsers::animated_object {
 			}
 
 			for (auto const& file : files) {
-				pso.includes.emplace_back(animated_include{file, position});
+				pso.includes.emplace_back(AnimatedInclude{file, position});
 			}
 		}
 	} // namespace
 
-	parsed_animated_object parse(std::string const& file_string) {
-		parsed_animated_object pao;
+	ParsedAnimatedObject parse(std::string const& file_string) {
+		ParsedAnimatedObject pao;
 
 		auto const ini = ini::parse(file_string);
 

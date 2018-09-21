@@ -3,27 +3,27 @@
 #include <stdexcept>
 
 using namespace std::string_literals;
-using color = bve::core::datatypes::color8_rgba;
+using Color = bve::core::datatypes::Color8RGBA;
 
 #define CHECK_THROWS_AND_DEFAULTS(value)                                                           \
 	CHECK_THROWS_AS(bve::parsers::util::parse_color(value), std::invalid_argument);                \
 	CHECK_EQ(bve::parsers::util::parse_color(value,                                                \
-	                                         color(                                                \
-	                                             std::numeric_limits<decltype(color::b)>::max())), \
-	         color(std::numeric_limits<decltype(color::b)>::max()));
+	                                         Color(                                                \
+	                                             std::numeric_limits<decltype(Color::b)>::max())), \
+	         Color(std::numeric_limits<decltype(Color::b)>::max()));
 
 TEST_SUITE_BEGIN("libparsers - util");
 
 TEST_CASE("libparsers - util - parse_color") {
-	CHECK_EQ(bve::parsers::util::parse_color("#000000"), color(0, 0, 0, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#770000"), color(0x77, 0, 0, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#FF0000"), color(0xFF, 0, 0, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#007700"), color(0, 0x77, 0, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#00FF00"), color(0, 0xFF, 0, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#000077"), color(0, 0, 0x77, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#0000FF"), color(0, 0, 0xFF, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#777777"), color(0x77, 0x77, 0x77, 0xFF));
-	CHECK_EQ(bve::parsers::util::parse_color("#FFFFFF"), color(0xFF, 0xFF, 0xFF, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#000000"), Color(0, 0, 0, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#770000"), Color(0x77, 0, 0, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#FF0000"), Color(0xFF, 0, 0, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#007700"), Color(0, 0x77, 0, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#00FF00"), Color(0, 0xFF, 0, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#000077"), Color(0, 0, 0x77, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#0000FF"), Color(0, 0, 0xFF, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#777777"), Color(0x77, 0x77, 0x77, 0xFF));
+	CHECK_EQ(bve::parsers::util::parse_color("#FFFFFF"), Color(0xFF, 0xFF, 0xFF, 0xFF));
 
 	CHECK_THROWS_AND_DEFAULTS("#00000");
 	CHECK_THROWS_AND_DEFAULTS("#77000");

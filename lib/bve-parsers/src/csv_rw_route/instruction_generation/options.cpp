@@ -1,8 +1,8 @@
 #include "instruction_generator.hpp"
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_options_unitoflength(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_unitoflength(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::UnitOfLength uol;
 		uol.factors_in_meters.reserve(std::max(std::size_t(2), inst.args.size() + 1));
 		uol.factors_in_meters.emplace_back(1.0f);
@@ -19,24 +19,24 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return uol;
 	}
 
-	instruction create_instruction_options_unitofspeed(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_unitofspeed(
+	    const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::options::UnitOfSpeed>(inst,
-		                                                                             "Options."
-		                                                                             "UnitOfSpeed",
-		                                                                             1);
+		                                                                           "Options."
+		                                                                           "UnitOfSpeed",
+		                                                                           1);
 	}
 
-	instruction create_instruction_options_blocklength(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_blocklength(
+	    const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::options::BlockLength>(inst,
-		                                                                            "Options."
-		                                                                            "BlockLength",
-		                                                                            25);
+		                                                                           "Options."
+		                                                                           "BlockLength",
+		                                                                           25);
 	}
 
-	instruction create_instruction_options_objectvisibility(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_objectvisibility(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::ObjectVisibility ov;
 
 		if (!inst.args.empty()) {
@@ -52,8 +52,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return ov;
 	}
 
-	instruction create_instruction_options_sectionbehavior(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_sectionbehavior(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::SectionBehavior sb;
 
 		if (!inst.args.empty()) {
@@ -69,8 +69,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return sb;
 	}
 
-	instruction create_instruction_options_cantbehavior(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_cantbehavior(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::CantBehavior cb;
 
 		if (!inst.args.empty()) {
@@ -86,8 +86,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return cb;
 	}
 
-	instruction create_instruction_options_fogbehavior(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_fogbehavior(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::FogBehavior fb;
 
 		if (!inst.args.empty()) {
@@ -103,8 +103,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return fb;
 	}
 
-	instruction create_instruction_options_compatibletransparencymode(
-	    const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_options_compatibletransparencymode(
+	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::CompatibleTransparencyMode ctm;
 
 		if (!inst.args.empty()) {
@@ -120,20 +120,20 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return ctm;
 	}
 
-	instruction create_instruction_options_enablebvetshacks(
-	    const line_splitting::instruction_info& inst) {
-		instructions::options::EnableBveTsHacks ebth;
+	Instruction create_instruction_options_enablebvetshacks(
+	    const line_splitting::InstructionInfo& inst) {
+		instructions::options::EnableBveTsHacks ts_hacks;
 
 		if (!inst.args.empty()) {
 			auto const value = util::parse_loose_integer(inst.args[0], 0);
 
-			ebth.mode = value == 0 ? instructions::options::EnableBveTsHacks::Mode::off
-			                       : instructions::options::EnableBveTsHacks::Mode::on;
+			ts_hacks.mode = value == 0 ? instructions::options::EnableBveTsHacks::Mode::off
+			                           : instructions::options::EnableBveTsHacks::Mode::on;
 		}
 		else {
-			ebth.mode = instructions::options::EnableBveTsHacks::Mode::off;
+			ts_hacks.mode = instructions::options::EnableBveTsHacks::Mode::off;
 		}
 
-		return ebth;
+		return ts_hacks;
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

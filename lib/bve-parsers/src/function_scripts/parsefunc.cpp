@@ -2,7 +2,7 @@
 #include "parsers/function_scripts.hpp"
 
 namespace bve::parsers::function_scripts {
-	instruction_list parse(const std::string& text) {
+	InstructionList parse(const std::string& text) {
 		errors::Errors e;
 		auto const tokens = lex(text, e);
 		auto const tree = create_tree(tokens, e);

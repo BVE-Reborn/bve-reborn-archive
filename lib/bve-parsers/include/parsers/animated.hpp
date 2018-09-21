@@ -6,58 +6,58 @@
 #include <vector>
 
 namespace bve::parsers::animated_object {
-	using function_script = function_scripts::instruction_list;
+	using FunctionScript = function_scripts::InstructionList;
 
-	struct animated_include {
+	struct AnimatedInclude {
 		std::string file;
 		glm::vec3 location;
 	};
 
-	struct animated_subobject {
+	struct AnimatedSubobject {
 		glm::vec3 position;
 		std::vector<std::string> states;
-		function_script state_function;
+		FunctionScript state_function;
 
 		glm::vec3 translate_x_direction = {1, 0, 0};
 		glm::vec3 translate_y_direction = {0, 1, 0};
 		glm::vec3 translate_z_direction = {0, 0, 1};
-		function_script translate_x_function;
-		function_script translate_y_function;
-		function_script translate_z_function;
+		FunctionScript translate_x_function;
+		FunctionScript translate_y_function;
+		FunctionScript translate_z_function;
 
 		glm::vec3 rotate_x_direction = {1, 0, 0};
 		glm::vec3 rotate_y_direction = {0, 1, 0};
 		glm::vec3 rotate_z_direction = {0, 0, 1};
-		function_script rotate_x_function;
-		function_script rotate_y_function;
-		function_script rotate_z_function;
+		FunctionScript rotate_x_function;
+		FunctionScript rotate_y_function;
+		FunctionScript rotate_z_function;
 
-		struct damping {
+		struct Damping {
 			float frequency = -1;
 			float ratio = -1;
 		};
 
-		damping rotate_x_damping;
-		damping rotate_y_damping;
-		damping rotate_z_damping;
+		Damping rotate_x_damping;
+		Damping rotate_y_damping;
+		Damping rotate_z_damping;
 
 		glm::vec2 texture_shift_x_direction = {1, 0};
 		glm::vec2 texture_shift_y_direction = {0, 1};
-		function_script texture_shift_x_function;
-		function_script texture_shift_y_function;
+		FunctionScript texture_shift_x_function;
+		FunctionScript texture_shift_y_function;
 
-		function_script track_follower_function;
+		FunctionScript track_follower_function;
 		bool timetable_override = false;
 
 		float refresh_rate = 0;
 	};
 
-	struct parsed_animated_object {
-		std::vector<animated_include> includes;
-		std::vector<animated_subobject> subobjects;
+	struct ParsedAnimatedObject {
+		std::vector<AnimatedInclude> includes;
+		std::vector<AnimatedSubobject> subobjects;
 		dependencies::Dependencies dependencies;
 		errors::Errors errors;
 	};
 
-	parsed_animated_object parse(const std::string& file_string);
+	ParsedAnimatedObject parse(const std::string& file_string);
 } // namespace bve::parsers::animated_object

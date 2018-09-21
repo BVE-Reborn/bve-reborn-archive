@@ -10,15 +10,15 @@ using namespace std::string_literals;
 namespace bve::parsers::csv_rw_route {
 	namespace instruction_generation {
 		// ReSharper disable once CyclomaticComplexity
-		instruction generate_instruction(const preprocessed_lines& lines,
-		                                 const preprocessed_line& line,
+		Instruction generate_instruction(const PreprocessedLines& lines,
+		                                 const PreprocessedLine& line,
 		                                 errors::MultiError& errors,
 		                                 std::string& with_value,
-		                                 file_type const ft) {
-			instruction i;
+		                                 FileType const ft) {
+			Instruction i;
 
 			auto parsed =
-			    ft == file_type::csv ? line_splitting::csv(line) : line_splitting::rw(line);
+			    ft == FileType::csv ? line_splitting::csv(line) : line_splitting::rw(line);
 
 			if (parsed.track_position) {
 				return create_instruction_location_statement(parsed);
@@ -26,7 +26,7 @@ namespace bve::parsers::csv_rw_route {
 
 			util::lower(parsed.name);
 
-			if (ft == file_type::csv) {
+			if (ft == FileType::csv) {
 				auto const dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
 				auto const has_dot = dot_iter != parsed.name.end();
 
@@ -48,7 +48,7 @@ namespace bve::parsers::csv_rw_route {
 					parsed.indices.emplace_back(std::move(parsed.name));
 					parsed.name = "@@cycle@@groundstructureindex"s;
 				}
-				// Get normal qualitifed name
+				// Get normal qualified name
 				else {
 					parsed.name = "@@"s + with_value + "@@" + parsed.name;
 				}
@@ -62,7 +62,7 @@ namespace bve::parsers::csv_rw_route {
 				}
 				else {
 					bool ignored;
-					if (ft == file_type::csv) {
+					if (ft == FileType::csv) {
 						ignored = parsed.name == "route.developerid"s
 						          || parsed.name == "train.acceleration"s
 						          || parsed.name == "train.station"s;
@@ -76,7 +76,7 @@ namespace bve::parsers::csv_rw_route {
 					if (!ignored) {
 						std::ostringstream oss;
 						oss << "\"" << parsed.name << "\" is not a known function in a "
-						    << (ft == file_type::csv ? "csv" : "rw") << " file";
+						    << (ft == FileType::csv ? "csv" : "rw") << " file";
 						add_error(errors, lines.filenames[line.filename_index], line.line, oss);
 					}
 				}
@@ -95,10 +95,10 @@ namespace bve::parsers::csv_rw_route {
 		}
 	} // namespace instruction_generation
 
-	instruction_list generate_instructions(const preprocessed_lines& lines,
-	                                       errors::MultiError& errors,
-	                                       file_type const ft) {
-		instruction_list i_list;
+	InstructionList generate_instructions(const PreprocessedLines& lines,
+	                                      errors::MultiError& errors,
+	                                      FileType const ft) {
+		InstructionList i_list;
 		i_list.instructions.reserve(lines.lines.size());
 
 		std::string with_value;

@@ -8,8 +8,8 @@ namespace fs_inst = bve::parsers::function_scripts::instructions;
 
 #define CREATE_VARIABLE_TEST_CASE(script_name, variable_name)                                      \
 	TEST_CASE("libparsers - function scripts - variables - " STR(variable_name)) {                 \
-		auto variable = fs_inst::op_variable_lookup{};                                             \
-		variable.name = fs_inst::variable::variable_name;                                          \
+		auto variable = fs_inst::OPVariableLookup{};                                               \
+		variable.name = fs_inst::Variable::variable_name;                                          \
 		auto result = bve::parsers::function_scripts::parse(script_name);                          \
                                                                                                    \
 		REQUIRE_EQ(result.instructions.size(), 1);                                                 \

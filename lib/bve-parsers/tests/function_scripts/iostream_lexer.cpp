@@ -8,30 +8,30 @@ namespace fs_lex_token = bve::parsers::function_scripts::lexer_types;
 TEST_SUITE_BEGIN("libparsers - function scripts");
 
 TEST_CASE("libparsers - function scripts - lexer iostream - all symbols") {
-	bve::parsers::function_scripts::lexer_token_list const token_list = {{
-	    fs_lex_token::plus{},           //
-	    fs_lex_token::minus{},          //
-	    fs_lex_token::star{},           //
-	    fs_lex_token::slash{},          //
-	    fs_lex_token::double_eq{},      //
-	    fs_lex_token::un_eq{},          //
-	    fs_lex_token::less{},           //
-	    fs_lex_token::greater{},        //
-	    fs_lex_token::less_eq{},        //
-	    fs_lex_token::greater_eq{},     //
-	    fs_lex_token::bang{},           //
-	    fs_lex_token::ampersand{},      //
-	    fs_lex_token::bar{},            //
-	    fs_lex_token::carret{},         //
-	    fs_lex_token::l_paren{},        //
-	    fs_lex_token::r_paren{},        //
-	    fs_lex_token::l_bracket{},      //
-	    fs_lex_token::r_bracket{},      //
-	    fs_lex_token::comma{},          //
-	    fs_lex_token::dot{},            //
-	    fs_lex_token::variable{"sin"s}, //
-	    fs_lex_token::integer{2},       //
-	    fs_lex_token::floating{2.2f}    //
+	bve::parsers::function_scripts::LexerTokenList const token_list = {{
+	    fs_lex_token::Plus{},           //
+	    fs_lex_token::Minus{},          //
+	    fs_lex_token::Star{},           //
+	    fs_lex_token::Slash{},          //
+	    fs_lex_token::DoubleEq{},       //
+	    fs_lex_token::UnEq{},           //
+	    fs_lex_token::Less{},           //
+	    fs_lex_token::Greater{},        //
+	    fs_lex_token::LessEq{},         //
+	    fs_lex_token::GreaterEq{},      //
+	    fs_lex_token::Bang{},           //
+	    fs_lex_token::Ampersand{},      //
+	    fs_lex_token::Bar{},            //
+	    fs_lex_token::Caret{},          //
+	    fs_lex_token::LParen{},         //
+	    fs_lex_token::RParen{},         //
+	    fs_lex_token::LBracket{},       //
+	    fs_lex_token::RBracket{},       //
+	    fs_lex_token::Comma{},          //
+	    fs_lex_token::Dot{},            //
+	    fs_lex_token::Variable{"sin"s}, //
+	    fs_lex_token::Integer{2},       //
+	    fs_lex_token::Floating{2.2f}    //
 	}};
 
 	std::ostringstream output;

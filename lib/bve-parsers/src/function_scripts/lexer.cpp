@@ -43,11 +43,11 @@ namespace bve::parsers::function_scripts {
 	} // namespace
 
 	// ReSharper disable once CyclomaticComplexity
-	lexer_token_list lex(const std::string& text, errors::Errors& errors) {
-		lexer_token_list ltl;
+	LexerTokenList lex(const std::string& text, errors::Errors& errors) {
+		LexerTokenList ltl;
 
 		for (std::size_t i = 0; i < text.size(); ++i) {
-			lexer_token lt;
+			LexerToken lt;
 
 			auto const has_another_character = i + 1 < text.size();
 
@@ -74,7 +74,7 @@ namespace bve::parsers::function_scripts {
 					char* str_end = nullptr;
 					auto const f = std::strtof(start_ptr, &str_end);
 
-					lt = lexer_types::floating{f};
+					lt = lexer_types::Floating{f};
 					auto const chars_used = std::max<std::ptrdiff_t>(
 					    0, std::distance<const char*>(
 					           start_ptr,
@@ -89,30 +89,30 @@ namespace bve::parsers::function_scripts {
 					char* str_end = nullptr;
 					auto const integer = std::strtoll(start_ptr, &str_end, 10);
 
-					lt = lexer_types::integer{integer};
+					lt = lexer_types::Integer{integer};
 					// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 					auto const chars_used = std::distance<const char*>(start_ptr, str_end - 1);
 					i += chars_used;
 				}
 				// Raw dash/dot
 				else if (has_dot) {
-					lt = lexer_types::dot{};
+					lt = lexer_types::Dot{};
 				}
 			}
 			// parsing symbol
 			else if (is_special_symbol(text[i])) {
 				switch (text[i]) {
 					case '+':
-						lt = lexer_types::plus{};
+						lt = lexer_types::Plus{};
 						break;
 					case '-':
-						lt = lexer_types::minus{};
+						lt = lexer_types::Minus{};
 						break;
 					case '*':
-						lt = lexer_types::star{};
+						lt = lexer_types::Star{};
 						break;
 					case '/':
-						lt = lexer_types::slash{};
+						lt = lexer_types::Slash{};
 						break;
 					case '=':
 						if (has_another_character && text[i + 1] == '=') {
@@ -121,58 +121,58 @@ namespace bve::parsers::function_scripts {
 						else {
 							errors.emplace_back<errors::Error>({0, R"("=" must be "==")"});
 						}
-						lt = lexer_types::double_eq{};
+						lt = lexer_types::DoubleEq{};
 						break;
 					case '!':
 						if (has_another_character && text[i + 1] == '=') {
-							lt = lexer_types::un_eq{};
+							lt = lexer_types::UnEq{};
 							i += 1;
 						}
 						else {
-							lt = lexer_types::bang{};
+							lt = lexer_types::Bang{};
 						}
 						break;
 					case '<':
 						if (has_another_character && text[i + 1] == '=') {
-							lt = lexer_types::less_eq{};
+							lt = lexer_types::LessEq{};
 							i += 1;
 						}
 						else {
-							lt = lexer_types::less{};
+							lt = lexer_types::Less{};
 						}
 						break;
 					case '>':
 						if (has_another_character && text[i + 1] == '=') {
-							lt = lexer_types::greater_eq{};
+							lt = lexer_types::GreaterEq{};
 							i += 1;
 						}
 						else {
-							lt = lexer_types::greater{};
+							lt = lexer_types::Greater{};
 						}
 						break;
 					case '&':
-						lt = lexer_types::ampersand{};
+						lt = lexer_types::Ampersand{};
 						break;
 					case '|':
-						lt = lexer_types::bar{};
+						lt = lexer_types::Bar{};
 						break;
 					case '^':
-						lt = lexer_types::carret{};
+						lt = lexer_types::Caret{};
 						break;
 					case '(':
-						lt = lexer_types::l_paren{};
+						lt = lexer_types::LParen{};
 						break;
 					case ')':
-						lt = lexer_types::r_paren{};
+						lt = lexer_types::RParen{};
 						break;
 					case '[':
-						lt = lexer_types::l_bracket{};
+						lt = lexer_types::LBracket{};
 						break;
 					case ']':
-						lt = lexer_types::r_bracket{};
+						lt = lexer_types::RBracket{};
 						break;
 					case ',':
-						lt = lexer_types::comma{};
+						lt = lexer_types::Comma{};
 						break;
 					default:
 						break;
@@ -187,7 +187,7 @@ namespace bve::parsers::function_scripts {
 
 				std::string var{text.begin() + i, text.begin() + i2};
 
-				lt = lexer_types::variable{std::move(var)};
+				lt = lexer_types::Variable{std::move(var)};
 
 				if (has_another_character) {
 					i2 -= 1;

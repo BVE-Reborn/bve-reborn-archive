@@ -8,7 +8,7 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::csv_rw_route::line_splitting {
-	instruction_info csv(const preprocessed_line& l) {
+	InstructionInfo csv(const PreprocessedLine& l) {
 		const auto& text = l.contents;
 		auto first_break = std::find_if(text.begin(), text.end(),
 		                                [](const char c) { return c == ' ' || c == '('; });
@@ -24,13 +24,13 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 		if (has_colon || !has_letters) {
 			auto list = util::split_text(command_name, ':');
 
-			return instruction_info{"", {}, std::move(list), {}, l.offset, true};
+			return InstructionInfo{"", {}, std::move(list), {}, l.offset, true};
 		}
 
 		// all text is stripped by the preprocessor, so if there is a break
 		// we need to parse a parenthesized statement
 		if (first_break == text.end()) {
-			return instruction_info{command_name, {}, {}, {}, l.offset};
+			return InstructionInfo{command_name, {}, {}, {}, l.offset};
 		}
 
 		// skip passed all whitespace
@@ -46,7 +46,7 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 			indices_set = util::split_text(std::string(after_first_break, start_of_arg_list), ';');
 		}
 		else {
-			// if there isn't a parethesis here we know that's it and there
+			// if there isn't a parenthesis here we know that's it and there
 			// are only arguments
 			start_of_arg_list = text.end();
 			indices_set = util::split_text(std::string(after_first_break, text.end()), ';');
@@ -57,7 +57,7 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 
 		// no indices, we were just parsing arguments
 		if (start_of_arg_list == text.end() || start_of_arg_list + 1 == text.end()) {
-			return instruction_info{command_name, {}, indices_set, {}, l.offset};
+			return InstructionInfo{command_name, {}, indices_set, {}, l.offset};
 		}
 		start_of_arg_list += 1;
 		auto const has_suffix = *start_of_arg_list == '.';
@@ -72,7 +72,7 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 		}
 
 		if (start_of_arg_list == text.end()) {
-			return instruction_info{command_name, {}, indices_set, suffix, l.offset};
+			return InstructionInfo{command_name, {}, indices_set, suffix, l.offset};
 		}
 
 		auto const end_of_arg_list = *start_of_arg_list == '('
@@ -85,10 +85,10 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 		std::for_each(arg_list.begin(), arg_list.end(),
 		              [](std::string& s) { return util::strip_text(s); });
 
-		return instruction_info{command_name, indices_set, arg_list, suffix, l.offset};
+		return InstructionInfo{command_name, indices_set, arg_list, suffix, l.offset};
 	}
 
-	instruction_info rw(const preprocessed_line& l) {
+	InstructionInfo rw(const PreprocessedLine& l) {
 		auto const& text = l.contents;
 		auto first_break = std::find_if(text.begin(), text.end(), [](const char c) {
 			return c == ' ' || c == '(' || c == '=';
@@ -106,14 +106,14 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 		if (has_colon || !has_letters) {
 			auto list = util::split_text(command_name, ':');
 
-			return instruction_info{"", {}, std::move(list), {}, l.offset, true};
+			return InstructionInfo{"", {}, std::move(list), {}, l.offset, true};
 		}
 
 		// This is a section header
 		if (first_break == text.end()) {
 			util::strip_text(command_name, "\t\n\v\f\r []");
 
-			return instruction_info{"with"s, {}, {command_name}, {}, l.offset};
+			return InstructionInfo{"with"s, {}, {command_name}, {}, l.offset};
 		}
 
 		// skip passed all whitespace
@@ -129,7 +129,7 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 		}
 
 		if (first_break + 1 == text.end()) {
-			return instruction_info{command_name, {}, std::move(parens_list), {}, l.offset};
+			return InstructionInfo{command_name, {}, std::move(parens_list), {}, l.offset};
 		}
 
 		auto const has_suffix = *first_break + 1 == '.' && first_break + 2 != text.end();
@@ -147,13 +147,13 @@ namespace bve::parsers::csv_rw_route::line_splitting {
 		}
 
 		if (first_break == text.end() && first_break + 1 == text.end()) {
-			return instruction_info{command_name, {}, std::move(parens_list), suffix, l.offset};
+			return InstructionInfo{command_name, {}, std::move(parens_list), suffix, l.offset};
 		}
 
-		return instruction_info{command_name,
-		                        std::move(parens_list),
-		                        {std::string(first_break + 1, text.end())},
-		                        suffix,
-		                        l.offset};
+		return InstructionInfo{command_name,
+		                       std::move(parens_list),
+		                       {std::string(first_break + 1, text.end())},
+		                       suffix,
+		                       l.offset};
 	}
 } // namespace bve::parsers::csv_rw_route::line_splitting

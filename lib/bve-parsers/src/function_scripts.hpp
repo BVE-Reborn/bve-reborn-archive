@@ -11,83 +11,83 @@
 
 namespace bve::parsers::function_scripts {
 	namespace lexer_types {
-		struct plus {};  // +
-		struct minus {}; // -
-		struct star {};  // *
-		struct slash {}; // /
+		struct Plus {};  // +
+		struct Minus {}; // -
+		struct Star {};  // *
+		struct Slash {}; // /
 
-		struct double_eq {};  // ==
-		struct un_eq {};      // !=
-		struct less {};       // <
-		struct greater {};    // >
-		struct less_eq {};    // <=
-		struct greater_eq {}; // >=
+		struct DoubleEq {};  // ==
+		struct UnEq {};      // !=
+		struct Less {};      // <
+		struct Greater {};   // >
+		struct LessEq {};    // <=
+		struct GreaterEq {}; // >=
 
-		struct bang {};      // !
-		struct ampersand {}; // &
-		struct bar {};       // |
-		struct carret {};    // ^
+		struct Bang {};      // !
+		struct Ampersand {}; // &
+		struct Bar {};       // |
+		struct Caret {};     // ^
 
-		struct l_paren {};   // (
-		struct r_paren {};   // )
-		struct l_bracket {}; // {
-		struct r_bracket {}; // }
+		struct LParen {};   // (
+		struct RParen {};   // )
+		struct LBracket {}; // {
+		struct RBracket {}; // }
 
-		struct comma {}; // ,
-		struct dot {};   // .
+		struct Comma {}; // ,
+		struct Dot {};   // .
 
-		struct variable { // BLAH
+		struct Variable { // BLAH
 			std::string name;
 		};
 
-		struct integer {
+		struct Integer {
 			std::intmax_t val;
 		};
 
-		struct floating {
+		struct Floating {
 			float val;
 		};
 
 	} // namespace lexer_types
 
-	using lexer_token = mapbox::util::variant<lexer_types::plus,
-	                                          lexer_types::minus,
-	                                          lexer_types::star,
-	                                          lexer_types::slash,
-	                                          lexer_types::double_eq,
-	                                          lexer_types::un_eq,
-	                                          lexer_types::less,
-	                                          lexer_types::greater,
-	                                          lexer_types::less_eq,
-	                                          lexer_types::greater_eq,
-	                                          lexer_types::bang,
-	                                          lexer_types::ampersand,
-	                                          lexer_types::bar,
-	                                          lexer_types::carret,
-	                                          lexer_types::l_paren,
-	                                          lexer_types::r_paren,
-	                                          lexer_types::l_bracket,
-	                                          lexer_types::r_bracket,
-	                                          lexer_types::comma,
-	                                          lexer_types::dot,
-	                                          lexer_types::variable,
-	                                          lexer_types::integer,
-	                                          lexer_types::floating>;
-	using lexer_token_list = std::vector<lexer_token>;
+	using LexerToken = mapbox::util::variant<lexer_types::Plus,
+	                                         lexer_types::Minus,
+	                                         lexer_types::Star,
+	                                         lexer_types::Slash,
+	                                         lexer_types::DoubleEq,
+	                                         lexer_types::UnEq,
+	                                         lexer_types::Less,
+	                                         lexer_types::Greater,
+	                                         lexer_types::LessEq,
+	                                         lexer_types::GreaterEq,
+	                                         lexer_types::Bang,
+	                                         lexer_types::Ampersand,
+	                                         lexer_types::Bar,
+	                                         lexer_types::Caret,
+	                                         lexer_types::LParen,
+	                                         lexer_types::RParen,
+	                                         lexer_types::LBracket,
+	                                         lexer_types::RBracket,
+	                                         lexer_types::Comma,
+	                                         lexer_types::Dot,
+	                                         lexer_types::Variable,
+	                                         lexer_types::Integer,
+	                                         lexer_types::Floating>;
+	using LexerTokenList = std::vector<LexerToken>;
 
-	class lexer_token_container {
+	class LexerTokenProvider {
 	  private:
-		const lexer_token_list& list_;
+		const LexerTokenList& list_;
 		errors::Errors& err_;
 		std::size_t index_ = 0;
 
 	  public:
-		lexer_token_container(const lexer_token_list& contains, errors::Errors& errors) :
+		LexerTokenProvider(const LexerTokenList& contains, errors::Errors& errors) :
 		    list_(contains),
 		    err_(errors) {}
 
 		template <class T>
-		tl::optional<T> get_next_token() {
+		tl::optional<T> getNextToken() {
 			if (index_ < list_.size() && list_[index_].is<T>()) {
 				auto ret = list_[index_].get<T>();
 				index_ += 1;
@@ -97,7 +97,7 @@ namespace bve::parsers::function_scripts {
 		}
 
 		template <class T>
-		bool skip_next_token() {
+		bool skipNextToken() {
 			if (index_ < list_.size() && list_[index_].is<T>()) {
 				index_ += 1;
 				return true;
@@ -106,21 +106,21 @@ namespace bve::parsers::function_scripts {
 		}
 
 		template <class T>
-		bool is_next_token() const {
+		bool isNextToken() const {
 			return index_ < list_.size() && list_[index_].is<T>();
 		}
 
-		void advance_one_token() {
+		void advanceOneToken() {
 			if (index_ < list_.size()) {
 				index_ += 1;
 			}
 		}
 
-		tl::optional<lexer_token> peak_next_token() const {
+		tl::optional<LexerToken> peakNextToken() const {
 			return index_ < list_.size() ? tl::make_optional(list_[index_]) : tl::nullopt;
 		}
 
-		void add_error(const errors::Error& error) const {
+		void addError(const errors::Error& error) const {
 			err_.emplace_back(error);
 		}
 	};
@@ -128,143 +128,143 @@ namespace bve::parsers::function_scripts {
 	namespace tree_types {
 		// forward declare all structures that have nodes in them
 		// recursive_wrapper transparently allocates
-		struct binary_and;
-		struct binary_xor;
-		struct binary_or;
-		struct binary_eq;
-		struct binary_not_eq;
-		struct binary_less;
-		struct binary_greater;
-		struct binary_less_eq;
-		struct binary_greater_eq;
-		struct binary_add;
-		struct binary_subtract;
-		struct binary_multiply;
-		struct binary_divide;
-		struct unary_not;
-		struct unary_minus;
-		struct function_call;
-		struct integer {
+		struct BinaryAnd;
+		struct BinaryXor;
+		struct BinaryOr;
+		struct BinaryEq;
+		struct BinaryNotEq;
+		struct BinaryLess;
+		struct BinaryGreater;
+		struct BinaryLessEq;
+		struct BinaryGreaterEq;
+		struct BinaryAdd;
+		struct BinarySubtract;
+		struct BinaryMultiply;
+		struct BinaryDivide;
+		struct UnaryNot;
+		struct UnaryMinus;
+		struct FunctionCall;
+		struct Integer {
 			std::intmax_t num;
 		};
-		struct floating {
+		struct Floating {
 			float num;
 		};
-		struct identifier {
+		struct Identifier {
 			std::string val;
 		};
 
-		struct none {};
+		struct None {};
 	} // namespace tree_types
 
-	using tree_node =
-	    mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::binary_and>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_xor>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_or>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_eq>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_not_eq>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_less>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_greater>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_less_eq>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_greater_eq>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_add>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_subtract>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_multiply>,
-	                          mapbox::util::recursive_wrapper<tree_types::binary_divide>,
-	                          mapbox::util::recursive_wrapper<tree_types::unary_not>,
-	                          mapbox::util::recursive_wrapper<tree_types::unary_minus>,
-	                          mapbox::util::recursive_wrapper<tree_types::function_call>,
-	                          tree_types::integer,
-	                          tree_types::floating,
-	                          tree_types::identifier,
-	                          tree_types::none>;
+	using TreeNode =
+	    mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::BinaryAnd>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryXor>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryOr>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryEq>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryNotEq>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryLess>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryGreater>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryLessEq>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryGreaterEq>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryAdd>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinarySubtract>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryMultiply>,
+	                          mapbox::util::recursive_wrapper<tree_types::BinaryDivide>,
+	                          mapbox::util::recursive_wrapper<tree_types::UnaryNot>,
+	                          mapbox::util::recursive_wrapper<tree_types::UnaryMinus>,
+	                          mapbox::util::recursive_wrapper<tree_types::FunctionCall>,
+	                          tree_types::Integer,
+	                          tree_types::Floating,
+	                          tree_types::Identifier,
+	                          tree_types::None>;
 
 	namespace tree_types {
-		struct binary_and {
-			tree_node left;
-			tree_node right;
+		struct BinaryAnd {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_xor {
-			tree_node left;
-			tree_node right;
+		struct BinaryXor {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_or {
-			tree_node left;
-			tree_node right;
+		struct BinaryOr {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_eq {
-			tree_node left;
-			tree_node right;
+		struct BinaryEq {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_not_eq {
-			tree_node left;
-			tree_node right;
+		struct BinaryNotEq {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_less {
-			tree_node left;
-			tree_node right;
+		struct BinaryLess {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_greater {
-			tree_node left;
-			tree_node right;
+		struct BinaryGreater {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_less_eq {
-			tree_node left;
-			tree_node right;
+		struct BinaryLessEq {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_greater_eq {
-			tree_node left;
-			tree_node right;
+		struct BinaryGreaterEq {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_add {
-			tree_node left;
-			tree_node right;
+		struct BinaryAdd {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_subtract {
-			tree_node left;
-			tree_node right;
+		struct BinarySubtract {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_multiply {
-			tree_node left;
-			tree_node right;
+		struct BinaryMultiply {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct binary_divide {
-			tree_node left;
-			tree_node right;
+		struct BinaryDivide {
+			TreeNode left;
+			TreeNode right;
 		};
 
-		struct unary_not {
-			tree_node child;
+		struct UnaryNot {
+			TreeNode child;
 		};
-		struct unary_minus {
-			tree_node child;
+		struct UnaryMinus {
+			TreeNode child;
 		};
 
-		struct function_call {
-			identifier name;
-			std::vector<tree_node> args;
+		struct FunctionCall {
+			Identifier name;
+			std::vector<TreeNode> args;
 		};
 	} // namespace tree_types
 
-	lexer_token_list lex(const std::string& text, errors::Errors& errors);
-	tree_node create_tree(const lexer_token_list& list, errors::Errors& errors);
-	instruction_list build_instructions(const tree_node& head_node,
-	                                    const errors::Errors& errors = {});
+	LexerTokenList lex(const std::string& text, errors::Errors& errors);
+	TreeNode create_tree(const LexerTokenList& list, errors::Errors& errors);
+	InstructionList build_instructions(const TreeNode& head_node,
+	                                   const errors::Errors& errors = {});
 } // namespace bve::parsers::function_scripts
 
-std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::lexer_token& lt);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::LexerToken& lt);
 std::ostream& operator<<(std::ostream& os,
-                         const bve::parsers::function_scripts::lexer_token_list& list);
-std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::tree_node& node);
+                         const bve::parsers::function_scripts::LexerTokenList& list);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::TreeNode& node);

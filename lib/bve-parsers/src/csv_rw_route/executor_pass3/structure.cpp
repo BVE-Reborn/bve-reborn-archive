@@ -2,9 +2,9 @@
 #include <sstream>
 
 namespace bve::parsers::csv_rw_route {
-	void pass3_executor::operator()(const instructions::structure::Command& inst) {
+	void Pass3Executor::operator()(const instructions::structure::Command& inst) {
 		auto const add_and_warn = [&](auto& container, const char* command_name) {
-			auto filename_iter = add_object_filename(inst.filename);
+			auto filename_iter = addObjectFilename(inst.filename);
 
 			auto insert_pair =
 			    container.insert(std::make_pair(inst.structure_index, filename_iter));
@@ -20,12 +20,12 @@ namespace bve::parsers::csv_rw_route {
 				    << ". Old Filename: \"" << previous_filename << "\". Current Filename: \""
 				    << *filename_iter << "\".";
 
-				add_error(errors_, get_filename(inst.file_index), inst.line, err);
+				add_error(errors_, getFilename(inst.file_index), inst.line, err);
 			}
 		};
 
 		auto const add_and_warn_cycle = [&](auto& container, const char* command_name) {
-			auto filename_iter = add_object_filename(inst.filename);
+			auto filename_iter = addObjectFilename(inst.filename);
 
 			auto insert_pair =
 			    container.insert(std::make_pair(inst.structure_index, filename_iter));
@@ -43,7 +43,7 @@ namespace bve::parsers::csv_rw_route {
 				    << ". Old Filename: \"" << *old_value << "\". Current Filename: \""
 				    << *filename_iter << "\".";
 
-				add_error(errors_, get_filename(inst.file_index), inst.line, err);
+				add_error(errors_, getFilename(inst.file_index), inst.line, err);
 			}
 		};
 
@@ -107,8 +107,8 @@ namespace bve::parsers::csv_rw_route {
 		}
 	}
 
-	void pass3_executor::operator()(const instructions::structure::Pole& inst) {
-		auto filename_iter = add_object_filename(inst.filename);
+	void Pass3Executor::operator()(const instructions::structure::Pole& inst) {
+		auto filename_iter = addObjectFilename(inst.filename);
 
 		auto value =
 		    std::make_pair(std::make_pair(inst.additional_rails, inst.pole_structure_index),
@@ -126,7 +126,7 @@ namespace bve::parsers::csv_rw_route {
 			    << inst.pole_structure_index << "). Old Pair: \"" << previous_filename
 			    << "\". Current Filename: \"" << *filename_iter << "\".";
 
-			add_error(errors_, get_filename(inst.file_index), inst.line, err);
+			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
 } // namespace bve::parsers::csv_rw_route

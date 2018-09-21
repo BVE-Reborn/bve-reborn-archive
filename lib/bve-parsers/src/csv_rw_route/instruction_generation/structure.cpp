@@ -2,7 +2,7 @@
 #include <gsl/gsl_util>
 
 namespace bve::parsers::csv_rw_route::instruction_generation {
-	instruction create_instruction_structure_command(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_structure_command(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Structure.Command");
 		args_at_least(inst, 1, "Structure.Command");
 
@@ -16,7 +16,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return c;
 	}
 
-	instruction create_instruction_structure_pole(const line_splitting::instruction_info& inst) {
+	Instruction create_instruction_structure_pole(const line_splitting::InstructionInfo& inst) {
 		indices_at_least(inst, 1, "Structure.Pole");
 		args_at_least(inst, 1, "Structure.Pole");
 
