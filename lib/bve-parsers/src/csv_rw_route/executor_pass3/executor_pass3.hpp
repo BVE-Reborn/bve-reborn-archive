@@ -14,7 +14,7 @@ namespace bve::parsers::csv_rw_route {
 	using CycleType = std::vector<std::size_t>;
 
 	// defined in executor_pass3/cycle.cpp
-	tl::optional<FilenameSetIterator> get_cycle_filename_index(
+	absl::optional<FilenameSetIterator> get_cycle_filename_index(
 	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
 	    const std::unordered_map<std::size_t, FilenameSetIterator>& object_mapping,
 	    std::size_t index,

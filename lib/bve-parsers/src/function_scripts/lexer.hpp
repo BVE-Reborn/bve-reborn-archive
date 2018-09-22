@@ -6,7 +6,7 @@
 #include <mapbox/recursive_wrapper.hpp>
 #include <mapbox/variant.hpp>
 #include <string>
-#include <tl/optional.hpp>
+#include <absl/types/optional.h>
 #include <vector>
 
 namespace bve::parsers::function_scripts {
@@ -87,13 +87,13 @@ namespace bve::parsers::function_scripts {
 		    err_(errors) {}
 
 		template <class T>
-		tl::optional<T> getNextToken() {
+		absl::optional<T> getNextToken() {
 			if (index_ < list_.size() && list_[index_].is<T>()) {
 				auto ret = list_[index_].get<T>();
 				index_ += 1;
 				return ret;
 			}
-			return tl::nullopt;
+			return absl::nullopt;
 		}
 
 		template <class T>
@@ -116,8 +116,8 @@ namespace bve::parsers::function_scripts {
 			}
 		}
 
-		tl::optional<LexerToken> peakNextToken() const {
-			return index_ < list_.size() ? tl::make_optional(list_[index_]) : tl::nullopt;
+		absl::optional<LexerToken> peakNextToken() const {
+			return index_ < list_.size() ? absl::make_optional(list_[index_]) : absl::nullopt;
 		}
 
 		void addError(const errors::Error& error) const {

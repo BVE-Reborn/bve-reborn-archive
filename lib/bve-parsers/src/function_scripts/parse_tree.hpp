@@ -7,7 +7,7 @@
 #include <mapbox/recursive_wrapper.hpp>
 #include <mapbox/variant.hpp>
 #include <string>
-#include <tl/optional.hpp>
+#include <absl/types/optional.h>
 #include <vector>
 
 namespace bve::parsers::function_scripts {

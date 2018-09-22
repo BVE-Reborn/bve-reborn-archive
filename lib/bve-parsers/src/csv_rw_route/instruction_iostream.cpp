@@ -3,11 +3,16 @@
 #include <gsl/gsl_util>
 #include <iomanip>
 #include <ostream>
-#include <tl/optional.hpp>
+#include <absl/types/optional.h>
 
 template <class T>
-std::ostream& operator<<(std::ostream& os, tl::optional<T> const& val) {
-	val.map_or_else([&](T t) { os << t; }, [&] { os << '-'; });
+std::ostream& operator<<(std::ostream& os, absl::optional<T> const& val) {
+	if (val.has_value()) {
+		os << val.value();
+	}
+	else {
+		os << '-';
+	}
 	return os;
 }
 

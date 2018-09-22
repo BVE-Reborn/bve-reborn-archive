@@ -4,7 +4,7 @@
 #include <vector>
 
 namespace bve::parsers::csv_rw_route {
-	tl::optional<FilenameSetIterator> get_cycle_filename_index(
+	absl::optional<FilenameSetIterator> get_cycle_filename_index(
 	    const std::unordered_map<std::size_t, std::vector<std::size_t>>& cycle_mapping,
 	    const std::unordered_map<std::size_t, FilenameSetIterator>& object_mapping,
 	    std::size_t const index,
@@ -16,7 +16,7 @@ namespace bve::parsers::csv_rw_route {
 			auto const to_use_iter = object_mapping.find(cycle_iterator->second[index_to_use]);
 
 			if (to_use_iter == object_mapping.end()) {
-				return tl::nullopt;
+				return absl::nullopt;
 			}
 
 			return to_use_iter->second;
@@ -25,7 +25,7 @@ namespace bve::parsers::csv_rw_route {
 		auto const to_use_iter = object_mapping.find(index);
 
 		if (to_use_iter == object_mapping.end()) {
-			return tl::nullopt;
+			return absl::nullopt;
 		}
 
 		return to_use_iter->second;

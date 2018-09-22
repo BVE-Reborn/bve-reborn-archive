@@ -1,6 +1,6 @@
 #include "parse_tree.hpp"
 #include <sstream>
-#include <tl/optional.hpp>
+#include <absl/types/optional.h>
 
 namespace bve::parsers::function_scripts {
 	namespace {
@@ -177,8 +177,8 @@ namespace bve::parsers::function_scripts {
 		}
 
 		TreeNode parse_term(LexerTokenProvider& list) {
-			tl::optional<lexer_types::Floating> f;
-			tl::optional<lexer_types::Integer> i;
+			absl::optional<lexer_types::Floating> f;
+			absl::optional<lexer_types::Integer> i;
 
 			if (list.skipNextToken<lexer_types::LParen>()) {
 				auto inside = parse_expression(list);
@@ -215,7 +215,7 @@ namespace bve::parsers::function_scripts {
 
 		auto ret_tree = parse_expression(container);
 
-		tl::optional<LexerToken> next_token;
+		absl::optional<LexerToken> next_token;
 		while ((next_token = container.peakNextToken())) {
 			std::ostringstream err;
 

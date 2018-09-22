@@ -30,11 +30,9 @@ set_target_properties(gsl::gsl PROPERTIES
 	INTERFACE_COMPILE_DEFINITIONS "GSL_THROW_ON_CONTRACT_VIOLATION"
 )
 
-add_library(tl::optional INTERFACE IMPORTED)
-set_target_properties(tl::optional PROPERTIES
-	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/optional"
-	INTERFACE_COMPILE_FEATURES cxx_std_17
-)
+set(BUILD_TESTING False CACHE BOOL "Abseil Testing")
+set(ABSL_IDE_FOLDER extern/abseil-cpp CACHE STRING "Abseil IDE location")
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/abseil-cpp)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cppfs)
 
@@ -49,8 +47,9 @@ function(make_target_includes_system target)
 	endif()
 endfunction()
 
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/fmt)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
+
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/fmt)
 if(WIN32)
 	target_compile_options(fmt PRIVATE "-D_ITERATOR_DEBUG_LEVEL=1")
 else()

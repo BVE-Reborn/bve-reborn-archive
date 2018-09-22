@@ -12,7 +12,7 @@ add_library(bve-parsers SHARED ${SOURCES} ${HEADERS})
 
 target_include_directories(bve-parsers PUBLIC include)
 target_link_libraries(bve-parsers PUBLIC bve-core)
-target_link_libraries(bve-parsers PUBLIC mapbox::variant gsl::gsl tl::optional)
+target_link_libraries(bve-parsers PUBLIC mapbox::variant gsl::gsl absl::optional)
 
 target_include_directories(bve-parsers PRIVATE src)
 target_link_libraries(bve-parsers PRIVATE rapidxml::rapidxml options::fast_math)

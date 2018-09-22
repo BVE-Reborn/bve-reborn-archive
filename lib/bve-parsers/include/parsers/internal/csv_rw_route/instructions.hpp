@@ -4,7 +4,7 @@
 #include "route_structure.hpp"
 #include <cstddef>
 #include <string>
-#include <tl/optional.hpp>
+#include <absl/types/optional.h>
 #include <vector>
 
 namespace bve::parsers::csv_rw_route::instructions {
@@ -320,19 +320,19 @@ namespace bve::parsers::csv_rw_route::instructions {
 		struct RailStart : InstructionBase {
 			std::size_t rail_index;
 			// UnitOfLength
-			tl::optional<float> x_offset;
+			absl::optional<float> x_offset;
 			// UnitOfLength
-			tl::optional<float> y_offset;
-			tl::optional<std::size_t> rail_type;
+			absl::optional<float> y_offset;
+			absl::optional<std::size_t> rail_type;
 		};
 
 		struct Rail : InstructionBase {
 			std::size_t rail_index;
 			// UnitOfLength
-			tl::optional<float> x_offset;
+			absl::optional<float> x_offset;
 			// UnitOfLength
-			tl::optional<float> y_offset;
-			tl::optional<std::size_t> rail_type;
+			absl::optional<float> y_offset;
+			absl::optional<std::size_t> rail_type;
 		};
 
 		struct RailType : InstructionBase {
@@ -343,9 +343,9 @@ namespace bve::parsers::csv_rw_route::instructions {
 		struct RailEnd : InstructionBase {
 			std::size_t rail_index;
 			// UnitOfLength
-			tl::optional<float> x_offset;
+			absl::optional<float> x_offset;
 			// UnitOfLength
-			tl::optional<float> y_offset;
+			absl::optional<float> y_offset;
 		};
 
 		struct Adhesion {
