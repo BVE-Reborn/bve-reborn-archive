@@ -82,7 +82,13 @@ add_linted_subdirectory(src/test-runner)
 
 configure_linter()
 
-set_property(TARGET format PROPERTY FOLDER tools)
-set_property(TARGET lint PROPERTY FOLDER tools)
-set_property(TARGET lint-fix PROPERTY FOLDER tools)
+if(TARGET format)
+    set_property(TARGET format PROPERTY FOLDER tools)
+endif()
+if(TARGET lint)
+    set_property(TARGET lint PROPERTY FOLDER tools)
+endif()
+if(TARGET lint-fix)
+    set_property(TARGET lint-fix PROPERTY FOLDER tools)
+endif()
 
