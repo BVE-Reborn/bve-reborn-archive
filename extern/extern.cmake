@@ -44,7 +44,6 @@ endfunction()
 set(BUILD_TESTING False CACHE BOOL "Abseil Testing")
 set(ABSL_IDE_FOLDER extern/abseil-cpp CACHE STRING "Abseil IDE location")
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/abseil-cpp)
-make_target_includes_system(absl::optional)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cppfs)
 
