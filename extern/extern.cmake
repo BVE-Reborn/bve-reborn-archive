@@ -30,12 +30,6 @@ set_target_properties(gsl::gsl PROPERTIES
 	INTERFACE_COMPILE_DEFINITIONS "GSL_THROW_ON_CONTRACT_VIOLATION"
 )
 
-set(BUILD_TESTING False CACHE BOOL "Abseil Testing")
-set(ABSL_IDE_FOLDER extern/abseil-cpp CACHE STRING "Abseil IDE location")
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/abseil-cpp)
-
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cppfs)
-
 function(make_target_includes_system target)
 	get_target_property(INTERFACE_INCLUDES ${target} INTERFACE_INCLUDE_DIRECTORIES)
 	get_target_property(PUBLIC_INCLUDES ${target} PUBLIC_INCLUDE_DIRECTORIES)
@@ -46,6 +40,13 @@ function(make_target_includes_system target)
 		target_include_directories(${target} SYSTEM BEFORE PUBLIC ${PUBLIC_INCLUDES})
 	endif()
 endfunction()
+
+set(BUILD_TESTING False CACHE BOOL "Abseil Testing")
+set(ABSL_IDE_FOLDER extern/abseil-cpp CACHE STRING "Abseil IDE location")
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/abseil-cpp)
+make_target_includes_system(absl::optional)
+
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cppfs)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 
