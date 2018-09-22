@@ -1,7 +1,7 @@
 #include "b3d_csv_object.hpp"
 #include "core/math.hpp"
-#include "csv.hpp"
-#include "utils.hpp"
+#include "parsers/csv.hpp"
+#include "parsers/utils.hpp"
 #include <gsl/gsl_util>
 #include <map>
 #include <stdexcept>

@@ -1,7 +1,7 @@
-#include "function_scripts.hpp"
-#include "ini.hpp"
 #include "parsers/animated.hpp"
-#include "utils.hpp"
+#include "parsers/function_scripts.hpp"
+#include "parsers/ini.hpp"
+#include "parsers/utils.hpp"
 #include <algorithm>
 #include <core/gsl_string_span_iostream.hpp>
 #include <gsl/string_span>

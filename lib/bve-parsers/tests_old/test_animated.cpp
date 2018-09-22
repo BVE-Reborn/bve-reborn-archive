@@ -1,7 +1,7 @@
-#include "ini.hpp"
 #include "parsers/animated.hpp"
+#include "parsers/ini.hpp"
+#include "parsers/utils.hpp"
 #include "tests.hpp"
-#include "utils.hpp"
 #include <iostream>
 
 void test_animated() {

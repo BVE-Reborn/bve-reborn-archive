@@ -1,8 +1,8 @@
 #include "parsers/config/sound_cfg.hpp"
 #include "core/inlining_util.hpp"
 #include "gsl/gsl_util"
-#include "ini.hpp"
-#include "utils.hpp"
+#include "parsers/ini.hpp"
+#include "parsers/utils.hpp"
 #include <regex>
 #include <sstream>
 

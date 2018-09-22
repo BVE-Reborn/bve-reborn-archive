@@ -1,4 +1,4 @@
-#include "function_scripts.hpp"
+#include "parse_tree.hpp"
 #include "parsers/function_scripts.hpp"
 
 namespace bve::parsers::function_scripts {

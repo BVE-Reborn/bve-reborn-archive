@@ -1,5 +1,5 @@
-#include "ini.hpp"
-#include "utils.hpp"
+#include "parsers/ini.hpp"
+#include "parsers/utils.hpp"
 #include <algorithm>
 
 namespace bve::parsers::ini {

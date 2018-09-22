@@ -1,5 +1,5 @@
 #include "parsers/xml/dynamic_lighting.hpp"
-#include "utils.hpp"
+#include "parsers/utils.hpp"
 #include "xml_node_helpers.hpp"
 #include <rapidxml_ns.hpp>
 

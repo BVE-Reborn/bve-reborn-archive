@@ -1,5 +1,5 @@
 #include "core/macro_helpers.hpp"
-#include "function_scripts.hpp"
+#include "function_scripts/parse_tree.hpp"
 #include <doctest.h>
 #include <sstream>
 
