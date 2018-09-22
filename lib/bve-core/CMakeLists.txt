@@ -16,4 +16,6 @@ target_link_libraries(bve-core PRIVATE options::fast_math)
 add_sanitizers(bve-core)
 cotire(bve-core)
 
+set_property(TARGET bve-core PROPERTY FOLDER lib)
+
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})

@@ -10,3 +10,13 @@ if (NOT("${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang"))
 endif()
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/bsf")
+
+set_property(TARGET bsf PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfD3D11RenderAPI PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfFBXImporter PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfFontImporter PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfFreeImgImporter PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfOpenAudio PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfPhysX PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfRenderBeast PROPERTY FOLDER extern/bsf)
+set_property(TARGET bsfSL PROPERTY FOLDER extern/bsf)

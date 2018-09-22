@@ -32,7 +32,7 @@ include(bsf)
 
 if(BVEREBORN_WIN)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
-    add_compile_options(/Zi /permissive-)
+    add_compile_options(/Zi /permissive- /MP)
     set (CMAKE_SHARED_LINKER_FLAGS "/DEBUG")
     set (CMAKE_EXE_LINKER_FLAGS "/DEBUG")
 else()
@@ -81,3 +81,8 @@ add_linted_subdirectory(lib/bve-parsers)
 add_linted_subdirectory(src/test-runner)
 
 configure_linter()
+
+set_property(TARGET format PROPERTY FOLDER tools)
+set_property(TARGET lint PROPERTY FOLDER tools)
+set_property(TARGET lint-fix PROPERTY FOLDER tools)
+

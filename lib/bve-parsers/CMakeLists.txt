@@ -17,6 +17,8 @@ target_link_libraries(bve-parsers PUBLIC mapbox::variant gsl::gsl tl::optional)
 target_include_directories(bve-parsers PRIVATE src)
 target_link_libraries(bve-parsers PRIVATE rapidxml::rapidxml options::fast_math)
 
+set_property(TARGET bve-parsers PROPERTY FOLDER lib)
+
 add_sanitizers(bve-parsers)
 cotire(bve-parsers)
 
@@ -34,6 +36,9 @@ target_link_libraries(bve-parsers-test PUBLIC doctest::doctest cppfs::cppfs)
 
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
+
+set_property(TARGET bve-parsers-test PROPERTY FOLDER lib/tests)
+
 add_sanitizers(bve-parsers-test)
 cotire(bve-parsers-test)
 
@@ -66,6 +71,9 @@ target_include_directories(bve-old-tests PRIVATE src)
 target_link_libraries(bve-old-tests PRIVATE bve-core bve-parsers)
 target_link_libraries(bve-old-tests PRIVATE Threads::Threads cppfs::cppfs)
 target_link_libraries(bve-old-tests PRIVATE options::fast_math)
+
+set_property(TARGET bve-old-tests PROPERTY FOLDER lib/tests)
+
 add_sanitizers(bve-old-tests)
 cotire(bve-old-tests)
 

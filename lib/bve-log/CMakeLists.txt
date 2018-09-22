@@ -16,6 +16,8 @@ target_link_libraries(bve-log PUBLIC fmt::fmt bve-core)
 add_sanitizers(bve-log)
 cotire(bve-log)
 
+set_property(TARGET bve-log PROPERTY FOLDER lib)
+
 ###################
 # libbve-log-test #
 ###################
@@ -36,3 +38,5 @@ cotire(bve-log-test)
 lint(FILES ${TEST_SOURCES})
 format(FILES ${TEST_SOURCES} ${TEST_HEADERS})
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
+
+set_property(TARGET bve-log-test PROPERTY FOLDER lib/tests)

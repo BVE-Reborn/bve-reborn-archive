@@ -61,3 +61,5 @@ make_target_includes_system(fmt)
 
 find_package(Sanitizers)
 
+set_property(TARGET cppfs PROPERTY FOLDER extern)
+set_property(TARGET fmt PROPERTY FOLDER extern)

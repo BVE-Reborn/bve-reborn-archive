@@ -5,10 +5,7 @@ image: Visual Studio 2017
 platform:
   - x64
 
-environment:
-  BOOST_ROOT: C:\Libraries\boost_1_64_0
-
-clone_folder: c:\projects\openbve2
+clone_folder: c:\projects\bve-reborn
 clone_depth: 1
 skip_tags: true
 
@@ -23,13 +20,13 @@ install:
   - cmd: git submodule update --init --recursive
 
 before_build:
-  - cmd: cd C:\projects\openbve2
+  - cmd: cd C:\projects\bve-reborn
   - cmd: md build
   - cmd: cd build
-  - cmd: if "%platform%"=="x64" cmake .. -G "Visual Studio 15 2017 Win64" -DOPENBVE2_ON_TRAVIS=On -DBOOST_ROOT="%BOOST_ROOT%"
+  - cmd: cmake .. -G "Visual Studio 15 2017 Win64" -DOPENBVE2_ON_TRAVIS=On
 
 build:
-  project: C:\projects\openbve2\build\openbve2.sln
+  project: C:\projects\bve-reborn\build\BVE-Reborn.sln
 
 test_script:
-  - cmd: C:\projects\openbve2\build\bin\%CONFIGURATION%\test_main.exe
+  - cmd: C:\projects\bve-reborn\build\bin\%CONFIGURATION%\tests.exe

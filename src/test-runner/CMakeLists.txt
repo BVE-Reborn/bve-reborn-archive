@@ -11,6 +11,9 @@ target_link_libraries(tests PUBLIC bve-parsers-test)
 
 lint(FILES src/main.cpp)
 format(FILES src/main.cpp)
+
+set_property(TARGET tests PROPERTY FOLDER src)
+
 add_sanitizers(tests)
 cotire(tests)
 
