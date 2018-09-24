@@ -1,6 +1,7 @@
 #include "parsers/utils.hpp"
 #include "test_macro_util.hpp"
 #include <doctest.h>
+#include <stdexcept>
 #include <limits>
 
 using namespace std::string_literals;
