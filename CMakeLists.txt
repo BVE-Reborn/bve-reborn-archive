@@ -28,8 +28,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/extern/cotire/CMa
                                            ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
                                            ${CMAKE_SOURCE_DIR}/extern)
 
-include(nova)
-
 if(BVEREBORN_WIN)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
     add_compile_options(/Zi /permissive- /MP)
@@ -40,12 +38,14 @@ else()
     link_libraries(-g)
 endif()
 
-include(clang_format)
 include(cotire)
+
+include(clang_format)
 include(extern)
 include(linker_support)
 include(linter)
 include(meta_features)
+include(nova)
 include(warnings)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
