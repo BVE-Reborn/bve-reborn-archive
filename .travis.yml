@@ -3,7 +3,7 @@ sudo: false
 matrix:
   include:
   - os: linux
-    dist: trusty
+    dist: xenial
     addons:
       apt:
         packages:
@@ -33,7 +33,7 @@ matrix:
         all_branches: true
 
   - os: linux
-    dist: trusty
+    dist: xenial
     sudo: true
     addons:
       apt:
@@ -61,7 +61,7 @@ matrix:
     - coveralls --gcov gcov-7 -e extern -e lib/bve-parsers/tests -e src/test-runner -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
 
   - os: linux
-    dist: trusty
+    dist: xenial
     addons:
       apt:
         sources:
@@ -85,12 +85,12 @@ matrix:
     - cd build && $HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
   - os: linux
-    dist: trusty
+    dist: xenial
     addons:
       apt:
         sources:
         - ubuntu-toolchain-r-test
-        - llvm-toolchain-trusty-6.0
+        - llvm-toolchain-xenial-6.0
         packages:
         - libstdc++-7-dev
         - clang-6.0
@@ -111,12 +111,12 @@ matrix:
       -GNinja
 
   - os: linux
-    dist: trusty
+    dist: xenial
     addons:
       apt:
         sources:
         - ubuntu-toolchain-r-test
-        - llvm-toolchain-trusty-6.0
+        - llvm-toolchain-xenial-6.0
         packages:
         - libstdc++-7-dev
         - clang-6.0
@@ -137,38 +137,25 @@ matrix:
       -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
       -GNinja
 
-  - os: osx
-    osx_image: xcode9.2
-    install:
-    - brew update
-    - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
-    - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
-    - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+  # - os: osx
+  #   osx_image: xcode9.2
+  #   install:
+  #   - brew update
+  #   - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
+  #   - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
+  #   - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
-  allow_failures:
-  - os: osx
-    osx_image: xcode9.2
-    install:
-    - brew update
-    - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
-    - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
-    - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+  # allow_failures:
+  # - os: osx
+  #   osx_image: xcode9.2
+  #   install:
+  #   - brew update
+  #   - HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade cmake
+  #   - HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja ossp-uuid
+  #   - cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in util/travis/travis_ci_rsa.enc -out util/travis/travis_ci_rsa -d
-- DEPS_DIR="${TRAVIS_BUILD_DIR}/extern/binary/bin"
-- mkdir -p ${DEPS_DIR}
-- |
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    BINUTILS_URL="https://bsfproxy.connorwfitzgerald.com/bsf/binutils-2.28-trusty.zip"
-    cd ${DEPS_DIR}
-    mkdir binutils
-    cd binutils
-    wget --no-check-certificate -q ${BINUTILS_URL}
-    unzip -q binutils-2.28-trusty.zip
-    export PATH=${DEPS_DIR}/binutils/bin:${PATH}
-    export LD_LIBRARY_PATH=${DEPS_DIR}/binutils/lib:$LD_LIBRARY_PATH
-  fi
 - |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip"
