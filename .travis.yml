@@ -40,6 +40,7 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
+        - ninja-build
         - gcc-7
         - g++-7
         - libgl1-mesa-dev
@@ -67,6 +68,7 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         packages:
+        - ninja-build
         - gcc-7
         - g++-7
         - libgl1-mesa-dev
@@ -92,6 +94,7 @@ matrix:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-xenial-6.0
         packages:
+        - ninja-build
         - libstdc++-7-dev
         - clang-6.0
         - libgl1-mesa-dev
@@ -118,6 +121,7 @@ matrix:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-xenial-6.0
         packages:
+        - ninja-build
         - libstdc++-7-dev
         - clang-6.0
         - libgl1-mesa-dev
@@ -156,16 +160,6 @@ matrix:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_29b232b22675_key -iv $encrypted_29b232b22675_iv -in util/travis/travis_ci_rsa.enc -out util/travis/travis_ci_rsa -d
-- |
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip"
-    cd ${DEPS_DIR}
-    mkdir ninja
-    cd ninja
-    wget --no-check-certificate -q ${NINJA_URL}
-    unzip -q ninja-linux.zip
-    export PATH=${DEPS_DIR}/ninja:${PATH}
-  fi
 - cd ${TRAVIS_BUILD_DIR}
 - mkdir -p build
 script:
