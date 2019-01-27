@@ -28,10 +28,6 @@
 [submodule "fmt"]
 	path = extern/fmt
 	url = https://github.com/fmtlib/fmt.git
-[submodule "bsf"]
-	path = extern/bsf
-	url = https://github.com/cwfitzgerald/bsf.git
-	branch = master
 [submodule "cppfs"]
 	path = extern/cppfs
 	url = https://github.com/BVE-Reborn/cppfs.git
@@ -39,3 +35,7 @@
 [submodule "abseil-cpp"]
 	path = extern/abseil-cpp
 	url = https://github.com/BVE-Reborn/abseil-cpp.git
+[submodule "nova"]
+	path = extern/nova
+	url = https://github.com/BVE-Reborn/nova-renderer.git
+	branch = bve-tracking

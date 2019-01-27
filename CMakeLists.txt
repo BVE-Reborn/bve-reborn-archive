@@ -28,7 +28,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/extern/cotire/CMa
                                            ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
                                            ${CMAKE_SOURCE_DIR}/extern)
 
-include(bsf)
+include(nova)
 
 if(BVEREBORN_WIN)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
