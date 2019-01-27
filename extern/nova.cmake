@@ -1,6 +1,5 @@
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/nova")
 
-
 set_property(TARGET glslang PROPERTY FOLDER extern/nova/gslang)
 set_property(TARGET glslang-default-resource-limits PROPERTY FOLDER extern/nova/gslang)
 set_property(TARGET OGLCompiler PROPERTY FOLDER extern/nova/gslang)
