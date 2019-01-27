@@ -2,8 +2,7 @@
 
 #include <cinttypes>
 #include <cmath>
-#include <glm/integer.hpp>
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 #include <random>
 #include <type_traits>
 

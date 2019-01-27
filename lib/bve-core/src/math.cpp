@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <glm/geometric.hpp>
+#include <glm/vec2.hpp>
 
 // ReSharper disable once CppInconsistentNaming
 #define _USE_MATH_DEFINES
