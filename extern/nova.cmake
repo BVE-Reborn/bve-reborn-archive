@@ -1,1 +1,60 @@
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/nova")
+
+
+set_property(TARGET glslang PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET glslang-default-resource-limits PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET OGLCompiler PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET OSDependent PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET SPIRV PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET SPVRemapper PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET HLSL PROPERTY FOLDER extern/nova/gslang)
+set_property(TARGET glslangValidator PROPERTY FOLDER extern/nova/gslang/tools)
+set_property(TARGET spirv-remap PROPERTY FOLDER extern/nova/gslang/tools)
+
+set_property(TARGET spirv-tools-build-version PROPERTY FOLDER extern/nova/spriv-tools/build)
+set_property(TARGET spirv-tools-debuginfo PROPERTY FOLDER extern/nova/spriv-tools/build)
+set_property(TARGET spirv-tools-header-DebugInfo PROPERTY FOLDER extern/nova/spriv-tools/build)
+set_property(TARGET spirv-tools-spv-amd-gcn-shader PROPERTY FOLDER extern/nova/spriv-tools/build)
+set_property(TARGET spirv-tools-spv-amd-shader-ballot PROPERTY FOLDER extern/nova/spriv-tools/build)
+set_property(TARGET spirv-tools-spv-amd-shader-explicit-vertex-parameter PROPERTY FOLDER extern/nova/spriv-tools/build)
+set_property(TARGET spirv-tools-spv-amd-shader-trinary-minmax PROPERTY FOLDER extern/nova/spriv-tools/build)
+
+set_property(TARGET spirv-tools-cpp-example PROPERTY FOLDER extern/nova/spriv-tools/example)
+
+set_property(TARGET spirv-as PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-cfg PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-dis PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-link PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-opt PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-reduce PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-stats PROPERTY FOLDER extern/nova/spriv-tools/executables)
+set_property(TARGET spirv-val PROPERTY FOLDER extern/nova/spriv-tools/executables)
+
+set_property(TARGET SPIRV-Tools PROPERTY FOLDER extern/nova/spriv-tools/libraries)
+set_property(TARGET SPIRV-Tools-link PROPERTY FOLDER extern/nova/spriv-tools/libraries)
+set_property(TARGET SPIRV-Tools-opt PROPERTY FOLDER extern/nova/spriv-tools/libraries)
+set_property(TARGET SPIRV-Tools-reduce PROPERTY FOLDER extern/nova/spriv-tools/libraries)
+set_property(TARGET SPIRV-Tools-shared PROPERTY FOLDER extern/nova/spriv-tools/libraries)
+
+set_property(TARGET spirv-tools-vimsyntax PROPERTY FOLDER extern/nova/spriv-tools/utilities)
+set_property(TARGET spirv-tools-pkg-config PROPERTY FOLDER extern/nova/spriv-tools/utilities)
+set_property(TARGET spirv-tools-shared-pkg-config PROPERTY FOLDER extern/nova/spriv-tools/utilities)
+
+set_property(TARGET miniz PROPERTY FOLDER extern/nova/miniz)
+
+set_property(TARGET gtest PROPERTY FOLDER extern/nova/gtest)
+set_property(TARGET gtest_main PROPERTY FOLDER extern/nova/gtest)
+
+set_property(TARGET nova-profiler PROPERTY FOLDER extern/nova)
+set_property(TARGET nova-renderer PROPERTY FOLDER extern/nova)
+set_property(TARGET nova-test-end-to-end PROPERTY FOLDER extern/nova/test)
+set_property(TARGET nova-test-unit PROPERTY FOLDER extern/nova/test)
+
+set_property(TARGET spirv-cross PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-core PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-cpp PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-glsl PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-hlsl PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-msl PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-reflect PROPERTY FOLDER extern/nova/spirv-cross)
+set_property(TARGET spirv-cross-util PROPERTY FOLDER extern/nova/spirv-cross)
