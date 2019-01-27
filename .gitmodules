@@ -1,9 +1,6 @@
 [submodule "cmake-utils"]
 	path = extern/cmake-utils
 	url = https://github.com/Sirflankalot/cmake-utils.git
-[submodule "glm"]
-	path = extern/glm
-	url = https://github.com/g-truc/glm.git
 [submodule "mapbox-variant"]
 	path = extern/mapbox-variant
 	url = https://github.com/mapbox/variant.git
