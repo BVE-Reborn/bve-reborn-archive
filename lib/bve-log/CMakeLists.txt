@@ -9,7 +9,6 @@ lint(FILES ${SOURCES})
 format(FILES ${HEADERS} ${SOURCES})
 
 add_library(bve-log SHARED ${SOURCES} ${HEADERS})
-target_compile_features(bve-log PUBLIC cxx_std_14)
 target_include_directories(bve-log PUBLIC include)
 target_link_libraries(bve-log PRIVATE options::fast_math)
 target_link_libraries(bve-log PUBLIC fmt::fmt bve-core)
