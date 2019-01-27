@@ -39,7 +39,10 @@ matrix:
       apt:
         sources:
         - ubuntu-toolchain-r-test
+        - sourceline: 'deb https://packages.lunarg.com/vulkan/1.1.97 xenial main'
+          key_url: 'http://packages.lunarg.com/lunarg-signing-key-pub.asc'
         packages:
+        - lunarg-vulkan-sdk
         - ninja-build
         - gcc-7
         - g++-7
@@ -67,7 +70,10 @@ matrix:
       apt:
         sources:
         - ubuntu-toolchain-r-test
+        - sourceline: 'deb https://packages.lunarg.com/vulkan/1.1.97 xenial main'
+          key_url: 'http://packages.lunarg.com/lunarg-signing-key-pub.asc'
         packages:
+        - lunarg-vulkan-sdk
         - ninja-build
         - gcc-7
         - g++-7
@@ -93,7 +99,10 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-xenial-6.0
+        - sourceline: 'deb https://packages.lunarg.com/vulkan/1.1.97 xenial main'
+          key_url: 'http://packages.lunarg.com/lunarg-signing-key-pub.asc'
         packages:
+        - lunarg-vulkan-sdk
         - ninja-build
         - libstdc++-7-dev
         - clang-6.0
@@ -120,7 +129,10 @@ matrix:
         sources:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-xenial-6.0
+        - sourceline: 'deb https://packages.lunarg.com/vulkan/1.1.97 xenial main'
+          key_url: 'http://packages.lunarg.com/lunarg-signing-key-pub.asc'
         packages:
+        - lunarg-vulkan-sdk
         - ninja-build
         - libstdc++-7-dev
         - clang-6.0
