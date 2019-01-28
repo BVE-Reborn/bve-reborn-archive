@@ -44,8 +44,8 @@ matrix:
         packages:
         - lunarg-vulkan-sdk
         - ninja-build
-        - gcc-7
-        - g++-7
+        - gcc-8
+        - g++-8
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -55,7 +55,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - ME="Coverage='On' && SANITIZE='Asan,UBsan' &&  CC=gcc-7 && CXX='g++-7' && TYPE='Debug'"
+    - ME="Coverage='On' && SANITIZE='Asan,UBsan' &&  CC=gcc-8 && CXX='g++-8' && TYPE='Debug'"
     install:
     - eval "${ME}"
     - pip install --user cpp-coveralls
@@ -75,8 +75,8 @@ matrix:
         packages:
         - lunarg-vulkan-sdk
         - ninja-build
-        - gcc-7
-        - g++-7
+        - gcc-8
+        - g++-8
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -86,7 +86,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - ME="Coverage='On' && CC='gcc-7' && CXX='g++-7' && TYPE='Release'"
+    - ME="Coverage='On' && CC='gcc-8' && CXX='g++-8' && TYPE='Release'"
     install:
     - eval "${ME}"
     - bash ./util/travis/linux_deps.sh
@@ -104,7 +104,7 @@ matrix:
         packages:
         - lunarg-vulkan-sdk
         - ninja-build
-        - libstdc++-7-dev
+        - libstdc++-8-dev
         - clang-6.0
         - libgl1-mesa-dev
         - libglu1-mesa-dev
@@ -134,7 +134,7 @@ matrix:
         packages:
         - lunarg-vulkan-sdk
         - ninja-build
-        - libstdc++-7-dev
+        - libstdc++-8-dev
         - clang-6.0
         - libgl1-mesa-dev
         - libglu1-mesa-dev
