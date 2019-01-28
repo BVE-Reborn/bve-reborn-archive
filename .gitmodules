@@ -1,34 +1,38 @@
-[submodule "dependencies/cmake-utils"]
-	path = dependencies/cmake-utils
+[submodule "cmake-utils"]
+	path = extern/cmake-utils
 	url = https://github.com/Sirflankalot/cmake-utils.git
-[submodule "dependencies/glm"]
-	path = dependencies/glm
-	url = https://github.com/g-truc/glm.git
-[submodule "dependencies/mapbox-variant"]
-	path = dependencies/mapbox-variant
+[submodule "mapbox-variant"]
+	path = extern/mapbox-variant
 	url = https://github.com/mapbox/variant.git
-[submodule "dependencies/bin2c"]
-	path = dependencies/bin2c
+[submodule "bin2c"]
+	path = extern/bin2c
 	url = https://github.com/Sirflankalot/bin2c.git
-[submodule "dependencies/doctest"]
-	path = dependencies/doctest
+[submodule "doctest"]
+	path = extern/doctest
 	url = https://github.com/onqtam/doctest.git
 [submodule "cmake-sanitizers"]
-	path = dependencies/cmake-sanitizers
+	path = extern/cmake-sanitizers
 	url = https://github.com/arsenm/sanitizers-cmake.git
-[submodule "dependencies/cotire"]
-	path = dependencies/cotire
+[submodule "cotire"]
+	path = extern/cotire
 	url = https://github.com/sakra/cotire.git
-[submodule "dependencies/cpp_guidelines_support_library"]
-	path = dependencies/cpp_guidelines_support_library
+[submodule "cpp_guidelines_support_library"]
+	path = extern/gsl
 	url = https://github.com/Microsoft/GSL.git
-[submodule "dependencies/rapidxml_ns"]
-	path = dependencies/rapidxml_ns
+[submodule "rapidxml_ns"]
+	path = extern/rapidxml_ns
 	url = https://github.com/svgpp/rapidxml_ns.git
 [submodule "fmt"]
-	path = dependencies/fmt
+	path = extern/fmt
 	url = https://github.com/fmtlib/fmt.git
-[submodule "bsf"]
-	path = dependencies/bsf
-	url = https://github.com/cwfitzgerald/bsf.git
-	branch = master
+[submodule "cppfs"]
+	path = extern/cppfs
+	url = https://github.com/BVE-Reborn/cppfs.git
+	branch = bve-tracking-branch
+[submodule "abseil-cpp"]
+	path = extern/abseil-cpp
+	url = https://github.com/BVE-Reborn/abseil-cpp.git
+[submodule "nova"]
+	path = extern/nova
+	url = https://github.com/BVE-Reborn/nova-renderer.git
+	branch = bve-tracking

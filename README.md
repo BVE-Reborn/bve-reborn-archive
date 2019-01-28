@@ -2,8 +2,9 @@
 
 |             |  Master  |   Dev  |
 |:------------|:---------|:-------|
-| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=master)](https://travis-ci.org/BVE-Reborn/bve-reborn) | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                                                                |
-| Coverage    | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=master)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=dev)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=dev) |
+| Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/jj5g84unpljcko9p/branch/master?svg=true)](https://ci.appveyor.com/project/cwfitzgerald/bve-reborn/branch/master) | [![Build status](https://ci.appveyor.com/api/projects/status/jj5g84unpljcko9p/branch/dev?svg=true)](https://ci.appveyor.com/project/cwfitzgerald/bve-reborn/branch/dev) |
+| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=master)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                                 | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                              |
+| Coverage    | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=master)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=master)        | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=dev)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=dev)        |
 
 # Building
 
@@ -58,11 +59,12 @@ There are three parts to the description of this project's structure. First is t
    - [glm](https://github.com/g-truc/glm/tree/0.9.9-a2) - Used for opengl math helpers and other geometric operations.
    - [mapbox-variant](https://github.com/mapbox/variant/tree/v1.1.5) - Used instead of boost::variant due to better performance and better features.
    - [rapidxml](http://rapidxml.sourceforge.net/) - Fastest xml parser in the land.
- - [libcore](libcore) - Central support libraries for bvereborn. Math functions go in here, as well as other hard to place utility functions.
+ - libcore - Central support libraries for bvereborn. Math functions go in here, as well as other hard to place utility functions.
  - libload - Helps with loading of files which depend on other files.
  - liblog - Thread-safe logging library
- - [libparsers](libparsers) - Parses all formats dealt with in the program, contains some helper features for file manipulation.
+ - libparsers - Parses all formats dealt with in the program, contains some helper features for file manipulation.
  - test_main - Main entry point to all the tests throughout the program.
+[Global](global.html)
 
 # TODO
 
