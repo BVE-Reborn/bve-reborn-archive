@@ -44,8 +44,8 @@ matrix:
         packages:
         - lunarg-vulkan-sdk
         - ninja-build
-        - gcc-8
-        - g++-8
+        - gcc-7
+        - g++-7
         - lcov
         - libgl1-mesa-dev
         - libglu1-mesa-dev
@@ -81,8 +81,8 @@ matrix:
         packages:
         - lunarg-vulkan-sdk
         - ninja-build
-        - gcc-8
-        - g++-8
+        - gcc-7
+        - g++-7
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -92,7 +92,7 @@ matrix:
         - libxi-dev
         - uuid-dev
     env:
-    - ME="Coverage='On' && CC='gcc-8' && CXX='g++-8' && TYPE='Release'"
+    - ME="Coverage='On' && CC='gcc-7' && CXX='g++-7' && TYPE='Release'"
     install:
     - eval "${ME}"
     - bash ./util/travis/linux_deps.sh
