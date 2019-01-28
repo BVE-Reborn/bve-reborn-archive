@@ -46,6 +46,7 @@ matrix:
         - ninja-build
         - gcc-8
         - g++-8
+        - lcov
         - libgl1-mesa-dev
         - libglu1-mesa-dev
         - mesa-common-dev
@@ -58,11 +59,16 @@ matrix:
     - ME="Coverage='On' && SANITIZE='Asan,UBsan' &&  CC=gcc-8 && CXX='g++-8' && TYPE='Debug'"
     install:
     - eval "${ME}"
-    - pip install --user cpp-coveralls
     - bash ./util/travis/linux_deps.sh
-    - "$HOME/binary_root/bin/cmake . -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja"
+    - cd build && "$HOME/binary_root/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On -GNinja"
     after_success:
-    - coveralls --gcov gcov-8 -e extern -e lib/bve-parsers/tests -e src/test-runner -E '.*?CMakeFiles.*?' -E '.*?cotire.*?'
+    - cd ${TRAVIS_BUILD_DIR}
+    # Create lcov report
+    - lcov --capture --directory . --output-file coverage.info
+    - lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter system-files
+    - lcov --list coverage.info # debug info
+    # Uploading report to CodeCov
+    - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
 
   - os: linux
     dist: xenial
