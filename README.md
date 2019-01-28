@@ -1,30 +1,29 @@
 # BVE-Reborn
 
-|             |  Master  |   Dev  |
-|:------------|:---------|:-------|
-| Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/jj5g84unpljcko9p/branch/master?svg=true)](https://ci.appveyor.com/project/cwfitzgerald/bve-reborn/branch/master) | [![Build status](https://ci.appveyor.com/api/projects/status/jj5g84unpljcko9p/branch/dev?svg=true)](https://ci.appveyor.com/project/cwfitzgerald/bve-reborn/branch/dev) |
-| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=master)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                                 | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                              |
-| Coverage    | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=master)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=master)        | [![Coverage Status](https://coveralls.io/repos/github/BVE-Reborn/bve-reborn/badge.svg?branch=dev)](https://coveralls.io/github/BVE-Reborn/bve-reborn?branch=dev)        |
+|             |   Dev  |
+|:------------|:-------|
+| Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/jj5g84unpljcko9p/branch/dev?svg=true)](https://ci.appveyor.com/project/cwfitzgerald/bve-reborn/branch/dev) |
+| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                              |
+| Coverage    | [![Coverage](https://codecov.io/gh/BVE-Reborn/bve-reborn/branch/dev/graph/badge.svg)](https://codecov.io/gh/BVE-Reborn/bve-reborn)                                      |
 
 # Building
 
-## Linux
+All platforms will need an install of cmake 3.12+. Linux installs will also need various system libraries for the graphics library nova. These instructions assume knowledge about how to use cmake on your platform.
 
-To build on linux you have two different methods. If you are on ubuntu you may install boost via apt. All other platforms must follow the instructions to build boost locally.
+# Windows
+Use cmake in the command line or the cmake-gui to turn the project into a visual studio solution. I don't recommend using the cmake integration directly, as it can be finicky and it doesn't work well on this particular codebase.
 
-#### Ubuntu
+# Linux
 
-```commandline
-sudo apt install libboost-all-dev
-```
-
-#### Others
+## Ubuntu
 
 ```commandline
-bash ./build-depts-unix.sh
+sudo apt install libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev libx11-dev libxcursor-dev libxrandr-dev libxi-dev uuid-dev libicu-dev
 ```
 
-After you have installed or compiled boost, then you can follow these commands to build the project using cmake.
+## Build 
+
+You can follow these commands to build the project using cmake.
 
 ```commandline
 mkdir build
@@ -33,11 +32,6 @@ cmake ..
 make
 ```
 
-## Windows
-
-Building on windows is similar to building via script on linux, but there is one extra step because windows has no way of automatically downloading and extracting boost from a zip file.
-
-First download boost 1.64.0 from [here](https://dl.bintray.com/boostorg/release/1.64.0/source/) into the folder dependencies/binary/downloads. Extract the result into dependencies/binary/src/boost/. This will create a subfolder called boost_1_64_0. Then open a command line tool and run build-deps-win.bat. This will go through the process of building boost. After that you may open up the project using VS's cmake integration, or use CMAKE-GUI to turn the project into a visual studio solution. Whichever is better for you.
 
 # Project Structure
 
@@ -65,7 +59,3 @@ There are three parts to the description of this project's structure. First is t
  - libparsers - Parses all formats dealt with in the program, contains some helper features for file manipulation.
  - test_main - Main entry point to all the tests throughout the program.
 [Global](global.html)
-
-# TODO
-
- See [TODO.md](TODO.md)

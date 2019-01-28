@@ -25,9 +25,9 @@ Submodules are handled by `dependencies/targets.cmake` unless otherwise noted.
 - [mapbox-variant](https://github.com/mapbox/variant/tree/v1.1.5) - Provides `mapbox::util::variant`, a type-safe union type. Used instead of boost::variant due to better performance and better features.
 - [rapidxml](http://rapidxml.sourceforge.net/) - Fastest xml parser in the land with simple, powerful API. We're using a fork with xml namespace support.
 
-BSF is handled by `dependencies/bsf.cmake`
+Nova is handled by `dependencies/nova.cmake`
 
-- [bs framework](https://github.com/GameFoundry/bsf) - Graphics and window management framework.
+- [nova-renderer](https://github.com/NovaMods/nova-renderer) - Highly parallel cross platform rendering framework
 
 
 ---
