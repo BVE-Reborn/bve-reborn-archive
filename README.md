@@ -3,7 +3,7 @@
 |             |   Dev  |
 |:------------|:-------|
 | Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/jj5g84unpljcko9p/branch/dev?svg=true)](https://ci.appveyor.com/project/cwfitzgerald/bve-reborn/branch/dev) |
-| Mac & Linux | [![Build Status](https://travis-ci.org/BVE-Reborn/bve-reborn.svg?branch=dev)](https://travis-ci.org/BVE-Reborn/bve-reborn)                                              |
+| Linux       | [![Build Status](https://ci.bvereborn.com/buildStatus/icon?job=bve-reborn)](https://ci.bvereborn.com/job/bve-reborn)                                              |
 | Coverage    | [![Coverage](https://codecov.io/gh/BVE-Reborn/bve-reborn/branch/dev/graph/badge.svg)](https://codecov.io/gh/BVE-Reborn/bve-reborn)                                      |
 
 # Building
