@@ -13,6 +13,7 @@ All platforms will need an install of cmake 3.12+. Linux installs will also need
 # Windows
 Use cmake in the command line or the cmake-gui to turn the project into a visual studio solution. I don't recommend using the cmake integration directly, as it can be finicky and it doesn't work well on this particular codebase.
 
+
 # Linux
 
 ## Ubuntu
