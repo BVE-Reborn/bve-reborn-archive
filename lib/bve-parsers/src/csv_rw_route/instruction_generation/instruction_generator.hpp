@@ -1,7 +1,7 @@
 #pragma once
 
-#include "parsers/utils.hpp"
 #include "parsers/csv_rw_route.hpp"
+#include "parsers/utils.hpp"
 #include <gsl/gsl_util>
 #include <map>
 #include <sstream>

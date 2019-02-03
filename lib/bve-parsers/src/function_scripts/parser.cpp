@@ -1,6 +1,6 @@
 #include "parse_tree.hpp"
-#include <sstream>
 #include <absl/types/optional.h>
+#include <sstream>
 
 namespace bve::parsers::function_scripts {
 	namespace {

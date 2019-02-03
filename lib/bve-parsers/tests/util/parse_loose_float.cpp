@@ -1,7 +1,7 @@
 #include "parsers/utils.hpp"
 #include <doctest.h>
-#include <stdexcept>
 #include <limits>
+#include <stdexcept>
 
 using namespace std::string_literals;
 

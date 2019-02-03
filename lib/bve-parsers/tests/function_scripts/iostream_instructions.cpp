@@ -56,38 +56,38 @@ static std::string canonicalize(std::string str) {
 		         "2\t" rep " -> 0\n");                                                             \
 	}
 
-#define REGULAR_VARIABLE_TEST(name)                                                                    \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - unindexed " STR(name)) {         \
-		bve::parsers::function_scripts::InstructionList const                                          \
-		    test_list{{bve::parsers::function_scripts::instructions::Variable::name},                  \
-		              {},                                                                              \
-		              {fs_instruction::OPVariableLookup{                                               \
-		                  bve::parsers::function_scripts::instructions::Variable::name}},              \
-		              {}};                                                                             \
-                                                                                                       \
-		std::ostringstream output;                                                                     \
-                                                                                                       \
-		output << test_list;                                                                           \
-                                                                                                       \
+#define REGULAR_VARIABLE_TEST(name)                                                                     \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - unindexed " STR(name)) {          \
+		bve::parsers::function_scripts::InstructionList const                                           \
+		    test_list{{bve::parsers::function_scripts::instructions::Variable::name},                   \
+		              {},                                                                               \
+		              {fs_instruction::OPVariableLookup{                                                \
+		                  bve::parsers::function_scripts::instructions::Variable::name}},               \
+		              {}};                                                                              \
+                                                                                                        \
+		std::ostringstream output;                                                                      \
+                                                                                                        \
+		output << test_list;                                                                            \
+                                                                                                        \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Variables Used: " STR(name) "\n"                                             \
                  "0\tOP_VARIABLE_LOOKUP: " STR(name) " " STR(name) " -> 0\n"); \
 	}
 
-#define INDEXED_VARIABLE_TEST(name)                                                                    \
-	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STR(name)) {             \
-		bve::parsers::function_scripts::InstructionList const                                          \
-		    test_list{{},                                                                              \
-		              {bve::parsers::function_scripts::instructions::IndexedVariable::name},           \
-		              {fs_instruction::StackPush{2},                                                   \
-		               fs_instruction::OPVariableIndexed{                                              \
-		                   bve::parsers::function_scripts::instructions::IndexedVariable::name}},      \
-		              {}};                                                                             \
-                                                                                                       \
-		std::ostringstream output;                                                                     \
-                                                                                                       \
-		output << test_list;                                                                           \
-                                                                                                       \
+#define INDEXED_VARIABLE_TEST(name)                                                                     \
+	TEST_CASE("libparsers - function scripts - instruction_iostream - index " STR(name)) {              \
+		bve::parsers::function_scripts::InstructionList const                                           \
+		    test_list{{},                                                                               \
+		              {bve::parsers::function_scripts::instructions::IndexedVariable::name},            \
+		              {fs_instruction::StackPush{2},                                                    \
+		               fs_instruction::OPVariableIndexed{                                               \
+		                   bve::parsers::function_scripts::instructions::IndexedVariable::name}},       \
+		              {}};                                                                              \
+                                                                                                        \
+		std::ostringstream output;                                                                      \
+                                                                                                        \
+		output << test_list;                                                                            \
+                                                                                                        \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Index Variables Used: " STR(name) "\n"                                       \
 		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                        \

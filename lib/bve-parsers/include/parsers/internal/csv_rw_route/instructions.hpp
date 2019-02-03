@@ -2,9 +2,9 @@
 
 #include "core/datatypes.hpp"
 #include "route_structure.hpp"
+#include <absl/types/optional.h>
 #include <cstddef>
 #include <string>
-#include <absl/types/optional.h>
 #include <vector>
 
 namespace bve::parsers::csv_rw_route::instructions {

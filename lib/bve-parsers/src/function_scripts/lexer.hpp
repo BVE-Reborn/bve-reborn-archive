@@ -2,11 +2,11 @@
 
 #include "parsers/errors.hpp"
 #include "parsers/function_scripts.hpp"
+#include <absl/types/optional.h>
 #include <iosfwd>
 #include <mapbox/recursive_wrapper.hpp>
 #include <mapbox/variant.hpp>
 #include <string>
-#include <absl/types/optional.h>
 #include <vector>
 
 namespace bve::parsers::function_scripts {
