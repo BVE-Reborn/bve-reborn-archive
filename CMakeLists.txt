@@ -92,4 +92,6 @@ if(TARGET lint-fix)
     set_property(TARGET lint-fix PROPERTY FOLDER tools)
 endif()
 
-set_property(TARGET clean_cotire PROPERTY FOLDER tools)
+if(TARGET clean_cotire)
+    set_property(TARGET clean_cotire PROPERTY FOLDER tools)
+endif()
