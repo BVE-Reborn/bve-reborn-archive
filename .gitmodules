@@ -22,9 +22,6 @@
 [submodule "rapidxml_ns"]
 	path = extern/rapidxml_ns
 	url = https://github.com/svgpp/rapidxml_ns.git
-[submodule "fmt"]
-	path = extern/fmt
-	url = https://github.com/fmtlib/fmt.git
 [submodule "cppfs"]
 	path = extern/cppfs
 	url = https://github.com/BVE-Reborn/cppfs.git

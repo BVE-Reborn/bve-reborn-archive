@@ -49,15 +49,6 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cppfs)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE_MODULE_PATH})
 
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/fmt)
-if(WIN32)
-	target_compile_options(fmt PRIVATE "-D_ITERATOR_DEBUG_LEVEL=1")
-else()
-	target_compile_options(fmt PRIVATE "-fPIC")
-endif()
-
-make_target_includes_system(fmt)
-
 find_package(Sanitizers)
 
 set_property(TARGET cppfs PROPERTY FOLDER extern)
