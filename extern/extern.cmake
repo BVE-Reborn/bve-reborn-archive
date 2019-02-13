@@ -52,4 +52,3 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake-sanitizers/cmake" ${CMAKE
 find_package(Sanitizers)
 
 set_property(TARGET cppfs PROPERTY FOLDER extern)
-set_property(TARGET fmt PROPERTY FOLDER extern)

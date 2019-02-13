@@ -3,7 +3,7 @@ project(BVE-Reborn C CXX)
 
 find_package(Threads REQUIRED)
 
-include(util/cmake/config.cmake)
+include(tools/cmake/config.cmake)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -23,10 +23,13 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release) 
 endif() 
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
+                                           ${CMAKE_SOURCE_DIR}/extern
                                            ${CMAKE_SOURCE_DIR}/extern/cmake
                                            ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
-                                           ${CMAKE_SOURCE_DIR}/extern)
+                                           ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
+                                           ${CMAKE_SOURCE_DIR}/extern/nova/cmake
+)
 
 if(BVEREBORN_WIN)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
@@ -40,10 +43,10 @@ endif()
 
 include(cotire)
 
-include(clang_format)
+include(ClangFormat)
+include(ClangTidy)
+
 include(extern)
-include(linker_support)
-include(linter)
 include(meta_features)
 include(nova)
 include(warnings)
@@ -75,12 +78,10 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 # TODO: Fix Warning Propagation
 add_warnings()
 
-add_linted_subdirectory(lib/bve-core)
-add_linted_subdirectory(lib/bve-log)
-add_linted_subdirectory(lib/bve-parsers)
-add_linted_subdirectory(src/test-runner)
-
-configure_linter()
+add_subdirectory(lib/bve-core)
+add_subdirectory(lib/bve-log)
+add_subdirectory(lib/bve-parsers)
+add_subdirectory(src/test-runner)
 
 if(TARGET format)
     set_property(TARGET format PROPERTY FOLDER tools)

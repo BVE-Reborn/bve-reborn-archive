@@ -52,3 +52,5 @@ set_property(TARGET spirv-cross-hlsl PROPERTY FOLDER extern/nova/spirv-cross)
 set_property(TARGET spirv-cross-msl PROPERTY FOLDER extern/nova/spirv-cross)
 set_property(TARGET spirv-cross-reflect PROPERTY FOLDER extern/nova/spirv-cross)
 set_property(TARGET spirv-cross-util PROPERTY FOLDER extern/nova/spirv-cross)
+
+set_property(TARGET fmt PROPERTY FOLDER extern)

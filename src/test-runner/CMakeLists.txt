@@ -10,12 +10,12 @@ target_link_libraries(tests PUBLIC bve-core-test)
 target_link_libraries(tests PUBLIC bve-log-test)
 target_link_libraries(tests PUBLIC bve-parsers-test)
 
-lint(FILES src/main.cpp)
-format(FILES src/main.cpp)
+
 
 set_property(TARGET tests PROPERTY FOLDER src)
 
 add_sanitizers(tests)
+format(tests)
 cotire(tests)
 
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES src/main.cpp)
