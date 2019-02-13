@@ -201,7 +201,7 @@ namespace bve::log {
 #define LIBBVE_LOG_LOG_SEVERITY_fatal_error(...)                                                   \
 	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())     \
 	    <= static_cast<::bve::log::detail::severity_int_type>(                                     \
-	           ::bve::log::Severity::fatal_error)) {                                               \
+	        ::bve::log::Severity::fatal_error)) {                                                  \
 		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                             \
 	}
 // ReSharper restore CppInconsistentNaming

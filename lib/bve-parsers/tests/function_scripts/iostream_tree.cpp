@@ -15,7 +15,7 @@ namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
 		output << test_node;                                                                       \
                                                                                                    \
 		CHECK_EQ(output.str(), STR(output_name) "\n"                         \
-                                                  "| 2\n");                    \
+                                                  "| 2\n");                     \
 	}
 
 #define BINARY_TREE_TEST(full_name, type_name, output_name)                                        \
@@ -28,7 +28,7 @@ namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
                                                                                                    \
 		CHECK_EQ(output.str(), STR(output_name) "\n"                         \
                                                   "| 2\n"                      \
-                                                  "| 3\n");                    \
+                                                  "| 3\n");                     \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");
