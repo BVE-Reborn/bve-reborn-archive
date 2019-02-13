@@ -11,7 +11,6 @@ target_link_libraries(tests PUBLIC bve-log-test)
 target_link_libraries(tests PUBLIC bve-parsers-test)
 
 
-
 set_property(TARGET tests PROPERTY FOLDER src)
 
 add_sanitizers(tests)
