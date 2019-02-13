@@ -41,13 +41,8 @@ set_property(TARGET spirv-tools-shared-pkg-config PROPERTY FOLDER extern/nova/sp
 
 set_property(TARGET miniz PROPERTY FOLDER extern/nova/miniz)
 
-set_property(TARGET gtest PROPERTY FOLDER extern/nova/gtest)
-set_property(TARGET gtest_main PROPERTY FOLDER extern/nova/gtest)
-
 set_property(TARGET nova-profiler PROPERTY FOLDER extern/nova)
 set_property(TARGET nova-renderer PROPERTY FOLDER extern/nova)
-set_property(TARGET nova-test-end-to-end PROPERTY FOLDER extern/nova/test)
-set_property(TARGET nova-test-unit PROPERTY FOLDER extern/nova/test)
 
 set_property(TARGET spirv-cross PROPERTY FOLDER extern/nova/spirv-cross)
 set_property(TARGET spirv-cross-core PROPERTY FOLDER extern/nova/spirv-cross)
