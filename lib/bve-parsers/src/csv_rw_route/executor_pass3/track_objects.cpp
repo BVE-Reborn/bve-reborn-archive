@@ -272,7 +272,7 @@ namespace bve::parsers::csv_rw_route {
 			else {
 				object_location =
 				    positionRelativeToRail(rail_number, position,
-				                           static_cast<float>(state.pole_location) * 3.8f, 0);
+				                           static_cast<float>(state.pole_location) * 3.8F, 0);
 			}
 
 			i.filename = object_mapping_iter->second;

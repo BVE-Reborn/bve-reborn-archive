@@ -13,14 +13,14 @@ namespace bve::parsers::ini {
 	struct KeyValuePair {
 		std::string key;
 		std::string value;
-		std::size_t line;
+		std::size_t line{};
 	};
 
 	struct INISection {
 		std::string name;
 		std::vector<Value> values;
 		std::vector<KeyValuePair> key_value_pairs;
-		std::size_t line;
+		std::size_t line{};
 	};
 
 	using ParsedINIObject = std::vector<INISection>;

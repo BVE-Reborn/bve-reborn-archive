@@ -108,7 +108,7 @@ namespace bve::parsers::csv_rw_route {
 			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		else {
-			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8F);
 		}
 		roi.rotation = glm::vec3(0);
 
@@ -166,7 +166,7 @@ namespace bve::parsers::csv_rw_route {
 
 		roi.filename = addObjectFilename(name.str());
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
-			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8F);
 		}
 		else {
 			roi.position =
@@ -183,7 +183,7 @@ namespace bve::parsers::csv_rw_route {
 		RailObjectInfo roi;
 		roi.filename = addObjectFilename("\034compat\034/signal/relay");
 		if (inst.x_offset != 0 && inst.y_offset < 0) {
-			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8f);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8F);
 		}
 		else {
 			roi.position =

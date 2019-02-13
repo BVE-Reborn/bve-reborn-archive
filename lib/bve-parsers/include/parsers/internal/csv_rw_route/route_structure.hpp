@@ -20,8 +20,8 @@ namespace bve::parsers::csv_rw_route {
 		float height = 0;
 
 		struct CachedLocations {
-			glm::vec3 location;
-			glm::vec3 direction;
+			glm::vec3 location{};
+			glm::vec3 direction{};
 			bool valid = false;
 		} cache;
 	};
@@ -31,8 +31,8 @@ namespace bve::parsers::csv_rw_route {
 
 	struct RailObjectInfo {
 		FilenameSetIterator filename;
-		glm::vec3 position;
-		glm::vec3 rotation;
+		glm::vec3 position{};
+		glm::vec3 rotation{};
 		bool flip_x = false;
 	};
 
@@ -83,8 +83,8 @@ namespace bve::parsers::csv_rw_route {
 		FilenameSetIterator departure_sound;
 		std::size_t timetable_index = 0;
 		std::vector<RailStationStop> stop_points;
-		core::datatypes::Time arrival;
-		core::datatypes::Time departure;
+		core::datatypes::Time arrival{};
+		core::datatypes::Time departure{};
 		float stop_duration = 15;
 		float passenger_ratio = 100;
 		bool pass_alarm = false;
@@ -111,9 +111,9 @@ namespace bve::parsers::csv_rw_route {
 
 	struct Beacon {
 		float position = 0;
-		std::intmax_t beacon_type;
-		std::intmax_t beacon_data;
-		std::intmax_t section_offset;
+		std::intmax_t beacon_type{};
+		std::intmax_t beacon_data{};
+		std::intmax_t section_offset{};
 	};
 
 	struct ATSPSection {
@@ -126,29 +126,29 @@ namespace bve::parsers::csv_rw_route {
 		float position = 0;
 		float starting_distance = 0;
 		float ending_distance = 0;
-		core::datatypes::Color8RGB color;
+		core::datatypes::Color8RGB color{};
 	};
 
 	struct Marker {
 		xml::route_marker::ParsedRouteMarker marker;
-		float start;
-		float end;
+		float start{};
+		float end{};
 	};
 
 	struct PointOfInterest {
-		glm::vec3 position;
-		glm::vec3 camera_rotation;
+		glm::vec3 position{};
+		glm::vec3 camera_rotation{};
 		std::string text;
 	};
 
 	struct Announcement {
-		float position;
+		float position{};
 		float speed = 0;
 		FilenameSetIterator filename;
 	};
 
 	struct Sound {
-		glm::vec3 position;
+		glm::vec3 position{};
 		FilenameSetIterator filename;
 	};
 
@@ -161,7 +161,7 @@ namespace bve::parsers::csv_rw_route {
 	template <class T>
 	struct PositionDataPair {
 		float position = 0;
-		T value;
+		T value{};
 	};
 
 	using GroundHeight = PositionDataPairDefault<float, 0>;
@@ -236,9 +236,9 @@ namespace bve::parsers::csv_rw_route {
 
 		// World State -- Ignored
 		float gauge = 1435;
-		float acceleration_due_to_gravity = 9.80665f;
+		float acceleration_due_to_gravity = 9.80665F;
 		float temperature = 20;
-		float pressure = 101.325f;
+		float pressure = 101.325F;
 		float altitude = 0;
 	};
 } // namespace bve::parsers::csv_rw_route

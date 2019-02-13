@@ -230,14 +230,16 @@ namespace bve::parsers::function_scripts {
 		}
 
 		void printUnaryExpr(const std::string& name, const char* separator) {
-			std::ostringstream inputs, output;
+			std::ostringstream inputs;
+			std::ostringstream output;
 			inputs << "(" << separator << stack_size_ - 1 << ")";
 			output << stack_size_ - 1;
 			addOutputs(name, inputs.str(), output.str());
 		}
 
 		void printBinaryExpr(const std::string& name, const char* separator) {
-			std::ostringstream inputs, output;
+			std::ostringstream inputs;
+			std::ostringstream output;
 			inputs << "(" << stack_size_ - 2 << " " << separator << " " << stack_size_ - 1 << ")";
 			stack_size_ -= 1;
 			output << stack_size_ - 1;
@@ -247,7 +249,8 @@ namespace bve::parsers::function_scripts {
 		void printVariadicExpr(const std::string& name,
 		                       const char* separator,
 		                       std::size_t const count) {
-			std::ostringstream inputs, output;
+			std::ostringstream inputs;
+			std::ostringstream output;
 			inputs << "(";
 			// ReSharper disable once CppUseAuto
 			for (std::size_t i = count; i > 0; --i) {
@@ -265,7 +268,8 @@ namespace bve::parsers::function_scripts {
 		void printFunction(const std::string& name,
 		                   const std::string& input_name,
 		                   std::size_t const count) {
-			std::ostringstream inputs, output;
+			std::ostringstream inputs;
+			std::ostringstream output;
 			inputs << input_name << "[";
 			// ReSharper disable once CppUseAuto
 			for (std::size_t i = count; i > 0; --i) {
@@ -281,7 +285,9 @@ namespace bve::parsers::function_scripts {
 		}
 
 		void operator()(const instructions::StackPush& inst) {
-			std::ostringstream name, input, output;
+			std::ostringstream name;
+			std::ostringstream input;
+			std::ostringstream output;
 			name << "STACK_PUSH: " << inst.value;
 			input << "#" << inst.value;
 			output << ++stack_size_ - 1;
@@ -350,14 +356,17 @@ namespace bve::parsers::function_scripts {
 			printBinaryExpr("OP_XOR"s, "^");
 		}
 		void operator()(const instructions::OPVariableLookup& inst) {
-			std::ostringstream name, output;
+			std::ostringstream name;
+			std::ostringstream output;
 			auto&& var_name = get_name(inst.name);
 			name << "OP_VARIABLE_LOOKUP: " << var_name;
 			output << ++stack_size_ - 1;
 			addOutputs(name.str(), var_name, output.str());
 		}
 		void operator()(const instructions::OPVariableIndexed& inst) {
-			std::ostringstream name, input, output;
+			std::ostringstream name;
+			std::ostringstream input;
+			std::ostringstream output;
 			auto&& var_name = get_name(inst.name);
 			name << "OP_VARIABLE_INDEXED: " << var_name;
 			input << var_name << "[" << stack_size_ - 1 << "]";

@@ -8,7 +8,7 @@ void print_evaluate_curve(const bve::core::math::EvaluateCurveState& val) {
 }
 
 void test_math() {
-	auto const distance = 12.56637f * (5.0f / 4.0f) * (1.0f / 0.7071067811f);
+	auto const distance = 12.56637F * (5.0F / 4.0F) * (1.0F / 0.7071067811F);
 	auto const val_a =
 	    bve::core::math::evaluate_curve(glm::vec3(0), glm::vec3(0, -1, 1), distance, -10);
 	auto val_b = bve::core::math::evaluate_curve(val_a.position, val_a.tangent, distance, -10);

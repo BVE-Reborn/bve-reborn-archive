@@ -19,7 +19,7 @@ namespace bve::parsers::csv_rw_route {
 			if (*i == '(') {
 				level++;
 			}
-			if (*i == ')' && level != 0u) {
+			if (*i == ')' && level != 0U) {
 				level--;
 				if (level == 0) {
 					end_paren = i;

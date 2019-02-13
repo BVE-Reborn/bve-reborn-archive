@@ -47,7 +47,7 @@ TEST_CASE("libparsers - xml - dynamic_lighting - test") {
 	CHECK_EQ(output[1].ambient, bve::core::datatypes::Color8RGB{160, 160, 160});
 	CHECK_EQ(output[1].cab_lighting, 255);
 	CHECK_EQ(output[1].directional_lighting, bve::core::datatypes::Color8RGB{160, 160, 160});
-	CHECK_EQ(output[1].light_direction, glm::vec3{-0.5f, -0.5f, -0.5f});
+	CHECK_EQ(output[1].light_direction, glm::vec3{-0.5F, -0.5F, -0.5F});
 	CHECK_EQ(output[1].time, 3600 * 12);
 }
 
@@ -116,7 +116,7 @@ TEST_CASE("libparsers - xml - dynamic_lighting - insane_values") {
 	CHECK_EQ(output[0].ambient, bve::core::datatypes::Color8RGB{160, 160, 160});
 	CHECK_EQ(output[0].cab_lighting, 0);
 	CHECK_EQ(output[0].directional_lighting, bve::core::datatypes::Color8RGB{160, 160, 160});
-	CHECK_EQ(output[0].light_direction, glm::vec3{-0.223645424f, -0.866025404f, 0.44719428f});
+	CHECK_EQ(output[0].light_direction, glm::vec3{-0.223645424F, -0.866025404F, 0.44719428F});
 	CHECK_EQ(output[0].time, 0);
 }
 

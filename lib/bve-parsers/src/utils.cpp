@@ -244,7 +244,7 @@ namespace bve::parsers::util {
 			return true;
 		}
 
-		if (exact == true && text_len != match_len) {
+		if (exact && text_len != match_len) {
 			return false;
 		}
 

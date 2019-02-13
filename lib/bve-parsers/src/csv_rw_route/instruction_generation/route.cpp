@@ -80,7 +80,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		                                                   "Route."
 		                                                   "AccelerationDue"
 		                                                   "ToGravity",
-		                                                   9.80665f);
+		                                                   9.80665F);
 	}
 
 	Instruction create_instruction_route_elevation(const line_splitting::InstructionInfo& inst) {
@@ -100,7 +100,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	Instruction create_instruction_route_pressure(const line_splitting::InstructionInfo& inst) {
 		return create_single_float_instruction<instructions::route::Pressure>(inst,
 		                                                                      "Route.Pressure",
-		                                                                      101.325f);
+		                                                                      101.325F);
 	}
 
 	Instruction create_instruction_route_displayspeed(const line_splitting::InstructionInfo& inst) {
@@ -196,7 +196,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				ld.theta = util::parse_loose_float(inst.args[0], 60);
 				// fall through
 			case 1:
-				ld.phi = util::parse_loose_float(inst.args[1], -26.57f);
+				ld.phi = util::parse_loose_float(inst.args[1], -26.57F);
 				// fall through
 			case 0:
 				break;

@@ -14,7 +14,7 @@ namespace bve::parsers::animated_object {
 	};
 
 	struct AnimatedSubobject {
-		glm::vec3 position;
+		glm::vec3 position{};
 		std::vector<std::string> states;
 		FunctionScript state_function;
 

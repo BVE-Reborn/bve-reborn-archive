@@ -70,18 +70,18 @@ namespace bve::parsers::b3d_csv_object {
 		};
 
 		struct Cube {
-			float half_width;
-			float half_height;
-			float half_depth;
+			float half_width{};
+			float half_height{};
+			float half_depth{};
 
 			std::size_t line = 0;
 		};
 
 		struct Cylinder {
-			std::size_t sides;
-			float upper_radius;
-			float lower_radius;
-			float height;
+			std::size_t sides{};
+			float upper_radius{};
+			float lower_radius{};
+			float height{};
 
 			std::size_t line = 0;
 		};
@@ -175,17 +175,17 @@ namespace bve::parsers::b3d_csv_object {
 		};
 
 		struct SetDecalTransparentColor {
-			uint8_t red;
-			uint8_t green;
-			uint8_t blue;
+			uint8_t red{};
+			uint8_t green{};
+			uint8_t blue{};
 
 			std::size_t line = 0;
 		};
 
 		struct SetTextureCoordinates {
-			std::size_t vertex_index;
-			float x;
-			float y;
+			std::size_t vertex_index{};
+			float x{};
+			float y{};
 
 			std::size_t line = 0;
 		};

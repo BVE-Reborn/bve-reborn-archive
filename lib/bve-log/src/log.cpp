@@ -1,15 +1,15 @@
 #include "log.hpp"
+#include <ctime>
 #include <fstream>
 #include <gsl/gsl_util>
 #include <mutex>
-#include <time.h>
 
 bve::log::detail::CurrentTime bve::log::detail::get_time() {
 	auto const now = std::chrono::system_clock::now();
 	auto const seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
 	auto s = std::chrono::system_clock::to_time_t(seconds);
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-	tm wall_time;
+	tm wall_time{};
 	gmtime_r(&s, &wall_time);
 #else
 	tm wall_time;
@@ -23,7 +23,7 @@ bve::log::detail::CurrentTime bve::log::detail::get_time() {
 	auto const sec = wall_time.tm_sec;
 	auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - seconds);
 
-	CurrentTime current;
+	CurrentTime current{};
 	current.year = year;
 	current.month = month;
 	current.day = day;

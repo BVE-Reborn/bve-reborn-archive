@@ -77,7 +77,7 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		RailStationStop stop;
+		RailStationStop stop{};
 		stop.position = inst.absolute_position;
 		stop.backward_tolerance = inst.backwards_tolerance;
 		stop.forward_tolerance = inst.forwards_tolerance;

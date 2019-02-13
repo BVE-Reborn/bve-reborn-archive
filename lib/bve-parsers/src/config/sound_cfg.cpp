@@ -26,7 +26,7 @@ namespace bve::parsers::config::sound_cfg {
 
 				if (found) {
 					auto const version = util::parse_loose_float(res[1]);
-					if (version != 1.0f) {
+					if (version != 1.0F) {
 						std::ostringstream err;
 						err << version << " is not a recognized version number";
 						add_error(errors, value.line, err);
@@ -50,7 +50,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \tparam F Function type.
 		 */
 		template <class F>
-		FORCE_INLINE void function_check(F&) {
+		FORCE_INLINE void function_check(F& /*unused*/) {
 			static_assert(std::is_same<decltype(std::declval<F>()(std::declval<std::string>())),
 			                           FilenameIterator>::value,
 			              "get_filename must take a std::string and return a "
@@ -153,11 +153,11 @@ namespace bve::parsers::config::sound_cfg {
 
 			Brake ret = create_empty_brake(end);
 
-			bool bc_release_high_flag = false, //
-			    bc_release_flag = false,       //
-			    bc_release_full_flag = false,  //
-			    emergency_flag = false,        //
-			    bp_decompression_flag = false;
+			bool bc_release_high_flag = false;
+			bool bc_release_flag = false;
+			bool bc_release_full_flag = false;
+			bool emergency_flag = false;
+			bool bp_decompression_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "bc release high")) {
@@ -225,9 +225,9 @@ namespace bve::parsers::config::sound_cfg {
 
 			Compressor ret = create_empty_compressor(end);
 
-			bool attack_flag = false, //
-			    loop_flag = false,    //
-			    release_flag = false;
+			bool attack_flag = false;
+			bool loop_flag = false;
+			bool release_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "attack")) {
@@ -284,8 +284,8 @@ namespace bve::parsers::config::sound_cfg {
 
 			Suspension ret = create_empty_suspension(end);
 
-			bool left_flag = false, //
-			    right_flag = false;
+			bool left_flag = false;
+			bool right_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "left")) {
@@ -367,19 +367,19 @@ namespace bve::parsers::config::sound_cfg {
 
 			bool new_stuff = false;
 
-			bool primary_start_flag = false,  //
-			    primary_loop_flag = false,    //
-			    primary_end_flag = false,     //
-			    secondary_start_flag = false, //
-			    secondary_loop_flag = false,  //
-			    secondary_end_flag = false,   //
-			    music_start_flag = false,     //
-			    music_loop_flag = false,      //
-			    music_end_flag = false;
+			bool primary_start_flag = false;
+			bool primary_loop_flag = false;
+			bool primary_end_flag = false;
+			bool secondary_start_flag = false;
+			bool secondary_loop_flag = false;
+			bool secondary_end_flag = false;
+			bool music_start_flag = false;
+			bool music_loop_flag = false;
+			bool music_end_flag = false;
 
-			bool primary_flag = false,  //
-			    secondary_flag = false, //
-			    music_flag = false;
+			bool primary_flag = false;
+			bool secondary_flag = false;
+			bool music_flag = false;
 
 			auto legacy_test = [&](char const* const name, std::size_t const line) {
 				if (new_stuff) {
@@ -515,10 +515,10 @@ namespace bve::parsers::config::sound_cfg {
 
 			Doors ret = create_empty_doors(end);
 
-			bool open_left_flag = false, //
-			    open_right_flag = false, //
-			    close_left_flag = false, //
-			    close_right_flag = false;
+			bool open_left_flag = false;
+			bool open_right_flag = false;
+			bool close_left_flag = false;
+			bool close_right_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "open left")) {
@@ -627,8 +627,8 @@ namespace bve::parsers::config::sound_cfg {
 
 			PilotLamp ret = create_empty_pilot_lamp(end);
 
-			bool on_flag = false, //
-			    off_flag = false;
+			bool on_flag = false;
+			bool off_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "on")) {
@@ -683,10 +683,10 @@ namespace bve::parsers::config::sound_cfg {
 
 			BrakeHandle ret = create_empty_brake_handle(end);
 
-			bool apply_flag = false,  //
-			    release_flag = false, //
-			    min_flag = false,     //
-			    max_flag = false;
+			bool apply_flag = false;
+			bool release_flag = false;
+			bool min_flag = false;
+			bool max_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "apply")) {
@@ -749,10 +749,10 @@ namespace bve::parsers::config::sound_cfg {
 
 			MasterController ret = create_empty_master_controller(end);
 
-			bool up_flag = false,  //
-			    down_flag = false, //
-			    min_flag = false,  //
-			    max_flag = false;
+			bool up_flag = false;
+			bool down_flag = false;
+			bool min_flag = false;
+			bool max_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "up")) {
@@ -813,8 +813,8 @@ namespace bve::parsers::config::sound_cfg {
 
 			Reverser ret = create_empty_reverser(end);
 
-			bool on_flag = false, //
-			    off_flag = false;
+			bool on_flag = false;
+			bool off_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "on")) {
@@ -867,8 +867,8 @@ namespace bve::parsers::config::sound_cfg {
 
 			Breaker ret = create_empty_breaker(end);
 
-			bool on_flag = false, //
-			    off_flag = false;
+			bool on_flag = false;
+			bool off_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "on")) {
@@ -921,8 +921,8 @@ namespace bve::parsers::config::sound_cfg {
 
 			Misc ret = create_empty_misc(end);
 
-			bool noise_flag = false, //
-			    shoe_flag = false;
+			bool noise_flag = false;
+			bool shoe_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
 				if (util::match_against_lower(kvp.key, "noise")) {
@@ -1062,23 +1062,23 @@ namespace bve::parsers::config::sound_cfg {
 
 		auto const parsed_ini = ini::parse(input_string);
 
-		bool run_flag = false,              //
-		    flange_flag = false,            //
-		    motor_flag = false,             //
-		    switch_flag = false,            //
-		    brake_flag = false,             //
-		    compressor_flag = false,        //
-		    suspension_flag = false,        //
-		    horn_flag = false,              //
-		    door_flag = false,              //
-		    ats_flag = false,               //
-		    buzzer_flag = false,            //
-		    pilot_lamp_flag = false,        //
-		    brake_handle_flag = false,      //
-		    master_controller_flag = false, //
-		    reverser_flag = false,          //
-		    breaker_flag = false,           //
-		    misc_flag = false;
+		bool run_flag = false;
+		bool flange_flag = false;
+		bool motor_flag = false;
+		bool switch_flag = false;
+		bool brake_flag = false;
+		bool compressor_flag = false;
+		bool suspension_flag = false;
+		bool horn_flag = false;
+		bool door_flag = false;
+		bool ats_flag = false;
+		bool buzzer_flag = false;
+		bool pilot_lamp_flag = false;
+		bool brake_handle_flag = false;
+		bool master_controller_flag = false;
+		bool reverser_flag = false;
+		bool breaker_flag = false;
+		bool misc_flag = false;
 
 		auto const check_if_section_used = [&](bool& flag, char const* const name,
 		                                       std::size_t const line) {

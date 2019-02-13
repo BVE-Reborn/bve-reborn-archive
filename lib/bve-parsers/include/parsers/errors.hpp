@@ -7,7 +7,7 @@
 
 namespace bve::parsers::errors {
 	struct Error {
-		std::intmax_t line;
+		std::intmax_t line{};
 		std::string error;
 	};
 

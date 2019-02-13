@@ -32,7 +32,7 @@ TEST_CASE("libparsers - function scripts - lexer iostream - all symbols") {
 	    fs_lex_token::Dot{},            //
 	    fs_lex_token::Variable{"sin"s}, //
 	    fs_lex_token::Integer{2},       //
-	    fs_lex_token::Floating{2.2f}    //
+	    fs_lex_token::Floating{2.2F}    //
 	}};
 
 	std::ostringstream output;

@@ -26,14 +26,14 @@ TEST_CASE("libparsers - function scripts - lexer - float") {
 	auto result = bve::parsers::function_scripts::parse("2.2");
 
 	REQUIRE_EQ(result.instructions.size(), 1);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2.2f}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2.2F}, value);
 }
 
 TEST_CASE("libparsers - function scripts - lexer - negative float") {
 	auto result = bve::parsers::function_scripts::parse("-2.2");
 
 	REQUIRE_EQ(result.instructions.size(), 2);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2.2f}, value);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2.2F}, value);
 	COMPARE_VARIANT_NODES(result.instructions[1], fs_inst::OPUnaryMinus{});
 }
 

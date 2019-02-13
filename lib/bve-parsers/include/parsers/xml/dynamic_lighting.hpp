@@ -9,7 +9,7 @@ namespace bve::parsers::xml::dynamic_lighting {
 		core::datatypes::Time time = 0;
 		core::datatypes::Color8RGB ambient = {160, 160, 160};
 		core::datatypes::Color8RGB directional_lighting = {160, 160, 160};
-		glm::vec3 light_direction = {-0.223645424f, -0.866025404f, 0.44719428f};
+		glm::vec3 light_direction = {-0.223645424F, -0.866025404F, 0.44719428F};
 		uint8_t cab_lighting = 255;
 	};
 

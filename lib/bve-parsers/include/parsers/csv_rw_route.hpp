@@ -140,7 +140,7 @@ namespace bve::parsers::csv_rw_route {
 			std::vector<std::string> indices;
 			std::vector<std::string> args;
 			std::string suffix;
-			float offset;
+			float offset{};
 			bool track_position = false;
 		};
 

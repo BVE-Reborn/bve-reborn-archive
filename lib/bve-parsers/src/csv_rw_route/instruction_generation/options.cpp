@@ -5,7 +5,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	    const line_splitting::InstructionInfo& inst) {
 		instructions::options::UnitOfLength uol;
 		uol.factors_in_meters.reserve(std::max(std::size_t(2), inst.args.size() + 1));
-		uol.factors_in_meters.emplace_back(1.0f);
+		uol.factors_in_meters.emplace_back(1.0F);
 		if (!inst.args.empty()) {
 			uol.factors_in_meters.emplace_back(util::parse_loose_float(inst.args[0], 1));
 			std::transform(inst.args.begin() + 1, inst.args.end(),
@@ -13,7 +13,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			               [](const std::string& s) { return util::parse_loose_float(s, 0); });
 		}
 		else {
-			uol.factors_in_meters.emplace_back(1.0f);
+			uol.factors_in_meters.emplace_back(1.0F);
 		}
 
 		return uol;
