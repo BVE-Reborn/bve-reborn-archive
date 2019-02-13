@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Coverage
 curl -so codecov.bash https://codecov.io/bash
 echo "End Clone"
