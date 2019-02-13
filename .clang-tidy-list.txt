@@ -11,9 +11,12 @@ misc*
 modernize*
 performance*
 readability*
+-*-avoid-magic-numbers
 -*-dcl59-cpp
 -*-err58-cpp
 -*-header-guard
+-*-include-order
+-*-magic-numbers
 -*-move-const-arg
 -*-non-private-member-variables-in-classes
 -*-pro-bounds-constant-array-index
