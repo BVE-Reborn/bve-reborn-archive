@@ -33,3 +33,6 @@
 	path = extern/nova
 	url = https://github.com/BVE-Reborn/nova-renderer.git
 	branch = bve-tracking
+[submodule "concurrent-queue"]
+	path = extern/concurrent-queue
+	url = https://github.com/cameron314/concurrentqueue.git
