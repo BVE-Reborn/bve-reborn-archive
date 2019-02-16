@@ -22,6 +22,20 @@ bin/tests
 echo "End Clang-Tests"
 cd ..
 
+# Formatting
+cd build-clang
+ninja format
+cd ..
+echo "End formatting"
+
+if [ `git status --porcelain lib src | wc -c` -eq 0 ]; then
+    echo "No formatting errors found."
+else
+    echo "Formatting errors found."
+    git diff -numstat lib src
+    exit 1
+fi
+
 # GCC Build
 mkdir build-gcc
 cd build-gcc
