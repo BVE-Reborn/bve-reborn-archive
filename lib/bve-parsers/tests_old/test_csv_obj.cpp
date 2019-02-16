@@ -6,7 +6,7 @@
 #include <mapbox/variant_io.hpp>
 
 void test_csv_obj() {
-	auto const content = bve::parsers::util::load_from_file_utf8_bom(TESTLOCATION "/pole_2.csv");
+	auto const content = bve::util::parsers::load_from_file_utf8_bom(TESTLOCATION "/pole_2.csv");
 
 	auto inst = create_instructions(content, bve::parsers::b3d_csv_object::FileType::csv);
 
