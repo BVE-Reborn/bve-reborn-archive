@@ -1,6 +1,6 @@
 #include "b3d_csv_object/b3d_csv_object.hpp"
-#include "test_macro_util.hpp"
 #include <doctest.h>
+#include <util/testing/variant_macros.hpp>
 
 using namespace std::string_literals;
 
@@ -359,33 +359,25 @@ TEST_CASE("libparsers - b3d_csv_object - commands - blend mode") {
 		SUBCASE("normal blend") {
 			SUBCASE("divide exponent 2") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::normal;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
-				result = create_instructions("BlendMode, Normal, 2, DivideExponent2",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
+				result = create_instructions("BlendMode, Normal, 2, DivideExponent2", b3d::FileType::b3d);
 			}
 			SUBCASE("divide exponent 4") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::normal;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
-				result = create_instructions("BlendMode, Normal, 2, DivideExponent4",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
+				result = create_instructions("BlendMode, Normal, 2, DivideExponent4", b3d::FileType::b3d);
 			}
 		}
 		SUBCASE("additive blend") {
 			SUBCASE("divide exponent 2") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::additive;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
-				result = create_instructions("BlendMode, Additive, 2, DivideExponent2",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
+				result = create_instructions("BlendMode, Additive, 2, DivideExponent2", b3d::FileType::b3d);
 			}
 			SUBCASE("divide exponent 4") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::additive;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
-				result = create_instructions("BlendMode, Additive, 2, DivideExponent4",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
+				result = create_instructions("BlendMode, Additive, 2, DivideExponent4", b3d::FileType::b3d);
 			}
 		}
 	}
@@ -393,33 +385,25 @@ TEST_CASE("libparsers - b3d_csv_object - commands - blend mode") {
 		SUBCASE("normal blend") {
 			SUBCASE("divide exponent 2") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::normal;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
-				result = create_instructions("SetBlendMode, Normal, 2, DivideExponent2",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
+				result = create_instructions("SetBlendMode, Normal, 2, DivideExponent2", b3d::FileType::b3d);
 			}
 			SUBCASE("divide exponent 4") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::normal;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
-				result = create_instructions("SetBlendMode, Normal, 2, DivideExponent4",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
+				result = create_instructions("SetBlendMode, Normal, 2, DivideExponent4", b3d::FileType::b3d);
 			}
 		}
 		SUBCASE("additive blend") {
 			SUBCASE("divide exponent 2") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::additive;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
-				result = create_instructions("SetBlendMode, Additive, 2, DivideExponent2",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent2;
+				result = create_instructions("SetBlendMode, Additive, 2, DivideExponent2", b3d::FileType::b3d);
 			}
 			SUBCASE("divide exponent 4") {
 				blend_mode.blend_mode = bve::parsers::b3d_csv_object::Mesh::additive;
-				blend_mode.glow_attenuation_mode =
-				    bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
-				result = create_instructions("SetBlendMode, Additive, 2, DivideExponent4",
-				                             b3d::FileType::b3d);
+				blend_mode.glow_attenuation_mode = bve::parsers::b3d_csv_object::Mesh::divide_exponent4;
+				result = create_instructions("SetBlendMode, Additive, 2, DivideExponent4", b3d::FileType::b3d);
 			}
 		}
 	}
@@ -436,8 +420,7 @@ TEST_CASE("libparsers - b3d_csv_object - commands - load") {
 		result = create_instructions("Load path/day.png, path/night.png", b3d::FileType::b3d);
 	}
 	SUBCASE("csv") {
-		result =
-		    create_instructions("LoadTexture, path/day.png, path/night.png", b3d::FileType::csv);
+		result = create_instructions("LoadTexture, path/day.png, path/night.png", b3d::FileType::csv);
 	}
 
 	REQUIRE_EQ(result.size(), 1);

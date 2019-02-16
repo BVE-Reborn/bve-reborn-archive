@@ -1,7 +1,7 @@
 #pragma once
 
 #include "parsers/csv_rw_route.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <gsl/gsl_util>
 #include <map>
 #include <sstream>
@@ -11,9 +11,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	// Argument/Indices Count Helper Functions //
 	/////////////////////////////////////////////
 
-	inline void args_at_least(const line_splitting::InstructionInfo& inst,
-	                          std::size_t const num,
-	                          const char* const name) {
+	inline void args_at_least(const line_splitting::InstructionInfo& inst, std::size_t const num, const char* const name) {
 		if (inst.args.size() < num) {
 			std::ostringstream oss;
 			oss << name << " must have at least " << num << " argument" << (num == 1 ? "" : "s");
@@ -21,9 +19,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		}
 	}
 
-	inline void indices_at_least(const line_splitting::InstructionInfo& inst,
-	                             std::size_t const num,
-	                             const char* const name) {
+	inline void indices_at_least(const line_splitting::InstructionInfo& inst, std::size_t const num, const char* const name) {
 		if (inst.indices.size() < num) {
 			std::ostringstream oss;
 			oss << name << " must have at least " << num << " ind" << (num == 1 ? "ex" : "ices");
@@ -36,61 +32,53 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	//////////////////////////////
 
 	template <class T>
-	static Instruction create_single_string_instruction(const line_splitting::InstructionInfo& inst,
-	                                                    const char* name) {
+	static Instruction create_single_string_instruction(const line_splitting::InstructionInfo& inst, const char* name) {
 		args_at_least(inst, 1, name);
 
 		return T{inst.args[0]};
 	}
 
 	template <class T>
-	static Instruction create_single_float_instruction(const line_splitting::InstructionInfo& inst,
-	                                                   const char* name) {
+	static Instruction create_single_float_instruction(const line_splitting::InstructionInfo& inst, const char* name) {
 		args_at_least(inst, 1, name);
 
-		return T{util::parse_loose_float(inst.args[0])};
+		return T{util::parsers::parse_loose_float(inst.args[0])};
 	}
 
 	template <class T>
-	static Instruction create_single_float_instruction(const line_splitting::InstructionInfo& inst,
-	                                                   const char* name,
-	                                                   float def) {
+	static Instruction create_single_float_instruction(const line_splitting::InstructionInfo& inst, const char* name, float def) {
 		(void) name;
 
 		if (!inst.args.empty()) {
-			return T{util::parse_loose_float(inst.args[0], def)};
+			return T{util::parsers::parse_loose_float(inst.args[0], def)};
 		}
 
 		return T{def};
 	}
 
 	template <class T>
-	static Instruction create_single_uint_instruction(const line_splitting::InstructionInfo& inst,
-	                                                  const char* name) {
+	static Instruction create_single_uint_instruction(const line_splitting::InstructionInfo& inst, const char* name) {
 		args_at_least(inst, 1, name);
 
-		return T{gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]))};
+		return T{gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]))};
 	}
 
 	template <class T>
-	static Instruction create_single_uint_instruction(const line_splitting::InstructionInfo& inst,
-	                                                  const char* name,
-	                                                  std::intmax_t def) {
+	static Instruction create_single_uint_instruction(const line_splitting::InstructionInfo& inst, const char* name, std::intmax_t def) {
 		(void) name;
 
 		if (!inst.args.empty()) {
-			return T{gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0], def))};
+			return T{gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], def))};
 		}
 
 		return T{def};
 	}
 
 	template <class T>
-	static Instruction create_single_time_instruction(const line_splitting::InstructionInfo& inst,
-	                                                  const char* name) {
+	static Instruction create_single_time_instruction(const line_splitting::InstructionInfo& inst, const char* name) {
 		args_at_least(inst, 1, name);
 
-		return T{util::parse_time(inst.args[0])};
+		return T{util::parsers::parse_time(inst.args[0])};
 	}
 
 	template <std::size_t Offset, class T>
@@ -99,19 +87,19 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			switch (instr_info.args.size()) {
 				default:
 				case Offset + 5:
-					inst.roll = util::parse_loose_float(instr_info.args[Offset + 4], 0);
+					inst.roll = util::parsers::parse_loose_float(instr_info.args[Offset + 4], 0);
 					// fall through
 				case Offset + 4:
-					inst.pitch = util::parse_loose_float(instr_info.args[Offset + 3], 0);
+					inst.pitch = util::parsers::parse_loose_float(instr_info.args[Offset + 3], 0);
 					// fall through
 				case Offset + 3:
-					inst.yaw = util::parse_loose_float(instr_info.args[Offset + 2], 0);
+					inst.yaw = util::parsers::parse_loose_float(instr_info.args[Offset + 2], 0);
 					// fall through
 				case Offset + 2:
-					inst.y_offset = util::parse_loose_float(instr_info.args[Offset + 1], 0);
+					inst.y_offset = util::parsers::parse_loose_float(instr_info.args[Offset + 1], 0);
 					// fall through
 				case Offset + 1:
-					inst.x_offset = util::parse_loose_float(instr_info.args[Offset + 0], 0);
+					inst.x_offset = util::parsers::parse_loose_float(instr_info.args[Offset + 0], 0);
 					// fall through
 				case Offset:
 					break;

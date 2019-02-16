@@ -6,11 +6,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::Beacon b;
 
-		b.type = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
-		b.beacon_structure_index =
-		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1]));
-		b.section = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2]));
-		b.data = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3]));
+		b.type = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
+		b.beacon_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1]));
+		b.section = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[2]));
+		b.data = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[3]));
 
 		set_positions<4>(b, inst);
 
@@ -23,13 +22,13 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 3:
-				t.switch_system = util::parse_loose_integer(inst.args[2], 0) == 0;
+				t.switch_system = util::parsers::parse_loose_integer(inst.args[2], 0) == 0;
 				// fall through
 			case 2:
-				t.signal = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
+				t.signal = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
 				// fall through
 			case 1: {
-				auto const type_num = util::parse_loose_integer(inst.args[0], 0);
+				auto const type_num = util::parsers::parse_loose_integer(inst.args[0], 0);
 
 				switch (type_num) {
 					default:
@@ -89,10 +88,9 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::Pattern p;
 
-		auto const type_num = util::parse_loose_integer(inst.args[0]);
-		p.type = type_num == 0 ? instructions::track::Pattern::Type::permanent
-		                       : instructions::track::Pattern::Type::temporary;
-		p.speed = util::parse_loose_float(inst.args[1]);
+		auto const type_num = util::parsers::parse_loose_integer(inst.args[0]);
+		p.type = type_num == 0 ? instructions::track::Pattern::Type::permanent : instructions::track::Pattern::Type::temporary;
+		p.speed = util::parsers::parse_loose_float(inst.args[1]);
 
 		return p;
 	}
@@ -103,7 +101,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		instructions::track::Pattern p;
 
 		p.type = instructions::track::Pattern::Type::temporary;
-		p.speed = util::parse_loose_float(inst.args[0]);
+		p.speed = util::parsers::parse_loose_float(inst.args[0]);
 
 		return p;
 	}

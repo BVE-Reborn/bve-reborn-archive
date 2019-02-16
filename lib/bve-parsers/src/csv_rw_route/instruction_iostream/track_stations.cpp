@@ -6,11 +6,9 @@ namespace bve::parsers::csv_rw_route {
 
 		PRINT_VALUE(name);
 		PRINT_TIME(arrival);
-		PRINT_ENUM6(arrival_tag, track::Sta::ArrivalTime, time, any_time, all_pass, player_pass,
-		            player_stop, all_stop);
+		PRINT_ENUM6(arrival_tag, track::Sta::ArrivalTime, time, any_time, all_pass, player_pass, player_stop, all_stop);
 		PRINT_TIME(departure);
-		PRINT_ENUM6(departure_tag, track::Sta::DepartureTime, time, any_time, terminal,
-		            terminal_time, change_ends, change_ends_time);
+		PRINT_ENUM6(departure_tag, track::Sta::DepartureTime, time, any_time, terminal, terminal_time, change_ends, change_ends_time);
 		PRINT_VALUE(pass_alarm);
 		PRINT_ENUM4(doors, track::Sta::Doors, left, none, right, both);
 		PRINT_VALUE(force_red);

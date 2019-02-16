@@ -1,5 +1,5 @@
 #include "parsers/xml/route_marker.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include "xml_node_helpers.hpp"
 #include <map>
 #include <rapidxml_ns.hpp>
@@ -13,8 +13,7 @@ namespace bve::parsers::xml::route_marker {
 		// Parsing a Text Color Node //
 		///////////////////////////////
 
-		TextMarker::Color parse_text_color(rapidxml_ns::xml_node<char>* test_color_node,
-		                                   errors::Errors& /*errors*/) {
+		TextMarker::Color parse_text_color(rapidxml_ns::xml_node<char>* test_color_node, errors::Errors& /*errors*/) {
 			static std::map<std::string, TextMarker::Color> text_mapping{
 			    //
 			    {"black", TextMarker::Color::black},    {"gray", TextMarker::Color::gray},
@@ -25,8 +24,7 @@ namespace bve::parsers::xml::route_marker {
 			    //
 			};
 
-			auto const find_mapping_iter =
-			    text_mapping.find(util::lower_copy(get_node_value(test_color_node)));
+			auto const find_mapping_iter = text_mapping.find(util::parsers::lower_copy(get_node_value(test_color_node)));
 			if (find_mapping_iter != text_mapping.end()) {
 				return find_mapping_iter->second;
 			}
@@ -39,11 +37,9 @@ namespace bve::parsers::xml::route_marker {
 		//////////////////////////////
 
 		template <bool Early, bool Text>
-		auto parse_early_late_impl(rapidxml_ns::xml_node<char>* start_node,
-		                           errors::Errors& errors) {
+		auto parse_early_late_impl(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
 			auto* time_node = start_node->first_node("time", 0, false);
-			auto const data_node =
-			    start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
+			auto const data_node = start_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 			if (time_node == nullptr || data_node == nullptr) {
 				std::string err;
@@ -64,13 +60,12 @@ namespace bve::parsers::xml::route_marker {
 					}
 				}
 				add_error(errors, 0, err);
-				return std::make_tuple(core::datatypes::Time{0}, ""s, TextMarker::Color::black,
-				                       false);
+				return std::make_tuple(util::datatypes::Time{0}, ""s, TextMarker::Color::black, false);
 			}
-			core::datatypes::Time time_parsed;
+			util::datatypes::Time time_parsed;
 			bool using_early_late = true;
 			try {
-				time_parsed = util::parse_time(get_node_value(time_node));
+				time_parsed = util::parsers::parse_time(get_node_value(time_node));
 			}
 			catch (const std::exception& e) {
 				add_error(errors, 0, e.what());
@@ -81,15 +76,12 @@ namespace bve::parsers::xml::route_marker {
 				auto* text_color_node = start_node->first_node("color", 0, false);
 
 				if (text_color_node != nullptr) {
-					return std::make_tuple(time_parsed, get_node_value(data_node),
-					                       parse_text_color(text_color_node, errors),
+					return std::make_tuple(time_parsed, get_node_value(data_node), parse_text_color(text_color_node, errors),
 					                       using_early_late);
 				}
-				return std::make_tuple(time_parsed, get_node_value(data_node),
-				                       TextMarker::Color::black, using_early_late);
+				return std::make_tuple(time_parsed, get_node_value(data_node), TextMarker::Color::black, using_early_late);
 			}
-			return std::make_tuple(time_parsed, get_node_value(data_node), TextMarker::Color::black,
-			                       using_early_late);
+			return std::make_tuple(time_parsed, get_node_value(data_node), TextMarker::Color::black, using_early_late);
 		}
 
 		auto parse_text_early(rapidxml_ns::xml_node<char>* start_node, errors::Errors& errors) {
@@ -112,8 +104,7 @@ namespace bve::parsers::xml::route_marker {
 
 		template <bool Text>
 		auto parse_on_time_impl(rapidxml_ns::xml_node<char>* on_time_node, errors::Errors& errors) {
-			auto const data_node =
-			    on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
+			auto const data_node = on_time_node->first_node((Text ? "text"s : "image"s).c_str(), 0, false);
 
 			if (data_node == nullptr) {
 				std::string err;
@@ -134,8 +125,7 @@ namespace bve::parsers::xml::route_marker {
 		auto parse_text_on_time(rapidxml_ns::xml_node<char>* on_time_node, errors::Errors& errors) {
 			return parse_on_time_impl<true>(on_time_node, errors);
 		}
-		auto parse_image_on_time(rapidxml_ns::xml_node<char>* on_time_node,
-		                         errors::Errors& errors) {
+		auto parse_image_on_time(rapidxml_ns::xml_node<char>* on_time_node, errors::Errors& errors) {
 			return parse_on_time_impl<false>(on_time_node, errors);
 		}
 
@@ -145,7 +135,7 @@ namespace bve::parsers::xml::route_marker {
 
 		float parse_distance(rapidxml_ns::xml_node<char>* distance_node, errors::Errors& errors) {
 			try {
-				return util::parse_loose_float(get_node_value(distance_node));
+				return util::parsers::parse_loose_float(get_node_value(distance_node));
 			}
 			catch (const std::exception& e) {
 				add_error(errors, 0, e.what());
@@ -157,10 +147,9 @@ namespace bve::parsers::xml::route_marker {
 		// Parsing Timeout Nodes //
 		///////////////////////////
 
-		std::intmax_t parse_timeout(rapidxml_ns::xml_node<char>* timeout_node,
-		                            errors::Errors& errors) {
+		std::intmax_t parse_timeout(rapidxml_ns::xml_node<char>* timeout_node, errors::Errors& errors) {
 			try {
-				auto const time = util::parse_loose_integer(get_node_value(timeout_node));
+				auto const time = util::parsers::parse_loose_integer(get_node_value(timeout_node));
 				if (time < 0) {
 					add_error(errors, 0, "Timeout node should not have a negative time"s);
 					return 0;
@@ -177,9 +166,8 @@ namespace bve::parsers::xml::route_marker {
 		// Parsing Train Nodes //
 		/////////////////////////
 
-		std::vector<std::string> parse_trains(rapidxml_ns::xml_node<char>* train_node,
-		                                      errors::Errors& /*errors*/) {
-			return util::split_text(get_node_value(train_node), ';', true);
+		std::vector<std::string> parse_trains(rapidxml_ns::xml_node<char>* train_node, errors::Errors& /*errors*/) {
+			return util::parsers::split_text(get_node_value(train_node), ';', true);
 		}
 
 		ImageMarker parse_image_marker(const std::string& filename,
@@ -303,7 +291,7 @@ namespace bve::parsers::xml::route_marker {
 		}
 
 		auto const primary_node_name = get_node_name(primary_node);
-		auto const primary_node_name_lower = util::lower_copy(primary_node_name);
+		auto const primary_node_name_lower = util::parsers::lower_copy(primary_node_name);
 
 		auto const is_image_marker = primary_node_name_lower == "imagemarker"s;
 		auto const is_text_marker = primary_node_name_lower == "textmarker"s;

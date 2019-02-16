@@ -19,8 +19,7 @@ namespace bve::parsers::csv_rw_route {
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Transponder& inst) {
 		start(inst, "Track.Transponder");
 
-		PRINT_ENUM5(type, track::Transponder::Type, s_type, sn_type, departure, ats_p_renewal,
-		            ats_p_stop);
+		PRINT_ENUM5(type, track::Transponder::Type, s_type, sn_type, departure, ats_p_renewal, ats_p_stop);
 		PRINT_VALUE(signal);
 		PRINT_VALUE(switch_system);
 		PRINT_VALUE(x_offset);

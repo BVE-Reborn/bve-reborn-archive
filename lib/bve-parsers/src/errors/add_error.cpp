@@ -19,17 +19,11 @@ namespace bve::parsers::errors {
 		errors.emplace_back(std::move(err));
 	}
 
-	void add_error(MultiError& errors,
-	               const std::string& filename,
-	               std::intmax_t const line,
-	               std::string msg) {
+	void add_error(MultiError& errors, const std::string& filename, std::intmax_t const line, std::string msg) {
 		add_error(errors[filename], line, std::move(msg));
 	}
 
-	void add_error(MultiError& errors,
-	               const std::string& filename,
-	               std::intmax_t const line,
-	               const std::ostringstream& msg) {
+	void add_error(MultiError& errors, const std::string& filename, std::intmax_t const line, const std::ostringstream& msg) {
 		add_error(errors[filename], line, msg);
 	}
 

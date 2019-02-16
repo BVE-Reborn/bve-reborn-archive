@@ -11,12 +11,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				set_positions<2>(obj, inst);
 				// fall through
 			case 2:
-				obj.free_obj_structure_index =
-				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
+				obj.free_obj_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
 				// fall through
 			case 1:
-				obj.rail_index =
-				    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
+				obj.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
 				// fall through
 			case 0:
 				break;
@@ -30,11 +28,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::Wall w;
 
-		w.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
-		auto const direction_num = util::parse_loose_integer(inst.args[1]);
+		w.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
+		auto const direction_num = util::parsers::parse_loose_integer(inst.args[1]);
 		if (inst.args.size() >= 3) {
-			w.wall_structure_index =
-			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
+			w.wall_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[2], 0));
 		}
 
 		switch (direction_num) {
@@ -62,11 +59,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::Dike d;
 
-		d.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
-		auto const direction_num = util::parse_loose_integer(inst.args[1]);
+		d.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
+		auto const direction_num = util::parsers::parse_loose_integer(inst.args[1]);
 		if (inst.args.size() >= 3) {
-			d.dike_structure_index =
-			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
+			d.dike_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[2], 0));
 		}
 
 		switch (direction_num) {
@@ -95,22 +91,19 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 5:
-				p.pole_structure_index =
-				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[4], 0));
+				p.pole_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[4], 0));
 				// fall through
 			case 4:
-				p.interval = util::parse_loose_integer(inst.args[3], 1);
+				p.interval = util::parsers::parse_loose_integer(inst.args[3], 1);
 				// fall through
 			case 3:
-				p.location = util::parse_loose_integer(inst.args[2], 0);
+				p.location = util::parsers::parse_loose_integer(inst.args[2], 0);
 				// fall through
 			case 2:
-				p.additional_rails =
-				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1], 0));
+				p.additional_rails = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
 				// fall through
 			case 1:
-				p.rail_index =
-				    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0], 0));
+				p.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
 				// fall through
 			case 0:
 				break;
@@ -128,11 +121,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::Crack c;
 
-		c.rail_index_1 = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
-		c.rail_index_2 = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[1]));
+		c.rail_index_1 = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
+		c.rail_index_2 = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[1]));
 		if (inst.args.size() >= 3) {
-			c.crack_structure_index =
-			    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
+			c.crack_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[2], 0));
 		}
 
 		return c;

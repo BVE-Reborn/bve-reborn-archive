@@ -1,5 +1,5 @@
 #include "parsers/csv_rw_route.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <algorithm>
 #include <gsl/gsl_util>
 #include <sstream>
@@ -31,35 +31,33 @@ namespace bve::parsers::csv_rw_route {
 		return end_paren;
 	}
 
-	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set,
-	                             const std::string& parens) {
-		auto const index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
+	static std::string parse_sub(std::unordered_map<std::size_t, std::string>& variable_set, const std::string& parens) {
+		auto const index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(parens));
 
 		return variable_set[index];
 	}
 
-	static std::string parse_sub_equality(
-	    std::unordered_map<std::size_t, std::string>& variable_set,
-	    const std::string& parens,
-	    std::string after_equals) {
-		auto const index = gsl::narrow<std::size_t>(util::parse_loose_integer(parens));
+	static std::string parse_sub_equality(std::unordered_map<std::size_t, std::string>& variable_set,
+	                                      const std::string& parens,
+	                                      std::string after_equals) {
+		auto const index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(parens));
 		variable_set[index] = std::move(after_equals);
 
 		return ""s;
 	}
 
-	static std::string parse_rnd(const std::string& arg, core::datatypes::RNG& rng) {
-		auto split = util::split_text(arg, ';');
+	static std::string parse_rnd(const std::string& arg, util::datatypes::RNG& rng) {
+		auto split = util::parsers::split_text(arg, ';');
 
 		if (split.size() != 2) {
 			throw std::invalid_argument("$Rnd takes two arguments");
 		}
 
-		if (!util::is_loose_integer(split[0]) || !util::is_loose_integer(split[1])) {
+		if (!util::parsers::is_loose_integer(split[0]) || !util::parsers::is_loose_integer(split[1])) {
 			throw std::invalid_argument("Error: $Rnd requires numeric values");
 		}
-		auto start = util::parse_loose_integer(split[0]);
-		auto end = util::parse_loose_integer(split[1]);
+		auto start = util::parsers::parse_loose_integer(split[0]);
+		auto end = util::parsers::parse_loose_integer(split[1]);
 
 		if (start > end) {
 			std::swap(start, end);
@@ -72,7 +70,7 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	static std::string parse_char(const std::string& arg) {
-		auto const val = util::parse_loose_integer(arg);
+		auto const val = util::parsers::parse_loose_integer(arg);
 
 		if (val == 10 || val == 13 || (val >= 20 && val <= 127)) {
 			return std::string(1, gsl::narrow<char>(val));
@@ -82,7 +80,7 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	static bool parse_if(const std::string& arg) {
-		auto const val = util::parse_loose_integer(arg);
+		auto const val = util::parsers::parse_loose_integer(arg);
 
 		return val != 0;
 	}
@@ -93,16 +91,15 @@ namespace bve::parsers::csv_rw_route {
 		std::size_t char_start{};
 	};
 
-	static std::string preprocess_pass_dispatch(
-	    std::unordered_map<std::size_t, std::string>& variable_set,
-	    IfStatus& if_conditions,
-	    core::datatypes::RNG& rng,
-	    errors::MultiError& errors,
-	    std::string const& filename,
-	    std::string::const_iterator& last_used,
-	    std::string::const_iterator const arg_begin,
-	    std::string::const_iterator const arg_end,
-	    std::string::const_iterator const line_end) {
+	static std::string preprocess_pass_dispatch(std::unordered_map<std::size_t, std::string>& variable_set,
+	                                            IfStatus& if_conditions,
+	                                            util::datatypes::RNG& rng,
+	                                            errors::MultiError& errors,
+	                                            std::string const& filename,
+	                                            std::string::const_iterator& last_used,
+	                                            std::string::const_iterator const arg_begin,
+	                                            std::string::const_iterator const arg_end,
+	                                            std::string::const_iterator const line_end) {
 		auto begin = arg_begin;
 		auto const end = arg_end;
 
@@ -122,24 +119,22 @@ namespace bve::parsers::csv_rw_route {
 			// find the matching parenthesis
 			auto const matched_rparens = find_matching_parens(next_parens, end);
 
-			auto inside_value = preprocess_pass_dispatch(variable_set, if_conditions, rng, errors,
-			                                             filename, last_used, next_parens + 1,
+			auto inside_value = preprocess_pass_dispatch(variable_set, if_conditions, rng, errors, filename, last_used, next_parens + 1,
 			                                             matched_rparens, matched_rparens);
-			util::strip_text(inside_value);
+			util::parsers::strip_text(inside_value);
 
 			auto command_text = std::string(next_money + 1, next_parens);
 
-			util::strip_text(command_text);
-			util::lower(command_text);
+			util::parsers::strip_text(command_text);
+			util::parsers::lower(command_text);
 
 			if (command_text == "sub") {
 				// check for an assignment
 				auto const equals = std::find(matched_rparens, line_end, '=');
 
 				if (end != line_end && equals != line_end) {
-					auto const after_equals =
-					    preprocess_pass_dispatch(variable_set, if_conditions, rng, errors, filename,
-					                             last_used, equals + 1, line_end, line_end);
+					auto const after_equals = preprocess_pass_dispatch(variable_set, if_conditions, rng, errors, filename, last_used,
+					                                                   equals + 1, line_end, line_end);
 					parse_sub_equality(variable_set, inside_value, after_equals);
 
 					inside_value.clear();
@@ -177,14 +172,12 @@ namespace bve::parsers::csv_rw_route {
 			}
 			else if (command_text == "else") {
 				inside_value = "";
-				if_conditions = {IfStatus::Type::else_f,
-				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
+				if_conditions = {IfStatus::Type::else_f, gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else if (command_text == "endif") {
 				inside_value = "";
-				if_conditions = {IfStatus::Type::endif,
-				                 gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
+				if_conditions = {IfStatus::Type::endif, gsl::narrow<std::size_t>(std::distance(arg_begin, next_money))};
 				last_used = matched_rparens;
 			}
 			else {
@@ -205,9 +198,7 @@ namespace bve::parsers::csv_rw_route {
 		return return_value;
 	}
 
-	static void preprocess_pass(PreprocessedLines& lines,
-	                            core::datatypes::RNG& rng,
-	                            errors::MultiError& errors) {
+	static void preprocess_pass(PreprocessedLines& lines, util::datatypes::RNG& rng, errors::MultiError& errors) {
 		std::unordered_map<std::size_t, std::string> variable_storage;
 
 		std::vector<bool> if_condition_stack(1, true);
@@ -238,9 +229,8 @@ namespace bve::parsers::csv_rw_route {
 				std::string directive_value;
 				try {
 					directive_value =
-					    preprocess_pass_dispatch(variable_storage, if_condition, rng, errors,
-					                             lines.filenames[line.filename_index], last_used,
-					                             next_money, matched_rparens + 1, end);
+					    preprocess_pass_dispatch(variable_storage, if_condition, rng, errors, lines.filenames[line.filename_index],
+					                             last_used, next_money, matched_rparens + 1, end);
 				}
 				catch (const std::invalid_argument& e) {
 					add_error(errors, lines.filenames[line.filename_index], line.line, e.what());
@@ -268,8 +258,7 @@ namespace bve::parsers::csv_rw_route {
 					// copy the result of the directive, and concatenate \r\n
 					// into \n if condition will be true if this is not the \n
 					// of the \r\n sequence
-					if (!(directive_value == "\n" && !processed_line.empty()
-					      && processed_line.back() == '\r')) {
+					if (!(directive_value == "\n" && !processed_line.empty() && processed_line.back() == '\r')) {
 						processed_line += directive_value;
 					}
 					else {
@@ -296,12 +285,11 @@ namespace bve::parsers::csv_rw_route {
 		}
 
 		for (auto& line : lines.lines) {
-			auto vec = util::split_text(line.contents, c, ft == FileType::csv);
+			auto vec = util::parsers::split_text(line.contents, c, ft == FileType::csv);
 			for (auto& elem : vec) {
-				util::strip_text(elem);
+				util::parsers::strip_text(elem);
 				if (!elem.empty()) {
-					fixed.lines.emplace_back<PreprocessedLine>(
-					    {std::move(elem), line.filename_index, line.line, line.offset});
+					fixed.lines.emplace_back<PreprocessedLine>({std::move(elem), line.filename_index, line.line, line.offset});
 				}
 			}
 		}
@@ -311,15 +299,12 @@ namespace bve::parsers::csv_rw_route {
 		lines = fixed;
 	}
 
-	void preprocess_file(PreprocessedLines& lines,
-	                     core::datatypes::RNG& rng,
-	                     errors::MultiError& errors,
-	                     FileType const ft) {
+	void preprocess_file(PreprocessedLines& lines, util::datatypes::RNG& rng, errors::MultiError& errors, FileType const ft) {
 		preprocess_pass(lines, rng, errors);
 
 		// remove comments that have been added by preprocessing
 		for (auto& line : lines.lines) {
-			util::remove_comments(line.contents, ';', ft == FileType::csv);
+			util::parsers::remove_comments(line.contents, ';', ft == FileType::csv);
 		}
 
 		// split lines on commas
@@ -328,13 +313,12 @@ namespace bve::parsers::csv_rw_route {
 		if (ft == FileType::csv) {
 			// remove comments that have been made valid by splitting
 			for (auto& line : lines.lines) {
-				util::remove_comments(line.contents, ';', true);
+				util::parsers::remove_comments(line.contents, ';', true);
 			}
 		}
 
 		// remove empty lines
-		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
-		                                 [](PreprocessedLine& l) { return l.contents.empty(); }),
+		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(), [](PreprocessedLine& l) { return l.contents.empty(); }),
 		                  lines.lines.end());
 	}
 } // namespace bve::parsers::csv_rw_route

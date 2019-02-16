@@ -82,9 +82,7 @@ namespace bve::parsers::function_scripts {
 		std::size_t index_ = 0;
 
 	  public:
-		LexerTokenProvider(const LexerTokenList& contains, errors::Errors& errors) :
-		    list_(contains),
-		    err_(errors) {}
+		LexerTokenProvider(const LexerTokenList& contains, errors::Errors& errors) : list_(contains), err_(errors) {}
 
 		template <class T>
 		absl::optional<T> getNextToken() {

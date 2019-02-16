@@ -1,6 +1,6 @@
 #include "csv_rw_route/instruction_generation/instruction_generator.hpp"
 #include "parsers/csv_rw_route.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <algorithm>
 #include <parsers/errors.hpp>
 #include <sstream>
@@ -17,14 +17,13 @@ namespace bve::parsers::csv_rw_route {
 		                                 FileType const ft) {
 			Instruction i;
 
-			auto parsed =
-			    ft == FileType::csv ? line_splitting::csv(line) : line_splitting::rw(line);
+			auto parsed = ft == FileType::csv ? line_splitting::csv(line) : line_splitting::rw(line);
 
 			if (parsed.track_position) {
 				return create_instruction_location_statement(parsed);
 			}
 
-			util::lower(parsed.name);
+			util::parsers::lower(parsed.name);
 
 			if (ft == FileType::csv) {
 				auto const dot_iter = std::find(parsed.name.begin(), parsed.name.end(), '.');
@@ -58,25 +57,22 @@ namespace bve::parsers::csv_rw_route {
 			auto const func_iter = function_mapping.find(parsed.name);
 			if (func_iter == function_mapping.end()) {
 				if (parsed.name == "with") {
-					with_value = util::lower_copy(parsed.args[0]);
+					with_value = util::parsers::lower_copy(parsed.args[0]);
 				}
 				else {
 					bool ignored;
 					if (ft == FileType::csv) {
-						ignored = parsed.name == "route.developerid"s
-						          || parsed.name == "train.acceleration"s
-						          || parsed.name == "train.station"s;
+						ignored =
+						    parsed.name == "route.developerid"s || parsed.name == "train.acceleration"s || parsed.name == "train.station"s;
 					}
 					else {
-						ignored = parsed.name == "@@route@@developerid"s
-						          || parsed.name == "@@train@@acceleration"s
+						ignored = parsed.name == "@@route@@developerid"s || parsed.name == "@@train@@acceleration"s
 						          || parsed.name == "@@train@@station"s;
 					}
 
 					if (!ignored) {
 						std::ostringstream oss;
-						oss << "\"" << parsed.name << "\" is not a known function in a "
-						    << (ft == FileType::csv ? "csv" : "rw") << " file";
+						oss << "\"" << parsed.name << "\" is not a known function in a " << (ft == FileType::csv ? "csv" : "rw") << " file";
 						add_error(errors, lines.filenames[line.filename_index], line.line, oss);
 					}
 				}
@@ -95,16 +91,13 @@ namespace bve::parsers::csv_rw_route {
 		}
 	} // namespace instruction_generation
 
-	InstructionList generate_instructions(const PreprocessedLines& lines,
-	                                      errors::MultiError& errors,
-	                                      FileType const ft) {
+	InstructionList generate_instructions(const PreprocessedLines& lines, errors::MultiError& errors, FileType const ft) {
 		InstructionList i_list;
 		i_list.instructions.reserve(lines.lines.size());
 
 		std::string with_value;
 		for (auto& line : lines.lines) {
-			auto i =
-			    instruction_generation::generate_instruction(lines, line, errors, with_value, ft);
+			auto i = instruction_generation::generate_instruction(lines, line, errors, with_value, ft);
 
 			apply_visitor(
 			    [&line](auto& inst) {

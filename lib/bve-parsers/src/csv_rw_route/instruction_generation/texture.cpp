@@ -6,8 +6,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Texture.Background");
 		args_at_least(inst, 1, "Texture.Background");
 
-		auto const background_texture_index =
-		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+		auto const background_texture_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
 
 		if (inst.suffix.empty() || inst.suffix == "load") {
 			instructions::texture::BackgroundLoad bl;
@@ -16,7 +15,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			return bl;
 		}
 
-		auto const number = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+		auto const number = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 
 		if (inst.suffix == "x") {
 			instructions::texture::BackgroundX x;
@@ -29,8 +28,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			instructions::texture::BackgroundAspect ba;
 
 			ba.background_texture_index = background_texture_index;
-			ba.mode = number != 0 ? instructions::texture::BackgroundAspect::Mode::aspect
-			                      : instructions::texture::BackgroundAspect::Mode::fixed;
+			ba.mode =
+			    number != 0 ? instructions::texture::BackgroundAspect::Mode::aspect : instructions::texture::BackgroundAspect::Mode::fixed;
 
 			return ba;
 		}

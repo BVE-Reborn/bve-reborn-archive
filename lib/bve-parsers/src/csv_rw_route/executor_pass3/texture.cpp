@@ -1,5 +1,5 @@
 #include "executor_pass3.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <string>
 
 using namespace std::string_literals;
@@ -22,9 +22,8 @@ namespace bve::parsers::csv_rw_route {
 		auto const filename = get_relative_file_(issuer_filename, inst.filename);
 
 		try {
-			auto file_contents = util::load_from_file_utf8_bom(filename);
-			background = xml::dynamic_background::parse(filename, std::move(file_contents), errors_,
-			                                            get_relative_file_);
+			auto file_contents = util::parsers::load_from_file_utf8_bom(filename);
+			background = xml::dynamic_background::parse(filename, std::move(file_contents), errors_, get_relative_file_);
 		}
 		catch (const std::exception& e) {
 			add_error(errors_, issuer_filename, inst.line, e.what());
@@ -42,9 +41,8 @@ namespace bve::parsers::csv_rw_route {
 			// actually preform the insertion, not using the background variable as
 			// it has been moved
 			iterator->second = std::move(insert_pair.second);
-			add_error(
-			    errors_, issuer_filename, inst.line,
-			    "Texture.Background(XML) is overwriting all prior calls the Texture Background functions"s);
+			add_error(errors_, issuer_filename, inst.line,
+			          "Texture.Background(XML) is overwriting all prior calls the Texture Background functions"s);
 		}
 	}
 
@@ -57,8 +55,7 @@ namespace bve::parsers::csv_rw_route {
 			TextureBackgroundInfo tbi;
 			tbi.from_xml = false;
 			tbi.filename = inst.filename;
-			background_mapping_.insert(
-			    {inst.background_texture_index, TextureVector{std::move(tbi)}});
+			background_mapping_.insert({inst.background_texture_index, TextureVector{std::move(tbi)}});
 			return;
 		}
 
@@ -67,13 +64,11 @@ namespace bve::parsers::csv_rw_route {
 		auto const created_by_xml = background.match(
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
-		    [](const TextureVector& v) -> bool { return v[0].from_xml; },
-		    [](const ObjectBackgroundInfo&) -> bool { return true; });
+		    [](const TextureVector& v) -> bool { return v[0].from_xml; }, [](const ObjectBackgroundInfo&) -> bool { return true; });
 
 		if (created_by_xml) {
-			add_error(
-			    errors_, issuer_filename, inst.line,
-			    "Texture.Background(XML) has already been used, ignoring Texture.Background(Image)"s);
+			add_error(errors_, issuer_filename, inst.line,
+			          "Texture.Background(XML) has already been used, ignoring Texture.Background(Image)"s);
 			return;
 		}
 
@@ -95,7 +90,7 @@ namespace bve::parsers::csv_rw_route {
 		auto is_xml = false;
 		if (period_index != std::string::npos) {
 			auto extant = inst.filename.substr(period_index + 1);
-			util::lower(extant);
+			util::parsers::lower(extant);
 
 			is_xml = extant == "xml"s;
 		}
@@ -117,8 +112,7 @@ namespace bve::parsers::csv_rw_route {
 			TextureBackgroundInfo tbi;
 			tbi.from_xml = false;
 			tbi.repetitions = inst.repetition_count;
-			background_mapping_.insert(
-			    {inst.background_texture_index, TextureVector{std::move(tbi)}});
+			background_mapping_.insert({inst.background_texture_index, TextureVector{std::move(tbi)}});
 			return;
 		}
 
@@ -127,13 +121,10 @@ namespace bve::parsers::csv_rw_route {
 		auto const created_by_xml = background.match(
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
-		    [](const TextureVector& v) -> bool { return v[0].from_xml; },
-		    [](const ObjectBackgroundInfo&) -> bool { return true; });
+		    [](const TextureVector& v) -> bool { return v[0].from_xml; }, [](const ObjectBackgroundInfo&) -> bool { return true; });
 
 		if (created_by_xml) {
-			add_error(
-			    errors_, issuer_filename, inst.line,
-			    "Texture.Background(XML) has already been used, ignoring Texture.Background.X"s);
+			add_error(errors_, issuer_filename, inst.line, "Texture.Background(XML) has already been used, ignoring Texture.Background.X"s);
 			return;
 		}
 
@@ -148,10 +139,8 @@ namespace bve::parsers::csv_rw_route {
 		if (found_iter == background_mapping_.end()) {
 			TextureBackgroundInfo tbi;
 			tbi.from_xml = false;
-			tbi.preserve_aspect =
-			    inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
-			background_mapping_.insert(
-			    {inst.background_texture_index, TextureVector{std::move(tbi)}});
+			tbi.preserve_aspect = inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
+			background_mapping_.insert({inst.background_texture_index, TextureVector{std::move(tbi)}});
 			return;
 		}
 
@@ -160,17 +149,14 @@ namespace bve::parsers::csv_rw_route {
 		auto const created_by_xml = background.match(
 		    // vector will always have at least one element
 		    // it may have more, but it will definitely be from XML
-		    [](const TextureVector& v) -> bool { return v[0].from_xml; },
-		    [](const ObjectBackgroundInfo&) -> bool { return true; });
+		    [](const TextureVector& v) -> bool { return v[0].from_xml; }, [](const ObjectBackgroundInfo&) -> bool { return true; });
 
 		if (created_by_xml) {
-			add_error(
-			    errors_, issuer_filename, inst.line,
-			    "Texture.Background(XML) has already been used, ignoring Texture.Background.Aspect"s);
+			add_error(errors_, issuer_filename, inst.line,
+			          "Texture.Background(XML) has already been used, ignoring Texture.Background.Aspect"s);
 			return;
 		}
 
-		background.get_unchecked<TextureVector>()[0].preserve_aspect =
-		    inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
+		background.get_unchecked<TextureVector>()[0].preserve_aspect = inst.mode == instructions::texture::BackgroundAspect::Mode::aspect;
 	}
 } // namespace bve::parsers::csv_rw_route

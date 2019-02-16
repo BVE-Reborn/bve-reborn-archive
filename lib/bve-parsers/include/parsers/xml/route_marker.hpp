@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/datatypes.hpp"
 #include "parsers/errors.hpp"
 #include "parsers/find_relative_file.hpp"
+#include "util/datatypes.hpp"
 #include <mapbox/variant.hpp>
 #include <string>
 #include <vector>
@@ -13,8 +13,8 @@ namespace bve::parsers::xml::route_marker {
 		std::string early_filename;
 		std::string on_time_filename;
 		std::string late_filename;
-		core::datatypes::Time early_time = 0;
-		core::datatypes::Time late_time = 0;
+		util::datatypes::Time early_time = 0;
+		util::datatypes::Time late_time = 0;
 		std::intmax_t timeout = 0;
 		float distance = 0;
 		bool using_early = false;
@@ -29,8 +29,8 @@ namespace bve::parsers::xml::route_marker {
 		std::string early_text;
 		std::string on_time_text;
 		std::string late_text;
-		core::datatypes::Time early_time = 0;
-		core::datatypes::Time late_time = 0;
+		util::datatypes::Time early_time = 0;
+		util::datatypes::Time late_time = 0;
 		std::intmax_t timeout = 0;
 		float distance = 0;
 		Color early_color = Color::white;

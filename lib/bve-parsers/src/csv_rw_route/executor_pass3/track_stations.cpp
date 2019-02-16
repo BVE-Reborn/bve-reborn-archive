@@ -27,10 +27,9 @@ namespace bve::parsers::csv_rw_route {
 
 		auto const xml_file_loc = get_relative_file_(getFilename(inst.file_index), inst.filename);
 
-		auto const file_contents = util::load_from_file_utf8_bom(xml_file_loc);
+		auto const file_contents = util::parsers::load_from_file_utf8_bom(xml_file_loc);
 
-		auto const parsed_xml =
-		    xml::stations::parse(xml_file_loc, file_contents, errors_, get_relative_file_);
+		auto const parsed_xml = xml::stations::parse(xml_file_loc, file_contents, errors_, get_relative_file_);
 
 		rsi.arrival = parsed_xml.arrival_time;
 		rsi.arrival_sound = addSoundFilename(parsed_xml.arrival_sound_file);

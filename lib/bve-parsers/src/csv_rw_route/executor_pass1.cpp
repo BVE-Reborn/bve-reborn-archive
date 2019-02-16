@@ -11,9 +11,7 @@ namespace bve::parsers::csv_rw_route {
 			std::vector<float> current_unitoflength_ = {1, 1};
 
 		  public:
-			Pass1Executor(errors::MultiError& e, const std::vector<std::string>& f) :
-			    errors_(e),
-			    filenames_(f) {}
+			Pass1Executor(errors::MultiError& e, const std::vector<std::string>& f) : errors_(e), filenames_(f) {}
 
 			void operator()(instructions::naked::Position& p) {
 				if (p.distances.size() > current_unitoflength_.size()) {
@@ -23,8 +21,7 @@ namespace bve::parsers::csv_rw_route {
 				}
 				// Dot product
 				current_position_ = 0;
-				for (std::size_t i = 0;
-				     i < std::min(current_unitoflength_.size(), p.distances.size()); ++i) {
+				for (std::size_t i = 0; i < std::min(current_unitoflength_.size(), p.distances.size()); ++i) {
 					current_position_ += current_unitoflength_[i] * p.distances[i];
 				}
 				p.absolute_position = current_position_;
@@ -49,12 +46,9 @@ namespace bve::parsers::csv_rw_route {
 			apply_visitor(e, i);
 		}
 
-		std::stable_sort(list.instructions.begin(), list.instructions.end(),
-		                 [](const Instruction& a, const Instruction& b) {
-			                 auto position = [](auto& val) -> float {
-				                 return val.absolute_position;
-			                 };
-			                 return apply_visitor(position, a) < apply_visitor(position, b);
-		                 });
+		std::stable_sort(list.instructions.begin(), list.instructions.end(), [](const Instruction& a, const Instruction& b) {
+			auto position = [](auto& val) -> float { return val.absolute_position; };
+			return apply_visitor(position, a) < apply_visitor(position, b);
+		});
 	}
 } // namespace bve::parsers::csv_rw_route

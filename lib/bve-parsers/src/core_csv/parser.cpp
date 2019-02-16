@@ -1,5 +1,5 @@
 #include "parsers/csv.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <algorithm>
 #include <gsl/gsl_util>
 
@@ -20,20 +20,17 @@ namespace bve::parsers::csv {
 		while (!last_loop) {
 			// find next comma/newline
 			auto const next_delim = std::find_if(begin, end, [&](char const c) {
-				return (sfc == SplitFirstColumn::yes && newline ? c == split_char : false)
-				       || c == delim || c == '\n';
+				return (sfc == SplitFirstColumn::yes && newline ? c == split_char : false) || c == delim || c == '\n';
 			});
 
 			newline = false;
 
 			auto s = std::string{begin, next_delim};
 
-			util::strip_text(s);
+			util::parsers::strip_text(s);
 
-			CSVToken token{std::move(s), current_line, current_line,
-			               gsl::narrow<std::size_t>(std::distance(last_newline_iterator, begin)),
-			               gsl::narrow<std::size_t>(
-			                   std::distance(last_newline_iterator, next_delim))};
+			CSVToken token{std::move(s), current_line, current_line, gsl::narrow<std::size_t>(std::distance(last_newline_iterator, begin)),
+			               gsl::narrow<std::size_t>(std::distance(last_newline_iterator, next_delim))};
 
 			token_list.back().emplace_back(std::move(token));
 

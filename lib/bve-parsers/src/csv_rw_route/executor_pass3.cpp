@@ -13,9 +13,7 @@ namespace bve::parsers::csv_rw_route {
 			apply_visitor(p3_e, inst);
 		}
 
-		auto const largest_position =
-		    apply_visitor([](auto& inst) -> float { return inst.absolute_position; },
-		                  list.instructions.back());
+		auto const largest_position = apply_visitor([](auto& inst) -> float { return inst.absolute_position; }, list.instructions.back());
 
 		p3_e.finalize(largest_position);
 	}

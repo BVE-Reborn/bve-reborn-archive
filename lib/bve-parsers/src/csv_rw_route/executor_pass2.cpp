@@ -1,6 +1,6 @@
-#include "core/math.hpp"
 #include "parsers/csv_rw_route.hpp"
 #include "parsers/errors.hpp"
+#include "util/math.hpp"
 
 namespace bve::parsers::csv_rw_route {
 	namespace {
@@ -14,11 +14,10 @@ namespace bve::parsers::csv_rw_route {
 			errors::MultiError& errors_;
 			const std::vector<std::string>& filenames_;
 
-			instructions::options::CantBehavior::Mode cant_behavior_ =
-			    instructions::options::CantBehavior::Mode::unsigned_cant;
+			instructions::options::CantBehavior::Mode cant_behavior_ = instructions::options::CantBehavior::Mode::unsigned_cant;
 
 			RailBlockInfo& makeNewBlock(float position) {
-				position = bve::core::math::max<float>(0, position);
+				position = bve::util::math::max<float>(0, position);
 				if (rd.blocks.empty()) {
 					if (position != 0) {
 						rd.blocks.emplace_back();
@@ -53,8 +52,7 @@ namespace bve::parsers::csv_rw_route {
 				return rbi;
 			}
 
-			static void calculateCacheImpl(RailBlockInfo& last_block,
-			                               RailBlockInfo& current_block) {
+			static void calculateCacheImpl(RailBlockInfo& last_block, RailBlockInfo& current_block) {
 				// Only update the cache if it hasn't been updated before
 				// any changes are made to the current block, the last block
 				// will not change
@@ -68,10 +66,8 @@ namespace bve::parsers::csv_rw_route {
 					// with a vector of (0, 0, 1) this way we can directly set
 					// the y component in order to get the proper angle
 					last_block.cache.direction.y = last_block.pitch;
-					auto const curve_results =
-					    core::math::evaluate_curve(last_block.cache.location,
-					                               last_block.cache.direction, last_block.length,
-					                               last_block.radius);
+					auto const curve_results = util::math::evaluate_curve(last_block.cache.location, last_block.cache.direction,
+					                                                      last_block.length, last_block.radius);
 
 					current_block.cache.location = curve_results.position;
 					current_block.cache.direction = curve_results.tangent;
@@ -104,9 +100,7 @@ namespace bve::parsers::csv_rw_route {
 			}
 
 		  public:
-			Pass2Executor(errors::MultiError& e, const std::vector<std::string>& f) :
-			    errors_(e),
-			    filenames_(f) {}
+			Pass2Executor(errors::MultiError& e, const std::vector<std::string>& f) : errors_(e), filenames_(f) {}
 
 			void operator()(const instructions::options::UnitOfLength& inst) {
 				// verification of argument count has already happened
@@ -148,7 +142,7 @@ namespace bve::parsers::csv_rw_route {
 					auto const x = inst.ratio * block_size;
 					auto const z = x / inst.ratio;
 
-					block.radius = core::math::radius_from_distances(z, x);
+					block.radius = util::math::radius_from_distances(z, x);
 				}
 				else {
 					block.radius = 0;

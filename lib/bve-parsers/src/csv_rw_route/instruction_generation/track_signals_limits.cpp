@@ -8,7 +8,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 3: {
-				auto const course_num = util::parse_loose_integer(inst.args[2], 0);
+				auto const course_num = util::parsers::parse_loose_integer(inst.args[2], 0);
 
 				switch (course_num) {
 					case -1:
@@ -25,7 +25,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			}
 				// fall through
 			case 2: {
-				auto const post_num = util::parse_loose_integer(inst.args[1], 0);
+				auto const post_num = util::parsers::parse_loose_integer(inst.args[1], 0);
 
 				switch (post_num) {
 					case -1:
@@ -42,7 +42,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			}
 				// fall through
 			case 1:
-				l.speed = util::parse_loose_float(inst.args[0], 0);
+				l.speed = util::parsers::parse_loose_float(inst.args[0], 0);
 				// fall through
 			case 0:
 				break;
@@ -58,9 +58,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		s.a_term.reserve(inst.args.size());
 
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(s.a_term),
-		               [](const std::string& val) {
-			               return gsl::narrow<std::size_t>(util::parse_loose_integer(val, 0));
-		               });
+		               [](const std::string& val) { return gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(val, 0)); });
 
 		return s;
 	}
@@ -70,8 +68,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::SigF sf;
 
-		sf.signal_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
-		sf.section = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[1]));
+		sf.signal_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
+		sf.section = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1]));
 		set_positions<2>(sf, inst);
 
 		return sf;
@@ -80,7 +78,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		instructions::track::Signal s;
 
 		if (!inst.args.empty()) {
-			auto const type_num = util::parse_loose_integer(inst.args[0]);
+			auto const type_num = util::parsers::parse_loose_integer(inst.args[0]);
 
 			switch (type_num) {
 				case 2:

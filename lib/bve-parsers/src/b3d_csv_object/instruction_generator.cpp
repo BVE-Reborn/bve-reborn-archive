@@ -1,7 +1,7 @@
 #include "b3d_csv_object.hpp"
-#include "core/math.hpp"
 #include "parsers/csv.hpp"
-#include "parsers/utils.hpp"
+#include "util/math.hpp"
+#include "util/parsing.hpp"
 #include <gsl/gsl_util>
 #include <map>
 #include <stdexcept>
@@ -11,8 +11,7 @@ using namespace std::string_literals;
 // ReSharper disable once CppInconsistentNaming
 namespace bve::parsers::b3d_csv_object {
 	namespace {
-		Instruction create_instruction_createmeshbuilder(
-		    const std::vector<csv::CSVToken>& arguments) {
+		Instruction create_instruction_createmeshbuilder(const std::vector<csv::CSVToken>& arguments) {
 			(void) arguments;
 			return instructions::CreateMeshBuilder{};
 		}
@@ -22,22 +21,22 @@ namespace bve::parsers::b3d_csv_object {
 			switch (arguments.size()) {
 				default:
 				case 7:
-					av.n_z = util::parse_loose_float(arguments[6].text, 0);
+					av.n_z = util::parsers::parse_loose_float(arguments[6].text, 0);
 					// fall through
 				case 6:
-					av.n_y = util::parse_loose_float(arguments[5].text, 0);
+					av.n_y = util::parsers::parse_loose_float(arguments[5].text, 0);
 					// fall through
 				case 5:
-					av.n_x = util::parse_loose_float(arguments[4].text, 0);
+					av.n_x = util::parsers::parse_loose_float(arguments[4].text, 0);
 					// fall through
 				case 4:
-					av.v_z = util::parse_loose_float(arguments[3].text, 0);
+					av.v_z = util::parsers::parse_loose_float(arguments[3].text, 0);
 					// fall through
 				case 3:
-					av.v_y = util::parse_loose_float(arguments[2].text, 0);
+					av.v_y = util::parsers::parse_loose_float(arguments[2].text, 0);
 					// fall through
 				case 2:
-					av.v_x = util::parse_loose_float(arguments[1].text, 0);
+					av.v_x = util::parsers::parse_loose_float(arguments[1].text, 0);
 					// fall through
 				case 1:
 					break;
@@ -46,16 +45,14 @@ namespace bve::parsers::b3d_csv_object {
 			return av;
 		}
 
-		Instruction create_instruction_addface_impl(const std::vector<csv::CSVToken>& arguments,
-		                                            instructions::Sides const sides) {
+		Instruction create_instruction_addface_impl(const std::vector<csv::CSVToken>& arguments, instructions::Sides const sides) {
 			if (arguments.size() < 4) {
 				throw std::invalid_argument("Creation of instruction addface");
 			}
 			instructions::AddFace af{};
 			for (std::size_t i = 1; i < arguments.size(); ++i) {
 				try {
-					af.vertices.emplace_back(
-					    gsl::narrow<std::size_t>(util::parse_loose_integer(arguments[i].text)));
+					af.vertices.emplace_back(gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(arguments[i].text)));
 				}
 				catch (std::invalid_argument&) {
 					if (af.vertices.size() < 3) {
@@ -80,9 +77,9 @@ namespace bve::parsers::b3d_csv_object {
 				throw std::invalid_argument("Creation of instruction cube");
 			}
 			instructions::Cube cu{};
-			cu.half_width = util::parse_loose_float(arguments[1].text);
-			cu.half_height = util::parse_loose_float(arguments[2].text);
-			cu.half_depth = util::parse_loose_float(arguments[3].text);
+			cu.half_width = util::parsers::parse_loose_float(arguments[1].text);
+			cu.half_height = util::parsers::parse_loose_float(arguments[2].text);
+			cu.half_depth = util::parsers::parse_loose_float(arguments[3].text);
 			return cu;
 		}
 
@@ -91,26 +88,25 @@ namespace bve::parsers::b3d_csv_object {
 				throw std::invalid_argument("Creation of instruction cylinder");
 			}
 			instructions::Cylinder cy{};
-			cy.sides = gsl::narrow<std::size_t>(util::parse_loose_integer(arguments[1].text));
-			cy.upper_radius = util::parse_loose_float(arguments[2].text);
-			cy.lower_radius = util::parse_loose_float(arguments[3].text);
-			cy.height = util::parse_loose_float(arguments[4].text);
+			cy.sides = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(arguments[1].text));
+			cy.upper_radius = util::parsers::parse_loose_float(arguments[2].text);
+			cy.lower_radius = util::parsers::parse_loose_float(arguments[3].text);
+			cy.height = util::parsers::parse_loose_float(arguments[4].text);
 			return cy;
 		}
 
-		Instruction create_instruction_translate_impl(const std::vector<csv::CSVToken>& arguments,
-		                                              instructions::ApplyTo const applies_to) {
+		Instruction create_instruction_translate_impl(const std::vector<csv::CSVToken>& arguments, instructions::ApplyTo const applies_to) {
 			instructions::Translate tl{};
 			switch (arguments.size()) {
 				default:
 				case 4:
-					tl.z = util::parse_loose_float(arguments[3].text, 0);
+					tl.z = util::parsers::parse_loose_float(arguments[3].text, 0);
 					// fall through
 				case 3:
-					tl.y = util::parse_loose_float(arguments[2].text, 0);
+					tl.y = util::parsers::parse_loose_float(arguments[2].text, 0);
 					// fall through
 				case 2:
-					tl.x = util::parse_loose_float(arguments[1].text, 0);
+					tl.x = util::parsers::parse_loose_float(arguments[1].text, 0);
 					// fall through
 				case 1:
 					break;
@@ -126,19 +122,18 @@ namespace bve::parsers::b3d_csv_object {
 			return create_instruction_translate_impl(arguments, instructions::ApplyTo::all_meshes);
 		}
 
-		Instruction create_instruction_scale_impl(const std::vector<csv::CSVToken>& arguments,
-		                                          instructions::ApplyTo const applies_to) {
+		Instruction create_instruction_scale_impl(const std::vector<csv::CSVToken>& arguments, instructions::ApplyTo const applies_to) {
 			instructions::Scale sc{};
 			switch (arguments.size()) {
 				default:
 				case 4:
-					sc.z = util::parse_loose_float(arguments[3].text, 1);
+					sc.z = util::parsers::parse_loose_float(arguments[3].text, 1);
 					// fall through
 				case 3:
-					sc.y = util::parse_loose_float(arguments[2].text, 1);
+					sc.y = util::parsers::parse_loose_float(arguments[2].text, 1);
 					// fall through
 				case 2:
-					sc.x = util::parse_loose_float(arguments[1].text, 1);
+					sc.x = util::parsers::parse_loose_float(arguments[1].text, 1);
 					// fall through
 				case 1:
 					break;
@@ -154,22 +149,21 @@ namespace bve::parsers::b3d_csv_object {
 			return create_instruction_scale_impl(arguments, instructions::ApplyTo::all_meshes);
 		}
 
-		Instruction create_instruction_rotate_impl(const std::vector<csv::CSVToken>& arguments,
-		                                           instructions::ApplyTo const applies_to) {
+		Instruction create_instruction_rotate_impl(const std::vector<csv::CSVToken>& arguments, instructions::ApplyTo const applies_to) {
 			instructions::Rotate ro{};
 			switch (arguments.size()) {
 				default:
 				case 5:
-					ro.angle = util::parse_loose_float(arguments[4].text, 0);
+					ro.angle = util::parsers::parse_loose_float(arguments[4].text, 0);
 					// fall through
 				case 4:
-					ro.z = util::parse_loose_float(arguments[3].text, 0);
+					ro.z = util::parsers::parse_loose_float(arguments[3].text, 0);
 					// fall through
 				case 3:
-					ro.y = util::parse_loose_float(arguments[2].text, 0);
+					ro.y = util::parsers::parse_loose_float(arguments[2].text, 0);
 					// fall through
 				case 2:
-					ro.x = util::parse_loose_float(arguments[1].text, 0);
+					ro.x = util::parsers::parse_loose_float(arguments[1].text, 0);
 					// fall through
 				case 1:
 					break;
@@ -185,31 +179,30 @@ namespace bve::parsers::b3d_csv_object {
 			return create_instruction_rotate_impl(arguments, instructions::ApplyTo::all_meshes);
 		}
 
-		Instruction create_instruction_shear_impl(const std::vector<csv::CSVToken>& arguments,
-		                                          instructions::ApplyTo const applies_to) {
+		Instruction create_instruction_shear_impl(const std::vector<csv::CSVToken>& arguments, instructions::ApplyTo const applies_to) {
 			instructions::Shear sh{};
 			switch (arguments.size()) {
 				default:
 				case 8:
-					sh.r = util::parse_loose_float(arguments[7].text, 0);
+					sh.r = util::parsers::parse_loose_float(arguments[7].text, 0);
 					// fall through
 				case 7:
-					sh.s_z = util::parse_loose_float(arguments[6].text, 0);
+					sh.s_z = util::parsers::parse_loose_float(arguments[6].text, 0);
 					// fall through
 				case 6:
-					sh.s_y = util::parse_loose_float(arguments[5].text, 0);
+					sh.s_y = util::parsers::parse_loose_float(arguments[5].text, 0);
 					// fall through
 				case 5:
-					sh.s_x = util::parse_loose_float(arguments[4].text, 0);
+					sh.s_x = util::parsers::parse_loose_float(arguments[4].text, 0);
 					// fall through
 				case 4:
-					sh.d_z = util::parse_loose_float(arguments[3].text, 0);
+					sh.d_z = util::parsers::parse_loose_float(arguments[3].text, 0);
 					// fall through
 				case 3:
-					sh.d_y = util::parse_loose_float(arguments[2].text, 0);
+					sh.d_y = util::parsers::parse_loose_float(arguments[2].text, 0);
 					// fall through
 				case 2:
-					sh.d_x = util::parse_loose_float(arguments[1].text, 0);
+					sh.d_x = util::parsers::parse_loose_float(arguments[1].text, 0);
 					// fall through
 				case 1:
 					break;
@@ -225,19 +218,18 @@ namespace bve::parsers::b3d_csv_object {
 			return create_instruction_shear_impl(arguments, instructions::ApplyTo::all_meshes);
 		}
 
-		Instruction create_instruction_mirror_impl(const std::vector<csv::CSVToken>& arguments,
-		                                           instructions::ApplyTo const applies_to) {
+		Instruction create_instruction_mirror_impl(const std::vector<csv::CSVToken>& arguments, instructions::ApplyTo const applies_to) {
 			instructions::Mirror mirror{};
 			switch (arguments.size()) {
 				default:
 				case 4:
-					mirror.z = util::parse_loose_integer(arguments[3].text, 0) != 0;
+					mirror.z = util::parsers::parse_loose_integer(arguments[3].text, 0) != 0;
 					// fall through
 				case 3:
-					mirror.y = util::parse_loose_integer(arguments[2].text, 0) != 0;
+					mirror.y = util::parsers::parse_loose_integer(arguments[2].text, 0) != 0;
 					// fall through
 				case 2:
-					mirror.x = util::parse_loose_integer(arguments[1].text, 0) != 0;
+					mirror.x = util::parsers::parse_loose_integer(arguments[1].text, 0) != 0;
 					// fall through
 				case 1:
 					break;
@@ -258,24 +250,16 @@ namespace bve::parsers::b3d_csv_object {
 			switch (arguments.size()) {
 				default:
 				case 5:
-					sc.alpha =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[4].text, 255),
-					                              0, 255));
+					sc.alpha = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[4].text, 255), 0, 255));
 					// fall through
 				case 4:
-					sc.blue =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[3].text, 255),
-					                              0, 255));
+					sc.blue = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[3].text, 255), 0, 255));
 					// fall through
 				case 3:
-					sc.green =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[2].text, 255),
-					                              0, 255));
+					sc.green = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 255), 0, 255));
 					// fall through
 				case 2:
-					sc.red =
-					    uint8_t(core::math::clamp(util::parse_loose_integer(arguments[1].text, 255),
-					                              0, 255));
+					sc.red = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[1].text, 255), 0, 255));
 					// fall through
 				case 1:
 					break;
@@ -283,22 +267,18 @@ namespace bve::parsers::b3d_csv_object {
 			return sc;
 		}
 
-		Instruction create_instruction_setemissivecolor(
-		    const std::vector<csv::CSVToken>& arguments) {
+		Instruction create_instruction_setemissivecolor(const std::vector<csv::CSVToken>& arguments) {
 			instructions::SetEmissiveColor sec{};
 			switch (arguments.size()) {
 				default:
 				case 4:
-					sec.blue = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0, 255));
+					sec.blue = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[3].text, 0), 0, 255));
 					// fall through
 				case 3:
-					sec.green = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 255));
+					sec.green = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 0), 0, 255));
 					// fall through
 				case 2:
-					sec.red = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0, 255));
+					sec.red = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[1].text, 0), 0, 255));
 					// fall through
 				case 1:
 					break;
@@ -311,23 +291,21 @@ namespace bve::parsers::b3d_csv_object {
 			switch (arguments.size()) {
 				default:
 				case 4:
-					if (util::match_against_lower(arguments[3].text, "divideexponent4")) {
+					if (util::parsers::match_against_lower(arguments[3].text, "divideexponent4")) {
 						sbm.glow_attenuation_mode = Mesh::GlowAttenuationMode::divide_exponent4;
 					}
-					else if (util::match_against_lower(arguments[3].text, "divideexponent2")) {
+					else if (util::parsers::match_against_lower(arguments[3].text, "divideexponent2")) {
 						sbm.glow_attenuation_mode = Mesh::GlowAttenuationMode::divide_exponent2;
 					}
 					// fall through
 				case 3:
-					sbm.glow_half_distance =
-					    uint16_t(core::math::clamp(util::parse_loose_integer(arguments[2].text, 0),
-					                               0, 4095));
+					sbm.glow_half_distance = uint16_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 0), 0, 4095));
 					// fall through
 				case 2:
-					if (util::match_against_lower(arguments[1].text, "normal")) {
+					if (util::parsers::match_against_lower(arguments[1].text, "normal")) {
 						sbm.blend_mode = Mesh::BlendMode::normal;
 					}
-					else if (util::match_against_lower(arguments[1].text, "additive")) {
+					else if (util::parsers::match_against_lower(arguments[1].text, "additive")) {
 						sbm.blend_mode = Mesh::BlendMode::additive;
 					}
 					// fall through
@@ -353,114 +331,109 @@ namespace bve::parsers::b3d_csv_object {
 			return lt;
 		}
 
-		Instruction create_instruction_setdecaltransparentcolor(
-		    const std::vector<csv::CSVToken>& arguments) {
+		Instruction create_instruction_setdecaltransparentcolor(const std::vector<csv::CSVToken>& arguments) {
 			instructions::SetDecalTransparentColor decal_transparent_color{};
 			switch (arguments.size()) {
 				default:
 				case 4:
-					decal_transparent_color.blue = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[3].text, 0), 0, 255));
+					decal_transparent_color.blue =
+					    uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[3].text, 0), 0, 255));
 					// fall through
 				case 3:
-					decal_transparent_color.green = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[2].text, 0), 0, 255));
+					decal_transparent_color.green =
+					    uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 0), 0, 255));
 					// fall through
 				case 2:
-					decal_transparent_color.red = uint8_t(
-					    core::math::clamp(util::parse_loose_integer(arguments[1].text, 0), 0, 255));
+					decal_transparent_color.red =
+					    uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[1].text, 0), 0, 255));
 					// fall through
 				case 1:
 					break;
 			}
 			return decal_transparent_color;
 		}
-		Instruction create_instruction_settexturecoordinates(
-		    const std::vector<csv::CSVToken>& arguments) {
+		Instruction create_instruction_settexturecoordinates(const std::vector<csv::CSVToken>& arguments) {
 			if (arguments.size() < 4) {
 				throw std::invalid_argument("Creation of instruction settexturecoordinates");
 			}
 			instructions::SetTextureCoordinates stc{};
-			stc.vertex_index =
-			    gsl::narrow<std::size_t>(util::parse_loose_integer(arguments[1].text));
-			stc.x = util::parse_loose_float(arguments[2].text);
-			stc.y = util::parse_loose_float(arguments[3].text);
+			stc.vertex_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(arguments[1].text));
+			stc.x = util::parsers::parse_loose_float(arguments[2].text);
+			stc.y = util::parsers::parse_loose_float(arguments[3].text);
 			return stc;
 		}
 
-		const std::map<std::string, Instruction (*)(const std::vector<csv::CSVToken>&)>
-		    function_mapping{
-		        // .csv
-		        {"createmeshbuilder"s, &create_instruction_createmeshbuilder},
-		        {"addvertex"s, &create_instruction_addvertex},
-		        {"addface"s, &create_instruction_addface},
-		        {"addface2"s, &create_instruction_addface2},
-		        {"cube"s, &create_instruction_cube},
-		        {"cylinder"s, &create_instruction_cylinder},
-		        {"translate"s, &create_instruction_translate},
-		        {"translateall"s, &create_instruction_translateall},
-		        {"scale"s, &create_instruction_scale},
-		        {"scaleall"s, &create_instruction_scaleall},
-		        {"rotate"s, &create_instruction_rotate},
-		        {"rotateall"s, &create_instruction_rotateall},
-		        {"shear"s, &create_instruction_shear},
-		        {"shearall"s, &create_instruction_shearall},
-		        {"mirror"s, &create_instruction_mirror},
-		        {"mirrorall"s, &create_instruction_mirrorall},
-		        {"setcolor"s, &create_instruction_setcolor},
-		        {"setemissivecolor"s, &create_instruction_setemissivecolor},
-		        {"setblendmode"s, &create_instruction_setblendmode},
-		        {"loadtexture"s, &create_instruction_loadtexture},
-		        {"setdecaltransparentcolor"s, &create_instruction_setdecaltransparentcolor},
-		        {"settexturecoordinates"s, &create_instruction_settexturecoordinates},
+		const std::map<std::string, Instruction (*)(const std::vector<csv::CSVToken>&)> function_mapping{
+		    // .csv
+		    {"createmeshbuilder"s, &create_instruction_createmeshbuilder},
+		    {"addvertex"s, &create_instruction_addvertex},
+		    {"addface"s, &create_instruction_addface},
+		    {"addface2"s, &create_instruction_addface2},
+		    {"cube"s, &create_instruction_cube},
+		    {"cylinder"s, &create_instruction_cylinder},
+		    {"translate"s, &create_instruction_translate},
+		    {"translateall"s, &create_instruction_translateall},
+		    {"scale"s, &create_instruction_scale},
+		    {"scaleall"s, &create_instruction_scaleall},
+		    {"rotate"s, &create_instruction_rotate},
+		    {"rotateall"s, &create_instruction_rotateall},
+		    {"shear"s, &create_instruction_shear},
+		    {"shearall"s, &create_instruction_shearall},
+		    {"mirror"s, &create_instruction_mirror},
+		    {"mirrorall"s, &create_instruction_mirrorall},
+		    {"setcolor"s, &create_instruction_setcolor},
+		    {"setemissivecolor"s, &create_instruction_setemissivecolor},
+		    {"setblendmode"s, &create_instruction_setblendmode},
+		    {"loadtexture"s, &create_instruction_loadtexture},
+		    {"setdecaltransparentcolor"s, &create_instruction_setdecaltransparentcolor},
+		    {"settexturecoordinates"s, &create_instruction_settexturecoordinates},
 
-		        // .b3d
-		        {"[meshbuilder]"s, &create_instruction_createmeshbuilder},
-		        {"vertex"s, &create_instruction_addvertex},
-		        {"face"s, &create_instruction_addface},
-		        {"face2"s, &create_instruction_addface2},
-		        {"cube"s, &create_instruction_cube},
-		        {"cylinder"s, &create_instruction_cylinder},
-		        {"translate"s, &create_instruction_translate},
-		        {"translateall"s, &create_instruction_translateall},
-		        {"scale"s, &create_instruction_scale},
-		        {"scaleall"s, &create_instruction_scaleall},
-		        {"rotate"s, &create_instruction_rotate},
-		        {"rotateall"s, &create_instruction_rotateall},
-		        {"shear"s, &create_instruction_shear},
-		        {"shearall"s, &create_instruction_shearall},
-		        {"mirror"s, &create_instruction_mirror},
-		        {"mirrorall"s, &create_instruction_mirrorall},
-		        {"color"s, &create_instruction_setcolor},
-		        {"emissivecolor"s, &create_instruction_setemissivecolor},
-		        {"blendmode"s, &create_instruction_setblendmode},
-		        {"load"s, &create_instruction_loadtexture},
-		        {"transparent"s, &create_instruction_setdecaltransparentcolor},
-		        {"coordinates"s, &create_instruction_settexturecoordinates},
-		    };
+		    // .b3d
+		    {"[meshbuilder]"s, &create_instruction_createmeshbuilder},
+		    {"vertex"s, &create_instruction_addvertex},
+		    {"face"s, &create_instruction_addface},
+		    {"face2"s, &create_instruction_addface2},
+		    {"cube"s, &create_instruction_cube},
+		    {"cylinder"s, &create_instruction_cylinder},
+		    {"translate"s, &create_instruction_translate},
+		    {"translateall"s, &create_instruction_translateall},
+		    {"scale"s, &create_instruction_scale},
+		    {"scaleall"s, &create_instruction_scaleall},
+		    {"rotate"s, &create_instruction_rotate},
+		    {"rotateall"s, &create_instruction_rotateall},
+		    {"shear"s, &create_instruction_shear},
+		    {"shearall"s, &create_instruction_shearall},
+		    {"mirror"s, &create_instruction_mirror},
+		    {"mirrorall"s, &create_instruction_mirrorall},
+		    {"color"s, &create_instruction_setcolor},
+		    {"emissivecolor"s, &create_instruction_setemissivecolor},
+		    {"blendmode"s, &create_instruction_setblendmode},
+		    {"load"s, &create_instruction_loadtexture},
+		    {"transparent"s, &create_instruction_setdecaltransparentcolor},
+		    {"coordinates"s, &create_instruction_settexturecoordinates},
+		};
 	} // namespace
 
 	InstructionList create_instructions(std::string text, FileType const ft) {
 		InstructionList il;
 
-		util::remove_comments(text, ';');
+		util::parsers::remove_comments(text, ';');
 
-		auto csv = parse(text, ft == FileType::b3d ? csv::SplitFirstColumn::yes
-		                                           : csv::SplitFirstColumn::no);
+		auto csv = parse(text, ft == FileType::b3d ? csv::SplitFirstColumn::yes : csv::SplitFirstColumn::no);
 
 		for (auto& row : csv) {
 			if (row.empty() || row[0].text.empty()) {
 				continue;
 			}
-			if (ft == FileType::b3d && util::match_against_lower(row[0].text, "[texture]")) {
+			if (ft == FileType::b3d && util::parsers::match_against_lower(row[0].text, "[texture]")) {
 				continue;
 			}
-			if (ft == FileType::csv && util::match_against_lower(row[0].text, "generatenormals")) {
+			if (ft == FileType::csv && util::parsers::match_against_lower(row[0].text, "generatenormals")) {
 				continue;
 			}
 
 			Instruction ins;
-			util::lower(row[0].text);
+			util::parsers::lower(row[0].text);
 			auto const found_func = function_mapping.find(row[0].text);
 			if (found_func == function_mapping.end()) {
 				ins = instructions::Error{"Function \""s + row[0].text + "\" not found"s};

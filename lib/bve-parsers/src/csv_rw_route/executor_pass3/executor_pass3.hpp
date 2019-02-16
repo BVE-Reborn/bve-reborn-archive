@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/math.hpp"
-#include "core/pair_hash.hpp"
 #include "parsers/csv_rw_route.hpp"
 #include "parsers/find_relative_file.hpp"
-#include "parsers/utils.hpp"
+#include "util/math.hpp"
+#include "util/pair_hash.hpp"
+#include "util/parsing.hpp"
 #include <functional>
 #include <iosfwd>
 #include <iostream>
@@ -64,8 +64,7 @@ namespace bve::parsers::csv_rw_route {
 		// state variables
 		std::vector<float> units_of_length_ = {1, 1};
 		float unit_of_speed_ = 1;
-		instructions::options::SectionBehavior::Mode section_behavior_ =
-		    instructions::options::SectionBehavior::Mode::normal;
+		instructions::options::SectionBehavior::Mode section_behavior_ = instructions::options::SectionBehavior::Mode::normal;
 
 		// rail state
 		std::unordered_map<std::size_t, RailState> current_rail_state_ = {
@@ -97,14 +96,10 @@ namespace bve::parsers::csv_rw_route {
 		std::unordered_map<std::size_t, FilenameSetIterator> object_beacon_mapping_;
 		// Poles are unique based on the number of rails as well as the pole
 		// structure index
-		std::unordered_map<std::pair<std::size_t, std::size_t>,
-		                   FilenameSetIterator,
-		                   core::hash::PairHash>
-		    object_pole_mapping_;
+		std::unordered_map<std::pair<std::size_t, std::size_t>, FilenameSetIterator, util::hash::PairHash> object_pole_mapping_;
 
 		// Background indices
-		std::unordered_map<std::size_t, xml::dynamic_background::ParsedDynamicBackground>
-		    background_mapping_;
+		std::unordered_map<std::size_t, xml::dynamic_background::ParsedDynamicBackground> background_mapping_;
 
 		// Signal indices
 		std::unordered_map<std::size_t, SignalInfo> signal_mapping_;
@@ -131,27 +126,21 @@ namespace bve::parsers::csv_rw_route {
 		FilenameSetIterator addObjectFilename(std::string const& val) const;
 
 		FilenameSetIterator addTextureFilename(std::string const& val) const {
-			return route_data_.texture_filenames.insert(util::lower_copy(val)).first;
+			return route_data_.texture_filenames.insert(util::parsers::lower_copy(val)).first;
 		}
 
 		FilenameSetIterator addSoundFilename(std::string const& val) const {
-			return route_data_.sound_filenames.insert(util::lower_copy(val)).first;
+			return route_data_.sound_filenames.insert(util::parsers::lower_copy(val)).first;
 		}
 
 		// defined in executor_pass3/util.cpp
 		RailState& getRailState(std::size_t index);
 		float groundHeightAt(float position) const;
-		core::math::EvaluateCurveState trackPositionAt(float position) const;
-		glm::vec3 positionRelativeToRail(std::size_t rail_num,
-		                                 float position,
-		                                 float x_offset,
-		                                 float y_offset);
+		util::math::EvaluateCurveState trackPositionAt(float position) const;
+		glm::vec3 positionRelativeToRail(std::size_t rail_num, float position, float x_offset, float y_offset);
 
 	  public:
-		Pass3Executor(ParsedRoute& rd,
-		              errors::MultiError& e,
-		              const std::vector<std::string>& fn,
-		              const RelativeFileFunc& grf) :
+		Pass3Executor(ParsedRoute& rd, errors::MultiError& e, const std::vector<std::string>& fn, const RelativeFileFunc& grf) :
 		    errors_(e),
 		    filenames_(fn),
 		    route_data_(rd),

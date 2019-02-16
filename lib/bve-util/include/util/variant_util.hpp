@@ -6,7 +6,7 @@
 #	include <cxxabi.h>
 #endif
 
-namespace bve::core::variant_util {
+namespace bve::util::variant_util {
 	namespace {
 		template <std::size_t Num, class... Args>
 		void print_sizes(std::ostream& os, std::tuple<Args...> const& val) {
@@ -62,4 +62,4 @@ namespace bve::core::variant_util {
 		PrintSizesStruct<std::tuple_size<typename mapbox::util::variant<Args...>::types>::value
 		                 - 1>::func(os, typename mapbox::util::variant<Args...>::types{});
 	}
-} // namespace bve::core::variant_util
+} // namespace bve::util::variant_util

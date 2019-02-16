@@ -13,17 +13,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 12:
-				s.timetable_index =
-				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[11], 0));
+				s.timetable_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[11], 0));
 				// fall through
 			case 11:
 				s.departure_sound = inst.args[10];
 				// fall through
 			case 10:
-				s.passenger_ratio = util::parse_loose_float(inst.args[9], 100);
+				s.passenger_ratio = util::parsers::parse_loose_float(inst.args[9], 100);
 				// fall through
 			case 9:
-				s.stop_duration = util::parse_loose_float(inst.args[8], 15);
+				s.stop_duration = util::parsers::parse_loose_float(inst.args[8], 15);
 				// fall through
 			case 8:
 				s.arrival_sound = inst.args[7];
@@ -31,14 +30,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			case 7:
 				// System
 				{
-					auto const arg_val = util::lower_copy(inst.args[6]);
+					auto const arg_val = util::parsers::lower_copy(inst.args[6]);
 					s.system = arg_val == "atc" || arg_val == "1";
 				}
 			// fall through
 			case 6:
 				// Forced Red Signal
 				{
-					auto const val = util::parse_loose_integer(inst.args[5], 0);
+					auto const val = util::parsers::parse_loose_integer(inst.args[5], 0);
 					s.force_red = val == 1;
 				}
 			// fall through
@@ -68,7 +67,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 								s.doors = instructions::track::Sta::Doors::both;
 								break;
 							default: {
-								auto const val = util::parse_loose_integer(arg_val, 0);
+								auto const val = util::parsers::parse_loose_integer(arg_val, 0);
 								switch (val) {
 									case -1:
 										s.doors = instructions::track::Sta::Doors::left;
@@ -90,7 +89,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			case 4:
 				// Pass Alarm
 				{
-					auto const val = util::parse_loose_integer(inst.args[3], 0);
+					auto const val = util::parsers::parse_loose_integer(inst.args[3], 0);
 					s.pass_alarm = val == 1;
 				}
 			// fall through
@@ -107,29 +106,25 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 							case 'T':
 							case '=':
 								if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
-									s.departure = util::parse_time(arr_arg.substr(2));
-									s.departure_tag =
-									    instructions::track::Sta::DepartureTime::terminal_time;
+									s.departure = util::parsers::parse_time(arr_arg.substr(2));
+									s.departure_tag = instructions::track::Sta::DepartureTime::terminal_time;
 								}
 								else {
-									s.departure_tag =
-									    instructions::track::Sta::DepartureTime::terminal;
+									s.departure_tag = instructions::track::Sta::DepartureTime::terminal;
 								}
 								break;
 							case 'c':
 							case 'C':
 								if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
-									s.departure = util::parse_time(arr_arg.substr(2));
-									s.departure_tag =
-									    instructions::track::Sta::DepartureTime::change_ends;
+									s.departure = util::parsers::parse_time(arr_arg.substr(2));
+									s.departure_tag = instructions::track::Sta::DepartureTime::change_ends;
 								}
 								else {
-									s.departure_tag =
-									    instructions::track::Sta::DepartureTime::change_ends_time;
+									s.departure_tag = instructions::track::Sta::DepartureTime::change_ends_time;
 								}
 								break;
 							default:
-								s.departure = util::parse_time(arr_arg);
+								s.departure = util::parsers::parse_time(arr_arg);
 								break;
 						}
 					}
@@ -159,12 +154,12 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 								s.arrival_tag = instructions::track::Sta::ArrivalTime::player_stop;
 
 								if (arr_arg.size() >= 3 && arr_arg[1] == ':') {
-									s.arrival = util::parse_time(arr_arg.substr(2));
+									s.arrival = util::parsers::parse_time(arr_arg.substr(2));
 								}
 								break;
 							default:
 								s.arrival_tag = instructions::track::Sta::ArrivalTime::time;
-								s.arrival = util::parse_time(arr_arg);
+								s.arrival = util::parsers::parse_time(arr_arg);
 						}
 					}
 				}
@@ -217,16 +212,16 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 4:
-				s.cars = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3], 0));
+				s.cars = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[3], 0));
 				// fall through
 			case 3:
-				s.forwards_tolerance = util::parse_loose_float(inst.args[2], 5);
+				s.forwards_tolerance = util::parsers::parse_loose_float(inst.args[2], 5);
 				// fall through
 			case 2:
-				s.backwards_tolerance = util::parse_loose_float(inst.args[1], 5);
+				s.backwards_tolerance = util::parsers::parse_loose_float(inst.args[1], 5);
 				// fall through
 			case 1: {
-				auto const direction_num = util::parse_loose_integer(inst.args[0], 0);
+				auto const direction_num = util::parsers::parse_loose_integer(inst.args[0], 0);
 
 				switch (direction_num) {
 					case -1:
@@ -257,12 +252,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 4:
-				f.form_structure_index =
-				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[3], 0));
+				f.form_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[3], 0));
 				// fall through
 			case 3:
-				f.roof_structure_index =
-				    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[2], 0));
+				f.roof_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[2], 0));
 				// fall through
 			case 2:
 				if (!inst.args[1].empty()) {
@@ -276,8 +269,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 							f.placement = instructions::track::Form::Placement::right;
 							break;
 						default:
-							f.rail_index_2 = gsl::narrow_cast<std::size_t>(
-							    util::parse_loose_integer(inst.args[1], 0));
+							f.rail_index_2 = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
 							f.placement = instructions::track::Form::Placement::rail_index;
 							break;
 					}
@@ -288,8 +280,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				}
 				// fall through
 			case 1:
-				f.rail_index_1 =
-				    gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
+				f.rail_index_1 = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 				// fall through
 			case 0:
 				break;

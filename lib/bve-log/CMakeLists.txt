@@ -10,7 +10,7 @@ file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hp
 add_library(bve-log SHARED ${SOURCES} ${HEADERS})
 target_include_directories(bve-log PUBLIC include)
 target_link_libraries(bve-log PRIVATE options::fast_math)
-target_link_libraries(bve-log PUBLIC fmt::fmt bve-core)
+target_link_libraries(bve-log PUBLIC fmt::fmt bve-util)
 add_sanitizers(bve-log)
 format(bve-log)
 cotire(bve-log)
@@ -28,7 +28,7 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*
 
 add_library(bve-log-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
 target_include_directories(bve-log-test PUBLIC ../bve-parsers/src)
-target_link_libraries(bve-log-test PUBLIC bve-log bve-core)
+target_link_libraries(bve-log-test PUBLIC bve-log bve-util)
 target_link_libraries(bve-log-test PUBLIC Threads::Threads gsl::gsl)
 
 add_sanitizers(bve-log-test)

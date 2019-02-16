@@ -1,7 +1,7 @@
 #include "parsers/config/sound_cfg.hpp"
-#include "core/macro_helpers.hpp"
 #include "parsers/errors.hpp"
 #include "sample_relative_file_func.hpp"
+#include "util/macro_helpers.hpp"
 #include <doctest.h>
 #include <string>
 
@@ -12,39 +12,34 @@ namespace errors = bve::parsers::errors;
 
 TEST_SUITE_BEGIN("libparsers - config - sound");
 
-#define CHECK_ITER_EQ(container, itr, value)                                                       \
-	CHECK((((itr) != (container).end()) ? (*(itr) == (value)) : false))
+#define CHECK_ITER_EQ(container, itr, value) CHECK((((itr) != (container).end()) ? (*(itr) == (value)) : false))
 
-#define NUMBERED_PAIR_TEST(name)                                                                       \
-	TEST_CASE("libparsers - config - sound - [" STR(run) "]") {                                        \
+#define NUMBERED_PAIR_TEST(name)                                                                                                           \
+	TEST_CASE("libparsers - config - sound - [" STR(run) "]") {                                                                            \
 		std::string const input =                                                                    \
 		    "[" STR(name) "]\n"                                                                       \
 		    "0 = file1\n"                                                                            \
 		    "4 = file2\n"                                                                            \
 		    "3 = file3\n"                                                                            \
 		    "129 = file4\n"                                                                          \
-		    "-1 = file5\n"s; \
-                                                                                                       \
-		errors::MultiError me;                                                                         \
-                                                                                                       \
-		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                  \
-                                                                                                       \
-		REQUIRE_EQ(result.filenames.size(), 4);                                                        \
-		CHECK_EQ(result.filenames.count("sound.cfg/file1"s), 1);                                       \
-		CHECK_EQ(result.filenames.count("sound.cfg/file2"s), 1);                                       \
-		CHECK_EQ(result.filenames.count("sound.cfg/file3"s), 1);                                       \
-		CHECK_EQ(result.filenames.count("sound.cfg/file4"s), 1);                                       \
-		CHECK_EQ(result.filenames.count("sound.cfg/file5"s), 0);                                       \
-                                                                                                       \
-		REQUIRE_EQ(result.CONCAT(name, _sounds).size(), 4);                                            \
-		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(0)->second.filename,         \
-		              "sound.cfg/file1"s);                                                             \
-		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(4)->second.filename,         \
-		              "sound.cfg/file2"s);                                                             \
-		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(3)->second.filename,         \
-		              "sound.cfg/file3"s);                                                             \
-		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(129)->second.filename,       \
-		              "sound.cfg/file4"s);                                                             \
+		    "-1 = file5\n"s;                                    \
+                                                                                                                                           \
+		errors::MultiError me;                                                                                                             \
+                                                                                                                                           \
+		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                                                      \
+                                                                                                                                           \
+		REQUIRE_EQ(result.filenames.size(), 4);                                                                                            \
+		CHECK_EQ(result.filenames.count("sound.cfg/file1"s), 1);                                                                           \
+		CHECK_EQ(result.filenames.count("sound.cfg/file2"s), 1);                                                                           \
+		CHECK_EQ(result.filenames.count("sound.cfg/file3"s), 1);                                                                           \
+		CHECK_EQ(result.filenames.count("sound.cfg/file4"s), 1);                                                                           \
+		CHECK_EQ(result.filenames.count("sound.cfg/file5"s), 0);                                                                           \
+                                                                                                                                           \
+		REQUIRE_EQ(result.CONCAT(name, _sounds).size(), 4);                                                                                \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(0)->second.filename, "sound.cfg/file1"s);                        \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(4)->second.filename, "sound.cfg/file2"s);                        \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(3)->second.filename, "sound.cfg/file3"s);                        \
+		CHECK_ITER_EQ(result.filenames, result.CONCAT(name, _sounds).find(129)->second.filename, "sound.cfg/file4"s);                      \
 	}
 
 NUMBERED_PAIR_TEST(run)
@@ -434,18 +429,18 @@ TEST_CASE("libparsers - config - sound - [others]") {
 	CHECK_ITER_EQ(result.filenames, result.misc_sounds.shoe, "sound.cfg/misc/shoe"s);
 }
 
-#define INVALID_KEY_TEST(name)                                                                       \
-	TEST_CASE("libparsers - config - sound - [" STR(name) "] - invalid key") {                       \
+#define INVALID_KEY_TEST(name)                                                                                                             \
+	TEST_CASE("libparsers - config - sound - [" STR(name) "] - invalid key") {                                                             \
 		std::string const input =                                                                  \
 	    "[" STR(name) "]\n"                                                                        \
-	    "thisdoesntmakesence = misc/noise\n"s; \
-                                                                                                     \
-		errors::MultiError me;                                                                       \
-                                                                                                     \
-		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
-                                                                                                     \
-		CHECK_EQ(result.filenames.size(), 0);                                                        \
-		CHECK_EQ(me["sound.cfg"s].size(), 1);                                                        \
+	    "thisdoesntmakesence = misc/noise\n"s;                                      \
+                                                                                                                                           \
+		errors::MultiError me;                                                                                                             \
+                                                                                                                                           \
+		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                                                      \
+                                                                                                                                           \
+		CHECK_EQ(result.filenames.size(), 0);                                                                                              \
+		CHECK_EQ(me["sound.cfg"s].size(), 1);                                                                                              \
 	}
 
 INVALID_KEY_TEST(run)
@@ -466,29 +461,28 @@ INVALID_KEY_TEST(reverser)
 INVALID_KEY_TEST(breaker)
 INVALID_KEY_TEST(others)
 
-#define DUPLICATE_KEY_TEST(name, key, geteq)                                                       \
-	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {           \
-		std::string const input = /**/                                                             \
-		    "[" STR(name) "]\n"   /**/                                                             \
-		    STR(key) " = orig\n"  /**/                                                             \
-		    STR(key) " = repl\n"s;                                                                 \
-                                                                                                   \
-		errors::MultiError me;                                                                     \
-                                                                                                   \
-		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);              \
-                                                                                                   \
-		REQUIRE_EQ(result.filenames.size(), 1);                                                    \
-		CHECK_EQ(result.filenames.count("sound.cfg/repl"s), 1);                                    \
-		CHECK_EQ(me["sound.cfg"].size(), 1);                                                       \
-                                                                                                   \
-		CHECK_ITER_EQ(result.filenames, (geteq), "sound.cfg/repl"s);                               \
+#define DUPLICATE_KEY_TEST(name, key, geteq)                                                                                               \
+	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {                                                   \
+		std::string const input = /**/                                                                                                     \
+		    "[" STR(name) "]\n"   /**/                                                                                                     \
+		    STR(key) " = orig\n"  /**/                                                                                                     \
+		    STR(key) " = repl\n"s;                                                                                                         \
+                                                                                                                                           \
+		errors::MultiError me;                                                                                                             \
+                                                                                                                                           \
+		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                                                      \
+                                                                                                                                           \
+		REQUIRE_EQ(result.filenames.size(), 1);                                                                                            \
+		CHECK_EQ(result.filenames.count("sound.cfg/repl"s), 1);                                                                            \
+		CHECK_EQ(me["sound.cfg"].size(), 1);                                                                                               \
+                                                                                                                                           \
+		CHECK_ITER_EQ(result.filenames, (geteq), "sound.cfg/repl"s);                                                                       \
 	}
 
-#define DUPLICATE_KEY_TEST_INDEXED(name)                                                           \
-	DUPLICATE_KEY_TEST(name, 0,                                                                    \
-	                   ((result.CONCAT(name, _sounds).find(0)                                      \
-	                     != result.CONCAT(name, _sounds).end())                                    \
-	                        ? result.CONCAT(name, _sounds).find(0)->second.filename                \
+#define DUPLICATE_KEY_TEST_INDEXED(name)                                                                                                   \
+	DUPLICATE_KEY_TEST(name, 0,                                                                                                            \
+	                   ((result.CONCAT(name, _sounds).find(0) != result.CONCAT(name, _sounds).end())                                       \
+	                        ? result.CONCAT(name, _sounds).find(0)->second.filename                                                        \
 	                        : result.filenames.end()))
 
 DUPLICATE_KEY_TEST_INDEXED(run)
@@ -500,9 +494,7 @@ DUPLICATE_KEY_TEST_INDEXED(ats)
 DUPLICATE_KEY_TEST(brake, emergency, result.brake_sounds.emergency)
 DUPLICATE_KEY_TEST(compressor, attack, result.compressor_sounds.attack)
 DUPLICATE_KEY_TEST(suspension, left, result.suspension_sounds.left)
-DUPLICATE_KEY_TEST(horn,
-                   primarystart,
-                   result.horn_sounds.get<sound_cfg::LoopedHorn>().primary_start)
+DUPLICATE_KEY_TEST(horn, primarystart, result.horn_sounds.get<sound_cfg::LoopedHorn>().primary_start)
 DUPLICATE_KEY_TEST(door, open left, result.door_sounds.open_left)
 DUPLICATE_KEY_TEST(buzzer, correct, result.buzzer_sounds.correct)
 DUPLICATE_KEY_TEST(pilot lamp, on, result.pilot_lamp_sounds.on)
@@ -512,30 +504,29 @@ DUPLICATE_KEY_TEST(reverser, on, result.reverser_sounds.on)
 DUPLICATE_KEY_TEST(breaker, on, result.breaker_sounds.on)
 DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise)
 
-#define DUPLICATE_SECTION_TEST(name, key, geteq)                                                     \
-	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {             \
+#define DUPLICATE_SECTION_TEST(name, key, geteq)                                                                                           \
+	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {                                                   \
 		std::string const input = /**/                                                             \
 		    "[" STR(name) "]\n"   /**/                                                             \
 		    STR(key) " = orig\n"  /**/                                                             \
 		    "[" STR(name) "]\n"   /**/                                                             \
-		    STR(key) " = repl\n"s; \
-                                                                                                     \
-		errors::MultiError me;                                                                       \
-                                                                                                     \
-		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
-                                                                                                     \
-		REQUIRE_EQ(result.filenames.size(), 1);                                                      \
-		CHECK_EQ(result.filenames.count("sound.cfg/repl"s), 1);                                      \
-		CHECK_EQ(me["sound.cfg"].size(), 1);                                                         \
-                                                                                                     \
-		CHECK_ITER_EQ(result.filenames, (geteq), "sound.cfg/repl"s);                                 \
+		    STR(key) " = repl\n"s;                                      \
+                                                                                                                                           \
+		errors::MultiError me;                                                                                                             \
+                                                                                                                                           \
+		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                                                      \
+                                                                                                                                           \
+		REQUIRE_EQ(result.filenames.size(), 1);                                                                                            \
+		CHECK_EQ(result.filenames.count("sound.cfg/repl"s), 1);                                                                            \
+		CHECK_EQ(me["sound.cfg"].size(), 1);                                                                                               \
+                                                                                                                                           \
+		CHECK_ITER_EQ(result.filenames, (geteq), "sound.cfg/repl"s);                                                                       \
 	}
 
-#define DUPLICATE_SECTION_TEST_INDEXED(name)                                                       \
-	DUPLICATE_KEY_TEST(name, 0,                                                                    \
-	                   ((result.CONCAT(name, _sounds).find(0)                                      \
-	                     != result.CONCAT(name, _sounds).end())                                    \
-	                        ? result.CONCAT(name, _sounds).find(0)->second.filename                \
+#define DUPLICATE_SECTION_TEST_INDEXED(name)                                                                                               \
+	DUPLICATE_KEY_TEST(name, 0,                                                                                                            \
+	                   ((result.CONCAT(name, _sounds).find(0) != result.CONCAT(name, _sounds).end())                                       \
+	                        ? result.CONCAT(name, _sounds).find(0)->second.filename                                                        \
 	                        : result.filenames.end()))
 
 DUPLICATE_SECTION_TEST_INDEXED(run)
@@ -547,9 +538,7 @@ DUPLICATE_SECTION_TEST_INDEXED(ats)
 DUPLICATE_SECTION_TEST(brake, emergency, result.brake_sounds.emergency)
 DUPLICATE_SECTION_TEST(compressor, attack, result.compressor_sounds.attack)
 DUPLICATE_SECTION_TEST(suspension, left, result.suspension_sounds.left)
-DUPLICATE_SECTION_TEST(horn,
-                       primarystart,
-                       result.horn_sounds.get<sound_cfg::LoopedHorn>().primary_start)
+DUPLICATE_SECTION_TEST(horn, primarystart, result.horn_sounds.get<sound_cfg::LoopedHorn>().primary_start)
 DUPLICATE_SECTION_TEST(door, open left, result.door_sounds.open_left)
 DUPLICATE_SECTION_TEST(buzzer, correct, result.buzzer_sounds.correct)
 DUPLICATE_SECTION_TEST(pilot lamp, on, result.pilot_lamp_sounds.on)

@@ -97,15 +97,13 @@ namespace bve::parsers::csv_rw_route {
 		}
 		else {
 			auto& sig = signal_info_iter->second.get_unchecked<TraditionalSignal>();
-			name << "\034compat\034/user_signal/" << sig.signal_filename << "/\034/"
-			     << sig.glow_filename;
+			name << "\034compat\034/user_signal/" << sig.signal_filename << "/\034/" << sig.glow_filename;
 		}
 
 		RailObjectInfo roi;
 		roi.filename = addObjectFilename(name.str());
 		if (inst.y_offset >= 0) {
-			roi.position =
-			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		else {
 			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8F);
@@ -169,8 +167,7 @@ namespace bve::parsers::csv_rw_route {
 			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8F);
 		}
 		else {
-			roi.position =
-			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		roi.rotation = glm::vec3(0);
 	}
@@ -186,8 +183,7 @@ namespace bve::parsers::csv_rw_route {
 			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, 4.8F);
 		}
 		else {
-			roi.position =
-			    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		}
 		roi.rotation = glm::vec3(0);
 	}

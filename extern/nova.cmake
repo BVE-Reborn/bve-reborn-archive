@@ -40,6 +40,8 @@ set_property(TARGET spirv-tools-pkg-config PROPERTY FOLDER extern/nova/spriv-too
 set_property(TARGET spirv-tools-shared-pkg-config PROPERTY FOLDER extern/nova/spriv-tools/utilities)
 
 set_property(TARGET miniz PROPERTY FOLDER extern/nova/miniz)
+set_property(TARGET minitrace PROPERTY FOLDER extern/nova/minitrace)
+set_property(TARGET glsl-standalone PROPERTY FOLDER extern/nova/glsl-standalone)
 
 set_property(TARGET nova-profiler PROPERTY FOLDER extern/nova)
 set_property(TARGET nova-renderer PROPERTY FOLDER extern/nova)

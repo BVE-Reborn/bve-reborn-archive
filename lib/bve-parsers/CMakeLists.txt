@@ -10,7 +10,7 @@ file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "src/*.hpp" "
 add_library(bve-parsers SHARED ${SOURCES} ${HEADERS})
 
 target_include_directories(bve-parsers PUBLIC include)
-target_link_libraries(bve-parsers PUBLIC bve-core)
+target_link_libraries(bve-parsers PUBLIC bve-util)
 target_link_libraries(bve-parsers PUBLIC mapbox::variant gsl::gsl absl::optional)
 
 target_include_directories(bve-parsers PRIVATE src)
@@ -67,7 +67,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR True)
 
 add_executable(bve-old-tests ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS})
 target_include_directories(bve-old-tests PRIVATE src)
-target_link_libraries(bve-old-tests PRIVATE bve-core bve-parsers)
+target_link_libraries(bve-old-tests PRIVATE bve-util bve-parsers)
 target_link_libraries(bve-old-tests PRIVATE Threads::Threads cppfs::cppfs)
 target_link_libraries(bve-old-tests PRIVATE options::fast_math)
 

@@ -34,11 +34,11 @@ Nova is handled by `dependencies/nova.cmake`
 
 # Libraries {#dev-structure-libraries}
 
-The namespace for the library `libbve-X` will be `bve::X::`. So `libbve-core` will become `bve::core::`
+The namespace for the library `libbve-X` will be `bve::X::`. So `libbve-util` will become `bve::util::`
 
-- [libbve-core](\ref bve::core) - Central support libraries. Commonly used math functions as well as other hard to place utility functions.
 - [libbve-log](\ref libbve-log) - Thread-safe logging library
 - [libbve-parsers](\ref bve::parsers) - Contains easy to use parsers all formats dealt with in the program. Also includes helper functions for dealing with files and parsing.
+- [libbve-util](\ref bve::core) - Central utility and support libraries. Commonly used math functions as well as other hard to place utility functions.
 - libbve-load - Higher level loading library, loading whole routes/trains instead of individual files.
 
 

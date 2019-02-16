@@ -43,27 +43,26 @@ namespace bve::parsers::function_scripts {
 		struct None {};
 	} // namespace tree_types
 
-	using TreeNode =
-	    mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::BinaryAnd>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryXor>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryOr>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryEq>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryNotEq>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryLess>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryGreater>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryLessEq>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryGreaterEq>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryAdd>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinarySubtract>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryMultiply>,
-	                          mapbox::util::recursive_wrapper<tree_types::BinaryDivide>,
-	                          mapbox::util::recursive_wrapper<tree_types::UnaryNot>,
-	                          mapbox::util::recursive_wrapper<tree_types::UnaryMinus>,
-	                          mapbox::util::recursive_wrapper<tree_types::FunctionCall>,
-	                          tree_types::Integer,
-	                          tree_types::Floating,
-	                          tree_types::Identifier,
-	                          tree_types::None>;
+	using TreeNode = mapbox::util::variant<mapbox::util::recursive_wrapper<tree_types::BinaryAnd>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryXor>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryOr>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryEq>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryNotEq>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryLess>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryGreater>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryLessEq>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryGreaterEq>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryAdd>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinarySubtract>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryMultiply>,
+	                                       mapbox::util::recursive_wrapper<tree_types::BinaryDivide>,
+	                                       mapbox::util::recursive_wrapper<tree_types::UnaryNot>,
+	                                       mapbox::util::recursive_wrapper<tree_types::UnaryMinus>,
+	                                       mapbox::util::recursive_wrapper<tree_types::FunctionCall>,
+	                                       tree_types::Integer,
+	                                       tree_types::Floating,
+	                                       tree_types::Identifier,
+	                                       tree_types::None>;
 
 	namespace tree_types {
 		struct BinaryAnd {
@@ -145,10 +144,8 @@ namespace bve::parsers::function_scripts {
 	} // namespace tree_types
 
 	TreeNode create_tree(const LexerTokenList& list, errors::Errors& errors);
-	InstructionList build_instructions(const TreeNode& head_node,
-	                                   const errors::Errors& errors = {});
+	InstructionList build_instructions(const TreeNode& head_node, const errors::Errors& errors = {});
 } // namespace bve::parsers::function_scripts
 
-std::ostream& operator<<(std::ostream& os,
-                         const bve::parsers::function_scripts::LexerTokenList& list);
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::LexerTokenList& list);
 std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::TreeNode& node);

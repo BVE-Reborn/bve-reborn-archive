@@ -83,8 +83,8 @@ namespace bve::parsers::csv_rw_route {
 		FilenameSetIterator departure_sound;
 		std::size_t timetable_index = 0;
 		std::vector<RailStationStop> stop_points;
-		core::datatypes::Time arrival{};
-		core::datatypes::Time departure{};
+		util::datatypes::Time arrival{};
+		util::datatypes::Time departure{};
 		float stop_duration = 15;
 		float passenger_ratio = 100;
 		bool pass_alarm = false;
@@ -126,7 +126,7 @@ namespace bve::parsers::csv_rw_route {
 		float position = 0;
 		float starting_distance = 0;
 		float ending_distance = 0;
-		core::datatypes::Color8RGB color{};
+		util::datatypes::Color8RGB color{};
 	};
 
 	struct Marker {
@@ -170,7 +170,7 @@ namespace bve::parsers::csv_rw_route {
 	using Section = PositionDataPair<std::vector<std::size_t>>;
 	using Background = PositionDataPair<xml::dynamic_background::ParsedDynamicBackground>;
 	using BrightnessLevel = PositionDataPair<std::uint8_t>;
-	using Pretrain = PositionDataPair<core::datatypes::Time>;
+	using Pretrain = PositionDataPair<util::datatypes::Time>;
 
 	struct ParsedRoute {
 		// Core route info
@@ -216,7 +216,7 @@ namespace bve::parsers::csv_rw_route {
 
 		// Start Conditions
 		SafetySystemStatus safety_system_status;
-		core::datatypes::Time game_start_time = -1;
+		util::datatypes::Time game_start_time = -1;
 
 		// Sound indices
 		std::vector<Sound> sounds;

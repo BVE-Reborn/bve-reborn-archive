@@ -17,10 +17,7 @@ namespace bve::parsers::csv {
 
 	enum class SplitFirstColumn : bool { yes = true, no = false };
 
-	ParsedCSV parse(const std::string& file,
-	                SplitFirstColumn sfc = SplitFirstColumn::no,
-	                char delim = ',',
-	                char split_char = ' ');
+	ParsedCSV parse(const std::string& file, SplitFirstColumn sfc = SplitFirstColumn::no, char delim = ',', char split_char = ' ');
 
 	std::ostream& operator<<(std::ostream& os, const CSVToken& rhs);
 	std::ostream& operator<<(std::ostream& os, const ParsedCSV& rhs);

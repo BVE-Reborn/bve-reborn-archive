@@ -15,13 +15,10 @@ namespace bve::parsers::csv_rw_route {
 	/*void pass3_executor::operator()(const instructions::options::FogBehavior&
 	 * inst) {}*/
 
-	void Pass3Executor::operator()(
-	    const instructions::options::CompatibleTransparencyMode& inst) const {
-		route_data_.compatibility.bve2_4_transparency =
-		    inst.mode == instructions::options::CompatibleTransparencyMode::Mode::on;
+	void Pass3Executor::operator()(const instructions::options::CompatibleTransparencyMode& inst) const {
+		route_data_.compatibility.bve2_4_transparency = inst.mode == instructions::options::CompatibleTransparencyMode::Mode::on;
 	}
 	void Pass3Executor::operator()(const instructions::options::EnableBveTsHacks& inst) const {
-		route_data_.compatibility.bve2_4_content =
-		    inst.mode == instructions::options::EnableBveTsHacks::Mode::on;
+		route_data_.compatibility.bve2_4_content = inst.mode == instructions::options::EnableBveTsHacks::Mode::on;
 	}
 } // namespace bve::parsers::csv_rw_route

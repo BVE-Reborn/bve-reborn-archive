@@ -12,8 +12,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::train::Rail r;
 
-		r.rail_type_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
-		r.run_sound_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+		r.rail_type_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
+		r.run_sound_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 
 		return r;
 	}
@@ -24,8 +24,8 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::train::Flange f;
 
-		f.rail_type_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
-		f.flange_sound_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.args[0]));
+		f.rail_type_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
+		f.flange_sound_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 
 		return f;
 	}
@@ -36,10 +36,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::train::Timetable tt;
 
-		tt.timetable_index = gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+		tt.timetable_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
 		tt.filename = inst.args[0];
 
-		auto suffixes = util::split_text(inst.suffix, '.');
+		auto suffixes = util::parsers::split_text(inst.suffix, '.');
 
 		if (suffixes.empty() || (suffixes[0] != "day" && suffixes[0] != "night")) {
 			throw std::invalid_argument(
@@ -53,7 +53,6 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 	}
 
 	Instruction create_instruction_train_velocity(const line_splitting::InstructionInfo& inst) {
-		return create_single_float_instruction<instructions::train::Velocity>(inst,
-		                                                                      "Train.Velocity", 0);
+		return create_single_float_instruction<instructions::train::Velocity>(inst, "Train.Velocity", 0);
 	}
 } // namespace bve::parsers::csv_rw_route::instruction_generation

@@ -1,13 +1,13 @@
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <doctest.h>
 
 using namespace std::string_literals;
 
-#define REMOVE_COMMENTS_CHECK_EQ(input_string, comment_char, first_in_line, output_string)         \
-	{                                                                                              \
-		std::string s = input_string;                                                              \
-		bve::parsers::util::remove_comments(s, comment_char, first_in_line);                       \
-		CHECK_EQ(s, output_string);                                                                \
+#define REMOVE_COMMENTS_CHECK_EQ(input_string, comment_char, first_in_line, output_string)                                                 \
+	{                                                                                                                                      \
+		std::string s = input_string;                                                                                                      \
+		bve::util::parsers::remove_comments(s, comment_char, first_in_line);                                                               \
+		CHECK_EQ(s, output_string);                                                                                                        \
 	}
 
 TEST_SUITE_BEGIN("libparsers - util");

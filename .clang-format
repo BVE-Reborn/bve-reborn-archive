@@ -21,7 +21,7 @@ BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
 BreakConstructorInitializers: AfterColon
 BreakStringLiterals: true
-ColumnLimit: 100
+ColumnLimit: 140
 CommentPragmas: '^(\\.+)|( NOLINT(NEXTLINE)?)'
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 FixNamespaceComments: true

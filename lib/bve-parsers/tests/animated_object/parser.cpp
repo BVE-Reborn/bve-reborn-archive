@@ -3,60 +3,60 @@
 
 using namespace std::string_literals;
 
-#define TEST_X_Y_SETTING(section, name, attribute)                                                 \
-	TEST_CASE("libparsers - animated object - " section " - " name) {                              \
-		auto string_a = "[" section "]\n" name " = 1, 2"s;                                         \
-		auto result_a = bve::parsers::animated_object::parse(string_a);                            \
-		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2"s;                              \
-		auto result_b = bve::parsers::animated_object::parse(string_b);                            \
-                                                                                                   \
-		REQUIRE_EQ(result_a.includes.size(), 0);                                                   \
-		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                 \
-		REQUIRE_EQ(result_a.dependencies.textures.size(), 0);                                      \
-		CHECK_EQ(result_a.subobjects[0].attribute, glm::vec2{1, 2});                               \
-                                                                                                   \
-		REQUIRE_EQ(result_b.includes.size(), 0);                                                   \
-		REQUIRE_EQ(result_b.subobjects.size(), 2);                                                 \
-		REQUIRE_EQ(result_b.dependencies.textures.size(), 0);                                      \
-		CHECK_EQ(result_b.subobjects[1].attribute, glm::vec2{1, 2});                               \
+#define TEST_X_Y_SETTING(section, name, attribute)                                                                                         \
+	TEST_CASE("libparsers - animated object - " section " - " name) {                                                                      \
+		auto string_a = "[" section "]\n" name " = 1, 2"s;                                                                                 \
+		auto result_a = bve::parsers::animated_object::parse(string_a);                                                                    \
+		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2"s;                                                                      \
+		auto result_b = bve::parsers::animated_object::parse(string_b);                                                                    \
+                                                                                                                                           \
+		REQUIRE_EQ(result_a.includes.size(), 0);                                                                                           \
+		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                                                         \
+		REQUIRE_EQ(result_a.dependencies.textures.size(), 0);                                                                              \
+		CHECK_EQ(result_a.subobjects[0].attribute, glm::vec2{1, 2});                                                                       \
+                                                                                                                                           \
+		REQUIRE_EQ(result_b.includes.size(), 0);                                                                                           \
+		REQUIRE_EQ(result_b.subobjects.size(), 2);                                                                                         \
+		REQUIRE_EQ(result_b.dependencies.textures.size(), 0);                                                                              \
+		CHECK_EQ(result_b.subobjects[1].attribute, glm::vec2{1, 2});                                                                       \
 	}
 
-#define TEST_X_Y_DAMPING(section, name, attribute)                                                 \
-	TEST_CASE("libparsers - animated object - " section " - " name) {                              \
-		auto string_a = "[" section "]\n" name " = 1, 2"s;                                         \
-		auto result_a = bve::parsers::animated_object::parse(string_a);                            \
-		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2"s;                              \
-		auto result_b = bve::parsers::animated_object::parse(string_b);                            \
-                                                                                                   \
-		REQUIRE_EQ(result_a.includes.size(), 0);                                                   \
-		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                 \
-		REQUIRE_EQ(result_a.dependencies.textures.size(), 0);                                      \
-		CHECK_EQ(result_a.subobjects[0].attribute.frequency, 1);                                   \
-		CHECK_EQ(result_a.subobjects[0].attribute.ratio, 2);                                       \
-                                                                                                   \
-		REQUIRE_EQ(result_b.includes.size(), 0);                                                   \
-		REQUIRE_EQ(result_b.subobjects.size(), 2);                                                 \
-		REQUIRE_EQ(result_b.dependencies.textures.size(), 0);                                      \
-		CHECK_EQ(result_b.subobjects[1].attribute.frequency, 1);                                   \
-		CHECK_EQ(result_b.subobjects[1].attribute.ratio, 2);                                       \
+#define TEST_X_Y_DAMPING(section, name, attribute)                                                                                         \
+	TEST_CASE("libparsers - animated object - " section " - " name) {                                                                      \
+		auto string_a = "[" section "]\n" name " = 1, 2"s;                                                                                 \
+		auto result_a = bve::parsers::animated_object::parse(string_a);                                                                    \
+		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2"s;                                                                      \
+		auto result_b = bve::parsers::animated_object::parse(string_b);                                                                    \
+                                                                                                                                           \
+		REQUIRE_EQ(result_a.includes.size(), 0);                                                                                           \
+		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                                                         \
+		REQUIRE_EQ(result_a.dependencies.textures.size(), 0);                                                                              \
+		CHECK_EQ(result_a.subobjects[0].attribute.frequency, 1);                                                                           \
+		CHECK_EQ(result_a.subobjects[0].attribute.ratio, 2);                                                                               \
+                                                                                                                                           \
+		REQUIRE_EQ(result_b.includes.size(), 0);                                                                                           \
+		REQUIRE_EQ(result_b.subobjects.size(), 2);                                                                                         \
+		REQUIRE_EQ(result_b.dependencies.textures.size(), 0);                                                                              \
+		CHECK_EQ(result_b.subobjects[1].attribute.frequency, 1);                                                                           \
+		CHECK_EQ(result_b.subobjects[1].attribute.ratio, 2);                                                                               \
 	}
 
-#define TEST_X_Y_Z_SETTING(section, name, attribute)                                               \
-	TEST_CASE("libparsers - animated object - " section " - " name) {                              \
-		auto string_a = "[" section "]\n" name " = 1, 2, 3"s;                                      \
-		auto result_a = bve::parsers::animated_object::parse(string_a);                            \
-		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2, 3"s;                           \
-		auto result_b = bve::parsers::animated_object::parse(string_b);                            \
-                                                                                                   \
-		REQUIRE_EQ(result_a.includes.size(), 0);                                                   \
-		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                 \
-		REQUIRE_EQ(result_a.dependencies.textures.size(), 0);                                      \
-		CHECK_EQ(result_a.subobjects[0].attribute, glm::vec3{1, 2, 3});                            \
-                                                                                                   \
-		REQUIRE_EQ(result_b.includes.size(), 0);                                                   \
-		REQUIRE_EQ(result_b.subobjects.size(), 2);                                                 \
-		REQUIRE_EQ(result_b.dependencies.textures.size(), 0);                                      \
-		CHECK_EQ(result_b.subobjects[1].attribute, glm::vec3{1, 2, 3});                            \
+#define TEST_X_Y_Z_SETTING(section, name, attribute)                                                                                       \
+	TEST_CASE("libparsers - animated object - " section " - " name) {                                                                      \
+		auto string_a = "[" section "]\n" name " = 1, 2, 3"s;                                                                              \
+		auto result_a = bve::parsers::animated_object::parse(string_a);                                                                    \
+		auto string_b = "[objectA]\n[" section "]\n" name " = 1, 2, 3"s;                                                                   \
+		auto result_b = bve::parsers::animated_object::parse(string_b);                                                                    \
+                                                                                                                                           \
+		REQUIRE_EQ(result_a.includes.size(), 0);                                                                                           \
+		REQUIRE_EQ(result_a.subobjects.size(), 1);                                                                                         \
+		REQUIRE_EQ(result_a.dependencies.textures.size(), 0);                                                                              \
+		CHECK_EQ(result_a.subobjects[0].attribute, glm::vec3{1, 2, 3});                                                                    \
+                                                                                                                                           \
+		REQUIRE_EQ(result_b.includes.size(), 0);                                                                                           \
+		REQUIRE_EQ(result_b.subobjects.size(), 2);                                                                                         \
+		REQUIRE_EQ(result_b.dependencies.textures.size(), 0);                                                                              \
+		CHECK_EQ(result_b.subobjects[1].attribute, glm::vec3{1, 2, 3});                                                                    \
 	}
 
 TEST_X_Y_Z_SETTING("object", "position", position)

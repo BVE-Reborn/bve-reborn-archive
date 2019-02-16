@@ -6,7 +6,7 @@
 #include <random>
 #include <type_traits>
 
-namespace bve::core::datatypes {
+namespace bve::util::datatypes {
 	using Color8R = glm::u8vec1;
 	using Color8RG = glm::u8vec2;
 	using Color8RGB = glm::u8vec3;
@@ -25,4 +25,4 @@ namespace bve::core::datatypes {
 	using RNG = std::mt19937;
 
 	using Time = std::intmax_t;
-} // namespace bve::core::datatypes
+} // namespace bve::util::datatypes

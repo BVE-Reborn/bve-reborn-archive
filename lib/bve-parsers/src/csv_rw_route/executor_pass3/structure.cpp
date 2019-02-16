@@ -6,8 +6,7 @@ namespace bve::parsers::csv_rw_route {
 		auto const add_and_warn = [&](auto& container, const char* command_name) {
 			auto filename_iter = addObjectFilename(inst.filename);
 
-			auto insert_pair =
-			    container.insert(std::make_pair(inst.structure_index, filename_iter));
+			auto insert_pair = container.insert(std::make_pair(inst.structure_index, filename_iter));
 
 			auto& iterator = insert_pair.first;
 			auto& inserted = insert_pair.second;
@@ -16,9 +15,8 @@ namespace bve::parsers::csv_rw_route {
 				auto& previous_filename = *iterator->second;
 				iterator->second = filename_iter;
 				std::ostringstream err;
-				err << command_name << " overwriting index #" << inst.structure_index
-				    << ". Old Filename: \"" << previous_filename << "\". Current Filename: \""
-				    << *filename_iter << "\".";
+				err << command_name << " overwriting index #" << inst.structure_index << ". Old Filename: \"" << previous_filename
+				    << "\". Current Filename: \"" << *filename_iter << "\".";
 
 				add_error(errors_, getFilename(inst.file_index), inst.line, err);
 			}
@@ -27,8 +25,7 @@ namespace bve::parsers::csv_rw_route {
 		auto const add_and_warn_cycle = [&](auto& container, const char* command_name) {
 			auto filename_iter = addObjectFilename(inst.filename);
 
-			auto insert_pair =
-			    container.insert(std::make_pair(inst.structure_index, filename_iter));
+			auto insert_pair = container.insert(std::make_pair(inst.structure_index, filename_iter));
 
 			auto& iterator = insert_pair.first;
 			auto& inserted = insert_pair.second;
@@ -39,9 +36,8 @@ namespace bve::parsers::csv_rw_route {
 
 				std::ostringstream err;
 
-				err << command_name << " overwriting index number " << inst.structure_index
-				    << ". Old Filename: \"" << *old_value << "\". Current Filename: \""
-				    << *filename_iter << "\".";
+				err << command_name << " overwriting index number " << inst.structure_index << ". Old Filename: \"" << *old_value
+				    << "\". Current Filename: \"" << *filename_iter << "\".";
 
 				add_error(errors_, getFilename(inst.file_index), inst.line, err);
 			}
@@ -110,9 +106,7 @@ namespace bve::parsers::csv_rw_route {
 	void Pass3Executor::operator()(const instructions::structure::Pole& inst) {
 		auto filename_iter = addObjectFilename(inst.filename);
 
-		auto value =
-		    std::make_pair(std::make_pair(inst.additional_rails, inst.pole_structure_index),
-		                   filename_iter);
+		auto value = std::make_pair(std::make_pair(inst.additional_rails, inst.pole_structure_index), filename_iter);
 		auto insert_pair = object_pole_mapping_.insert(value);
 
 		auto& iterator = insert_pair.first;
@@ -122,9 +116,8 @@ namespace bve::parsers::csv_rw_route {
 			auto& previous_filename = *iterator->second;
 			iterator->second = filename_iter;
 			std::ostringstream err;
-			err << "Structure.Pole overwriting pair (" << inst.additional_rails << ", "
-			    << inst.pole_structure_index << "). Old Pair: \"" << previous_filename
-			    << "\". Current Filename: \"" << *filename_iter << "\".";
+			err << "Structure.Pole overwriting pair (" << inst.additional_rails << ", " << inst.pole_structure_index << "). Old Pair: \""
+			    << previous_filename << "\". Current Filename: \"" << *filename_iter << "\".";
 
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}

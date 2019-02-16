@@ -175,21 +175,15 @@ namespace bve::parsers::function_scripts {
 			if (outputs.empty()) {
 				return;
 			}
-			auto const size_name_iter =
-			    std::max_element(outputs.begin(), outputs.end(),
-			                     [](const auto& lhs, const auto& rhs) {
-				                     return std::get<0>(lhs).size() < std::get<0>(rhs).size();
-			                     });
-			auto const size_input_iter =
-			    std::max_element(outputs.begin(), outputs.end(),
-			                     [](const auto& lhs, const auto& rhs) {
-				                     return std::get<1>(lhs).size() < std::get<1>(rhs).size();
-			                     });
-			auto const size_output_iter =
-			    std::max_element(outputs.begin(), outputs.end(),
-			                     [](const auto& lhs, const auto& rhs) {
-				                     return std::get<2>(lhs).size() < std::get<2>(rhs).size();
-			                     });
+			auto const size_name_iter = std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
+				return std::get<0>(lhs).size() < std::get<0>(rhs).size();
+			});
+			auto const size_input_iter = std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
+				return std::get<1>(lhs).size() < std::get<1>(rhs).size();
+			});
+			auto const size_output_iter = std::max_element(outputs.begin(), outputs.end(), [](const auto& lhs, const auto& rhs) {
+				return std::get<2>(lhs).size() < std::get<2>(rhs).size();
+			});
 
 			std::ptrdiff_t const size_largest_name = std::get<0>(*size_name_iter).size();
 			std::ptrdiff_t const size_largest_input = std::get<1>(*size_input_iter).size();
@@ -203,18 +197,15 @@ namespace bve::parsers::function_scripts {
 
 				os_ << std::setw(int(std::ceil(std::log10(outputs.size())))) << count << '\t';
 				os_ << name;
-				for (std::ptrdiff_t i = 0; i < size_largest_name - std::ptrdiff_t(name.size()) + 2;
-				     ++i) {
+				for (std::ptrdiff_t i = 0; i < size_largest_name - std::ptrdiff_t(name.size()) + 2; ++i) {
 					os_ << ' ';
 				}
-				for (std::ptrdiff_t i = 0;
-				     i < size_largest_input - std::ptrdiff_t(input.size()) + 1; ++i) {
+				for (std::ptrdiff_t i = 0; i < size_largest_input - std::ptrdiff_t(input.size()) + 1; ++i) {
 					os_ << ' ';
 				}
 				os_ << input;
 				os_ << " -> ";
-				for (std::ptrdiff_t i = 0; i < size_largest_output - std::ptrdiff_t(output.size());
-				     ++i) {
+				for (std::ptrdiff_t i = 0; i < size_largest_output - std::ptrdiff_t(output.size()); ++i) {
 					os_ << ' ';
 				}
 				os_ << output;
@@ -223,9 +214,7 @@ namespace bve::parsers::function_scripts {
 			}
 		}
 
-		void addOutputs(const std::string& name,
-		                const std::string& str,
-		                const std::string& output) {
+		void addOutputs(const std::string& name, const std::string& str, const std::string& output) {
 			outputs.emplace_back(std::make_tuple(name, str, output));
 		}
 
@@ -246,9 +235,7 @@ namespace bve::parsers::function_scripts {
 			addOutputs(name, inputs.str(), output.str());
 		}
 
-		void printVariadicExpr(const std::string& name,
-		                       const char* separator,
-		                       std::size_t const count) {
+		void printVariadicExpr(const std::string& name, const char* separator, std::size_t const count) {
 			std::ostringstream inputs;
 			std::ostringstream output;
 			inputs << "(";
@@ -265,9 +252,7 @@ namespace bve::parsers::function_scripts {
 			addOutputs(name, inputs.str(), output.str());
 		}
 
-		void printFunction(const std::string& name,
-		                   const std::string& input_name,
-		                   std::size_t const count) {
+		void printFunction(const std::string& name, const std::string& input_name, std::size_t const count) {
 			std::ostringstream inputs;
 			std::ostringstream output;
 			inputs << input_name << "[";

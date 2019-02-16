@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/datatypes.hpp"
 #include "parsers/dependencies.hpp"
 #include "parsers/errors.hpp"
+#include "util/datatypes.hpp"
 #include <vector>
 
 // ReSharper disable once CppInconsistentNaming
@@ -14,8 +14,8 @@ namespace bve::parsers::b3d_csv_object {
 	};
 
 	struct FaceData {
-		core::datatypes::Color8RGBA color = {255, 255, 255, 255};
-		core::datatypes::Color8RGB emissive_color = {0, 0, 0};
+		util::datatypes::Color8RGBA color = {255, 255, 255, 255};
+		util::datatypes::Color8RGB emissive_color = {0, 0, 0};
 	};
 
 	struct Mesh {

@@ -1,5 +1,5 @@
 #include "parsers/ini.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <algorithm>
 
 namespace bve::parsers::ini {
@@ -16,7 +16,7 @@ namespace bve::parsers::ini {
 			auto const next_newline = std::find(begin, end, '\n');
 
 			auto line = std::string(begin, next_newline);
-			util::strip_text(line);
+			util::parsers::strip_text(line);
 
 			if (!line.empty()) {
 				// parse section header
@@ -42,8 +42,8 @@ namespace bve::parsers::ini {
 						key_value.value = std::string(equals_iter + 1, line.end());
 						key_value.line = line_number;
 
-						util::strip_text(key_value.key);
-						util::strip_text(key_value.value);
+						util::parsers::strip_text(key_value.key);
+						util::parsers::strip_text(key_value.value);
 
 						pio.back().key_value_pairs.emplace_back(std::move(key_value));
 					}

@@ -12,19 +12,19 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 5:
-				f.color.b = gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[4], 128));
+				f.color.b = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[4], 128));
 				// fall through
 			case 4:
-				f.color.g = gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[3], 128));
+				f.color.g = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[3], 128));
 				// fall through
 			case 3:
-				f.color.r = gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[2], 128));
+				f.color.r = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[2], 128));
 				// fall through
 			case 2:
-				f.ending_distance = util::parse_loose_float(inst.args[1], 0);
+				f.ending_distance = util::parsers::parse_loose_float(inst.args[1], 0);
 				// fall through
 			case 1:
-				f.starting_distance = util::parse_loose_float(inst.args[0], 0);
+				f.starting_distance = util::parsers::parse_loose_float(inst.args[0], 0);
 				// fall through
 			case 0:
 				break;
@@ -37,7 +37,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		instructions::track::Brightness b;
 
 		if (!inst.args.empty()) {
-			b.value = gsl::narrow<std::uint8_t>(util::parse_loose_integer(inst.args[0], 255));
+			b.value = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[0], 255));
 		}
 
 		return b;
@@ -50,7 +50,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			instructions::track::Marker m;
 
 			m.filename = inst.args[0];
-			m.distance = util::parse_loose_float(inst.args[1]);
+			m.distance = util::parsers::parse_loose_float(inst.args[1]);
 
 			return m;
 		}
@@ -69,25 +69,24 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			instructions::track::TextMarker m;
 
 			m.text = inst.args[0];
-			m.distance = util::parse_loose_float(inst.args[1]);
+			m.distance = util::parsers::parse_loose_float(inst.args[1]);
 
 			if (inst.args.size() >= 3) {
-				static std::map<std::string, instructions::track::TextMarker::FontColor>
-				    text_mapping{
-				        //
-				        {"black", instructions::track::TextMarker::FontColor::black},
-				        {"gray", instructions::track::TextMarker::FontColor::gray},
-				        {"grey", instructions::track::TextMarker::FontColor::gray},
-				        {"white", instructions::track::TextMarker::FontColor::white},
-				        {"red", instructions::track::TextMarker::FontColor::red},
-				        {"orange", instructions::track::TextMarker::FontColor::orange},
-				        {"green", instructions::track::TextMarker::FontColor::green},
-				        {"blue", instructions::track::TextMarker::FontColor::blue},
-				        {"magenta", instructions::track::TextMarker::FontColor::magenta}
-				        //
-				    };
+				static std::map<std::string, instructions::track::TextMarker::FontColor> text_mapping{
+				    //
+				    {"black", instructions::track::TextMarker::FontColor::black},
+				    {"gray", instructions::track::TextMarker::FontColor::gray},
+				    {"grey", instructions::track::TextMarker::FontColor::gray},
+				    {"white", instructions::track::TextMarker::FontColor::white},
+				    {"red", instructions::track::TextMarker::FontColor::red},
+				    {"orange", instructions::track::TextMarker::FontColor::orange},
+				    {"green", instructions::track::TextMarker::FontColor::green},
+				    {"blue", instructions::track::TextMarker::FontColor::blue},
+				    {"magenta", instructions::track::TextMarker::FontColor::magenta}
+				    //
+				};
 
-				auto const text_mapping_iter = text_mapping.find(util::lower_copy(inst.args[2]));
+				auto const text_mapping_iter = text_mapping.find(util::parsers::lower_copy(inst.args[2]));
 
 				if (text_mapping_iter != text_mapping.end()) {
 					m.font_color = text_mapping_iter->second;
@@ -110,13 +109,12 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		return mxml;
 	}
 
-	Instruction create_instruction_track_pointofinterest(
-	    const line_splitting::InstructionInfo& inst) {
+	Instruction create_instruction_track_pointofinterest(const line_splitting::InstructionInfo& inst) {
 		args_at_least(inst, 1, "Track.PointOfInterest");
 
 		instructions::track::PointOfInterest poi;
 
-		poi.rail_index = gsl::narrow_cast<std::size_t>(util::parse_loose_integer(inst.args[0]));
+		poi.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 		set_positions<1>(poi, inst);
 		if (inst.args.size() >= 7) {
 			poi.text = inst.args[6];
@@ -130,7 +128,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::track::PreTrain pt;
 
-		pt.time = util::parse_time(inst.args[0]);
+		pt.time = util::parsers::parse_time(inst.args[0]);
 
 		return pt;
 	}
@@ -142,7 +140,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		a.filename = inst.args[0];
 		if (inst.args.size() >= 2) {
-			a.speed = util::parse_loose_float(inst.args[1], 0);
+			a.speed = util::parsers::parse_loose_float(inst.args[1], 0);
 		}
 
 		return a;
@@ -157,10 +155,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		switch (inst.args.size()) {
 			default:
 			case 3:
-				d.y_offset = util::parse_loose_float(inst.args[2]);
+				d.y_offset = util::parsers::parse_loose_float(inst.args[2]);
 				// fall through
 			case 2:
-				d.x_offset = util::parse_loose_float(inst.args[1]);
+				d.x_offset = util::parsers::parse_loose_float(inst.args[1]);
 				// fall through
 			case 1:
 				break;

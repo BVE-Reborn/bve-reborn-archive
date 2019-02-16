@@ -1,21 +1,21 @@
-#include "core/macro_helpers.hpp"
-#include "test_macro_util.hpp"
+#include "util/macro_helpers.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
+#include <util/testing/variant_macros.hpp>
 
 using namespace std::string_literals;
 namespace fs_inst = bve::parsers::function_scripts::instructions;
 
-#define CREATE_VARIABLE_TEST_CASE(script_name, variable_name)                                      \
-	TEST_CASE("libparsers - function scripts - variables - " STR(variable_name)) {                 \
-		auto variable = fs_inst::OPVariableLookup{};                                               \
-		variable.name = fs_inst::Variable::variable_name;                                          \
-		auto result = bve::parsers::function_scripts::parse(script_name);                          \
-                                                                                                   \
-		REQUIRE_EQ(result.instructions.size(), 1);                                                 \
-		REQUIRE_EQ(result.used_variables.size(), 1);                                               \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], variable, name);                      \
-		CHECK(result.used_variables.count(variable.name));                                         \
+#define CREATE_VARIABLE_TEST_CASE(script_name, variable_name)                                                                              \
+	TEST_CASE("libparsers - function scripts - variables - " STR(variable_name)) {                                                         \
+		auto variable = fs_inst::OPVariableLookup{};                                                                                       \
+		variable.name = fs_inst::Variable::variable_name;                                                                                  \
+		auto result = bve::parsers::function_scripts::parse(script_name);                                                                  \
+                                                                                                                                           \
+		REQUIRE_EQ(result.instructions.size(), 1);                                                                                         \
+		REQUIRE_EQ(result.used_variables.size(), 1);                                                                                       \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], variable, name);                                                              \
+		CHECK(result.used_variables.count(variable.name));                                                                                 \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");

@@ -22,16 +22,14 @@ namespace bve::parsers::csv_rw_route {
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::options::ObjectVisibility& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::options::ObjectVisibility& inst) {
 		start(inst, "Options.ObjectVisibility");
 
 		PRINT_ENUM2(mode, options::ObjectVisibility::Mode, legacy, track_based);
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::options::SectionBehavior& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::options::SectionBehavior& inst) {
 		start(inst, "Options.SectionBehavior");
 
 		PRINT_ENUM2(mode, options::SectionBehavior::Mode, normal, simplified);
@@ -52,16 +50,14 @@ namespace bve::parsers::csv_rw_route {
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::options::CompatibleTransparencyMode& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::options::CompatibleTransparencyMode& inst) {
 		start(inst, "Options.CompatibleTransparencyMode");
 
 		PRINT_ENUM2(mode, options::CompatibleTransparencyMode::Mode, off, on);
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::options::EnableBveTsHacks& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::options::EnableBveTsHacks& inst) {
 		start(inst, "Options.EnableBveTsHacks");
 
 		PRINT_ENUM2(mode, options::EnableBveTsHacks::Mode, off, on);

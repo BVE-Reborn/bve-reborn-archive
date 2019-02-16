@@ -1,4 +1,4 @@
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -13,11 +13,11 @@
 
 using namespace std::string_literals;
 
-namespace bve::parsers::util {
+namespace bve::util::parsers {
 	static std::intmax_t parse_loose_integer_impl(std::string text);
 	static float parse_loose_float_impl(std::string text);
 	static std::intmax_t parse_time_impl(std::string text);
-	static core::datatypes::Color8RGBA parse_color_impl(std::string text);
+	static bve::util::datatypes::Color8RGBA parse_color_impl(std::string text);
 
 	/////////////////
 	// Int Parsing //
@@ -96,12 +96,11 @@ namespace bve::parsers::util {
 	// time Parsing //
 	//////////////////
 
-	static core::datatypes::Time parse_time_impl(std::string text) {
+	static bve::util::datatypes::Time parse_time_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
-		auto const deliminator = std::find_if(text.begin(), text.end(),
-		                                      [](char const c) { return c == '.' || c == ':'; });
+		auto const deliminator = std::find_if(text.begin(), text.end(), [](char const c) { return c == '.' || c == ':'; });
 		auto const right_hand_size = std::distance(deliminator, text.end()) - 1;
 
 		// no deliminator, only hh
@@ -125,7 +124,7 @@ namespace bve::parsers::util {
 		throw std::invalid_argument("");
 	}
 
-	core::datatypes::Time parse_time(const std::string& text) {
+	bve::util::datatypes::Time parse_time(const std::string& text) {
 		try {
 			return parse_time_impl(text);
 		}
@@ -136,7 +135,7 @@ namespace bve::parsers::util {
 		}
 	}
 
-	core::datatypes::Time parse_time(std::string text, std::intmax_t const default_value) {
+	bve::util::datatypes::Time parse_time(std::string text, std::intmax_t const default_value) {
 		try {
 			return parse_time_impl(std::move(text));
 		}
@@ -149,16 +148,15 @@ namespace bve::parsers::util {
 	// Color Parsing //
 	///////////////////
 
-	static core::datatypes::Color8RGBA parse_color_impl(std::string text) {
+	static bve::util::datatypes::Color8RGBA parse_color_impl(std::string text) {
 		// strip whitespace
 		text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
 		if (text.size() == 7) {
 			auto const value = std::stoi(std::string(text.begin() + 1, text.end()), nullptr, 16);
 
-			core::datatypes::Color8RGBA color{uint8_t((value & 0xFF0000) >> 16),
-			                                  uint8_t((value & 0xFF00) >> 8),
-			                                  uint8_t((value & 0xFF) >> 0), uint8_t(255)};
+			bve::util::datatypes::Color8RGBA color{uint8_t((value & 0xFF0000) >> 16), uint8_t((value & 0xFF00) >> 8),
+			                                       uint8_t((value & 0xFF) >> 0), uint8_t(255)};
 
 			return color;
 		}
@@ -166,7 +164,7 @@ namespace bve::parsers::util {
 		throw std::invalid_argument("");
 	}
 
-	core::datatypes::Color8RGBA parse_color(const std::string& text) {
+	bve::util::datatypes::Color8RGBA parse_color(const std::string& text) {
 		try {
 			return parse_color_impl(text);
 		}
@@ -177,8 +175,7 @@ namespace bve::parsers::util {
 		}
 	}
 
-	core::datatypes::Color8RGBA parse_color(std::string text,
-	                                        core::datatypes::Color8RGBA default_value) {
+	bve::util::datatypes::Color8RGBA parse_color(std::string text, bve::util::datatypes::Color8RGBA default_value) {
 		try {
 			return parse_color_impl(std::move(text));
 		}
@@ -198,9 +195,7 @@ namespace bve::parsers::util {
 		return text;
 	}
 
-	std::vector<std::string> split_text(const std::string& text,
-	                                    char const delim,
-	                                    bool const remove_blanks) {
+	std::vector<std::string> split_text(const std::string& text, char const delim, bool const remove_blanks) {
 		std::vector<std::string> vec;
 
 		auto begin = text.begin();
@@ -320,8 +315,7 @@ namespace bve::parsers::util {
 		for (; i < 3 && file >> bom[i]; ++i) {
 		}
 
-		auto const has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB
-		                     && std::get<2>(bom) == 0xBF;
+		auto const has_bom = i == 3 && std::get<0>(bom) == 0xEF && std::get<1>(bom) == 0xBB && std::get<2>(bom) == 0xBF;
 		std::size_t const start_of_file = has_bom ? 3 : 0;
 
 		std::string contents;
@@ -359,4 +353,4 @@ namespace bve::parsers::util {
 		return contents;
 	}
 
-} // namespace bve::parsers::util
+} // namespace bve::util::parsers

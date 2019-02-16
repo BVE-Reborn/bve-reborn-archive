@@ -17,14 +17,8 @@ namespace bve::parsers::errors {
 
 	void add_error(Errors& errors, std::intmax_t line, std::string msg);
 	void add_error(Errors& errors, std::intmax_t line, const std::ostringstream& msg);
-	void add_error(MultiError& errors,
-	               const std::string& filename,
-	               std::intmax_t line,
-	               std::string msg);
-	void add_error(MultiError& errors,
-	               const std::string& filename,
-	               std::intmax_t line,
-	               const std::ostringstream& msg);
+	void add_error(MultiError& errors, const std::string& filename, std::intmax_t line, std::string msg);
+	void add_error(MultiError& errors, const std::string& filename, std::intmax_t line, const std::ostringstream& msg);
 
 	std::ostream& operator<<(std::ostream& os, Error& /*e*/);
 	std::ostream& operator<<(std::ostream& os, Errors& /*es*/);

@@ -1,6 +1,6 @@
 #include "b3d_csv_object.hpp"
 #include "parsers/b3d_csv.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 
 // ReSharper disable once CppInconsistentNaming
 namespace bve::parsers::b3d_csv_object {

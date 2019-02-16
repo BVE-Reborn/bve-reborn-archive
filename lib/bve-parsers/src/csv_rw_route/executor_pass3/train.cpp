@@ -12,8 +12,7 @@ namespace bve::parsers::csv_rw_route {
 
 	void Pass3Executor::operator()(const instructions::train::Flange& inst) {
 		route_data_.rail_flangesound_mapping[inst.rail_type_index] = inst.flange_sound_index;
-		rail_flangesound_blame_[inst.rail_type_index] =
-		    FileIndexLinePair{inst.file_index, inst.line};
+		rail_flangesound_blame_[inst.rail_type_index] = FileIndexLinePair{inst.file_index, inst.line};
 	}
 
 	void Pass3Executor::operator()(const instructions::train::Timetable& inst) const {

@@ -44,13 +44,11 @@ namespace bve::parsers::csv_rw_route {
 
 		PRINT_VALUE(text);
 		PRINT_VALUE(distance);
-		PRINT_ENUM8(font_color, track::TextMarker::FontColor, black, gray, white, red, orange,
-		            green, blue, magenta);
+		PRINT_ENUM8(font_color, track::TextMarker::FontColor, black, gray, white, red, orange, green, blue, magenta);
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::track::PointOfInterest& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::PointOfInterest& inst) {
 		start(inst, "Track.PointOfInterest");
 
 		PRINT_VALUE(rail_index);

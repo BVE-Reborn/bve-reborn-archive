@@ -1,8 +1,7 @@
 #include "common.hpp"
 
 namespace bve::parsers::csv_rw_route {
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::texture::BackgroundLoad& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::texture::BackgroundLoad& inst) {
 		start(inst, "Texture.Background_Load");
 
 		PRINT_VALUE(background_texture_index);
@@ -18,8 +17,7 @@ namespace bve::parsers::csv_rw_route {
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::texture::BackgroundAspect& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::texture::BackgroundAspect& inst) {
 		start(inst, "Texture.Background_Aspect");
 
 		PRINT_VALUE(background_texture_index);

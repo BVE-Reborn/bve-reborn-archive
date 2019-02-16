@@ -1,6 +1,6 @@
 #include "parsers/xml/dynamic_background.hpp"
-#include "parsers/utils.hpp"
 #include "sample_relative_file_func.hpp"
+#include "util/parsing.hpp"
 #include <doctest.h>
 #include <iostream>
 
@@ -24,8 +24,7 @@ TEST_CASE("libparser - xml - dynamic_background - single backgound") {
 	// clang-format on
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const output =
-	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
+	auto const output = db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 
 	if (!output_errors.empty()) {
 		std::cout << output_errors;
@@ -65,8 +64,7 @@ TEST_CASE("libparser - xml - dynamic_background - multiple backgounds") {
 
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const output =
-	    db::parse("some_file.xml"s, test_multiple_backgrounds, output_errors, rel_file_func);
+	auto const output = db::parse("some_file.xml"s, test_multiple_backgrounds, output_errors, rel_file_func);
 
 	if (!output_errors.empty()) {
 		std::cout << output_errors;
@@ -103,8 +101,7 @@ TEST_CASE("libparser - xml - dynamic_background - object_background") {
 
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const output =
-	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
+	auto const output = db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
 
 	if (!output_errors.empty()) {
 		std::cout << output_errors;
@@ -133,8 +130,7 @@ TEST_CASE("libparser - xml - dynamic_background - should allow only one object_b
 
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const output =
-	    db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
+	auto const output = db::parse("some_file.xml"s, test_object_background, output_errors, rel_file_func);
 
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors.size(), 1);
@@ -154,8 +150,7 @@ TEST_CASE("libparser - xml - dynamic_background - openbve node should be optiona
 
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const out =
-	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
+	auto const out = db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
 }
 
@@ -173,8 +168,7 @@ TEST_CASE("libparsers - xml - dynamic_background - improper values should add an
 
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const out =
-	    db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
+	auto const out = db::parse("some_file.xml"s, test_single_background, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors.at("some_file.xml"s).size(), 3);
 }

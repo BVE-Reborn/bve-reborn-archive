@@ -1,5 +1,5 @@
-#include "parsers/utils.hpp"
 #include "sample_relative_file_func.hpp"
+#include "util/parsing.hpp"
 #include <doctest.h>
 #include <parsers/xml/route_marker.hpp>
 
@@ -32,8 +32,7 @@ TEST_CASE("libparsers - xml - route_marker - image based marker") {
         "</openBVE>"s;
 	// clang-format on
 	bve::parsers::errors::MultiError output_errors;
-	auto const output =
-	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
+	auto const output = rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::ImageMarker>());
 	auto const& image_marker = output.get_unchecked<rm::ImageMarker>();
 	CHECK_EQ(image_marker.early_time, 43200);
@@ -80,8 +79,7 @@ TEST_CASE(
         "</openBVE>"s;
 	// clang-format on
 	bve::parsers::errors::MultiError output_errors;
-	auto const output =
-	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
+	auto const output = rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::ImageMarker>());
 	auto const& image_marker = output.get_unchecked<rm::ImageMarker>();
 	CHECK_EQ(image_marker.early_time, 0);
@@ -116,8 +114,7 @@ TEST_CASE(
             "</openBVE>"s;
 	// clang-format on
 	bve::parsers::errors::MultiError output_errors;
-	auto const output =
-	    rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
+	auto const output = rm::parse("some_file.xml"s, image_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::ImageMarker>());
 	auto const& image_marker = output.get_unchecked<rm::ImageMarker>();
 	CHECK(!output_errors.empty());
@@ -154,8 +151,7 @@ TEST_CASE("libparsers - xml - router_marker - text base marker") {
         "</openBVE>"s;
 	// clang-format on
 	bve::parsers::errors::MultiError output_errors;
-	auto const output =
-	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
+	auto const output = rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::TextMarker>());
 	auto const& text_marker = output.get_unchecked<rm::TextMarker>();
 	CHECK_EQ(text_marker.early_time, 43200);
@@ -190,8 +186,7 @@ TEST_CASE(
             "</openBVE>"s;
 	// clang-format on
 	bve::parsers::errors::MultiError output_errors;
-	auto const output =
-	    rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
+	auto const output = rm::parse("some_file.xml"s, text_based_marker, output_errors, rel_file_func);
 	REQUIRE(output.is<rm::TextMarker>());
 	auto const& text_marker = output.get_unchecked<rm::TextMarker>();
 	CHECK(!output_errors.empty());

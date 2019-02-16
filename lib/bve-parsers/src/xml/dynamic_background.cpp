@@ -1,5 +1,5 @@
 #include "parsers/xml/dynamic_background.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include "xml_node_helpers.hpp"
 #include <gsl/gsl_util>
 #include <rapidxml_ns.hpp>
@@ -9,11 +9,10 @@
 using namespace std::string_literals;
 
 namespace bve::parsers::xml::dynamic_background {
-	ParsedDynamicBackground parse(
-	    const std::string& filename,
-	    std::string input_string, // NOLINT(performance-unnecessary-value-param)
-	    errors::MultiError& errors,
-	    const RelativeFileFunc& get_relative_file) {
+	ParsedDynamicBackground parse(const std::string& filename,
+	                              std::string input_string, // NOLINT(performance-unnecessary-value-param)
+	                              errors::MultiError& errors,
+	                              const RelativeFileFunc& get_relative_file) {
 		// This is always an vector of texture backgrounds, the object code
 		// short-circuit this variable and returns a newly constructed object
 		ParsedDynamicBackground db = std::vector<TextureBackgroundInfo>{};
@@ -31,8 +30,7 @@ namespace bve::parsers::xml::dynamic_background {
 			current_section = doc.first_node("background", 0, false);
 		}
 
-		for (; current_section != nullptr;
-		     current_section = current_section->next_sibling("background", 0, false)) {
+		for (; current_section != nullptr; current_section = current_section->next_sibling("background", 0, false)) {
 			auto* object = current_section->first_node("object", 0, false);
 
 			// Only one object background allowed, and it takes priority
@@ -44,9 +42,7 @@ namespace bve::parsers::xml::dynamic_background {
 				current_section = current_section->next_sibling();
 				// If multiple object_backgrounds specified add an error.
 				if (current_section != nullptr) {
-					add_error(
-					    errors, filename, 0,
-					    "Multiple Object backgrounds: only one object background is allowed."s);
+					add_error(errors, filename, 0, "Multiple Object backgrounds: only one object background is allowed."s);
 				}
 				return ObjectBackgroundInfo{absolute};
 			}
@@ -67,8 +63,7 @@ namespace bve::parsers::xml::dynamic_background {
 
 			if (repetitions != nullptr) {
 				try {
-					tbi.repetitions = gsl::narrow<std::size_t>(
-					    util::parse_loose_integer(get_node_value(repetitions)));
+					tbi.repetitions = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(get_node_value(repetitions)));
 				}
 				catch (const std::exception& e) {
 					add_error(errors, filename, 0, e.what());
@@ -76,7 +71,7 @@ namespace bve::parsers::xml::dynamic_background {
 			}
 
 			if (mode != nullptr) {
-				auto const mode_text = util::lower_copy(get_node_value(mode));
+				auto const mode_text = util::parsers::lower_copy(get_node_value(mode));
 
 				if (mode_text == "fadein"s) {
 					tbi.transition_mode = TextureBackgroundInfo::fade_in;
@@ -87,8 +82,7 @@ namespace bve::parsers::xml::dynamic_background {
 				else {
 					if (mode_text != "none"s) {
 						std::ostringstream err;
-						err << "Unrecognized texture mode: \"" << get_node_value(mode)
-						    << R"(" assuming "None")";
+						err << "Unrecognized texture mode: \"" << get_node_value(mode) << R"(" assuming "None")";
 						add_error(errors, filename, 0, err.str());
 					}
 					tbi.transition_mode = TextureBackgroundInfo::none;
@@ -97,8 +91,7 @@ namespace bve::parsers::xml::dynamic_background {
 
 			if (transition_time != nullptr) {
 				try {
-					tbi.transition_time = gsl::narrow<std::size_t>(
-					    util::parse_loose_integer(get_node_value(transition_time)));
+					tbi.transition_time = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(get_node_value(transition_time)));
 				}
 				catch (const std::invalid_argument& e) {
 					add_error(errors, filename, 0, e.what());
@@ -107,7 +100,7 @@ namespace bve::parsers::xml::dynamic_background {
 
 			if (time != nullptr) {
 				try {
-					tbi.time = gsl::narrow<std::size_t>(util::parse_time(get_node_value(time)));
+					tbi.time = gsl::narrow<std::size_t>(util::parsers::parse_time(get_node_value(time)));
 				}
 				catch (const std::invalid_argument& e) {
 					add_error(errors, filename, 0, e.what());

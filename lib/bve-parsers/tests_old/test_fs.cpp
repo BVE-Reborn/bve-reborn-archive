@@ -12,8 +12,7 @@ void test_fs() {
 	// value + auto test_string = "value + Mod[(speed * delta), 2.7632] / 2.7632
 	// * Power[3.14, 2, 2] * 2"s;
 	bve::parsers::errors::Errors e;
-	auto const test_string =
-	    ".25 * Reciprocal[floor[plus[Time * 0.1, 23, 1, pluginstate[2 * mod[-time, 4] + 25]]]] * Power[2]"s;
+	auto const test_string = ".25 * Reciprocal[floor[plus[Time * 0.1, 23, 1, pluginstate[2 * mod[-time, 4] + 25]]]] * Power[2]"s;
 
 	auto const output = bve::parsers::function_scripts::lex(test_string, e);
 

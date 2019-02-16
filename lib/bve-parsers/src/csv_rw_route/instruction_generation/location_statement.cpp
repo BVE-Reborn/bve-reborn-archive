@@ -8,7 +8,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		pos.distances.reserve(inst.args.size() + 1);
 		pos.distances.emplace_back(inst.offset);
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(pos.distances),
-		               [](const std::string& s) { return util::parse_loose_float(s, 0); });
+		               [](const std::string& s) { return util::parsers::parse_loose_float(s, 0); });
 
 		return pos;
 	}

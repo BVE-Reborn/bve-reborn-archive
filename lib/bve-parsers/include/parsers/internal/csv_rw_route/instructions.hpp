@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/datatypes.hpp"
 #include "route_structure.hpp"
+#include "util/datatypes.hpp"
 #include <absl/types/optional.h>
 #include <cstddef>
 #include <string>
@@ -167,7 +167,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct StartTime {
-			core::datatypes::Time time{};
+			util::datatypes::Time time{};
 			std::size_t file_index = 0;
 			std::size_t line = 0;
 			float absolute_position = -1;
@@ -181,11 +181,11 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct AmbientLight : InstructionBase {
-			core::datatypes::Color8RGB color = {160, 160, 160};
+			util::datatypes::Color8RGB color = {160, 160, 160};
 		};
 
 		struct DirectionalLight : InstructionBase {
-			core::datatypes::Color8RGB color = {160, 160, 160};
+			util::datatypes::Color8RGB color = {160, 160, 160};
 		};
 
 		struct LightDirection : InstructionBase {
@@ -460,8 +460,8 @@ namespace bve::parsers::csv_rw_route::instructions {
 			std::string arrival_sound;
 			std::string departure_sound;
 			std::size_t timetable_index = 0;
-			core::datatypes::Time arrival = 0;
-			core::datatypes::Time departure = 0;
+			util::datatypes::Time arrival = 0;
+			util::datatypes::Time departure = 0;
 			float stop_duration = 15;
 			float passenger_ratio = 100;
 			bool pass_alarm = false;
@@ -582,13 +582,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 		// Track.AtsSn
 		// Track.AtsP
 		struct Transponder : InstructionBase {
-			enum class Type : uint8_t {
-				s_type = 0,
-				sn_type = 1,
-				departure = 2,
-				ats_p_renewal = 3,
-				ats_p_stop = 4
-			} type = Type::s_type;
+			enum class Type : uint8_t { s_type = 0, sn_type = 1, departure = 2, ats_p_renewal = 3, ats_p_stop = 4 } type = Type::s_type;
 			std::size_t signal = 0;
 			bool switch_system = true;
 			// UnitOfLength
@@ -621,7 +615,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 			float starting_distance = 0;
 			// UnitOfLength
 			float ending_distance = 0;
-			core::datatypes::Color8RGB color = {128, 128, 128};
+			util::datatypes::Color8RGB color = {128, 128, 128};
 		};
 
 		struct Brightness : InstructionBase {
@@ -642,16 +636,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 			std::string text;
 			// UnitOfLength
 			float distance{};
-			enum class FontColor : uint8_t {
-				black,
-				gray,
-				white,
-				red,
-				orange,
-				green,
-				blue,
-				magenta
-			} font_color;
+			enum class FontColor : uint8_t { black, gray, white, red, orange, green, blue, magenta } font_color;
 		};
 
 		struct PointOfInterest : InstructionBase {
@@ -670,7 +655,7 @@ namespace bve::parsers::csv_rw_route::instructions {
 		};
 
 		struct PreTrain : InstructionBase {
-			core::datatypes::Time time{};
+			util::datatypes::Time time{};
 		};
 
 		struct Announce : InstructionBase {

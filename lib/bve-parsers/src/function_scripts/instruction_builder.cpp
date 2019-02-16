@@ -1,5 +1,5 @@
 #include "parse_tree.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <algorithm>
 #include <iterator>
 #include <map>
@@ -204,7 +204,7 @@ namespace bve::parsers::function_scripts {
 		}
 
 		void operator()(const tree_types::Identifier& node) {
-			auto const lower_name = util::lower_copy(node.val);
+			auto const lower_name = util::parsers::lower_copy(node.val);
 
 			auto const iter = naked_variables.find(lower_name);
 			if (iter != naked_variables.end()) {
@@ -221,7 +221,7 @@ namespace bve::parsers::function_scripts {
 		// ReSharper disable once CyclomaticComplexity
 		void operator()(const tree_types::FunctionCall& node) {
 			auto const arg_count = node.args.size();
-			auto const lower_name = util::lower_copy(node.name.val);
+			auto const lower_name = util::parsers::lower_copy(node.name.val);
 
 			// unary
 			auto const unary_iter = unary_functions.find(lower_name);
@@ -245,8 +245,7 @@ namespace bve::parsers::function_scripts {
 			if (index_iter != indexable_variables.end()) {
 				if (arg_count >= 1) {
 					callNextNode(node.args[0]);
-					list.instructions.emplace_back<instructions::OPVariableIndexed>(
-					    {index_iter->second});
+					list.instructions.emplace_back<instructions::OPVariableIndexed>({index_iter->second});
 					list.used_indexed_variables.insert(index_iter->second);
 				}
 				else {
@@ -254,8 +253,7 @@ namespace bve::parsers::function_scripts {
 				}
 				if (arg_count != 1) {
 					std::ostringstream error;
-					error << "Variable \"" << node.name.val
-					      << "\" must be indexed with one argument.";
+					error << "Variable \"" << node.name.val << "\" must be indexed with one argument.";
 					list.errors.emplace_back<errors::Error>({0, error.str()});
 				}
 				return;

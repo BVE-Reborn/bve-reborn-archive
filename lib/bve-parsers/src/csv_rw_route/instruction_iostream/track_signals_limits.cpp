@@ -33,8 +33,7 @@ namespace bve::parsers::csv_rw_route {
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Signal& inst) {
 		start(inst, "Track.Signal");
 
-		PRINT_ENUM8(type, track::Signal::Aspect, r_y, r_g, r_y_g, r_yy_y_g, r_y_yg_g, r_yy_y_yg_g,
-		            r_y_yg_g_gg, r_yy_y_yg_g_gg);
+		PRINT_ENUM8(type, track::Signal::Aspect, r_y, r_g, r_y_g, r_yy_y_g, r_y_yg_g, r_yy_y_yg_g, r_y_yg_g_gg, r_yy_y_yg_g_gg);
 		PRINT_VALUE(x_offset);
 		PRINT_VALUE(y_offset);
 		PRINT_VALUE(yaw);

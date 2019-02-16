@@ -1,7 +1,7 @@
-#include "core/variant_util.hpp"
 #include "old_tests_config.hpp"
 #include "parsers/csv_rw_route.hpp"
 #include "tests.hpp"
+#include "util/variant_util.hpp"
 #include <algorithm>
 #include <array>
 #include <cppfs/FilePath.h>
@@ -30,8 +30,8 @@ void test_csv_route() {
 		return base_fp.resolve("..").resolve(file).path();
 	};
 
-	auto vals = process_include_directives(cppfs::FilePath(file_location).resolved(), eng, me,
-	                                       bve::parsers::csv_rw_route::FileType::csv, get_abs_path);
+	auto vals = process_include_directives(cppfs::FilePath(file_location).resolved(), eng, me, bve::parsers::csv_rw_route::FileType::csv,
+	                                       get_abs_path);
 
 	std::cout << vals.filenames.size() << '\n';
 	std::cout << vals.lines.size() << '\n';

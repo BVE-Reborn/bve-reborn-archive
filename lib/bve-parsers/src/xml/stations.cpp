@@ -1,5 +1,5 @@
 #include "parsers/xml/stations.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include "xml_node_helpers.hpp"
 #include <gsl/gsl_util>
 #include <rapidxml_ns.hpp>
@@ -23,7 +23,7 @@ namespace bve::parsers::xml::stations {
 			};
 			std::string door;
 			try {
-				door = util::lower_copy(get_node_value(doors_node));
+				door = util::parsers::lower_copy(get_node_value(doors_node));
 			}
 			catch (std::exception const& e) {
 				add_error(errors, filename, 0, e.what());
@@ -38,10 +38,9 @@ namespace bve::parsers::xml::stations {
 			return ParsedStationMarker::Doors::none;
 		}
 
-		RequestStopMarker::Behaviour parse_ai_behaviour(
-		    std::string const& filename,
-		    rapidxml_ns::xml_node<char>* ai_behaviour_node,
-		    errors::MultiError& errors) {
+		RequestStopMarker::Behaviour parse_ai_behaviour(std::string const& filename,
+		                                                rapidxml_ns::xml_node<char>* ai_behaviour_node,
+		                                                errors::MultiError& errors) {
 			static std::unordered_map<std::string, RequestStopMarker::Behaviour> text_mapping{
 			    //
 			    {"fullspeed", RequestStopMarker::Behaviour::full_speed},
@@ -50,7 +49,7 @@ namespace bve::parsers::xml::stations {
 			};
 			std::string behaviour;
 			try {
-				behaviour = util::lower_copy(get_node_value(ai_behaviour_node));
+				behaviour = util::parsers::lower_copy(get_node_value(ai_behaviour_node));
 			}
 			catch (std::exception const& e) {
 				add_error(errors, filename, 0, e.what());
@@ -116,7 +115,7 @@ namespace bve::parsers::xml::stations {
 			if (early_node == nullptr && on_time_node == nullptr && late_node == nullptr) {
 				std::intmax_t no_sub_values;
 				try {
-					no_sub_values = util::parse_loose_integer(get_node_value(parent_node));
+					no_sub_values = util::parsers::parse_loose_integer(get_node_value(parent_node));
 				}
 				catch (std::exception const& e) {
 					no_sub_values = 0;
@@ -135,12 +134,11 @@ namespace bve::parsers::xml::stations {
 				return sub_nodes;
 			}
 			// Sets the probabilities.
-			auto const set_prob = [&](rapidxml_ns::xml_node<char> const* const node,
-			                          std::uint8_t& prob, std::string const& time) {
+			auto const set_prob = [&](rapidxml_ns::xml_node<char> const* const node, std::uint8_t& prob, std::string const& time) {
 				if (node != nullptr) {
 					std::intmax_t temp_prob;
 					try {
-						temp_prob = util::parse_loose_integer(get_node_value(node));
+						temp_prob = util::parsers::parse_loose_integer(get_node_value(node));
 					}
 					catch (std::exception const& e) {
 						add_error(errors, filename, 0, e.what());
@@ -187,7 +185,7 @@ namespace bve::parsers::xml::stations {
 
 			if (early_time_node != nullptr) {
 				try {
-					rs.early_time = util::parse_time(get_node_value(early_time_node));
+					rs.early_time = util::parsers::parse_time(get_node_value(early_time_node));
 					rs.using_early = true;
 				}
 				catch (std::exception const& e) {
@@ -199,7 +197,7 @@ namespace bve::parsers::xml::stations {
 
 			if (late_time_node != nullptr) {
 				try {
-					rs.late_time = util::parse_time(get_node_value(late_time_node));
+					rs.late_time = util::parsers::parse_time(get_node_value(late_time_node));
 					rs.using_late = true;
 				}
 				catch (std::exception const& e) {
@@ -211,7 +209,7 @@ namespace bve::parsers::xml::stations {
 
 			if (distance_node != nullptr) {
 				try {
-					rs.distance = util::parse_loose_float(get_node_value(distance_node));
+					rs.distance = util::parsers::parse_loose_float(get_node_value(distance_node));
 				}
 				catch (std::exception const& e) {
 					add_error(errors, filename, 0, e.what());
@@ -233,10 +231,9 @@ namespace bve::parsers::xml::stations {
 
 			if (max_cars_node != nullptr) {
 				try {
-					auto cars = util::parse_loose_integer(get_node_value(max_cars_node));
+					auto cars = util::parsers::parse_loose_integer(get_node_value(max_cars_node));
 					if (cars < 0) {
-						add_error(errors, filename, 0,
-						          "Error: <MaxCars> should have be a non negative integer");
+						add_error(errors, filename, 0, "Error: <MaxCars> should have be a non negative integer");
 						cars = 0;
 					}
 					rs.max_cars = gsl::narrow<std::uintmax_t>(cars);
@@ -281,7 +278,7 @@ namespace bve::parsers::xml::stations {
 		if (arrival_time_node != nullptr) {
 			try {
 				sm.using_arrival = true;
-				sm.arrival_time = util::parse_time(get_node_value(arrival_time_node));
+				sm.arrival_time = util::parsers::parse_time(get_node_value(arrival_time_node));
 			}
 			catch (std::exception const& e) {
 				sm.arrival_time = 0;
@@ -293,7 +290,7 @@ namespace bve::parsers::xml::stations {
 		if (departure_time_node != nullptr) {
 			try {
 				sm.using_departure = true;
-				sm.departure_time = util::parse_time(get_node_value(departure_time_node));
+				sm.departure_time = util::parsers::parse_time(get_node_value(departure_time_node));
 			}
 			catch (std::exception const& e) {
 				sm.departure_time = 0;
@@ -307,17 +304,15 @@ namespace bve::parsers::xml::stations {
 		}
 
 		if (red_signal_node != nullptr) {
-			std::string const red_signal = util::lower_copy(get_node_value(red_signal_node));
+			std::string const red_signal = util::parsers::lower_copy(get_node_value(red_signal_node));
 			sm.force_red_signal = "true"s == red_signal;
 		}
 
 		if (passenger_ratio_node != nullptr) {
 			try {
-				auto ratio = util::parse_loose_integer(get_node_value(passenger_ratio_node));
+				auto ratio = util::parsers::parse_loose_integer(get_node_value(passenger_ratio_node));
 				if (ratio < 0 || ratio > 250) {
-					add_error(
-					    errors, filename, 0,
-					    "Out of bounds Error: PassengerRatio has to be a integer between 0 and 250."s);
+					add_error(errors, filename, 0, "Out of bounds Error: PassengerRatio has to be a integer between 0 and 250."s);
 					ratio = 0;
 				}
 				sm.passenger_ratio = gsl::narrow_cast<std::uint8_t>(ratio);
@@ -333,14 +328,12 @@ namespace bve::parsers::xml::stations {
 		}
 
 		if (departure_sound_node != nullptr) {
-			sm.departure_sound_file =
-			    get_relative_file(filename, get_node_value(departure_sound_node));
+			sm.departure_sound_file = get_relative_file(filename, get_node_value(departure_sound_node));
 		}
 
 		if (stop_duration_node != nullptr) {
 			try {
-				auto const duration =
-				    util::parse_loose_integer(get_node_value(stop_duration_node), 15);
+				auto const duration = util::parsers::parse_loose_integer(get_node_value(stop_duration_node), 15);
 				sm.stop_duration = gsl::narrow<std::uintmax_t>(duration);
 			}
 			catch (std::exception const& e) {
@@ -349,7 +342,7 @@ namespace bve::parsers::xml::stations {
 			}
 		}
 		if (time_table_index_node != nullptr) {
-			auto index = util::parse_loose_integer(get_node_value(time_table_index_node));
+			auto index = util::parsers::parse_loose_integer(get_node_value(time_table_index_node));
 			if (index < 0) {
 				add_error(errors, filename, 0, "<TimeTableIndex> should have non negative values"s);
 				index = 0;
@@ -358,8 +351,7 @@ namespace bve::parsers::xml::stations {
 			sm.time_table_index = gsl::narrow_cast<std::size_t>(index);
 		}
 		if (request_stop_node != nullptr) {
-			RequestStopMarker const rs =
-			    parse_request_stop_marker(filename, request_stop_node, errors, get_relative_file);
+			RequestStopMarker const rs = parse_request_stop_marker(filename, request_stop_node, errors, get_relative_file);
 			sm.request_stop = rs;
 		}
 		return sm;
@@ -388,8 +380,7 @@ namespace bve::parsers::xml::stations {
 		}
 		std::ostringstream err;
 
-		err << "XML node named: " << get_node_value(primary_node)
-		    << " is not a valid XML marker tag.";
+		err << "XML node named: " << get_node_value(primary_node) << " is not a valid XML marker tag.";
 		add_error(errors, filename, 0, err.str());
 		return ParsedStationMarker{};
 	}

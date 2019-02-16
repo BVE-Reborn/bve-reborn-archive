@@ -1,15 +1,15 @@
 #include "cppfs/FileHandle.h"
 #include "cppfs/fs.h"
 #include "parsers/csv_rw_route.hpp"
-#include "parsers/utils.hpp"
 #include "sample_relative_file_func.hpp"
+#include "util/parsing.hpp"
 #include <cppfs/FilePath.h>
 #include <doctest.h>
 #include <fstream>
 
 using namespace std::string_literals;
 namespace cs = bve::parsers::csv_rw_route;
-namespace p_util = bve::parsers::util;
+namespace p_util = bve::util::parsers;
 
 namespace {
 
@@ -19,13 +19,11 @@ namespace {
 		*ofs << directive;
 	}
 
-	cs::PreprocessedLines setup(std::string const& test,
-	                            bve::parsers::errors::MultiError& output_errors) {
+	cs::PreprocessedLines setup(std::string const& test, bve::parsers::errors::MultiError& output_errors) {
 		write_to_file(test);
 		std::uint32_t const seed = 1;
-		auto rng = bve::core::datatypes::RNG{seed};
-		auto processed = process_include_directives("directive.csv"s, rng, output_errors,
-		                                            cs::FileType::csv, rel_file_func);
+		auto rng = bve::util::datatypes::RNG{seed};
+		auto processed = process_include_directives("directive.csv"s, rng, output_errors, cs::FileType::csv, rel_file_func);
 		preprocess_file(processed, rng, output_errors, cs::FileType::csv);
 		cppfs::fs::open("directive.csv"s).remove();
 		return processed;
@@ -132,8 +130,7 @@ TEST_CASE("libparsers - csv_rw_route - preprocessor - $If") {
 }
 
 TEST_CASE("libparser - csv_rw_route - preprocessor - $If - multiple sub expressions") {
-	std::string const test_input =
-	    "$If(1),$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),$Else(),$Chr(69),$EndIf()"s;
+	std::string const test_input = "$If(1),$Chr(75),$Chr(69),$Chr(86),$Chr(73),$Chr(78),$Else(),$Chr(69),$EndIf()"s;
 
 	bve::parsers::errors::MultiError output_errors;
 
@@ -161,8 +158,7 @@ TEST_CASE("libparser - csv_rw_route - preprocessor - $If - multiple sub expressi
 }
 
 TEST_CASE("libparsers - csv_rw_route - preprocessor - $If - multiple conditionals") {
-	std::string const test_input =
-	    "$If(1),$Chr(75),$If(1),$Chr(69),$If(1),$Chr(86),$Else(),$Chr(69),$EndIf()"s;
+	std::string const test_input = "$If(1),$Chr(75),$If(1),$Chr(69),$If(1),$Chr(86),$Else(),$Chr(69),$EndIf()"s;
 
 	bve::parsers::errors::MultiError output_errors;
 

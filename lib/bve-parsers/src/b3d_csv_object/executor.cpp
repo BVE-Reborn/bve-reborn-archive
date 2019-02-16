@@ -39,20 +39,16 @@ namespace bve::parsers::b3d_csv_object {
 				return false;
 			}
 
-			if (static_cast<int>(data1.has_decal_transparent_color)
-			    < static_cast<int>(data2.has_decal_transparent_color)) {
+			if (static_cast<int>(data1.has_decal_transparent_color) < static_cast<int>(data2.has_decal_transparent_color)) {
 				return true;
 			}
-			if (static_cast<int>(data2.has_decal_transparent_color)
-			    > static_cast<int>(data1.has_decal_transparent_color)) {
+			if (static_cast<int>(data2.has_decal_transparent_color) > static_cast<int>(data1.has_decal_transparent_color)) {
 				return false;
 			}
 
 			// blend mode integer
-			auto const bmi_a =
-			    std::underlying_type<decltype(data1.blend_mode)>::type(data1.blend_mode);
-			auto const bmi_b =
-			    std::underlying_type<decltype(data2.blend_mode)>::type(data2.blend_mode);
+			auto const bmi_a = std::underlying_type<decltype(data1.blend_mode)>::type(data1.blend_mode);
+			auto const bmi_b = std::underlying_type<decltype(data2.blend_mode)>::type(data2.blend_mode);
 			if (bmi_a < bmi_b) {
 				return true;
 			}
@@ -61,10 +57,8 @@ namespace bve::parsers::b3d_csv_object {
 			}
 
 			// glow attenuation mode integer
-			auto const gam_a = std::underlying_type<decltype(data1.glow_attenuation_mode)>::type(
-			    data1.glow_attenuation_mode);
-			auto const gam_b = std::underlying_type<decltype(data2.glow_attenuation_mode)>::type(
-			    data2.glow_attenuation_mode);
+			auto const gam_a = std::underlying_type<decltype(data1.glow_attenuation_mode)>::type(data1.glow_attenuation_mode);
+			auto const gam_b = std::underlying_type<decltype(data2.glow_attenuation_mode)>::type(data2.glow_attenuation_mode);
 			if (gam_a < gam_b) {
 				return true;
 			}
@@ -96,8 +90,7 @@ namespace bve::parsers::b3d_csv_object {
 				auto& b_vert = mesh.verts[b];
 				auto& c_vert = mesh.verts[c];
 
-				auto const normal =
-				    cross(a_vert.position - b_vert.position, c_vert.position - b_vert.position);
+				auto const normal = cross(a_vert.position - b_vert.position, c_vert.position - b_vert.position);
 
 				a_vert.normal += normal;
 				b_vert.normal += normal;
@@ -136,8 +129,7 @@ namespace bve::parsers::b3d_csv_object {
 			return face_count;
 		}
 
-		std::vector<Vertex> shrink_vertex_list(const std::vector<Vertex>& vertices,
-		                                       std::vector<std::size_t>& indices) {
+		std::vector<Vertex> shrink_vertex_list(const std::vector<Vertex>& vertices, std::vector<std::size_t>& indices) {
 			std::vector<std::size_t> translation(vertices.size(), 0);
 			std::vector<bool> use_vertex(vertices.size(), false);
 
@@ -183,18 +175,13 @@ namespace bve::parsers::b3d_csv_object {
 		while (true) {
 			auto const cmp_func = [&begin](const UntriangulatedFace& face) -> bool {
 				auto const tex_same = begin->data.texture == face.data.texture;
-				auto const dtc_same =
-				    begin->data.decal_transparent_color == face.data.decal_transparent_color;
-				auto const has_decal_color = begin->data.has_decal_transparent_color
-				                             == face.data.has_decal_transparent_color;
+				auto const dtc_same = begin->data.decal_transparent_color == face.data.decal_transparent_color;
+				auto const has_decal_color = begin->data.has_decal_transparent_color == face.data.has_decal_transparent_color;
 				auto const blend_same = begin->data.blend_mode == face.data.blend_mode;
-				auto const glow_same =
-				    begin->data.glow_attenuation_mode == face.data.glow_attenuation_mode;
-				auto const glow_half =
-				    begin->data.glow_half_distance == face.data.glow_half_distance;
+				auto const glow_same = begin->data.glow_attenuation_mode == face.data.glow_attenuation_mode;
+				auto const glow_half = begin->data.glow_half_distance == face.data.glow_half_distance;
 
-				return !(tex_same && dtc_same && has_decal_color && blend_same && glow_same
-				         && glow_half);
+				return !(tex_same && dtc_same && has_decal_color && blend_same && glow_same && glow_half);
 			};
 
 			auto const next_face = std::find_if(begin, end, cmp_func);
@@ -217,11 +204,9 @@ namespace bve::parsers::b3d_csv_object {
 
 			// Add faces and apply properties that can change per face
 			std::for_each(begin, next_face, [&mesh](UntriangulatedFace& face) {
-				auto const count =
-				    triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
+				auto const count = triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
 				for (std::size_t i = 0; i < count; ++i) {
-					mesh.face_data.emplace_back(
-					    FaceData{face.data.color, face.data.emissive_color});
+					mesh.face_data.emplace_back(FaceData{face.data.color, face.data.emissive_color});
 				}
 			});
 
@@ -256,8 +241,7 @@ namespace bve::parsers::b3d_csv_object {
 	}
 
 	void instructions::ParsedCSVObjectBuilder::operator()(const AddVertex& arg) {
-		vertices.emplace_back(
-		    Vertex{glm::vec3{arg.v_x, arg.v_y, arg.v_z}, glm::vec3{arg.n_x, arg.n_y, arg.n_z}});
+		vertices.emplace_back(Vertex{glm::vec3{arg.v_x, arg.v_y, arg.v_z}, glm::vec3{arg.n_x, arg.n_y, arg.n_z}});
 	}
 
 	void instructions::ParsedCSVObjectBuilder::operator()(const AddFace& arg) {
@@ -266,8 +250,7 @@ namespace bve::parsers::b3d_csv_object {
 		for (auto& vert : arg.vertices) {
 			if (vert >= vertices.size()) {
 				std::ostringstream error_msg;
-				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, "
-				          << vertices.size() - 1 << "]";
+				error_msg << "AddFace index " << vert << " is larger than the valid range: [0, " << vertices.size() - 1 << "]";
 				add_error(pso.errors, arg.line, error_msg.str());
 			}
 			else {
@@ -285,8 +268,7 @@ namespace bve::parsers::b3d_csv_object {
 		// Create vertices
 		vertices.emplace_back(Vertex{glm::vec3(arg.half_width, arg.half_height, -arg.half_depth)});
 		vertices.emplace_back(Vertex{glm::vec3(arg.half_width, -arg.half_height, -arg.half_depth)});
-		vertices.emplace_back(
-		    Vertex{glm::vec3(-arg.half_width, -arg.half_height, -arg.half_depth)});
+		vertices.emplace_back(Vertex{glm::vec3(-arg.half_width, -arg.half_height, -arg.half_depth)});
 		vertices.emplace_back(Vertex{glm::vec3(-arg.half_width, arg.half_height, -arg.half_depth)});
 		vertices.emplace_back(Vertex{glm::vec3(arg.half_width, arg.half_height, arg.half_depth)});
 		vertices.emplace_back(Vertex{glm::vec3(arg.half_width, -arg.half_height, arg.half_depth)});
@@ -294,18 +276,12 @@ namespace bve::parsers::b3d_csv_object {
 		vertices.emplace_back(Vertex{glm::vec3(-arg.half_width, arg.half_height, arg.half_depth)});
 
 		// Create faces
-		untriangulated_faces.emplace_back(
-		    UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 1, v + 2, v + 3}, {}});
-		untriangulated_faces.emplace_back(
-		    UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 4, v + 5, v + 1}, {}});
-		untriangulated_faces.emplace_back(
-		    UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 3, v + 7, v + 4}, {}});
-		untriangulated_faces.emplace_back(
-		    UntriangulatedFace{std::vector<std::size_t>{v + 6, v + 5, v + 4, v + 7}, {}});
-		untriangulated_faces.emplace_back(
-		    UntriangulatedFace{std::vector<std::size_t>{v + 6, v + 7, v + 3, v + 2}, {}});
-		untriangulated_faces.emplace_back(
-		    UntriangulatedFace{std::vector<std::size_t>{v + 6, v + 2, v + 1, v + 5}, {}});
+		untriangulated_faces.emplace_back(UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 1, v + 2, v + 3}, {}});
+		untriangulated_faces.emplace_back(UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 4, v + 5, v + 1}, {}});
+		untriangulated_faces.emplace_back(UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 3, v + 7, v + 4}, {}});
+		untriangulated_faces.emplace_back(UntriangulatedFace{std::vector<std::size_t>{v + 6, v + 5, v + 4, v + 7}, {}});
+		untriangulated_faces.emplace_back(UntriangulatedFace{std::vector<std::size_t>{v + 6, v + 7, v + 3, v + 2}, {}});
+		untriangulated_faces.emplace_back(UntriangulatedFace{std::vector<std::size_t>{v + 6, v + 2, v + 1, v + 5}, {}});
 	}
 
 	void instructions::ParsedCSVObjectBuilder::operator()(const Cylinder& arg) {
@@ -323,37 +299,25 @@ namespace bve::parsers::b3d_csv_object {
 		// Add vertices
 		for (std::size_t i = 0; i < n; ++i) {
 			vertices.emplace_back(
-			    Vertex{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
-			                              / static_cast<float>(n))
-			                         * r1, //
-			                     h / 2,    //
-			                     std::sin(2 * static_cast<float>(M_PI) * static_cast<float>(i)
-			                              / static_cast<float>(n))
-			                         * r1}});
+			    Vertex{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i) / static_cast<float>(n)) * r1, //
+			                     h / 2,                                                                                       //
+			                     std::sin(2 * static_cast<float>(M_PI) * static_cast<float>(i) / static_cast<float>(n)) * r1}});
 
 			vertices.emplace_back(
-			    Vertex{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i)
-			                              / static_cast<float>(n))
-			                         * r2, //
-			                     -h / 2,   //
-			                     std::sin(2 * static_cast<float>(M_PI) * static_cast<float>(i)
-			                              / static_cast<float>(n))
-			                         * r2}});
+			    Vertex{glm::vec3{std::cos(2 * static_cast<float>(M_PI) * static_cast<float>(i) / static_cast<float>(n)) * r2, //
+			                     -h / 2,                                                                                      //
+			                     std::sin(2 * static_cast<float>(M_PI) * static_cast<float>(i) / static_cast<float>(n)) * r2}});
 		}
 
 		// Add Faces
 		for (std::size_t i = 0; i < n; ++i) {
 			if (i != n - 1) {
 				untriangulated_faces.emplace_back(
-				    UntriangulatedFace{std::vector<std::size_t>{v + (2 * i + 2), v + (2 * i + 3),
-				                                                v + (2 * i + 1), v + (2 * i + 0)},
-				                       {}});
+				    UntriangulatedFace{std::vector<std::size_t>{v + (2 * i + 2), v + (2 * i + 3), v + (2 * i + 1), v + (2 * i + 0)}, {}});
 			}
 			else {
 				untriangulated_faces.emplace_back(
-				    UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 1, v + (2 * i + 1),
-				                                                v + (2 * i + 0)},
-				                       {}});
+				    UntriangulatedFace{std::vector<std::size_t>{v + 0, v + 1, v + (2 * i + 1), v + (2 * i + 0)}, {}});
 			}
 		}
 	}
@@ -450,13 +414,13 @@ namespace bve::parsers::b3d_csv_object {
 
 	void instructions::ParsedCSVObjectBuilder::operator()(const SetColor& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.color = core::datatypes::Color8RGBA{arg.red, arg.green, arg.blue, arg.alpha};
+			face.data.color = util::datatypes::Color8RGBA{arg.red, arg.green, arg.blue, arg.alpha};
 		}
 	}
 
 	void instructions::ParsedCSVObjectBuilder::operator()(const SetEmissiveColor& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.emissive_color = core::datatypes::Color8RGB{arg.red, arg.green, arg.blue};
+			face.data.emissive_color = util::datatypes::Color8RGB{arg.red, arg.green, arg.blue};
 		}
 	}
 
@@ -476,15 +440,14 @@ namespace bve::parsers::b3d_csv_object {
 
 	void instructions::ParsedCSVObjectBuilder::operator()(const SetDecalTransparentColor& arg) {
 		for (auto& face : untriangulated_faces) {
-			face.data.decal_transparent_color =
-			    core::datatypes::Color8RGB{arg.red, arg.green, arg.blue};
+			face.data.decal_transparent_color = util::datatypes::Color8RGB{arg.red, arg.green, arg.blue};
 		}
 	}
 	void instructions::ParsedCSVObjectBuilder::operator()(const SetTextureCoordinates& arg) {
 		if (arg.vertex_index >= vertices.size()) {
 			std::ostringstream error_msg;
-			error_msg << "SetTextureCoordinates index " << arg.vertex_index
-			          << " is larger than the valid range: [0, " << vertices.size() - 1 << "]";
+			error_msg << "SetTextureCoordinates index " << arg.vertex_index << " is larger than the valid range: [0, "
+			          << vertices.size() - 1 << "]";
 			add_error(pso.errors, arg.line, error_msg.str());
 		}
 		else {

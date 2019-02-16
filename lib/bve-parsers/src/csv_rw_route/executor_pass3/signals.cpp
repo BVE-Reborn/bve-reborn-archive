@@ -16,13 +16,10 @@ namespace bve::parsers::csv_rw_route {
 			iterator->second = this_signal;
 
 			std::ostringstream err;
-			err << "Signal(Animated) is overwriting signal at index (" << inst.signal_index
-			    << "). Old Value: ";
-			old_value.match([&err](const AnimatedSignal& as)
-			                    -> void { err << "\"" << as.filename << "\"\n"; },
+			err << "Signal(Animated) is overwriting signal at index (" << inst.signal_index << "). Old Value: ";
+			old_value.match([&err](const AnimatedSignal& as) -> void { err << "\"" << as.filename << "\"\n"; },
 			                [&err](const TraditionalSignal& ts) -> void {
-				                err << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \""
-				                    << ts.glow_filename << ".{bmp,png,jpg}\")";
+				                err << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename << ".{bmp,png,jpg}\")";
 			                });
 			err << ". New Value: \"" << inst.filename << "\".";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
@@ -45,16 +42,12 @@ namespace bve::parsers::csv_rw_route {
 
 			std::ostringstream err;
 
-			auto print_animated_file = [&err](const AnimatedSignal& as) -> void {
-				err << "\"" << as.filename << "\"\n";
-			};
+			auto print_animated_file = [&err](const AnimatedSignal& as) -> void { err << "\"" << as.filename << "\"\n"; };
 			auto print_traditional_tuple = [&err](const TraditionalSignal& ts) -> void {
-				err << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename
-				    << ".{bmp,png,jpg}\")";
+				err << "(\"" << ts.glow_filename << ".{x,csv,b3d}\", \"" << ts.glow_filename << ".{bmp,png,jpg}\")";
 			};
 
-			err << "Signal(Traditional) is overwriting signal at index (" << inst.signal_index
-			    << "). Old Value: ";
+			err << "Signal(Traditional) is overwriting signal at index (" << inst.signal_index << "). Old Value: ";
 			old_value.match(print_animated_file, print_traditional_tuple);
 			err << "New Value: ";
 			print_traditional_tuple(this_signal);

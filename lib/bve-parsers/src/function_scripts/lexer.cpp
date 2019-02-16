@@ -64,8 +64,7 @@ namespace bve::parsers::function_scripts {
 					return !is_number(c);
 				});
 
-				auto const has_another_number_character =
-				    has_another_character && (is_number(text[i + 1]) || text[i + 1] == '.');
+				auto const has_another_number_character = has_another_character && (is_number(text[i + 1]) || text[i + 1] == '.');
 
 				// parsing float
 				if (has_dot && has_another_number_character) {
@@ -75,11 +74,10 @@ namespace bve::parsers::function_scripts {
 					auto const f = std::strtof(start_ptr, &str_end);
 
 					lt = lexer_types::Floating{f};
-					auto const chars_used = std::max<std::ptrdiff_t>(
-					    0, std::distance<const char*>(
-					           start_ptr,
-					           // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-					           str_end - 1));
+					auto const chars_used = std::max<
+					    std::ptrdiff_t>(0, std::distance<const char*>(start_ptr,
+					                                                  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+					                                                  str_end - 1));
 					i += chars_used;
 				}
 				// parsing int

@@ -6,9 +6,9 @@ set_property(DIRECTORY
 add_executable(tests src/main.cpp)
 
 target_link_libraries(tests PUBLIC doctest::doctest) # Global tests
-target_link_libraries(tests PUBLIC bve-core-test)
 target_link_libraries(tests PUBLIC bve-log-test)
 target_link_libraries(tests PUBLIC bve-parsers-test)
+target_link_libraries(tests PUBLIC bve-util-test)
 
 
 set_property(TARGET tests PROPERTY FOLDER src)

@@ -1,5 +1,5 @@
 #include "parsers/csv_rw_route.hpp"
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <numeric>
 #include <regex>
 #include <set>
@@ -22,16 +22,12 @@ namespace bve::parsers::csv_rw_route {
 			return breaks;
 		}
 
-		std::size_t line_number(const LineBreakList& breaks,
-		                        std::string::const_iterator const pos) {
+		std::size_t line_number(const LineBreakList& breaks, std::string::const_iterator const pos) {
 			auto const iter = std::upper_bound(breaks.begin(), breaks.end(), pos);
 			return std::distance(breaks.begin(), iter);
 		}
 
-		void add_error(const LineBreakList& line_br_list,
-		               errors::Errors errors,
-		               std::string::const_iterator const pos,
-		               const char* msg) {
+		void add_error(const LineBreakList& line_br_list, errors::Errors errors, std::string::const_iterator const pos, const char* msg) {
 			auto const num = line_number(line_br_list, pos);
 			errors::add_error(errors, num, msg);
 		}
@@ -53,8 +49,7 @@ namespace bve::parsers::csv_rw_route {
 			std::vector<std::size_t> mapping(lines.filenames.size(), 0);
 			std::vector<std::string> new_file_list;
 
-			std::sort(line_pairs.begin(), line_pairs.end(),
-			          [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+			std::sort(line_pairs.begin(), line_pairs.end(), [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
 
 			mapping[line_pairs.front().second] = 0;
 			new_file_list.emplace_back(line_pairs.front().first);
@@ -82,8 +77,7 @@ namespace bve::parsers::csv_rw_route {
 		// Capture group 2 is position offset
 		// Capture group 3 is everything after the first filename
 		std::regex include_finder(R"(\$Include\(([\w\-. \\/]+\s*)(?::\s*(\d+))*([\w\s;]*)\))",
-		                          std::regex_constants::icase | std::regex_constants::ECMAScript
-		                              | std::regex_constants::optimize);
+		                          std::regex_constants::icase | std::regex_constants::ECMAScript | std::regex_constants::optimize);
 	} // namespace
 
 	struct IncludePos {
@@ -94,12 +88,10 @@ namespace bve::parsers::csv_rw_route {
 		std::string::const_iterator end;
 	};
 
-	static IncludePos parse_weighted_include(const LineBreakList& breaks,
-	                                         const std::smatch& match,
-	                                         core::datatypes::RNG& rng) {
+	static IncludePos parse_weighted_include(const LineBreakList& breaks, const std::smatch& match, util::datatypes::RNG& rng) {
 		auto const string = match[1].str() + match[3].str();
 
-		auto split_includes = util::split_text(string, ';');
+		auto split_includes = util::parsers::split_text(string, ';');
 		if (split_includes.size() % 2 != 0) {
 			throw std::invalid_argument("Weighted includes must have an even amount of arguments");
 		}
@@ -109,7 +101,7 @@ namespace bve::parsers::csv_rw_route {
 		weights.reserve(split_includes.size() / 2);
 
 		for (std::size_t i = 1; i < split_includes.size(); i += 2) {
-			weights.emplace_back(util::parse_loose_float(split_includes[i], 1));
+			weights.emplace_back(util::parsers::parse_loose_float(split_includes[i], 1));
 		}
 
 		// turn the list of weights into partial sums
@@ -124,36 +116,32 @@ namespace bve::parsers::csv_rw_route {
 		auto const chosen_iter = std::lower_bound(weights.begin(), weights.end(), chosen_value);
 		auto const chosen_offset = std::distance(weights.begin(), chosen_iter);
 
-		return IncludePos{split_includes[chosen_offset * 2], 0, line_number(breaks, match[0].first),
-		                  match[0].first, match[0].second};
+		return IncludePos{split_includes[chosen_offset * 2], 0, line_number(breaks, match[0].first), match[0].first, match[0].second};
 	}
 
 	static IncludePos parse_offset_include(const LineBreakList& breaks, const std::smatch& match) {
 		auto const filename = match[1].str();
 		auto const offset_str = match[2].str();
 
-		auto const offset = util::parse_loose_float(offset_str, 0);
+		auto const offset = util::parsers::parse_loose_float(offset_str, 0);
 
-		return IncludePos{filename, offset, line_number(breaks, match[0].first), match[0].first,
-		                  match[0].second};
+		return IncludePos{filename, offset, line_number(breaks, match[0].first), match[0].first, match[0].second};
 	}
 
 	static IncludePos parse_naked_include(const LineBreakList& breaks, const std::smatch& match) {
 		auto const filename = match[1].str();
 
-		return IncludePos{filename, 0, line_number(breaks, match[0].first), match[0].first,
-		                  match[0].second};
+		return IncludePos{filename, 0, line_number(breaks, match[0].first), match[0].first, match[0].second};
 	}
 
 	static std::vector<IncludePos> parse_include_directives(const std::string& contents,
-	                                                        core::datatypes::RNG& rng,
+	                                                        util::datatypes::RNG& rng,
 	                                                        errors::Errors& errors) {
 		std::vector<IncludePos> includes;
 
 		auto const line_br_list = list_line_breaks(contents);
 
-		auto const regex_start =
-		    std::sregex_iterator(contents.begin(), contents.end(), include_finder);
+		auto const regex_start = std::sregex_iterator(contents.begin(), contents.end(), include_finder);
 		auto const regex_end = std::sregex_iterator();
 
 		for (auto i = regex_start; i != regex_end; ++i) {
@@ -185,18 +173,18 @@ namespace bve::parsers::csv_rw_route {
 
 	static PreprocessedLines recursive_process_includes(const std::set<std::string>& past_files,
 	                                                    const std::string& current_filename,
-	                                                    core::datatypes::RNG& rng,
+	                                                    util::datatypes::RNG& rng,
 	                                                    errors::MultiError& errors,
 	                                                    FileType ft,
 	                                                    const RelativeFileFunc& get_abs_path) {
 		auto& current_file_errors = errors[current_filename];
 
 		// Read file
-		auto file_contents = util::load_from_file_utf8_bom(current_filename);
-		util::remove_comments(file_contents, ';', ft == FileType::csv);
+		auto file_contents = util::parsers::load_from_file_utf8_bom(current_filename);
+		util::parsers::remove_comments(file_contents, ';', ft == FileType::csv);
 
 		// Extract array of lines
-		auto file_line_array = util::split_text(file_contents, '\n');
+		auto file_line_array = util::parsers::split_text(file_contents, '\n');
 
 		// Find all include directives
 		auto include_list = parse_include_directives(file_contents, rng, current_file_errors);
@@ -236,9 +224,7 @@ namespace bve::parsers::csv_rw_route {
 			               include_chain_list.insert(include.filename);
 
 			               try {
-				               return recursive_process_includes(include_chain_list,
-				                                                 include.filename, rng, errors, ft,
-				                                                 get_abs_path);
+				               return recursive_process_includes(include_chain_list, include.filename, rng, errors, ft, get_abs_path);
 			               }
 			               catch (std::invalid_argument& e) {
 				               errors::add_error(current_file_errors, include.line, e.what());
@@ -256,16 +242,14 @@ namespace bve::parsers::csv_rw_route {
 
 		// Compute filename indices
 		for (auto& include : include_list) {
-			auto const insert_iter = std::lower_bound(output.filenames.begin(),
-			                                          output.filenames.end(), include.filename);
+			auto const insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(), include.filename);
 			if (insert_iter == output.filenames.end() || *insert_iter != include.filename) {
 				output.filenames.insert(insert_iter, include.filename);
 			}
 		}
 
 		for (auto& include : include_list) {
-			auto const insert_iter = std::lower_bound(output.filenames.begin(),
-			                                          output.filenames.end(), include.filename);
+			auto const insert_iter = std::lower_bound(output.filenames.begin(), output.filenames.end(), include.filename);
 			auto insert_index = std::distance(output.filenames.begin(), insert_iter);
 			include_file_index_mapping.emplace_back(insert_index);
 		}
@@ -280,29 +264,26 @@ namespace bve::parsers::csv_rw_route {
 			// Add all lines before the current include and after the last one
 			// ReSharper disable once CppUseAuto
 			for (std::size_t j = last_line; j < include.line; ++j) {
-				output.lines.emplace_back<PreprocessedLine>(
-				    {std::move(file_line_array[j]), 0, j + 1, 0});
+				output.lines.emplace_back<PreprocessedLine>({std::move(file_line_array[j]), 0, j + 1, 0});
 			}
 
 			// Copy contents of the include
-			std::transform(contents.lines.begin(), contents.lines.end(),
-			               std::back_inserter(output.lines), [&](PreprocessedLine l) {
-				               l.offset += include.offset;
-				               // Original filename index of 0 means it's the
-				               // file we're including
-				               if (l.filename_index == 0) {
-					               l.filename_index = name_index;
-				               }
-				               // Duplicate file indices will be removed later
-				               else {
-					               l.filename_index += output.filenames.size();
-				               }
-				               return l;
-			               });
+			std::transform(contents.lines.begin(), contents.lines.end(), std::back_inserter(output.lines), [&](PreprocessedLine l) {
+				l.offset += include.offset;
+				// Original filename index of 0 means it's the
+				// file we're including
+				if (l.filename_index == 0) {
+					l.filename_index = name_index;
+				}
+				// Duplicate file indices will be removed later
+				else {
+					l.filename_index += output.filenames.size();
+				}
+				return l;
+			});
 
 			// Copy filenames
-			std::copy(contents.filenames.begin(), contents.filenames.end(),
-			          std::back_inserter(output.filenames));
+			std::copy(contents.filenames.begin(), contents.filenames.end(), std::back_inserter(output.filenames));
 
 			// Start at next line
 			last_line = include.line + 1;
@@ -317,17 +298,14 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	PreprocessedLines process_include_directives(const std::string& filename,
-	                                             core::datatypes::RNG& rng,
+	                                             util::datatypes::RNG& rng,
 	                                             errors::MultiError& errors,
 	                                             FileType const ft,
 	                                             const RelativeFileFunc& get_abs_path) {
-		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng,
-		                                        errors, ft, get_abs_path);
+		auto lines = recursive_process_includes(std::set<std::string>{filename}, filename, rng, errors, ft, get_abs_path);
 		remove_duplicate_filenames(lines);
 		lines.lines.erase(std::remove_if(lines.lines.begin(), lines.lines.end(),
-		                                 [](const PreprocessedLine& l) {
-			                                 return l.contents.empty();
-		                                 }),
+		                                 [](const PreprocessedLine& l) { return l.contents.empty(); }),
 		                  lines.lines.end());
 		return lines;
 	}

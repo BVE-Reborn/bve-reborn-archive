@@ -1,10 +1,10 @@
-#include "core/math.hpp"
+#include "util/math.hpp"
 #include <doctest.h>
 
 TEST_SUITE_BEGIN("libcore - math");
 
 TEST_CASE("libcore - math - evaluate curve") {
-	namespace m = bve::core::math;
+	namespace m = bve::util::math;
 
 	auto const distance = 12.56637F * (5.0F / 4.0F) * (1.0F / 0.7071067811F);
 	auto const val_a = m::evaluate_curve(glm::vec3(0), glm::vec3(0, -1, 1), distance, -10);

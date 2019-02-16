@@ -1,4 +1,4 @@
-#include "core/math.hpp"
+#include "util/math.hpp"
 #include <cassert>
 #include <cmath>
 #include <glm/geometric.hpp>
@@ -8,7 +8,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h> // NOLINT Also include overloads of std::*
 
-float bve::core::math::radius_from_distances(float delta_x, float delta_y) {
+float bve::util::math::radius_from_distances(float delta_x, float delta_y) {
 	// https://math.stackexchange.com/questions/1088902/what-is-the-radius-of-a-circle-given-two-points-and-the-center-of-the-circle-is#comment2218658_1088926
 	// gives the formula for this
 	// X = y1 in the formula
@@ -28,7 +28,7 @@ float bve::core::math::radius_from_distances(float delta_x, float delta_y) {
 	return radius;
 }
 
-bve::core::math::EvaluateCurveState bve::core::math::evaluate_curve(glm::vec3 input_position,
+bve::util::math::EvaluateCurveState bve::util::math::evaluate_curve(glm::vec3 input_position,
                                                                     glm::vec3 input_direction,
                                                                     float const distance,
                                                                     float radius) {
@@ -48,8 +48,7 @@ bve::core::math::EvaluateCurveState bve::core::math::evaluate_curve(glm::vec3 in
 	auto const vertical_movement = input_direction.y * distance;
 
 	// non-vertical movement we are allowed
-	auto const horizontal_movement =
-	    std::sqrt(distance * distance - vertical_movement * vertical_movement);
+	auto const horizontal_movement = std::sqrt(distance * distance - vertical_movement * vertical_movement);
 
 	auto const flipped_radius = radius < 0;
 	radius = std::abs(radius);
@@ -135,7 +134,7 @@ bve::core::math::EvaluateCurveState bve::core::math::evaluate_curve(glm::vec3 in
 	return EvaluateCurveState{input_position, tangent_3d};
 }
 
-glm::vec3 bve::core::math::position_from_offsets(glm::vec3 const input_position,
+glm::vec3 bve::util::math::position_from_offsets(glm::vec3 const input_position,
                                                  glm::vec3 const input_tangent,
                                                  float const x_offset,
                                                  float const y_offset) {

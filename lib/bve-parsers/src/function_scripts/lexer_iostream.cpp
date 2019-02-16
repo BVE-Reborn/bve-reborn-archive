@@ -129,8 +129,7 @@ std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts:
 	return os;
 }
 
-std::ostream& operator<<(std::ostream& os,
-                         const bve::parsers::function_scripts::LexerTokenList& list) {
+std::ostream& operator<<(std::ostream& os, const bve::parsers::function_scripts::LexerTokenList& list) {
 	for (auto& token : list) {
 		os << token << '\n';
 	}

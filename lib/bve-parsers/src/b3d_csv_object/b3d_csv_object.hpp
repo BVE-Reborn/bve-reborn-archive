@@ -161,8 +161,7 @@ namespace bve::parsers::b3d_csv_object {
 		struct SetBlendMode {
 			Mesh::BlendMode blend_mode = Mesh::BlendMode::normal;
 			std::uint16_t glow_half_distance = 0;
-			Mesh::GlowAttenuationMode glow_attenuation_mode =
-			    Mesh::GlowAttenuationMode::divide_exponent4;
+			Mesh::GlowAttenuationMode glow_attenuation_mode = Mesh::GlowAttenuationMode::divide_exponent4;
 
 			std::size_t line = 0;
 		};
@@ -218,12 +217,11 @@ namespace bve::parsers::b3d_csv_object {
 			// based on this data.
 			struct ExtendedFaceData : FaceData {
 				std::string texture;
-				core::datatypes::Color8RGB decal_transparent_color = {0, 0, 0};
+				util::datatypes::Color8RGB decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 
 				Mesh::BlendMode blend_mode = Mesh::BlendMode::normal;
-				Mesh::GlowAttenuationMode glow_attenuation_mode =
-				    Mesh::GlowAttenuationMode::divide_exponent4;
+				Mesh::GlowAttenuationMode glow_attenuation_mode = Mesh::GlowAttenuationMode::divide_exponent4;
 				uint16_t glow_half_distance = 0;
 
 				bool back_visible = false;

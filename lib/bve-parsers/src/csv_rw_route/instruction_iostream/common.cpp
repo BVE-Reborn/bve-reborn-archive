@@ -10,8 +10,7 @@ std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::Ins
 	return os;
 }
 
-std::ostream& operator<<(std::ostream& os,
-                         const bve::parsers::csv_rw_route::InstructionList& list) {
+std::ostream& operator<<(std::ostream& os, const bve::parsers::csv_rw_route::InstructionList& list) {
 	os << "Files:\n";
 	for (std::size_t i = 0; i < list.filenames.size(); ++i) {
 		os << i << ": " << list.filenames[i] << '\n';

@@ -6,8 +6,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 		indices_at_least(inst, 1, "Signal");
 		args_at_least(inst, 1, "Signal");
 
-		auto const signal_index =
-		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+		auto const signal_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
 
 		// Signal File version
 		if (inst.args.size() >= 2) {

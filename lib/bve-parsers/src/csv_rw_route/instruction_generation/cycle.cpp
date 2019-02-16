@@ -8,14 +8,11 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::cycle::Ground g;
 
-		g.cycle_structure_index =
-		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+		g.cycle_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
 
 		g.input_indices.reserve(inst.args.size());
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(g.input_indices),
-		               [](const std::string& arg) {
-			               return gsl::narrow<std::size_t>(util::parse_loose_integer(arg));
-		               });
+		               [](const std::string& arg) { return gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(arg)); });
 
 		return g;
 	}
@@ -26,14 +23,11 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 
 		instructions::cycle::Rail r;
 
-		r.cycle_structure_index =
-		    gsl::narrow<std::size_t>(util::parse_loose_integer(inst.indices[0]));
+		r.cycle_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.indices[0]));
 
 		r.input_indices.reserve(inst.args.size());
 		std::transform(inst.args.begin(), inst.args.end(), std::back_inserter(r.input_indices),
-		               [](const std::string& arg) {
-			               return gsl::narrow<std::size_t>(util::parse_loose_integer(arg));
-		               });
+		               [](const std::string& arg) { return gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(arg)); });
 
 		return r;
 	}

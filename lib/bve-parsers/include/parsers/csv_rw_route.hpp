@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/datatypes.hpp"
 #include "parsers/errors.hpp"
 #include "parsers/find_relative_file.hpp"
 #include "parsers/internal/csv_rw_route/instructions.hpp"
 #include "parsers/internal/csv_rw_route/route_structure.hpp"
+#include "util/datatypes.hpp"
 #include <functional>
 #include <mapbox/variant.hpp>
 #include <string>
@@ -26,15 +26,12 @@ namespace bve::parsers::csv_rw_route {
 	};
 
 	PreprocessedLines process_include_directives(const std::string& filename,
-	                                             core::datatypes::RNG& rng,
+	                                             util::datatypes::RNG& rng,
 	                                             errors::MultiError& errors,
 	                                             FileType ft,
 	                                             const RelativeFileFunc& get_abs_path);
 
-	void preprocess_file(PreprocessedLines& lines,
-	                     core::datatypes::RNG& rng,
-	                     errors::MultiError& errors,
-	                     FileType ft);
+	void preprocess_file(PreprocessedLines& lines, util::datatypes::RNG& rng, errors::MultiError& errors, FileType ft);
 
 	using Instruction = mapbox::util::variant<instructions::naked::None,
 	                                          instructions::naked::Position,
@@ -148,9 +145,7 @@ namespace bve::parsers::csv_rw_route {
 		InstructionInfo rw(const PreprocessedLine& l);
 	} // namespace line_splitting
 
-	InstructionList generate_instructions(const PreprocessedLines& lines,
-	                                      errors::MultiError& errors,
-	                                      FileType ft);
+	InstructionList generate_instructions(const PreprocessedLines& lines, errors::MultiError& errors, FileType ft);
 
 	void execute_instructions_pass1(InstructionList& list, errors::MultiError& errors);
 	ParsedRoute execute_instructions_pass2(InstructionList& list, errors::MultiError& errors);

@@ -10,8 +10,7 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	void Pass3Executor::operator()(const instructions::route::Image& inst) const {
-		route_data_.image_location =
-		    get_relative_file_(getFilename(inst.file_index), inst.filename);
+		route_data_.image_location = get_relative_file_(getFilename(inst.file_index), inst.filename);
 	}
 
 	void Pass3Executor::operator()(const instructions::route::Timetable& inst) const {
@@ -21,16 +20,13 @@ namespace bve::parsers::csv_rw_route {
 	void Pass3Executor::operator()(const instructions::route::Change& inst) const {
 		switch (inst.mode) {
 			case instructions::route::Change::Mode::safety_activated_emergency_brakes:
-				route_data_.safety_system_status =
-				    SafetySystemStatus::safety_activated_emergency_brakes;
+				route_data_.safety_system_status = SafetySystemStatus::safety_activated_emergency_brakes;
 				break;
 			case instructions::route::Change::Mode::safety_activated_service_brakes:
-				route_data_.safety_system_status =
-				    SafetySystemStatus::safety_activated_service_brakes;
+				route_data_.safety_system_status = SafetySystemStatus::safety_activated_service_brakes;
 				break;
 			case instructions::route::Change::Mode::safety_deactivated_emergency_brakes:
-				route_data_.safety_system_status =
-				    SafetySystemStatus::safety_deactivated_emergency_brakes;
+				route_data_.safety_system_status = SafetySystemStatus::safety_deactivated_emergency_brakes;
 				break;
 			default:
 				break;
@@ -53,8 +49,7 @@ namespace bve::parsers::csv_rw_route {
 		route_data_.ai_train_start_intervals = inst.time_interval;
 	}
 
-	void Pass3Executor::operator()(
-	    const instructions::route::AccelerationDueToGravity& inst) const {
+	void Pass3Executor::operator()(const instructions::route::AccelerationDueToGravity& inst) const {
 		route_data_.acceleration_due_to_gravity = inst.value;
 	}
 
@@ -76,8 +71,7 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	void Pass3Executor::operator()(const instructions::route::LoadingScreen& inst) const {
-		route_data_.loading_image_location =
-		    get_relative_file_(getFilename(inst.file_index), inst.filename);
+		route_data_.loading_image_location = get_relative_file_(getFilename(inst.file_index), inst.filename);
 	}
 
 	void Pass3Executor::operator()(const instructions::route::StartTime& inst) const {
@@ -88,17 +82,15 @@ namespace bve::parsers::csv_rw_route {
 		auto const issuer_filename = getFilename(inst.file_index);
 
 		if (!route_data_.lighting.empty()) {
-			add_error(
-			    errors_, issuer_filename, inst.line,
-			    "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s);
+			add_error(errors_, issuer_filename, inst.line,
+			          "Route.DynamicLight is overwriting all prior calls the Route Lighting functions"s);
 		}
 
 		auto const filename = get_relative_file_(issuer_filename, inst.filename);
 
 		try {
-			auto file_contents = util::load_from_file_utf8_bom(filename);
-			route_data_.lighting =
-			    xml::dynamic_lighting::parse(filename, std::move(file_contents), errors_);
+			auto file_contents = util::parsers::load_from_file_utf8_bom(filename);
+			route_data_.lighting = xml::dynamic_lighting::parse(filename, std::move(file_contents), errors_);
 		}
 		catch (const std::invalid_argument& e) {
 			add_error(errors_, issuer_filename, inst.line, e.what());

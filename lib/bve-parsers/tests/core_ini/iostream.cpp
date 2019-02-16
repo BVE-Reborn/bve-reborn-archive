@@ -14,11 +14,10 @@ TEST_CASE("libparsers - core_ini - iostream") {
 	                                                        0                        //
 	                                                    },
 	                                                    {
-	                                                        "sec1"s,                     //
-	                                                        {{"world"s, 3}, {"hi"s, 5}}, //
-	                                                        {{"key1"s, "value"s, 4},
-	                                                         {"key2"s, "value"s, 6}}, //
-	                                                        3                         //
+	                                                        "sec1"s,                                          //
+	                                                        {{"world"s, 3}, {"hi"s, 5}},                      //
+	                                                        {{"key1"s, "value"s, 4}, {"key2"s, "value"s, 6}}, //
+	                                                        3                                                 //
 	                                                    }};
 
 	std::ostringstream output;

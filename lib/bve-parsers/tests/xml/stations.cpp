@@ -1,6 +1,6 @@
 #include "doctest.h"
-#include "parsers/utils.hpp"
 #include "sample_relative_file_func.hpp"
+#include "util/parsing.hpp"
 #include <parsers/xml/stations.hpp>
 
 namespace st = bve::parsers::xml::stations;
@@ -29,8 +29,7 @@ TEST_CASE("libparsers - xml - stations and request stops - parse station marker"
 	    "</openBVE>"s;
 	bve::parsers::errors::MultiError output_errors;
 
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
 	CHECK_EQ(output_errors.size(), 0);
 
@@ -68,8 +67,7 @@ TEST_CASE("libparsers -xml - stations and request stops - stations should add er
 	    "	</Station>"
 	    "</openBVE>"s;
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 5);
 
@@ -100,19 +98,16 @@ TEST_CASE("libparsers - xml - stations and request stops - parse request stop ma
 	    "</openBVE>"s;
 
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
 	CHECK_EQ(output_errors.size(), 0);
 
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 50);
 	CHECK_EQ(station_marker.request_stop.distance, 700);
-	CHECK_EQ(station_marker.request_stop.stop_message.ontime,
-	         "You will need to stop at Dockyard today."s);
+	CHECK_EQ(station_marker.request_stop.stop_message.ontime, "You will need to stop at Dockyard today."s);
 	CHECK_EQ(station_marker.request_stop.pass_message.ontime, "No passengers for Dockyard."s);
 	CHECK_EQ(station_marker.request_stop.max_cars, 10);
-	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::RequestStopMarker::Behaviour::full_speed);
+	CHECK_EQ(station_marker.request_stop.ai_behaviour, st::RequestStopMarker::Behaviour::full_speed);
 }
 
 TEST_CASE("libparser - xml - stations and request stops - request stops should add errors") {
@@ -134,16 +129,14 @@ TEST_CASE("libparser - xml - stations and request stops - request stops should a
 	    "</openBVE>"s;
 
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 4);
 
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 0);
 	CHECK_EQ(station_marker.request_stop.distance, 0);
 	CHECK_EQ(station_marker.request_stop.max_cars, 0);
-	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::RequestStopMarker::Behaviour::normal_brake);
+	CHECK_EQ(station_marker.request_stop.ai_behaviour, st::RequestStopMarker::Behaviour::normal_brake);
 }
 
 TEST_CASE(
@@ -179,16 +172,14 @@ TEST_CASE(
 	    "</openBVE>"s;
 
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
 	CHECK_EQ(output_errors.size(), 0);
 	CHECK_EQ(station_marker.request_stop.probability.early, 10);
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 20);
 	CHECK_EQ(station_marker.request_stop.probability.late, 50);
 
-	CHECK_EQ(station_marker.request_stop.stop_message.early,
-	         "You will need to stop at Dockyard today."s);
+	CHECK_EQ(station_marker.request_stop.stop_message.early, "You will need to stop at Dockyard today."s);
 	CHECK_EQ(station_marker.request_stop.stop_message.ontime, "I am on time."s);
 	CHECK_EQ(station_marker.request_stop.stop_message.late, "I am late."s);
 
@@ -218,8 +209,7 @@ TEST_CASE(
 	    "</openBVE>"s;
 
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 3);
 	CHECK_EQ(station_marker.request_stop.probability.early, 0);
@@ -255,8 +245,7 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	    "	</Station>"
 	    "</openBVE>"s;
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 	CHECK(output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 0);
 	CHECK_EQ(station_marker.arrival_time, 45090);
@@ -273,12 +262,10 @@ TEST_CASE("libparser - xml - stations and request stops - stations can contain r
 	CHECK_EQ(station_marker.time_table_index, 2);
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 50);
 	CHECK_EQ(station_marker.request_stop.distance, 700);
-	CHECK_EQ(station_marker.request_stop.stop_message.ontime,
-	         "You will need to stop at Dockyard today."s);
+	CHECK_EQ(station_marker.request_stop.stop_message.ontime, "You will need to stop at Dockyard today."s);
 	CHECK_EQ(station_marker.request_stop.pass_message.ontime, "No passengers for Dockyard."s);
 	CHECK_EQ(station_marker.request_stop.max_cars, 10);
-	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::RequestStopMarker::Behaviour::full_speed);
+	CHECK_EQ(station_marker.request_stop.ai_behaviour, st::RequestStopMarker::Behaviour::full_speed);
 }
 
 TEST_CASE(
@@ -312,8 +299,7 @@ TEST_CASE(
 	    "</openBVE>"s;
 
 	bve::parsers::errors::MultiError output_errors;
-	auto const station_marker =
-	    st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
+	auto const station_marker = st::parse("some_file.xml"s, test_value, output_errors, rel_file_func);
 
 	CHECK(!output_errors.empty());
 	CHECK_EQ(output_errors["some_file.xml"].size(), 9);
@@ -327,6 +313,5 @@ TEST_CASE(
 	CHECK_EQ(station_marker.request_stop.probability.ontime, 0);
 	CHECK_EQ(station_marker.request_stop.distance, 0);
 	CHECK_EQ(station_marker.request_stop.max_cars, 0);
-	CHECK_EQ(station_marker.request_stop.ai_behaviour,
-	         st::RequestStopMarker::Behaviour::normal_brake);
+	CHECK_EQ(station_marker.request_stop.ai_behaviour, st::RequestStopMarker::Behaviour::normal_brake);
 }

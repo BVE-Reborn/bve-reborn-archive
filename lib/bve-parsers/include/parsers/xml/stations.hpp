@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/datatypes.hpp"
 #include "parsers/errors.hpp"
 #include "parsers/find_relative_file.hpp"
+#include "util/datatypes.hpp"
 #include <cinttypes>
 #include <mapbox/variant.hpp>
 #include <string>
@@ -23,9 +23,9 @@ namespace bve::parsers::xml::stations {
 
 	struct RequestStopMarker {
 		enum class Behaviour : std::uint8_t { full_speed, normal_brake };
-		core::datatypes::Time early_time = 0;
+		util::datatypes::Time early_time = 0;
 		bool using_early = false;
-		core::datatypes::Time late_time = 0;
+		util::datatypes::Time late_time = 0;
 		bool using_late = false;
 		float distance = 0;
 		Message stop_message;
@@ -38,9 +38,9 @@ namespace bve::parsers::xml::stations {
 	struct ParsedStationMarker {
 		enum class Doors : std::int8_t { left = -1, right = 1, none = 0 };
 		std::string station_name;
-		core::datatypes::Time arrival_time = 0;
+		util::datatypes::Time arrival_time = 0;
 		bool using_arrival = false;
-		core::datatypes::Time departure_time = 0;
+		util::datatypes::Time departure_time = 0;
 		bool using_departure = false;
 		Doors door = Doors::none;
 		bool force_red_signal = false;

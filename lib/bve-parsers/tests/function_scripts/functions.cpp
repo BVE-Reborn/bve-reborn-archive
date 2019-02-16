@@ -1,6 +1,6 @@
-#include "test_macro_util.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
+#include <util/testing/variant_macros.hpp>
 
 using namespace std::string_literals;
 namespace fs_inst = bve::parsers::function_scripts::instructions;

@@ -25,8 +25,8 @@ namespace bve::parsers::csv_rw_route {
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::route::Change& inst) {
 		start(inst, "Route.Change");
 
-		PRINT_ENUM3(mode, route::Change::Mode, safety_activated_service_brakes,
-		            safety_activated_emergency_brakes, safety_deactivated_emergency_brakes);
+		PRINT_ENUM3(mode, route::Change::Mode, safety_activated_service_brakes, safety_activated_emergency_brakes,
+		            safety_deactivated_emergency_brakes);
 
 		end();
 	};
@@ -51,8 +51,7 @@ namespace bve::parsers::csv_rw_route {
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::route::AccelerationDueToGravity& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::route::AccelerationDueToGravity& inst) {
 		start(inst, "Route.AccelerationDueToGravity");
 
 		PRINT_VALUE(value);
@@ -116,8 +115,7 @@ namespace bve::parsers::csv_rw_route {
 
 		end();
 	};
-	void CSVRwRouteInstructionIOClass::operator()(
-	    const instructions::route::DirectionalLight& inst) {
+	void CSVRwRouteInstructionIOClass::operator()(const instructions::route::DirectionalLight& inst) {
 		start(inst, "Route.DirectionalLight");
 
 		PRINT_COLOR(color);

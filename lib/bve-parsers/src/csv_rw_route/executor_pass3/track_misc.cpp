@@ -17,8 +17,7 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		route_data_.backgrounds.emplace_back<Background>(
-		    {inst.absolute_position, background_iterator->second});
+		route_data_.backgrounds.emplace_back<Background>({inst.absolute_position, background_iterator->second});
 	}
 
 	void Pass3Executor::operator()(const instructions::track::Fog& inst) {
@@ -33,8 +32,7 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	void Pass3Executor::operator()(const instructions::track::Brightness& inst) const {
-		route_data_.brightness_levels.emplace_back<BrightnessLevel>(
-		    {inst.absolute_position, inst.value});
+		route_data_.brightness_levels.emplace_back<BrightnessLevel>({inst.absolute_position, inst.value});
 	}
 
 	void Pass3Executor::operator()(const instructions::track::Marker& inst) const {
@@ -111,16 +109,14 @@ namespace bve::parsers::csv_rw_route {
 		auto const filename = get_relative_file_(issuer_filename, inst.filename);
 
 		try {
-			auto str = util::load_from_file_utf8_bom(filename);
-			mi.marker =
-			    xml::route_marker::parse(filename, std::move(str), errors_, get_relative_file_);
+			auto str = util::parsers::load_from_file_utf8_bom(filename);
+			mi.marker = xml::route_marker::parse(filename, std::move(str), errors_, get_relative_file_);
 		}
 		catch (std::invalid_argument& e) {
 			add_error(errors_, issuer_filename, inst.line, e.what());
 		}
 
-		auto const distance =
-		    apply_visitor([](const auto& m) -> float { return m.distance; }, mi.marker);
+		auto const distance = apply_visitor([](const auto& m) -> float { return m.distance; }, mi.marker);
 
 		if (distance < 0) {
 			mi.start = inst.absolute_position;
@@ -139,15 +135,13 @@ namespace bve::parsers::csv_rw_route {
 		if (!getRailState(inst.rail_index).active) {
 			std::ostringstream err;
 
-			err << "Track Index " << inst.rail_index
-			    << " is not activated. Please use Track.RailStart or Track.Rail to activate";
+			err << "Track Index " << inst.rail_index << " is not activated. Please use Track.RailStart or Track.Rail to activate";
 
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 			return;
 		}
 
-		auto const location = positionRelativeToRail(inst.rail_index, inst.absolute_position,
-		                                             inst.x_offset, inst.y_offset);
+		auto const location = positionRelativeToRail(inst.rail_index, inst.absolute_position, inst.x_offset, inst.y_offset);
 
 		poi.position = location;
 		// TODO(cwfitzgerald): Rotation
@@ -155,14 +149,12 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	void Pass3Executor::operator()(const instructions::track::PreTrain& inst) const {
-		if (!route_data_.pretrain_points.empty()
-		    && route_data_.pretrain_points.back().value > inst.time) {
+		if (!route_data_.pretrain_points.empty() && route_data_.pretrain_points.back().value > inst.time) {
 			std::ostringstream err;
 
-			err << "Pretrain point at location " << route_data_.pretrain_points.back().position
-			    << " has a later time " << route_data_.pretrain_points.back().value
-			    << " than current point at " << inst.absolute_position << " and time " << inst.time
-			    << ". Ignoring.";
+			err << "Pretrain point at location " << route_data_.pretrain_points.back().position << " has a later time "
+			    << route_data_.pretrain_points.back().value << " than current point at " << inst.absolute_position << " and time "
+			    << inst.time << ". Ignoring.";
 
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
@@ -188,8 +180,7 @@ namespace bve::parsers::csv_rw_route {
 	void Pass3Executor::operator()(const instructions::track::Doppler& inst) {
 		Sound si;
 
-		si.position =
-		    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		si.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		si.filename = addSoundFilename(inst.filename);
 
 		route_data_.sounds.emplace_back(std::move(si));

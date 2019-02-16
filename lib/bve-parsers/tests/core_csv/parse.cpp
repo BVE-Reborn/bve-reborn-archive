@@ -95,20 +95,16 @@ TEST_CASE("libparsers - core_csv - four items two lines") {
 	bve::parsers::csv::ParsedCSV result;
 
 	SUBCASE("nosplit_first, delim comma, split on space") {
-		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::no,
-		               ',', ' ');
+		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::no, ',', ' ');
 	}
 	SUBCASE("split_first, delim comma, split on space") {
-		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::yes,
-		               ',', ' ');
+		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::yes, ',', ' ');
 	}
 	SUBCASE("nosplit_first, delim tab, split on space") {
-		result = parse("hello\t world\non-another\t line"s, bve::parsers::csv::SplitFirstColumn::no,
-		               '\t', ' ');
+		result = parse("hello\t world\non-another\t line"s, bve::parsers::csv::SplitFirstColumn::no, '\t', ' ');
 	}
 	SUBCASE("nosplit_first, delim comma, split on tab") {
-		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::no,
-		               ',', '\t');
+		result = parse("hello, world\non-another, line"s, bve::parsers::csv::SplitFirstColumn::no, ',', '\t');
 	}
 
 	REQUIRE_EQ(result.size(), 2);
@@ -177,8 +173,7 @@ TEST_CASE("libparsers - core_csv - split first line, two items") {
 }
 
 TEST_CASE("libparsers - core_csv - split first line, four items") {
-	auto result =
-	    parse("first second, third forth\nfifth, sixth"s, bve::parsers::csv::SplitFirstColumn::yes);
+	auto result = parse("first second, third forth\nfifth, sixth"s, bve::parsers::csv::SplitFirstColumn::yes);
 
 	REQUIRE_EQ(result.size(), 2);
 	REQUIRE_EQ(result[0].size(), 3);
@@ -212,8 +207,7 @@ TEST_CASE("libparsers - core_csv - split first line, four items") {
 }
 
 TEST_CASE("libparsers - core_csv - split first line, four items split") {
-	auto result =
-	    parse("first second, third forth\nfifth sixth"s, bve::parsers::csv::SplitFirstColumn::yes);
+	auto result = parse("first second, third forth\nfifth sixth"s, bve::parsers::csv::SplitFirstColumn::yes);
 
 	REQUIRE_EQ(result.size(), 2);
 	REQUIRE_EQ(result[0].size(), 3);

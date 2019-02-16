@@ -1,15 +1,15 @@
 #pragma once
 
-#include "core/datatypes.hpp"
 #include "parsers/errors.hpp"
 #include "parsers/find_relative_file.hpp"
+#include "util/datatypes.hpp"
 #include <mapbox/variant.hpp>
 #include <string>
 #include <vector>
 
 namespace bve::parsers::xml::dynamic_background {
 	struct TextureBackgroundInfo {
-		core::datatypes::Time time = 0;
+		util::datatypes::Time time = 0;
 		enum { fade_in, fade_out, none } transition_mode = none;
 		std::size_t repetitions = 6;
 		std::string filename;
@@ -22,8 +22,7 @@ namespace bve::parsers::xml::dynamic_background {
 		std::string filename;
 	};
 
-	using ParsedDynamicBackground =
-	    mapbox::util::variant<std::vector<TextureBackgroundInfo>, ObjectBackgroundInfo>;
+	using ParsedDynamicBackground = mapbox::util::variant<std::vector<TextureBackgroundInfo>, ObjectBackgroundInfo>;
 
 	ParsedDynamicBackground parse(const std::string& filename,
 	                              std::string input_string,

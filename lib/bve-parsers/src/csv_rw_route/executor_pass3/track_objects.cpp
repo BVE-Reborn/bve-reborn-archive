@@ -10,13 +10,11 @@ namespace bve::parsers::csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
 			add_error(errors_, issuer_filename, inst.line, err);
 		}
 
-		auto const structure_index_iter =
-		    object_freeobj_mapping_.find(inst.free_obj_structure_index);
+		auto const structure_index_iter = object_freeobj_mapping_.find(inst.free_obj_structure_index);
 
 		if (structure_index_iter == object_freeobj_mapping_.end()) {
 			std::ostringstream err;
@@ -32,17 +30,14 @@ namespace bve::parsers::csv_rw_route {
 
 		RailObjectInfo roi;
 		roi.filename = structure_filename_iter;
-		roi.position = positionRelativeToRail(inst.rail_index, inst.absolute_position,
-		                                      inst.x_offset, inst.y_offset);
+		roi.position = positionRelativeToRail(inst.rail_index, inst.absolute_position, inst.x_offset, inst.y_offset);
 		/*roi.rotation = */ // TODO(cwfitzgerald): convert Yaw/Pitch/Roll to
 		                    // rotation vector
 
 		route_data_.objects.emplace_back(std::move(roi));
 	}
 
-	void Pass3Executor::addWallObjectsToPosition(RailState& state,
-	                                             float const position,
-	                                             uint8_t const type) {
+	void Pass3Executor::addWallObjectsToPosition(RailState& state, float const position, uint8_t const type) {
 		std::unordered_map<std::size_t, FilenameSetIterator>* object_mapping;
 		std::size_t index;
 		float* last_updated;
@@ -83,12 +78,10 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		for (auto pos = static_cast<std::size_t>(*last_updated);
-		     pos < static_cast<std::size_t>(position); pos += 25) {
+		for (auto pos = static_cast<std::size_t>(*last_updated); pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_position = trackPositionAt(float(pos));
 			auto const object_location =
-			    core::math::position_from_offsets(track_position.position, track_position.tangent,
-			                                      state.x_offset, state.y_offset);
+			    util::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset, state.y_offset);
 
 			RailObjectInfo i;
 			i.filename = object_mapping_iter->second;
@@ -108,15 +101,14 @@ namespace bve::parsers::csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
 			add_error(errors_, issuer_filename, inst.line, err);
 		}
 
-		auto const left = inst.direction == instructions::track::Wall::Direction::left
-		                  || inst.direction == instructions::track::Wall::Direction::both;
-		auto const right = inst.direction == instructions::track::Wall::Direction::right
-		                   || inst.direction == instructions::track::Wall::Direction::both;
+		auto const left =
+		    inst.direction == instructions::track::Wall::Direction::left || inst.direction == instructions::track::Wall::Direction::both;
+		auto const right =
+		    inst.direction == instructions::track::Wall::Direction::right || inst.direction == instructions::track::Wall::Direction::both;
 
 		if (left) {
 			addWallObjectsToPosition(state, inst.absolute_position, 0);
@@ -177,15 +169,14 @@ namespace bve::parsers::csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
 			add_error(errors_, issuer_filename, inst.line, err);
 		}
 
-		auto const left = inst.direction == instructions::track::Dike::Direction::left
-		                  || inst.direction == instructions::track::Dike::Direction::both;
-		auto const right = inst.direction == instructions::track::Dike::Direction::right
-		                   || inst.direction == instructions::track::Dike::Direction::both;
+		auto const left =
+		    inst.direction == instructions::track::Dike::Direction::left || inst.direction == instructions::track::Dike::Direction::both;
+		auto const right =
+		    inst.direction == instructions::track::Dike::Direction::right || inst.direction == instructions::track::Dike::Direction::both;
 
 		if (left) {
 			addWallObjectsToPosition(state, inst.absolute_position, 2);
@@ -239,19 +230,14 @@ namespace bve::parsers::csv_rw_route {
 		state.dike_r_active = false;
 	}
 
-	void Pass3Executor::addPollObjectsToPosition(std::size_t const rail_number,
-	                                             RailState& state,
-	                                             float const position) {
-		auto const object_mapping_iter =
-		    object_pole_mapping_.find({state.pole_additional_rails, state.pole_structure_index});
+	void Pass3Executor::addPollObjectsToPosition(std::size_t const rail_number, RailState& state, float const position) {
+		auto const object_mapping_iter = object_pole_mapping_.find({state.pole_additional_rails, state.pole_structure_index});
 
-		if (object_mapping_iter == object_pole_mapping_.end() || !state.active
-		    || !state.pole_active) {
+		if (object_mapping_iter == object_pole_mapping_.end() || !state.active || !state.pole_active) {
 			return;
 		}
 
-		for (auto pos = static_cast<std::size_t>(state.position_pole_updated);
-		     pos < static_cast<std::size_t>(position); pos += 25) {
+		for (auto pos = static_cast<std::size_t>(state.position_pole_updated); pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const add_object = pos % state.pole_interval == 0;
 
 			if (!add_object) {
@@ -270,9 +256,7 @@ namespace bve::parsers::csv_rw_route {
 				object_location = positionRelativeToRail(rail_number, position, 0, 0);
 			}
 			else {
-				object_location =
-				    positionRelativeToRail(rail_number, position,
-				                           static_cast<float>(state.pole_location) * 3.8F, 0);
+				object_location = positionRelativeToRail(rail_number, position, static_cast<float>(state.pole_location) * 3.8F, 0);
 			}
 
 			i.filename = object_mapping_iter->second;
@@ -294,13 +278,11 @@ namespace bve::parsers::csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
 			add_error(errors_, issuer_filename, inst.line, err);
 		}
 
-		auto const pole_structure_iter =
-		    object_pole_mapping_.find({inst.additional_rails, inst.pole_structure_index});
+		auto const pole_structure_iter = object_pole_mapping_.find({inst.additional_rails, inst.pole_structure_index});
 
 		if (pole_structure_iter == object_pole_mapping_.end()) {
 			std::ostringstream err;
@@ -338,14 +320,11 @@ namespace bve::parsers::csv_rw_route {
 	}
 
 	void Pass3Executor::addGroundObjectsToPosition(RailState& state, float const position) const {
-		for (auto pos = static_cast<std::size_t>(state.position_ground_updated);
-		     pos < static_cast<std::size_t>(position); pos += 25) {
+		for (auto pos = static_cast<std::size_t>(state.position_ground_updated); pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_location = trackPositionAt(float(pos));
 			auto const ground_height = groundHeightAt(float(pos));
 
-			auto filename_iter_optional =
-			    get_cycle_filename_index(cycle_ground_mapping_, object_ground_mapping_,
-			                             state.ground_index, pos);
+			auto filename_iter_optional = get_cycle_filename_index(cycle_ground_mapping_, object_ground_mapping_, state.ground_index, pos);
 
 			if (!filename_iter_optional) {
 				return;
@@ -353,9 +332,7 @@ namespace bve::parsers::csv_rw_route {
 
 			RailObjectInfo roi;
 			roi.filename = *filename_iter_optional;
-			roi.position =
-			    core::math::position_from_offsets(track_location.position, track_location.tangent,
-			                                      0, -ground_height);
+			roi.position = util::math::position_from_offsets(track_location.position, track_location.tangent, 0, -ground_height);
 			roi.rotation = glm::vec3(0);
 			route_data_.objects.emplace_back(roi);
 		}

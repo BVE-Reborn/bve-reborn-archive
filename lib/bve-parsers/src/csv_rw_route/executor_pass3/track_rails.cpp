@@ -7,17 +7,13 @@ namespace bve::parsers::csv_rw_route {
 			return;
 		}
 
-		for (auto pos = static_cast<std::size_t>(state.position_last_updated);
-		     pos < static_cast<std::size_t>(position); pos += 25) {
+		for (auto pos = static_cast<std::size_t>(state.position_last_updated); pos < static_cast<std::size_t>(position); pos += 25) {
 			auto const track_position = trackPositionAt(float(pos));
 			auto const object_location =
-			    core::math::position_from_offsets(track_position.position, track_position.tangent,
-			                                      state.x_offset, state.y_offset);
+			    util::math::position_from_offsets(track_position.position, track_position.tangent, state.x_offset, state.y_offset);
 
-			auto filename_iter_optional =
-			    get_cycle_filename_index(cycle_rail_mapping_, object_rail_mapping_,
-			                             state.rail_structure_index,
-			                             static_cast<std::size_t>(position));
+			auto filename_iter_optional = get_cycle_filename_index(cycle_rail_mapping_, object_rail_mapping_, state.rail_structure_index,
+			                                                       static_cast<std::size_t>(position));
 
 			if (!filename_iter_optional) {
 				return;
@@ -41,8 +37,7 @@ namespace bve::parsers::csv_rw_route {
 		if (state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " is still active. Please use Track.Rail to update.";
+			err << "Rail number " << inst.rail_index << " is still active. Please use Track.Rail to update.";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 
@@ -54,8 +49,7 @@ namespace bve::parsers::csv_rw_route {
 		if (object_rail_mapping_.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index
-			    << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
@@ -73,8 +67,7 @@ namespace bve::parsers::csv_rw_route {
 		if (object_rail_mapping_.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index
-			    << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
@@ -87,8 +80,7 @@ namespace bve::parsers::csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " isn't active. Use Track.RailStart to start the track.";
+			err << "Rail number " << inst.rail_index << " isn't active. Use Track.RailStart to start the track.";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 
@@ -98,8 +90,7 @@ namespace bve::parsers::csv_rw_route {
 		if (object_rail_mapping_.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index
-			    << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}
@@ -112,8 +103,7 @@ namespace bve::parsers::csv_rw_route {
 		if (!state.active) {
 			std::ostringstream err;
 
-			err << "Rail number " << inst.rail_index
-			    << " was already inactive. Did you mean Track.RailStart?";
+			err << "Rail number " << inst.rail_index << " was already inactive. Did you mean Track.RailStart?";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 
@@ -122,8 +112,7 @@ namespace bve::parsers::csv_rw_route {
 		if (object_rail_mapping_.count(state.rail_structure_index) == 0) {
 			std::ostringstream err;
 
-			err << "Rail Structure " << state.rail_structure_index
-			    << " has not been declared. Ignoring.";
+			err << "Rail Structure " << state.rail_structure_index << " has not been declared. Ignoring.";
 			add_error(errors_, getFilename(inst.file_index), inst.line, err);
 		}
 	}

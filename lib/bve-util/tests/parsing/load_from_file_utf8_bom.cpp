@@ -1,13 +1,13 @@
-#include "parsers/utils.hpp"
+#include "util/parsing.hpp"
 #include <doctest.h>
 #include <sstream>
 
 using namespace std::string_literals;
 
-#define LOAD_FROM_FILE_COMPARE(input, output)                                                      \
-	{                                                                                              \
-		std::istringstream i(input);                                                               \
-		CHECK_EQ(bve::parsers::util::load_from_file_utf8_bom(i), output);                          \
+#define LOAD_FROM_FILE_COMPARE(input, output)                                                                                              \
+	{                                                                                                                                      \
+		std::istringstream i(input);                                                                                                       \
+		CHECK_EQ(bve::util::parsers::load_from_file_utf8_bom(i), output);                                                                  \
 	}
 
 TEST_SUITE_BEGIN("libparsers - util");

@@ -1,8 +1,8 @@
 #include "parsers/config/sound_cfg.hpp"
-#include "core/inlining_util.hpp"
 #include "gsl/gsl_util"
 #include "parsers/ini.hpp"
-#include "parsers/utils.hpp"
+#include "util/inlining_util.hpp"
+#include "util/parsing.hpp"
 #include <regex>
 #include <sstream>
 
@@ -17,15 +17,14 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		void check_version_number(errors::Errors& errors, ini::INISection const& section) {
 			static std::regex const r(R"(version\s*(\d+(?:\.\d*)?))",
-			                          std::regex_constants::optimize | std::regex_constants::icase
-			                              | std::regex_constants::ECMAScript);
+			                          std::regex_constants::optimize | std::regex_constants::icase | std::regex_constants::ECMAScript);
 
 			for (auto const& value : section.values) {
 				std::smatch res;
 				bool const found = std::regex_match(value.value, res, r);
 
 				if (found) {
-					auto const version = util::parse_loose_float(res[1]);
+					auto const version = util::parsers::parse_loose_float(res[1]);
 					if (version != 1.0F) {
 						std::ostringstream err;
 						err << version << " is not a recognized version number";
@@ -51,8 +50,7 @@ namespace bve::parsers::config::sound_cfg {
 		 */
 		template <class F>
 		FORCE_INLINE void function_check(F& /*unused*/) {
-			static_assert(std::is_same<decltype(std::declval<F>()(std::declval<std::string>())),
-			                           FilenameIterator>::value,
+			static_assert(std::is_same<decltype(std::declval<F>()(std::declval<std::string>())), FilenameIterator>::value,
 			              "get_filename must take a std::string and return a "
 			              "filename_iterator");
 		}
@@ -65,15 +63,10 @@ namespace bve::parsers::config::sound_cfg {
 		 * \param name C String with the key of the key value pair
 		 * \param line Line within the file that the error occured.
 		 */
-		void check_if_set(bool& flag,
-		                  errors::Errors& errors,
-		                  char const* const section,
-		                  char const* const name,
-		                  std::size_t const line) {
+		void check_if_set(bool& flag, errors::Errors& errors, char const* const section, char const* const name, std::size_t const line) {
 			if (flag) {
 				std::ostringstream err;
-				err << name << " already set within [" << section
-				    << "] section. Overriding with new value."s;
+				err << name << " already set within [" << section << "] section. Overriding with new value."s;
 				add_error(errors, line, err);
 			}
 			flag = true;
@@ -89,10 +82,9 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return unordered_map of std::size_t -> Ret
 		 */
 		template <class Ret, class F>
-		std::unordered_map<std::size_t, Ret> parse_number_filename_pairs(
-		    F& get_filename,
-		    errors::Errors& errors,
-		    ini::INISection const& section) {
+		std::unordered_map<std::size_t, Ret> parse_number_filename_pairs(F& get_filename,
+		                                                                 errors::Errors& errors,
+		                                                                 ini::INISection const& section) {
 			function_check(get_filename);
 
 			std::unordered_map<std::size_t, bool> used;
@@ -101,7 +93,7 @@ namespace bve::parsers::config::sound_cfg {
 			for (auto const& kvp : section.key_value_pairs) {
 				std::size_t index;
 				try {
-					index = gsl::narrow<std::size_t>(util::parse_loose_integer(kvp.key));
+					index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(kvp.key));
 				}
 				catch (std::exception const& e) {
 					std::ostringstream err;
@@ -110,8 +102,7 @@ namespace bve::parsers::config::sound_cfg {
 					continue;
 				}
 
-				check_if_set(used[index], errors, util::lower_copy(section.name).c_str(),
-				             kvp.key.c_str(), kvp.line);
+				check_if_set(used[index], errors, util::parsers::lower_copy(section.name).c_str(), kvp.key.c_str(), kvp.line);
 				ret[index].filename = get_filename(kvp.value);
 			}
 
@@ -145,10 +136,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Brake block.
 		 */
 		template <class F>
-		Brake parse_brake(F& get_filename,
-		                  errors::Errors& errors,
-		                  ini::INISection const& section,
-		                  FilenameIterator const end) {
+		Brake parse_brake(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Brake ret = create_empty_brake(end);
@@ -160,25 +148,23 @@ namespace bve::parsers::config::sound_cfg {
 			bool bp_decompression_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "bc release high")) {
-					check_if_set(bc_release_high_flag, errors, "brake", "BC Release High",
-					             kvp.line);
+				if (util::parsers::match_against_lower(kvp.key, "bc release high")) {
+					check_if_set(bc_release_high_flag, errors, "brake", "BC Release High", kvp.line);
 					ret.bc_release_high = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "bc release")) {
+				else if (util::parsers::match_against_lower(kvp.key, "bc release")) {
 					check_if_set(bc_release_flag, errors, "brake", "BC Release", kvp.line);
 					ret.bc_release = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "bc release full")) {
-					check_if_set(bc_release_full_flag, errors, "brake", "BC Release Full",
-					             kvp.line);
+				else if (util::parsers::match_against_lower(kvp.key, "bc release full")) {
+					check_if_set(bc_release_full_flag, errors, "brake", "BC Release Full", kvp.line);
 					ret.bc_release_full = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "emergency")) {
+				else if (util::parsers::match_against_lower(kvp.key, "emergency")) {
 					check_if_set(emergency_flag, errors, "brake", "Emergency", kvp.line);
 					ret.emergency = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "bp decomp")) {
+				else if (util::parsers::match_against_lower(kvp.key, "bp decomp")) {
 					check_if_set(bp_decompression_flag, errors, "brake", "BP Decomp", kvp.line);
 					ret.bp_decompression = get_filename(kvp.value);
 				}
@@ -217,10 +203,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Compressor block.
 		 */
 		template <class F>
-		Compressor parse_compressor(F& get_filename,
-		                            errors::Errors& errors,
-		                            ini::INISection const& section,
-		                            FilenameIterator const end) {
+		Compressor parse_compressor(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Compressor ret = create_empty_compressor(end);
@@ -230,15 +213,15 @@ namespace bve::parsers::config::sound_cfg {
 			bool release_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "attack")) {
+				if (util::parsers::match_against_lower(kvp.key, "attack")) {
 					check_if_set(attack_flag, errors, "compressor", "Attack", kvp.line);
 					ret.attack = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "loop")) {
+				else if (util::parsers::match_against_lower(kvp.key, "loop")) {
 					check_if_set(loop_flag, errors, "compressor", "Loop", kvp.line);
 					ret.loop = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "release")) {
+				else if (util::parsers::match_against_lower(kvp.key, "release")) {
 					check_if_set(release_flag, errors, "compressor", "Release", kvp.line);
 					ret.release = get_filename(kvp.value);
 				}
@@ -276,10 +259,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Suspension block.
 		 */
 		template <class F>
-		Suspension parse_suspension(F& get_filename,
-		                            errors::Errors& errors,
-		                            ini::INISection const& section,
-		                            FilenameIterator const end) {
+		Suspension parse_suspension(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Suspension ret = create_empty_suspension(end);
@@ -288,11 +268,11 @@ namespace bve::parsers::config::sound_cfg {
 			bool right_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "left")) {
+				if (util::parsers::match_against_lower(kvp.key, "left")) {
 					check_if_set(left_flag, errors, "suspension", "Left", kvp.line);
 					ret.left = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "right")) {
+				else if (util::parsers::match_against_lower(kvp.key, "right")) {
 					check_if_set(right_flag, errors, "suspension", "Right", kvp.line);
 					ret.right = get_filename(kvp.value);
 				}
@@ -356,10 +336,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Doors block.
 		 */
 		template <class F>
-		Horn parse_horn(F& get_filename,
-		                errors::Errors& errors,
-		                ini::INISection const& section,
-		                FilenameIterator const end) {
+		Horn parse_horn(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			LoopedHorn looped_ret = create_empty_looped_horn(end);
@@ -384,8 +361,7 @@ namespace bve::parsers::config::sound_cfg {
 			auto legacy_test = [&](char const* const name, std::size_t const line) {
 				if (new_stuff) {
 					std::ostringstream err;
-					err << name
-					    << " is a legacy horn setting. Looping horn already in use, ignoring.";
+					err << name << " is a legacy horn setting. Looping horn already in use, ignoring.";
 					add_error(errors, line, err);
 				}
 			};
@@ -395,47 +371,47 @@ namespace bve::parsers::config::sound_cfg {
 				// looped horn //
 				/////////////////
 
-				if (util::match_against_lower(kvp.key, "primarystart")) {
+				if (util::parsers::match_against_lower(kvp.key, "primarystart")) {
 					check_if_set(primary_start_flag, errors, "horn", "Primary Start", kvp.line);
 					looped_ret.primary_start = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "primaryloop")) {
+				else if (util::parsers::match_against_lower(kvp.key, "primaryloop")) {
 					check_if_set(primary_loop_flag, errors, "horn", "Primary Loop", kvp.line);
 					looped_ret.primary_loop = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "primaryend")) {
+				else if (util::parsers::match_against_lower(kvp.key, "primaryend")) {
 					check_if_set(primary_end_flag, errors, "horn", "Primary End", kvp.line);
 					looped_ret.primary_end = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "secondarystart")) {
+				else if (util::parsers::match_against_lower(kvp.key, "secondarystart")) {
 					check_if_set(secondary_start_flag, errors, "horn", "Secondary Start", kvp.line);
 					looped_ret.secondary_start = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "secondaryloop")) {
+				else if (util::parsers::match_against_lower(kvp.key, "secondaryloop")) {
 					check_if_set(secondary_loop_flag, errors, "horn", "Secondary Loop", kvp.line);
 					looped_ret.secondary_loop = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "secondaryend")) {
+				else if (util::parsers::match_against_lower(kvp.key, "secondaryend")) {
 					check_if_set(secondary_end_flag, errors, "horn", "Secondary End", kvp.line);
 					looped_ret.secondary_end = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "musicstart")) {
+				else if (util::parsers::match_against_lower(kvp.key, "musicstart")) {
 					check_if_set(music_start_flag, errors, "horn", "Music Start", kvp.line);
 					looped_ret.music_start = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "musicloop")) {
+				else if (util::parsers::match_against_lower(kvp.key, "musicloop")) {
 					check_if_set(music_loop_flag, errors, "horn", "Music Loop", kvp.line);
 					looped_ret.music_loop = get_filename(kvp.value);
 					new_stuff = true;
 				}
-				else if (util::match_against_lower(kvp.key, "musicend")) {
+				else if (util::parsers::match_against_lower(kvp.key, "musicend")) {
 					check_if_set(music_end_flag, errors, "horn", "Music End", kvp.line);
 					looped_ret.music_end = get_filename(kvp.value);
 					new_stuff = true;
@@ -445,17 +421,17 @@ namespace bve::parsers::config::sound_cfg {
 				// legacy horn //
 				/////////////////
 
-				else if (util::match_against_lower(kvp.key, "primary")) {
+				else if (util::parsers::match_against_lower(kvp.key, "primary")) {
 					check_if_set(primary_flag, errors, "horn", "Primary", kvp.line);
 					legacy_ret.primary = get_filename(kvp.value);
 					legacy_test("Primary", kvp.line);
 				}
-				else if (util::match_against_lower(kvp.key, "secondary")) {
+				else if (util::parsers::match_against_lower(kvp.key, "secondary")) {
 					check_if_set(secondary_flag, errors, "horn", "Secondary", kvp.line);
 					legacy_ret.secondary = get_filename(kvp.value);
 					legacy_test("Secondary", kvp.line);
 				}
-				else if (util::match_against_lower(kvp.key, "music")) {
+				else if (util::parsers::match_against_lower(kvp.key, "music")) {
 					check_if_set(music_flag, errors, "horn", "Music", kvp.line);
 					legacy_ret.music = get_filename(kvp.value);
 					legacy_test("Music", kvp.line);
@@ -507,10 +483,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Doors block.
 		 */
 		template <class F>
-		Doors parse_doors(F& get_filename,
-		                  errors::Errors& errors,
-		                  ini::INISection const& section,
-		                  FilenameIterator const end) {
+		Doors parse_doors(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Doors ret = create_empty_doors(end);
@@ -521,19 +494,19 @@ namespace bve::parsers::config::sound_cfg {
 			bool close_right_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "open left")) {
+				if (util::parsers::match_against_lower(kvp.key, "open left")) {
 					check_if_set(open_left_flag, errors, "doors", "Open Left", kvp.line);
 					ret.open_left = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "open right")) {
+				else if (util::parsers::match_against_lower(kvp.key, "open right")) {
 					check_if_set(open_right_flag, errors, "doors", "Open Right", kvp.line);
 					ret.open_right = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "close left")) {
+				else if (util::parsers::match_against_lower(kvp.key, "close left")) {
 					check_if_set(close_left_flag, errors, "doors", "Close Left", kvp.line);
 					ret.close_left = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "close right")) {
+				else if (util::parsers::match_against_lower(kvp.key, "close right")) {
 					check_if_set(close_right_flag, errors, "doors", "Close Right", kvp.line);
 					ret.close_right = get_filename(kvp.value);
 				}
@@ -570,10 +543,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Buzzer block.
 		 */
 		template <class F>
-		Buzzer parse_buzzer(F& get_filename,
-		                    errors::Errors& errors,
-		                    ini::INISection const& section,
-		                    FilenameIterator const end) {
+		Buzzer parse_buzzer(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Buzzer ret = create_empty_buzzer(end);
@@ -581,7 +551,7 @@ namespace bve::parsers::config::sound_cfg {
 			bool correct_flag = false; //
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "correct")) {
+				if (util::parsers::match_against_lower(kvp.key, "correct")) {
 					check_if_set(correct_flag, errors, "buzzer", "Correct", kvp.line);
 					ret.correct = get_filename(kvp.value);
 				}
@@ -619,10 +589,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed PilotLamp block.
 		 */
 		template <class F>
-		PilotLamp parse_pilot_lamp(F& get_filename,
-		                           errors::Errors& errors,
-		                           ini::INISection const& section,
-		                           FilenameIterator const end) {
+		PilotLamp parse_pilot_lamp(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			PilotLamp ret = create_empty_pilot_lamp(end);
@@ -631,11 +598,11 @@ namespace bve::parsers::config::sound_cfg {
 			bool off_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "on")) {
+				if (util::parsers::match_against_lower(kvp.key, "on")) {
 					check_if_set(on_flag, errors, "Pilot Lamp", "On", kvp.line);
 					ret.on = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "off")) {
+				else if (util::parsers::match_against_lower(kvp.key, "off")) {
 					check_if_set(off_flag, errors, "Pilot Lamp", "Off", kvp.line);
 					ret.off = get_filename(kvp.value);
 				}
@@ -689,19 +656,19 @@ namespace bve::parsers::config::sound_cfg {
 			bool max_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "apply")) {
+				if (util::parsers::match_against_lower(kvp.key, "apply")) {
 					check_if_set(apply_flag, errors, "Brake Handle", "Apply", kvp.line);
 					ret.apply = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "release")) {
+				else if (util::parsers::match_against_lower(kvp.key, "release")) {
 					check_if_set(release_flag, errors, "Brake Handle", "Release", kvp.line);
 					ret.release = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "min")) {
+				else if (util::parsers::match_against_lower(kvp.key, "min")) {
 					check_if_set(min_flag, errors, "Brake Handle", "Min", kvp.line);
 					ret.min = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "max")) {
+				else if (util::parsers::match_against_lower(kvp.key, "max")) {
 					check_if_set(max_flag, errors, "Brake Handle", "Max", kvp.line);
 					ret.max = get_filename(kvp.value);
 				}
@@ -755,19 +722,19 @@ namespace bve::parsers::config::sound_cfg {
 			bool max_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "up")) {
+				if (util::parsers::match_against_lower(kvp.key, "up")) {
 					check_if_set(up_flag, errors, "Master Controller", "Up", kvp.line);
 					ret.up = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "down")) {
+				else if (util::parsers::match_against_lower(kvp.key, "down")) {
 					check_if_set(down_flag, errors, "Master Controller", "Down", kvp.line);
 					ret.down = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "min")) {
+				else if (util::parsers::match_against_lower(kvp.key, "min")) {
 					check_if_set(min_flag, errors, "Master Controller", "Min", kvp.line);
 					ret.min = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "max")) {
+				else if (util::parsers::match_against_lower(kvp.key, "max")) {
 					check_if_set(max_flag, errors, "Master Controller", "Max", kvp.line);
 					ret.max = get_filename(kvp.value);
 				}
@@ -805,10 +772,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Reverser block.
 		 */
 		template <class F>
-		Reverser parse_reverser(F& get_filename,
-		                        errors::Errors& errors,
-		                        ini::INISection const& section,
-		                        FilenameIterator const end) {
+		Reverser parse_reverser(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Reverser ret = create_empty_reverser(end);
@@ -817,11 +781,11 @@ namespace bve::parsers::config::sound_cfg {
 			bool off_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "on")) {
+				if (util::parsers::match_against_lower(kvp.key, "on")) {
 					check_if_set(on_flag, errors, "Reverser", "On", kvp.line);
 					ret.on = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "off")) {
+				else if (util::parsers::match_against_lower(kvp.key, "off")) {
 					check_if_set(off_flag, errors, "Reverser", "Off", kvp.line);
 					ret.off = get_filename(kvp.value);
 				}
@@ -859,10 +823,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Breaker block.
 		 */
 		template <class F>
-		Breaker parse_breaker(F& get_filename,
-		                      errors::Errors& errors,
-		                      ini::INISection const& section,
-		                      FilenameIterator const end) {
+		Breaker parse_breaker(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Breaker ret = create_empty_breaker(end);
@@ -871,11 +832,11 @@ namespace bve::parsers::config::sound_cfg {
 			bool off_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "on")) {
+				if (util::parsers::match_against_lower(kvp.key, "on")) {
 					check_if_set(on_flag, errors, "breaker", "On", kvp.line);
 					ret.on = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "off")) {
+				else if (util::parsers::match_against_lower(kvp.key, "off")) {
 					check_if_set(off_flag, errors, "breaker", "Off", kvp.line);
 					ret.off = get_filename(kvp.value);
 				}
@@ -913,10 +874,7 @@ namespace bve::parsers::config::sound_cfg {
 		 * \return Parsed Misc block.
 		 */
 		template <class F>
-		Misc parse_misc(F& get_filename,
-		                errors::Errors& errors,
-		                ini::INISection const& section,
-		                FilenameIterator const end) {
+		Misc parse_misc(F& get_filename, errors::Errors& errors, ini::INISection const& section, FilenameIterator const end) {
 			function_check(get_filename);
 
 			Misc ret = create_empty_misc(end);
@@ -925,11 +883,11 @@ namespace bve::parsers::config::sound_cfg {
 			bool shoe_flag = false;
 
 			for (auto const& kvp : section.key_value_pairs) {
-				if (util::match_against_lower(kvp.key, "noise")) {
+				if (util::parsers::match_against_lower(kvp.key, "noise")) {
 					check_if_set(noise_flag, errors, "Others", "Noise", kvp.line);
 					ret.noise = get_filename(kvp.value);
 				}
-				else if (util::match_against_lower(kvp.key, "shoe")) {
+				else if (util::parsers::match_against_lower(kvp.key, "shoe")) {
 					check_if_set(shoe_flag, errors, "Others", "Shoe", kvp.line);
 					ret.shoe = get_filename(kvp.value);
 				}
@@ -972,14 +930,11 @@ namespace bve::parsers::config::sound_cfg {
 			for (auto&& filename : psc.ats_sounds) {
 				filename.second.filename = filename_from_str_itr(filename.second.filename);
 			}
-			psc.brake_sounds.bc_release_high =
-			    filename_from_str_itr(psc.brake_sounds.bc_release_high);
+			psc.brake_sounds.bc_release_high = filename_from_str_itr(psc.brake_sounds.bc_release_high);
 			psc.brake_sounds.bc_release = filename_from_str_itr(psc.brake_sounds.bc_release);
-			psc.brake_sounds.bc_release_full =
-			    filename_from_str_itr(psc.brake_sounds.bc_release_full);
+			psc.brake_sounds.bc_release_full = filename_from_str_itr(psc.brake_sounds.bc_release_full);
 			psc.brake_sounds.emergency = filename_from_str_itr(psc.brake_sounds.emergency);
-			psc.brake_sounds.bp_decompression =
-			    filename_from_str_itr(psc.brake_sounds.bp_decompression);
+			psc.brake_sounds.bp_decompression = filename_from_str_itr(psc.brake_sounds.bp_decompression);
 
 			psc.compressor_sounds.attack = filename_from_str_itr(psc.compressor_sounds.attack);
 			psc.compressor_sounds.loop = filename_from_str_itr(psc.compressor_sounds.loop);
@@ -1020,19 +975,14 @@ namespace bve::parsers::config::sound_cfg {
 			psc.pilot_lamp_sounds.off = filename_from_str_itr(psc.pilot_lamp_sounds.off);
 
 			psc.brake_handle_sounds.apply = filename_from_str_itr(psc.brake_handle_sounds.apply);
-			psc.brake_handle_sounds.release =
-			    filename_from_str_itr(psc.brake_handle_sounds.release);
+			psc.brake_handle_sounds.release = filename_from_str_itr(psc.brake_handle_sounds.release);
 			psc.brake_handle_sounds.min = filename_from_str_itr(psc.brake_handle_sounds.min);
 			psc.brake_handle_sounds.max = filename_from_str_itr(psc.brake_handle_sounds.max);
 
-			psc.master_controller_sounds.up =
-			    filename_from_str_itr(psc.master_controller_sounds.up);
-			psc.master_controller_sounds.down =
-			    filename_from_str_itr(psc.master_controller_sounds.down);
-			psc.master_controller_sounds.min =
-			    filename_from_str_itr(psc.master_controller_sounds.min);
-			psc.master_controller_sounds.max =
-			    filename_from_str_itr(psc.master_controller_sounds.max);
+			psc.master_controller_sounds.up = filename_from_str_itr(psc.master_controller_sounds.up);
+			psc.master_controller_sounds.down = filename_from_str_itr(psc.master_controller_sounds.down);
+			psc.master_controller_sounds.min = filename_from_str_itr(psc.master_controller_sounds.min);
+			psc.master_controller_sounds.max = filename_from_str_itr(psc.master_controller_sounds.max);
 
 			psc.reverser_sounds.on = filename_from_str_itr(psc.reverser_sounds.on);
 			psc.reverser_sounds.off = filename_from_str_itr(psc.reverser_sounds.off);
@@ -1054,9 +1004,7 @@ namespace bve::parsers::config::sound_cfg {
 	                     RelativeFileFunc const& get_relative_file) {
 		ParsedSoundCFG psc;
 
-		auto get_filename = [&](std::string const& rel_file) {
-			return psc.filenames.insert(get_relative_file(filename, rel_file)).first;
-		};
+		auto get_filename = [&](std::string const& rel_file) { return psc.filenames.insert(get_relative_file(filename, rel_file)).first; };
 
 		auto& file_error = errors[filename];
 
@@ -1080,8 +1028,7 @@ namespace bve::parsers::config::sound_cfg {
 		bool breaker_flag = false;
 		bool misc_flag = false;
 
-		auto const check_if_section_used = [&](bool& flag, char const* const name,
-		                                       std::size_t const line) {
+		auto const check_if_section_used = [&](bool& flag, char const* const name, std::size_t const line) {
 			if (flag) {
 				std::ostringstream err;
 				err << "[" << name << "] has already been defined. Overriding with new value."s;
@@ -1093,82 +1040,71 @@ namespace bve::parsers::config::sound_cfg {
 		auto const end_iterator = psc.filenames.end();
 
 		for (auto const& section : parsed_ini) {
-			if (util::match_against_lower(section.name, "run")) {
+			if (util::parsers::match_against_lower(section.name, "run")) {
 				check_if_section_used(run_flag, "run", section.line);
-				psc.run_sounds =
-				    parse_number_filename_pairs<Run>(get_filename, file_error, section);
+				psc.run_sounds = parse_number_filename_pairs<Run>(get_filename, file_error, section);
 			}
-			else if (util::match_against_lower(section.name, "flange")) {
+			else if (util::parsers::match_against_lower(section.name, "flange")) {
 				check_if_section_used(flange_flag, "flange", section.line);
-				psc.flange_sounds =
-				    parse_number_filename_pairs<Flange>(get_filename, file_error, section);
+				psc.flange_sounds = parse_number_filename_pairs<Flange>(get_filename, file_error, section);
 			}
-			else if (util::match_against_lower(section.name, "motor")) {
+			else if (util::parsers::match_against_lower(section.name, "motor")) {
 				check_if_section_used(motor_flag, "motor", section.line);
-				psc.motor_sounds =
-				    parse_number_filename_pairs<Motor>(get_filename, file_error, section);
+				psc.motor_sounds = parse_number_filename_pairs<Motor>(get_filename, file_error, section);
 			}
-			else if (util::match_against_lower(section.name, "switch")) {
+			else if (util::parsers::match_against_lower(section.name, "switch")) {
 				check_if_section_used(switch_flag, "switch", section.line);
-				psc.switch_sounds =
-				    parse_number_filename_pairs<Switch>(get_filename, file_error, section);
+				psc.switch_sounds = parse_number_filename_pairs<Switch>(get_filename, file_error, section);
 			}
-			else if (util::match_against_lower(section.name, "brake")) {
+			else if (util::parsers::match_against_lower(section.name, "brake")) {
 				check_if_section_used(brake_flag, "brake", section.line);
 				psc.brake_sounds = parse_brake(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "compressor")) {
+			else if (util::parsers::match_against_lower(section.name, "compressor")) {
 				check_if_section_used(compressor_flag, "compressor", section.line);
-				psc.compressor_sounds =
-				    parse_compressor(get_filename, file_error, section, end_iterator);
+				psc.compressor_sounds = parse_compressor(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "suspension")) {
+			else if (util::parsers::match_against_lower(section.name, "suspension")) {
 				check_if_section_used(suspension_flag, "suspension", section.line);
-				psc.suspension_sounds =
-				    parse_suspension(get_filename, file_error, section, end_iterator);
+				psc.suspension_sounds = parse_suspension(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "horn")) {
+			else if (util::parsers::match_against_lower(section.name, "horn")) {
 				check_if_section_used(horn_flag, "horn", section.line);
 				psc.horn_sounds = parse_horn(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "door")) {
+			else if (util::parsers::match_against_lower(section.name, "door")) {
 				check_if_section_used(door_flag, "door", section.line);
 				psc.door_sounds = parse_doors(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "ats")) {
+			else if (util::parsers::match_against_lower(section.name, "ats")) {
 				check_if_section_used(ats_flag, "ats", section.line);
-				psc.ats_sounds =
-				    parse_number_filename_pairs<Ats>(get_filename, file_error, section);
+				psc.ats_sounds = parse_number_filename_pairs<Ats>(get_filename, file_error, section);
 			}
-			else if (util::match_against_lower(section.name, "buzzer")) {
+			else if (util::parsers::match_against_lower(section.name, "buzzer")) {
 				check_if_section_used(buzzer_flag, "buzzer", section.line);
 				psc.buzzer_sounds = parse_buzzer(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "pilot lamp")) {
+			else if (util::parsers::match_against_lower(section.name, "pilot lamp")) {
 				check_if_section_used(pilot_lamp_flag, "pilot lamp", section.line);
-				psc.pilot_lamp_sounds =
-				    parse_pilot_lamp(get_filename, file_error, section, end_iterator);
+				psc.pilot_lamp_sounds = parse_pilot_lamp(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "brake handle")) {
+			else if (util::parsers::match_against_lower(section.name, "brake handle")) {
 				check_if_section_used(brake_handle_flag, "brake handle", section.line);
-				psc.brake_handle_sounds =
-				    parse_brake_handle(get_filename, file_error, section, end_iterator);
+				psc.brake_handle_sounds = parse_brake_handle(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "master controller")) {
+			else if (util::parsers::match_against_lower(section.name, "master controller")) {
 				check_if_section_used(master_controller_flag, "master controller", section.line);
-				psc.master_controller_sounds =
-				    parse_master_controller(get_filename, file_error, section, end_iterator);
+				psc.master_controller_sounds = parse_master_controller(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "reverser")) {
+			else if (util::parsers::match_against_lower(section.name, "reverser")) {
 				check_if_section_used(reverser_flag, "reverser", section.line);
-				psc.reverser_sounds =
-				    parse_reverser(get_filename, file_error, section, end_iterator);
+				psc.reverser_sounds = parse_reverser(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "breaker")) {
+			else if (util::parsers::match_against_lower(section.name, "breaker")) {
 				check_if_section_used(breaker_flag, "breaker", section.line);
 				psc.breaker_sounds = parse_breaker(get_filename, file_error, section, end_iterator);
 			}
-			else if (util::match_against_lower(section.name, "others")) {
+			else if (util::parsers::match_against_lower(section.name, "others")) {
 				check_if_section_used(misc_flag, "others", section.line);
 				psc.misc_sounds = parse_misc(get_filename, file_error, section, end_iterator);
 			}

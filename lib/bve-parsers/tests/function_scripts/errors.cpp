@@ -1,6 +1,6 @@
-#include "test_macro_util.hpp"
 #include <doctest.h>
 #include <parsers/function_scripts.hpp>
+#include <util/testing/variant_macros.hpp>
 
 using namespace std::string_literals;
 namespace fs_inst = bve::parsers::function_scripts::instructions;
@@ -218,9 +218,7 @@ TEST_CASE("libparsers - function scripts - errors - missing unary variable index
 	REQUIRE_EQ(result.used_indexed_variables.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{0}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1],
-	                             fs_inst::OPVariableIndexed{fs_inst::IndexedVariable::odometer},
-	                             name);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::OPVariableIndexed{fs_inst::IndexedVariable::odometer}, name);
 	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::IndexedVariable::odometer);
 }
 
@@ -231,9 +229,7 @@ TEST_CASE("libparsers - function scripts - errors - too many unary variable inde
 	REQUIRE_EQ(result.used_indexed_variables.size(), 1);
 	REQUIRE_GE(result.errors.size(), 1);
 	COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{1}, value);
-	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1],
-	                             fs_inst::OPVariableIndexed{fs_inst::IndexedVariable::odometer},
-	                             name);
+	COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::OPVariableIndexed{fs_inst::IndexedVariable::odometer}, name);
 	CHECK_EQ(*result.used_indexed_variables.begin(), fs_inst::IndexedVariable::odometer);
 }
 

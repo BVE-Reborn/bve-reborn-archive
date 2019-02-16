@@ -26,15 +26,13 @@ namespace bve::parsers::csv_rw_route {
 		if (file_iter == object_beacon_mapping_.end()) {
 			std::ostringstream oss;
 
-			oss << "Beacon Structure #" << inst.beacon_structure_index
-			    << " isn't mapped. Use Structure.Beacon to declare it.";
+			oss << "Beacon Structure #" << inst.beacon_structure_index << " isn't mapped. Use Structure.Beacon to declare it.";
 
 			add_error(errors_, getFilename(inst.file_index), inst.line, oss);
 		}
 
 		roi.filename = file_iter->second;
-		roi.position =
-		    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		// TODO(cwfitzgerald): convert PYR to angle vector
 		/* roi.rotation = */
 
@@ -79,8 +77,7 @@ namespace bve::parsers::csv_rw_route {
 				break;
 		}
 
-		roi.position =
-		    positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+		roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
 		// TODO(cwfitzgerald): convert PYR to angle vector
 		/* roi.rotation = */
 
@@ -91,8 +88,7 @@ namespace bve::parsers::csv_rw_route {
 		ATSPSection asi;
 
 		asi.position = inst.absolute_position;
-		asi.permanent = bool(inst.type) ? bool(decltype(inst.type)::permanent)
-		                                : bool(decltype(inst.type)::temporary);
+		asi.permanent = bool(inst.type) ? bool(decltype(inst.type)::permanent) : bool(decltype(inst.type)::temporary);
 		asi.speed = inst.speed;
 
 		route_data_.patterns.emplace_back(std::move(asi));
