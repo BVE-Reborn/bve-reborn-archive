@@ -22,7 +22,7 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 		    "4 = file2\n"                                                                            \
 		    "3 = file3\n"                                                                            \
 		    "129 = file4\n"                                                                          \
-		    "-1 = file5\n"s;                                    \
+		    "-1 = file5\n"s;                                     \
                                                                                                                                            \
 		errors::MultiError me;                                                                                                             \
                                                                                                                                            \
@@ -433,7 +433,7 @@ TEST_CASE("libparsers - config - sound - [others]") {
 	TEST_CASE("libparsers - config - sound - [" STR(name) "] - invalid key") {                                                             \
 		std::string const input =                                                                  \
 	    "[" STR(name) "]\n"                                                                        \
-	    "thisdoesntmakesence = misc/noise\n"s;                                      \
+	    "thisdoesntmakesence = misc/noise\n"s;                                       \
                                                                                                                                            \
 		errors::MultiError me;                                                                                                             \
                                                                                                                                            \
@@ -510,7 +510,7 @@ DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise)
 		    "[" STR(name) "]\n"   /**/                                                             \
 		    STR(key) " = orig\n"  /**/                                                             \
 		    "[" STR(name) "]\n"   /**/                                                             \
-		    STR(key) " = repl\n"s;                                      \
+		    STR(key) " = repl\n"s;                                       \
                                                                                                                                            \
 		errors::MultiError me;                                                                                                             \
                                                                                                                                            \
