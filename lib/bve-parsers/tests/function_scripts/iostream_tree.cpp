@@ -6,29 +6,29 @@
 using namespace std::string_literals;
 namespace fs_tree_node = bve::parsers::function_scripts::tree_types;
 
-#define UNARY_TREE_TEST(full_name, type_name, output_name)                                                                                 \
-	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) {                                                         \
-		fs_tree_node::type_name test_node{fs_tree_node::Integer{2}};                                                                       \
-                                                                                                                                           \
-		std::ostringstream output;                                                                                                         \
-                                                                                                                                           \
-		output << test_node;                                                                                                               \
-                                                                                                                                           \
+#define UNARY_TREE_TEST(full_name, type_name, output_name)                         \
+	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) { \
+		fs_tree_node::type_name test_node{fs_tree_node::Integer{2}};               \
+                                                                                   \
+		std::ostringstream output;                                                 \
+                                                                                   \
+		output << test_node;                                                       \
+                                                                                   \
 		CHECK_EQ(output.str(), STR(output_name) "\n"                         \
-                                                  "| 2\n");                                                             \
+                                                  "| 2\n");    \
 	}
 
-#define BINARY_TREE_TEST(full_name, type_name, output_name)                                                                                \
-	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) {                                                         \
-		fs_tree_node::type_name test_node{fs_tree_node::Integer{2}, fs_tree_node::Floating{3}};                                            \
-                                                                                                                                           \
-		std::ostringstream output;                                                                                                         \
-                                                                                                                                           \
-		output << test_node;                                                                                                               \
-                                                                                                                                           \
+#define BINARY_TREE_TEST(full_name, type_name, output_name)                                     \
+	TEST_CASE("libparsers - function scripts - tree iostream - " STR(full_name)) {              \
+		fs_tree_node::type_name test_node{fs_tree_node::Integer{2}, fs_tree_node::Floating{3}}; \
+                                                                                                \
+		std::ostringstream output;                                                              \
+                                                                                                \
+		output << test_node;                                                                    \
+                                                                                                \
 		CHECK_EQ(output.str(), STR(output_name) "\n"                         \
                                                   "| 2\n"                      \
-                                                  "| 3\n");                                                             \
+                                                  "| 3\n");                 \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");

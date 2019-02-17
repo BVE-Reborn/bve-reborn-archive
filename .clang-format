@@ -22,6 +22,7 @@ BreakBeforeBraces: Custom
 BreakConstructorInitializers: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 140
+AlignEscapedNewlines: Left
 CommentPragmas: '^(\\.+)|( NOLINT(NEXTLINE)?)'
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 FixNamespaceComments: true

@@ -6,56 +6,56 @@
 using namespace std::string_literals;
 namespace fs_inst = bve::parsers::function_scripts::instructions;
 
-#define CREATE_OOO_DIFFERENT_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)                                           \
-	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name1) " > " STR(name2)) {                                      \
-		auto function1 = fs_inst::instr_name1{};                                                                                           \
-		auto function2 = fs_inst::instr_name2{};                                                                                           \
-		auto result = bve::parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4");                                    \
-                                                                                                                                           \
-		REQUIRE_EQ(result.instructions.size(), 5);                                                                                         \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);                                                \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);                                                \
-		COMPARE_VARIANT_NODES(result.instructions[2], function1);                                                                          \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[3], fs_inst::StackPush{4}, value);                                                \
-		COMPARE_VARIANT_NODES(result.instructions[4], function2);                                                                          \
+#define CREATE_OOO_DIFFERENT_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)        \
+	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name1) " > " STR(name2)) {   \
+		auto function1 = fs_inst::instr_name1{};                                                        \
+		auto function2 = fs_inst::instr_name2{};                                                        \
+		auto result = bve::parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4"); \
+                                                                                                        \
+		REQUIRE_EQ(result.instructions.size(), 5);                                                      \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);             \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);             \
+		COMPARE_VARIANT_NODES(result.instructions[2], function1);                                       \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[3], fs_inst::StackPush{4}, value);             \
+		COMPARE_VARIANT_NODES(result.instructions[4], function2);                                       \
 	}
 
-#define CREATE_OOO_SAME_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)                                                \
-	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name1) " = " STR(name2)) {                                      \
-		auto front_function1 = fs_inst::instr_name1{};                                                                                     \
-		auto front_function2 = fs_inst::instr_name2{};                                                                                     \
-		auto front_result = bve::parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4");                              \
-                                                                                                                                           \
-		REQUIRE_EQ(front_result.instructions.size(), 5);                                                                                   \
-		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[0], fs_inst::StackPush{2}, value);                                          \
-		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[1], fs_inst::StackPush{3}, value);                                          \
-		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[2], fs_inst::StackPush{4}, value);                                          \
-		COMPARE_VARIANT_NODES(front_result.instructions[3], front_function2);                                                              \
-		COMPARE_VARIANT_NODES(front_result.instructions[4], front_function1);                                                              \
-                                                                                                                                           \
-		auto back_function1 = fs_inst::instr_name2{};                                                                                      \
-		auto back_function2 = fs_inst::instr_name1{};                                                                                      \
-		auto back_result = bve::parsers::function_scripts::parse("2 " STR(symbol2) " 3 " STR(symbol1) " 4");                               \
-                                                                                                                                           \
-		REQUIRE_EQ(back_result.instructions.size(), 5);                                                                                    \
-		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[0], fs_inst::StackPush{2}, value);                                           \
-		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[1], fs_inst::StackPush{3}, value);                                           \
-		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[2], fs_inst::StackPush{4}, value);                                           \
-		COMPARE_VARIANT_NODES(back_result.instructions[3], back_function2);                                                                \
-		COMPARE_VARIANT_NODES(back_result.instructions[4], back_function1);                                                                \
+#define CREATE_OOO_SAME_TEST_CASE(name1, name2, instr_name1, instr_name2, symbol1, symbol2)                   \
+	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name1) " = " STR(name2)) {         \
+		auto front_function1 = fs_inst::instr_name1{};                                                        \
+		auto front_function2 = fs_inst::instr_name2{};                                                        \
+		auto front_result = bve::parsers::function_scripts::parse("2 " STR(symbol1) " 3 " STR(symbol2) " 4"); \
+                                                                                                              \
+		REQUIRE_EQ(front_result.instructions.size(), 5);                                                      \
+		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[0], fs_inst::StackPush{2}, value);             \
+		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[1], fs_inst::StackPush{3}, value);             \
+		COMPARE_VARIANT_NODES_MEMBER(front_result.instructions[2], fs_inst::StackPush{4}, value);             \
+		COMPARE_VARIANT_NODES(front_result.instructions[3], front_function2);                                 \
+		COMPARE_VARIANT_NODES(front_result.instructions[4], front_function1);                                 \
+                                                                                                              \
+		auto back_function1 = fs_inst::instr_name2{};                                                         \
+		auto back_function2 = fs_inst::instr_name1{};                                                         \
+		auto back_result = bve::parsers::function_scripts::parse("2 " STR(symbol2) " 3 " STR(symbol1) " 4");  \
+                                                                                                              \
+		REQUIRE_EQ(back_result.instructions.size(), 5);                                                       \
+		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[0], fs_inst::StackPush{2}, value);              \
+		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[1], fs_inst::StackPush{3}, value);              \
+		COMPARE_VARIANT_NODES_MEMBER(back_result.instructions[2], fs_inst::StackPush{4}, value);              \
+		COMPARE_VARIANT_NODES(back_result.instructions[3], back_function2);                                   \
+		COMPARE_VARIANT_NODES(back_result.instructions[4], back_function1);                                   \
 	}
 
-#define UNARY_NOT_TEST(name, instr_name, symbol)                                                                                           \
-	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name) " > unary not") {                                         \
-		auto function1 = fs_inst::OPUnaryNot{};                                                                                            \
-		auto function2 = fs_inst::instr_name{};                                                                                            \
-		auto result = bve::parsers::function_scripts::parse("!2 " STR(symbol) " 3");                                                       \
-                                                                                                                                           \
-		REQUIRE_EQ(result.instructions.size(), 4);                                                                                         \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);                                                \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);                                                \
-		COMPARE_VARIANT_NODES(result.instructions[2], function2);                                                                          \
-		COMPARE_VARIANT_NODES(result.instructions[3], function1);                                                                          \
+#define UNARY_NOT_TEST(name, instr_name, symbol)                                                   \
+	TEST_CASE("libparsers - function scripts - order-of-operations - " STR(name) " > unary not") { \
+		auto function1 = fs_inst::OPUnaryNot{};                                                    \
+		auto function2 = fs_inst::instr_name{};                                                    \
+		auto result = bve::parsers::function_scripts::parse("!2 " STR(symbol) " 3");               \
+                                                                                                   \
+		REQUIRE_EQ(result.instructions.size(), 4);                                                 \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);        \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], fs_inst::StackPush{3}, value);        \
+		COMPARE_VARIANT_NODES(result.instructions[2], function2);                                  \
+		COMPARE_VARIANT_NODES(result.instructions[3], function1);                                  \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");

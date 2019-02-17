@@ -4,9 +4,9 @@
 
 using namespace std::string_literals;
 
-#define CHECK_THROWS_AND_DEFAULTS(value)                                                                                                   \
-	CHECK_THROWS_AS(bve::util::parsers::parse_time(value), std::invalid_argument);                                                         \
-	CHECK_EQ(bve::util::parsers::parse_time(value, std::numeric_limits<bve::util::datatypes::Time>::max()),                                \
+#define CHECK_THROWS_AND_DEFAULTS(value)                                                                    \
+	CHECK_THROWS_AS(bve::util::parsers::parse_time(value), std::invalid_argument);                          \
+	CHECK_EQ(bve::util::parsers::parse_time(value, std::numeric_limits<bve::util::datatypes::Time>::max()), \
 	         std::numeric_limits<bve::util::datatypes::Time>::max());
 
 TEST_SUITE_BEGIN("libparsers - util");

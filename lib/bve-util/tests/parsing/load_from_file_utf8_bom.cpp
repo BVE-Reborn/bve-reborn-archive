@@ -4,10 +4,10 @@
 
 using namespace std::string_literals;
 
-#define LOAD_FROM_FILE_COMPARE(input, output)                                                                                              \
-	{                                                                                                                                      \
-		std::istringstream i(input);                                                                                                       \
-		CHECK_EQ(bve::util::parsers::load_from_file_utf8_bom(i), output);                                                                  \
+#define LOAD_FROM_FILE_COMPARE(input, output)                             \
+	{                                                                     \
+		std::istringstream i(input);                                      \
+		CHECK_EQ(bve::util::parsers::load_from_file_utf8_bom(i), output); \
 	}
 
 TEST_SUITE_BEGIN("libparsers - util");

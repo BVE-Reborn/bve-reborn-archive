@@ -150,57 +150,57 @@ namespace bve::log {
 
 // ReSharper disable CppInconsistentNaming
 #ifdef LIBBVE_LOG_DEBUG
-#	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                                                                      \
-		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "                                                \
-		                  "{:s}:{:d}: " fmt_str "\n"),                                                                                     \
-		              time.year, time.month, time.day, time.hour, time.minute, time.second, time.millisecond, #ser, __FILE__, __LINE__,    \
+#	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                                                                   \
+		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: {:s}: "                                             \
+		                  "{:s}:{:d}: " fmt_str "\n"),                                                                                  \
+		              time.year, time.month, time.day, time.hour, time.minute, time.second, time.millisecond, #ser, __FILE__, __LINE__, \
 		              __VA_ARGS__)
 #else
-#	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                                                                      \
-		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: "                                                      \
-		                  "{:s}: " fmt_str "\n"),                                                                                          \
+#	define LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, ...)                                 \
+		::fmt::format(fmt("{:0>4d}.{:0>2d}.{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}.{:0>3d}: " \
+		                  "{:s}: " fmt_str "\n"),                                     \
 		              time.year, time.month, time.day, time.hour, time.minute, time.second, time.millisecond, #ser, __VA_ARGS__)
 #endif
 
-#define LIBBVE_LOG_LOG_SEVERITY_IMPL(ser, fmt_str, ...)                                                                                    \
-	{                                                                                                                                      \
-		auto const time = ::bve::log::detail::get_time();                                                                                  \
-		auto const formated_str = EXPAND(LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, __VA_ARGS__));                                               \
-		::bve::log::to_log(std::move(formated_str));                                                                                       \
+#define LIBBVE_LOG_LOG_SEVERITY_IMPL(ser, fmt_str, ...)                                      \
+	{                                                                                        \
+		auto const time = ::bve::log::detail::get_time();                                    \
+		auto const formated_str = EXPAND(LIBBVE_LOG_FORMAT_CALL(ser, fmt_str, __VA_ARGS__)); \
+		::bve::log::to_log(std::move(formated_str));                                         \
 	}
 #ifdef LIBBVE_LOG_DEBUG
-#	define LIBBVE_LOG_LOG_SEVERITY_debug(...)                                                                                             \
-		if (static_cast<::log::detail::severity_int_type>(::log::current_severity.get())                                                   \
-		    <= static_cast<::log::detail::severity_int_type>(::log::Severity::debug)) {                                                    \
-			EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__))                                                                       \
+#	define LIBBVE_LOG_LOG_SEVERITY_debug(...)                                           \
+		if (static_cast<::log::detail::severity_int_type>(::log::current_severity.get()) \
+		    <= static_cast<::log::detail::severity_int_type>(::log::Severity::debug)) {  \
+			EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(debug, __VA_ARGS__))                     \
 		}
 #else
 #	define LIBBVE_LOG_LOG_SEVERITY_debug(...)
 #endif
-#define LIBBVE_LOG_LOG_SEVERITY_info(...)                                                                                                  \
-	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())                                             \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::info)) {                                               \
-		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__))                                                                            \
+#define LIBBVE_LOG_LOG_SEVERITY_info(...)                                                      \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get()) \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::info)) {   \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(info, __VA_ARGS__))                                \
 	}
-#define LIBBVE_LOG_LOG_SEVERITY_note(...)                                                                                                  \
-	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())                                             \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::note)) {                                               \
-		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__))                                                                            \
+#define LIBBVE_LOG_LOG_SEVERITY_note(...)                                                      \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get()) \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::note)) {   \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(note, __VA_ARGS__))                                \
 	}
-#define LIBBVE_LOG_LOG_SEVERITY_warning(...)                                                                                               \
-	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())                                             \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::warning)) {                                            \
-		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__))                                                                         \
+#define LIBBVE_LOG_LOG_SEVERITY_warning(...)                                                    \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())  \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::warning)) { \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(warning, __VA_ARGS__))                              \
 	}
-#define LIBBVE_LOG_LOG_SEVERITY_error(...)                                                                                                 \
-	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())                                             \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::error)) {                                              \
-		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__))                                                                           \
+#define LIBBVE_LOG_LOG_SEVERITY_error(...)                                                     \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get()) \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::error)) {  \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(error, __VA_ARGS__))                               \
 	}
-#define LIBBVE_LOG_LOG_SEVERITY_fatal_error(...)                                                                                           \
-	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())                                             \
-	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::fatal_error)) {                                        \
-		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                                                                     \
+#define LIBBVE_LOG_LOG_SEVERITY_fatal_error(...)                                                    \
+	if (static_cast<::bve::log::detail::severity_int_type>(::bve::log::current_severity.get())      \
+	    <= static_cast<::bve::log::detail::severity_int_type>(::bve::log::Severity::fatal_error)) { \
+		EXPAND(LIBBVE_LOG_LOG_SEVERITY_IMPL(fatal_error, __VA_ARGS__))                              \
 	}
 // ReSharper restore CppInconsistentNaming
 

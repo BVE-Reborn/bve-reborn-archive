@@ -5,8 +5,8 @@
 
 using namespace std::string_literals;
 
-#define CHECK_THROWS_AND_DEFAULTS(value)                                                                                                   \
-	CHECK_THROWS_AS(bve::util::parsers::parse_loose_float(value), std::invalid_argument);                                                  \
+#define CHECK_THROWS_AND_DEFAULTS(value)                                                  \
+	CHECK_THROWS_AS(bve::util::parsers::parse_loose_float(value), std::invalid_argument); \
 	CHECK_EQ(bve::util::parsers::parse_loose_float(value, std::numeric_limits<float>::max()), std::numeric_limits<float>::max());
 
 TEST_SUITE_BEGIN("libparsers - util");

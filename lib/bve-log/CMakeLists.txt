@@ -21,13 +21,12 @@ set_property(TARGET bve-log PROPERTY FOLDER lib)
 # libbve-log-test #
 ###################
 
-source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})
 
 file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*.cpp")
 file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*.hpp")
 
 add_library(bve-log-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
-target_include_directories(bve-log-test PUBLIC ../bve-parsers/src)
 target_link_libraries(bve-log-test PUBLIC bve-log bve-util)
 target_link_libraries(bve-log-test PUBLIC Threads::Threads gsl::gsl)
 
@@ -36,6 +35,6 @@ format(bve-log-test)
 cotire(bve-log-test)
 
 
-source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 
 set_property(TARGET bve-log-test PROPERTY FOLDER lib/tests)

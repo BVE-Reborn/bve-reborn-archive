@@ -3,11 +3,11 @@
 
 using namespace std::string_literals;
 
-#define STRIP_TEXT_CHECK_EQ(input_string, output_string)                                                                                   \
-	{                                                                                                                                      \
-		std::string s = input_string;                                                                                                      \
-		bve::util::parsers::strip_text(s);                                                                                                 \
-		CHECK_EQ(s, output_string);                                                                                                        \
+#define STRIP_TEXT_CHECK_EQ(input_string, output_string) \
+	{                                                    \
+		std::string s = input_string;                    \
+		bve::util::parsers::strip_text(s);               \
+		CHECK_EQ(s, output_string);                      \
 	}
 
 TEST_SUITE_BEGIN("libparsers - util");

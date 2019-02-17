@@ -6,17 +6,17 @@
 using namespace std::string_literals;
 namespace fs_inst = bve::parsers::function_scripts::instructions;
 
-#define CREATE_INDEXED_VARIABLE_TEST_CASE(script_name, variable_name)                                                                      \
-	TEST_CASE("libparsers - function scripts - indexed variables - " STR(variable_name)) {                                                 \
-		auto variable = fs_inst::OPVariableIndexed{};                                                                                      \
-		variable.name = fs_inst::IndexedVariable::variable_name;                                                                           \
-		auto result = bve::parsers::function_scripts::parse(script_name "[2]");                                                            \
-                                                                                                                                           \
-		REQUIRE_EQ(result.instructions.size(), 2);                                                                                         \
-		REQUIRE_EQ(result.used_indexed_variables.size(), 1);                                                                               \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value);                                                \
-		COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], variable, name);                                                              \
-		CHECK(result.used_indexed_variables.count(variable.name));                                                                         \
+#define CREATE_INDEXED_VARIABLE_TEST_CASE(script_name, variable_name)                       \
+	TEST_CASE("libparsers - function scripts - indexed variables - " STR(variable_name)) {  \
+		auto variable = fs_inst::OPVariableIndexed{};                                       \
+		variable.name = fs_inst::IndexedVariable::variable_name;                            \
+		auto result = bve::parsers::function_scripts::parse(script_name "[2]");             \
+                                                                                            \
+		REQUIRE_EQ(result.instructions.size(), 2);                                          \
+		REQUIRE_EQ(result.used_indexed_variables.size(), 1);                                \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[0], fs_inst::StackPush{2}, value); \
+		COMPARE_VARIANT_NODES_MEMBER(result.instructions[1], variable, name);               \
+		CHECK(result.used_indexed_variables.count(variable.name));                          \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");

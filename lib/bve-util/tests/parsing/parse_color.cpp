@@ -5,9 +5,9 @@
 using namespace std::string_literals;
 using Color = bve::util::datatypes::Color8RGBA;
 
-#define CHECK_THROWS_AND_DEFAULTS(value)                                                                                                   \
-	CHECK_THROWS_AS(bve::util::parsers::parse_color(value), std::invalid_argument);                                                        \
-	CHECK_EQ(bve::util::parsers::parse_color(value, Color(std::numeric_limits<decltype(Color::b)>::max())),                                \
+#define CHECK_THROWS_AND_DEFAULTS(value)                                                                    \
+	CHECK_THROWS_AS(bve::util::parsers::parse_color(value), std::invalid_argument);                         \
+	CHECK_EQ(bve::util::parsers::parse_color(value, Color(std::numeric_limits<decltype(Color::b)>::max())), \
 	         Color(std::numeric_limits<decltype(Color::b)>::max()));
 
 TEST_SUITE_BEGIN("libparsers - util");
