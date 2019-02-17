@@ -38,4 +38,4 @@ add_sanitizers(bve-util-test)
 format(bve-util-test)
 cotire(bve-util-test)
 
-source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${TEST_SOURCES} ${TEST_HEADERS})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${TEST_SOURCES} ${TEST_HEADERS})

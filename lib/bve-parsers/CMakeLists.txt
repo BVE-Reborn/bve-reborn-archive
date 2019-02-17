@@ -77,4 +77,4 @@ add_sanitizers(bve-old-tests)
 format(bve-old-tests)
 cotire(bve-old-tests)
 
-source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS} ${TEST_HEADERS} ${TEST_SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS} ${TEST_HEADERS} ${TEST_SOURCES})
