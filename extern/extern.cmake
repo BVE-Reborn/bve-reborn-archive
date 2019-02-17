@@ -27,7 +27,7 @@ set_target_properties(gsl::gsl PROPERTIES
 
 add_library(ccq::concurrentqueue INTERFACE IMPORTED)
 set_target_properties(ccq::concurrentqueue PROPERTIES
-	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/concurrentqueue"
+	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/concurrent-queue"
 )
 
 function(make_target_includes_system target)
