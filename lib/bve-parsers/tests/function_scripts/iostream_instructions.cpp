@@ -71,7 +71,7 @@ static std::string canonicalize(std::string str) {
                                                                                                                         \
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Variables Used: " STR(name) "\n"                                             \
-                 "0\tOP_VARIABLE_LOOKUP: " STR(name) " " STR(name) " -> 0\n");                 \
+                 "0\tOP_VARIABLE_LOOKUP: " STR(name) " " STR(name) " -> 0\n");                  \
 	}
 
 #define INDEXED_VARIABLE_TEST(name)                                                                                             \
@@ -90,7 +90,7 @@ static std::string canonicalize(std::string str) {
 		CHECK_EQ(canonicalize(output.str()),                                                         \
 		         "Index Variables Used: " STR(name) "\n"                                       \
 		         "0\tSTACK_PUSH: 2 #2 -> 0\n"                                                        \
-		         "1\tOP_VARIABLE_INDEXED: " STR(name) " " STR(name) "[0] -> 0\n");                         \
+		         "1\tOP_VARIABLE_INDEXED: " STR(name) " " STR(name) "[0] -> 0\n");                          \
 	}
 
 TEST_SUITE_BEGIN("libparsers - function scripts");

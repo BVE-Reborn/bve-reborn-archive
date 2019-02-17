@@ -22,7 +22,7 @@ TEST_SUITE_BEGIN("libparsers - config - sound");
 		    "4 = file2\n"                                                                            \
 		    "3 = file3\n"                                                                            \
 		    "129 = file4\n"                                                                          \
-		    "-1 = file5\n"s;               \
+		    "-1 = file5\n"s;                \
                                                                                                                       \
 		errors::MultiError me;                                                                                        \
                                                                                                                       \
@@ -429,18 +429,18 @@ TEST_CASE("libparsers - config - sound - [others]") {
 	CHECK_ITER_EQ(result.filenames, result.misc_sounds.shoe, "sound.cfg/misc/shoe"s);
 }
 
-#define INVALID_KEY_TEST(name)                                                                        \
-	TEST_CASE("libparsers - config - sound - [" STR(name) "] - invalid key") {                        \
+#define INVALID_KEY_TEST(name)                                                                       \
+	TEST_CASE("libparsers - config - sound - [" STR(name) "] - invalid key") {                       \
 		std::string const input =                                                                  \
 	    "[" STR(name) "]\n"                                                                        \
 	    "thisdoesntmakesence = misc/noise\n"s; \
-                                                                                                      \
-		errors::MultiError me;                                                                        \
-                                                                                                      \
-		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                 \
-                                                                                                      \
-		CHECK_EQ(result.filenames.size(), 0);                                                         \
-		CHECK_EQ(me["sound.cfg"s].size(), 1);                                                         \
+                                                                                                     \
+		errors::MultiError me;                                                                       \
+                                                                                                     \
+		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
+                                                                                                     \
+		CHECK_EQ(result.filenames.size(), 0);                                                        \
+		CHECK_EQ(me["sound.cfg"s].size(), 1);                                                        \
 	}
 
 INVALID_KEY_TEST(run)
@@ -504,23 +504,23 @@ DUPLICATE_KEY_TEST(reverser, on, result.reverser_sounds.on)
 DUPLICATE_KEY_TEST(breaker, on, result.breaker_sounds.on)
 DUPLICATE_KEY_TEST(others, noise, result.misc_sounds.noise)
 
-#define DUPLICATE_SECTION_TEST(name, key, geteq)                                                      \
-	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {              \
+#define DUPLICATE_SECTION_TEST(name, key, geteq)                                                     \
+	TEST_CASE("libparsers - config - sound - [" STR(name) "] - duplicate key removal") {             \
 		std::string const input = /**/                                                             \
 		    "[" STR(name) "]\n"   /**/                                                             \
 		    STR(key) " = orig\n"  /**/                                                             \
 		    "[" STR(name) "]\n"   /**/                                                             \
 		    STR(key) " = repl\n"s; \
-                                                                                                      \
-		errors::MultiError me;                                                                        \
-                                                                                                      \
-		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                 \
-                                                                                                      \
-		REQUIRE_EQ(result.filenames.size(), 1);                                                       \
-		CHECK_EQ(result.filenames.count("sound.cfg/repl"s), 1);                                       \
-		CHECK_EQ(me["sound.cfg"].size(), 1);                                                          \
-                                                                                                      \
-		CHECK_ITER_EQ(result.filenames, (geteq), "sound.cfg/repl"s);                                  \
+                                                                                                     \
+		errors::MultiError me;                                                                       \
+                                                                                                     \
+		auto const result = sound_cfg::parse("sound.cfg"s, input, me, rel_file_func);                \
+                                                                                                     \
+		REQUIRE_EQ(result.filenames.size(), 1);                                                      \
+		CHECK_EQ(result.filenames.count("sound.cfg/repl"s), 1);                                      \
+		CHECK_EQ(me["sound.cfg"].size(), 1);                                                         \
+                                                                                                     \
+		CHECK_ITER_EQ(result.filenames, (geteq), "sound.cfg/repl"s);                                 \
 	}
 
 #define DUPLICATE_SECTION_TEST_INDEXED(name)                                                         \
