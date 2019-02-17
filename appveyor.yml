@@ -32,6 +32,7 @@ before_build:
 
 build:
   project: C:\projects\bve-reborn\build\BVE-Reborn.sln
+  parallel: true
 
 test_script:
   - cmd: C:\projects\bve-reborn\build\bin\%CONFIGURATION%\tests.exe
