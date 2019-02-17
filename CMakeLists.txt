@@ -76,6 +76,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 # TODO: Fix Warning Propagation
 add_warnings()
 
+add_subdirectory(lib/bve-core)
 add_subdirectory(lib/bve-log)
 add_subdirectory(lib/bve-parsers)
 add_subdirectory(lib/bve-util)
