@@ -108,7 +108,7 @@ namespace bve::core::threading {
 		/**
 		 * \brief Starts the task scheduler in a paused state. Threads will resume when run is called.
 		 *
-		 * \param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count. 
+		 * \param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count.
 		 *                         Setting equal to zero will make one thread per core.
 		 * \param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
 		 *                         A recommended value is between 2x and 4x the core count depending on IO load.
@@ -354,10 +354,10 @@ namespace bve::core::threading {
 
 		/**
 		 * \brief Restarts the task scheduler in a paused state. Should only be called if thread pool was stopped.
-		 * 
+		 *
 		 * Threads will resume when run is called.
 		 *
-		 * \param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count. 
+		 * \param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count.
 		 *                         Setting equal to zero will make one thread per core.
 		 * \param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
 		 *                         A recommended value is between 2x and 4x the core count depending on IO load.
