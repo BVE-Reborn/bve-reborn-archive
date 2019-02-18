@@ -69,7 +69,7 @@ namespace bve::core::threading {
 		}
 
 	  private:
-		std::atomic_flag flag_;
+		std::atomic_flag flag_ = ATOMIC_FLAG_INIT;
 		std::unique_ptr<std::mutex> mutex_ = nullptr;
 	};
 } // namespace bve::core::threading
