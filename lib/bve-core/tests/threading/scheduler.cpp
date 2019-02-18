@@ -87,4 +87,46 @@ TEST_CASE("libcore - threading - scheduler - double dependants") {
 	CHECK_EQ(counter, 8);
 }
 
+TEST_CASE("libcore - threading - scheduler - blocking double dependants") {
+	TaskScheduler ts(1, 2);
+
+	std::size_t counter = 0;
+
+	auto dep2 = ts.prepareDependentBlockingTask([&counter](TaskScheduler& ts) {
+		counter *= 2;
+		ts.stop();
+	});
+	auto dep1 = ts.prepareDependentBlockingTask(
+		[&counter](auto&) {
+		counter = 4; // for debugging
+	},
+		dep2);
+	ts.addBlockingTask([&counter](auto&) { counter = 1; }, dep1);
+
+	ts.addDependentTask(std::move(dep1));
+	ts.addDependentTask(std::move(dep2));
+
+	ts.run();
+
+	CHECK_EQ(counter, 8);
+}
+
+TEST_CASE("libcore - threading - scheduler - tasks run after pause") {
+	TaskScheduler ts(2, 0);
+
+	std::size_t counter = 0;
+
+	auto set_counter = ts.prepareDependentTask([&counter](TaskScheduler& ts) { counter = 1; ts.stop(); });
+	ts.addTask([](TaskScheduler& ts) { ts.pause(); }, set_counter);
+	ts.addDependentTask(std::move(set_counter));
+
+	ts.run();
+
+	CHECK_EQ(counter, 0);
+
+	ts.run();
+
+	CHECK_EQ(counter, 1);
+}
+
 TEST_SUITE_END();

@@ -60,6 +60,9 @@ void TaskScheduler::run() {
 		while (blocking_task_queue_.try_dequeue(task)) {
 			delete task;
 		}
+
+		// Remove all dependent tasks
+		dependent_tasks_.clear();
 	}
 }
 
