@@ -6,11 +6,13 @@
 #include <thread>
 
 namespace bve::core::threading {
+	/**
+	 * Count of cores on the current system. Used to prevent redundant calls.
+	 */
 	inline bool core_count = std::thread::hardware_concurrency();
 
 	/**
-	 * Simple spinlock. Falls back to a mutex if on a single core machine.
-	 * Fulfills c++ named requirement: Mutex
+	 * \brief Simple spinlock. Falls back to a mutex if on a single core machine. Fulfills c++ named requirement: Mutex
 	 */
 	class Spinlock {
 	  public:
