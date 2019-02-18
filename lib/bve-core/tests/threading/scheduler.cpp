@@ -6,7 +6,7 @@ TEST_SUITE_BEGIN("libcore - threading");
 using bve::core::threading::TaskScheduler;
 
 TEST_CASE("libcore - threading - scheduler - sum") {
-	TaskScheduler ts;
+	TaskScheduler ts(2, 0);
 
 	auto dependent = ts.prepareDependentTask([](TaskScheduler& ts) {
 		ts.stop(); // Separate for debugging
@@ -26,7 +26,7 @@ TEST_CASE("libcore - threading - scheduler - sum") {
 
 	ts.addDependentTask(std::move(dependent));
 
-	ts.run(2, 0);
+	ts.run();
 
 	for (std::size_t i = 0; i < count; ++i) {
 		CHECK_EQ(partials[i], i);
@@ -34,7 +34,7 @@ TEST_CASE("libcore - threading - scheduler - sum") {
 }
 
 TEST_CASE("libcore - threading - scheduler - nested sum") {
-	TaskScheduler ts;
+	TaskScheduler ts(2, 0);
 
 	constexpr std::size_t count = 100;
 
@@ -56,7 +56,7 @@ TEST_CASE("libcore - threading - scheduler - nested sum") {
 		});
 	}
 
-	ts.run(2, 0);
+	ts.run();
 
 	for (std::size_t i = 0; i < count * 2; ++i) {
 		CHECK_EQ(partials[i], i);
@@ -64,7 +64,7 @@ TEST_CASE("libcore - threading - scheduler - nested sum") {
 }
 
 TEST_CASE("libcore - threading - scheduler - double dependants") {
-	TaskScheduler ts;
+	TaskScheduler ts(2, 0);
 
 	std::size_t counter = 0;
 
@@ -82,7 +82,7 @@ TEST_CASE("libcore - threading - scheduler - double dependants") {
 	ts.addDependentTask(std::move(dep1));
 	ts.addDependentTask(std::move(dep2));
 
-	ts.run(2, 0);
+	ts.run();
 
 	CHECK_EQ(counter, 8);
 }

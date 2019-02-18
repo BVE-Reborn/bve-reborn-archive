@@ -93,19 +93,25 @@ namespace bve::core::threading {
 	 * added, you add the handle to the pool, allowing the task to run. Example below.
 	 *
 	 * ```
-	 * TaskScheduler ts;
+	 * TaskScheduler ts(2, 2);
 	 * DependentTaskHandle final = ts.prepareDependentTask([](TaskScheduler& ts) {
 	 *                                                         std::cout << "I'm the second task\n";
 	 *                                                         ts.stop();
 	 *                                                     }); // Prepare task that will wait for others
 	 * ts.addTask([](auto&) { std::cout << "I'm the first task!\n"; }, final); // Make final wait for completion of this task.
 	 * ts.addDependentTask(std::move(final)); // Add final task to thread pool. May not use handle after this.
-	 * ts.run(2, 2); // Run pool
+	 * ts.run; // Run pool
 	 * ```
 	 */
 	class TaskScheduler {
 	  public:
-		TaskScheduler() = default;
+		/**
+		 * \brief Starts the task scheduler in a paused state. Threads will resume when run is called.
+		 *
+		 * @param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count.
+		 * @param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
+		 */
+		TaskScheduler(std::size_t threads, std::size_t blocking_threads);
 
 		TaskScheduler(TaskScheduler const& other) = delete;
 		TaskScheduler(TaskScheduler&& other) noexcept = delete;
@@ -115,7 +121,9 @@ namespace bve::core::threading {
 		~TaskScheduler() = default;
 
 		/**
-		 * Add a regular task. This task will get run on the regular executors, so it should not block.
+		 * \brief Add a regular task.
+		 *
+		 * This task will get run on the regular executors, so it should not block.
 		 *
 		 * A task must be callable with the signature `void(TaskScheduler&)`.
 		 *
@@ -129,15 +137,15 @@ namespace bve::core::threading {
 		 */
 		template <bool Blocks = false, class F>
 		void addTask(F&& func) {
-			if (stop_.load(std::memory_order_acquire) == true) {
+			if (status_.load(std::memory_order_acquire) == Status::stopped) {
 				return;
 			}
 			Task::PackagedTask packaged(func);
 			auto* task = new Task(std::move(packaged), nullptr);
 			if constexpr (Blocks) {
 				blocking_task_queue_.enqueue(task);
-				std::lock_guard l(blocking_task_mutex_);
-				blocking_task_cv_.notify_one();
+				std::lock_guard l(executor_mutex_);
+				executor_cv_.notify_one();
 			}
 			else {
 				task_queue_.enqueue(task);
@@ -145,7 +153,9 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Add a regular task that another task depends on. This task will get run on the regular executors, so it should not block.
+		 * \brief Add a regular task that another task depends on.
+		 *
+		 * This task will get run on the regular executors, so it should not block.
 		 *
 		 * A task must be callable with the signature `void(TaskScheduler&)`.
 		 *
@@ -160,7 +170,7 @@ namespace bve::core::threading {
 		 */
 		template <bool Blocks = false, class F>
 		void addTask(F&& func, DependentTaskHandle const& handle) {
-			if (stop_.load(std::memory_order_acquire) == true) {
+			if (status_.load(std::memory_order_acquire) == Status::stopped) {
 				return;
 			}
 			if (handle != nullptr) {
@@ -170,8 +180,8 @@ namespace bve::core::threading {
 			auto* task = new Task(std::move(packaged), handle.get());
 			if constexpr (Blocks) {
 				blocking_task_queue_.enqueue(task);
-				std::lock_guard l(blocking_task_mutex_);
-				blocking_task_cv_.notify_one();
+				std::lock_guard l(executor_mutex_);
+				executor_cv_.notify_one();
 			}
 			else {
 				task_queue_.enqueue(task);
@@ -179,7 +189,9 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Add a blocking task. This task will get run on the blocking executors, so it should spend the majority of the time blocked.
+		 * \brief Add a blocking task.
+		 *
+		 * This task will get run on the blocking executors, so it should spend the majority of the time blocked.
 		 *
 		 * A task must be callable with the signature `void(TaskScheduler&)`.
 		 *
@@ -196,8 +208,9 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Add a blocking task that another task depends on. This task will get run on the blocking executors, so it should spend the
-		 * majority of the time blocked.
+		 * \brief Add a blocking task that another task depends on.
+		 *
+		 * This task will get run on the blocking executors, so it should spend the majority of the time blocked.
 		 *
 		 * A task must be callable with the signature `void(TaskScheduler&)`.
 		 *
@@ -215,8 +228,9 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Add a dependent task to the pool. It will execute when all of the tasks that it depends on have finished. It will run on the
-		 * executors it was made for.
+		 * \brief Add a dependent task to the pool.
+		 *
+		 * It will execute when all of the tasks that it depends on have finished. It will run on the executors it was made for.
 		 *
 		 * The handle needs to be moved in as the handle will be unsafe to use after this function is called.
 		 *
@@ -225,7 +239,7 @@ namespace bve::core::threading {
 		 * @param handle Handle to the task that should be added to the pool.
 		 */
 		void addDependentTask(DependentTaskHandle&& handle) {
-			if (stop_.load(std::memory_order_acquire) == true) {
+			if (status_.load(std::memory_order_acquire) == Status::stopped) {
 				return;
 			}
 			std::lock_guard l(dependent_tasks_lock_);
@@ -234,8 +248,9 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Prepare a regular task that will wait on other tasks to finish. This task will get run on the regular executors, so it should not
-		 * block.
+		 * \brief Prepare a regular task that will wait on other tasks to finish.
+		 *
+		 * This task will get run on the regular executors, so it should not block.
 		 * **THIS DOES NOT ADD THE TASK TO THE QUEUE**. This handle allows you to add tasks for it to wait on. Once you are done adding
 		 * tasks for it to wait on, you should add it to the queue using \ref addDependentTask(DependentTaskHandle&&) "addDependentTask".
 		 *
@@ -259,7 +274,8 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Prepare a regular task that will wait on other tasks to finish and will be waited on by another task.
+		 * \brief Prepare a regular task that will wait on other tasks to finish and will be waited on by another task.
+		 *
 		 * This task will get run on the regular executors, so it should not block.
 		 * **THIS DOES NOT ADD THE TASK TO THE QUEUE**. This handle allows you to add tasks for it to wait on. Once you are done adding
 		 * tasks for it to wait on, you should add it to the queue using \ref addDependentTask(DependentTaskHandle&&) "addDependentTask".
@@ -288,7 +304,8 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Prepare a blocking task that will wait on other tasks to finish.
+		 * \brief Prepare a blocking task that will wait on other tasks to finish.
+		 *
 		 * This task will get run on the blocking executors, so it should spend the majority of the time blocked.
 		 * **THIS DOES NOT ADD THE TASK TO THE QUEUE**. This handle allows you to add tasks for it to wait on. Once you are done adding
 		 * tasks for it to wait on, you should add it to the queue using \ref addDependentTask(DependentTaskHandle&&) "addDependentTask".
@@ -310,7 +327,8 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Prepare a blocking task that will wait on other tasks to finish and will be waited on by another task.
+		 * \brief Prepare a blocking task that will wait on other tasks to finish and will be waited on by another task.
+		 *
 		 * This task will get run on the blocking executors, so it should spend the majority of the time blocked.
 		 * **THIS DOES NOT ADD THE TASK TO THE QUEUE**. This handle allows you to add tasks for it to wait on. Once you are done adding
 		 * tasks for it to wait on, you should add it to the queue using \ref addDependentTask(DependentTaskHandle&&) "addDependentTask".
@@ -333,21 +351,37 @@ namespace bve::core::threading {
 		}
 
 		/**
-		 * Run the task scheduler. The current thread will turn into a worker thread until the scheduler finishes execution. The only way to
-		 * stop the scheduler is through the \ref stop function.
+		 * \brief Run the task scheduler. The current thread will turn into a worker thread until the scheduler finishes execution.
 		 *
-		 * This function is **thread unsafe**, but **not thread hostile**. There should only be one run function executing at a time.
+		 * The only way to stop the scheduler is through the \ref pause or \ref stop function.
 		 *
-		 * @param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count.
-		 * @param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
+		 * If the pool is stopped, all threads are guaranteed to have finished by the time this returns.
+		 *
+		 * If the pool is paused, all threads will no longer pick up new jobs when this returns, but may still be running their jobs.
+		 *
+		 * This function is **thread-compatible**. There should only be one run function executing at a time.
 		 */
-		void run(std::size_t threads, std::size_t blocking_threads);
+		void run();
 
 		/**
-		 * Terminate the task scheduler. Any tasks currently in flight will continue. All tasks not yet executed or tasks not yet added will
-		 * not be run.
+		 * \brief Pause the task scheduler.
 		 *
-		 * This is the only way to terminate the execution of \ref run.
+		 * Any tasks currently in flight will continue. All tasks not yet executed or tasks not yet added will be run when the pool is
+		 * resumed again with \ref run. Returns immediately.
+		 *
+		 * This is the one of the two ways to terminate the execution of \ref run.
+		 *
+		 * This function is fully thread safe.
+		 */
+		void pause();
+
+		/**
+		 * \brief Terminate the task scheduler.
+		 *
+		 * Any tasks currently in flight will continue. All tasks not yet executed or tasks not yet added will not be run. Returns
+		 * immediately.
+		 *
+		 * This is the one of the two ways to terminate the execution of \ref run.
 		 *
 		 * This function is fully thread safe.
 		 */
@@ -363,19 +397,21 @@ namespace bve::core::threading {
 			}
 		};
 
-		void taskExecutor();
-		void blockingTaskExecutor();
+		enum class Status : std::uint8_t { stopped, paused, running };
+
+		Status taskExecutor(bool main_thread);
+		Status blockingTaskExecutor(bool main_thread);
 
 		template <bool Blocks>
-		FORCE_INLINE void taskExecutorImpl();
+		FORCE_INLINE Status taskExecutorImpl(bool main_thread);
 
-		std::atomic<bool> stop_ = false;
+		std::atomic<Status> status_ = Status::paused;
 		std::vector<std::thread> threads_;
 		std::vector<std::thread> blocking_threads_;
 		moodycamel::ConcurrentQueue<Task*, ConcurrentQueueTraits> task_queue_;
 		moodycamel::ConcurrentQueue<Task*, ConcurrentQueueTraits> blocking_task_queue_;
-		std::mutex blocking_task_mutex_;
-		std::condition_variable blocking_task_cv_;
+		std::mutex executor_mutex_;
+		std::condition_variable executor_cv_;
 		Spinlock dependent_tasks_lock_{};
 		std::vector<std::unique_ptr<DependentTask>> dependent_tasks_;
 	};

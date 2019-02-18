@@ -1,65 +1,97 @@
 #include <algorithm>
 #include <core/threading/scheduler.hpp>
 
-void bve::core::threading::TaskScheduler::run(std::size_t const threads, std::size_t const blocking_threads) {
+using bve::core::threading::TaskScheduler;
+
+TaskScheduler::TaskScheduler(std::size_t const threads, std::size_t const blocking_threads) {
 	threads_.reserve(threads - 1);
 	blocking_threads_.reserve(blocking_threads);
 
 	for (std::size_t i = 0; i < threads - 1; ++i) {
-		threads_.emplace_back(std::thread([this] { this->taskExecutor(); }));
+		threads_.emplace_back(std::thread([this] { this->taskExecutor(false); }));
 	}
 	for (std::size_t i = 0; i < blocking_threads; ++i) {
-		blocking_threads_.emplace_back(std::thread([this] { this->blockingTaskExecutor(); }));
+		blocking_threads_.emplace_back(std::thread([this] { this->blockingTaskExecutor(false); }));
+	}
+
+	// All inferior threads will wait in the OS.
+}
+
+void TaskScheduler::run() {
+	status_.store(Status::running, std::memory_order_release);
+	// Wake up sleepy threads
+	{
+		std::lock_guard l(executor_mutex_);
+		executor_cv_.notify_all();
 	}
 
 	// Start processing
-	taskExecutor();
+	Status const status = taskExecutor(true);
 
-	// Join and delete all threads
-	for (auto& thread : threads_) {
-		thread.join();
-	}
-	for (auto& thread : blocking_threads_) {
-		thread.join();
-	}
-	threads_.clear();
-	blocking_threads_.clear();
+	if (status == Status::stopped) {
+		// Join and delete all threads
+		for (auto& thread : threads_) {
+			thread.join();
+		}
+		for (auto& thread : blocking_threads_) {
+			thread.join();
+		}
+		threads_.clear();
+		blocking_threads_.clear();
 
-	// We only get back here when the thread pool needs to die.
-	// Pump the queue until it's empty
-	Task* task;
-	while (task_queue_.try_dequeue(task)) {
-		delete task;
-	}
-	while (blocking_task_queue_.try_dequeue(task)) {
-		delete task;
+		// We only get back here when the thread pool needs to die.
+		// Pump the queue until it's empty
+		Task* task;
+		while (task_queue_.try_dequeue(task)) {
+			delete task;
+		}
+		while (blocking_task_queue_.try_dequeue(task)) {
+			delete task;
+		}
 	}
 }
 
-void bve::core::threading::TaskScheduler::stop() {
-	stop_.store(true, std::memory_order_release);
+void TaskScheduler::pause() {
+	status_.store(Status::paused, std::memory_order_release);
+}
+
+void TaskScheduler::stop() {
+	status_.store(Status::stopped, std::memory_order_release);
 }
 
 template <bool Blocks>
-FORCE_INLINE void bve::core::threading::TaskScheduler::taskExecutorImpl() {
-	Task* task;
+FORCE_INLINE TaskScheduler::Status TaskScheduler::taskExecutorImpl(bool const main_thread) {
+	// MSVC needs this. Don't ask.
+	// ReSharper disable once CppRedundantQualifier
+	bve::core::threading::Task* task = nullptr;
+	Status status;
 	while (true) {
-		bool has_task = false;
-		// We need to actually wait if we're blocking, we don't "own" a core.
 		if constexpr (Blocks) {
-			std::unique_lock l(blocking_task_mutex_);
-			while (stop_.load(std::memory_order_acquire) == false && (has_task = blocking_task_queue_.try_dequeue(task)) == false) {
-				blocking_task_cv_.wait(l);
+			// We need to actually wait if we're blocking, we don't "own" a core.
+			std::unique_lock l(executor_mutex_);
+			while ((status = status_.load(std::memory_order_acquire)) == Status::running
+			       && blocking_task_queue_.try_dequeue(task) == false) {
+				executor_cv_.wait(l);
 			}
 		}
 		else {
-			while (stop_.load(std::memory_order_acquire) == false && (has_task = task_queue_.try_dequeue(task)) == false) {
+			while ((status = status_.load(std::memory_order_acquire)) == Status::running && task_queue_.try_dequeue(task) == false) {
 				std::this_thread::yield();
 			}
 		}
 
-		// The only reason we'd be here is if we're done.
-		if (!has_task) {
+		if (status == Status::paused) {
+			// Sub threads need to wait, but main thread needs to return from run
+			if (main_thread == false) {
+				std::unique_lock l(executor_mutex_);
+				while ((status = status_.load(std::memory_order_acquire)) == Status::paused) {
+					executor_cv_.wait(l);
+				}
+				continue;
+			}
+			break;
+		}
+		if (status == Status::stopped) {
 			break;
 		}
 
@@ -71,6 +103,8 @@ FORCE_INLINE void bve::core::threading::TaskScheduler::taskExecutorImpl() {
 			if (ret == 1) {
 				if (task->depender_->blocking_) {
 					blocking_task_queue_.enqueue(task->depender_->actual_task_);
+					std::lock_guard l(executor_mutex_);
+					executor_cv_.notify_one();
 				}
 				else {
 					task_queue_.enqueue(task->depender_->actual_task_);
@@ -85,13 +119,18 @@ FORCE_INLINE void bve::core::threading::TaskScheduler::taskExecutorImpl() {
 		}
 
 		delete task;
+		task = nullptr;
 	}
+
+	delete task;
+
+	return status;
 }
 
-void bve::core::threading::TaskScheduler::taskExecutor() {
-	taskExecutorImpl<false>();
+TaskScheduler::Status TaskScheduler::taskExecutor(bool const main_thread) {
+	return taskExecutorImpl<false>(main_thread);
 }
 
-void bve::core::threading::TaskScheduler::blockingTaskExecutor() {
-	taskExecutorImpl<true>();
+TaskScheduler::Status TaskScheduler::blockingTaskExecutor(bool const main_thread) {
+	return taskExecutorImpl<true>(main_thread);
 }

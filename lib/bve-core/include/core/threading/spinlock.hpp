@@ -7,7 +7,7 @@
 
 namespace bve::core::threading {
 	/**
-	 * Count of cores on the current system. Used to prevent redundant calls.
+	 * Count of cores on the current system. Used to prevent redundant calls to std::thread::hardware_concurrency().
 	 */
 	inline std::size_t core_count = std::thread::hardware_concurrency();
 
