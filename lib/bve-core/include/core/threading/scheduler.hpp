@@ -28,7 +28,7 @@ namespace bve::core::threading {
 
 	  private:
 		Task() {}
-		explicit Task(PackagedTask&& t, DependentTask* const counter) : task_(std::move(t)), depender_(counter) {}
+		explicit Task(PackagedTask&& t, DependentTask* const depender) : task_(std::move(t)), depender_(depender) {}
 
 		PackagedTask task_;
 		DependentTask* depender_ = nullptr;
@@ -81,11 +81,6 @@ namespace bve::core::threading {
 			}
 		}
 
-		template <class F>
-		FORCE_INLINE void addBlockingTask(F&& func) {
-			addTask<true>(std::forward<F>(func));
-		}
-
 		template <bool Blocks = false, class F>
 		void addTask(F&& func, DependentTaskHandle const& handle) {
 			if (stop_.load(std::memory_order_acquire) == true) {
@@ -107,11 +102,16 @@ namespace bve::core::threading {
 		}
 
 		template <class F>
+		FORCE_INLINE void addBlockingTask(F&& func) {
+			addTask<true>(std::forward<F>(func));
+		}
+
+		template <class F>
 		FORCE_INLINE void addBlockingTask(F&& func, DependentTaskHandle const& handle) {
 			addTask<true>(std::forward<F>(func), handle);
 		}
 
-		void addTask(DependentTaskHandle&& handle) {
+		void addDependentTask(DependentTaskHandle&& handle) {
 			if (stop_.load(std::memory_order_acquire) == true) {
 				return;
 			}
@@ -127,9 +127,24 @@ namespace bve::core::threading {
 			return std::unique_ptr<DependentTask>(new DependentTask(task, Blocks));
 		}
 
+		template <bool Blocks = false, class F>
+		DependentTaskHandle prepareDependentTask(F&& func, DependentTaskHandle const& handle) {
+			if (handle != nullptr) {
+				handle->counter_.fetch_add(1, std::memory_order_acq_rel);
+			}
+			Task::PackagedTask packaged(func);
+			auto* task = new Task(std::move(packaged), handle.get());
+			return std::unique_ptr<DependentTask>(new DependentTask(task, Blocks));
+		}
+
 		template <class F>
 		FORCE_INLINE void prepareDependentBlockingTask(F&& func) {
 			prepareDependentTask<true>(std::forward<F>(func));
+		}
+
+		template <class F>
+		FORCE_INLINE void prepareDependentBlockingTask(F&& func, DependentTaskHandle const& handle) {
+			prepareDependentTask<true>(std::forward<F>(func), handle);
 		}
 
 		void run(std::size_t threads, std::size_t blocking_threads);
