@@ -72,6 +72,8 @@ void TaskScheduler::pause() {
 
 void TaskScheduler::stop() {
 	status_.store(Status::stopped, std::memory_order_release);
+	std::lock_guard l(executor_mutex_);
+	executor_cv_.notify_all();
 }
 
 template <bool Blocks>
