@@ -3,9 +3,9 @@
 
 using namespace std::string_literals;
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - match_against_lower") {
+TEST_CASE("libutil - util - match_against_lower") {
 	CHECK_EQ(bve::util::parsers::match_against_lower("hello"s, "hello"), true);
 	CHECK_EQ(bve::util::parsers::match_against_lower("HeLlo"s, "hello"), true);
 	CHECK_EQ(bve::util::parsers::match_against_lower("Hello"s, "hell", false), true);

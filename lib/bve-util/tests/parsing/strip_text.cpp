@@ -10,9 +10,9 @@ using namespace std::string_literals;
 		CHECK_EQ(s, output_string);                      \
 	}
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - strip_text") {
+TEST_CASE("libutil - util - strip_text") {
 	STRIP_TEXT_CHECK_EQ(""s, ""s);
 	STRIP_TEXT_CHECK_EQ(" \t\n\v\f\r Hello! \t\n\v\f\r "s, "Hello!"s);
 	STRIP_TEXT_CHECK_EQ("       "s, ""s);

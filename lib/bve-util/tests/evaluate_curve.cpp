@@ -1,9 +1,9 @@
 #include "util/math.hpp"
 #include <doctest.h>
 
-TEST_SUITE_BEGIN("libcore - math");
+TEST_SUITE_BEGIN("libutil - math");
 
-TEST_CASE("libcore - math - evaluate curve") {
+TEST_CASE("libutil - math - evaluate curve") {
 	namespace m = bve::util::math;
 
 	auto const distance = 12.56637F * (5.0F / 4.0F) * (1.0F / 0.7071067811F);

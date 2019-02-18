@@ -9,10 +9,10 @@ using namespace std::string_literals;
 	CHECK_EQ(bve::util::parsers::parse_time(value, std::numeric_limits<bve::util::datatypes::Time>::max()), \
 	         std::numeric_limits<bve::util::datatypes::Time>::max());
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
 // NOLINTNEXTLINE(google-readability-function-size,readability-function-size)
-TEST_CASE("libparsers - util - parse_time") {
+TEST_CASE("libutil - util - parse_time") {
 	CHECK_EQ(bve::util::parsers::parse_time("0"), 0 * 3600);
 	CHECK_EQ(bve::util::parsers::parse_time("5"), 5 * 3600);
 	CHECK_EQ(bve::util::parsers::parse_time("1200"), 1200 * 3600);

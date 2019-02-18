@@ -10,9 +10,9 @@ using namespace std::string_literals;
 		CHECK_EQ(bve::util::parsers::load_from_file_utf8_bom(i), output); \
 	}
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - load_from_file_utf8_bom - empty file") {
+TEST_CASE("libutil - util - load_from_file_utf8_bom - empty file") {
 	LOAD_FROM_FILE_COMPARE(""s, ""s);
 	LOAD_FROM_FILE_COMPARE("\xEF\xBB\xBF"s, ""s);
 

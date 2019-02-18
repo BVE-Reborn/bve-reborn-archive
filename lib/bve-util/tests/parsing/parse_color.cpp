@@ -10,9 +10,9 @@ using Color = bve::util::datatypes::Color8RGBA;
 	CHECK_EQ(bve::util::parsers::parse_color(value, Color(std::numeric_limits<decltype(Color::b)>::max())), \
 	         Color(std::numeric_limits<decltype(Color::b)>::max()));
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - parse_color") {
+TEST_CASE("libutil - util - parse_color") {
 	CHECK_EQ(bve::util::parsers::parse_color("#000000"), Color(0, 0, 0, 0xFF));
 	CHECK_EQ(bve::util::parsers::parse_color("#770000"), Color(0x77, 0, 0, 0xFF));
 	CHECK_EQ(bve::util::parsers::parse_color("#FF0000"), Color(0xFF, 0, 0, 0xFF));

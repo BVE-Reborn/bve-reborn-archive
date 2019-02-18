@@ -10,9 +10,9 @@ using namespace std::string_literals;
 		CHECK_EQ(s, output_string);                                                        \
 	}
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - remove_comments") {
+TEST_CASE("libutil - util - remove_comments") {
 	REMOVE_COMMENTS_CHECK_EQ("hello world"s, ';', false, "hello world");
 	REMOVE_COMMENTS_CHECK_EQ("hello world;"s, ';', false, "hello world");
 	REMOVE_COMMENTS_CHECK_EQ(";hello world"s, ';', false, "");

@@ -11,9 +11,9 @@ using namespace std::string_literals;
 	CHECK_EQ(bve::util::parsers::parse_loose_integer(value, std::numeric_limits<std::intmax_t>::max()), \
 	         std::numeric_limits<std::intmax_t>::max());
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - parse_loose_integer") {
+TEST_CASE("libutil - util - parse_loose_integer") {
 	CHECK_EQ(bve::util::parsers::parse_loose_integer("0"s), 0);
 	CHECK_EQ(bve::util::parsers::parse_loose_integer("-0"s), 0);
 	CHECK_EQ(bve::util::parsers::parse_loose_integer("50"s), 50);

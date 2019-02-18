@@ -9,9 +9,9 @@ using namespace std::string_literals;
 	CHECK_THROWS_AS(bve::util::parsers::parse_loose_float(value), std::invalid_argument); \
 	CHECK_EQ(bve::util::parsers::parse_loose_float(value, std::numeric_limits<float>::max()), std::numeric_limits<float>::max());
 
-TEST_SUITE_BEGIN("libparsers - util");
+TEST_SUITE_BEGIN("libutil - util");
 
-TEST_CASE("libparsers - util - parse_loose_float") {
+TEST_CASE("libutil - util - parse_loose_float") {
 	CHECK_EQ(bve::util::parsers::parse_loose_float("0"s), 0.0F);
 	CHECK_EQ(bve::util::parsers::parse_loose_float("-0"s), 0.0F);
 	CHECK_EQ(bve::util::parsers::parse_loose_float("0.2"s), 0.2F);
