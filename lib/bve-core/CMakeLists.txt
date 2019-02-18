@@ -21,17 +21,18 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADERS} ${SOURCES})
 # libbve-core-test #
 ####################
 
-# file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*.cpp")
-# file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*.hpp")
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*.cpp")
+file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*.hpp")
 
-# add_library(bve-core-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
-# target_link_libraries(bve-core-test PUBLIC bve-core bve-util)
-# target_link_libraries(bve-core-test PUBLIC Threads::Threads gsl::gsl)
+add_library(bve-core-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
+target_link_libraries(bve-core-test PRIVATE options::fast_math)
+target_link_libraries(bve-core-test PUBLIC bve-core bve-util)
+target_link_libraries(bve-core-test PUBLIC Threads::Threads doctest::doctest)
 
-# add_sanitizers(bve-core-test)
-# format(bve-core-test)
-# cotire(bve-core-test)
+add_sanitizers(bve-core-test)
+format(bve-core-test)
+cotire(bve-core-test)
 
-# source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 
-# set_property(TARGET bve-core-test PROPERTY FOLDER lib/tests)
+set_property(TARGET bve-core-test PROPERTY FOLDER lib/tests)
