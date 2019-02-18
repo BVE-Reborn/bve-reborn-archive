@@ -4,6 +4,18 @@
 using bve::core::threading::TaskScheduler;
 
 TaskScheduler::TaskScheduler(std::size_t const threads, std::size_t const blocking_threads) {
+	restart(threads, blocking_threads);
+}
+
+void TaskScheduler::restart(std::size_t threads, std::size_t const blocking_threads) {
+	assert(status_.load(std::memory_order_acquire) == Status::stopped);
+
+	if (threads == 0) {
+		threads = core_count;
+	}
+
+	status_.store(Status::paused, std::memory_order_release);
+
 	threads_.reserve(threads - 1);
 	blocking_threads_.reserve(blocking_threads);
 

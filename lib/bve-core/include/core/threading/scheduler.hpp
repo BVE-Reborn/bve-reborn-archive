@@ -108,8 +108,10 @@ namespace bve::core::threading {
 		/**
 		 * \brief Starts the task scheduler in a paused state. Threads will resume when run is called.
 		 *
-		 * @param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count.
-		 * @param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
+		 * \param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count. 
+		 *                         Setting equal to zero will make one thread per core.
+		 * \param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
+		 *                         A recommended value is between 2x and 4x the core count depending on IO load.
 		 */
 		TaskScheduler(std::size_t threads, std::size_t blocking_threads);
 
@@ -131,9 +133,9 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam Blocks For internal use only. Makes the task block.
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
+		 * \tparam Blocks For internal use only. Makes the task block.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
 		 */
 		template <bool Blocks = false, class F>
 		void addTask(F&& func) {
@@ -163,10 +165,10 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam Blocks For internal use only. Makes the task block.
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
-		 * @param handle  Handle to the task that should wait on this task.
+		 * \tparam Blocks For internal use only. Makes the task block.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
+		 * \param handle  Handle to the task that should wait on this task.
 		 */
 		template <bool Blocks = false, class F>
 		void addTask(F&& func, DependentTaskHandle const& handle) {
@@ -199,8 +201,8 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
 		 */
 		template <class F>
 		FORCE_INLINE void addBlockingTask(F&& func) {
@@ -218,9 +220,9 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
-		 * @param handle  Handle to the task that should wait on this task.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
+		 * \param handle  Handle to the task that should wait on this task.
 		 */
 		template <class F>
 		FORCE_INLINE void addBlockingTask(F&& func, DependentTaskHandle const& handle) {
@@ -236,7 +238,7 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @param handle Handle to the task that should be added to the pool.
+		 * \param handle Handle to the task that should be added to the pool.
 		 */
 		void addDependentTask(DependentTaskHandle&& handle) {
 			if (status_.load(std::memory_order_acquire) == Status::stopped) {
@@ -261,10 +263,10 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam Blocks For internal use only. Makes the task block.
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
-		 * @return        The handle to the dependent function.
+		 * \tparam Blocks For internal use only. Makes the task block.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
+		 * \return        The handle to the dependent function.
 		 */
 		template <bool Blocks = false, class F>
 		DependentTaskHandle prepareDependentTask(F&& func) {
@@ -287,11 +289,11 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam Blocks For internal use only. Makes the task block.
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
-		 * @param handle  Handle to the task that should wait on this task.
-		 * @return        The handle to the dependent function.
+		 * \tparam Blocks For internal use only. Makes the task block.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
+		 * \param handle  Handle to the task that should wait on this task.
+		 * \return        The handle to the dependent function.
 		 */
 		template <bool Blocks = false, class F>
 		DependentTaskHandle prepareDependentTask(F&& func, DependentTaskHandle const& handle) {
@@ -317,13 +319,13 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
-		 * @return        The handle to the dependent function.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
+		 * \return        The handle to the dependent function.
 		 */
 		template <class F>
-		FORCE_INLINE void prepareDependentBlockingTask(F&& func) {
-			prepareDependentTask<true>(std::forward<F>(func));
+		FORCE_INLINE DependentTaskHandle prepareDependentBlockingTask(F&& func) {
+			return prepareDependentTask<true>(std::forward<F>(func));
 		}
 
 		/**
@@ -340,15 +342,27 @@ namespace bve::core::threading {
 		 *
 		 * This function is fully thread safe.
 		 *
-		 * @tparam F      Type of function to call.
-		 * @param func    The function to call.
-		 * @param handle  Handle to the task that should wait on this task.
-		 * @return        The handle to the dependent function.
+		 * \tparam F      Type of function to call.
+		 * \param func    The function to call.
+		 * \param handle  Handle to the task that should wait on this task.
+		 * \return        The handle to the dependent function.
 		 */
 		template <class F>
-		FORCE_INLINE void prepareDependentBlockingTask(F&& func, DependentTaskHandle const& handle) {
-			prepareDependentTask<true>(std::forward<F>(func), handle);
+		FORCE_INLINE DependentTaskHandle prepareDependentBlockingTask(F&& func, DependentTaskHandle const& handle) {
+			return prepareDependentTask<true>(std::forward<F>(func), handle);
 		}
+
+		/**
+		 * \brief Restarts the task scheduler in a paused state. Should only be called if thread pool was stopped.
+		 * 
+		 * Threads will resume when run is called.
+		 *
+		 * \param threads          Amount of primary worker threads. Run non-blocking tasks. Generally equal to core count. 
+		 *                         Setting equal to zero will make one thread per core.
+		 * \param blocking_threads Amount of blocking worker threads. Run blocking tasks. Generally much more numerous than \p threads.
+		 *                         A recommended value is between 2x and 4x the core count depending on IO load.
+		 */
+		void restart(std::size_t threads, std::size_t blocking_threads);
 
 		/**
 		 * \brief Run the task scheduler. The current thread will turn into a worker thread until the scheduler finishes execution.
@@ -405,7 +419,7 @@ namespace bve::core::threading {
 		template <bool Blocks>
 		FORCE_INLINE Status taskExecutorImpl(bool main_thread);
 
-		std::atomic<Status> status_ = Status::paused;
+		std::atomic<Status> status_ = Status::stopped;
 		std::vector<std::thread> threads_;
 		std::vector<std::thread> blocking_threads_;
 		moodycamel::ConcurrentQueue<Task*, ConcurrentQueueTraits> task_queue_;
