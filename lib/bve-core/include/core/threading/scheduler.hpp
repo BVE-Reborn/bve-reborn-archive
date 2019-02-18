@@ -47,7 +47,7 @@ namespace bve::core::threading {
 		explicit DependentTask(Task* const t, bool const blocking) : actual_task_(t), blocking_(blocking) {}
 
 		Task* actual_task_;
-		Task::Counter counter_;
+		Task::Counter counter_ = 0;
 		bool blocking_;
 	};
 
@@ -66,10 +66,15 @@ namespace bve::core::threading {
 
 		template <bool Blocks = false, class F>
 		void addTask(F&& func) {
+			if (stop_.load(std::memory_order_acquire) == true) {
+				return;
+			}
 			Task::PackagedTask packaged(func);
 			auto* task = new Task(std::move(packaged), nullptr);
 			if constexpr (Blocks) {
 				blocking_task_queue_.enqueue(task);
+				std::lock_guard l(blocking_task_mutex_);
+				blocking_task_cv_.notify_one();
 			}
 			else {
 				task_queue_.enqueue(task);
@@ -83,6 +88,9 @@ namespace bve::core::threading {
 
 		template <bool Blocks = false, class F>
 		void addTask(F&& func, DependentTaskHandle const& handle) {
+			if (stop_.load(std::memory_order_acquire) == true) {
+				return;
+			}
 			if (handle != nullptr) {
 				handle->counter_.fetch_add(1, std::memory_order_acq_rel);
 			}
@@ -90,6 +98,8 @@ namespace bve::core::threading {
 			auto* task = new Task(std::move(packaged), handle.get());
 			if constexpr (Blocks) {
 				blocking_task_queue_.enqueue(task);
+				std::lock_guard l(blocking_task_mutex_);
+				blocking_task_cv_.notify_one();
 			}
 			else {
 				task_queue_.enqueue(task);
@@ -102,21 +112,24 @@ namespace bve::core::threading {
 		}
 
 		void addTask(DependentTaskHandle&& handle) {
+			if (stop_.load(std::memory_order_acquire) == true) {
+				return;
+			}
 			std::lock_guard l(dependent_tasks_lock_);
 
 			dependent_tasks_.emplace_back(std::move(handle));
 		}
 
 		template <bool Blocks = false, class F>
-		DependentTaskHandle prepareTask(F&& func) {
+		DependentTaskHandle prepareDependentTask(F&& func) {
 			Task::PackagedTask packaged(func);
 			auto* task = new Task(std::move(packaged), nullptr);
-			return std::make_unique<DependentTask>(task, Blocks);
+			return std::unique_ptr<DependentTask>(new DependentTask(task, Blocks));
 		}
 
 		template <class F>
-		FORCE_INLINE void prepareBlockingTask(F&& func) {
-			prepareTask<true>(std::forward<F>(func));
+		FORCE_INLINE void prepareDependentBlockingTask(F&& func) {
+			prepareDependentTask<true>(std::forward<F>(func));
 		}
 
 		void run(std::size_t threads, std::size_t blocking_threads);
@@ -124,7 +137,7 @@ namespace bve::core::threading {
 		void stop();
 
 	  private:
-		struct ConcurrentQueueTraits : public moodycamel::ConcurrentQueueDefaultTraits {
+		struct ConcurrentQueueTraits : moodycamel::ConcurrentQueueDefaultTraits {
 			static void* malloc(size_t const size) {
 				return std::malloc(size);
 			}
@@ -144,6 +157,8 @@ namespace bve::core::threading {
 		std::vector<std::thread> blocking_threads_;
 		moodycamel::ConcurrentQueue<Task*, ConcurrentQueueTraits> task_queue_;
 		moodycamel::ConcurrentQueue<Task*, ConcurrentQueueTraits> blocking_task_queue_;
+		std::mutex blocking_task_mutex_;
+		std::condition_variable blocking_task_cv_;
 		Spinlock dependent_tasks_lock_{};
 		std::vector<std::unique_ptr<DependentTask>> dependent_tasks_;
 	};

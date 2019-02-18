@@ -2,18 +2,38 @@
 #include <core/threading/scheduler.hpp>
 
 void bve::core::threading::TaskScheduler::run(std::size_t const threads, std::size_t const blocking_threads) {
-	threads_.reserve(threads);
+	threads_.reserve(threads - 1);
 	blocking_threads_.reserve(blocking_threads);
 
 	for (std::size_t i = 0; i < threads - 1; ++i) {
 		threads_.emplace_back(std::thread([this] { this->taskExecutor(); }));
 	}
-	for (std::size_t i = 0; i < threads; ++i) {
+	for (std::size_t i = 0; i < blocking_threads; ++i) {
 		blocking_threads_.emplace_back(std::thread([this] { this->blockingTaskExecutor(); }));
 	}
 
 	// Start processing
 	taskExecutor();
+
+	// Join and delete all threads
+	for (auto& thread : threads_) {
+		thread.join();
+	}
+	for (auto& thread : blocking_threads_) {
+		thread.join();
+	}
+	threads_.clear();
+	blocking_threads_.clear();
+
+	// We only get back here when the thread pool needs to die.
+	// Pump the queue until it's empty
+	Task* task;
+	while (task_queue_.try_dequeue(task)) {
+		delete task;
+	}
+	while (blocking_task_queue_.try_dequeue(task)) {
+		delete task;
+	}
 }
 
 void bve::core::threading::TaskScheduler::stop() {
@@ -25,9 +45,11 @@ FORCE_INLINE void bve::core::threading::TaskScheduler::taskExecutorImpl() {
 	Task* task;
 	while (true) {
 		bool has_task = false;
+		// We need to actually wait if we're blocking, we don't "own" a core.
 		if constexpr (Blocks) {
+			std::unique_lock l(blocking_task_mutex_);
 			while (stop_.load(std::memory_order_acquire) == false && (has_task = blocking_task_queue_.try_dequeue(task)) == false) {
-				std::this_thread::yield();
+				blocking_task_cv_.wait(l);
 			}
 		}
 		else {
@@ -61,9 +83,9 @@ FORCE_INLINE void bve::core::threading::TaskScheduler::taskExecutorImpl() {
 				dependent_tasks_.erase(itr);
 			}
 		}
-	}
 
-	delete task;
+		delete task;
+	}
 }
 
 void bve::core::threading::TaskScheduler::taskExecutor() {
