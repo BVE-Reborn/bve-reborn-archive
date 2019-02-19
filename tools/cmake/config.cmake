@@ -7,3 +7,7 @@ elseif(UNIX AND NOT APPLE)
 else()
     message(FATAL_ERROR "Unsupported Platform")
 endif()
+
+if (NOT (CMAKE_SIZEOF_VOID_P STREQUAL "8"))
+	message(FATAL_ERROR "BVE-Reborn is 64 bit only.")
+endif()
