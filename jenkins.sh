@@ -29,6 +29,23 @@ bin/tests
 echo "End Clang-Tests"
 cd ..
 
+# GCC Build
+mkdir build-gcc
+cd build-gcc
+cmake .. \
+    -DCMAKE_BUILD_TYPE=Debug\
+    -DBVEREBORN_CODE_COVERAGE=On\
+    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=gold"\
+    -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7\
+    -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
+    -GNinja
+ninja -j8
+lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
+echo "End GCC-Build"
+bin/tests
+echo "End GCC-Tests"
+cd ..
+
 # Formatting
 cd build-clang
 ninja format
@@ -43,21 +60,7 @@ else
     exit 1
 fi
 
-# GCC Build
-mkdir build-gcc
 cd build-gcc
-cmake .. \
-    -DCMAKE_BUILD_TYPE=Debug\
-    -DBVEREBORN_CODE_COVERAGE=On\
-    -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7\
-    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=gold"\
-    -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
-    -GNinja
-ninja -j8
-lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
-echo "End GCC-Build"
-bin/tests
-echo "End GCC-Tests"
 lcov -c -d . -o live-coverage.info --gcov-tool gcov-7
 lcov -a empty-coverage.info -a live-coverage.info -o coverage.info --gcov-tool gcov-7
 lcov --remove coverage.info '/usr/*' '$WORKSPACE/extern/*' '*/tests/*' '*/tests_old/*' --output-file coverage.info
