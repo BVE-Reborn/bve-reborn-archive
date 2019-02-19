@@ -15,8 +15,15 @@ echo "End Docs"
 # Clang Build
 mkdir build-clang
 cd build-clang
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -DSANITIZE_UNDEFINED=On -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -GNinja
-nice ninja -j8
+cmake ..\
+    -DCMAKE_BUILD_TYPE=Debug\
+    -DSANITIZE_ADDRESS=On\
+    -DSANITIZE_UNDEFINED=On\
+    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=lld"\
+    -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8\
+    -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
+    -GNinja
+ninja -j8
 echo "End Clang-Build"
 bin/tests
 echo "End Clang-Tests"
@@ -39,8 +46,14 @@ fi
 # GCC Build
 mkdir build-gcc
 cd build-gcc
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7 -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -GNinja
-nice ninja -j8
+cmake .. \
+    -DCMAKE_BUILD_TYPE=Debug\
+    -DBVEREBORN_CODE_COVERAGE=On\
+    -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7\
+    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=gold"\
+    -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
+    -GNinja
+ninja -j8
 lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
 echo "End GCC-Build"
 bin/tests
