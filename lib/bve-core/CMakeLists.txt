@@ -8,7 +8,7 @@ file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hp
 add_library(bve-core SHARED ${SOURCES} ${HEADERS})
 target_include_directories(bve-core PUBLIC include)
 target_link_libraries(bve-core PRIVATE options::fast_math)
-target_link_libraries(bve-core PUBLIC ccq::concurrentqueue mapbox::variant bve-util)
+target_link_libraries(bve-core PUBLIC ccq::concurrentqueue mapbox::variant bve-util vtune::vtune)
 add_sanitizers(bve-core)
 format(bve-core)
 cotire(bve-core)

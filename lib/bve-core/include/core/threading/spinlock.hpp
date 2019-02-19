@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <core/vtune/ittnottify.hpp>
 #include <emmintrin.h>
 #include <mutex>
 #include <thread>
@@ -33,6 +34,7 @@ namespace bve::core::threading {
 		 * Locks mutex. Blocks if mutex is unavailable.
 		 */
 		void lock() {
+			__itt_sync_prepare(this);
 			if (mutex_ != nullptr) {
 				mutex_->lock();
 			}
@@ -41,6 +43,7 @@ namespace bve::core::threading {
 					_mm_pause();
 				}
 			}
+			__itt_sync_acquired(this);
 		}
 
 		// ReSharper disable once CppInconsistentNaming
@@ -50,16 +53,28 @@ namespace bve::core::threading {
 		 * @return If locking succeeded
 		 */
 		bool try_lock() {
+			__itt_sync_prepare(this);
+			bool ret;
 			if (mutex_ != nullptr) {
-				return mutex_->try_lock();
+				ret = mutex_->try_lock();
 			}
-			return flag_.test_and_set(std::memory_order_acq_rel) == false;
+			else {
+				ret = flag_.test_and_set(std::memory_order_acq_rel) == false;
+			}
+			if (ret) {
+				__itt_sync_acquired(this);
+			}
+			else {
+				__itt_sync_cancel(this);
+			}
+			return ret;
 		}
 
 		/**
 		 * Unlocks mutex.
 		 */
 		void unlock() {
+			__itt_sync_releasing(this);
 			if (mutex_ != nullptr) {
 				mutex_->unlock();
 			}

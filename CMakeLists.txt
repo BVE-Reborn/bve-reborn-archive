@@ -3,7 +3,16 @@ project(BVE-Reborn C CXX)
 
 find_package(Threads REQUIRED)
 
-include(tools/cmake/config.cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
+                                           ${CMAKE_SOURCE_DIR}/extern
+                                           ${CMAKE_SOURCE_DIR}/extern/cmake
+                                           ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
+                                           ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
+                                           ${CMAKE_SOURCE_DIR}/extern/nova/cmake
+                                           ${CMAKE_SOURCE_DIR}/tools/cmake
+)
+
+include(config)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -20,14 +29,6 @@ endif()
 if (NOT CMAKE_BUILD_TYPE) 
     set(CMAKE_BUILD_TYPE Release) 
 endif() 
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
-                                           ${CMAKE_SOURCE_DIR}/extern
-                                           ${CMAKE_SOURCE_DIR}/extern/cmake
-                                           ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
-                                           ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
-                                           ${CMAKE_SOURCE_DIR}/extern/nova/cmake
-)
 
 if(BVEREBORN_WIN)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
@@ -51,6 +52,8 @@ include(warnings)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+
+find_package(VTune)
 
 #################
 # Global Config #
