@@ -7,7 +7,7 @@ curl -so codecov.bash https://codecov.io/bash
 echo "End Clone"
 
 # Docs
-./docs.sh build-docs
+./tools/docs/docs.sh build-docs
 mkdir -p "/mnt/data/docs.bvereborn.com/$GIT_BRANCH/"
 bash -c 'rsync -a --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
 echo "End Docs"
