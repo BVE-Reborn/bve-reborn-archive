@@ -60,9 +60,9 @@ find_package(VTune)
 #################
 
 if(EXISTS ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings)
-    file(COPY ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_SOURCE_DIR})
+    file(COPY ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings DESTINATION tools/ide)
 else()
-    file(COPY BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY tools/ide/BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
 endif()
 
 if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (BVEREBORN_CODE_COVERAGE))
