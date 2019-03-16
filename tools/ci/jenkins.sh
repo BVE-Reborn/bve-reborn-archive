@@ -9,14 +9,14 @@ echo "End Clone"
 # Docs
 ./docs.sh build-docs
 mkdir -p "/mnt/data/docs.bvereborn.com/$GIT_BRANCH/"
-bash -c 'rsync -az --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
+bash -c 'rsync -a --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
 echo "End Docs"
 
 # Clang Build
 mkdir build-clang
 cd build-clang
 cmake .. -DCMAKE_BUILD_TYPE=Debug -DSANITIZE_ADDRESS=On -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -DSANITIZE_UNDEFINED=On -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -GNinja
-nice ninja -j8
+ninja -j8
 echo "End Clang-Build"
 bin/tests
 echo "End Clang-Tests"
@@ -40,7 +40,7 @@ fi
 mkdir build-gcc
 cd build-gcc
 cmake .. -DCMAKE_BUILD_TYPE=Debug -DBVEREBORN_CODE_COVERAGE=On -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7 -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -GNinja
-nice ninja -j8
+ninja -j8
 lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
 echo "End GCC-Build"
 bin/tests
