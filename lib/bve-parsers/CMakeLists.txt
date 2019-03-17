@@ -20,7 +20,7 @@ set_property(TARGET bve-parsers PROPERTY FOLDER lib)
 
 add_sanitizers(bve-parsers)
 format(bve-parsers)
-cotire(bve-parsers)
+bve_cotire(bve-parsers)
 
 #######################
 # libbve-parsers-test #
@@ -40,7 +40,7 @@ set_property(TARGET bve-parsers-test PROPERTY FOLDER lib/tests)
 
 add_sanitizers(bve-parsers-test)
 format(bve-parsers-test)
-cotire(bve-parsers-test)
+bve_cotire(bve-parsers-test)
 
 #if (BVEREBORN_WITH_FUZZING)
 #    add_executable(fuzz_libparsers_function_scripts tests/function_scripts/fuzzer.cpp)
@@ -75,6 +75,6 @@ set_property(TARGET bve-old-tests PROPERTY FOLDER lib/tests)
 
 add_sanitizers(bve-old-tests)
 format(bve-old-tests)
-cotire(bve-old-tests)
+bve_cotire(bve-old-tests)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS} ${TEST_HEADERS} ${TEST_SOURCES})

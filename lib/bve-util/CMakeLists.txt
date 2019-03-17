@@ -14,7 +14,7 @@ target_link_libraries(bve-util PUBLIC nova::glm mapbox::variant gsl::gsl)
 target_link_libraries(bve-util PRIVATE options::fast_math)
 add_sanitizers(bve-util)
 format(bve-util)
-cotire(bve-util)
+bve_cotire(bve-util)
 
 set_property(TARGET bve-util PROPERTY FOLDER lib)
 
@@ -36,6 +36,6 @@ set_property(TARGET bve-util-test PROPERTY FOLDER lib/tests)
 
 add_sanitizers(bve-util-test)
 format(bve-util-test)
-cotire(bve-util-test)
+bve_cotire(bve-util-test)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADERS} ${SOURCES} ${TEST_SOURCES} ${TEST_HEADERS})

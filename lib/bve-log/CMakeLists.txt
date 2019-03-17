@@ -13,7 +13,7 @@ target_link_libraries(bve-log PRIVATE options::fast_math)
 target_link_libraries(bve-log PUBLIC fmt::fmt bve-util)
 add_sanitizers(bve-log)
 format(bve-log)
-cotire(bve-log)
+bve_cotire(bve-log)
 
 set_property(TARGET bve-log PROPERTY FOLDER lib)
 
@@ -32,7 +32,7 @@ target_link_libraries(bve-log-test PUBLIC Threads::Threads gsl::gsl)
 
 add_sanitizers(bve-log-test)
 format(bve-log-test)
-cotire(bve-log-test)
+bve_cotire(bve-log-test)
 
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})

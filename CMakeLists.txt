@@ -52,6 +52,15 @@ include(meta_features)
 include(nova)
 include(warnings)
 
+if (NOT BVEREBORN_WIN)
+    macro(bve_cotire)
+        cotire(${ARGN})
+    endmacro()
+else()
+    macro(bve_cotire)
+    endmacro()
+endif()
+
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 

@@ -11,7 +11,7 @@ target_link_libraries(bve-core PRIVATE options::fast_math)
 target_link_libraries(bve-core PUBLIC ccq::concurrentqueue mapbox::variant bve-util vtune::vtune)
 add_sanitizers(bve-core)
 format(bve-core)
-cotire(bve-core)
+bve_cotire(bve-core)
 
 set_property(TARGET bve-core PROPERTY FOLDER lib)
 
@@ -31,7 +31,7 @@ target_link_libraries(bve-core-test PUBLIC Threads::Threads doctest::doctest)
 
 add_sanitizers(bve-core-test)
 format(bve-core-test)
-cotire(bve-core-test)
+bve_cotire(bve-core-test)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 
