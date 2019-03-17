@@ -16,12 +16,13 @@ echo "End Docs"
 mkdir build-clang
 cd build-clang
 cmake ..\
-	-DCMAKE_EXPORT_COMPILE_COMMANDS=On\
 	-DCMAKE_BUILD_TYPE=Debug\
 	-DSANITIZE_{ADDRESS,UNDEFINED}=On\
 	-DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
 	-DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8\
 	-DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"\
+	-DCMAKE_TOOLCHAIN_FILE=${VCPKG_CMAKE}\
+	-DCMAKE_EXPORT_COMPILE_COMMANDS=On\
 	-GNinja
 ninja -j8
 echo "End Clang-Build"
@@ -51,6 +52,8 @@ cmake ..\
 	-DBVEREBORN_CODE_COVERAGE=On\
 	-DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7\
 	-DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
+	-DCMAKE_TOOLCHAIN_FILE=${VCPKG_CMAKE}\
+	-DCMAKE_EXPORT_COMPILE_COMMANDS=On\
 	-GNinja
 ninja -j8
 lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
