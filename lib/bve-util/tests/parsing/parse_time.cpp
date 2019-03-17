@@ -1,5 +1,5 @@
 #include "util/parsing.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <stdexcept>
 
 using namespace std::string_literals;

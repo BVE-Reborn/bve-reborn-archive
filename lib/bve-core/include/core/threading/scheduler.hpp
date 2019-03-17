@@ -1,7 +1,7 @@
 #pragma once
 
 #include <atomic>
-#include <concurrentqueue.h>
+#include <concurrentqueue/concurrentqueue.h>
 #include <core/threading/spinlock.hpp>
 #include <future>
 #include <util/inlining_util.hpp>

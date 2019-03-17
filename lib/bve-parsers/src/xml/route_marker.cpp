@@ -2,7 +2,7 @@
 #include "util/parsing.hpp"
 #include "xml_node_helpers.hpp"
 #include <map>
-#include <rapidxml_ns.hpp>
+#include <rapidxml-ns/rapidxml_ns.hpp>
 #include <sstream>
 #include <string>
 using namespace std::string_literals;

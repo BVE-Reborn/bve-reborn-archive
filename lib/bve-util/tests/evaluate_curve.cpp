@@ -1,5 +1,5 @@
 #include "util/math.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_SUITE_BEGIN("libutil - math");
 

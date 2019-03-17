@@ -1,6 +1,6 @@
 #include "sample_relative_file_func.hpp"
 #include "util/parsing.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <parsers/xml/route_marker.hpp>
 
 using namespace std::string_literals;

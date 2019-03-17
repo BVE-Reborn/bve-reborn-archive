@@ -1,5 +1,5 @@
 #include "util/macro_helpers.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <parsers/function_scripts.hpp>
 #include <util/testing/variant_macros.hpp>
 
