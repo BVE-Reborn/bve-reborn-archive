@@ -1,6 +1,3 @@
-[submodule "cmake-utils"]
-	path = extern/cmake-utils
-	url = https://github.com/Sirflankalot/cmake-utils.git
 [submodule "cmake-sanitizers"]
 	path = extern/cmake-sanitizers
 	url = https://github.com/arsenm/sanitizers-cmake.git
