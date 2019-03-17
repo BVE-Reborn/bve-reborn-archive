@@ -5,16 +5,13 @@
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "src/*.cpp")
 file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "src/*.hpp" "include/*.hpp")
 
-
-
 add_library(bve-parsers SHARED ${SOURCES} ${HEADERS})
 
 target_include_directories(bve-parsers PUBLIC include)
 target_link_libraries(bve-parsers PUBLIC bve-util)
-target_link_libraries(bve-parsers PUBLIC mapbox::variant gsl::gsl absl::optional)
 
 target_include_directories(bve-parsers PRIVATE src)
-target_link_libraries(bve-parsers PRIVATE rapidxml::rapidxml options::fast_math)
+target_link_libraries(bve-parsers PRIVATE options::fast_math)
 
 set_property(TARGET bve-parsers PROPERTY FOLDER lib)
 
@@ -32,7 +29,7 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*
 add_library(bve-parsers-test OBJECT ${TEST_SOURCES})
 target_include_directories(bve-parsers-test PRIVATE src tests)
 target_link_libraries(bve-parsers-test PUBLIC bve-parsers)
-target_link_libraries(bve-parsers-test PUBLIC doctest::doctest cppfs::cppfs)
+target_link_libraries(bve-parsers-test PUBLIC cppfs::cppfs)
 
 
 

@@ -6,7 +6,6 @@ platform:
   - x64
 
 clone_folder: c:\projects\bve-reborn
-clone_depth: 1
 skip_tags: true
 
 environment:
@@ -23,16 +22,23 @@ install:
   - cmd: git submodule update --init --recursive
   - cmd: curl --silent --show-error --output VulkanSDK.exe https://cwfitz.com/s/19028-082433-VulkanSDK-1.1.97.0-Installer.exe
   - cmd: .\VulkanSDK.exe /S
+  - cmd: cd C:\Tools\vcpkg
+  - cmd: git pull --ff
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
   - cmd: cd C:\projects\bve-reborn
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake .. -G "Visual Studio 15 2017 Win64"
+  - cmd: cmake .. -G "Visual Studio 15 2017 Win64" -Thost=x64 -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 build:
   project: C:\projects\bve-reborn\build\BVE-Reborn.sln
-  parallel: true
+  verbosity: minimal
+
+cache: 
+  - c:\tools\vcpkg\installed\
+  - c:\tools\vcpkg\packages\
 
 test_script:
   - cmd: C:\projects\bve-reborn\build\bin\%CONFIGURATION%\tests.exe

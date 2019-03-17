@@ -28,7 +28,7 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*
 
 add_library(bve-log-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
 target_link_libraries(bve-log-test PUBLIC bve-log bve-util)
-target_link_libraries(bve-log-test PUBLIC Threads::Threads gsl::gsl)
+target_link_libraries(bve-log-test PUBLIC Threads::Threads)
 
 add_sanitizers(bve-log-test)
 format(bve-log-test)

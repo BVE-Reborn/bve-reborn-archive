@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vcpkg install\
+vcpkg install --recurse\
 	abseil\
 	concurrentqueue\
 	cppfs\

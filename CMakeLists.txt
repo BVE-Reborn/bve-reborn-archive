@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 3.12)
 project(BVE-Reborn C CXX)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+if (VCPKG_TOOLCHAIN)
+    include_directories(SYSTEM "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+endif()
+
 find_package(Threads REQUIRED)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
                                            ${CMAKE_SOURCE_DIR}/extern
                                            ${CMAKE_SOURCE_DIR}/extern/cmake
+                                           ${CMAKE_SOURCE_DIR}/extern/cmake-sanitizers/cmake
                                            ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
                                            ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
                                            ${CMAKE_SOURCE_DIR}/extern/nova/cmake

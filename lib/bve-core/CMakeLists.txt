@@ -8,7 +8,7 @@ file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hp
 add_library(bve-core SHARED ${SOURCES} ${HEADERS})
 target_include_directories(bve-core PUBLIC include)
 target_link_libraries(bve-core PRIVATE options::fast_math)
-target_link_libraries(bve-core PUBLIC ccq::concurrentqueue mapbox::variant bve-util vtune::vtune)
+target_link_libraries(bve-core PUBLIC bve-util vtune::vtune)
 add_sanitizers(bve-core)
 format(bve-core)
 bve_cotire(bve-core)
@@ -27,7 +27,7 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*
 add_library(bve-core-test OBJECT ${TEST_SOURCES} ${TEST_HEADERS})
 target_link_libraries(bve-core-test PRIVATE options::fast_math)
 target_link_libraries(bve-core-test PUBLIC bve-core bve-util)
-target_link_libraries(bve-core-test PUBLIC Threads::Threads doctest::doctest)
+target_link_libraries(bve-core-test PUBLIC Threads::Threads)
 
 add_sanitizers(bve-core-test)
 format(bve-core-test)

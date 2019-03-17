@@ -10,7 +10,6 @@ file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hp
 add_library(bve-util SHARED ${SOURCES} ${HEADERS})
 target_compile_features(bve-util PUBLIC cxx_std_14)
 target_include_directories(bve-util PUBLIC include)
-target_link_libraries(bve-util PUBLIC nova::glm mapbox::variant gsl::gsl)
 target_link_libraries(bve-util PRIVATE options::fast_math)
 add_sanitizers(bve-util)
 format(bve-util)
@@ -28,9 +27,6 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*
 add_library(bve-util-test OBJECT ${TEST_SOURCES})
 target_include_directories(bve-util-test PRIVATE src tests)
 target_link_libraries(bve-util-test PUBLIC bve-util)
-target_link_libraries(bve-util-test PUBLIC doctest::doctest)
-
-
 
 set_property(TARGET bve-util-test PROPERTY FOLDER lib/tests)
 

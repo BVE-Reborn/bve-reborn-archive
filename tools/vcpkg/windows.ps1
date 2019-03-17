@@ -1,4 +1,4 @@
-vcpkg install `
+vcpkg install --recurse `
 	"abseil:x64-windows" `
 	"concurrentqueue:x64-windows" `
 	"cppfs:x64-windows" `
