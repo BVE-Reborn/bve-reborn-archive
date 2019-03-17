@@ -1,10 +1,7 @@
-[submodule "cmake-sanitizers"]
-	path = extern/cmake-sanitizers
-	url = https://github.com/arsenm/sanitizers-cmake.git
-[submodule "cotire"]
-	path = extern/cotire
-	url = https://github.com/sakra/cotire.git
 [submodule "nova"]
 	path = extern/nova
 	url = https://github.com/BVE-Reborn/nova-renderer.git
 	branch = bve-tracking
+[submodule "cmake-helpers"]
+	path = extern/cmake-helpers
+	url = https://github.com/NovaMods/cmake-helpers.git
