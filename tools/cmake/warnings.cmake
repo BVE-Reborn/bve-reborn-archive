@@ -1,7 +1,7 @@
 function(target_add_warnings target)
 	if (OS_WINDOWS)
 		if (NOT BVEREBORN_PACKAGE)
-			target_compile_options_if_supported(${target} PRIVATE /WX)
+			target_compile_options(${target} PRIVATE /WX)
 		endif()
 
 		target_compile_options_if_supported(${target} PRIVATE /W4)
@@ -25,7 +25,7 @@ function(target_add_warnings target)
 		target_compile_options_if_supported(${target} PRIVATE /permissive-)
 	else()
 		if (NOT BVEREBORN_PACKAGE)
-			target_compile_options_if_supported(${target} PRIVATE -Werror)
+			target_compile_options(${target} PRIVATE -Werror)
 		endif()
 		target_compile_options_if_supported(${target} PRIVATE 
 			-fdiagnostics-color=always
