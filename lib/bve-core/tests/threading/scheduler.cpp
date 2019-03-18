@@ -36,7 +36,7 @@ TEST_CASE("libcore - threading - scheduler - sum") {
 TEST_CASE("libcore - threading - scheduler - nested sum") {
 	TaskScheduler ts(2, 0);
 
-	constexpr std::size_t count = 100;
+	constexpr static std::size_t count = 100;
 
 	std::atomic<std::size_t> counter = 0;
 	std::array<std::size_t, count * 2> partials;
@@ -45,9 +45,9 @@ TEST_CASE("libcore - threading - scheduler - nested sum") {
 	// Inner task does 100->199
 	// When counter increment returns 99 all tasks are done.
 	for (std::size_t i = 0; i < count; ++i) {
-		ts.addTask([i, count, &partials, &counter](TaskScheduler& ts1) {
+		ts.addTask([i, &partials, &counter](TaskScheduler& ts1) {
 			partials[i] = i; // Separate for debugging
-			ts1.addTask([i, count, &partials, &counter](TaskScheduler& ts2) {
+			ts1.addTask([i, &partials, &counter](TaskScheduler& ts2) {
 				partials[i + count] = i + count;
 				if (counter.fetch_add(1, std::memory_order_acq_rel) == count - 1) {
 					ts2.stop();
