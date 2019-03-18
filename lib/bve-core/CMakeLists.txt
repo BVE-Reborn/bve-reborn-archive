@@ -7,7 +7,7 @@ file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hp
 
 add_bve_library(bve-core SHARED ${SOURCES} ${HEADERS})
 target_include_directories(bve-core PUBLIC include)
-target_link_libraries(bve-core PUBLIC bve-util vtune::vtune)
+target_link_libraries(bve-core PUBLIC bve-util vtune::vtune glm gsl::gsl)
 
 finish_bve_target(bve-core)
 

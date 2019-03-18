@@ -9,7 +9,7 @@ add_bve_library(bve-parsers SHARED ${SOURCES} ${HEADERS})
 
 target_include_directories(bve-parsers PUBLIC include)
 target_include_directories(bve-parsers PRIVATE src)
-target_link_libraries(bve-parsers PUBLIC glm bve-util)
+target_link_libraries(bve-parsers PUBLIC glm gsl::gsl bve-util)
 
 finish_bve_target(bve-parsers)
 
