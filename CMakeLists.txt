@@ -20,7 +20,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}"
 include(add_build)
 include(cmake-helpers)
 include(extern)
-include(nova)
 include(warnings)
 
 if ((NOT CMAKE_BUILD_TYPE) AND (NOT OS_WINDOWS))
