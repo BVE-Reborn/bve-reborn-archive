@@ -10,6 +10,8 @@ target_compile_features(bve-util PUBLIC cxx_std_14)
 target_include_directories(bve-util PUBLIC include)
 target_link_libraries(bve-util PUBLIC glm)
 
+finish_bve_target(bve-util)
+
 set_property(TARGET bve-util PROPERTY FOLDER lib)
 
 ##################
@@ -22,5 +24,7 @@ file(GLOB_RECURSE TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "tests/*
 add_bve_library(bve-util-test OBJECT ${TEST_SOURCES})
 target_include_directories(bve-util-test PRIVATE src tests)
 target_link_libraries(bve-util-test PUBLIC bve-util)
+
+finish_bve_target(bve-util-test)
 
 set_property(TARGET bve-util-test PROPERTY FOLDER lib/tests)

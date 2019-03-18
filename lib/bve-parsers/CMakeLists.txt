@@ -11,6 +11,8 @@ target_include_directories(bve-parsers PUBLIC include)
 target_include_directories(bve-parsers PRIVATE src)
 target_link_libraries(bve-parsers PUBLIC glm bve-util)
 
+finish_bve_target(bve-parsers)
+
 set_property(TARGET bve-parsers PROPERTY FOLDER lib)
 
 #######################
@@ -25,6 +27,8 @@ target_include_directories(bve-parsers-test PRIVATE src tests)
 target_link_libraries(bve-parsers-test PUBLIC bve-parsers)
 target_link_libraries(bve-parsers-test PUBLIC cppfs::cppfs)
 
+finish_bve_target(bve-parsers-test)
+
 set_property(TARGET bve-parsers-test PROPERTY FOLDER lib/tests)
 
 #############
@@ -33,8 +37,6 @@ set_property(TARGET bve-parsers-test PROPERTY FOLDER lib/tests)
 
 file(GLOB_RECURSE OLD_TEST_SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests_old/*.cpp")
 file(GLOB_RECURSE OLD_TEST_HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests_old/*.hpp")
-
-
 
 configure_file(tests_old/old_tests_config.hpp.in
                old_tests_config.hpp)
@@ -45,5 +47,7 @@ add_bve_library(bve-old-tests ${OLD_TEST_SOURCES} ${OLD_TEST_HEADERS})
 target_include_directories(bve-old-tests PRIVATE src)
 target_link_libraries(bve-old-tests PRIVATE bve-util bve-parsers)
 target_link_libraries(bve-old-tests PRIVATE Threads::Threads cppfs::cppfs)
+
+finish_bve_target(bve-old-tests)
 
 set_property(TARGET bve-old-tests PROPERTY FOLDER lib/tests)

@@ -10,4 +10,6 @@ target_link_libraries(tests PUBLIC bve-log-test)
 target_link_libraries(tests PUBLIC bve-parsers-test)
 target_link_libraries(tests PUBLIC bve-util-test)
 
+finish_bve_target(tests)
+
 set_property(TARGET tests PROPERTY FOLDER src)
