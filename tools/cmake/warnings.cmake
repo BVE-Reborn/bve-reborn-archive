@@ -1,5 +1,9 @@
 function(target_add_warnings target)
 	if (OS_WINDOWS)
+		if (NOT BVEREBORN_PACKAGE)
+			target_compile_options_if_supported(${target} PRIVATE /WX)
+		endif()
+
 		target_compile_options_if_supported(${target} PRIVATE /W4)
 		target_compile_options_if_supported(${target} PRIVATE 
 			/w44061
@@ -18,32 +22,37 @@ function(target_add_warnings target)
 			/wd4251
 		)
 		target_compile_options_if_supported(${target} PRIVATE /experimental:external /external:anglebrackets /external:W3)
-		target_compile_options_if_supported(${target} PRIVATE /WX)
 		target_compile_options_if_supported(${target} PRIVATE /permissive-)
 	else()
+		if (NOT BVEREBORN_PACKAGE)
+			target_compile_options_if_supported(${target} PRIVATE -Werror)
+		endif()
 		target_compile_options_if_supported(${target} PRIVATE 
 			-fdiagnostics-color=always
+			
 			-Wall
+			-Wextra
+			-Wpedantic
+
+			-Wconversion
+			-Wno-sign-conversion
+
 			-Wcast-align
 			-Wcast-qual
-			-Wconversion
 			-Wctor-dtor-privacy
 			-Wdisabled-optimization
 			-Wdouble-promotion
 			-Wduplicated-branches
 			-Wduplicated-cond
-			-Wextra
 			-Wformat=2
 			-Winit-self
 			-Wlogical-op
-			-Wno-gnu-zero-variadic-macro-arguments
 			-Wmissing-include-dirs
-			-Wno-sign-conversion
-			-Wnoexcept
+			-Wno-gnu-zero-variadic-macro-arguments
+			-Wno-unknown-pragmas
 			-Wnull-dereference
 			-Wold-style-cast
 			-Woverloaded-virtual
-			-Wpedantic
 			-Wrestrict
 			-Wshadow
 			-Wstrict-aliasing=1
@@ -51,7 +60,6 @@ function(target_add_warnings target)
 			-Wstrict-overflow=2
 			-Wswitch-default
 			-Wundef
-			-Wno-unknown-pragmas
 			-Wuseless-cast
 		) 
 	endif()
