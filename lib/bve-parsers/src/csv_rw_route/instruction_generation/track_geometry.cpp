@@ -8,10 +8,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 2:
 				c.cant = util::parsers::parse_loose_float(inst.args[1], 0);
-				// fall through
+				[[fallthrough]];
 			case 1:
 				c.radius = util::parsers::parse_loose_float(inst.args[0], 0);
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}

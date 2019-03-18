@@ -22,22 +22,22 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 7:
 					av.n_z = util::parsers::parse_loose_float(arguments[6].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 6:
 					av.n_y = util::parsers::parse_loose_float(arguments[5].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 5:
 					av.n_x = util::parsers::parse_loose_float(arguments[4].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 4:
 					av.v_z = util::parsers::parse_loose_float(arguments[3].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 3:
 					av.v_y = util::parsers::parse_loose_float(arguments[2].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 2:
 					av.v_x = util::parsers::parse_loose_float(arguments[1].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -101,13 +101,13 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 4:
 					tl.z = util::parsers::parse_loose_float(arguments[3].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 3:
 					tl.y = util::parsers::parse_loose_float(arguments[2].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 2:
 					tl.x = util::parsers::parse_loose_float(arguments[1].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -128,13 +128,13 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 4:
 					sc.z = util::parsers::parse_loose_float(arguments[3].text, 1);
-					// fall through
+					[[fallthrough]];
 				case 3:
 					sc.y = util::parsers::parse_loose_float(arguments[2].text, 1);
-					// fall through
+					[[fallthrough]];
 				case 2:
 					sc.x = util::parsers::parse_loose_float(arguments[1].text, 1);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -155,16 +155,16 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 5:
 					ro.angle = util::parsers::parse_loose_float(arguments[4].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 4:
 					ro.z = util::parsers::parse_loose_float(arguments[3].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 3:
 					ro.y = util::parsers::parse_loose_float(arguments[2].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 2:
 					ro.x = util::parsers::parse_loose_float(arguments[1].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -185,25 +185,25 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 8:
 					sh.r = util::parsers::parse_loose_float(arguments[7].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 7:
 					sh.s_z = util::parsers::parse_loose_float(arguments[6].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 6:
 					sh.s_y = util::parsers::parse_loose_float(arguments[5].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 5:
 					sh.s_x = util::parsers::parse_loose_float(arguments[4].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 4:
 					sh.d_z = util::parsers::parse_loose_float(arguments[3].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 3:
 					sh.d_y = util::parsers::parse_loose_float(arguments[2].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 2:
 					sh.d_x = util::parsers::parse_loose_float(arguments[1].text, 0);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -224,13 +224,13 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 4:
 					mirror.z = util::parsers::parse_loose_integer(arguments[3].text, 0) != 0;
-					// fall through
+					[[fallthrough]];
 				case 3:
 					mirror.y = util::parsers::parse_loose_integer(arguments[2].text, 0) != 0;
-					// fall through
+					[[fallthrough]];
 				case 2:
 					mirror.x = util::parsers::parse_loose_integer(arguments[1].text, 0) != 0;
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -251,16 +251,16 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 5:
 					sc.alpha = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[4].text, 255), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 4:
 					sc.blue = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[3].text, 255), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 3:
 					sc.green = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 255), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 2:
 					sc.red = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[1].text, 255), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -273,13 +273,13 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 4:
 					sec.blue = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[3].text, 0), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 3:
 					sec.green = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 0), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 2:
 					sec.red = uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[1].text, 0), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -297,10 +297,10 @@ namespace bve::parsers::b3d_csv_object {
 					else if (util::parsers::match_against_lower(arguments[3].text, "divideexponent2")) {
 						sbm.glow_attenuation_mode = Mesh::GlowAttenuationMode::divide_exponent2;
 					}
-					// fall through
+					[[fallthrough]];
 				case 3:
 					sbm.glow_half_distance = uint16_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 0), 0, 4095));
-					// fall through
+					[[fallthrough]];
 				case 2:
 					if (util::parsers::match_against_lower(arguments[1].text, "normal")) {
 						sbm.blend_mode = Mesh::BlendMode::normal;
@@ -308,7 +308,7 @@ namespace bve::parsers::b3d_csv_object {
 					else if (util::parsers::match_against_lower(arguments[1].text, "additive")) {
 						sbm.blend_mode = Mesh::BlendMode::additive;
 					}
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -321,10 +321,10 @@ namespace bve::parsers::b3d_csv_object {
 				default:
 				case 3:
 					lt.nighttime_texture = arguments[2].text;
-					// fall through
+					[[fallthrough]];
 				case 2:
 					lt.daytime_texture = arguments[1].text;
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}
@@ -338,15 +338,15 @@ namespace bve::parsers::b3d_csv_object {
 				case 4:
 					decal_transparent_color.blue =
 					    uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[3].text, 0), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 3:
 					decal_transparent_color.green =
 					    uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[2].text, 0), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 2:
 					decal_transparent_color.red =
 					    uint8_t(util::math::clamp(util::parsers::parse_loose_integer(arguments[1].text, 0), 0, 255));
-					// fall through
+					[[fallthrough]];
 				case 1:
 					break;
 			}

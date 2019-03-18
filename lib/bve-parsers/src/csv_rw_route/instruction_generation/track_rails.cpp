@@ -15,21 +15,21 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 3:
 				try {
 					rs.y_offset = util::parsers::parse_loose_float(inst.args[2]);
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 2:
 				try {
 					rs.x_offset = util::parsers::parse_loose_float(inst.args[1]);
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 1:
 				rs.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 				break;
@@ -55,21 +55,21 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 3:
 				try {
 					r.y_offset = util::parsers::parse_loose_float(inst.args[2]);
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 2:
 				try {
 					r.x_offset = util::parsers::parse_loose_float(inst.args[1]);
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 1:
 				r.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 				break;
@@ -88,10 +88,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 2:
 				rt.rail_type_number = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
-				// fall through
+				[[fallthrough]];
 			case 1:
 				rt.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -112,14 +112,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 2:
 				try {
 					re.x_offset = util::parsers::parse_loose_float(inst.args[1]);
 				}
 				catch (const std::invalid_argument&) {
 				}
-				// fall through
+				[[fallthrough]];
 			case 1:
 				re.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
 				break;

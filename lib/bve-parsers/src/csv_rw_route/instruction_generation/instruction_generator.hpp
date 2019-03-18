@@ -88,19 +88,19 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 				default:
 				case Offset + 5:
 					inst.roll = util::parsers::parse_loose_float(instr_info.args[Offset + 4], 0);
-					// fall through
+					[[fallthrough]];
 				case Offset + 4:
 					inst.pitch = util::parsers::parse_loose_float(instr_info.args[Offset + 3], 0);
-					// fall through
+					[[fallthrough]];
 				case Offset + 3:
 					inst.yaw = util::parsers::parse_loose_float(instr_info.args[Offset + 2], 0);
-					// fall through
+					[[fallthrough]];
 				case Offset + 2:
 					inst.y_offset = util::parsers::parse_loose_float(instr_info.args[Offset + 1], 0);
-					// fall through
+					[[fallthrough]];
 				case Offset + 1:
 					inst.x_offset = util::parsers::parse_loose_float(instr_info.args[Offset + 0], 0);
-					// fall through
+					[[fallthrough]];
 				case Offset:
 					break;
 			}

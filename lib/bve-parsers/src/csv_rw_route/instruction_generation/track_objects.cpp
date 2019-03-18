@@ -9,13 +9,13 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 3:
 				set_positions<2>(obj, inst);
-				// fall through
+				[[fallthrough]];
 			case 2:
 				obj.free_obj_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
-				// fall through
+				[[fallthrough]];
 			case 1:
 				obj.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -92,19 +92,19 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 5:
 				p.pole_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[4], 0));
-				// fall through
+				[[fallthrough]];
 			case 4:
 				p.interval = util::parsers::parse_loose_integer(inst.args[3], 1);
-				// fall through
+				[[fallthrough]];
 			case 3:
 				p.location = util::parsers::parse_loose_integer(inst.args[2], 0);
-				// fall through
+				[[fallthrough]];
 			case 2:
 				p.additional_rails = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
-				// fall through
+				[[fallthrough]];
 			case 1:
 				p.rail_index = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0], 0));
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}

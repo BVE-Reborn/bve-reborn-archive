@@ -34,10 +34,10 @@ namespace bve::parsers::animated_object {
 				default:
 				case 2:
 					value.y = util::parsers::parse_loose_float(split_list[1]);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					value.x = util::parsers::parse_loose_float(split_list[0]);
-					// fall through
+					[[fallthrough]];
 				case 0:
 					break;
 			}
@@ -63,13 +63,13 @@ namespace bve::parsers::animated_object {
 				default:
 				case 3:
 					value.z = util::parsers::parse_loose_float(split_list[2]);
-					// fall through
+					[[fallthrough]];
 				case 2:
 					value.y = util::parsers::parse_loose_float(split_list[1]);
-					// fall through
+					[[fallthrough]];
 				case 1:
 					value.x = util::parsers::parse_loose_float(split_list[0]);
-					// fall through
+					[[fallthrough]];
 				case 0:
 					break;
 			}
@@ -282,13 +282,13 @@ namespace bve::parsers::animated_object {
 							default:
 							case 3:
 								position.z = util::parsers::parse_loose_float(split[2]);
-								// fall through
+								[[fallthrough]];
 							case 2:
 								position.y = util::parsers::parse_loose_float(split[1]);
-								// fall through
+								[[fallthrough]];
 							case 1:
 								position.x = util::parsers::parse_loose_float(split[0]);
-								// fall through
+								[[fallthrough]];
 							case 0:
 								break;
 						}
