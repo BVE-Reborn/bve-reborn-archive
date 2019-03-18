@@ -33,14 +33,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 					auto const arg_val = util::parsers::lower_copy(inst.args[6]);
 					s.system = arg_val == "atc" || arg_val == "1";
 				}
-			[[fallthrough]];
+				[[fallthrough]];
 			case 6:
 				// Forced Red Signal
 				{
 					auto const val = util::parsers::parse_loose_integer(inst.args[5], 0);
 					s.force_red = val == 1;
 				}
-			[[fallthrough]];
+				[[fallthrough]];
 			case 5:
 				// Doors
 				{
@@ -85,14 +85,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						}
 					}
 				}
-			[[fallthrough]];
+				[[fallthrough]];
 			case 4:
 				// Pass Alarm
 				{
 					auto const val = util::parsers::parse_loose_integer(inst.args[3], 0);
 					s.pass_alarm = val == 1;
 				}
-			[[fallthrough]];
+				[[fallthrough]];
 			case 3:
 				// Departure Time
 				{
@@ -129,7 +129,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						}
 					}
 				}
-			[[fallthrough]];
+				[[fallthrough]];
 			case 2:
 				// Arrival time
 				{
@@ -163,7 +163,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						}
 					}
 				}
-			[[fallthrough]];
+				[[fallthrough]];
 			case 1:
 				s.name = inst.args[0];
 				[[fallthrough]];
