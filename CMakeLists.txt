@@ -85,6 +85,8 @@ add_subdirectory(lib/bve-parsers)
 add_subdirectory(lib/bve-util)
 add_subdirectory(src/test-runner)
 
+enable_linting(lib src)
+
 if(TARGET clean_cotire)
     set_property(TARGET clean_cotire PROPERTY FOLDER "")
 endif()
