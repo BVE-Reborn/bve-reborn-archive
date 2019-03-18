@@ -7,10 +7,10 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VECTOR(distances);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::naked::None& inst) {
 		start(inst, "None");
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

@@ -8,7 +8,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VECTOR(input_indices);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::cycle::Rail& inst) {
 		start(inst, "Cycle.Rail");
 
@@ -16,5 +16,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VECTOR(input_indices);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

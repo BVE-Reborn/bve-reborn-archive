@@ -9,14 +9,14 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_ENUM3(course, track::Limit::Course, left, none, right);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Section& inst) {
 		start(inst, "Track.Section");
 
 		PRINT_VECTOR(a_term);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::SigF& inst) {
 		start(inst, "Track.SigF");
 
@@ -29,7 +29,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(roll);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Signal& inst) {
 		start(inst, "Track.Signal");
 
@@ -41,7 +41,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(roll);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Relay& inst) {
 		start(inst, "Track.Relay");
 
@@ -52,5 +52,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(roll);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

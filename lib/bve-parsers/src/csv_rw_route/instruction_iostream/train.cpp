@@ -7,7 +7,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(filepath);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::train::Rail& inst) {
 		start(inst, "Train.Rail");
 
@@ -15,7 +15,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(run_sound_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::train::Flange& inst) {
 		start(inst, "Train.Flange");
 
@@ -23,7 +23,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(flange_sound_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::train::Timetable& inst) {
 		start(inst, "Train.Timetable");
 
@@ -31,12 +31,12 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(filename);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::train::Velocity& inst) {
 		start(inst, "Train.Velocity");
 
 		PRINT_VALUE(speed);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

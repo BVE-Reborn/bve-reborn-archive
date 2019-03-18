@@ -15,7 +15,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(roll);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Transponder& inst) {
 		start(inst, "Track.Transponder");
 
@@ -29,7 +29,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(roll);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Pattern& inst) {
 		start(inst, "Track.Pattern");
 
@@ -37,5 +37,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(speed);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

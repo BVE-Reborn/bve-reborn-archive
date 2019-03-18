@@ -13,7 +13,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(roll);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Wall& inst) {
 		start(inst, "Track.Wall");
 
@@ -22,14 +22,14 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(wall_structure_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::WallEnd& inst) {
 		start(inst, "Track.WallEnd");
 
 		PRINT_VALUE(rail_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Dike& inst) {
 		start(inst, "Track.Dike");
 
@@ -38,14 +38,14 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(dike_structure_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::DikeEnd& inst) {
 		start(inst, "Track.DikeEnd");
 
 		PRINT_VALUE(rail_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Pole& inst) {
 		start(inst, "Track.Pole");
 
@@ -56,14 +56,14 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(pole_structure_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::PoleEnd& inst) {
 		start(inst, "Track.PoleEnd");
 
 		PRINT_VALUE(rail_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Crack& inst) {
 		start(inst, "Track.Crack");
 
@@ -72,12 +72,12 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(crack_structure_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Ground& inst) {
 		start(inst, "Track.Ground");
 
 		PRINT_VALUE(ground_structure_index);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

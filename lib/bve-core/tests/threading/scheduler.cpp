@@ -8,8 +8,8 @@ using bve::core::threading::TaskScheduler;
 TEST_CASE("libcore - threading - scheduler - sum") {
 	TaskScheduler ts(2, 0);
 
-	auto dependent = ts.prepareDependentTask([](TaskScheduler& ts) {
-		ts.stop(); // Separate for debugging
+	auto dependent = ts.prepareDependentTask([](TaskScheduler& ts1) {
+		ts1.stop(); // Separate for debugging
 	});
 
 	constexpr std::size_t count = 100;
@@ -18,7 +18,7 @@ TEST_CASE("libcore - threading - scheduler - sum") {
 
 	for (std::size_t i = 0; i < count; ++i) {
 		ts.addTask(
-		    [i, &partials](TaskScheduler&) {
+		    [i, &partials](TaskScheduler&) noexcept {
 			    partials[i] = i; // Separate for debugging
 		    },
 		    dependent);
@@ -45,12 +45,12 @@ TEST_CASE("libcore - threading - scheduler - nested sum") {
 	// Inner task does 100->199
 	// When counter increment returns 99 all tasks are done.
 	for (std::size_t i = 0; i < count; ++i) {
-		ts.addTask([i, count, &partials, &counter](TaskScheduler& ts) {
+		ts.addTask([i, count, &partials, &counter](TaskScheduler& ts1) {
 			partials[i] = i; // Separate for debugging
-			ts.addTask([i, count, &partials, &counter](TaskScheduler& ts) {
+			ts1.addTask([i, count, &partials, &counter](TaskScheduler& ts2) {
 				partials[i + count] = i + count;
 				if (counter.fetch_add(1, std::memory_order_acq_rel) == count - 1) {
-					ts.stop();
+					ts2.stop();
 				}
 			});
 		});
@@ -68,16 +68,16 @@ TEST_CASE("libcore - threading - scheduler - double dependants") {
 
 	std::size_t counter = 0;
 
-	auto dep2 = ts.prepareDependentTask([&counter](TaskScheduler& ts) {
+	auto dep2 = ts.prepareDependentTask([&counter](TaskScheduler& ts1) {
 		counter *= 2;
-		ts.stop();
+		ts1.stop();
 	});
 	auto dep1 = ts.prepareDependentTask(
-	    [&counter](auto&) {
+	    [&counter](auto&) noexcept {
 		    counter = 4; // for debugging
 	    },
 	    dep2);
-	ts.addTask([&counter](auto&) { counter = 1; }, dep1);
+	ts.addTask([&counter](auto&) noexcept { counter = 1; }, dep1);
 
 	ts.addDependentTask(std::move(dep1));
 	ts.addDependentTask(std::move(dep2));
@@ -92,16 +92,16 @@ TEST_CASE("libcore - threading - scheduler - blocking double dependants") {
 
 	std::size_t counter = 0;
 
-	auto dep2 = ts.prepareDependentBlockingTask([&counter](TaskScheduler& ts) {
+	auto dep2 = ts.prepareDependentBlockingTask([&counter](TaskScheduler& ts1) {
 		counter *= 2;
-		ts.stop();
+		ts1.stop();
 	});
 	auto dep1 = ts.prepareDependentBlockingTask(
-	    [&counter](auto&) {
+	    [&counter](auto&) noexcept {
 		    counter = 4; // for debugging
 	    },
 	    dep2);
-	ts.addBlockingTask([&counter](auto&) { counter = 1; }, dep1);
+	ts.addBlockingTask([&counter](auto&) noexcept { counter = 1; }, dep1);
 
 	ts.addDependentTask(std::move(dep1));
 	ts.addDependentTask(std::move(dep2));
@@ -116,11 +116,11 @@ TEST_CASE("libcore - threading - scheduler - tasks run after pause") {
 
 	std::size_t counter = 0;
 
-	auto set_counter = ts.prepareDependentTask([&counter](TaskScheduler& ts) {
+	auto set_counter = ts.prepareDependentTask([&counter](TaskScheduler& ts1) {
 		counter = 1;
-		ts.stop();
+		ts1.stop();
 	});
-	ts.addTask([](TaskScheduler& ts) { ts.pause(); }, set_counter);
+	ts.addTask([](TaskScheduler& ts1) { ts1.pause(); }, set_counter);
 	ts.addDependentTask(std::move(set_counter));
 
 	ts.run();

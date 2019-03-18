@@ -10,7 +10,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(rail_type);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Rail& inst) {
 		start(inst, "Track.Rail");
 
@@ -20,7 +20,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(rail_type);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::RailType& inst) {
 		start(inst, "Track.RailType");
 
@@ -28,7 +28,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(rail_type_number);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::RailEnd& inst) {
 		start(inst, "Track.RailEnd");
 
@@ -37,19 +37,19 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(y_offset);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Adhesion& inst) {
 		start(inst, "Track.Adhesion");
 
 		PRINT_VALUE(value);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Pitch& inst) {
 		start(inst, "Track.Pitch");
 
 		PRINT_VALUE(rate);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

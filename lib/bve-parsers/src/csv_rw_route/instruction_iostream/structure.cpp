@@ -11,7 +11,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(filename);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::structure::Pole& inst) {
 		start(inst, "Structure.Pole");
 
@@ -20,5 +20,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(filename);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route
