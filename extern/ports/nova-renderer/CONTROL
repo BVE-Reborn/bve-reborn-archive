@@ -1,4 +1,4 @@
 Source: nova-renderer
-Version: 2019-03-18-2
+Version: 2019-03-18-3
 Description: A mod to replace Minecraft's renderer with an Vulkan renderer written in C++.
 Build-Depends: fmt,glm,glslang,minitrace,miniz,nlohmann-json,spirv-cross,spirv-tools,spirv-tools,vulkan,vulkan-memory-allocator
