@@ -28,5 +28,5 @@ vcpkg install --recurse `
 	"spirv-cross:x64-windows" `
 	"spirv-tools:x64-windows" `
 	"spirv-tools:x64-windows" `
-	"vulkan-memory-allocator:x64-windows"
+	"vulkan-memory-allocator:x64-windows" `
 	"vulkan:x64-windows" `
