@@ -7,7 +7,7 @@ $vcpkg_root = [System.Environment]::GetEnvironmentVariable("VCPKG_ROOT", "User")
 
 $vcpkg_ports_dir = $vcpkg_root + "\ports\"
 
-cp "extern\ports\nova-renderer" "$vcpkg_root\ports\" "-r"
+cp "-Recurse" "extern\ports\nova-renderer" "$vcpkg_root\ports\"
 
 vcpkg install --recurse `
 	"abseil:x64-windows" `
@@ -23,9 +23,10 @@ vcpkg install --recurse `
 	"miniz:x64-windows" `
 	"ms-gsl:x64-windows" `
 	"nlohmann-json:x64-windows" `
+	"nova-renderer:x64-windows" `
 	"rapidxml-ns:x64-windows" `
 	"spirv-cross:x64-windows" `
 	"spirv-tools:x64-windows" `
 	"spirv-tools:x64-windows" `
-	"vulkan:x64-windows" `
 	"vulkan-memory-allocator:x64-windows"
+	"vulkan:x64-windows" `
