@@ -1,9 +1,9 @@
-if (-not ([System.Environment]::GetEnvironmentVariable("VCPKG_ROOT", "User") -is [String])) {
+$vcpkg_root = ([System.Environment]::GetEnvironmentVariable("VCPKG_ROOT", "User") + $env:VCPKG_ROOT)
+
+if (-not ($vcpkg_root -is [String])) {
     echo "Cannot find environment variable VCPKG_ROOT."
     return 1
 }
-
-$vcpkg_root = [System.Environment]::GetEnvironmentVariable("VCPKG_ROOT", "User")
 
 $vcpkg_ports_dir = $vcpkg_root + "\ports\"
 
