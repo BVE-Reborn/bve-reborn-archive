@@ -28,7 +28,7 @@ install:
   - cmd: cd C:\Tools\vcpkg
   - cmd: git pull --ff -q
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
-  - ps: .\tools\vcpkg\windows.ps1
+  - ps: powershell -ExecutionPolicy Bypass .\tools\vcpkg\windows.ps1
 
 before_build:
   - cmd: cd C:\projects\bve-reborn
