@@ -1,4 +1,4 @@
-if ([System.Environment]::GetEnvironmentVariable("VCPKG_ROOT", "User") -eq "") {
+if (-not ([System.Environment]::GetEnvironmentVariable("VCPKG_ROOT", "User") -is [String])) {
     echo "Cannot find environment variable VCPKG_ROOT."
     return 1
 }
