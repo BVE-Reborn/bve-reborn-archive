@@ -1,3 +1,14 @@
+if (Get-Variable 'VCPKG_ROOT' -Scope Global -ErrorAction 'Ignore') {
+    echo "Cannot find environment variable VCPKG_ROOT."
+    return 1
+}
+
+$vcpkg_root = Get-Variable 'VCPKG_ROOT' -Scope Global
+
+$vcpkg_ports_dir = $vcpkg_root + "\ports\"
+
+cp "extern\ports\nova-renderer $vcpkg_root\ports\ -r"
+
 vcpkg install --recurse `
 	"abseil:x64-windows" `
 	"concurrentqueue:x64-windows" `
