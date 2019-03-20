@@ -10,6 +10,7 @@ skip_tags: true
 
 environment:
   VULKAN_SDK: C:\VulkanSDK\1.1.97.0
+  VCPKG_ROOT: C:\Tools\vcpkg
   PATH: c:\projects\bve-reborn\;$(PATH)
 
 init:
