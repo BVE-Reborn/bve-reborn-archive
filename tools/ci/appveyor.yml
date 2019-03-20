@@ -10,6 +10,7 @@ skip_tags: true
 
 environment:
   VULKAN_SDK: C:\VulkanSDK\1.1.97.0
+  PATH: c:\projects\bve-reborn\;$(PATH)
 
 init:
   - cmd: cmake --version
@@ -22,6 +23,7 @@ install:
   - cmd: git submodule update --init --recursive
   - cmd: curl --silent --show-error --output VulkanSDK.exe https://cwfitz.com/s/19028-082433-VulkanSDK-1.1.97.0-Installer.exe
   - cmd: .\VulkanSDK.exe /S
+  - cmd: curl --silent --show-error --output ispc.exe https://cwfitz.com/s/19079-081337-ispc.exe
   - cmd: cd C:\Tools\vcpkg
   - cmd: git pull --ff -q
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
