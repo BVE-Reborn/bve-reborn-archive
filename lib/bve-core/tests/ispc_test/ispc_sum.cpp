@@ -8,7 +8,7 @@ TEST_SUITE_BEGIN("libcore - ispc");
 TEST_CASE("libcore - ispc") {
 	std::vector<uint64_t> array;
 
-	constexpr std::size_t size = 10000000;
+	constexpr std::size_t size = 10000;
 
 	uint64_t i = 0;
 	std::generate_n(std::back_inserter(array), size + 1, [&] { return i++; });

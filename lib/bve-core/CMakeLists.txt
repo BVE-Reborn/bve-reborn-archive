@@ -26,6 +26,7 @@ target_link_libraries(bve-core PUBLIC bve-core-ispc bve-util vtune::vtune glm gs
 finish_bve_target(bve-core)
 
 set_property(TARGET bve-core PROPERTY FOLDER lib)
+set_property(TARGET bve-core-ispc PROPERTY FOLDER lib)
 
 ####################
 # libbve-core-test #
