@@ -14,33 +14,33 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 12:
 				s.timetable_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[11], 0));
-				// fall through
+				[[fallthrough]];
 			case 11:
 				s.departure_sound = inst.args[10];
-				// fall through
+				[[fallthrough]];
 			case 10:
 				s.passenger_ratio = util::parsers::parse_loose_float(inst.args[9], 100);
-				// fall through
+				[[fallthrough]];
 			case 9:
 				s.stop_duration = util::parsers::parse_loose_float(inst.args[8], 15);
-				// fall through
+				[[fallthrough]];
 			case 8:
 				s.arrival_sound = inst.args[7];
-				// fall through
+				[[fallthrough]];
 			case 7:
 				// System
 				{
 					auto const arg_val = util::parsers::lower_copy(inst.args[6]);
 					s.system = arg_val == "atc" || arg_val == "1";
 				}
-			// fall through
+				[[fallthrough]];
 			case 6:
 				// Forced Red Signal
 				{
 					auto const val = util::parsers::parse_loose_integer(inst.args[5], 0);
 					s.force_red = val == 1;
 				}
-			// fall through
+				[[fallthrough]];
 			case 5:
 				// Doors
 				{
@@ -85,14 +85,14 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						}
 					}
 				}
-			// fall through
+				[[fallthrough]];
 			case 4:
 				// Pass Alarm
 				{
 					auto const val = util::parsers::parse_loose_integer(inst.args[3], 0);
 					s.pass_alarm = val == 1;
 				}
-			// fall through
+				[[fallthrough]];
 			case 3:
 				// Departure Time
 				{
@@ -129,7 +129,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						}
 					}
 				}
-			// fall through
+				[[fallthrough]];
 			case 2:
 				// Arrival time
 				{
@@ -163,10 +163,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						}
 					}
 				}
-			// fall through
+				[[fallthrough]];
 			case 1:
 				s.name = inst.args[0];
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -213,13 +213,13 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 4:
 				s.cars = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[3], 0));
-				// fall through
+				[[fallthrough]];
 			case 3:
 				s.forwards_tolerance = util::parsers::parse_loose_float(inst.args[2], 5);
-				// fall through
+				[[fallthrough]];
 			case 2:
 				s.backwards_tolerance = util::parsers::parse_loose_float(inst.args[1], 5);
-				// fall through
+				[[fallthrough]];
 			case 1: {
 				auto const direction_num = util::parsers::parse_loose_integer(inst.args[0], 0);
 
@@ -236,7 +236,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						break;
 				}
 			}
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -253,10 +253,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 4:
 				f.form_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[3], 0));
-				// fall through
+				[[fallthrough]];
 			case 3:
 				f.roof_structure_index = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[2], 0));
-				// fall through
+				[[fallthrough]];
 			case 2:
 				if (!inst.args[1].empty()) {
 					switch (inst.args[1][0]) {
@@ -278,10 +278,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 					f.rail_index_2 = 0;
 					f.placement = instructions::track::Form::Placement::rail_index;
 				}
-				// fall through
+				[[fallthrough]];
 			case 1:
 				f.rail_index_1 = gsl::narrow_cast<std::size_t>(util::parsers::parse_loose_integer(inst.args[0]));
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}

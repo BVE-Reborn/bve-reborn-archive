@@ -134,13 +134,13 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 3:
 				al.color.b = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[2], 160));
-				// fall through
+				[[fallthrough]];
 			case 2:
 				al.color.g = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[1], 160));
-				// fall through
+				[[fallthrough]];
 			case 1:
 				al.color.r = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[0], 160));
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -155,13 +155,13 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 3:
 				dl.color.b = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[2], 160));
-				// fall through
+				[[fallthrough]];
 			case 2:
 				dl.color.g = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[1], 160));
-				// fall through
+				[[fallthrough]];
 			case 1:
 				dl.color.r = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[0], 160));
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -176,10 +176,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 2:
 				ld.theta = util::parsers::parse_loose_float(inst.args[0], 60);
-				// fall through
+				[[fallthrough]];
 			case 1:
 				ld.phi = util::parsers::parse_loose_float(inst.args[1], -26.57F);
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}

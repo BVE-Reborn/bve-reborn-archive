@@ -1,36 +1,47 @@
 cmake_minimum_required(VERSION 3.12)
 project(BVE-Reborn C CXX)
 
-find_package(Threads REQUIRED)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
-                                           ${CMAKE_SOURCE_DIR}/extern
-                                           ${CMAKE_SOURCE_DIR}/extern/cmake
-                                           ${CMAKE_SOURCE_DIR}/extern/cmake-utils/include
-                                           ${CMAKE_SOURCE_DIR}/extern/cotire/CMake
-                                           ${CMAKE_SOURCE_DIR}/extern/nova/cmake
-                                           ${CMAKE_SOURCE_DIR}/tools/cmake
+if (VCPKG_TOOLCHAIN)
+    include_directories(SYSTEM "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+endif()
+
+option(BVEREBORN_PACKAGE "Enable if building from a package manager. Does the minimal needed configuration." Off)
+option(BVEREBORN_WITH_FUZZING "Enable to build automatic fuzzing. Experimental." Off)
+option(BVEREBORN_CODE_COVERAGE "Enable to build with code coverage." Off)
+option(BVEREBORN_VTUNE "Enable to build with code coverage." Off)
+
+list(APPEND CMAKE_MODULE_PATH 
+    "${CMAKE_SOURCE_DIR}/extern"
+    "${CMAKE_SOURCE_DIR}/extern/cmake-helpers"
+    "${CMAKE_SOURCE_DIR}/tools/cmake"
 )
 
-include(config)
+include(add_build)
+include(cmake-helpers)
+include(extern)
+include(warnings)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+if ((NOT CMAKE_BUILD_TYPE) AND (NOT OS_WINDOWS))
+    message(FATAL_ERROR "CMAKE_BUILD_TYPE must be set on mac and linux.")
+endif()
+
+if (OS_32bit)
+    message(FATAL_ERROR "BVE-Reborn does not support 32bit builds.")
+endif()
+
+if(NOT BVEREBORN_PACKAGE)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS False)
 
-if (BVEREBORN_WITH_FUZZING)
-    add_compile_options(-fsanitize=fuzzer-no-link)
-endif()
-
-if (NOT CMAKE_BUILD_TYPE) 
-    set(CMAKE_BUILD_TYPE Release) 
-endif() 
-
-if(BVEREBORN_WIN)
+if(OS_WINDOWS)
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_ITERATOR_DEBUG_LEVEL=1")
     add_compile_options(/Zi /permissive- /MP)
     set (CMAKE_SHARED_LINKER_FLAGS "/DEBUG")
@@ -40,44 +51,33 @@ else()
     link_libraries(-g)
 endif()
 
-include(cotire)
+macro(target_bve_cotire)
+    if (NOT OS_WINDOWS)
+        target_cotire(${ARGN})
+    endif()
+endmacro()
 
-include(ClangFormat)
-include(ClangTidy)
-
-include(extern)
-include(meta_features)
-include(nova)
-include(warnings)
-
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/dependencies)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} APPEND PROPERTY COTIRE_PREFIX_HEADER_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/extern)
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
-
-find_package(VTune)
 
 #################
 # Global Config #
 #################
 
 if(EXISTS ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings)
-    file(COPY ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_SOURCE_DIR})
+    file(COPY ${CMAKE_BINARY_DIR}/BVE-Reborn.sln.DotSettings DESTINATION tools/ide)
 else()
-    file(COPY BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY tools/ide/BVE-Reborn.sln.DotSettings DESTINATION ${CMAKE_BINARY_DIR})
 endif()
 
-if((${CMAKE_BUILD_TYPE} MATCHES "Debug") AND (BVEREBORN_CODE_COVERAGE))
-    message(STATUS "Compiling with CodeCoverage")
-    include(CodeCoverage)
-    APPEND_COVERAGE_COMPILER_FLAGS()
-else()
-    message(STATUS "Compiling without CodeCoverage")
-endif()
+macro(target_bve_coverage)
+    if(BVEREBORN_CODE_COVERAGE)
+        target_coverage(${ARGN})
+    endif()
+endmacro()
 
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
-# TODO: Fix Warning Propagation
-add_warnings()
 
 add_subdirectory(lib/bve-core)
 add_subdirectory(lib/bve-log)
@@ -85,16 +85,8 @@ add_subdirectory(lib/bve-parsers)
 add_subdirectory(lib/bve-util)
 add_subdirectory(src/test-runner)
 
-if(TARGET format)
-    set_property(TARGET format PROPERTY FOLDER tools)
-endif()
-if(TARGET lint)
-    set_property(TARGET lint PROPERTY FOLDER tools)
-endif()
-if(TARGET lint-fix)
-    set_property(TARGET lint-fix PROPERTY FOLDER tools)
-endif()
+enable_linting(lib src)
 
 if(TARGET clean_cotire)
-    set_property(TARGET clean_cotire PROPERTY FOLDER tools)
+    set_property(TARGET clean_cotire PROPERTY FOLDER "")
 endif()

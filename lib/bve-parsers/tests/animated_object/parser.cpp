@@ -1,4 +1,4 @@
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <parsers/animated.hpp>
 
 using namespace std::string_literals;

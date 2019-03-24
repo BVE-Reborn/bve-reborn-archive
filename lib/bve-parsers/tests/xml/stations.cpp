@@ -1,6 +1,6 @@
-#include "doctest.h"
 #include "sample_relative_file_func.hpp"
 #include "util/parsing.hpp"
+#include <doctest/doctest.h>
 #include <parsers/xml/stations.hpp>
 
 namespace st = bve::parsers::xml::stations;

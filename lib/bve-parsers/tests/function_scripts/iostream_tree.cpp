@@ -1,6 +1,6 @@
 #include "function_scripts/parse_tree.hpp"
 #include "util/macro_helpers.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <sstream>
 
 using namespace std::string_literals;

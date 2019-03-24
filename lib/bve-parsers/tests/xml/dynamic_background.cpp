@@ -1,7 +1,7 @@
 #include "parsers/xml/dynamic_background.hpp"
 #include "sample_relative_file_func.hpp"
 #include "util/parsing.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <iostream>
 
 namespace db = bve::parsers::xml::dynamic_background;

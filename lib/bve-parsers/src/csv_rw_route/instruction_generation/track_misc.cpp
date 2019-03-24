@@ -13,19 +13,19 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 5:
 				f.color.b = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[4], 128));
-				// fall through
+				[[fallthrough]];
 			case 4:
 				f.color.g = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[3], 128));
-				// fall through
+				[[fallthrough]];
 			case 3:
 				f.color.r = gsl::narrow<std::uint8_t>(util::parsers::parse_loose_integer(inst.args[2], 128));
-				// fall through
+				[[fallthrough]];
 			case 2:
 				f.ending_distance = util::parsers::parse_loose_float(inst.args[1], 0);
-				// fall through
+				[[fallthrough]];
 			case 1:
 				f.starting_distance = util::parsers::parse_loose_float(inst.args[0], 0);
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}
@@ -156,10 +156,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 3:
 				d.y_offset = util::parsers::parse_loose_float(inst.args[2]);
-				// fall through
+				[[fallthrough]];
 			case 2:
 				d.x_offset = util::parsers::parse_loose_float(inst.args[1]);
-				// fall through
+				[[fallthrough]];
 			case 1:
 				break;
 		}

@@ -2,7 +2,7 @@
 #include "parsers/errors.hpp"
 #include "sample_relative_file_func.hpp"
 #include "util/macro_helpers.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <string>
 
 using namespace std::string_literals;

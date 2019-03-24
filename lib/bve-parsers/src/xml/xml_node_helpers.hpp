@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rapidxml_ns.hpp>
+#include <rapidxml-ns/rapidxml_ns.hpp>
 
 namespace bve::parsers::xml {
 	namespace {

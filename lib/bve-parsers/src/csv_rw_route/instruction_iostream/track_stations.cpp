@@ -20,14 +20,14 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(timetable_index);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::StationXml& inst) {
 		start(inst, "Track.StationXML");
 
 		PRINT_VALUE(filename);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Stop& inst) {
 		start(inst, "Track.Stop");
 
@@ -37,7 +37,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(cars);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::track::Form& inst) {
 		start(inst, "Track.Form");
 
@@ -48,5 +48,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_ENUM3(placement, track::Form::Placement, left, right, rail_index);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

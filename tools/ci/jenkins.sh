@@ -1,28 +1,29 @@
 #!/bin/bash
 
-set -e
+set -e -x
 
 # Coverage
 curl -so codecov.bash https://codecov.io/bash
 echo "End Clone"
 
 # Docs
-./docs.sh build-docs
+./tools/docs/linux.sh build-docs
 mkdir -p "/mnt/data/docs.bvereborn.com/$GIT_BRANCH/"
-bash -c 'rsync -az --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
+bash -c 'rsync -a --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
 echo "End Docs"
 
 # Clang Build
 mkdir build-clang
 cd build-clang
 cmake ..\
-    -DCMAKE_BUILD_TYPE=Debug\
-    -DSANITIZE_ADDRESS=On\
-    -DSANITIZE_UNDEFINED=On\
-    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=lld"\
-    -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8\
-    -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
-    -GNinja
+	-DCMAKE_BUILD_TYPE=Debug\
+	-DSANITIZE_{ADDRESS,UNDEFINED}=On\
+	-DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
+	-DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8\
+	-DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"\
+	-DCMAKE_TOOLCHAIN_FILE=${VCPKG_CMAKE}\
+	-DCMAKE_EXPORT_COMPILE_COMMANDS=On\
+	-GNinja
 ninja -j8
 echo "End Clang-Build"
 bin/tests
@@ -36,7 +37,7 @@ cmake .. \
     -DCMAKE_BUILD_TYPE=Debug\
     -DBVEREBORN_CODE_COVERAGE=On\
     -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=gold"\
-    -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7\
+    -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7\
     -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
     -GNinja
 ninja -j8

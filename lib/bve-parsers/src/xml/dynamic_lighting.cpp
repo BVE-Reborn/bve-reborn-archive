@@ -1,7 +1,7 @@
 #include "parsers/xml/dynamic_lighting.hpp"
 #include "util/parsing.hpp"
 #include "xml_node_helpers.hpp"
-#include <rapidxml_ns.hpp>
+#include <rapidxml-ns/rapidxml_ns.hpp>
 
 using namespace std::string_literals;
 

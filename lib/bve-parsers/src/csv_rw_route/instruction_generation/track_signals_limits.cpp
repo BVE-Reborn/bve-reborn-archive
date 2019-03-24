@@ -23,7 +23,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						break;
 				}
 			}
-				// fall through
+				[[fallthrough]];
 			case 2: {
 				auto const post_num = util::parsers::parse_loose_integer(inst.args[1], 0);
 
@@ -40,10 +40,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						break;
 				}
 			}
-				// fall through
+				[[fallthrough]];
 			case 1:
 				l.speed = util::parsers::parse_loose_float(inst.args[0], 0);
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}

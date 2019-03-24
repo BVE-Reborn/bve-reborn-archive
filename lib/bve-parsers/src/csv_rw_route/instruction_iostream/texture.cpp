@@ -8,7 +8,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(filename);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::texture::BackgroundX& inst) {
 		start(inst, "Texture.Background_X");
 
@@ -16,7 +16,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(repetition_count);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::texture::BackgroundAspect& inst) {
 		start(inst, "Texture.Background_Aspect");
 
@@ -24,5 +24,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_ENUM2(mode, texture::BackgroundAspect::Mode, fixed, aspect);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route

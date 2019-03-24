@@ -23,10 +23,10 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 			default:
 			case 3:
 				t.switch_system = util::parsers::parse_loose_integer(inst.args[2], 0) == 0;
-				// fall through
+				[[fallthrough]];
 			case 2:
 				t.signal = gsl::narrow<std::size_t>(util::parsers::parse_loose_integer(inst.args[1], 0));
-				// fall through
+				[[fallthrough]];
 			case 1: {
 				auto const type_num = util::parsers::parse_loose_integer(inst.args[0], 0);
 
@@ -49,7 +49,7 @@ namespace bve::parsers::csv_rw_route::instruction_generation {
 						break;
 				}
 			}
-				// fall through
+				[[fallthrough]];
 			case 0:
 				break;
 		}

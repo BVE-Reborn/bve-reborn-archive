@@ -1,5 +1,5 @@
 #include "util/math.hpp"
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_SUITE_BEGIN("libutil - math");
 
@@ -13,12 +13,12 @@ TEST_CASE("libutil - math - evaluate curve") {
 	auto const val_c = m::evaluate_curve(val_b.position, val_b.tangent, distance, -10);
 	auto const val_d = m::evaluate_curve(val_c.position, val_c.tangent, distance, -10);
 
-	CHECK_EQ(val_d.position.x, doctest::Approx(0).epsilon(0.0001F));
-	CHECK_EQ(val_d.position.y, doctest::Approx(0).epsilon(0.0001F));
-	CHECK_EQ(val_d.position.z, doctest::Approx(0).epsilon(0.0001F));
-	CHECK_EQ(val_d.tangent.x, doctest::Approx(0).epsilon(0.0001F));
-	CHECK_EQ(val_d.tangent.y, doctest::Approx(1).epsilon(0.0001F));
-	CHECK_EQ(val_d.tangent.z, doctest::Approx(1).epsilon(0.0001F));
+	CHECK_EQ(val_d.position.x, doctest::Approx(0).epsilon(0.0001));
+	CHECK_EQ(val_d.position.y, doctest::Approx(0).epsilon(0.0001));
+	CHECK_EQ(val_d.position.z, doctest::Approx(0).epsilon(0.0001));
+	CHECK_EQ(val_d.tangent.x, doctest::Approx(0).epsilon(0.0001));
+	CHECK_EQ(val_d.tangent.y, doctest::Approx(1).epsilon(0.0001));
+	CHECK_EQ(val_d.tangent.z, doctest::Approx(1).epsilon(0.0001));
 }
 
 TEST_SUITE_END();

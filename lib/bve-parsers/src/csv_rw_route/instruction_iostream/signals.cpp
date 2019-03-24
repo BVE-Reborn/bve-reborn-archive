@@ -8,7 +8,7 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(filename);
 
 		end();
-	};
+	}
 	void CSVRwRouteInstructionIOClass::operator()(const instructions::naked::Signal& inst) {
 		start(inst, "Signal");
 
@@ -17,5 +17,5 @@ namespace bve::parsers::csv_rw_route {
 		PRINT_VALUE(glow_filename);
 
 		end();
-	};
+	}
 } // namespace bve::parsers::csv_rw_route
