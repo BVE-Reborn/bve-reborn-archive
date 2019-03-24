@@ -18,6 +18,7 @@ find_package(spirv_cross_util CONFIG REQUIRED)
 find_package(SPIRV-Tools CONFIG REQUIRED)
 find_package(Vulkan REQUIRED)
 
+find_package(foundational CONFIG REQUIRED)
 find_package(nova-renderer CONFIG REQUIRED)
 
 # BVE
@@ -32,4 +33,6 @@ set_property(TARGET glm APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS GLM_ENABLE
 add_library(gsl::gsl INTERFACE IMPORTED)
 set_property(TARGET gsl::gsl APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS GSL_THROW_ON_CONTRACT_VIOLATION)
 
-find_package(VTune)
+if(BVE_VTUNE)
+	find_package(VTune)
+endif()

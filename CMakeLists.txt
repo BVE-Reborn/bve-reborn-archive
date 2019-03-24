@@ -10,6 +10,7 @@ endif()
 option(BVEREBORN_PACKAGE "Enable if building from a package manager. Does the minimal needed configuration." Off)
 option(BVEREBORN_WITH_FUZZING "Enable to build automatic fuzzing. Experimental." Off)
 option(BVEREBORN_CODE_COVERAGE "Enable to build with code coverage." Off)
+option(BVEREBORN_VTUNE "Enable to build with code coverage." Off)
 
 list(APPEND CMAKE_MODULE_PATH 
     "${CMAKE_SOURCE_DIR}/extern"
