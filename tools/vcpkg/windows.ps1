@@ -7,6 +7,7 @@ if (-not ($vcpkg_root -is [String])) {
 
 $vcpkg_ports_dir = $vcpkg_root + "\ports\"
 
+cp -Recurse -Force "extern\ports\foundational" "$vcpkg_root\ports\"
 cp -Recurse -Force "extern\ports\nova-renderer" "$vcpkg_root\ports\"
 
 vcpkg update

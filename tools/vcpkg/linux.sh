@@ -5,7 +5,7 @@ if [[ -z "${VCPKG_ROOT}" ]]; then
 	exit 1
 fi
 
-echo "Installing nova-renderer port."
+cp -r extern/ports/foundational ${VCPKG_ROOT}/ports/
 cp -r extern/ports/nova-renderer ${VCPKG_ROOT}/ports/
 
 vcpkg update
