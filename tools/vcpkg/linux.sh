@@ -8,6 +8,8 @@ fi
 echo "Installing nova-renderer port."
 cp -r extern/ports/nova-renderer ${VCPKG_ROOT}/ports/
 
+vcpkg update
+vcpkg upgrade --no-dry-run
 vcpkg install --recurse\
 	abseil\
 	concurrentqueue\

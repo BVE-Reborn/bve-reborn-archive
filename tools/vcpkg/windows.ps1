@@ -9,6 +9,8 @@ $vcpkg_ports_dir = $vcpkg_root + "\ports\"
 
 cp -Recurse -Force "extern\ports\nova-renderer" "$vcpkg_root\ports\"
 
+vcpkg update
+vcpkg upgrade --no-dry-run
 vcpkg install --recurse `
 	"abseil:x64-windows" `
 	"concurrentqueue:x64-windows" `
