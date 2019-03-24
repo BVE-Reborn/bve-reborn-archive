@@ -18,7 +18,6 @@ cd build-clang
 cmake ..\
 	-DCMAKE_BUILD_TYPE=Debug\
 	-DSANITIZE_{ADDRESS,UNDEFINED}=On\
-	-DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
 	-DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8\
 	-DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"\
 	-DCMAKE_TOOLCHAIN_FILE=${VCPKG_CMAKE}\
@@ -36,9 +35,9 @@ cd build-gcc
 cmake .. \
     -DCMAKE_BUILD_TYPE=Debug\
     -DBVEREBORN_CODE_COVERAGE=On\
-    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=gold"\
     -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7\
-    -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache\
+    -DCMAKE_{EXE_SHARED}_LINKER_FLAGS="-fuse-ld=gold"\
+    -DCMAKE_TOOLCHAIN_FILE=${VCPKG_CMAKE}\
     -GNinja
 ninja -j8
 lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
