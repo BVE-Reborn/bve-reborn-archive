@@ -2,11 +2,15 @@ include(vcpkg_common_functions)
 
 vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
 
+if ((NOT (${TARGET_TRIPLET} MATCHES "x64")) OR (${TARGET_TRIPLET} MATCHES UWP))
+	message(FATAL_ERROR "Foundational only supports x64 at this time.")
+endif()
+
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO NovaMods/nova-renderer
-    REF 919168cf56158f642c6d3032de73112512517ca2
-    SHA512 e845d7ef362dea0a14670b77e642a67a7aabe9deabef47a65a71de910cebdb2e8a426c0879beedd946187427e84d594b896fc85123bcff9216a5514f336678bc
+    REF c6d27216798c1fd8180bf209c9a2a454edf8a967
+    SHA512 6868532d0a32fc265bdcbee98d214e5e396f7924c809cd7363b0564242ccefef933e480c6187689d1d58af4a09ce2e4db123c2550d8f1c04056ac452b7cf09f6
     HEAD_REF master
 )
 
