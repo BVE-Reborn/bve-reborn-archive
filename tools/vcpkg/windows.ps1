@@ -7,7 +7,7 @@ if (-not ($vcpkg_root -is [String])) {
 
 $vcpkg_ports_dir = $vcpkg_root + "\ports\"
 
-cp -Recurse "extern\ports\nova-renderer" "$vcpkg_root\ports\"
+cp -Recurse -Force "extern\ports\nova-renderer" "$vcpkg_root\ports\"
 
 vcpkg install --recurse `
 	"abseil:x64-windows" `
