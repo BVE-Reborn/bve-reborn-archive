@@ -9,16 +9,16 @@ endif()
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO NovaMods/foundational
-    REF 0056f5921b761b6533628c4ca4d33154273e88db
-    SHA512 658540067e124c1a2fd153a11114463ba7eb798015a72e2ec6ec7d30398c8033609768057122c879ddc4818e9fe6ae7dcefccba1d83c4c475eb15393d8f24ccd
+    REF d4aa07979ad94dc22f9258babc09829abeb3b330
+    SHA512 0e0c3983c8264a38f6c405204886154bd8acf76330b334e29c9f7ae4bbe173f87dc6629f27cb38a9b788cc0234c6e91c0b54af6e4e12f60ca29b7a844838308d
     HEAD_REF master
 )
 
 vcpkg_download_distfile(
     CMAKE_HELPERS_PATH
-    URLS https://github.com/NovaMods/cmake-helpers/archive/251d3e3917b510113b7466a3cbb84d1c793466c3.zip
-    FILENAME NovaMods-cmake-helpers-251d3e3917b510113b7466a3cbb84d1c793466c3.zip
-    SHA512 bd52eb1ef9b7ae7fe82dae34c508081b2b7cc6f71916c1c440bf05be4bbb4acd3b3e3cbb9be68b85a015afa49e311548f160df17acd86b246b67b5577a41d5e7
+    URLS https://github.com/NovaMods/cmake-helpers/archive/1cfce8b1bc40dfbbc6935f92ed39a873b507ffe4.zip
+    FILENAME NovaMods-cmake-helpers-1cfce8b1bc40dfbbc6935f92ed39a873b507ffe4.zip
+    SHA512 20732a1087f0a288db45d64794ad564dab61f63c91dbdf6cad41b4acaa1515ac1a44cd1a6df1c79d590a84017c19d7914c35aed648f6a2c509aab1b2a312fda2
 )
 
 vcpkg_extract_source_archive_ex(
