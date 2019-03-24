@@ -41,5 +41,5 @@ function(add_bve_library _target)
 endfunction()
 
 function(finish_bve_target _target)
-	target_bve_cotire(${_target})
+	# target_bve_cotire(${_target})
 endfunction()
