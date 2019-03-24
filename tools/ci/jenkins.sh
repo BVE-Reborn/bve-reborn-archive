@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -e -x
 
 # Coverage
 curl -so codecov.bash https://codecov.io/bash
