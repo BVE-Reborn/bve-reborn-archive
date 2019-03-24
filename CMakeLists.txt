@@ -11,7 +11,7 @@ option(BVEREBORN_PACKAGE "Enable if building from a package manager. Does the mi
 option(BVEREBORN_WITH_FUZZING "Enable to build automatic fuzzing. Experimental." Off)
 option(BVEREBORN_CODE_COVERAGE "Enable to build with code coverage." Off)
 
-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" 
+list(APPEND CMAKE_MODULE_PATH 
     "${CMAKE_SOURCE_DIR}/extern"
     "${CMAKE_SOURCE_DIR}/extern/cmake-helpers"
     "${CMAKE_SOURCE_DIR}/tools/cmake"
