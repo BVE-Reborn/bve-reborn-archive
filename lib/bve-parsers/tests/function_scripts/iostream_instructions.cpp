@@ -1,6 +1,7 @@
 #include "util/macro_helpers.hpp"
 #include <algorithm>
 #include <doctest/doctest.h>
+#include <ostream>
 #include <parsers/function_scripts.hpp>
 #include <sstream>
 #include <util/testing/variant_macros.hpp>

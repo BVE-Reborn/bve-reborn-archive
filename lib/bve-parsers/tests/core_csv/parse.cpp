@@ -1,5 +1,6 @@
 #include "parsers/csv.hpp"
 #include <doctest/doctest.h>
+#include <ostream>
 
 using namespace std::string_literals;
 

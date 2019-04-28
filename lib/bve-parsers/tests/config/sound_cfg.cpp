@@ -3,6 +3,7 @@
 #include "sample_relative_file_func.hpp"
 #include "util/macro_helpers.hpp"
 #include <doctest/doctest.h>
+#include <ostream>
 #include <string>
 
 using namespace std::string_literals;

@@ -4,6 +4,7 @@
 #include <cppfs/FileHandle.h>
 #include <cppfs/fs.h>
 #include <doctest/doctest.h>
+#include <ostream>
 #include <fstream>
 
 using namespace std::string_literals;

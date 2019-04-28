@@ -1,5 +1,6 @@
 #include "b3d_csv_object/b3d_csv_object.hpp"
 #include <doctest/doctest.h>
+#include <ostream>
 #include <util/testing/variant_macros.hpp>
 
 using namespace std::string_literals;

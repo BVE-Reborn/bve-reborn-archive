@@ -1,5 +1,6 @@
 #include "util/parsing.hpp"
 #include <doctest/doctest.h>
+#include <ostream>
 #include <limits>
 #include <stdexcept>
 #include <util/testing/variant_macros.hpp>

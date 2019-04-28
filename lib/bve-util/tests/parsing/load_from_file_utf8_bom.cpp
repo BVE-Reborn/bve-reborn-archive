@@ -1,5 +1,6 @@
 #include "util/parsing.hpp"
 #include <doctest/doctest.h>
+#include <ostream>
 #include <sstream>
 
 using namespace std::string_literals;
