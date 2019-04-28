@@ -1,7 +1,7 @@
 #include "parsers/xml/dynamic_lighting.hpp"
 #include <doctest/doctest.h>
-#include <ostream>
 #include <iostream>
+#include <ostream>
 
 using namespace std::string_literals;
 

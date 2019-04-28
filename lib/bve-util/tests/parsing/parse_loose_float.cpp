@@ -1,7 +1,7 @@
 #include "util/parsing.hpp"
 #include <doctest/doctest.h>
-#include <ostream>
 #include <limits>
+#include <ostream>
 #include <stdexcept>
 
 using namespace std::string_literals;

@@ -4,8 +4,8 @@
 #include <cppfs/FileHandle.h>
 #include <cppfs/fs.h>
 #include <doctest/doctest.h>
-#include <ostream>
 #include <fstream>
+#include <ostream>
 
 using namespace std::string_literals;
 namespace cs = bve::parsers::csv_rw_route;
