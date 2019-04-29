@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import subprocess
+import argparse
+
+import distutils
+from distutils import dir_util
+
+import glob
+
+from sys import platform, stdout
+
+packages = [
+	'abseil',
+	'concurrentqueue',
+	'cppfs',
+	'doctest',
+	'fmt',
+	'glm',
+	'mapbox-variant',
+	'ms-gsl',
+	'rapidxml-ns',
+	'nova-renderer',
+]
+
+if platform == "linux" or platform == "linux2":
+    target = "x64-linux"
+elif platform == "darwin":
+    target = "x64-osx"
+elif platform == "win32":
+    target = "x64-windows"
+
+def copy_ports(source_dir, vcpkg_dir):
+	distutils.dir_util.copy_tree("extern/ports/foundational/", os.path.join(vcpkg_dir, "ports/foundational/"))
+	distutils.dir_util.copy_tree("extern/ports/nova-renderer/", os.path.join(vcpkg_dir, "ports/nova-renderer/"))
+
+def install_package(name, vcpkg_dir):
+	if subprocess.run(["vcpkg", "install", f"{name}:{target}"]).returncode != 0:
+		for file in glob.glob(os.path.join(vcpkg_dir, "buildtrees/foundational/*.log")):
+			print(f"Contents of file {file}")
+			with open(file) as f:
+				stdout.write(f.read())
+
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--source-dir", type=str, default=os.getcwd())
+	parser.add_argument("--vcpkg-dir", type=str, required=True)
+	parsed = parser.parse_args()
+
+	subprocess.run(['vcpkg', 'update'])
+	subprocess.run(['vcpkg', 'upgrade', '--no-dry-run'])
+
+	copy_ports(parsed.source_dir, parsed.vcpkg_dir)
+
+	for package in packages:
+		install_package(package, parsed.vcpkg_dir)
+
+if __name__ == '__main__':
+	main()
