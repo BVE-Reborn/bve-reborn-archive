@@ -31,9 +31,13 @@ elif platform == "darwin":
 elif platform == "win32":
     target = "x64-windows"
 
+def copy_tree(src, dest):
+	print(f"Copying {src} to {dest}")
+	distutils.dir_util.copy_tree(src, dest)
+
 def copy_ports(source_dir, vcpkg_dir):
-	distutils.dir_util.copy_tree("extern/ports/foundational/", os.path.join(vcpkg_dir, "ports/foundational/"))
-	distutils.dir_util.copy_tree("extern/ports/nova-renderer/", os.path.join(vcpkg_dir, "ports/nova-renderer/"))
+	copy_tree("extern/ports/foundational/", os.path.join(vcpkg_dir, "ports/foundational/"))
+	copy_tree("extern/ports/nova-renderer/", os.path.join(vcpkg_dir, "ports/nova-renderer/"))
 
 def install_package(name, vcpkg_dir):
 	if subprocess.run(["vcpkg", "install", f"{name}:{target}"]).returncode != 0:
