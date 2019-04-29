@@ -2,12 +2,15 @@
 
 set -e -x
 
+# Vcpkg
+./tools/vcpkg/setup.py --vcpkg-dir=$VCPKG_ROOT
+
 # Coverage
 curl -so codecov.bash https://codecov.io/bash
 echo "End Clone"
 
 # Docs
-./tools/docs/setup.py --vcpkg-dir=$VCPKG_ROOT
+./tools/docs/linux.sh build-docs
 mkdir -p "/mnt/data/docs.bvereborn.com/$GIT_BRANCH/"
 bash -c 'rsync -a --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
 echo "End Docs"
