@@ -1,6 +1,6 @@
 include(vcpkg_common_functions)
 
-vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
+vcpkg_check_linkage(ONLY_SHARED_LIBRARY)
 
 if ((NOT (${TARGET_TRIPLET} MATCHES "x64")) OR (${TARGET_TRIPLET} MATCHES UWP))
 	message(FATAL_ERROR "Foundational only supports x64 at this time.")
@@ -9,8 +9,8 @@ endif()
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO NovaMods/foundational
-    REF 8e1a2839e1c8c23f12f1e61555c60d8db43826c7
-    SHA512 f3dc9919f4433c8dfa18c96ccbc6627a329a25f66322433881b6d5e95177221b273ffb2a78c54e494a07a662c32776f28f8a68f9bc3223105127d750db109cad
+    REF a5294534b1c56c46e1b648e09bda8235deae118c
+    SHA512 0110a5690b963eaa35169df19af05fd1f0beffa11d557427defeb5432b626d440489ad7fd53c4c43a8c56d98398bb2e626c959ced8bfddfd055f6027f47630a4
     HEAD_REF master
 )
 
