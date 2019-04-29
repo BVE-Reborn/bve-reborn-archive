@@ -113,9 +113,7 @@ namespace bve::parsers::csv_rw_route {
 	  public:
 		explicit CSVRwRouteInstructionIOClass(std::ostream& os) : os_(os), has_filenames_(false) {}
 		explicit CSVRwRouteInstructionIOClass(std::ostream& os, std::vector<std::string> filenames) :
-		    os_(os),
-		    filenames_(std::move(filenames)),
-		    has_filenames_(true) {}
+		    os_(os), filenames_(std::move(filenames)), has_filenames_(true) {}
 
 		template <class T>
 		void printVector(const std::vector<T>& vec) {

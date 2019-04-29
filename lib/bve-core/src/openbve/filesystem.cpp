@@ -40,13 +40,13 @@ static cppfs::FilePath get_windows_file_path(GUID const folder) {
 namespace bve::openbve {
 	namespace detail {
 		cppfs::FilePath appdata_directory_impl() {
-#ifdef FOUNDATIONAL_WINDOWS
+#if defined(FOUNDATIONAL_WINDOWS)
 			logger->log(foundational::logging::Level::Debug, "Retrieving appdata directory from FOLDERID_RoamingAppData");
 
 			auto path = get_windows_file_path(FOLDERID_RoamingAppData);
-#elif FOUNDATIONAL_OSX
+#elif defined(FOUNDATIONAL_OSX)
 #	error "Todo(cwfitzgerald): Find appdata directory on mac"
-#elif FOUNDATIONAL_LINUX
+#elif defined(FOUNDATIONAL_LINUX)
 			const char* config;
 
 			cppfs::FilePath path;
@@ -66,13 +66,13 @@ namespace bve::openbve {
 		}
 
 		cppfs::FilePath home_directory_impl() {
-#ifdef FOUNDATIONAL_WINDOWS
+#if defined(FOUNDATIONAL_WINDOWS)
 			logger->log(foundational::logging::Level::Debug, "Retrieving home directory from FOLDERID_Profile");
 
 			auto path = get_windows_file_path(FOLDERID_Profile);
-#elif FOUNDATIONAL_OSX
+#elif defined(FOUNDATIONAL_OSX)
 #	error "Todo(cwfitzgerald): Find home directory on mac"
-#elif FOUNDATIONAL_LINUX
+#elif defined(FOUNDATIONAL_LINUX)
 			const char* homedir;
 
 			cppfs::FilePath path;
@@ -84,16 +84,16 @@ namespace bve::openbve {
 				logger->log(foundational::logging::Level::Debug, "Retrieving home directory from getpwuid");
 
 				uSize bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
-				if (bufsize == -1) {
+				if (bufsize == -1ULL) {
 					bufsize = 16384;
 				}
 
-				char* buf = malloc(bufsize);
+				char* buf = cast<char*>(malloc(bufsize));
 				passwd pwd;
 				passwd* result;
 				getpwuid_r(getuid(), &pwd, buf, bufsize, &result);
 
-				path = cppfs::FilePath(result.pw_dir);
+				path = cppfs::FilePath(result->pw_dir);
 
 				free(buf);
 			}
@@ -115,8 +115,9 @@ namespace bve::openbve {
 				logger->log(foundational::logging::Level::Info, "OpenBVE data directory at {:s} not found or not a directory",
 				            path.fullPath());
 			}
-
-			logger->log(foundational::logging::Level::Info, "OpenBVE data directory found at {:s}", path.fullPath());
+			else {
+				logger->log(foundational::logging::Level::Info, "OpenBVE data directory found at {:s}", path.fullPath());
+			}
 
 			return path;
 		}
