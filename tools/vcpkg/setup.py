@@ -33,6 +33,7 @@ elif platform == "win32":
 
 def copy_tree(src, dest):
 	print(f"Copying {src} to {dest}")
+	stdout.flush()
 	distutils.dir_util.copy_tree(src, dest)
 
 def copy_ports(source_dir, vcpkg_dir):
@@ -45,6 +46,7 @@ def install_package(name, vcpkg_dir):
 			print(f"Contents of file {file}")
 			with open(file) as f:
 				stdout.write(f.read())
+				stdout.flush()
 
 def main():
 	parser = argparse.ArgumentParser()
@@ -52,10 +54,10 @@ def main():
 	parser.add_argument("--vcpkg-dir", type=str, required=True)
 	parsed = parser.parse_args()
 
+	copy_ports(parsed.source_dir, parsed.vcpkg_dir)
+
 	subprocess.run(['vcpkg', 'update'])
 	subprocess.run(['vcpkg', 'upgrade', '--no-dry-run'])
-
-	copy_ports(parsed.source_dir, parsed.vcpkg_dir)
 
 	for package in packages:
 		install_package(package, parsed.vcpkg_dir)

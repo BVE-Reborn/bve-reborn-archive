@@ -16,9 +16,9 @@ vcpkg_from_github(
 
 vcpkg_download_distfile(
     CMAKE_HELPERS_PATH
-    URLS https://github.com/NovaMods/cmake-helpers/archive/1cfce8b1bc40dfbbc6935f92ed39a873b507ffe4.zip
-    FILENAME NovaMods-cmake-helpers-1cfce8b1bc40dfbbc6935f92ed39a873b507ffe4.zip
-    SHA512 20732a1087f0a288db45d64794ad564dab61f63c91dbdf6cad41b4acaa1515ac1a44cd1a6df1c79d590a84017c19d7914c35aed648f6a2c509aab1b2a312fda2
+    URLS https://github.com/NovaMods/cmake-helpers/archive/6bd0266725d55ebbba5bf7ca2e3be819c9a6606d.zip
+    FILENAME NovaMods-cmake-helpers-6bd0266725d55ebbba5bf7ca2e3be819c9a6606d.zip
+    SHA512 0cd8a920f5984a22914896b48ae413c2f98f6f6e3e668b6086d60161505184cef4ddc321a8e4e68aea3705686f012eadc072b9e5dcf78a711c15683d21a235c7
 )
 
 vcpkg_extract_source_archive_ex(
