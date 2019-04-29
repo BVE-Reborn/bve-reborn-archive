@@ -5,11 +5,12 @@
  * \param x Macro to expand.
  */
 #define EXPAND(x) x
+#define STR_IMPL(x) #x
 /**
  * \brief Turns C++ code in argument into C string with the C++ code in it.
  * \param x Code to stringify.
  */
-#define STR(x) #x
+#define STR(x) STR_IMPL(x)
 /**
  * \brief Symbol concatenation helper due to MSVC. INTERNAL
  * \param a Left symbols already expanded.
