@@ -8,6 +8,7 @@ add_bve_executable(tests src/main.cpp)
 target_link_libraries(tests PUBLIC bve-core-test)
 target_link_libraries(tests PUBLIC bve-parsers-test)
 target_link_libraries(tests PUBLIC bve-util-test)
+target_link_libraries(tests PUBLIC foundational::foundational)
 
 finish_bve_target(tests)
 
