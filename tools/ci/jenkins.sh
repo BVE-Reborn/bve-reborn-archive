@@ -66,7 +66,7 @@ fi
 cd build-gcc
 lcov -c -d . -o live-coverage.info --gcov-tool gcov-7
 lcov -a empty-coverage.info -a live-coverage.info -o coverage.info --gcov-tool gcov-7
-lcov --remove coverage.info '/usr/*' '$WORKSPACE/extern/*' '*/tests/*' '*/tests_old/*' --output-file coverage.info
+lcov --remove coverage.info '/usr/*' '$WORKSPACE/extern/*' '*/vcpkg/*' '*/tests/*' '*/tests_old/*' --output-file coverage.info
 lcov --list coverage.info
 bash ../codecov.bash -f coverage.info -t '2bfac9df-f504-4c34-bc53-3803bb9c9b27' || echo "Codecov did not collect coverage reports"
 echo "End Coverage"
