@@ -6,7 +6,7 @@
 #include <cppfs/FilePath.h>
 #include <cppfs/fs.h>
 
-#ifdef FOUNDATIONAL_WINDOWS
+#if defined(FOUNDATIONAL_WINDOWS)
 #	define WIN32_LEAN_AND_MEAN
 #	include <Windows.h>
 #	pragma warning(push)
@@ -14,23 +14,7 @@
 #	include <ShlObj.h>
 #	pragma warning(pop)
 
-static cppfs::FilePath get_windows_file_path(GUID const folder) {
-	PWSTR path_raw;
-	SHGetKnownFolderPath(folder, KF_FLAG_DEFAULT, nullptr, &path_raw);
-
-	std::wstring w_str(path_raw);
-	int const length = WideCharToMultiByte(CP_UTF8, 0, w_str.c_str(), cast<i32>(w_str.size()), nullptr, 0, nullptr, nullptr);
-
-	std::string str(length, '\0');
-
-	WideCharToMultiByte(CP_UTF8, 0, w_str.c_str(), cast<i32>(w_str.size()), &str[0], cast<i32>(str.size()), nullptr, nullptr);
-
-	CoTaskMemFree(path_raw);
-
-	return cppfs::FilePath(str);
-}
-
-#elif FOUNDATIONAL_LINUX
+#elif defined(FOUNDATIONAL_LINUX)
 #	include <errno.h>
 #	include <pwd.h>
 #	include <stdlib.h>
@@ -39,7 +23,26 @@ static cppfs::FilePath get_windows_file_path(GUID const folder) {
 
 namespace bve::openbve {
 	namespace detail {
-		cppfs::FilePath appdata_directory_impl() {
+
+#if defined(FOUNDATIONAL_WINDOWS)
+		static cppfs::FilePath get_windows_file_path(GUID const folder) {
+			PWSTR path_raw;
+			SHGetKnownFolderPath(folder, KF_FLAG_DEFAULT, nullptr, &path_raw);
+
+			std::wstring w_str(path_raw);
+			int const length = WideCharToMultiByte(CP_UTF8, 0, w_str.c_str(), cast<i32>(w_str.size()), nullptr, 0, nullptr, nullptr);
+
+			std::string str(length, '\0');
+
+			WideCharToMultiByte(CP_UTF8, 0, w_str.c_str(), cast<i32>(w_str.size()), &str[0], cast<i32>(str.size()), nullptr, nullptr);
+
+			CoTaskMemFree(path_raw);
+
+			return cppfs::FilePath(str);
+		}
+#endif
+
+		static cppfs::FilePath appdata_directory_impl() {
 #if defined(FOUNDATIONAL_WINDOWS)
 			logger->log(foundational::logging::Level::Debug, "Retrieving appdata directory from FOLDERID_RoamingAppData");
 
@@ -65,7 +68,7 @@ namespace bve::openbve {
 			return path;
 		}
 
-		cppfs::FilePath home_directory_impl() {
+		static cppfs::FilePath home_directory_impl() {
 #if defined(FOUNDATIONAL_WINDOWS)
 			logger->log(foundational::logging::Level::Debug, "Retrieving home directory from FOLDERID_Profile");
 
@@ -83,15 +86,15 @@ namespace bve::openbve {
 			else {
 				logger->log(foundational::logging::Level::Debug, "Retrieving home directory from getpwuid");
 
-				uSize bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
-				if (bufsize == -1ULL) {
-					bufsize = 16384;
+				uSize buf_size = sysconf(_SC_GETPW_R_SIZE_MAX);
+				if (buf_size == -1ULL) {
+					buf_size = 16384;
 				}
 
-				char* buf = cast<char*>(malloc(bufsize));
+				char* buf = cast<char*>(malloc(buf_size));
 				passwd pwd;
 				passwd* result;
-				getpwuid_r(getuid(), &pwd, buf, bufsize, &result);
+				getpwuid_r(getuid(), &pwd, buf, buf_size, &result);
 
 				path = cppfs::FilePath(result->pw_dir);
 
@@ -104,7 +107,7 @@ namespace bve::openbve {
 			return path;
 		}
 
-		cppfs::FilePath data_directory_impl() {
+		static cppfs::FilePath data_directory_impl() {
 			logger->log(foundational::logging::Level::Debug, "Retrieving home directory relative to appdata");
 
 			auto path = appdata_directory().resolve("openBVE/");
