@@ -28,7 +28,7 @@ install:
   - cmd: cd C:\Tools\vcpkg
   - cmd: git pull --ff -q
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
-  - cmd: C:\Python37-x64\python.exe tools/vcpkg/setup.py --vcpkg-dir='c:\tools\vcpkg'
+  - cmd: C:\Python37-x64\python.exe ./tools/vcpkg/setup.py --vcpkg-dir=c:/tools/vcpkg
 
 before_build:
   - cmd: cd C:\projects\bve-reborn

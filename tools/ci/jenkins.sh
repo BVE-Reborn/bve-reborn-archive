@@ -7,7 +7,7 @@ curl -so codecov.bash https://codecov.io/bash
 echo "End Clone"
 
 # Docs
-./tools/docs/linux.sh build-docs
+./tools/docs/setup.py --vcpkg-dir=$VCPKG_ROOT
 mkdir -p "/mnt/data/docs.bvereborn.com/$GIT_BRANCH/"
 bash -c 'rsync -a --omit-dir-times --delete build-docs/html/* /mnt/data/docs.bvereborn.com/$GIT_BRANCH/'
 echo "End Docs"
