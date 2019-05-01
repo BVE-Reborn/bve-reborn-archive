@@ -79,7 +79,6 @@ endmacro()
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_subdirectory(lib/bve-eastl)
-add_subdirectory(lib/bve-stl)
 add_subdirectory(lib/bve-core)
 add_subdirectory(lib/bve-parsers)
 add_subdirectory(lib/bve-util)

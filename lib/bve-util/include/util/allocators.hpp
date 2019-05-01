@@ -3,7 +3,7 @@
 #include <EASTL/allocator.h>
 #include <foundational/util/inlining_util.hpp>
 
-namespace bve::stl {
+namespace bve::util {
 	class Allocator {
 	public:
 	    Allocator() = default;
@@ -28,11 +28,11 @@ namespace bve::stl {
         FOUNDATIONAL_FORCE_INLINE AllocatorHandle& operator=(const AllocatorHandle& x) = default;
 
         FOUNDATIONAL_FORCE_INLINE void* allocate(size_t n, int flags = 0) {
-			allocator_->allocate(n, flags);
+			return allocator_->allocate(n, flags);
 		}
 
         FOUNDATIONAL_FORCE_INLINE void* allocate(size_t n, size_t alignment, size_t offset, int flags = 0) {
-			allocator_->allocate(n, alignment, offset, flags);
+			return allocator_->allocate(n, alignment, offset, flags);
 		}
 
         FOUNDATIONAL_FORCE_INLINE void deallocate(void* p, size_t n) {
@@ -57,4 +57,4 @@ namespace bve::stl {
     private:
 		Allocator* allocator_;
 	};
-} // namespace bve::stl
+} // namespace bve::util
