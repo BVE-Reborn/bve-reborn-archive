@@ -6,9 +6,8 @@ file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "src/*.cpp")
 file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hpp")
 
 add_bve_library(bve-util SHARED ${SOURCES} ${HEADERS})
-target_compile_features(bve-util PUBLIC cxx_std_14)
 target_include_directories(bve-util PUBLIC include)
-target_link_libraries(bve-util PUBLIC glm gsl::gsl)
+target_link_libraries(bve-util PUBLIC glm gsl::gsl foundational::foundational)
 
 finish_bve_target(bve-util)
 

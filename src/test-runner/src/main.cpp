@@ -8,17 +8,13 @@
 class StandardOutBackend final : foundational::logging::LoggerBackend {
   public:
 	StandardOutBackend() : LoggerBackend(){};
-	void write(foundational::logging::Level /*log_level*/,
-	           foundational::logging::Timestamp const& /*time*/,
-	           std::string const& /*source*/,
-	           std::string const& formatted_content,
-	           std::string const& /*raw_content*/) override {
+	void write(foundational::logging::Message const&, std::string const& formatted_content) override {
 		std::cout << formatted_content;
 	}
 	void flush() override {
 		std::cout << std::flush;
 	}
-	~StandardOutBackend() {
+	~StandardOutBackend() override {
 		flushLog();
 	}
 };

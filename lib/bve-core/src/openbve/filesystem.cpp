@@ -5,6 +5,7 @@
 #include <cppfs/FileHandle.h>
 #include <cppfs/FilePath.h>
 #include <cppfs/fs.h>
+#include <cstdio>
 
 #if defined(FOUNDATIONAL_WINDOWS)
 #	define WIN32_LEAN_AND_MEAN
@@ -13,7 +14,7 @@
 #	pragma warning(disable : 4103)
 #	include <ShlObj.h>
 #	pragma warning(pop)
-
+#	include <direct.h>
 #elif defined(FOUNDATIONAL_LINUX)
 #	include <errno.h>
 #	include <pwd.h>
@@ -44,7 +45,7 @@ namespace bve::openbve {
 
 		static cppfs::FilePath appdata_directory_impl() {
 #if defined(FOUNDATIONAL_WINDOWS)
-			logger->log(foundational::logging::Level::Debug, "Retrieving appdata directory from FOLDERID_RoamingAppData");
+			logger->log(foundational::logging::Severity::Debug, "Retrieving appdata directory from FOLDERID_RoamingAppData");
 
 			auto path = get_windows_file_path(FOLDERID_RoamingAppData);
 #elif defined(FOUNDATIONAL_OSX)
@@ -54,23 +55,23 @@ namespace bve::openbve {
 
 			cppfs::FilePath path;
 			if ((config = getenv("XDG_CONFIG_HOME"))) {
-				logger->log(foundational::logging::Level::Debug, "Retrieving appdata directory from $XDG_CONFIG_HOME");
+				logger->log(foundational::logging::Severity::Debug, "Retrieving appdata directory from $XDG_CONFIG_HOME");
 				path = cppfs::FilePath(config);
 			}
 			else {
-				logger->log(foundational::logging::Level::Debug, "Retrieving appdata directory relative to home directory");
+				logger->log(foundational::logging::Severity::Debug, "Retrieving appdata directory relative to home directory");
 				path = home_directory().resolve(".config/");
 			}
 #endif
 
-			logger->log(foundational::logging::Level::Info, "User appdata directory: {:s}", path.fullPath());
+			logger->log(foundational::logging::Severity::Info, "User appdata directory: {:s}", path.fullPath());
 
 			return path;
 		}
 
 		static cppfs::FilePath home_directory_impl() {
 #if defined(FOUNDATIONAL_WINDOWS)
-			logger->log(foundational::logging::Level::Debug, "Retrieving home directory from FOLDERID_Profile");
+			logger->log(foundational::logging::Severity::Debug, "Retrieving home directory from FOLDERID_Profile");
 
 			auto path = get_windows_file_path(FOLDERID_Profile);
 #elif defined(FOUNDATIONAL_OSX)
@@ -80,11 +81,11 @@ namespace bve::openbve {
 
 			cppfs::FilePath path;
 			if ((homedir = getenv("HOME"))) {
-				logger->log(foundational::logging::Level::Debug, "Retrieving home directory from $HOME");
+				logger->log(foundational::logging::Severity::Debug, "Retrieving home directory from $HOME");
 				path = cppfs::FilePath(homedir);
 			}
 			else {
-				logger->log(foundational::logging::Level::Debug, "Retrieving home directory from getpwuid");
+				logger->log(foundational::logging::Severity::Debug, "Retrieving home directory from getpwuid");
 
 				uSize buf_size = sysconf(_SC_GETPW_R_SIZE_MAX);
 				if (buf_size == -1ULL) {
@@ -102,24 +103,24 @@ namespace bve::openbve {
 			}
 #endif
 
-			logger->log(foundational::logging::Level::Info, "User home directory: {:s}", path.fullPath());
+			logger->log(foundational::logging::Severity::Info, "User home directory: {:s}", path.fullPath());
 
 			return path;
 		}
 
 		static cppfs::FilePath data_directory_impl() {
-			logger->log(foundational::logging::Level::Debug, "Retrieving home directory relative to appdata");
+			logger->log(foundational::logging::Severity::Debug, "Retrieving OpenBVE data directory relative to appdata");
 
 			auto path = appdata_directory().resolve("openBVE/");
 
 			auto handle = cppfs::fs::open(path.path());
 
 			if (!handle.exists() || !handle.isDirectory()) {
-				logger->log(foundational::logging::Level::Info, "OpenBVE data directory at {:s} not found or not a directory",
+				logger->log(foundational::logging::Severity::Info, "OpenBVE data directory at {:s} not found or not a directory",
 				            path.fullPath());
 			}
 			else {
-				logger->log(foundational::logging::Level::Info, "OpenBVE data directory found at {:s}", path.fullPath());
+				logger->log(foundational::logging::Severity::Info, "OpenBVE data directory: {:s}", path.fullPath());
 			}
 
 			return path;
@@ -137,5 +138,18 @@ namespace bve::openbve {
 	cppfs::FilePath data_directory() {
 		static cppfs::FilePath result = detail::data_directory_impl();
 		return result;
+	}
+	cppfs::FilePath cwd() {
+		char buff[FILENAME_MAX];
+#if defined(FOUNDATIONAL_WINDOWS)
+		_getcwd(buff, FILENAME_MAX);
+#elif defined(FOUNDATIONAL_OSX) || defined(FOUNDATIONAL_LINUX)
+		getcwd(buff, FILENAME_MAX);
+#endif
+		return cppfs::FilePath(buff);
+	}
+
+	cppfs::FilePath absolute(cppfs::FilePath const& path) {
+		return cwd().resolve(path);
 	}
 } // namespace bve::openbve

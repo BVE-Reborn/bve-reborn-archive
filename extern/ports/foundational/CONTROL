@@ -1,4 +1,4 @@
 Source: foundational
-Version: 2019-04-29
+Version: 2019-04-30-1
 Description: Foundational library for nova-renderer, bve-reborn, and others.
 Build-Depends: concurrentqueue,miniz,fmt,glm,gtest,nlohmann-json,minitrace

@@ -23,4 +23,11 @@ using uSize = std::size_t;
 using f32 = float;
 using f64 = double;
 using f80 = long double;
+
+using vi128 = __m128i;
+using vi256 = __m256i;
+using v4xf32 = __m128;
+using v8xf32 = __m256;
+using v2xf64 = __m128d;
+using v4xf64 = __m256d;
 // ReSharper restore CppInconsistentNaming

@@ -14,8 +14,11 @@ from sys import platform, stdout
 packages = [
 	'abseil',
 	'concurrentqueue',
+	'cli11',
 	'cppfs',
 	'doctest',
+	'foundational',
+	'eastl',
 	'fmt',
 	'glm',
 	'mapbox-variant',
