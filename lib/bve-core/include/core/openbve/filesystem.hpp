@@ -10,5 +10,4 @@ namespace bve::openbve {
 	cppfs::FilePath data_directory();
 	cppfs::FilePath cwd();
 	cppfs::FilePath absolute(cppfs::FilePath const& path);
-
 } // namespace bve::openbve
