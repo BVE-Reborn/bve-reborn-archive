@@ -1,6 +1,7 @@
 #pragma once
 
 #include <EABase/config/eacompilertraits.h>
+#include <EASTL/internal/config.h>
 #include <cstdlib>
 
 namespace bve::util {
@@ -19,9 +20,9 @@ namespace bve::util {
 
 	class AllocatorHandle {
 	  public:
-		EA_FORCE_INLINE AllocatorHandle(Allocator* allocator) : allocator_(allocator) {}
+		EA_FORCE_INLINE AllocatorHandle(Allocator* allocator, char const* = nullptr) : allocator_(allocator) {}
 
-		EA_FORCE_INLINE AllocatorHandle(const AllocatorHandle& x) = default;
+		EA_FORCE_INLINE AllocatorHandle(const AllocatorHandle& x, const char* = nullptr) : allocator_(x.allocator_) {}
 
 		EA_FORCE_INLINE ~AllocatorHandle() = default;
 

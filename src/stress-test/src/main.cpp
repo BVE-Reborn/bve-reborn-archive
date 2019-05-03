@@ -1,5 +1,7 @@
 #include <CLI/CLI.hpp>
 #include <EASTL/vector.h>
+#include <EASTL/string.h>
+#include <EASTL/hash_set.h>
 #include <atomic>
 #include <core/openbve/filesystem.hpp>
 #include <cppfs/FileHandle.h>
@@ -15,6 +17,7 @@
 #include <foundational/container/std_pmr/vector.hpp>
 #include <foundational/logging/logger.hpp>
 #include <foundational/statics/static_global.hpp>
+#include <util/allocators.hpp>
 #include <util/context.hpp>
 #include <util/language.hpp>
 
@@ -22,7 +25,7 @@ using namespace foundational::allocation::operators;
 namespace pmr = foundational::container::std_pmr;
 
 using bve::util::Context;
-using foundational::allocation::LinearAllocator;
+using bve::util::LinearAllocator;
 using foundational::allocation::TaggedPool;
 using foundational::logging::LoggerBackend;
 using foundational::logging::Message;
@@ -59,7 +62,7 @@ FOUNDATIONAL_LOGGER(logger, "stress-test");
 
 StaticGlobal<TaggedPool> alloc_pool("MemoryPool", 8_mb, 128);
 
-pmr::String extant(Context ctx, std::string const& path) {
+eastl::string8 extant(Context ctx, std::string const& path) {
 	iSize i = path.size() - 1;
 	for (; i > 0; --i) {
 		if (path[i] == '.') {
@@ -68,9 +71,9 @@ pmr::String extant(Context ctx, std::string const& path) {
 	}
 
 	if (i == -1) {
-		return pmr::String();
+		return eastl::string8(ctx.alloc);
 	}
-	pmr::String out(ctx.alloc);
+	eastl::string8 out(ctx.alloc);
 	std::copy(path.begin() + i + 1, path.end(), std::back_inserter(out));
 	return out;
 }
@@ -90,8 +93,8 @@ cppfs::FileHandle find_folder(Context ctx, cppfs::FilePath const& bve_folder, cp
 	return handle;
 }
 
-pmr::Vector<cppfs::FileHandle> recursive_enumerate(Context ctx, cppfs::FileHandle& directory) {
-	pmr::Vector<cppfs::FileHandle> files(ctx.alloc);
+eastl::vector<cppfs::FileHandle> recursive_enumerate(Context ctx, cppfs::FileHandle& directory) {
+	eastl::vector<cppfs::FileHandle> files(ctx.alloc);
 
 	Trace enum_trace(*ctx.trace, fmt::format("{}-file-enum", directory.fileName()));
 
@@ -115,8 +118,8 @@ pmr::Vector<cppfs::FileHandle> recursive_enumerate(Context ctx, cppfs::FileHandl
 	return files;
 }
 
-pmr::Set<pmr::String> find_all_extants(Context ctx, pmr::Vector<cppfs::FileHandle> const& in) {
-	pmr::Set<pmr::String> out(ctx.alloc);
+eastl::hash_set<eastl::string8> find_all_extants(Context ctx, eastl::vector<cppfs::FileHandle> const& in) {
+	eastl::hash_set<eastl::string8> out(ctx.alloc);
 
 	Trace extant_finder(*ctx.trace, "extant-er");
 
@@ -171,10 +174,10 @@ int main(int argc, char** argv) {
 	auto sound_files = recursive_enumerate(ctx, sound_folder);
 	auto train_files = recursive_enumerate(ctx, train_folder);
 
-	pmr::Set<pmr::String> object_extants = find_all_extants(ctx, object_files);
-	pmr::Set<pmr::String> route_extants = find_all_extants(ctx, route_files);
-	pmr::Set<pmr::String> sound_extants = find_all_extants(ctx, sound_files);
-	pmr::Set<pmr::String> train_extants = find_all_extants(ctx, train_files);
+    eastl::hash_set<eastl::string8> object_extants = find_all_extants(ctx, object_files);
+    eastl::hash_set<eastl::string8> route_extants = find_all_extants(ctx, route_files);
+    eastl::hash_set<eastl::string8> sound_extants = find_all_extants(ctx, sound_files);
+    eastl::hash_set<eastl::string8> train_extants = find_all_extants(ctx, train_files);
 
 	ctx.trace->log(Severity::Info, "Extants found in Object:");
 	for (auto& extant : object_extants) {
