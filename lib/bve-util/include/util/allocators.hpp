@@ -28,7 +28,9 @@ namespace bve::util {
 		 * \param tag_         Tag to associate with the memory.
 		 */
 		LinearAllocator(foundational::allocation::TaggedPool& tagged_pool_, std::uint8_t const tag_) :
-		    tagged_pool(&tagged_pool_), allocation_size(tagged_pool_.get_allocation_size().b_count()), tag(tag_) {
+		    tagged_pool(&tagged_pool_),
+		    allocation_size(tagged_pool_.get_allocation_size().b_count()),
+		    tag(tag_) {
 			get_new_upstream_alloc();
 		}
 		/**

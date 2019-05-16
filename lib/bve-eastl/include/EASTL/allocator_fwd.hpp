@@ -20,6 +20,8 @@ namespace bve::util {
 
 	class AllocatorHandle {
 	  public:
+		EA_FORCE_INLINE EASTL_ALLOCATOR_EXPLICIT AllocatorHandle(char const* = nullptr) : allocator_(nullptr) {}
+
 		EA_FORCE_INLINE AllocatorHandle(Allocator* allocator, char const* = nullptr) : allocator_(allocator) {}
 
 		EA_FORCE_INLINE AllocatorHandle(const AllocatorHandle& x, const char* = nullptr) : allocator_(x.allocator_) {}

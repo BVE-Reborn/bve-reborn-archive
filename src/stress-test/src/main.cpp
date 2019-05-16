@@ -1,24 +1,21 @@
 #include <CLI/CLI.hpp>
-#include <EASTL/vector.h>
-#include <EASTL/string.h>
 #include <EASTL/hash_set.h>
+#include <EASTL/string.h>
+#include <EASTL/vector.h>
 #include <atomic>
 #include <core/openbve/filesystem.hpp>
 #include <cppfs/FileHandle.h>
 #include <cppfs/FilePath.h>
-#include <cppfs/Tree.h>
 #include <cppfs/fs.h>
 #include <fmt/ostream.h>
 #include <foundational/allocation/bytes.hpp>
 #include <foundational/allocation/linear_allocator.hpp>
 #include <foundational/allocation/tagged_pool.hpp>
-#include <foundational/container/std_pmr/set.hpp>
-#include <foundational/container/std_pmr/string.hpp>
-#include <foundational/container/std_pmr/vector.hpp>
 #include <foundational/logging/logger.hpp>
 #include <foundational/statics/static_global.hpp>
 #include <util/allocators.hpp>
 #include <util/context.hpp>
+#include <util/eastl_fmt.hpp>
 #include <util/language.hpp>
 
 using namespace foundational::allocation::operators;
@@ -37,7 +34,7 @@ class StandardOutBackend final : LoggerBackend {
   public:
 	StandardOutBackend() : LoggerBackend(){};
 	void write(Message const& msg, std::string const& formatted_content) override {
-		if (!trace_enabled.load(std::memory_order_acquire) && msg.severity == Severity::Trace) {
+		if (!trace_enabled_.load(std::memory_order_acquire) && msg.severity == Severity::Trace) {
 			return;
 		}
 		std::cout << formatted_content;
@@ -45,15 +42,15 @@ class StandardOutBackend final : LoggerBackend {
 	void flush() override {
 		std::cout << std::flush;
 	}
-	void trace(bool value) {
-		trace_enabled.store(value, std::memory_order_release);
+	void trace(bool const value) {
+		trace_enabled_.store(value, std::memory_order_release);
 	}
 	~StandardOutBackend() override {
 		flushLog();
 	}
 
   private:
-	std::atomic<bool> trace_enabled{false};
+	std::atomic<bool> trace_enabled_{false};
 };
 
 FOUNDATIONAL_LOGGER_BACKEND(StandardOutBackend, stdout_backend);
@@ -62,7 +59,7 @@ FOUNDATIONAL_LOGGER(logger, "stress-test");
 
 StaticGlobal<TaggedPool> alloc_pool("MemoryPool", 8_mb, 128);
 
-eastl::string8 extant(Context ctx, std::string const& path) {
+eastl::string8 extant(Context const ctx, std::string const& path) {
 	iSize i = path.size() - 1;
 	for (; i > 0; --i) {
 		if (path[i] == '.') {
@@ -78,7 +75,7 @@ eastl::string8 extant(Context ctx, std::string const& path) {
 	return out;
 }
 
-cppfs::FileHandle find_folder(Context ctx, cppfs::FilePath const& bve_folder, cppfs::FilePath const& offset) {
+cppfs::FileHandle find_folder(Context const ctx, cppfs::FilePath const& bve_folder, cppfs::FilePath const& offset) {
 	cppfs::FileHandle handle = cppfs::fs::open(bve_folder.resolve(offset).fullPath());
 
 	cppfs::FilePath path(handle.path());
@@ -93,7 +90,7 @@ cppfs::FileHandle find_folder(Context ctx, cppfs::FilePath const& bve_folder, cp
 	return handle;
 }
 
-eastl::vector<cppfs::FileHandle> recursive_enumerate(Context ctx, cppfs::FileHandle& directory) {
+eastl::vector<cppfs::FileHandle> recursive_enumerate(Context const ctx, cppfs::FileHandle& directory) {
 	eastl::vector<cppfs::FileHandle> files(ctx.alloc);
 
 	Trace enum_trace(*ctx.trace, fmt::format("{}-file-enum", directory.fileName()));
@@ -118,7 +115,7 @@ eastl::vector<cppfs::FileHandle> recursive_enumerate(Context ctx, cppfs::FileHan
 	return files;
 }
 
-eastl::hash_set<eastl::string8> find_all_extants(Context ctx, eastl::vector<cppfs::FileHandle> const& in) {
+eastl::hash_set<eastl::string8> find_all_extants(Context const ctx, eastl::vector<cppfs::FileHandle> const& in) {
 	eastl::hash_set<eastl::string8> out(ctx.alloc);
 
 	Trace extant_finder(*ctx.trace, "extant-er");
@@ -141,10 +138,10 @@ int main(int argc, char** argv) {
 	Trace ctx_trace(*logger, "stress-test");
 	LinearAllocator alloc(*alloc_pool, 1);
 
-	bve::util::Context ctx{&ctx_trace, &alloc};
+	Context ctx{&ctx_trace, &alloc};
 
 	cppfs::FilePath cwd = bve::openbve::cwd();
-	ctx.trace->log(foundational::logging::Severity::Info, "CWD is {}", cwd.fullPath());
+	ctx.trace->log(Severity::Info, "CWD is {}", cwd.fullPath());
 
 	CLI::App app("Stress test runner for bve-reborn.");
 
@@ -174,10 +171,10 @@ int main(int argc, char** argv) {
 	auto sound_files = recursive_enumerate(ctx, sound_folder);
 	auto train_files = recursive_enumerate(ctx, train_folder);
 
-    eastl::hash_set<eastl::string8> object_extants = find_all_extants(ctx, object_files);
-    eastl::hash_set<eastl::string8> route_extants = find_all_extants(ctx, route_files);
-    eastl::hash_set<eastl::string8> sound_extants = find_all_extants(ctx, sound_files);
-    eastl::hash_set<eastl::string8> train_extants = find_all_extants(ctx, train_files);
+	eastl::hash_set<eastl::string8> object_extants = find_all_extants(ctx, object_files);
+	eastl::hash_set<eastl::string8> route_extants = find_all_extants(ctx, route_files);
+	eastl::hash_set<eastl::string8> sound_extants = find_all_extants(ctx, sound_files);
+	eastl::hash_set<eastl::string8> train_extants = find_all_extants(ctx, train_files);
 
 	ctx.trace->log(Severity::Info, "Extants found in Object:");
 	for (auto& extant : object_extants) {

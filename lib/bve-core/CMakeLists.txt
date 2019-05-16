@@ -40,9 +40,11 @@ file(GLOB_RECURSE INTERFACES LIST_DIRECTORIES false CONFIGURE_DEPENDS "extras/*.
 
 foreach(file ${INTERFACES})
 	set_property(SOURCE "${file}" PROPERTY CPLUSPLUS ON)
-	set_property(SOURCE "${file}" PROPERTY CMAKE_SWIG_FLAGS "-Wall;-Wextra" APPEND)
+	set_property(SOURCE "${file}" PROPERTY CMAKE_SWIG_FLAGS "-Wall;-Wextra;-py3" APPEND)
 endforeach()
 
 swig_add_library(bve_core_python TYPE SHARED LANGUAGE python SOURCES ${INTERFACES} OUTPUT_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} OUTFILE_DIR ${CMAKE_CURRENT_BINARY_DIR}/extras/python)
 swig_link_libraries(bve_core_python bve-core Python3::Python)
 set_property(TARGET bve_core_python PROPERTY SWIG_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+set_property(TARGET bve_core_python PROPERTY FOLDER lib/bindings/python)
