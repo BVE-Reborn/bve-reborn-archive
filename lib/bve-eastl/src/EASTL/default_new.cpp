@@ -20,7 +20,7 @@ namespace {
 			allocatedMemory = _aligned_malloc(size, alignment);
 #else
 			alignment = alignment < alignof(void*) ? alignof(void*) : alignment;
-			posix_memalign(&allocatedMemory, alignment, size);
+			(void) posix_memalign(&allocatedMemory, alignment, size);
 #endif
 
 			if (!allocatedMemory) {

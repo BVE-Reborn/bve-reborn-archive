@@ -144,7 +144,7 @@ namespace bve::openbve {
 #if defined(FOUNDATIONAL_WINDOWS)
 		_getcwd(buff, FILENAME_MAX);
 #elif defined(FOUNDATIONAL_OSX) || defined(FOUNDATIONAL_LINUX)
-		getcwd(buff, FILENAME_MAX);
+		(void) getcwd(buff, FILENAME_MAX);
 #endif
 		return cppfs::FilePath(buff);
 	}
