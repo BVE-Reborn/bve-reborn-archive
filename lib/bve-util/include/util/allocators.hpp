@@ -3,6 +3,7 @@
 #include "util/inlining_util.hpp"
 #include "util/language.hpp"
 #include <EASTL/allocator.h>
+#include <EASTL/polyalloc/polyalloc.h>
 #include <cassert>
 #include <foundational/allocation/tagged_pool.hpp>
 

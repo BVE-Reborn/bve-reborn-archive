@@ -1,6 +1,5 @@
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false CONFIGURE_DEPENDS "src/*.cpp")
-file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS
-                                                 "include/*.hpp")
+file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false CONFIGURE_DEPENDS "include/*.hpp")
 
 add_bve_executable(stress-test ${SOURCES} ${HEADERS})
 
