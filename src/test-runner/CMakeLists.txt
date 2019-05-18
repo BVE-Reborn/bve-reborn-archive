@@ -6,13 +6,13 @@ set_property(DIRECTORY
     "${CMAKE_SOURCE_DIR}/dependencies/doctest/doctest"
     "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}")
 
-add_bve_executable(tests ${SOURCES} ${HEADERS})
+add_bve_executable(test-runner ${SOURCES} ${HEADERS})
 
-target_link_libraries(tests PUBLIC bve-core-test)
-target_link_libraries(tests PUBLIC bve-parsers-test)
-target_link_libraries(tests PUBLIC bve-util-test)
-target_link_libraries(tests PUBLIC foundational::foundational)
+target_link_libraries(test-runner PUBLIC bve-core-test)
+target_link_libraries(test-runner PUBLIC bve-parsers-test)
+target_link_libraries(test-runner PUBLIC bve-util-test)
+target_link_libraries(test-runner PUBLIC foundational::foundational)
 
-finish_bve_target(tests)
+finish_bve_target(test-runner)
 
-set_property(TARGET tests PROPERTY FOLDER src)
+set_property(TARGET test-runner PROPERTY FOLDER src)

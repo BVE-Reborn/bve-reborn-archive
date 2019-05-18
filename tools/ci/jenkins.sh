@@ -28,7 +28,7 @@ cmake ..\
 	-GNinja
 ninja -j8
 echo "End Clang-Build"
-bin/tests
+bin/test-runner
 echo "End Clang-Tests"
 cd ..
 
@@ -45,7 +45,7 @@ cmake .. \
 ninja -j8
 lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
 echo "End GCC-Build"
-bin/tests
+bin/test-runner
 echo "End GCC-Tests"
 cd ..
 
