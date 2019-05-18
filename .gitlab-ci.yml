@@ -6,7 +6,7 @@ build:
     - ninja -C build
   artifacts:
     paths:
-      - mybinary
+      - build/bin
   # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
   # cache:
   #   paths:
@@ -15,4 +15,4 @@ build:
 test:
   stage: test
   script:
-    - ./runmytests.sh
+    - ./build/bin/test-runner
