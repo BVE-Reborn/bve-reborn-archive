@@ -12,7 +12,7 @@ build:clang-8:debug:
   stage: build
   script:
     - mkdir build-clang8-debug
-    - cmake -S . -B build-clang8-debug 
+    - nice cmake -S . -B build-clang8-debug 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
@@ -20,7 +20,7 @@ build:clang-8:debug:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-clang8-debug
+    - nice ninja -C build-clang8-debug
   artifacts:
     paths:
       - build-clang8-debug/bin
@@ -29,7 +29,7 @@ build:clang-8:asan-ubsan:
   stage: build
   script:
     - mkdir build-clang8-asan-ubsan
-    - cmake -S . -B build-clang8-asan-ubsan 
+    - nice cmake -S . -B build-clang8-asan-ubsan 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
@@ -38,7 +38,7 @@ build:clang-8:asan-ubsan:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-clang8-asan-ubsan
+    - nice ninja -C build-clang8-asan-ubsan
   artifacts:
     paths:
       - build-clang8-asan-ubsan/bin
@@ -47,7 +47,7 @@ build:clang-8:tsan:
   stage: build
   script:
     - mkdir build-clang8-tsan
-    - cmake -S . -B build-clang8-tsan 
+    - nice cmake -S . -B build-clang8-tsan 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
@@ -56,7 +56,7 @@ build:clang-8:tsan:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-clang8-tsan
+    - nice ninja -C build-clang8-tsan
   artifacts:
     paths:
       - build-clang8-tsan/bin
@@ -65,7 +65,7 @@ build:clang-8:release:
   stage: build
   script:
     - mkdir build-clang8-release
-    - cmake -S . -B build-clang8-release 
+    - nice cmake -S . -B build-clang8-release 
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
@@ -73,7 +73,7 @@ build:clang-8:release:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-clang8-release
+    - nice ninja -C build-clang8-release
   artifacts:
     paths:
       - build-clang8-release/bin
@@ -82,7 +82,7 @@ build:gcc-7:debug:
   stage: build
   script:
     - mkdir build-gcc7-debug
-    - cmake -S . -B build-gcc7-debug 
+    - nice cmake -S . -B build-gcc7-debug 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7
@@ -90,7 +90,7 @@ build:gcc-7:debug:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-gcc7-debug
+    - nice ninja -C build-gcc7-debug
   artifacts:
     paths:
       - build-gcc7-debug/bin
@@ -99,7 +99,7 @@ build:gcc-7:release:
   stage: build
   script:
     - mkdir build-gcc7-release
-    - cmake -S . -B build-gcc7-release 
+    - nice cmake -S . -B build-gcc7-release 
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7
@@ -107,7 +107,7 @@ build:gcc-7:release:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-gcc7-release
+    - nice ninja -C build-gcc7-release
   artifacts:
     paths:
       - build-gcc7-release/bin
@@ -115,42 +115,42 @@ build:gcc-7:release:
 test:clang-8:debug:
   stage: test
   script:
-    - ./build-clang8-debug/bin/test-runner
+    - nice ./build-clang8-debug/bin/test-runner
   dependencies:
     - build:clang-8:debug
 
 test:clang-8:asan-ubsan:
   stage: test
   script:
-    - ./build-clang8-asan-ubsan/bin/test-runner
+    - nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
     - build:clang-8:asan-ubsan
 
 test:clang-8:tsan:
   stage: test
   script:
-    - ./build-clang8-tsan/bin/test-runner
+    - nice ./build-clang8-tsan/bin/test-runner
   dependencies:
     - build:clang-8:tsan
 
 test:clang-8:release:
   stage: test
   script:
-    - ./build-clang8-release/bin/test-runner
+    - nice ./build-clang8-release/bin/test-runner
   dependencies:
     - build:clang-8:release
 
 test:gcc-7:debug:
   stage: test
   script:
-    - ./build-gcc7-debug/bin/test-runner
+    - nice ./build-gcc7-debug/bin/test-runner
   dependencies:
     - build:gcc-7:debug
 
 test:gcc-7:release:
   stage: test
   script:
-    - ./build-gcc7-release/bin/test-runner
+    - nice ./build-gcc7-release/bin/test-runner
   dependencies:
     - build:gcc-7:release
 
@@ -159,7 +159,7 @@ coverage:gcc-7:debug:
   script:
     - curl -so codecov.bash https://codecov.io/bash
     - mkdir build-gcc7-coverage
-    - cmake -S . -B build-gcc7-coverage
+    - nice cmake -S . -B build-gcc7-coverage
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7
@@ -168,20 +168,20 @@ coverage:gcc-7:debug:
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
-    - ninja -C build-gcc7-coverage
+    - nice ninja -C build-gcc7-coverage
     - cd build-gcc7-coverage
-    - lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
+    - nice lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
     - bin/test-runner
-    - lcov -c -d . -o live-coverage.info --gcov-tool gcov-7
-    - lcov -a empty-coverage.info -a live-coverage.info -o coverage.info --gcov-tool gcov-7
-    - lcov --remove coverage.info "/usr/*" "$CI_PROJECT_DIR/extern/*" "*/vcpkg/*" "*/tests/*" "*/tests_old/*" --output-file coverage.info
-    - lcov --list coverage.info
+    - nice lcov -c -d . -o live-coverage.info --gcov-tool gcov-7
+    - nice lcov -a empty-coverage.info -a live-coverage.info -o coverage.info --gcov-tool gcov-7
+    - nice lcov --remove coverage.info "/usr/*" "$CI_PROJECT_DIR/extern/*" "*/vcpkg/*" "*/tests/*" "*/tests_old/*" --output-file coverage.info
+    - nice lcov --list coverage.info
     - bash ../codecov.bash -f coverage.info -t '2bfac9df-f504-4c34-bc53-3803bb9c9b27' || echo "Codecov did not collect coverage reports"
 
 doxygen:
   stage: docs
   script:
-    - ./tools/docs/linux.sh build-docs
+    - nice ./tools/docs/linux.sh build-docs
   artifacts:
     paths:
       - build-docs/html/
