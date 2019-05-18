@@ -12,19 +12,19 @@ import glob
 from sys import platform, stdout
 
 packages = [
-	'abseil',
-	'concurrentqueue',
-	'cli11',
-	'cppfs',
-	'doctest',
-	'foundational',
-	'eastl',
-	'fmt',
-	'glm',
-	'mapbox-variant',
-	'ms-gsl',
-	'rapidxml-ns',
-	'nova-renderer',
+    'abseil',
+    'cli11',
+    'concurrentqueue',
+    'cppfs',
+    'doctest',
+    'eastl',
+    'fmt',
+    'foundational',
+    'glm',
+    'mapbox-variant',
+    'ms-gsl',
+    'nova-renderer',
+    'rapidxml-ns',
 ]
 
 if platform == "linux" or platform == "linux2":
@@ -45,7 +45,7 @@ def copy_ports(source_dir, vcpkg_dir):
 
 def install_package(name, vcpkg_dir):
 	if subprocess.run(["vcpkg", "install", f"{name}:{target}"]).returncode != 0:
-		for file in glob.glob(os.path.join(vcpkg_dir, "buildtrees/foundational/*.log")):
+		for file in glob.glob(os.path.join(vcpkg_dir, f"buildtrees/{name}/*.log")):
 			print(f"Contents of file {file}")
 			with open(file) as f:
 				stdout.write(f.read())

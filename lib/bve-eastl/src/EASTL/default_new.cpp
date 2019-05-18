@@ -11,7 +11,7 @@
 namespace {
 	void* eastl_aligned_alloc(std::size_t size, std::size_t alignment) {
 		if (!IsPowerOf2(alignment))
-			throw std::invalid_argument("Aligment must be a power of 2");
+			throw std::invalid_argument("Alignment must be a power of 2");
 
 		void* allocatedMemory = nullptr;
 
