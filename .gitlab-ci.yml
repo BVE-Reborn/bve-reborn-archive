@@ -2,7 +2,7 @@ build:
   stage: build
   script:
     - mkdir build
-    - cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
+    - cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
     - ninja -C build
   artifacts:
     paths:
