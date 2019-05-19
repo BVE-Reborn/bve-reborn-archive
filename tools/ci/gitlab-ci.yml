@@ -105,26 +105,6 @@ build:gcc-7:debug:
     paths:
       - build-gcc7-debug/bin
 
-build:gcc-7:coverage:
-  stage: build
-  tags:
-    - linux
-  script:
-    - mkdir build-gcc7-coverage
-    - nice cmake -S . -B build-gcc7-coverage
-      -DCMAKE_BUILD_TYPE=Debug
-      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
-      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
-      -DBVEREBORN_CODE_COVERAGE=On
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
-      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
-      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
-      -GNinja
-    - nice ninja -C build-gcc7-coverage
-  artifacts:
-    paths:
-      - build-gcc7-coverage/bin
-
 build:gcc-7:release:
   stage: build
   tags:
@@ -238,6 +218,17 @@ coverage:
   tags:
     - linux
   script:
+    - mkdir build-gcc7-coverage
+    - nice cmake -S . -B build-gcc7-coverage
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
+      -DBVEREBORN_CODE_COVERAGE=On
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-gcc7-coverage
     - cd build-gcc7-coverage
     - nice lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
     - LD_LIBRARY_PATH=$PWD/bin bin/test-runner
@@ -247,5 +238,3 @@ coverage:
     - nice lcov --list coverage.info
     - bash ../codecov.bash -f coverage.info -t '2bfac9df-f504-4c34-bc53-3803bb9c9b27' || echo "Codecov did not collect coverage reports"
   coverage: '/\s+Total:\|(\d+\.?\d*)%/'
-  dependencies:
-    - build:gcc-7:coverage
