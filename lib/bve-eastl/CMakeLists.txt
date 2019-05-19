@@ -7,7 +7,7 @@ target_include_directories(bve-eastl PUBLIC include)
 finish_bve_target(bve-eastl)
 
 target_link_libraries(bve-eastl PUBLIC
-        eastl::lib eastl::polyalloc
+        eastl::lib bvestl::bvestl
 )
 target_compile_definitions(bve-eastl PUBLIC $<$<CONFIG:Debug>:EASTL_ASSERT_ENABLED> EASTL_ALLOCATOR_EXPLICIT_ENABLED=1 EASTL_EXCEPTIONS_ENABLED=0 EASTLAllocatorType=::bve::util::AllocatorHandle EASTLAllocatorDefault=::bve::util::default_allocator)
 if(OS_WINDOWS)

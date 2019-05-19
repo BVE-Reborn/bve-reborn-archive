@@ -35,7 +35,7 @@ add_library(eastl::lib INTERFACE IMPORTED)
 set_property(TARGET eastl::lib
 			 PROPERTY INTERFACE_LINK_LIBRARIES ${EASTL_NAME}
 )
- find_package(eastl-polyalloc CONFIG REQUIRED)
+ find_package(bvestl CONFIG REQUIRED)
 
 set_property(TARGET glm APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
