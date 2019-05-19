@@ -141,10 +141,11 @@ namespace bve::parsers::csv_rw_route {
 
 	  public:
 		Pass3Executor(ParsedRoute& rd, errors::MultiError& e, const std::vector<std::string>& fn, const RelativeFileFunc& grf) :
-		    errors_(e),
-		    filenames_(fn),
-		    route_data_(rd),
-		    get_relative_file_(grf) {}
+		    errors_(e),             // clang-format can't decide how to format this, so I will for it
+		    filenames_(fn),         //
+		    route_data_(rd),        //
+		    get_relative_file_(grf) //
+		{}
 
 		// defined in executor_pass3/finalize.cpp
 		// ensure all state is dumped to the structure
