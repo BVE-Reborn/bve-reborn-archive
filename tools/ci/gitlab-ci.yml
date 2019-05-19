@@ -158,7 +158,7 @@ test:clang-8:asan-ubsan:
   tags:
     - linux
   script:
-    - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsa/bin nice ./build-clang8-asan-ubsan/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan/bin nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
     - build:clang-8:asan-ubsan
 
