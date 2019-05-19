@@ -30,13 +30,14 @@ namespace bve::parsers::csv_rw_route {
 
 			add_error(errors_, getFilename(inst.file_index), inst.line, oss);
 		}
+		else {
+			roi.filename = file_iter->second;
+			roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
+			// TODO(cwfitzgerald): convert PYR to angle vector
+			/* roi.rotation = */
 
-		roi.filename = file_iter->second;
-		roi.position = positionRelativeToRail(0, inst.absolute_position, inst.x_offset, inst.y_offset);
-		// TODO(cwfitzgerald): convert PYR to angle vector
-		/* roi.rotation = */
-
-		route_data_.objects.emplace_back(std::move(roi));
+			route_data_.objects.emplace_back(std::move(roi));
+		}
 	}
 
 	void Pass3Executor::operator()(const instructions::track::Transponder& inst) {

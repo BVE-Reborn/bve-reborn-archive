@@ -66,11 +66,9 @@ namespace bve::parsers::csv_rw_route {
 
 		auto const track_state_iter = current_rail_state_.find(rail_num);
 
-#ifndef NDEBUG
 		if (track_state_iter == current_rail_state_.end()) {
 			throw std::invalid_argument("Rail Num Invalid");
 		}
-#endif
 
 		auto ret_val =
 		    util::math::position_from_offsets(track_position.position, track_position.tangent, track_state_iter->second.x_offset + x_offset,
