@@ -122,7 +122,7 @@ test:clang-8:debug:
 test:clang-8:asan-ubsan:
   stage: test
   script:
-    - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan nice ./build-clang8-asan-ubsan/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsa/bin nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
     - build:clang-8:asan-ubsan
 
@@ -171,7 +171,7 @@ coverage:gcc-7:debug:
     - nice ninja -C build-gcc7-coverage
     - cd build-gcc7-coverage
     - nice lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
-    - bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/bin bin/test-runner
     - nice lcov -c -d . -o live-coverage.info --gcov-tool gcov-7
     - nice lcov -a empty-coverage.info -a live-coverage.info -o coverage.info --gcov-tool gcov-7
     - nice lcov --remove coverage.info "/usr/*" "$CI_PROJECT_DIR/extern/*" "*/vcpkg/*" "*/tests/*" "*/tests_old/*" --output-file coverage.info
