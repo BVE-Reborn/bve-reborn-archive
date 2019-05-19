@@ -142,11 +142,11 @@ namespace bve::openbve {
 	cppfs::FilePath cwd() {
 		char buff[FILENAME_MAX];
 #if defined(FOUNDATIONAL_WINDOWS)
-		_getcwd(buff, FILENAME_MAX);
+		char* ptr = _getcwd(buff, FILENAME_MAX);
 #elif defined(FOUNDATIONAL_OSX) || defined(FOUNDATIONAL_LINUX)
-		(void) getcwd(buff, FILENAME_MAX);
+		char* ptr = getcwd(buff, FILENAME_MAX);
 #endif
-		return cppfs::FilePath(buff);
+		return cppfs::FilePath(ptr);
 	}
 
 	cppfs::FilePath absolute(cppfs::FilePath const& path) {
