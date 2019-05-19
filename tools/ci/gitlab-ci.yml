@@ -115,42 +115,42 @@ build:gcc-7:release:
 test:clang-8:debug:
   stage: test
   script:
-    - nice ./build-clang8-debug/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-clang8-debug/bin nice ./build-clang8-debug/bin/test-runner
   dependencies:
     - build:clang-8:debug
 
 test:clang-8:asan-ubsan:
   stage: test
   script:
-    - nice ./build-clang8-asan-ubsan/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
     - build:clang-8:asan-ubsan
 
 test:clang-8:tsan:
   stage: test
   script:
-    - nice ./build-clang8-tsan/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-clang8-tsan/bin nice ./build-clang8-tsan/bin/test-runner
   dependencies:
     - build:clang-8:tsan
 
 test:clang-8:release:
   stage: test
   script:
-    - nice ./build-clang8-release/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-clang8-release/bin nice ./build-clang8-release/bin/test-runner
   dependencies:
     - build:clang-8:release
 
 test:gcc-7:debug:
   stage: test
   script:
-    - nice ./build-gcc7-debug/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-gcc7-debug/bin nice ./build-gcc7-debug/bin/test-runner
   dependencies:
     - build:gcc-7:debug
 
 test:gcc-7:release:
   stage: test
   script:
-    - nice ./build-gcc7-release/bin/test-runner
+    - LD_LIBRARY_PATH=$PWD/build-gcc7-release/bin nice ./build-gcc7-release/bin/test-runner
   dependencies:
     - build:gcc-7:release
 
