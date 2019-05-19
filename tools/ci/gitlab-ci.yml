@@ -1,0 +1,240 @@
+stages:
+  - build
+  - test
+  - post build
+  - docs
+  # - deploy
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+build:clang-8:debug:
+  stage: build
+  tags:
+    - linux
+  script:
+    - mkdir build-clang8-debug
+    - nice cmake -S . -B build-clang8-debug 
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-clang8-debug
+  artifacts:
+    paths:
+      - build-clang8-debug/bin
+
+build:clang-8:asan-ubsan:
+  stage: build
+  tags:
+    - linux
+  script:
+    - mkdir build-clang8-asan-ubsan
+    - nice cmake -S . -B build-clang8-asan-ubsan 
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
+      -DSANITIZE_{ADDRESS,UNDEFINED}=On
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-clang8-asan-ubsan
+  artifacts:
+    paths:
+      - build-clang8-asan-ubsan/bin
+
+build:clang-8:tsan:
+  stage: build
+  tags:
+    - linux
+  script:
+    - mkdir build-clang8-tsan
+    - nice cmake -S . -B build-clang8-tsan 
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
+      -DSANITIZE_THREAD=On
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-clang8-tsan
+  artifacts:
+    paths:
+      - build-clang8-tsan/bin
+
+build:clang-8:release:
+  stage: build
+  tags:
+    - linux
+  script:
+    - mkdir build-clang8-release
+    - nice cmake -S . -B build-clang8-release 
+      -DCMAKE_BUILD_TYPE=Release
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-clang8-release
+  artifacts:
+    paths:
+      - build-clang8-release/bin
+
+build:gcc-7:debug:
+  stage: build
+  tags:
+    - linux
+  script:
+    - mkdir build-gcc7-debug
+    - nice cmake -S . -B build-gcc7-debug 
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-gcc7-debug
+  artifacts:
+    paths:
+      - build-gcc7-debug/bin
+
+build:gcc-7:release:
+  stage: build
+  tags:
+    - linux
+  script:
+    - mkdir build-gcc7-release
+    - nice cmake -S . -B build-gcc7-release 
+      -DCMAKE_BUILD_TYPE=Release
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-gcc7-release
+  artifacts:
+    paths:
+      - build-gcc7-release/bin
+
+test:clang-8:debug:
+  stage: test
+  tags:
+    - linux
+  script:
+    - LD_LIBRARY_PATH=$PWD/build-clang8-debug/bin nice ./build-clang8-debug/bin/test-runner
+  dependencies:
+    - build:clang-8:debug
+
+test:clang-8:asan-ubsan:
+  stage: test
+  tags:
+    - linux
+  script:
+    - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan/bin nice ./build-clang8-asan-ubsan/bin/test-runner
+  dependencies:
+    - build:clang-8:asan-ubsan
+
+test:clang-8:tsan:
+  stage: test
+  tags:
+    - linux
+  script:
+    - LD_LIBRARY_PATH=$PWD/build-clang8-tsan/bin nice ./build-clang8-tsan/bin/test-runner
+  dependencies:
+    - build:clang-8:tsan
+
+test:clang-8:release:
+  stage: test
+  tags:
+    - linux
+  script:
+    - LD_LIBRARY_PATH=$PWD/build-clang8-release/bin nice ./build-clang8-release/bin/test-runner
+  dependencies:
+    - build:clang-8:release
+
+test:gcc-7:debug:
+  stage: test
+  tags:
+    - linux
+  script:
+    - LD_LIBRARY_PATH=$PWD/build-gcc7-debug/bin nice ./build-gcc7-debug/bin/test-runner
+  dependencies:
+    - build:gcc-7:debug
+
+test:gcc-7:release:
+  stage: test
+  tags:
+    - linux
+  script:
+    - LD_LIBRARY_PATH=$PWD/build-gcc7-release/bin nice ./build-gcc7-release/bin/test-runner
+  dependencies:
+    - build:gcc-7:release
+
+docs:
+  stage: post build
+  tags:
+    - linux
+  script:
+    - nice ./tools/docs/linux.sh build-docs
+  artifacts:
+    paths:
+      - build-docs/html/
+  dependencies:
+
+format:
+  stage: post build
+  tags:
+    - linux
+  only:
+    - /^dev$/
+    - merge_requests
+  script: 
+    - mkdir build-format
+    - nice cmake -S . -B build-format 
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -GNinja
+    - nice ninja -C build-format format
+    - if [ `git status --porcelain lib src | wc -c` -eq 0 ]; then
+          echo "No formatting errors found.";
+      else
+          echo "Formatting errors found.";
+          git diff lib src;
+          exit 1;
+      fi
+
+coverage:
+  stage: post build
+  tags:
+    - linux
+  script:
+    - mkdir build-gcc7-coverage
+    - nice cmake -S . -B build-gcc7-coverage
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
+      -DBVEREBORN_CODE_COVERAGE=On
+      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+      -GNinja
+    - nice ninja -C build-gcc7-coverage
+    - cd build-gcc7-coverage
+    - nice lcov -c -i -d . -o empty-coverage.info --gcov-tool gcov-7
+    - LD_LIBRARY_PATH=$PWD/bin bin/test-runner
+    - nice lcov -c -d . -o live-coverage.info --gcov-tool gcov-7
+    - nice lcov -a empty-coverage.info -a live-coverage.info -o coverage.info --gcov-tool gcov-7
+    - nice lcov --remove coverage.info "/usr/*" "$CI_PROJECT_DIR/extern/*" "*/vcpkg/*" "*/tests/*" "*/tests_old/*" --output-file coverage.info
+    - nice lcov --list coverage.info
+    - bash ../codecov.bash -f coverage.info -t '2bfac9df-f504-4c34-bc53-3803bb9c9b27' || echo "Codecov did not collect coverage reports"
+  coverage: '/\s+Total:\|(\d+\.?\d*)%/'

@@ -45,7 +45,7 @@ cache:
   - c:\tools\vcpkg\packages\ -> tools/ci/appveyor.yaml, tools/vcpkg/setup.py
 
 test_script:
-  - cmd: C:\projects\bve-reborn\build\bin\%CONFIGURATION%\tests.exe
+  - cmd: C:\projects\bve-reborn\build\bin\%CONFIGURATION%\test-runner.exe
 
 on_success:
   - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1

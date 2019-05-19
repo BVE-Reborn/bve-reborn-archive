@@ -89,7 +89,7 @@ add_subdirectory(lib/bve-eastl)
 add_subdirectory(lib/bve-core)
 add_subdirectory(lib/bve-parsers)
 add_subdirectory(lib/bve-util)
-add_subdirectory(src/stress-test)
+# add_subdirectory(src/stress-test)
 add_subdirectory(src/test-runner)
 
 enable_linting(lib src)
