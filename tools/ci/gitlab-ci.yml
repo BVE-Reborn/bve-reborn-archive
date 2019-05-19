@@ -14,8 +14,8 @@ build:clang-8:debug:
     - mkdir build-clang8-debug
     - nice cmake -S . -B build-clang8-debug 
       -DCMAKE_BUILD_TYPE=Debug
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
@@ -31,8 +31,8 @@ build:clang-8:asan-ubsan:
     - mkdir build-clang8-asan-ubsan
     - nice cmake -S . -B build-clang8-asan-ubsan 
       -DCMAKE_BUILD_TYPE=Debug
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
       -DSANITIZE_{ADDRESS,UNDEFINED}=On
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
@@ -49,8 +49,8 @@ build:clang-8:tsan:
     - mkdir build-clang8-tsan
     - nice cmake -S . -B build-clang8-tsan 
       -DCMAKE_BUILD_TYPE=Debug
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
       -DSANITIZE_THREAD=On
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
@@ -67,8 +67,8 @@ build:clang-8:release:
     - mkdir build-clang8-release
     - nice cmake -S . -B build-clang8-release 
       -DCMAKE_BUILD_TYPE=Release
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/clang-8 
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/clang++-8
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
@@ -84,8 +84,8 @@ build:gcc-7:debug:
     - mkdir build-gcc7-debug
     - nice cmake -S . -B build-gcc7-debug 
       -DCMAKE_BUILD_TYPE=Debug
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
@@ -101,8 +101,8 @@ build:gcc-7:release:
     - mkdir build-gcc7-release
     - nice cmake -S . -B build-gcc7-release 
       -DCMAKE_BUILD_TYPE=Release
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
@@ -161,8 +161,8 @@ coverage:gcc-7:debug:
     - mkdir build-gcc7-coverage
     - nice cmake -S . -B build-gcc7-coverage
       -DCMAKE_BUILD_TYPE=Debug
-      -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-7
-      -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-7
+      -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
+      -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
       -DBVEREBORN_CODE_COVERAGE=On
       -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
