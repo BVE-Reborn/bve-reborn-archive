@@ -41,8 +41,8 @@ build:
   verbosity: minimal
 
 cache: 
-  - c:\tools\vcpkg\installed\ -> tools/ci/appveyor.yaml tools/vcpkg/setup.py
-  - c:\tools\vcpkg\packages\ -> tools/ci/appveyor.yaml tools/vcpkg/setup.py
+  - c:\tools\vcpkg\installed\ -> tools/ci/appveyor.yaml, tools/vcpkg/setup.py
+  - c:\tools\vcpkg\packages\ -> tools/ci/appveyor.yaml, tools/vcpkg/setup.py
 
 test_script:
   - cmd: C:\projects\bve-reborn\build\bin\%CONFIGURATION%\test-runner.exe
