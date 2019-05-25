@@ -1,5 +1,8 @@
+.idea/
+.vs/
+
 build*/
-.*/
+build-vcpkg*/
 
 CMakeLists.txt.user*
 
