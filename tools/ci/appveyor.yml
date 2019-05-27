@@ -11,11 +11,7 @@ skip_tags: true
 environment:
   VULKAN_SDK: C:\VulkanSDK\1.1.97.0
   VCPKG_ROOT: C:\Tools\vcpkg
-  PATH: c:\projects\bve-reborn\;c:\projects\bve-reborn\swigwin-4.0.0;$(PATH)
-
-init:
-  - cmd: cmake --version
-  - cmd: msbuild /version
+  PATH: c:\projects\bve-reborn\;c:\projects\bve-reborn\swigwin-4.0.0;c:\projects\bve-reborn\cmake-3.14.4-win64-x64\bin;$(PATH)
  
 configuration:
   - Release
@@ -25,8 +21,13 @@ install:
   - cmd: curl -L --silent --show-error --output VulkanSDK.exe https://cwfitz.com/s/19028-082433-VulkanSDK-1.1.97.0-Installer.exe
   - cmd: .\VulkanSDK.exe /S
   - cmd: curl -L --silent --show-error --output ispc.exe https://cwfitz.com/s/19079-081337-ispc.exe
+  - cmd: ispc --version
   - cmd: curl -L --silent --show-error --output swig.zip https://downloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.0/swigwin-4.0.0.zip
   - cmd: 7z x -y swig.zip
+  - cmd: swig -version
+  - cmd: curl -L --silent --show-error --output cmake.zip https://github.com/Kitware/CMake/releases/download/v3.14.4/cmake-3.14.4-win64-x64.zip
+  - cmd: 7z x -y cmake.zip
+  - cmd: cmake --version
   - cmd: C:\Python37-x64\python.exe ./build.py
 
 before_build:
