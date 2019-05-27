@@ -10,7 +10,7 @@ variables:
 
 cache:
   paths:
-    build-vcpkg
+    - build-vcpkg
 
 build:clang-8:debug:
   stage: build
