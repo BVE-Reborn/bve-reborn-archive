@@ -12,11 +12,6 @@ option(BVEREBORN_WITH_FUZZING "Enable to build automatic fuzzing. Experimental."
 option(BVEREBORN_CODE_COVERAGE "Enable to build with code coverage." Off)
 option(BVEREBORN_VTUNE "Enable to build with code coverage." Off)
 
-find_package(SWIG REQUIRED)
-cmake_policy(SET CMP0078 NEW)
-cmake_policy(SET CMP0086 NEW)
-include(UseSWIG)
-
 find_package(Python3 COMPONENTS Development)
 
 list(APPEND CMAKE_MODULE_PATH 

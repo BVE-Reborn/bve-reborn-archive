@@ -35,12 +35,22 @@ add_library(eastl::lib INTERFACE IMPORTED)
 set_property(TARGET eastl::lib
 			 PROPERTY INTERFACE_LINK_LIBRARIES ${EASTL_NAME}
 )
- find_package(bvestl CONFIG REQUIRED)
+find_package(bvestl CONFIG REQUIRED)
 
 set_property(TARGET glm APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
 add_library(gsl::gsl INTERFACE IMPORTED)
 set_property(TARGET gsl::gsl APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS GSL_THROW_ON_CONTRACT_VIOLATION)
+
+find_package(SWIG)
+if(SWIG_FOUND)
+	message(STATUS "SWIG v${SWIG_VERSION} found at ${SWIG_EXECUTABLE}")
+	cmake_policy(SET CMP0078 NEW)
+	cmake_policy(SET CMP0086 NEW)
+	include(UseSWIG)
+else()
+	message(STATUS "SWIG not found")
+endif()
 
 if(BVE_VTUNE)
 	find_package(VTune)
