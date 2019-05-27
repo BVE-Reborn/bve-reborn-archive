@@ -9,8 +9,8 @@ endif()
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO NovaMods/foundational
-    REF 0a30d3578d074c934008db2dd57678395cedc3a5
-    SHA512 ccce90722ed5ae47371a6d82c6042986667d9c2eb505ee033c163b9c7b3bc5d7376643c4403af46771213f43d1dc2c2d940797e21622578efcb16053f9977ee1
+    REF v0.2.2
+    SHA512 6edde8cb803d0f619b244ecb2b587156f27b9365b0c7350a9f3a6775c6c26bd410d68a6e69d72cae911731664ce88a2d2cef540dae53882fd073b9bfdcd856bf
     HEAD_REF master
 )
 
@@ -39,7 +39,6 @@ vcpkg_install_cmake()
 vcpkg_fixup_cmake_targets()
 
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
-file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
 
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/foundational RENAME copyright)
 

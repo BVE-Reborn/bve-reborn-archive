@@ -17,7 +17,7 @@ build:clang-8:debug:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-clang8-debug
     - nice cmake -S . -B build-clang8-debug 
       -DCMAKE_BUILD_TYPE=Debug
@@ -37,7 +37,7 @@ build:clang-8:asan-ubsan:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-clang8-asan-ubsan
     - nice cmake -S . -B build-clang8-asan-ubsan 
       -DCMAKE_BUILD_TYPE=Debug
@@ -58,7 +58,7 @@ build:clang-8:tsan:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-clang8-tsan
     - nice cmake -S . -B build-clang8-tsan 
       -DCMAKE_BUILD_TYPE=Debug
@@ -79,7 +79,7 @@ build:clang-8:release:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-clang8-release
     - nice cmake -S . -B build-clang8-release 
       -DCMAKE_BUILD_TYPE=Release
@@ -99,7 +99,7 @@ build:gcc-7:debug:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-gcc7-debug
     - nice cmake -S . -B build-gcc7-debug 
       -DCMAKE_BUILD_TYPE=Debug
@@ -119,7 +119,7 @@ build:gcc-7:release:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-gcc7-release
     - nice cmake -S . -B build-gcc7-release 
       -DCMAKE_BUILD_TYPE=Release
@@ -228,7 +228,7 @@ coverage:
   tags:
     - linux
   script:
-    - python3.7 build.py
+    - nice python3.7 build.py
     - mkdir build-gcc7-coverage
     - nice cmake -S . -B build-gcc7-coverage
       -DCMAKE_BUILD_TYPE=Debug

@@ -1,4 +1,0 @@
-Source: eastl-polyalloc
-Version: v0.1
-Description: Standard polymorphic allocator for EASTL containers.
-Build-Depends: eastl
