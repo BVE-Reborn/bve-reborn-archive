@@ -141,6 +141,8 @@ test:clang-8:debug:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-debug/bin nice ./build-clang8-debug/bin/test-runner
   dependencies:
@@ -150,6 +152,8 @@ test:clang-8:asan-ubsan:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan/bin nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
@@ -159,6 +163,8 @@ test:clang-8:tsan:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-tsan/bin nice ./build-clang8-tsan/bin/test-runner
   dependencies:
@@ -168,6 +174,8 @@ test:clang-8:release:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-release/bin nice ./build-clang8-release/bin/test-runner
   dependencies:
@@ -177,6 +185,8 @@ test:gcc-7:debug:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - LD_LIBRARY_PATH=$PWD/build-gcc7-debug/bin nice ./build-gcc7-debug/bin/test-runner
   dependencies:
@@ -186,6 +196,8 @@ test:gcc-7:release:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - LD_LIBRARY_PATH=$PWD/build-gcc7-release/bin nice ./build-gcc7-release/bin/test-runner
   dependencies:
@@ -195,6 +207,8 @@ docs:
   stage: post build
   tags:
     - linux
+  cache:
+    policy: pull
   script:
     - nice ./tools/docs/linux.sh build-docs
   artifacts:
@@ -206,6 +220,8 @@ format:
   stage: post build
   tags:
     - linux
+  cache:
+    policy: pull
   only:
     - /^dev$/
     - merge_requests
