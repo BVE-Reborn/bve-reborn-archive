@@ -12,6 +12,9 @@ cache:
   paths:
     - build-vcpkg
 
+after_script:
+  - rm -rf build-vcpkg/buildtrees
+
 build:clang-8:debug:
   stage: build
   tags:
