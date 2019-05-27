@@ -143,6 +143,8 @@ test:clang-8:debug:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-debug/bin nice ./build-clang8-debug/bin/test-runner
   dependencies:
@@ -154,6 +156,8 @@ test:clang-8:asan-ubsan:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan/bin nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
@@ -165,6 +169,8 @@ test:clang-8:tsan:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-tsan/bin nice ./build-clang8-tsan/bin/test-runner
   dependencies:
@@ -176,6 +182,8 @@ test:clang-8:release:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-release/bin nice ./build-clang8-release/bin/test-runner
   dependencies:
@@ -187,6 +195,8 @@ test:gcc-7:debug:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-gcc7-debug/bin nice ./build-gcc7-debug/bin/test-runner
   dependencies:
@@ -198,6 +208,8 @@ test:gcc-7:release:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-gcc7-release/bin nice ./build-gcc7-release/bin/test-runner
   dependencies:
@@ -209,6 +221,8 @@ docs:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   script:
     - nice ./tools/docs/linux.sh build-docs
   artifacts:
@@ -222,6 +236,8 @@ format:
     - linux
   cache:
     policy: pull
+    paths:
+      - build-vcpkg
   only:
     - /^dev$/
     - merge_requests
