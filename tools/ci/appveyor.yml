@@ -39,7 +39,7 @@ build:
   verbosity: minimal
 
 after_build:
-  - ps: rm -r -fo -ErrorAction SilentlyContinue build-vcpkg/buildtrees
+  - ps: rm -r -fo -ErrorAction Ignore build-vcpkg/buildtrees
 
 cache:
   - build-vcpkg -> tools/ci/appveyor.yaml, build.py, .build-py
