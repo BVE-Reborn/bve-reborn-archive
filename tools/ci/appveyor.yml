@@ -32,16 +32,14 @@ install:
 
 before_build:
   - cmd: cd C:\projects\bve-reborn
-  - cmd: md build
-  - cmd: cd build
-  - cmd: cmake .. -G "Visual Studio 15 2017 Win64" -Thost=x64 -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake
+  - cmd: cmake -S . -B build -G "Visual Studio 15 2017 Win64" -Thost=x64 -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake
 
 build:
   project: C:\projects\bve-reborn\build\BVE-Reborn.sln
   verbosity: minimal
 
 after_build:
-  - ps: rm -r build-vcpkg/buildtrees
+  - ps: rm -r -fo -ErrorAction SilentlyContinue build-vcpkg/buildtrees
 
 cache:
   - build-vcpkg -> tools/ci/appveyor.yaml, build.py, .build-py
