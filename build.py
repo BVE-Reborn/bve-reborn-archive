@@ -8,9 +8,9 @@ import sys
 
 tool_name = "build.py"
 
-# We need to do this before we import 3.6 only things
-if sys.version_info < (3, 6):
-    print("Running in python version %s.%s.%s. %s requires 3.6+" % (sys.version_info[0],
+# We need to do this before we rely on 3.7 only things
+if sys.version_info < (3, 7):
+    print("Running in python version %s.%s.%s. %s requires 3.7+" % (sys.version_info[0],
                                                                     sys.version_info[1],
                                                                     sys.version_info[2],
                                                                     tool_name))
@@ -41,7 +41,7 @@ import zipfile
 # tool_name = "build.py"
 #   Definition above
 
-version = (0, 1, 0)
+version = (0, 2, 0)
 version_str = f"{version[0]}.{version[1]}.{version[2]}{'-' + version[3] if len(version) == 4 else ''}"
 description = f"{tool_name} version {version_str}: CMake + vcpkg one click build script."
 
@@ -50,7 +50,7 @@ vcpkg_zip_path = "archive/master.zip"
 vcpkg_zip_subdir = "vcpkg-master/"
 
 default_config_file = ".build-py"
-default_custom_port_dir = "extern/vcpkg/ports/"
+default_custom_port_dir = "external/vcpkg/ports/"
 
 # Evil global state
 debug = False
@@ -90,6 +90,10 @@ else:
 ###########
 # Utility #
 ###########
+
+
+def log_section_title(title):
+    print("\u001b[37;1m{}\u001b[0m".format(title))
 
 
 def log_start(text):
@@ -268,6 +272,15 @@ class Settings:
         self.version = None
 
 
+def parse_config_package_list(package_list):
+    packages = []
+    for match in re.finditer(r"[^\s,[]+(?:\[(?:[^,]+,\s*)*[^,\]]+])?",
+                             package_list,
+                             re.MULTILINE | re.UNICODE):
+        packages.append(match.group(0))
+    return packages
+
+
 def parse_config_file(path):
     parse_func = log_start(f"Parsing config file {path}")
 
@@ -295,12 +308,7 @@ def parse_config_file(path):
             if key == "name" or key == "project":
                 settings.project_name = value
             elif key == "packages":
-                settings.packages = [p.strip() for p in value.split(",")]
-                settings.packages = [p for p in settings.packages if len(p) != 0]
-                if any([s.find(' ') != -1 for s in settings.packages]):
-                    parse_func(None, False)
-                    print(f"Space found in package list on line {i}: {settings.packages}", file=sys.stderr)
-                    exit(1)
+                settings.packages.extend(parse_config_package_list(value))
             elif key == "version":
                 settings.version = value
             else:
@@ -433,12 +441,12 @@ def copy_all_ports(port_dir, vcpkg_dir):
 
 
 @functools.lru_cache(None)
-def get_vcpkg_exe(vcpkg_dir):
+def vcpkg_get_exe(vcpkg_dir):
     return os.path.join(vcpkg_dir, vcpkg_exe_name)
 
 
-def invoke_vcpkg(vcpkg_dir, log_func, arguments, abort=True):
-    exe_path = get_vcpkg_exe(vcpkg_dir)
+def vcpkg_invoke(vcpkg_dir, log_func, arguments, abort=True):
+    exe_path = vcpkg_get_exe(vcpkg_dir)
 
     arg_list = [exe_path, "--vcpkg-root", vcpkg_dir, "--triplet", triplet, *arguments]
     result = subprocess.run(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -474,10 +482,88 @@ def vcpkg_denormalize_name(package):
     return match.group(1)
 
 
+@functools.lru_cache(None)
+def vcpkg_extract_features(package):
+    package = vcpkg_normalize_name(package)
+
+    match = re.search(r"([^\s,[]+)(?:\[((?:[^,]+,\s*)*[^,\]]*)])?", package, re.MULTILINE | re.UNICODE)
+
+    if not match:
+        print(f"Unable to parse package name {package}. This is a bug.", file=sys.stderr)
+        exit(1)
+
+    name = match.group(1)
+    feature_optional_str = match.group(2)
+    feature_str = feature_optional_str if feature_optional_str is not None else "core"
+    features = [f.strip() for f in feature_str.split(",")]
+
+    return name, frozenset(features)
+
+
+def vcpkg_reconstruct_features(package, features):
+    return vcpkg_reconstruct_features_impl(package, frozenset(features))
+
+
+@functools.lru_cache(None)
+def vcpkg_reconstruct_features_impl(package, features):
+    return f"{package}[{','.join(features)}]"
+
+
+@functools.lru_cache(None)
+def vcpkg_construct_single_feature_packages(package):
+    name, features = vcpkg_extract_features(package)
+
+    if len(features) == 0:
+        print(f"Package {package} returned no features. This is a bug.", file=sys.stderr)
+        exit(1)
+
+    return frozenset(f"{name}[{f}]" for f in features)
+
+
+def vcpkg_parse_control_file(vcpkg_dir, package):
+    # Only deals with valid CONTROL files. Invalid CONTROL files may cause crazy behavior
+    package_name = vcpkg_denormalize_name(package)
+
+    file_path = os.path.join(vcpkg_dir, f"ports/{package_name}/CONTROL")
+
+    if not os.path.exists(file_path) or not os.path.isfile(file_path):
+        print(f"Expected to find {package_name}'s control file at {file_path}", file=sys.stderr)
+        exit(1)
+
+    kvp = []
+    with open(file_path, 'r') as f:
+        for line in f:
+            split = [s.strip() for s in line.split(":", 1)]
+            split = [s for s in split if len(s) != 0]
+            if len(split) != 2:
+                continue
+            kvp.append(split)
+
+    package_name = ""
+    current_feature = "core"
+
+    dependency_pairs = {"core": []}
+
+    for key, value in kvp:
+        if key == "Source":
+            package_name = value
+        if key == "Feature":
+            current_feature = value
+            dependency_pairs[value] = []
+        if key == "Build-Depends":
+            depends = parse_config_package_list(value)
+            split_deps = list(itertools.chain.from_iterable([vcpkg_construct_single_feature_packages(d) for d in depends]))
+            dependency_pairs[current_feature].extend(split_deps)
+        if key == "Default-Features":
+            dependency_pairs[current_feature].extend([f"{package_name}[{p}]" for p in parse_config_package_list(value)])
+
+    return {f"{package_name}[{p}]": v for p, v in dependency_pairs.items()}
+
+
 def vcpkg_list_upgradeable_packages(vcpkg_dir):
     upgrade_func = log_start(f"Enumerating upgradable packages")
 
-    result = invoke_vcpkg(vcpkg_dir, upgrade_func, ["update"])
+    result = vcpkg_invoke(vcpkg_dir, upgrade_func, ["update"])
 
     output_str = decode_string(result.stdout)  # type: str
 
@@ -512,9 +598,41 @@ def vcpkg_list_upgradeable_packages(vcpkg_dir):
     return packages
 
 
+@functools.lru_cache(None)
+def vcpkg_deduplicate_features(dep_list):
+    # This is only for simple deduplication. It can not be used on a install order list. Install order lists do not have
+    # enough information for this to be safe. You must deduplicate at the graph level.
+
+    dep_dict = {}
+    for dep in dep_list:
+        name, features = vcpkg_extract_features(dep)
+
+        # feature lists are sets so they are unique
+        if name not in dep_dict:
+            dep_dict[name] = set(features)
+        else:
+            dep_dict[name].update(features)
+
+    new_dep_list = set()
+    for name, features in dep_dict.items():
+        new_dep_list.add(vcpkg_reconstruct_features(name, features))
+
+    if debug:
+        print(new_dep_list)
+
+    return frozenset(new_dep_list)
+
+
+class VcpkgEnumerateFeatureMismatch(Exception):
+    package: str
+
+    def __init__(self, package):
+        self.package = package
+
+
 def vcpkg_package_dependencies(vcpkg_dir, package):
     list_func = log_start(f"Enumerating dependencies of {package}")
-    result = invoke_vcpkg(vcpkg_dir, list_func, ["install", "--dry-run", package])
+    result = vcpkg_invoke(vcpkg_dir, list_func, ["install", "--dry-run", "--recurse", package])
 
     output_str = decode_string(result.stdout)  # type: str
 
@@ -525,6 +643,16 @@ def vcpkg_package_dependencies(vcpkg_dir, package):
     if already_installed_match is not None:
         list_func(f"Installed", True)
         return None
+
+    feature_mismatch_match = re.search("^The following packages will be rebuilt:$",
+                                       output_str,
+                                       re.UNICODE | re.MULTILINE)
+
+    if feature_mismatch_match is not None:
+        list_func(f"Feature Mismatch", False)
+        # Raise an exception because there is no easy way to propagate this information to where it needs to be
+        # (try/catch in vcpkg_install_packages)
+        raise VcpkgEnumerateFeatureMismatch(package)
 
     to_install_match = re.search("^The following packages will be built and installed:$",
                                  output_str,
@@ -549,8 +677,8 @@ def vcpkg_package_dependencies(vcpkg_dir, package):
 
 
 def vcpkg_package_remove_dependencies(vcpkg_dir, package):
-    list_func = log_start(f"Enumerating dependants of {package}")
-    result = invoke_vcpkg(vcpkg_dir, list_func, ["remove", "--recurse", "--dry-run", package])
+    list_func = log_start(f"Enumerating removal dependencies of {package}")
+    result = vcpkg_invoke(vcpkg_dir, list_func, ["remove", "--recurse", "--dry-run", package])
 
     output_str = decode_string(result.stdout)  # type: str
 
@@ -569,7 +697,7 @@ def vcpkg_package_remove_dependencies(vcpkg_dir, package):
     deps = []
     if to_install_match is not None:
         for dependant in re.finditer(r"^ {2}\* ([^:]+):x64-(?:windows|osx|linux)$", output_str,
-                                      re.UNICODE | re.MULTILINE):
+                                     re.UNICODE | re.MULTILINE):
             deps.append(vcpkg_normalize_name(dependant.group(1)))
     else:
         list_func(f"Unknown error", False)
@@ -579,60 +707,118 @@ def vcpkg_package_remove_dependencies(vcpkg_dir, package):
         sys.stdout.write(decode_string(result.stderr))
         exit(1)
 
-    list_func(f"Found {len(deps)} dependant{'s' if len(deps) != 1 else ''}", True)
+    list_func(f"Found {len(deps)} removal{'s' if len(deps) != 1 else ''}", True)
 
     return deps
 
 
 class Package:
     name: str
-    finished: bool
     listed: bool
     queued: bool
-    dependencies: typing.List["Package"]
+    stated: bool
+    features: set
+    dependencies: typing.Set["Package"]
 
-    def __init__(self, name, finished, dependencies):
+    def __init__(self, name: str, features: set, dependencies: set):
         self.name = name
-        self.finished = finished
         self.listed = False
         self.queued = False
+        self.stated = False
+        self.features = features
         self.dependencies = dependencies
+
+    def __str__(self):
+        return vcpkg_reconstruct_features(self.name, self.features)
+
+    # This class is not immutable. This will change over time. This is only to allow it to be stored in a set of
+    # dependencies. Having the same object twice the dependency set is okay. The second time will be ignored as it has
+    # already been .listed
+    def __hash__(self):
+        return self.name.__hash__()
 
 
 def vcpkg_dependency_resolver(vcpkg_dir, dep_func, packages):
-    packages_to_stat = queue.Queue()
+    # This function is a mess of state and ugliness as I am trying to build it in an efficient way, only stating each
+    # package the minimum amount of times needed. I will attempt to explain how it works.
+    #
+    # The purpose of the function is to build an order to install the packages provided that satisfies all
+    # dependencies in the right order. This means I must find all dependencies of each package, then those
+    # dependencies. This was simple enough when you don't take into account package features. When you account for
+    # that, you end up in a situation where a needed feature can only be revealed to you in a dependency. If you've
+    # already stated the package, you need to go back and re-stat it with the full set of features.
+    #
+    # Dependency nodes are put in a global dictionary, as well as children of their dependants. This allows the graph
+    # to be walked, but also allow random access to a package of a certain name. As packages are revealed their package
+    # objects are created and put into the queue. The .queued member tells you if the package has already been queued
+    # but not stated yet. The .stated member tells you if the package has been stated in its current state.
+    #
+    # The features evaluated during the stat call always come from the object in the graph. This is to make sure we
+    # are stating with all the known features. If we take from the name in the queue we get a problem where the queue
+    # looks like foo[A], foo[B]. When we evaluate foo[A] we set .stated to true. We then get to foo[B] we see stated
+    # is true and don't run the stat call. Normally when a new feature is set, we reset .stated when we add to the
+    # queue. However, this has already been added to the queue so we can't reset it. The solution to this is to make
+    # sure all stat calls evaluate with all known features by keeping the feature list full with all known features
+    # at all times. When foo[A] is added the object has the features [A]. When foo[B] is added, the object has the
+    # features [A,B]. So When we go to evaluate foo[A} we actually evaluate foo[A, B], preventing the problem.
 
+    packages_to_stat = queue.Queue()
+    packages_stated = {}
+
+    # Add all packages we need to the stat queue.
     for p in packages:
+        package_name, package_features = vcpkg_extract_features(p)
+        packages_stated[package_name] = Package(package_name, set(package_features), set())
+        packages_stated[package_name].queued = True
         packages_to_stat.put_nowait(vcpkg_normalize_name(p))
 
-    # enumerate all package dependencies
-    # vcpkg has no cycles
-    packages_stated = {}
     while True:
+        # Try to extract something from a queue, throwing on failure
         try:
-            package_name = packages_to_stat.get_nowait()
+            package_normalized = packages_to_stat.get_nowait()
         except queue.Empty:
             break
-        deps = dep_func(vcpkg_dir, package_name)
+
+        # Break full package name into the name and features
+        package_name, package_features = vcpkg_extract_features(package_normalized)
+
+        # We've already stated this package before, no need to do this again
+        if packages_stated[package_name].stated:
+            continue
+
+        # Use the full feature set known about to stat the package
+        deps = dep_func(vcpkg_dir, str(packages_stated[package_name]))
+        packages_stated[package_name].stated = True
+
+        # None means the package is already installed
         if deps is None:
             continue
 
-        # Ensure this package exists
-        if package_name not in packages_stated:
-            packages_stated[package_name] = Package(package_name, True, [])
-        else:
-            packages_stated[package_name].finished = True
+        for dep_fullname in deps:
+            dep_name, dep_features = vcpkg_extract_features(dep_fullname)
+            dep_features = set(dep_features)
 
-        for dep_name in deps:
-            # Ensure dependencies exist
+            # Create package object for the dependency if it doesn't already exist
             if dep_name not in packages_stated:
-                packages_stated[dep_name] = Package(dep_name, False, [])
-            # Add dependencies that are unstated to the stat list
+                packages_stated[dep_name] = Package(dep_name, dep_features, set())
+
+            # We need more features then currently know about.
+            if len(dep_features - packages_stated[dep_name].features) != 0:
+                # Rest queued and stated to allow the stat to be reevaluated
+                packages_stated[dep_name].queued = False
+                packages_stated[dep_name].stated = False
+
+                # Keep the package object feature list full. This way if there is a instance of this
+                # package in the queue already, it will deal with these features
+                packages_stated[dep_name].features.update(dep_features)
+
+            # Queue if not already queued.
             if not packages_stated[dep_name].queued:
                 packages_stated[dep_name].queued = True
-                packages_to_stat.put_nowait(dep_name)
-            # Add the dependency objects to the current package's object
-            packages_stated[package_name].dependencies.append(packages_stated[dep_name])
+                packages_to_stat.put_nowait(dep_fullname)
+
+            # Add the dependency objects to the current package's object dependency list
+            packages_stated[package_name].dependencies.add(packages_stated[dep_name])
 
     sort_func = log_start("Resolving dependency tree")
 
@@ -642,11 +828,12 @@ def vcpkg_dependency_resolver(vcpkg_dir, dep_func, packages):
         if pkg_obj.listed:
             return []
         pkg_obj.listed = True
-        return list(itertools.chain.from_iterable([recurse(dep.name) for dep in pkg_obj.dependencies] + [[pkg_name]]))
+        return list(itertools.chain.from_iterable([recurse(dep.name) for dep in pkg_obj.dependencies] +
+                                                  [[str(pkg_obj)]]))
 
-    ordering = list(itertools.chain.from_iterable([recurse(dep.name) for dep in packages_stated.values()]))
+    ordering = list(itertools.chain.from_iterable([recurse(name) for name in packages_stated.keys()]))
 
-    sort_func(f"Resolved {len(ordering)} dependenc{'ies' if len(ordering) != 1 else 'y'}", True)
+    sort_func(f"{len(ordering)} package{'s' if len(ordering) != 1 else ''}", True)
 
     if debug:
         print(ordering)
@@ -657,7 +844,7 @@ def vcpkg_dependency_resolver(vcpkg_dir, dep_func, packages):
 def vcpkg_remove_package(vcpkg_dir, package):
     remove_func = log_start(f"Removing package {package}")
 
-    result = invoke_vcpkg(vcpkg_dir, remove_func, ["remove", package])
+    result = vcpkg_invoke(vcpkg_dir, remove_func, ["remove", package])
 
     output_str = decode_string(result.stdout)
 
@@ -685,7 +872,8 @@ def vcpkg_remove_package(vcpkg_dir, package):
 
 def vcpkg_install_package(vcpkg_dir, package):
     install_func = log_start(f"Installing package {package}")
-    result = invoke_vcpkg(vcpkg_dir, install_func, ["install", package], abort=False)
+    # We can't abort here as we need to print out log files
+    result = vcpkg_invoke(vcpkg_dir, install_func, ["install", package], abort=False)
 
     output_str = decode_string(result.stdout)  # type: str
 
@@ -721,13 +909,13 @@ def vcpkg_install_package(vcpkg_dir, package):
 def vcpkg_list_packages(vcpkg_dir):
     list_func = log_start("Enumerating installed packages")
 
-    result = invoke_vcpkg(vcpkg_dir, list_func, ["list"])
+    result = vcpkg_invoke(vcpkg_dir, list_func, ["list"])
 
     output_str = decode_string(result.stdout)  # type: str
 
-    packages = []
+    packages = set()
     for m in re.finditer(r"(^[^:]+).*$", output_str, re.UNICODE | re.MULTILINE):
-        packages.append(vcpkg_normalize_name(m.group(1)))
+        packages.add(vcpkg_normalize_name(m.group(1)))
 
     list_func(f"Found {len(packages)} installed package{'s' if len(packages) != 1 else ''}", True)
 
@@ -737,15 +925,35 @@ def vcpkg_list_packages(vcpkg_dir):
 def vcpkg_list_simple_deps(vcpkg_dir, parent_packages):
     list_simple_func = log_start("Enumerating all needed packages")
 
-    parent_packages = map(vcpkg_denormalize_name, parent_packages)
+    packages = set()
+    known_dependencies = {}
 
-    result = invoke_vcpkg(vcpkg_dir, list_simple_func, ['depend-info', *parent_packages])
+    packages_to_stat = queue.Queue()
+    for p in parent_packages:
+        single_features = vcpkg_construct_single_feature_packages(p)
 
-    output_str = decode_string(result.stdout)  # type: str
+        for s in single_features:
+            packages.add(s)
+            packages_to_stat.put_nowait(s)
 
-    packages = []
-    for m in re.finditer(r"(^[^:]+).*$", output_str, re.UNICODE | re.MULTILINE):
-        packages.append(vcpkg_normalize_name(m.group(1)))
+    while True:
+        try:
+            single_feature = packages_to_stat.get_nowait()
+        except queue.Empty:
+            break
+        name = vcpkg_denormalize_name(single_feature)
+
+        if single_feature not in known_dependencies:
+            known_dependencies.update(vcpkg_parse_control_file(vcpkg_dir, name))
+
+        if single_feature not in known_dependencies:
+            print(f"Unknown feature {single_feature}.")
+            exit(1)
+
+        for d in known_dependencies[single_feature]:
+            if d not in packages:
+                packages.add(d)
+                packages_to_stat.put_nowait(d)
 
     list_simple_func(f"Found {len(packages)} needed package{'s' if len(packages) != 1 else ''}", True)
 
@@ -759,22 +967,42 @@ def vcpkg_remove_unneeded(vcpkg_dir, installed, needed):
 
     remove_func(f"Found {len(unneeded)} unneeded package{'s' if len(unneeded) != 1 else ''}", True)
 
-    for p in unneeded:
+    log_section_title("Removing unneeded packages")
+
+    packages_to_remove = vcpkg_dependency_resolver(vcpkg_dir, vcpkg_package_remove_dependencies, unneeded)
+
+    for p in packages_to_remove:
         vcpkg_remove_package(vcpkg_dir, p)
 
 
 def vcpkg_install_packages(vcpkg_dir, packages):
     packages = list(map(vcpkg_normalize_name, packages))
 
+    log_section_title("Upgrading Existing Packages")
     upgradable_packages = vcpkg_list_upgradeable_packages(vcpkg_dir)
     if len(upgradable_packages) != 0:
-        packages_to_remove = vcpkg_dependency_resolver(vcpkg_dir, vcpkg_package_remove_dependencies, upgradable_packages)
+        packages_to_remove = vcpkg_dependency_resolver(vcpkg_dir, vcpkg_package_remove_dependencies,
+                                                       upgradable_packages)
         for p in packages_to_remove:
             vcpkg_remove_package(vcpkg_dir, p)
-    packages_to_install = vcpkg_dependency_resolver(vcpkg_dir, vcpkg_package_dependencies, packages)
+    # Installing may fail due to feature mismatches, this solves that problem in a very hacky way.
+    while True:
+        try:
+            log_section_title("Installing Packages")
+            packages_to_install = vcpkg_dependency_resolver(vcpkg_dir, vcpkg_package_dependencies, packages)
+        except VcpkgEnumerateFeatureMismatch as e:
+            log_section_title("Remove Packages with Feature Mismatch")
+            packages_to_remove = vcpkg_dependency_resolver(vcpkg_dir, vcpkg_package_remove_dependencies, [e.package])
+            for p in packages_to_remove:
+                vcpkg_remove_package(vcpkg_dir, p)
+            continue
+        break
 
+    # noinspection PyUnboundLocalVariable
     for p in packages_to_install:
         vcpkg_install_package(vcpkg_dir, p)
+
+    log_section_title("Determining unneeded packages")
 
     installed_packages = vcpkg_list_packages(vcpkg_dir)
     needed_packages = vcpkg_list_simple_deps(vcpkg_dir, packages)
@@ -843,12 +1071,14 @@ def main():
     config_settings = parse_config_file(config_file_path)
 
     if config_settings.project_name:
-        print(f"Building {'version ' + config_settings.version if config_settings.version else ''} of "
-              f"{config_settings.project_name}")
+        log_section_title(f"Building {'version ' + config_settings.version if config_settings.version else ''} of "
+                          f"{config_settings.project_name}")
 
     if task_vcpkg:
+        log_section_title("Installing vcpkg")
         prepare_vcpkg(vcpkg_dir, arguments.vcpkg_url)
     if task_copy_packages:
+        log_section_title("Copying Custom Ports")
         copy_all_ports(custom_port_dir, vcpkg_dir)
     if task_packages:
         vcpkg_install_packages(vcpkg_dir, config_settings.packages)
