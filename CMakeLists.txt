@@ -15,14 +15,14 @@ option(BVEREBORN_VTUNE "Enable to build with code coverage." Off)
 find_package(Python3 COMPONENTS Development)
 
 list(APPEND CMAKE_MODULE_PATH 
-    "${CMAKE_SOURCE_DIR}/extern"
-    "${CMAKE_SOURCE_DIR}/extern/cmake-helpers"
+    "${CMAKE_SOURCE_DIR}/external"
+    "${CMAKE_SOURCE_DIR}/external/cmake-helpers"
     "${CMAKE_SOURCE_DIR}/tools/cmake"
 )
 
 include(add_build)
 include(cmake-helpers)
-include(extern)
+include(external)
 include(warnings)
 
 if ((NOT CMAKE_BUILD_TYPE) AND (NOT OS_WINDOWS))
