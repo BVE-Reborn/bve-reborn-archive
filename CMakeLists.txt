@@ -80,14 +80,14 @@ endmacro()
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-add_subdirectory(lib/bve-eastl)
-add_subdirectory(lib/bve-core)
-add_subdirectory(lib/bve-parsers)
-add_subdirectory(lib/bve-util)
-# add_subdirectory(src/stress-test)
+add_subdirectory(libs/bve-eastl)
+add_subdirectory(libs/bve-core)
+add_subdirectory(libs/bve-parsers)
+add_subdirectory(libs/bve-util)
+add_subdirectory(src/stress-test)
 add_subdirectory(src/test-runner)
 
-enable_linting(lib src)
+enable_linting(libs src)
 
 if(TARGET clean_cotire)
     set_property(TARGET clean_cotire PROPERTY FOLDER "")

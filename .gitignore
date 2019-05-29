@@ -6,7 +6,7 @@ build-vcpkg*/
 
 CMakeLists.txt.user*
 
-lib/bve-parsers/tests_old/test_files
+libs/bve-parsers/tests_old/test_files
 
 cmake-build*/
 

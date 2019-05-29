@@ -11,9 +11,9 @@ target_link_libraries(bve-eastl PUBLIC
 )
 target_compile_definitions(bve-eastl PUBLIC $<$<CONFIG:Debug>:EASTL_ASSERT_ENABLED> EASTL_ALLOCATOR_EXPLICIT_ENABLED=1 EASTL_EXCEPTIONS_ENABLED=0 EASTLAllocatorType=::bve::util::AllocatorHandle EASTLAllocatorDefault=::bve::util::default_allocator)
 if(OS_WINDOWS)
-    target_compile_options(bve-eastl PUBLIC "/FI${CMAKE_SOURCE_DIR}/lib/bve-eastl/include/EASTL/allocator_fwd.hpp")
+    target_compile_options(bve-eastl PUBLIC "/FI${CMAKE_SOURCE_DIR}/libs/bve-eastl/include/EASTL/allocator_fwd.hpp")
 else()
-    target_compile_options(bve-eastl PUBLIC -include ${CMAKE_SOURCE_DIR}/lib/bve-eastl/include/EASTL/allocator_fwd.hpp)
+    target_compile_options(bve-eastl PUBLIC -include ${CMAKE_SOURCE_DIR}/libs/bve-eastl/include/EASTL/allocator_fwd.hpp)
 endif()
 set_target_properties(bve-eastl PROPERTIES POSITION_INDEPENDENT_CODE True)
 
