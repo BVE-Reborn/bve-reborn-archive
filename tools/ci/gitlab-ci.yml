@@ -13,7 +13,7 @@ cache:
     - build-vcpkg
 
 after_script:
-  - rm -rf build-vcpkg/buildtrees
+  - cmake -E remove_directory build-vcpkg/buildtrees
 
 build:clang-8:debug:
   stage: build
