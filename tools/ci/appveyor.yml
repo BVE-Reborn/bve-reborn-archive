@@ -11,7 +11,7 @@ skip_tags: true
 environment:
   VULKAN_SDK: C:\VulkanSDK\1.1.97.0
   VCPKG_ROOT: C:\Tools\vcpkg
-  PATH: c:\projects\bve-reborn\;c:\projects\bve-reborn\swigwin-4.0.0;c:\projects\bve-reborn\cmake-3.14.4-win64-x64\bin;$(PATH)
+  PATH: c:\projects\bve-reborn\;c:\projects\bve-reborn\swigwin-4.0.0;c:\projects\bve-reborn\cmake-3.14.4-win64-x64\bin;c:\projects\bve-reborn\Python37$(PATH)
  
 configuration:
   - Debug
@@ -29,11 +29,15 @@ install:
   - cmd: curl -L --silent --show-error --output cmake.zip https://github.com/Kitware/CMake/releases/download/v3.14.4/cmake-3.14.4-win64-x64.zip
   - cmd: 7z x -y cmake.zip
   - cmd: cmake --version
+  - cmd: curl -L --silent --show-error --output Python37.7z http://cwfitz.com/s/Python37.7z
+  - cmd: 7z x -y Python37.7z
+  - cmd: python --version
+  - cmd: Python37/python.exe --version
   - cmd: C:\Python37-x64\python.exe ./build.py
 
 before_build:
   - cmd: cd C:\projects\bve-reborn
-  - cmd: cmake -S . -B build -G "Visual Studio 15 2017 Win64" -Thost=x64 -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake
+  - cmd: cmake -S . -B build -G "Visual Studio 15 2017 Win64" -Thost=x64 -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake -DPython3_ROOT_DIR=Python37
 
 build:
   project: C:\projects\bve-reborn\build\BVE-Reborn.sln

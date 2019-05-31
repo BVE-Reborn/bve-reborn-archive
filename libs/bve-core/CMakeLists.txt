@@ -32,11 +32,10 @@ finish_bve_target(bve-core-test)
 
 set_property(TARGET bve-core-test PROPERTY FOLDER lib/tests)
 
+##########
+## swig ##
+##########
 if(SWIG_FOUND)
-	##########
-	## swig ##
-	##########
-
 	file(GLOB_RECURSE INTERFACES LIST_DIRECTORIES false CONFIGURE_DEPENDS "extras/*.i")
 
 	foreach(file ${INTERFACES})
