@@ -21,7 +21,7 @@ class StandardOutBackend final : foundational::logging::LoggerBackend {
 
 FOUNDATIONAL_LOGGER_BACKEND(StandardOutBackend, stdout_back);
 
-int main(int argc, char ** argv) {
+int main(int argc, char** argv) {
 	foundational::statics::StaticGlobals::initialize();
 	atexit(foundational::statics::StaticGlobals::deinitialize);
 
