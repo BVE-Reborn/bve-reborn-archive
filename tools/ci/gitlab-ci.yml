@@ -250,11 +250,11 @@ format:
       -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -GNinja
     - nice ninja -C build-format format
-    - if [ `git status --porcelain libs src | wc -c` -eq 0 ]; then
+    - if [ `git status --porcelain libs src tests | wc -c` -eq 0 ]; then
           echo "No formatting errors found.";
       else
           echo "Formatting errors found.";
-          git diff libs src;
+          git diff libs src tests;
           exit 1;
       fi
 

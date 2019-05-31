@@ -82,10 +82,10 @@ add_subdirectory(libs/bve-eastl)
 add_subdirectory(libs/bve-core)
 add_subdirectory(libs/bve-parsers)
 add_subdirectory(libs/bve-util)
-add_subdirectory(src/stress-test)
-add_subdirectory(src/test-runner)
+add_subdirectory(tests/stress-test)
+add_subdirectory(tests/test-runner)
 
-enable_linting(libs src)
+enable_linting(libs tests)
 
 if(TARGET clean_cotire)
     set_property(TARGET clean_cotire PROPERTY FOLDER "")
