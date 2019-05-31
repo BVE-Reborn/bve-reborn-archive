@@ -21,11 +21,11 @@ class StandardOutBackend final : foundational::logging::LoggerBackend {
 
 FOUNDATIONAL_LOGGER_BACKEND(StandardOutBackend, stdout_back);
 
-int main() {
+int main(int argc, char ** argv) {
 	foundational::statics::StaticGlobals::initialize();
 	atexit(foundational::statics::StaticGlobals::deinitialize);
 
-	doctest::Context context;
+	doctest::Context context(argc, argv);
 
 	int const res = context.run(); // run
 

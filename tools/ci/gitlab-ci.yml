@@ -8,17 +8,25 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+cache:
+  paths:
+    - build-vcpkg
+
+after_script:
+  - cmake -E remove_directory build-vcpkg/buildtrees
+
 build:clang-8:debug:
   stage: build
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-clang8-debug
     - nice cmake -S . -B build-clang8-debug 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
@@ -32,13 +40,14 @@ build:clang-8:asan-ubsan:
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-clang8-asan-ubsan
     - nice cmake -S . -B build-clang8-asan-ubsan 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
       -DSANITIZE_{ADDRESS,UNDEFINED}=On
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
@@ -52,13 +61,14 @@ build:clang-8:tsan:
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-clang8-tsan
     - nice cmake -S . -B build-clang8-tsan 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
       -DSANITIZE_THREAD=On
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
@@ -72,12 +82,13 @@ build:clang-8:release:
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-clang8-release
     - nice cmake -S . -B build-clang8-release 
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/clang-8 
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/clang++-8
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=lld"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
@@ -91,12 +102,13 @@ build:gcc-7:debug:
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-gcc7-debug
     - nice cmake -S . -B build-gcc7-debug 
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
@@ -110,12 +122,13 @@ build:gcc-7:release:
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-gcc7-release
     - nice cmake -S . -B build-gcc7-release 
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja
@@ -128,6 +141,10 @@ test:clang-8:debug:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-debug/bin nice ./build-clang8-debug/bin/test-runner
   dependencies:
@@ -137,6 +154,10 @@ test:clang-8:asan-ubsan:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-asan-ubsan/bin nice ./build-clang8-asan-ubsan/bin/test-runner
   dependencies:
@@ -146,6 +167,10 @@ test:clang-8:tsan:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-tsan/bin nice ./build-clang8-tsan/bin/test-runner
   dependencies:
@@ -155,6 +180,10 @@ test:clang-8:release:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-clang8-release/bin nice ./build-clang8-release/bin/test-runner
   dependencies:
@@ -164,6 +193,10 @@ test:gcc-7:debug:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-gcc7-debug/bin nice ./build-gcc7-debug/bin/test-runner
   dependencies:
@@ -173,6 +206,10 @@ test:gcc-7:release:
   stage: test
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - LD_LIBRARY_PATH=$PWD/build-gcc7-release/bin nice ./build-gcc7-release/bin/test-runner
   dependencies:
@@ -182,6 +219,10 @@ docs:
   stage: post build
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   script:
     - nice ./tools/docs/linux.sh build-docs
   artifacts:
@@ -193,6 +234,10 @@ format:
   stage: post build
   tags:
     - linux
+  cache:
+    policy: pull
+    paths:
+      - build-vcpkg
   only:
     - /^dev$/
     - merge_requests
@@ -202,14 +247,14 @@ format:
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -GNinja
     - nice ninja -C build-format format
-    - if [ `git status --porcelain lib src | wc -c` -eq 0 ]; then
+    - if [ `git status --porcelain libs src | wc -c` -eq 0 ]; then
           echo "No formatting errors found.";
       else
           echo "Formatting errors found.";
-          git diff lib src;
+          git diff libs src;
           exit 1;
       fi
 
@@ -218,13 +263,14 @@ coverage:
   tags:
     - linux
   script:
+    - nice python3.7 build.py
     - mkdir build-gcc7-coverage
     - nice cmake -S . -B build-gcc7-coverage
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_C_COMPILER=/usr/local/lib/ccache/gcc-7
       -DCMAKE_CXX_COMPILER=/usr/local/lib/ccache/g++-7
       -DBVEREBORN_CODE_COVERAGE=On
-      -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake 
+      -DCMAKE_TOOLCHAIN_FILE=build-vcpkg/scripts/buildsystems/vcpkg.cmake 
       -DCMAKE_{EXE,SHARED}_LINKER_FLAGS="-fuse-ld=gold"
       -DCMAKE_EXPORT_COMPILE_COMMANDS=On
       -GNinja

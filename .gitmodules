@@ -1,3 +1,3 @@
 [submodule "cmake-helpers"]
-	path = extern/cmake-helpers
+	path = external/cmake-helpers
 	url = https://github.com/NovaMods/cmake-helpers.git

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
 project(BVE-Reborn C CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -13,14 +13,14 @@ option(BVEREBORN_CODE_COVERAGE "Enable to build with code coverage." Off)
 option(BVEREBORN_VTUNE "Enable to build with code coverage." Off)
 
 list(APPEND CMAKE_MODULE_PATH 
-    "${CMAKE_SOURCE_DIR}/extern"
-    "${CMAKE_SOURCE_DIR}/extern/cmake-helpers"
+    "${CMAKE_SOURCE_DIR}/external"
+    "${CMAKE_SOURCE_DIR}/external/cmake-helpers"
     "${CMAKE_SOURCE_DIR}/tools/cmake"
 )
 
 include(add_build)
 include(cmake-helpers)
-include(extern)
+include(external)
 include(warnings)
 
 if ((NOT CMAKE_BUILD_TYPE) AND (NOT OS_WINDOWS))
@@ -78,14 +78,14 @@ endmacro()
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-add_subdirectory(lib/bve-eastl)
-add_subdirectory(lib/bve-core)
-add_subdirectory(lib/bve-parsers)
-add_subdirectory(lib/bve-util)
-# add_subdirectory(src/stress-test)
+add_subdirectory(libs/bve-eastl)
+add_subdirectory(libs/bve-core)
+add_subdirectory(libs/bve-parsers)
+add_subdirectory(libs/bve-util)
+add_subdirectory(src/stress-test)
 add_subdirectory(src/test-runner)
 
-enable_linting(lib src)
+enable_linting(libs src)
 
 if(TARGET clean_cotire)
     set_property(TARGET clean_cotire PROPERTY FOLDER "")
