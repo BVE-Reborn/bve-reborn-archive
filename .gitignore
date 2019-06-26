@@ -94,6 +94,8 @@ sysinfo.txt
 .vs/
 .vscode/
 
+__pycache__/
+
 build*/
 build-vcpkg*/
 
@@ -105,3 +107,10 @@ cmake-build*/
 
 windep32/
 windep64/
+
+# Built native assets
+
+Assets/Native/*.so
+Assets/Native/*.dll
+Assets/Native/*.pdb
+Assets/Native/Bindings

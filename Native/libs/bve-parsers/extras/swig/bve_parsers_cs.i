@@ -1,5 +1,7 @@
 %module bve_parsers_cs
 
+#pragma SWIG nowarn=503
+
 %include <inttypes.i>
 %include <std_common.i>
 %include <std_string.i>

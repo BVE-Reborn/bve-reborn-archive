@@ -180,7 +180,7 @@ def find_default_clang_format():
             return path
 
 
-def parse_args():
+def parse_args(args):
     # noinspection PyTypeChecker
     parser = argparse.ArgumentParser(prog=tool_name,
                                      description=description,
@@ -258,7 +258,7 @@ def parse_args():
                                  metavar="URL",
                                  help=f"URL of vcpkg's github. Default: {vcpkg_default_url}",
                                  default=vcpkg_default_url)
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 ###############
@@ -1015,8 +1015,8 @@ def vcpkg_install_packages(vcpkg_dir, packages):
 ########
 
 
-def main():
-    arguments = parse_args()
+def main(args):
+    arguments = parse_args(args)
 
     if arguments.vcpkg_only:
         task_vcpkg = True
@@ -1085,4 +1085,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
