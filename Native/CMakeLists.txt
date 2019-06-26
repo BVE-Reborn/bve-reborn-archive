@@ -78,10 +78,14 @@ endmacro()
 # TODO: Proper Exporting of Symbols
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+
 add_subdirectory(libs/bve-eastl)
 add_subdirectory(libs/bve-core)
 add_subdirectory(libs/bve-parsers)
 add_subdirectory(libs/bve-util)
+if(SWIG_FOUND)
+    add_subdirectory(extras/swig)
+endif()
 add_subdirectory(tests/stress-test)
 add_subdirectory(tests/test-runner)
 

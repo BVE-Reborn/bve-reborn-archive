@@ -16,17 +16,18 @@ if native_folder not in sys.path:
 
 import native
 
-def invoke_cmake(debug, extra_args):
-    if (native.platform == native.Platform.Windows):
-        print("Not yet")
-        exit(1)
+def invoke_cmake(debug, ninja, verbose, extra_args):
+    if (native.platform == native.Platform.Windows) and not ninja:
+        tool = ["-GVisual Studio 16 2019", "-A", "x64"]
+    else:
+        tool = ["-GNinja"]
 
     debug_str = 'Debug' if debug else 'Release'
     debug_lower = 'debug' if debug else 'release'
     build_folder = os.path.join(native_folder, f"build-auto-{debug_lower}")
     os.makedirs(build_folder, exist_ok=True)
     
-    cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, "-GNinja", f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder, 'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
+    cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, *tool, f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder, 'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
     result = subprocess.run(cmake_args)
 
     if result.returncode != 0:
@@ -37,18 +38,22 @@ def invoke_cmake(debug, extra_args):
     cpus = os.cpu_count()
     cores_in_build = int(math.ceil(cpus * 1.25))
 
-    build_args = ["cmake", "--build", f"-j{cores_in_build}", build_folder]
+    build_args = ["cmake", "--build", build_folder, f"-j{cores_in_build}", "--config", debug_str, "--target", "bve-cs"]
+    if verbose:
+        build_args.append("--verbose")
     result2 = subprocess.run(build_args)
     if result2.returncode != 0:
         arg_string = '"' + '" "'.join(build_args) + '"'
         print(f'cmake build returned {result2.returncode}. Arguments: {arg_string}')
         exit(result2.returncode)
 
+    unity_native_dll_folder = os.path.join(os.path.join(unity_native_folder, "Binaries"), native.platformName)
+
     # Remove old libraries
     if (native.platform == native.Platform.Windows):
-        old_libraries = glob.glob(os.path.join(unity_native_folder, f"*.dll"), os.path.join(unity_native_folder, f"*.pdb"))
+        old_libraries = glob.glob(os.path.join(unity_native_dll_folder, f"*.dll")) + glob.glob(os.path.join(unity_native_dll_folder, f"*.pdb"))
     else:
-        old_libraries = glob.glob(os.path.join(unity_native_folder, "*.so"))
+        old_libraries = glob.glob(os.path.join(unity_native_dll_folder, "*.so"))
 
     for lib in old_libraries:
         print(f"Removing {lib}")
@@ -59,35 +64,52 @@ def invoke_cmake(debug, extra_args):
 
     # Copy current libraries
     if (native.platform == native.Platform.Windows):
-        libraries = glob.glob(os.path.join(build_folder, f"bin/{debug_str}/*.dll"), os.path.join(build_folder, f"bin/{debug_str}/*.pdb"))
+        if ninja:
+            libraries = glob.glob(os.path.join(build_folder, f"bin/*.dll")) + glob.glob(os.path.join(build_folder, f"bin/*.pdb"))
+        else:
+            libraries = glob.glob(os.path.join(build_folder, f"bin/{debug_str}/*.dll")) + glob.glob(os.path.join(build_folder, f"bin/{debug_str}/*.pdb"))
     else:
         libraries = glob.glob(os.path.join(build_folder, "bin/*.so"))
 
+    os.makedirs(unity_native_dll_folder, exist_ok=True)
     os.makedirs(unity_native_bindings_folder, exist_ok=True)
-    print(f"Copying shared libraries to {unity_native_folder}")
+    print(f"Copying shared libraries to {unity_native_dll_folder}")
     for lib in libraries:
         print(f"Copying {os.path.basename(lib)}")
-        shutil.copy(lib, unity_native_folder)
+        shutil.copy(lib, unity_native_dll_folder)
 
-    bindings = glob.glob(os.path.join(build_folder, f"csharp/*.cs"))
+    bindings = glob.glob(os.path.join(build_folder, f"bindings/csharp/**/*.cs"), recursive=True)
     print(f"Copying c# binding files to {unity_native_bindings_folder}")
     for cs in bindings:
-        print(f"Copying {os.path.basename(cs)}")
-        shutil.copy(cs, unity_native_bindings_folder)
+        local_relative = os.path.relpath(cs, os.path.join(build_folder, "bindings/csharp"))
+        dst = os.path.join(unity_native_bindings_folder, local_relative)
+        print(f"Copying {local_relative}")
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copy(cs, dst)
 
 def main(args):
-    if ("--debug" in args):
+    if "--debug" in args:
         debug = True
         args.remove("--debug")
     else:
         debug = False
+    if "--ninja" in args:
+        ninja = True
+        args.remove("--ninja")
+    else:
+        ninja = False
+    if "--verbose" in args:
+        verbose = True
+        args.remove("--verbose")
+    else:
+        verbose = False
     if ("--help" in args):
         print("build.py [--debug] <EXTRA_CMAKE_ARGS>")
         exit(1)
 
     native.main(["--vcpkg-dir", os.path.join(native_folder, "build-vcpkg"), native_folder])
 
-    invoke_cmake(debug, args)
+    invoke_cmake(debug, ninja, verbose, args)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

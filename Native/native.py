@@ -69,12 +69,15 @@ class Platform(enum.Enum):
 
 if sys.platform == "linux" or sys.platform == "linux2":
     platform = Platform.Linux
+    platformName = "Linux"
     triplet = "x64-linux"
 elif sys.platform == "darwin":
     platform = Platform.OSX
+    platformName = "OSX"
     triplet = "x64-osx"
 elif sys.platform == "win32":
     platform = Platform.Windows
+    platformName = "Windows"
     triplet = "x64-windows"
 else:
     print("Unknown platform", file=sys.stderr)

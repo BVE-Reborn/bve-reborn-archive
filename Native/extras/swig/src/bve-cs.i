@@ -1,76 +1,26 @@
-%module bve_parsers_cs
+%module bve_cs
 
 #pragma SWIG nowarn=503
 
-%include <inttypes.i>
-%include <std_common.i>
-%include <std_string.i>
-%include <std_map.i>
-%include <std_set.i>
-%include <std_vector.i>
-
 %{
+#include <EABase/config/eaplatform.h>
+#ifdef EA_PLATFORM_WINDOWS
+#pragma warning(disable : 4100)
+#endif
 #include <parsers/b3d_csv.hpp>
 using namespace bve;
 using namespace bve::parsers;
 %}
 
-// GLM Stuff
-namespace glm {
-	struct u8vec1 {
-		uint8_t x;
-		uint8_t r;
-	};
+%include <builtin/std_set.i>
+%include <inttypes.i>
+%include <std_common.i>
+%include <std_string.i>
+%include <std_map.i>
+%include <std_vector.i>
 
-	struct u8vec2 {
-		uint8_t x;
-		uint8_t y;
-		uint8_t r;
-		uint8_t g;
-	};
+%include <glm/glm.i>
 
-	struct u8vec3 {
-		uint8_t x;
-		uint8_t y;
-		uint8_t z;
-		uint8_t r;
-		uint8_t g;
-		uint8_t b;
-	};
-
-	struct u8vec4 {
-		uint8_t x;
-		uint8_t y;
-		uint8_t z;
-		uint8_t w;
-		uint8_t r;
-		uint8_t g;
-		uint8_t b;
-		uint8_t a;
-	};
-
-	struct highp_vec1 {
-		float x;
-	};
-
-	struct vec2 {
-		float x;
-		float y;
-	};
-
-	struct vec3 {
-		float x;
-		float y;
-		float z;
-	};
-	
-	struct vec4 {
-		float x;
-		float y;
-		float z;
-		float w;
-	};
-}
 
 // Manually include dependencies, but only the ones we truly need
 %include <util/datatypes.hpp>

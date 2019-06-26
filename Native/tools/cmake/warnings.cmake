@@ -1,3 +1,8 @@
+# This is bad; fix
+if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+	string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+endif()
+
 function(target_add_warnings target)
 	if (OS_WINDOWS)
 		if (NOT BVEREBORN_PACKAGE)
@@ -5,6 +10,7 @@ function(target_add_warnings target)
 		endif()
 
 		target_compile_options_if_supported(${target} PRIVATE /W4)
+
 		target_compile_options_if_supported(${target} PRIVATE 
 			/w44061
 			/w44062
