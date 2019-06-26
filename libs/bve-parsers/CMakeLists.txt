@@ -35,6 +35,24 @@ finish_bve_target(bve-parsers-test)
 
 set_property(TARGET bve-parsers-test PROPERTY FOLDER lib/tests)
 
+##########
+## swig ##
+##########
+if(SWIG_FOUND)
+	file(GLOB_RECURSE INTERFACES LIST_DIRECTORIES false CONFIGURE_DEPENDS "extras/*.i")
+
+	foreach(file ${INTERFACES})
+		set_property(SOURCE "${file}" PROPERTY CPLUSPLUS ON)
+		set_property(SOURCE "${file}" PROPERTY CMAKE_SWIG_FLAGS "-Wall;-Wextra;-py3" APPEND)
+	endforeach()
+
+	swig_add_library(bve_parsers_cs TYPE SHARED LANGUAGE csharp SOURCES ${INTERFACES} OUTPUT_DIR ${CMAKE_BINARY_DIR}/csharp OUTFILE_DIR ${CMAKE_CURRENT_BINARY_DIR}/extras/csharp)
+	swig_link_libraries(bve_parsers_cs bve-parsers)
+	set_property(TARGET bve_parsers_cs PROPERTY SWIG_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include  ${CMAKE_SOURCE_DIR}/libs/bve-util/include)
+
+	set_property(TARGET bve_parsers_cs PROPERTY FOLDER lib/bindings/csharp)
+endif()
+
 #############
 # tests_old #
 #############
