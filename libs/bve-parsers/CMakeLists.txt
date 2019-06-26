@@ -13,7 +13,7 @@ target_include_directories(bve-parsers PRIVATE src)
 if(OS_WINDOWS)
     target_compile_definitions(bve-parsers PRIVATE $<$<CONFIG:Debug>:/D_ITERATOR_DEBUG_LEVEL=1>)
 endif()
-target_link_libraries(bve-parsers PUBLIC glm gsl::gsl unofficial::abseil::types bve-util nova-renderer::nova-renderer)
+target_link_libraries(bve-parsers PUBLIC glm gsl::gsl unofficial::abseil::types bve-util)
 
 finish_bve_target(bve-parsers)
 
