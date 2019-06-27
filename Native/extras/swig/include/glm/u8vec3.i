@@ -1,5 +1,3 @@
-%nspace glm::u8vec3;
-
 namespace glm {
 	struct u8vec3 {
 		uint8_t x;

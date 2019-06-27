@@ -1,5 +1,3 @@
-%nspace glm::vec4;
-
 namespace glm {
 	struct vec4 {
 		float x;
