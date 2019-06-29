@@ -18,6 +18,12 @@ using namespace bve::parsers;
 %ignore operator <;
 %ignore operator <<;
 
+%ignore imaxabs;
+%ignore imaxdiv;
+%ignore imaxdiv_t;
+%ignore strtoimax;
+%ignore strtoumax;
+
 %include <raw/pointers.i>
 
 %include <builtin/std_set.i>
