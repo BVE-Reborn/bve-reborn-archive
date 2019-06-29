@@ -17,6 +17,8 @@ using namespace bve::parsers;
 %ignore operator <;
 %ignore operator <<;
 
+%include <raw/pointers.i>
+
 %include <builtin/std_set.i>
 %include <inttypes.i>
 %include <std_common.i>

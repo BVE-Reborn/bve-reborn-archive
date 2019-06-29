@@ -1,3 +1,5 @@
+%include <glm/ivec2.i>
+%include <glm/ivec3.i>
 %include <glm/u8vec1.i>
 %include <glm/u8vec2.i>
 %include <glm/u8vec3.i>

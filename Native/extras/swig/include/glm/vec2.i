@@ -6,12 +6,18 @@ namespace glm {
   };
 }
 
-
 %extend glm::vec2 {
+  float* get_self() {
+    return (float*) $self;
+  }
   %proxycode %{
-    UnityEngine.Vector2 toVector2() {
-      return new UnityEngine.Vector2(Native.bve_csPINVOKE.glm_vec2_x_get(swigCPtr),
-                                     Native.bve_csPINVOKE.glm_vec2_y_get(swigCPtr));
+    public unsafe UnityEngine.Vector2 toVector2() {
+      float* ptr = (float*) global::Native.raw.floatp.get_raw(get_self());
+      return new UnityEngine.Vector2(ptr[0], ptr[1]);
+    }
+    public unsafe UnityEngine.Color toColor() {
+      float* ptr = (float*) global::Native.raw.floatp.get_raw(get_self());
+      return new UnityEngine.Color(ptr[0], ptr[1], 0.0f, 0.0f);
     }
   %}
 }
