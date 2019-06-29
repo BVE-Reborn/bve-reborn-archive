@@ -2,6 +2,7 @@ import os
 import sys
 import inspect
 import math
+import re
 import shutil
 import subprocess
 import glob
@@ -26,7 +27,12 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
     debug_lower = 'debug' if debug else 'release'
     build_folder = os.path.join(native_folder, f"build-auto-{debug_lower}")
     os.makedirs(build_folder, exist_ok=True)
-    
+
+    csharp_bindings_output_dir = os.path.join(build_folder, f"bindings/csharp/")
+    if os.path.exists(csharp_bindings_output_dir):
+        print(f"Removing folder {csharp_bindings_output_dir}")
+        shutil.rmtree(csharp_bindings_output_dir)
+        
     cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, *tool, f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder, 'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
     result = subprocess.run(cmake_args)
 
@@ -86,6 +92,42 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
         print(f"Copying {local_relative}")
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy(cs, dst)
+
+SWIG_REGEX_STR = r"""\[global::System\.Runtime\.InteropServices\.DllImport\("([^"]*)", EntryPoint="([^"]*)"\)\]\s*public static extern (\S*)\s([^(]*)\(([^)]*)\);"""
+SWIG_REGEX = re.compile(SWIG_REGEX_STR, re.UNICODE | re.MULTILINE)
+
+SWIG_CTOR_REGEX_STR = r"""static [^(]*?PINVOKE\(\)\s*{\s*}"""
+SWIG_CTOR_REGEX = re.compile(SWIG_CTOR_REGEX_STR, re.UNICODE | re.MULTILINE)
+
+class Function:
+    def __init__(self, match):
+        self.native_name = match.group(2)
+        self.return_type = match.group(3)
+        self.csharp_name = match.group(4)
+        self.arguments = match.group(5)
+
+def process_pinvoke_file(filename):
+    dll_map = {}
+    with open(filename, "r+") as f:
+        filestr = f.read()
+        for match in SWIG_REGEX.finditer(filestr):
+            dll = match.group(1)
+            func = Function(match)
+            if dll not in dll_map:
+                dll_map[dll] = []
+            dll_map[dll].append(func)
+
+        replace = SWIG_REGEX.sub(
+            "[global::System.Runtime.InteropServices.UnmanagedFunctionPointer(global::System.Runtime.InteropServices.CallingConvention.CDecl)]\n"
+            "public delegate \3 delegate_\4_t(\5);\n"
+            "public static delegate_\4_t \4;"
+        )
+
+        print(replace)
+
+        # f.truncate(0)
+
+        # f.write(replace)
 
 def main(args):
     if "--debug" in args:
