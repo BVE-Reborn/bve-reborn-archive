@@ -61,12 +61,20 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
     else:
         old_libraries = glob.glob(os.path.join(unity_native_dll_folder, "*.so"))
 
-    for lib in old_libraries:
-        print(f"Removing {lib}")
-        os.remove(lib)
-    if os.path.exists(unity_native_bindings_folder):
-        print(f"Removing folder {unity_native_bindings_folder}")
-        shutil.rmtree(unity_native_bindings_folder)
+    try:
+        for lib in old_libraries:
+            print(f"Removing {lib}")
+            os.remove(lib)
+        if os.path.exists(unity_native_bindings_folder):
+            print(f"Removing folder {unity_native_bindings_folder}")
+            shutil.rmtree(unity_native_bindings_folder)
+    except PermissionError as e:
+        ext = os.path.splitext(e.filename)[1]
+        if ext in [".dll", ".so", ".dynlib", ".pdb"]:
+            print(f"Unity needs to be closed so {e.filename} can be overwritten.")
+            exit(1)
+        else:
+            raise
 
     # Copy current libraries
     if (native.platform == native.Platform.Windows):
