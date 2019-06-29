@@ -110,7 +110,7 @@ windep64/
 
 # Built native assets
 
-Assets/Native/Binaries/**/*.so
-Assets/Native/Binaries/**/*.dll
-Assets/Native/Binaries/**/*.pdb
+Assets/Native/Binaries/
+Assets/Native/Binaries/
+Assets/Native/Binaries/
 Assets/Native/Bindings
