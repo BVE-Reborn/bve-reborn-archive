@@ -17,6 +17,81 @@ if native_folder not in sys.path:
 
 import native
 
+def version_check(name, actual, needed):
+    if (actual < needed):
+        print(f"{name} is version {actual}. FAILED: Needs {needed}.")
+        exit(1)
+    print(f"{name} is version {actual}.")
+
+def cmake_version_check():
+    try:
+        result = subprocess.run(["cmake", "--version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    except FileNotFoundError as f:
+        print(f"cmake not found.")
+        exit(1)
+    if (result.returncode != 0):
+        print("cmake not found or not configured right")
+        print(result.stdout.decode('utf8'))
+    match = re.search(r"""(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
+    version_check("cmake", tuple(map(int, match.groups())), (3, 14))
+
+def ninja_version_check():
+    try:
+        result = subprocess.run(["ninja", "--version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    except FileNotFoundError as f:
+        print(f"ninja not found.")
+        exit(1)
+    if (result.returncode != 0):
+        print("ninja not found or not configured right")
+        print(result.stdout.decode('utf8'))
+    match = re.search(r"""(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
+    version_check("ninja", tuple(map(int, match.groups())), (1,))
+
+def msbuild_version_check():
+    try:
+        result = subprocess.run(["msbuild", "-version", "-noLogo"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    except FileNotFoundError as f:
+        print(f"msbuild not found.")
+        exit(1)
+    if (result.returncode != 0):
+        print("msbuild not found or not configured right, Please make sure you have run vcvarsall64.bat.")
+        print(result.stdout.decode('utf8'))
+    match = re.search(r"""(\d+)\.(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
+    version_check("msbuild", tuple(map(int, match.groups())), (0,))
+
+def cl_version_check():
+    try:
+        result = subprocess.run(["cl"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    except FileNotFoundError as f:
+        print(f"cl not found.")
+        exit(1)
+    if (result.returncode != 0):
+        print("cl not found or not configured right, Please make sure you have run vcvarsall64.bat.")
+        print(result.stdout.decode('utf8'))
+    match = re.search(r"""(\d+)\.(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
+    version_check("cl", tuple(map(int, match.groups())), (19, 20))
+
+def swig_version_check():
+    try:
+        result = subprocess.run(["swig", "-version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    except FileNotFoundError as f:
+        print(f"swig2 not found.")
+        exit(1)
+    if (result.returncode != 0):
+        print("swig not found or not configured right")
+        print(result.stdout.decode('utf8'))
+    match = re.search(r"""(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
+    version_check("swig", tuple(map(int, match.groups())), (4, 0))
+
+
+def version_checks(ninja):
+    cmake_version_check()
+    if ninja:
+        ninja_version_check()
+        cl_version_check()
+        msbuild_version_check()
+    swig_version_check()
+
 def invoke_cmake(debug, ninja, verbose, extra_args):
     if (native.platform == native.Platform.Windows) and not ninja:
         tool = ["-GVisual Studio 16 2019", "-A", "x64"]
@@ -33,7 +108,8 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
         print(f"Removing folder {csharp_bindings_output_dir}")
         shutil.rmtree(csharp_bindings_output_dir)
         
-    cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, *tool, f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder, 'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
+    swig_location = shutil.which("swig")
+    cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, *tool, f"-DSWIG_EXECUTABLE={swig_location}", f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder, 'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
     result = subprocess.run(cmake_args)
 
     if result.returncode != 0:
@@ -143,7 +219,7 @@ def main(args):
         args.remove("--debug")
     else:
         debug = False
-    if "--ninja" in args:
+    if ("--ninja" in args) or (not native.Platform.Windows):
         ninja = True
         args.remove("--ninja")
     else:
@@ -156,6 +232,8 @@ def main(args):
     if ("--help" in args):
         print("build.py [--debug] <EXTRA_CMAKE_ARGS>")
         exit(1)
+
+    version_checks(ninja)
 
     native.main(["--vcpkg-dir", os.path.join(native_folder, "build-vcpkg"), native_folder])
 
