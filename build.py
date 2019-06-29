@@ -88,8 +88,9 @@ def version_checks(ninja):
     cmake_version_check()
     if ninja:
         ninja_version_check()
-        cl_version_check()
-        msbuild_version_check()
+        if (native.platform == native.Platform.Windows):
+            cl_version_check()
+            msbuild_version_check()
     swig_version_check()
 
 def invoke_cmake(debug, ninja, verbose, extra_args):
@@ -219,7 +220,7 @@ def main(args):
         args.remove("--debug")
     else:
         debug = False
-    if ("--ninja" in args) or (not native.Platform.Windows):
+    if ("--ninja" in args) or (native.platform != native.Platform.Windows):
         ninja = True
         args.remove("--ninja")
     else:
