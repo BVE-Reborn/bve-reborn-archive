@@ -10,6 +10,7 @@
 #pragma warning(disable : 4100)
 #endif
 #include <parsers/b3d_csv.hpp>
+#include <core/image/loader.hpp>
 using namespace bve;
 using namespace bve::parsers;
 %}
@@ -33,6 +34,7 @@ using namespace bve::parsers;
 %include <parsers/errors.hpp>
 %include <parsers/dependencies.hpp>
 %include <parsers/b3d_csv.hpp>
+%include <core/image/loader.i>
 
 // All standard template instantiations we need
 namespace std {

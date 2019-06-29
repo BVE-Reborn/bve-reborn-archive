@@ -1,3 +1,3 @@
 name = BVE-Reborn
 version = 0.0.0
-packages = abseil, cli11, concurrentqueue, cppfs, doctest, eastl, fmt, foundational, glm, mapbox-variant, ms-gsl, rapidxml-ns
+packages = abseil, cli11, concurrentqueue, cppfs, doctest, eastl, fmt, foundational, glm, mapbox-variant, ms-gsl, rapidxml-ns, stb
