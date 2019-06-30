@@ -51,10 +51,10 @@ def msbuild_version_check():
     try:
         result = subprocess.run(["msbuild", "-version", "-noLogo"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     except FileNotFoundError as f:
-        print(f"msbuild not found.")
+        print(f"msbuild not found, please make sure you have run vcvarsall64.bat.")
         exit(1)
     if (result.returncode != 0):
-        print("msbuild not found or not configured right, Please make sure you have run vcvarsall64.bat.")
+        print("msbuild not found or not configured right, please make sure you have run vcvarsall64.bat.")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
     version_check("msbuild", tuple(map(int, match.groups())), (0,))
@@ -63,10 +63,10 @@ def cl_version_check():
     try:
         result = subprocess.run(["cl"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     except FileNotFoundError as f:
-        print(f"cl not found.")
+        print(f"cl not found, please make sure you have run vcvarsall64.bat.")
         exit(1)
     if (result.returncode != 0):
-        print("cl not found or not configured right, Please make sure you have run vcvarsall64.bat.")
+        print("cl not found or not configured right, please make sure you have run vcvarsall64.bat.")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
     version_check("cl", tuple(map(int, match.groups())), (19, 20))
