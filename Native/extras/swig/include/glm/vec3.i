@@ -1,3 +1,7 @@
+%{
+  #include <glm/glm.hpp>
+%}
+
 namespace glm {
 	struct vec3 {
 		float x;
@@ -11,7 +15,7 @@ namespace glm {
     return (float*) $self;
   }
   %proxycode %{
-    public unsafe UnityEngine.Vector2 toVector3() {
+    public unsafe UnityEngine.Vector3 toVector3() {
       float* ptr = (float*) global::Native.raw.floatp.get_raw(get_self());
       return new UnityEngine.Vector3(ptr[0], ptr[1], ptr[2]);
     }

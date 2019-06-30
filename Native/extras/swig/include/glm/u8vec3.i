@@ -1,3 +1,7 @@
+%{
+  #include <glm/glm.hpp>
+%}
+
 namespace glm {
 	struct u8vec3 {
 		uint8_t x;

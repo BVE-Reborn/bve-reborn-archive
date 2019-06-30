@@ -3,7 +3,7 @@ set(SOURCE_INTERFACES ${CMAKE_CURRENT_LIST_DIR}/src/bve-cs.i)
 
 foreach(file ${SOURCE_INTERFACES})
     set_property(SOURCE "${file}" PROPERTY CPLUSPLUS ON)
-    set_property(SOURCE "${file}" PROPERTY COMPILE_OPTIONS "-Wall;-Wextra;-dllimport;bve-cs;-namespace;Native" APPEND)
+    set_property(SOURCE "${file}" PROPERTY COMPILE_OPTIONS "-Wextra;-dllimport;bve-cs;-namespace;Native" APPEND)
     set_property(SOURCE "${file}" PROPERTY DEPENDS ${HEADER_INTERFACES} APPEND)
 endforeach()
 

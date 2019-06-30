@@ -1,3 +1,7 @@
+%{
+  #include <glm/glm.hpp>
+%}
+
 namespace glm {
   struct ivec2 {
     ivec2(int x, int y);

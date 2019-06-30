@@ -1,3 +1,7 @@
+%{
+  #include <glm/glm.hpp>
+%}
+
 namespace glm {
 	struct vec4 {
 		float x;
