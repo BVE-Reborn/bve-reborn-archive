@@ -5,12 +5,12 @@
 
 namespace bve::core::image {
 	Loader::Loader(std::string filename) : dimensions_{} {
-		data_ = stbi_load(filename.c_str(), &dimensions_.x, &dimensions_.y, nullptr, 4);
+		data_ = stbi_loadf(filename.c_str(), &dimensions_.x, &dimensions_.y, nullptr, 4);
 	}
 	glm::ivec2 Loader::dimensions() const noexcept {
 		return dimensions_;
 	}
-	const uint8_t* Loader::data() const noexcept {
+	const float* Loader::data() const noexcept {
 		return data_;
 	}
 	bool Loader::valid() const noexcept {

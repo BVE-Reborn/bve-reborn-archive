@@ -6,7 +6,7 @@
   %proxycode %{
     public unsafe global::UnityEngine.Color[] data() {
       var dim = dimensions();
-      var raw_ptr = global::Native.raw.bytep.get_raw(data_impl());
+      var raw_ptr = global::Native.raw.floatp.get_raw(data_impl());
       var len = dim.x * dim.y;
       var array = new global::UnityEngine.Color[len];
       for (int i = 0; i < len; ++i) {
