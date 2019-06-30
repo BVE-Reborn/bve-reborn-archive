@@ -1,62 +1,158 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Data;
+using System.IO;
 using Native.bve.core.image;
 using Native.bve.parsers.b3d_csv_object;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
-using UnityEngine.Networking;
-using UnityEngine.Windows;
 using Debug = UnityEngine.Debug;
+using File = System.IO.File;
+using Mesh = UnityEngine.Mesh;
 
 namespace BVE.ModelLoader {
     public class ModelLoadTest : MonoBehaviour {
-        private const string Test = @"
-;;;;;;;
-CreateMeshBuilder,  ;;Pole
+        public Shader Shader;
 
-Cylinder, 16, 0.06, 0.06, 2.2,
-Translate, 0, 0.9, -0.198,
+        private void LoadModel(string path) {
+            if (!File.Exists(path)) {
+                throw new ArgumentException($"Path {path} not found");
+            }
 
-SetColor, 11,11,11,
+            var ext = Path.GetExtension(path);
+            if (ext != ".b3d" && ext != ".csv") {
+                throw new ArgumentException($"File {path} is not a model file");
+            }
 
-CreateMeshBuilder,  ;;Pole2
+            string contents;
+            using (var file = File.OpenText(path)) {
+                contents = file.ReadToEnd();
+            }
 
-Cylinder, 16, 0.1, 0.1, 1.2,
-Translate, 0, 0.40, -0.198,
+            using (var obj = ParseObject(ext, contents)) {
+                ProcessModel(path, obj);
+            }
+        }
 
-SetColor, 11,11,11,
-";
+        private ParsedB3DCSVObject ParseObject(string ext, string contents) {
+            switch (ext) {
+                case ".b3d":
+                    return Native.bve_cs.parse_model_b3d(contents);
+                case ".csv":
+                    return Native.bve_cs.parse_model_csv(contents);
+                default:
+                    throw new ArgumentException($"Unknown Extenstion {ext}", nameof(ext));
+            }
+        }
 
-        // Start is called before the first frame update
-        public void Start() {
-            var sw = Stopwatch.StartNew();
-            var parsed = Native.bve_cs.parse_csv(Test);
-            sw.Stop();
-            Debug.Log(sw.ElapsedMilliseconds);
-            Debug.Log(sw.ElapsedTicks);
-            foreach (var parsedMesh in parsed.meshes) {
-                foreach (var vert in parsedMesh.verts) {
-                    var position = vert.position.toVector3();
-//                    Debug.Log(position);
+        private void ProcessModel(string path, ParsedB3DCSVObject obj) {
+            var errors = obj.errors;
+            for (var i = 0; i < errors.Count; i++) {
+                var error = errors[i];
+                Debug.LogError($"Error in parsing {path}:{error.line} {error.error}");
+            }
+
+            var objMeshCount = obj.meshes.Count;
+            for (int meshIndex = 0; meshIndex < objMeshCount; meshIndex++) {
+                var gameObject = new GameObject($"test_model{meshIndex}");
+                var meshFilter = gameObject.AddComponent<MeshFilter>();
+                var meshRenderer = gameObject.AddComponent<MeshRenderer>();
+
+                var mesh = new Mesh();
+
+                var objMesh = obj.meshes[meshIndex];
+                var objVerts = objMesh.verts;
+                var objIndices = objMesh.indices;
+
+                var vertCount = objVerts.Count;
+                var meshVerts = new Vector3[vertCount];
+                var meshNormals = new Vector3[vertCount];
+                var meshUV = new Vector2[vertCount];
+
+                for (var i = 0; i < vertCount; i++)
+                {
+                    var vertData = objVerts[i];
+                    meshVerts[i] = vertData.position.toVector3();
+                    meshNormals[i] = vertData.normal.toVector3();
+                    meshUV[i] = vertData.texture_coord.toVector2();
                 }
 
+                mesh.vertices = meshVerts;
+                mesh.normals = meshNormals;
+                mesh.uv = meshUV;
 
-            }
-//            string filename = "E:\\16) OpenBVE Files\\LegacyContent\\Railway\\Object\\2ndAveT\\Ballast.BMP";
-            string filename = "E:\\16) OpenBVE Files\\LegacyContent\\Railway\\Object\\8thAve\\3yon.png";
-            var loader = new Loader(filename);
-            var dims = loader.dimensions();
-            if (loader.valid() == false) {
-                Debug.Log("Couldn't load image.");
+                var indicesCount = objIndices.Count;
+                var meshIndices = new int[indicesCount];
+
+                for (var i = 0; i < indicesCount; i++)
+                {
+                    meshIndices[i] = (int)objIndices[i];
+                }
+
+                mesh.triangles = meshIndices;
+
+//                mesh.RecalculateNormals();
+                mesh.RecalculateTangents();
+                mesh.RecalculateBounds();
+                mesh.Optimize();
+
+                meshFilter.mesh = mesh;
+
+                var mat = new Material(Shader);
+                var texFullPath = ResolveTextureName(path, objMesh.texture.file);
+                var tex = loadTexture(texFullPath);
+
+                mat.mainTexture = tex;
+
+                meshRenderer.material = mat;
             }
 
-            var tex = new Texture2D(dims.x, dims.y, TextureFormat.RGBA32, true);
-            var data = loader.data();
-            tex.SetPixels(data);
-            tex.Apply();
-            var mesh = GetComponent<MeshRenderer>();
-            mesh.material.SetTexture("_MainTex", tex);
+            Debug.Log($"Loaded object {path}");
+
+
+        }
+
+        private string ResolveTextureName(string objPath, string texturePath) {
+            if (Path.IsPathRooted(texturePath)) {
+                return texturePath;
+            }
+
+            var objRelative = Path.Combine(objPath, "..", texturePath);
+            if (File.Exists(objRelative)) {
+                return Path.GetFullPath(objRelative);
+            }
+
+            string _dataDir = Native.bve_cs.core_filesystem_data_directory().path();
+            var dataRelative = Path.Combine(_dataDir, "LegacyContent/Railway/Object", texturePath);
+            if (File.Exists(dataRelative)) {
+                return Path.GetFullPath(dataRelative);
+            }
+
+            throw new ArgumentException($"Unknown texture {texturePath}. Tried: \"{objRelative}\" and \"{dataRelative}\"");
+        }
+
+        private Texture2D loadTexture(string file) {
+            if (!File.Exists(file)) {
+                throw new ArgumentException($"Unknown texture {file}");
+            }
+
+            using (var loader = new Loader(file)) {
+                var dims = loader.dimensions();
+                if (loader.valid() == false) {
+                    throw new ArgumentException($"Couldn't load image {file}");
+                }
+
+                var tex = new Texture2D(dims.x, dims.y, DefaultFormat.LDR, TextureCreationFlags.MipChain);
+                var data = loader.data();
+                tex.SetPixels(data);
+                tex.Apply();
+                return tex;
+            }
+        }
+
+        public void Start() {
+            LoadModel(
+                "E:\\16) OpenBVE Files\\LegacyContent\\Railway\\Object\\IND Valley Stream1\\cars\\R46_A.b3d");
         }
 
         // Update is called once per frame
