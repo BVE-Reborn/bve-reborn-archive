@@ -108,22 +108,39 @@ namespace BVE.ModelLoader {
             }
 
             Debug.Log($"Loaded object {path}");
+        }
+        
+        private static string CaseInsensitiveResolve(string file) {
+            var fileAbs = Path.GetFullPath(file);
+            var fileLower = fileAbs.ToLowerInvariant();
+                
+            var dir = Path.GetDirectoryName(fileAbs);
+            var files = Directory.GetFiles(dir);
+            var filesCount = files.Length;
 
+            for (var i = 0; i < filesCount; i++) {
+                var curFile = Path.GetFullPath(files[i]);
+                var curFileLower = curFile.ToLowerInvariant();
+                if (curFileLower == fileLower) {
+                    return curFile;
+                }
+            }
 
+            return file;
         }
 
         private string ResolveTextureName(string objPath, string texturePath) {
             if (Path.IsPathRooted(texturePath)) {
-                return texturePath;
+                return CaseInsensitiveResolve(texturePath);
             }
 
-            var objRelative = Path.Combine(objPath, "..", texturePath);
+            var objRelative = CaseInsensitiveResolve(Path.Combine(objPath, "..", texturePath));
             if (File.Exists(objRelative)) {
                 return Path.GetFullPath(objRelative);
             }
 
-            string _dataDir = Native.bve_cs.core_filesystem_data_directory().path();
-            var dataRelative = Path.Combine(_dataDir, "LegacyContent/Railway/Object", texturePath);
+            var _dataDir = Native.bve_cs.core_filesystem_data_directory().path();
+            var dataRelative = CaseInsensitiveResolve(Path.Combine(_dataDir, "LegacyContent/Railway/Object", texturePath));
             if (File.Exists(dataRelative)) {
                 return Path.GetFullPath(dataRelative);
             }
@@ -142,7 +159,7 @@ namespace BVE.ModelLoader {
                     throw new ArgumentException($"Couldn't load image {file}");
                 }
 
-                var tex = new Texture2D(dims.x, dims.y, DefaultFormat.LDR, TextureCreationFlags.MipChain);
+                var tex = new Texture2D(dims.x, dims.y, DefaultFormat.HDR, TextureCreationFlags.MipChain);
                 var data = loader.data();
                 tex.SetPixels(data);
                 tex.Apply();
