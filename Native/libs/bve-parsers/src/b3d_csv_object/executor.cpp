@@ -90,7 +90,7 @@ namespace bve::parsers::b3d_csv_object {
 				auto& b_vert = mesh.verts[b];
 				auto& c_vert = mesh.verts[c];
 
-				auto const normal = cross(a_vert.position - b_vert.position, c_vert.position - b_vert.position);
+				auto const normal = cross(b_vert.position - a_vert.position, c_vert.position - a_vert.position);
 
 				a_vert.normal += normal;
 				b_vert.normal += normal;
@@ -157,6 +157,26 @@ namespace bve::parsers::b3d_csv_object {
 
 			return new_vertex_list;
 		}
+
+		std::pair<std::vector<Vertex>, std::vector<std::size_t>> flat_shading(std::vector<Vertex> const& vertices,
+		                                                                      std::vector<std::size_t> const& indices) {
+			std::vector<Vertex> new_verts;
+			std::vector<std::size_t> new_indices;
+
+			new_verts.reserve(indices.size());
+			new_indices.reserve(indices.size());
+
+			for (std::size_t i = 0; i < indices.size(); i += 3) {
+				new_verts.push_back(vertices[indices[i + 0]]);
+				new_verts.push_back(vertices[indices[i + 1]]);
+				new_verts.push_back(vertices[indices[i + 2]]);
+				new_indices.push_back(i + 0);
+				new_indices.push_back(i + 1);
+				new_indices.push_back(i + 2);
+			}
+
+			return std::make_pair(std::move(new_verts), std::move(new_indices));
+		}
 	} // namespace
 
 	void instructions::ParsedCSVObjectBuilder::addMeshBuilder() {
@@ -213,6 +233,8 @@ namespace bve::parsers::b3d_csv_object {
 			// make a shorter list of vertices and adjust the indices
 			// accordingly
 			mesh.verts = shrink_vertex_list(vertices, mesh.indices);
+
+			std::tie(mesh.verts, mesh.indices) = flat_shading(mesh.verts, mesh.indices);
 
 			calculate_normals(mesh);
 
