@@ -220,9 +220,11 @@ def main(args):
         args.remove("--debug")
     else:
         debug = False
-    if ("--ninja" in args) or (native.platform != native.Platform.Windows):
+    if ("--ninja" in args):
         ninja = True
         args.remove("--ninja")
+    elif (native.platform != native.Platform.Windows):
+        ninja = True
     else:
         ninja = False
     if "--verbose" in args:
