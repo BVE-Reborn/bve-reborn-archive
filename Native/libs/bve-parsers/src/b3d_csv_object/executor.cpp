@@ -463,6 +463,7 @@ namespace bve::parsers::b3d_csv_object {
 	void instructions::ParsedCSVObjectBuilder::operator()(const SetDecalTransparentColor& arg) {
 		for (auto& face : untriangulated_faces) {
 			face.data.decal_transparent_color = util::datatypes::Color8RGB{arg.red, arg.green, arg.blue};
+			face.data.has_decal_transparent_color = true;
 		}
 	}
 	void instructions::ParsedCSVObjectBuilder::operator()(const SetTextureCoordinates& arg) {

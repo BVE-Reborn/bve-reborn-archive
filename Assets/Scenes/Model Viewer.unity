@@ -765,7 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05624c18b92427442b781f4865d331f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  defaultMaterial: {fileID: 2100000, guid: b224ec7172ed6d9408e2f214e16e2247, type: 2}
 --- !u!23 &2122827076
 MeshRenderer:
   m_ObjectHideFlags: 0

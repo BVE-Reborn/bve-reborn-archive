@@ -12,7 +12,7 @@ using Mesh = UnityEngine.Mesh;
 
 namespace BVE.ModelLoader {
     public class ModelLoadTest : MonoBehaviour {
-        public Shader Shader;
+        public Material defaultMaterial;
 
         private void LoadModel(string path) {
             if (!File.Exists(path)) {
@@ -98,9 +98,17 @@ namespace BVE.ModelLoader {
 
                 meshFilter.mesh = mesh;
 
-                var mat = new Material(Shader);
-                var texFullPath = ResolveTextureName(path, objMesh.texture.file);
-                var tex = loadTexture(texFullPath);
+                var mat = Instantiate(defaultMaterial);
+                var objTexture = objMesh.texture;
+                var texFullPath = ResolveTextureName(path, objTexture.file);
+                Texture2D tex;
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                if (objTexture.has_transparent_color) {
+                    tex = loadTexture(texFullPath, objTexture.decal_transparent_color.toColor32());
+                }
+                else {
+                    tex = loadTexture(texFullPath, null);
+                }
 
                 mat.mainTexture = tex;
 
@@ -148,16 +156,22 @@ namespace BVE.ModelLoader {
             throw new ArgumentException($"Unknown texture {texturePath}. Tried: \"{objRelative}\" and \"{dataRelative}\"");
         }
 
-        private Texture2D loadTexture(string file) {
+        private Texture2D loadTexture(string file, Color32? screendoorColor) {
             if (!File.Exists(file)) {
                 throw new ArgumentException($"Unknown texture {file}");
             }
 
             using (var loader = new Loader(file)) {
-                var dims = loader.dimensions();
                 if (loader.valid() == false) {
                     throw new ArgumentException($"Couldn't load image {file}");
                 }
+
+                if (screendoorColor != null) {
+                    var sc = screendoorColor.Value;
+                    loader.applyScreendoor(sc.r, sc.g, sc.b);
+                }
+
+                var dims = loader.dimensions();
 
                 var tex = new Texture2D(dims.x, dims.y, DefaultFormat.HDR, TextureCreationFlags.MipChain);
                 var data = loader.data();
