@@ -101,25 +101,32 @@ namespace BVE.ModelLoader {
                 meshFilter.mesh = mesh;
 
                 var objTexture = objMesh.texture;
-                var texFullPath = ResolveTextureName(path, objTexture.file);
-                Texture2D tex;
                 Material mat;
-                if (objTexture.has_transparent_color) {
-                    tex = loadTexture(texFullPath, objTexture.decal_transparent_color.toColor32());
-                    mat = Instantiate(cutoutMaterial);
-                }
-                else {
-                    tex = loadTexture(texFullPath, null);
-                    mat = Instantiate(opaqueMaterial);
+                if (objTexture.file.Length != 0) {
+                    var texFullPath = ResolveTextureName(path, objTexture.file);
+                    Texture2D tex;
+                    if (objTexture.has_transparent_color) {
+                        tex = LoadTexture(texFullPath, objTexture.decal_transparent_color.toColor32());
+                        mat = Instantiate(cutoutMaterial);
+                    }
+                    else {
+                        tex = LoadTexture(texFullPath, null);
+                        mat = Instantiate(opaqueMaterial);
+                    }
+                    mat.mainTexture = tex;
                 }
 
-                mat.mainTexture = tex;
+                else {
+                    mat = Instantiate(opaqueMaterial);
+                }
 
                 meshRenderer.material = mat;
             }
 
             Debug.Log($"Loaded object {path}");
         }
+
+        private static readonly string[] otherImageExtensions = new[] {".bmp", ".jpg", ".jpeg", ".png"}; 
         
         private static string CaseInsensitiveResolve(string file) {
             var fileAbs = Path.GetFullPath(file);
@@ -133,6 +140,14 @@ namespace BVE.ModelLoader {
                 var curFile = Path.GetFullPath(files[i]);
                 var curFileLower = curFile.ToLowerInvariant();
                 if (curFileLower == fileLower) {
+                    return curFile;
+                }
+
+                for (var j = 0; j < otherImageExtensions.Length; j++) {
+                    var curFileChanged = Path.ChangeExtension(curFileLower, otherImageExtensions[j]);
+                    if (curFileChanged != fileLower) 
+                        continue;
+                    Debug.Log($"Switched extension of {curFile} to {otherImageExtensions[j]}");
                     return curFile;
                 }
             }
@@ -150,8 +165,8 @@ namespace BVE.ModelLoader {
                 return Path.GetFullPath(objRelative);
             }
 
-            var _dataDir = Native.bve_cs.core_filesystem_data_directory().path();
-            var dataRelative = CaseInsensitiveResolve(Path.Combine(_dataDir, "LegacyContent/Railway/Object", texturePath));
+            var dataDir = Native.bve_cs.core_filesystem_data_directory().path();
+            var dataRelative = CaseInsensitiveResolve(Path.Combine(dataDir, "LegacyContent/Railway/Object", texturePath));
             if (File.Exists(dataRelative)) {
                 return Path.GetFullPath(dataRelative);
             }
@@ -159,7 +174,7 @@ namespace BVE.ModelLoader {
             throw new ArgumentException($"Unknown texture {texturePath}. Tried: \"{objRelative}\" and \"{dataRelative}\"");
         }
 
-        private Texture2D loadTexture(string file, Color32? screendoorColor) {
+        private static Texture2D LoadTexture(string file, Color32? screendoorColor) {
             if (!File.Exists(file)) {
                 throw new ArgumentException($"Unknown texture {file}");
             }
