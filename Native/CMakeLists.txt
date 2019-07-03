@@ -46,7 +46,7 @@ if(OS_WINDOWS)
     set (CMAKE_SHARED_LINKER_FLAGS "/DEBUG")
     set (CMAKE_EXE_LINKER_FLAGS "/DEBUG")
 else()
-    add_compile_options(-g)
+    add_compile_options(-g -msse4.2)
     link_libraries(-g)
 endif()
 
