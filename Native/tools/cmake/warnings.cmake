@@ -54,8 +54,6 @@ function(target_add_warnings target)
 			-Winit-self
 			-Wlogical-op
 			-Wmissing-include-dirs
-			-Wno-gnu-zero-variadic-macro-arguments
-			-Wno-unknown-pragmas
 			-Wnull-dereference
 			-Wold-style-cast
 			-Woverloaded-virtual
@@ -67,6 +65,10 @@ function(target_add_warnings target)
 			-Wswitch-default
 			-Wundef
 			-Wuseless-cast
+
+			-Wno-gnu-zero-variadic-macro-arguments
+			-Wno-unknown-pragmas
+			-Wno-useless-cast
 		) 
 	endif()
 endfunction()
