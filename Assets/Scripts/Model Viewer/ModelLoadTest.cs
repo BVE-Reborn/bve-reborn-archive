@@ -12,7 +12,9 @@ using Mesh = UnityEngine.Mesh;
 
 namespace BVE.ModelLoader {
     public class ModelLoadTest : MonoBehaviour {
-        public Material defaultMaterial;
+        public Material opaqueMaterial;
+        public Material cutoutMaterial;
+        public Material transparentMaterial;
 
         private void LoadModel(string path) {
             if (!File.Exists(path)) {
@@ -98,16 +100,17 @@ namespace BVE.ModelLoader {
 
                 meshFilter.mesh = mesh;
 
-                var mat = Instantiate(defaultMaterial);
                 var objTexture = objMesh.texture;
                 var texFullPath = ResolveTextureName(path, objTexture.file);
                 Texture2D tex;
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                Material mat;
                 if (objTexture.has_transparent_color) {
                     tex = loadTexture(texFullPath, objTexture.decal_transparent_color.toColor32());
+                    mat = Instantiate(cutoutMaterial);
                 }
                 else {
                     tex = loadTexture(texFullPath, null);
+                    mat = Instantiate(opaqueMaterial);
                 }
 
                 mat.mainTexture = tex;
