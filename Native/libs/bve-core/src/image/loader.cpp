@@ -18,10 +18,7 @@ namespace bve::core::image {
 
 	void Loader::applyScreendoor(std::uint8_t const r, std::uint8_t const g, std::uint8_t const b) {
 		// Exact same conversion done by stbi__ldr_to_hdr
-		applyScreendoor(
-			static_cast<float>(pow(float(r) / 255.0f, stbi__l2h_gamma) * stbi__l2h_scale), 
-			static_cast<float>(pow(float(g) / 255.0f, stbi__l2h_gamma) * stbi__l2h_scale), 
-			static_cast<float>(pow(float(b) / 255.0f, stbi__l2h_gamma) * stbi__l2h_scale));
+		applyScreendoor(ldr_to_hdr(r), ldr_to_hdr(g), ldr_to_hdr(b));
 	}
 
 	// ReSharper disable once CppMemberFunctionMayBeConst
@@ -43,11 +40,31 @@ namespace bve::core::image {
 		}
 	}
 
+	void Loader::multiply(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a) {
+		multiply(ldr_to_hdr(r), ldr_to_hdr(g), ldr_to_hdr(b), static_cast<float>(a) / 255.0f);
+	}
+
+	void Loader::multiply(float r, float g, float b, float a) {
+		__m128 const multiplicand = _mm_set_ps(a, b, g, r);
+
+		std::size_t const pixel_count = dimensions_.x * dimensions_.y;
+		for (std::size_t i = 0; i < pixel_count; ++i) {
+			__m128 pixel = _mm_load_ps(&data_[4 * i]);
+			__m128 result = _mm_mul_ps(pixel, multiplicand);
+			_mm_store_ps(&data_[4 * i], result);
+		}
+	}
+
 	bool Loader::valid() const noexcept {
 		return data_ != nullptr;
 	}
 	Loader::~Loader() {
 		stbi_image_free(data_);
 	}
+
+	float Loader::ldr_to_hdr(uint8_t v) {
+		return static_cast<float>(pow(float(v) / 255.0f, stbi__l2h_gamma) * stbi__l2h_scale);
+	}
+
 
 } // namespace bve::core::image
