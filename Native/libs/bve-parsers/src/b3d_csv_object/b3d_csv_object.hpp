@@ -217,6 +217,7 @@ namespace bve::parsers::b3d_csv_object {
 			// based on this data.
 			struct ExtendedFaceData : FaceData {
 				std::string texture;
+				util::datatypes::Color8RGBA color = {255, 255, 255, 255};
 				util::datatypes::Color8RGB decal_transparent_color = {0, 0, 0};
 				bool has_decal_transparent_color = false;
 

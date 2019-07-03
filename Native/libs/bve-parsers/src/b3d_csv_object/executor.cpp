@@ -73,6 +73,16 @@ namespace bve::parsers::b3d_csv_object {
 				return false;
 			}
 
+			auto const c_equal = data1.color == data2.color;
+			auto const c_a = compAdd(data1.color);
+			auto const c_b = compAdd(data2.color);
+			if (!c_equal && c_a < c_b) {
+				return true;
+			}
+			if (!c_equal && c_a >= c_b) {
+				return false;
+			}
+
 			return false;
 		}
 
@@ -195,13 +205,14 @@ namespace bve::parsers::b3d_csv_object {
 		while (true) {
 			auto const cmp_func = [&begin](const UntriangulatedFace& face) -> bool {
 				auto const tex_same = begin->data.texture == face.data.texture;
+				auto const c_same = begin->data.color == face.data.color;
 				auto const dtc_same = begin->data.decal_transparent_color == face.data.decal_transparent_color;
 				auto const has_decal_color = begin->data.has_decal_transparent_color == face.data.has_decal_transparent_color;
 				auto const blend_same = begin->data.blend_mode == face.data.blend_mode;
 				auto const glow_same = begin->data.glow_attenuation_mode == face.data.glow_attenuation_mode;
 				auto const glow_half = begin->data.glow_half_distance == face.data.glow_half_distance;
 
-				return !(tex_same && dtc_same && has_decal_color && blend_same && glow_same && glow_half);
+				return !(tex_same && c_same && dtc_same && has_decal_color && blend_same && glow_same && glow_half);
 			};
 
 			auto const next_face = std::find_if(begin, end, cmp_func);
@@ -217,6 +228,7 @@ namespace bve::parsers::b3d_csv_object {
 			// properties that must be the same for all faces in an internal
 			// mesh
 			mesh.texture = tex;
+			mesh.color = begin->data.color;
 			mesh.blend_mode = begin->data.blend_mode;
 			mesh.glow_attenuation_mode = begin->data.glow_attenuation_mode;
 			mesh.glow_half_distance = begin->data.glow_half_distance;
@@ -226,7 +238,7 @@ namespace bve::parsers::b3d_csv_object {
 			std::for_each(begin, next_face, [&mesh](UntriangulatedFace& face) {
 				auto const count = triangulate_faces(mesh.indices, face.indices, face.data.back_visible);
 				for (std::size_t i = 0; i < count; ++i) {
-					mesh.face_data.emplace_back(FaceData{face.data.color, face.data.emissive_color});
+					mesh.face_data.emplace_back(FaceData{face.data.emissive_color});
 				}
 			});
 
