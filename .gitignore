@@ -98,6 +98,7 @@ __pycache__/
 
 build*/
 build-vcpkg*/
+clion-*/
 
 CMakeLists.txt.user*
 
