@@ -3,9 +3,11 @@ using System.Data;
 using System.IO;
 using Native.bve.core.image;
 using Native.bve.parsers.b3d_csv_object;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
+using UnityEngine.Profiling;
 using Debug = UnityEngine.Debug;
 using File = System.IO.File;
 using Mesh = UnityEngine.Mesh;
@@ -56,9 +58,12 @@ namespace BVE.ModelLoader {
 
             var objMeshCount = obj.meshes.Count;
             for (int meshIndex = 0; meshIndex < objMeshCount; meshIndex++) {
-                var gameObject = new GameObject($"test_model{meshIndex}");
-                var meshFilter = gameObject.AddComponent<MeshFilter>();
-                var meshRenderer = gameObject.AddComponent<MeshRenderer>();
+                var meshGameObject = new GameObject($"test_model{meshIndex}");
+                var parentTransform = this.gameObject.transform;
+                meshGameObject.transform.parent = parentTransform;
+                meshGameObject.transform.position = parentTransform.position;
+                var meshFilter = meshGameObject.AddComponent<MeshFilter>();
+                var meshRenderer = meshGameObject.AddComponent<MeshRenderer>();
 
                 var mesh = new Mesh();
 
@@ -104,15 +109,20 @@ namespace BVE.ModelLoader {
                 Material mat;
                 if (objTexture.file.Length != 0) {
                     var texFullPath = ResolveTextureName(path, objTexture.file);
-                    Texture2D tex;
-                    if (objTexture.has_transparent_color) {
-                        tex = LoadTexture(texFullPath, objTexture.decal_transparent_color.toColor32());
+                    var decalColor = objTexture.has_transparent_color
+                        ? (Color32?) objTexture.decal_transparent_color.toColor32()
+                        : null;
+                    if (objTexture.has_transparent_color && objMesh.color.a == 255) {
                         mat = Instantiate(cutoutMaterial);
                     }
-                    else {
-                        tex = LoadTexture(texFullPath, null);
-                        mat = Instantiate(opaqueMaterial);
+                    else if (objMesh.color.a != 255) {
+                        mat = Instantiate(transparentMaterial);
                     }
+                    else {
+                        mat = Instantiate(opaqueMaterial);
+                    }                       
+                    var tex = LoadTexture(texFullPath, decalColor, objMesh.color.toColor32());
+
                     mat.mainTexture = tex;
                 }
 
@@ -174,7 +184,7 @@ namespace BVE.ModelLoader {
             throw new ArgumentException($"Unknown texture {texturePath}. Tried: \"{objRelative}\" and \"{dataRelative}\"");
         }
 
-        private static Texture2D LoadTexture(string file, Color32? screendoorColor) {
+        private static Texture2D LoadTexture(string file, Color32? screendoorColor, Color32 multiplyColor) {
             if (!File.Exists(file)) {
                 throw new ArgumentException($"Unknown texture {file}");
             }
@@ -189,6 +199,10 @@ namespace BVE.ModelLoader {
                     loader.applyScreendoor(sc.r, sc.g, sc.b);
                 }
 
+                if (!multiplyColor.Compare(new Color32(255, 255, 255, 255))) {
+                    loader.multiply(multiplyColor.r, multiplyColor.g, multiplyColor.b, multiplyColor.a);
+                }
+
                 var dims = loader.dimensions();
 
                 var tex = new Texture2D(dims.x, dims.y, DefaultFormat.HDR, TextureCreationFlags.MipChain);
@@ -201,7 +215,7 @@ namespace BVE.ModelLoader {
 
         public void Start() {
             LoadModel(
-                "E:\\16) OpenBVE Files\\LegacyContent\\Railway\\Object\\IND Valley Stream1\\cars\\R46_A.b3d");
+                "/home/connor/.config/openBVE/LegacyContent/Train/R46 2014 (8 Car)/Cars/Body/BodyA.b3d");
         }
 
         // Update is called once per frame
