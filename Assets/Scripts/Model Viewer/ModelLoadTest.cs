@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using BVE.Resources;
 using Native.bve.core.image;
 using Native.bve.parsers.b3d_csv_object;
 using TMPro;
@@ -14,9 +15,7 @@ using Mesh = UnityEngine.Mesh;
 
 namespace BVE.ModelLoader {
     public class ModelLoadTest : MonoBehaviour {
-        public Material opaqueMaterial;
-        public Material cutoutMaterial;
-        public Material transparentMaterial;
+        private MaterialManager _materialManager;
 
         private void LoadModel(string path) {
             if (!File.Exists(path)) {
@@ -57,11 +56,14 @@ namespace BVE.ModelLoader {
             }
 
             var objMeshCount = obj.meshes.Count;
+            var parentTransform = this.gameObject.transform;
+            var metaGameObject = new GameObject($"{(uint) path.GetHashCode()}");
+            metaGameObject.transform.parent = parentTransform;
+            metaGameObject.transform.position = parentTransform.position;
             for (int meshIndex = 0; meshIndex < objMeshCount; meshIndex++) {
-                var meshGameObject = new GameObject($"test_model{meshIndex}");
-                var parentTransform = this.gameObject.transform;
-                meshGameObject.transform.parent = parentTransform;
-                meshGameObject.transform.position = parentTransform.position;
+                var meshGameObject = new GameObject($"{(uint) path.GetHashCode()}:{meshIndex}");
+                meshGameObject.transform.parent = metaGameObject.transform;
+                meshGameObject.transform.position = metaGameObject.transform.position;
                 var meshFilter = meshGameObject.AddComponent<MeshFilter>();
                 var meshRenderer = meshGameObject.AddComponent<MeshRenderer>();
 
@@ -76,8 +78,7 @@ namespace BVE.ModelLoader {
                 var meshNormals = new Vector3[vertCount];
                 var meshUV = new Vector2[vertCount];
 
-                for (var i = 0; i < vertCount; i++)
-                {
+                for (var i = 0; i < vertCount; i++) {
                     var vertData = objVerts[i];
                     meshVerts[i] = vertData.position.toVector3();
                     meshNormals[i] = vertData.normal.toVector3();
@@ -91,9 +92,8 @@ namespace BVE.ModelLoader {
                 var indicesCount = objIndices.Count;
                 var meshIndices = new int[indicesCount];
 
-                for (var i = 0; i < indicesCount; i++)
-                {
-                    meshIndices[i] = (int)objIndices[i];
+                for (var i = 0; i < indicesCount; i++) {
+                    meshIndices[i] = (int) objIndices[i];
                 }
 
                 mesh.triangles = meshIndices;
@@ -106,29 +106,12 @@ namespace BVE.ModelLoader {
                 meshFilter.mesh = mesh;
 
                 var objTexture = objMesh.texture;
-                Material mat;
-                if (objTexture.file.Length != 0) {
-                    var texFullPath = ResolveTextureName(path, objTexture.file);
-                    var decalColor = objTexture.has_transparent_color
-                        ? (Color32?) objTexture.decal_transparent_color.toColor32()
-                        : null;
-                    if (objTexture.has_transparent_color && objMesh.color.a == 255) {
-                        mat = Instantiate(cutoutMaterial);
-                    }
-                    else if (objMesh.color.a != 255) {
-                        mat = Instantiate(transparentMaterial);
-                    }
-                    else {
-                        mat = Instantiate(opaqueMaterial);
-                    }                       
-                    var tex = LoadTexture(texFullPath, decalColor, objMesh.color.toColor32());
+                var texFullPath = ResolveTextureName(path, objTexture.file);
+                var screenDoor = objTexture.has_transparent_color
+                    ? (Color32?) objTexture.decal_transparent_color.toColor32()
+                    : null;
 
-                    mat.mainTexture = tex;
-                }
-
-                else {
-                    mat = Instantiate(opaqueMaterial);
-                }
+                var mat = _materialManager.GetMaterial(texFullPath, screenDoor, objMesh.color.toColor32());
 
                 meshRenderer.material = mat;
             }
@@ -136,12 +119,12 @@ namespace BVE.ModelLoader {
             Debug.Log($"Loaded object {path}");
         }
 
-        private static readonly string[] otherImageExtensions = new[] {".bmp", ".jpg", ".jpeg", ".png"}; 
-        
+        private static readonly string[] otherImageExtensions = new[] {".bmp", ".jpg", ".jpeg", ".png"};
+
         private static string CaseInsensitiveResolve(string file) {
             var fileAbs = Path.GetFullPath(file);
             var fileLower = fileAbs.ToLowerInvariant();
-                
+
             var dir = Path.GetDirectoryName(fileAbs);
             var files = Directory.GetFiles(dir);
             var filesCount = files.Length;
@@ -155,7 +138,7 @@ namespace BVE.ModelLoader {
 
                 for (var j = 0; j < otherImageExtensions.Length; j++) {
                     var curFileChanged = Path.ChangeExtension(curFileLower, otherImageExtensions[j]);
-                    if (curFileChanged != fileLower) 
+                    if (curFileChanged != fileLower)
                         continue;
                     Debug.Log($"Switched extension of {curFile} to {otherImageExtensions[j]}");
                     return curFile;
@@ -166,6 +149,10 @@ namespace BVE.ModelLoader {
         }
 
         private string ResolveTextureName(string objPath, string texturePath) {
+            if (texturePath == "") {
+                return texturePath;
+            }
+
             if (Path.IsPathRooted(texturePath)) {
                 return CaseInsensitiveResolve(texturePath);
             }
@@ -176,46 +163,20 @@ namespace BVE.ModelLoader {
             }
 
             var dataDir = Native.bve_cs.core_filesystem_data_directory().path();
-            var dataRelative = CaseInsensitiveResolve(Path.Combine(dataDir, "LegacyContent/Railway/Object", texturePath));
+            var dataRelative =
+                CaseInsensitiveResolve(Path.Combine(dataDir, "LegacyContent/Railway/Object", texturePath));
             if (File.Exists(dataRelative)) {
                 return Path.GetFullPath(dataRelative);
             }
 
-            throw new ArgumentException($"Unknown texture {texturePath}. Tried: \"{objRelative}\" and \"{dataRelative}\"");
-        }
-
-        private static Texture2D LoadTexture(string file, Color32? screendoorColor, Color32 multiplyColor) {
-            if (!File.Exists(file)) {
-                throw new ArgumentException($"Unknown texture {file}");
-            }
-
-            using (var loader = new Loader(file)) {
-                if (loader.valid() == false) {
-                    throw new ArgumentException($"Couldn't load image {file}");
-                }
-
-                if (screendoorColor != null) {
-                    var sc = screendoorColor.Value;
-                    loader.applyScreendoor(sc.r, sc.g, sc.b);
-                }
-
-                if (!multiplyColor.Compare(new Color32(255, 255, 255, 255))) {
-                    loader.multiply(multiplyColor.r, multiplyColor.g, multiplyColor.b, multiplyColor.a);
-                }
-
-                var dims = loader.dimensions();
-
-                var tex = new Texture2D(dims.x, dims.y, DefaultFormat.HDR, TextureCreationFlags.MipChain);
-                var data = loader.data();
-                tex.SetPixels(data);
-                tex.Apply();
-                return tex;
-            }
+            throw new ArgumentException(
+                $"Unknown texture {texturePath}. Tried: \"{objRelative}\" and \"{dataRelative}\"");
         }
 
         public void Start() {
-            LoadModel(
-                "/home/connor/.config/openBVE/LegacyContent/Train/R46 2014 (8 Car)/Cars/Body/BodyA.b3d");
+            _materialManager = GetComponent<MaterialManager>();
+
+            LoadModel("E:/16) OpenBVE Files/LegacyContent/Train/R46 2014 (8 Car)/Cars/Body/BodyA.b3d");
         }
 
         // Update is called once per frame
