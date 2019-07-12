@@ -166,7 +166,7 @@ def invoke_cbindgen(debug):
     print("Calling cbindgen")
     debug_lower = 'debug' if debug else 'release'
 
-    os.makedirs(os.path.join(rust_folder, f'target/{debug_lower}/include/bve-reborn-rust'), exist_ok=True)
+    os.makedirs(os.path.join(rust_folder, f'target/{debug_lower}/include'), exist_ok=True)
 
     cbindgen_args = ["cbindgen",
                      os.path.join(rust_folder, "cbindgen-meta"),
