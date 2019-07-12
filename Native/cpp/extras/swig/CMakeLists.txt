@@ -14,7 +14,18 @@ swig_add_library(bve-cs
                  OUTPUT_DIR ${CMAKE_BINARY_DIR}/bindings/csharp
                  OUTFILE_DIR ${CMAKE_CURRENT_BINARY_DIR}/csharp
 )
-swig_link_libraries(bve-cs bve-core bve-eastl bve-parsers bve-util)
+if(RUST)
+    set(RUST_INCLUDE_DIRS
+                     ${RUST_HEADER_PATH}
+                     ${RUST_SWIG_PATH}
+    )
+    set_property(TARGET bve-cs 
+                 PROPERTY 
+                   SWIG_GENERATED_INCLUDE_DIRECTORIES 
+                     ${RUST_INCLUDE_DIRS}
+    )
+endif()
+swig_link_libraries(bve-cs bve-core bve-eastl bve-parsers bve-util ${RUST_LINK_LIBRARIES})
 set_property(TARGET bve-cs 
              PROPERTY 
                SWIG_INCLUDE_DIRECTORIES 
@@ -23,6 +34,7 @@ set_property(TARGET bve-cs
                  ${CMAKE_SOURCE_DIR}/libs/bve-eastl/include
                  ${CMAKE_SOURCE_DIR}/libs/bve-parsers/include
                  ${CMAKE_SOURCE_DIR}/libs/bve-util/include
+                 ${RUST_INCLUDE_DIRS}
 )
 
 set_property(TARGET bve-cs PROPERTY FOLDER lib/bindings/csharp)

@@ -6,6 +6,7 @@
 
 %{
   #include <EABase/config/eaplatform.h>
+  #include <bve-reborn-rust.h>
   #ifdef EA_PLATFORM_WINDOWS
   #pragma warning(disable : 4100)
   #pragma warning(disable : 4251)
@@ -38,6 +39,7 @@
 %include <core/image/loader.i>
 %include <core/openbve/filesystem.i>
 %include <parsers/b3d_csv.i>
+%include <bve-reborn-rust.h>
 
 // All standard template instantiations we need
 namespace std {

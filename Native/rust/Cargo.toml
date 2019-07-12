@@ -1,0 +1,6 @@
+[workspace]
+default-members = ["unity-rust-test", "unity-rust-test-2"]
+members = ["cbindgen-meta"]
+
+[profile.release]
+debug = true
