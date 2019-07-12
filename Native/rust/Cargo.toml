@@ -1,6 +1,7 @@
 [workspace]
 default-members = ["unity-rust-test", "unity-rust-test-2"]
-members = ["cbindgen-meta"]
+members = ["add_crate", "cbindgen-meta"]
 
 [profile.release]
 debug = true
+

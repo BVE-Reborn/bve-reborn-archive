@@ -1,0 +1,12 @@
+[package]
+name = "add_crate"
+version = "0.0.0"
+authors = ["Connor Fitzgerald <connorwadefitzgerald@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = "2.33.0"
+toml = "0.5.1"
+serde = "1.0.94"
