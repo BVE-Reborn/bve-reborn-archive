@@ -8,20 +8,24 @@ import subprocess
 import glob
 
 # https://stackoverflow.com/questions/279237/import-a-module-from-a-relative-path
-script_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
-native_folder = os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], "Native"))
-unity_native_folder = os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], "Assets/Native"))
-unity_native_bindings_folder = os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], "Assets/Native/Bindings"))
+script_folder = os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])
+native_folder = os.path.abspath(os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "Native"))
+unity_native_folder = os.path.abspath(
+    os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "Assets/Native"))
+unity_native_bindings_folder = os.path.abspath(
+    os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "Assets/Native/Bindings"))
 if native_folder not in sys.path:
     sys.path.insert(0, native_folder)
 
 import native
 
+
 def version_check(name, actual, needed):
-    if (actual < needed):
+    if actual < needed:
         print(f"{name} is version {actual}. FAILED: Needs {needed}.")
         exit(1)
     print(f"{name} is version {actual}.")
+
 
 def cmake_version_check():
     try:
@@ -29,11 +33,12 @@ def cmake_version_check():
     except FileNotFoundError as f:
         print(f"cmake not found.")
         exit(1)
-    if (result.returncode != 0):
+    if result.returncode != 0:
         print("cmake not found or not configured right")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
     version_check("cmake", tuple(map(int, match.groups())), (3, 14))
+
 
 def ninja_version_check():
     try:
@@ -41,11 +46,12 @@ def ninja_version_check():
     except FileNotFoundError as f:
         print(f"ninja not found.")
         exit(1)
-    if (result.returncode != 0):
+    if result.returncode != 0:
         print("ninja not found or not configured right")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
     version_check("ninja", tuple(map(int, match.groups())), (1,))
+
 
 def msbuild_version_check():
     try:
@@ -53,11 +59,12 @@ def msbuild_version_check():
     except FileNotFoundError as f:
         print(f"msbuild not found, please make sure you have run vcvarsall64.bat.")
         exit(1)
-    if (result.returncode != 0):
+    if result.returncode != 0:
         print("msbuild not found or not configured right, please make sure you have run vcvarsall64.bat.")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
     version_check("msbuild", tuple(map(int, match.groups())), (0,))
+
 
 def cl_version_check():
     try:
@@ -65,11 +72,12 @@ def cl_version_check():
     except FileNotFoundError as f:
         print(f"cl not found, please make sure you have run vcvarsall64.bat.")
         exit(1)
-    if (result.returncode != 0):
+    if result.returncode != 0:
         print("cl not found or not configured right, please make sure you have run vcvarsall64.bat.")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
     version_check("cl", tuple(map(int, match.groups())), (19, 20))
+
 
 def swig_version_check():
     try:
@@ -77,7 +85,7 @@ def swig_version_check():
     except FileNotFoundError as f:
         print(f"swig2 not found.")
         exit(1)
-    if (result.returncode != 0):
+    if result.returncode != 0:
         print("swig not found or not configured right")
         print(result.stdout.decode('utf8'))
     match = re.search(r"""(\d+)\.(\d+)\.(\d+)""", result.stdout.decode('utf8'))
@@ -88,10 +96,11 @@ def version_checks(ninja):
     cmake_version_check()
     if ninja:
         ninja_version_check()
-        if (native.platform == native.Platform.Windows):
+        if native.platform == native.Platform.Windows:
             cl_version_check()
             msbuild_version_check()
     swig_version_check()
+
 
 def invoke_cmake(debug, ninja, verbose, extra_args):
     if (native.platform == native.Platform.Windows) and not ninja:
@@ -108,16 +117,18 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
     if os.path.exists(csharp_bindings_output_dir):
         print(f"Removing folder {csharp_bindings_output_dir}")
         shutil.rmtree(csharp_bindings_output_dir)
-        
+
     swig_location = shutil.which("swig")
-    cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, *tool, f"-DSWIG_EXECUTABLE={swig_location}", f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder, 'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
+    cmake_args = ["cmake", "-S", native_folder, "-B", build_folder, *tool, f"-DSWIG_EXECUTABLE={swig_location}",
+                  f"-DCMAKE_BUILD_TYPE={debug_str}", f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(native_folder,
+                                                                                            'build-vcpkg/scripts/buildsystems/vcpkg.cmake')}"] + extra_args
     result = subprocess.run(cmake_args)
 
     if result.returncode != 0:
         arg_string = '"' + '" "'.join(cmake_args) + '"'
         print(f"cmake returned {result.returncode}. Arguments: {arg_string}")
         exit(result.returncode)
-    
+
     cpus = os.cpu_count()
     cores_in_build = int(math.ceil(cpus * 1.25))
 
@@ -133,8 +144,9 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
     unity_native_dll_folder = os.path.join(os.path.join(unity_native_folder, "Binaries"), native.platformName)
 
     # Remove old libraries
-    if (native.platform == native.Platform.Windows):
-        old_libraries = glob.glob(os.path.join(unity_native_dll_folder, f"*.dll")) + glob.glob(os.path.join(unity_native_dll_folder, f"*.pdb"))
+    if native.platform == native.Platform.Windows:
+        old_libraries = glob.glob(os.path.join(unity_native_dll_folder, f"*.dll")) + glob.glob(
+            os.path.join(unity_native_dll_folder, f"*.pdb"))
     else:
         old_libraries = glob.glob(os.path.join(unity_native_dll_folder, "*.so"))
 
@@ -154,11 +166,13 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
             raise
 
     # Copy current libraries
-    if (native.platform == native.Platform.Windows):
+    if native.platform == native.Platform.Windows:
         if ninja:
-            libraries = glob.glob(os.path.join(build_folder, f"bin/*.dll")) + glob.glob(os.path.join(build_folder, f"bin/*.pdb"))
+            libraries = glob.glob(os.path.join(build_folder, f"bin/*.dll")) + glob.glob(
+                os.path.join(build_folder, f"bin/*.pdb"))
         else:
-            libraries = glob.glob(os.path.join(build_folder, f"bin/{debug_str}/*.dll")) + glob.glob(os.path.join(build_folder, f"bin/{debug_str}/*.pdb"))
+            libraries = glob.glob(os.path.join(build_folder, f"bin/{debug_str}/*.dll")) + glob.glob(
+                os.path.join(build_folder, f"bin/{debug_str}/*.pdb"))
     else:
         libraries = glob.glob(os.path.join(build_folder, "bin/*.so"))
 
@@ -178,41 +192,6 @@ def invoke_cmake(debug, ninja, verbose, extra_args):
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy(cs, dst)
 
-SWIG_REGEX_STR = r"""\[global::System\.Runtime\.InteropServices\.DllImport\("([^"]*)", EntryPoint="([^"]*)"\)\]\s*public static extern (\S*)\s([^(]*)\(([^)]*)\);"""
-SWIG_REGEX = re.compile(SWIG_REGEX_STR, re.UNICODE | re.MULTILINE)
-
-SWIG_CTOR_REGEX_STR = r"""static [^(]*?PINVOKE\(\)\s*{\s*}"""
-SWIG_CTOR_REGEX = re.compile(SWIG_CTOR_REGEX_STR, re.UNICODE | re.MULTILINE)
-
-class Function:
-    def __init__(self, match):
-        self.native_name = match.group(2)
-        self.return_type = match.group(3)
-        self.csharp_name = match.group(4)
-        self.arguments = match.group(5)
-
-def process_pinvoke_file(filename):
-    dll_map = {}
-    with open(filename, "r+") as f:
-        filestr = f.read()
-        for match in SWIG_REGEX.finditer(filestr):
-            dll = match.group(1)
-            func = Function(match)
-            if dll not in dll_map:
-                dll_map[dll] = []
-            dll_map[dll].append(func)
-
-        replace = SWIG_REGEX.sub(
-            "[global::System.Runtime.InteropServices.UnmanagedFunctionPointer(global::System.Runtime.InteropServices.CallingConvention.CDecl)]\n"
-            "public delegate \3 delegate_\4_t(\5);\n"
-            "public static delegate_\4_t \4;"
-        )
-
-        print(replace)
-
-        # f.truncate(0)
-
-        # f.write(replace)
 
 def main(args):
     if "--debug" in args:
@@ -220,10 +199,10 @@ def main(args):
         args.remove("--debug")
     else:
         debug = False
-    if ("--ninja" in args):
+    if "--ninja" in args:
         ninja = True
         args.remove("--ninja")
-    elif (native.platform != native.Platform.Windows):
+    elif native.platform != native.Platform.Windows:
         ninja = True
     else:
         ninja = False
@@ -232,7 +211,7 @@ def main(args):
         args.remove("--verbose")
     else:
         verbose = False
-    if ("--help" in args):
+    if "--help" in args:
         print("build.py [--debug] <EXTRA_CMAKE_ARGS>")
         exit(1)
 
@@ -241,6 +220,7 @@ def main(args):
     native.main(["--vcpkg-dir", os.path.join(native_folder, "build-vcpkg"), native_folder])
 
     invoke_cmake(debug, ninja, verbose, args)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
